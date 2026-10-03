@@ -1,0 +1,76 @@
+name: fitness_app
+description: Gym tracker s obdobími (nemoc, cut, bulk), pitným režimem a plánem B.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+  # Stav aplikace
+  flutter_riverpod: ^2.6.1
+  # Navigace
+  go_router: ^14.8.1
+  # Lokální databáze (SQLite)
+  drift: ^2.26.0
+  drift_flutter: ^0.2.4
+  # Upozornění (ranní připomínka, konec pauzy, pitný režim)
+  flutter_local_notifications: ^22.3.1
+  timezone: any
+  # Zápis tréninků do kalendáře telefonu
+  device_calendar_plus: ^0.9.0
+  # Společné pro moduly: odkazy do aplikace, sdílení, soubory, web
+  app_links: ^7.2.1
+  share_plus: ^13.3.0
+  path_provider: ^2.1.6
+  url_launcher: ^6.3.2
+  # Moduly verzí 2 a 3 (každý pod svou značkou)
+  # [deps:stats]
+  #
+  # [deps:sharing]
+  #
+  # [deps:calendar]
+  #
+  # [deps:widgets]
+  home_widget: ^0.10.0
+  #
+  # [deps:health]
+  # Health Connect (Android) a Apple Zdraví (iOS)
+  health: ^13.3.2
+  #
+  # [deps:data]
+  # Výběr souboru zálohy při obnovení
+  file_picker: ^13.1.0
+  #
+  # [deps:social]
+  firebase_core: ^4.15.0
+  firebase_auth: ^6.7.0
+  cloud_firestore: ^6.10.0
+  firebase_messaging: ^16.7.0
+  google_sign_in: ^7.2.0
+  sign_in_with_apple: ^8.1.0
+  crypto: ^3.0.7
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^7.4.2
+  #
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  # Generování kódu pro databázi
+  drift_dev: ^2.26.0
+  build_runner: ^2.4.15
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    # Obrázky cviků z wger.de (tool/wger_import.dart)
+    - assets/exercises/

@@ -1,0 +1,520 @@
+{
+  "cloudSectionTitle": {
+    "en": "Cloud backup",
+    "cs": "Záloha do cloudu",
+    "de": "Cloud-Backup",
+    "es": "Copia en la nube",
+    "fr": "Sauvegarde dans le cloud",
+    "pl": "Kopia w chmurze",
+    "pt": "Backup na nuvem",
+    "it": "Backup nel cloud",
+    "sk": "Záloha do cloudu",
+    "nl": "Cloudback-up"
+  },
+  "cloudAutoBackup": {
+    "en": "Automatic backup",
+    "cs": "Automatická záloha",
+    "de": "Automatisches Backup",
+    "es": "Copia automática",
+    "fr": "Sauvegarde automatique",
+    "pl": "Automatyczna kopia zapasowa",
+    "pt": "Backup automático",
+    "it": "Backup automatico",
+    "sk": "Automatická záloha",
+    "nl": "Automatische back-up"
+  },
+  "cloudNotSetUp": {
+    "en": "Cloud backup isn't set up in this version of the app yet.",
+    "cs": "Záloha do cloudu v této verzi aplikace ještě není nastavená.",
+    "de": "Das Cloud-Backup ist in dieser App-Version noch nicht eingerichtet.",
+    "es": "La copia en la nube aún no está configurada en esta versión de la app.",
+    "fr": "La sauvegarde dans le cloud n’est pas encore configurée dans cette version de l’app.",
+    "pl": "Kopia w chmurze nie jest jeszcze skonfigurowana w tej wersji aplikacji.",
+    "pt": "O backup na nuvem ainda não está configurado nesta versão do app.",
+    "it": "Il backup nel cloud non è ancora configurato in questa versione dell’app.",
+    "sk": "Záloha do cloudu ešte nie je v tejto verzii aplikácie nastavená.",
+    "nl": "Cloudback-up is in deze versie van de app nog niet ingesteld."
+  },
+  "cloudSignInToBackUp": {
+    "en": "Sign in to back up automatically",
+    "cs": "Přihlas se a zálohuj automaticky",
+    "de": "Anmelden und automatisch sichern",
+    "es": "Inicia sesión para hacer copias automáticas",
+    "fr": "Connecte-toi pour sauvegarder automatiquement",
+    "pl": "Zaloguj się, aby tworzyć kopie automatycznie",
+    "pt": "Entre para fazer backup automático",
+    "it": "Accedi per il backup automatico",
+    "sk": "Prihlás sa a zálohuj automaticky",
+    "nl": "Log in om automatisch een back-up te maken"
+  },
+  "cloudSignInHint": {
+    "en": "Your data is saved to your private cloud space, so you won't lose it when you change phones.",
+    "cs": "Data se uloží do tvého soukromého prostoru v cloudu, takže o ně nepřijdeš ani při výměně telefonu.",
+    "de": "Deine Daten werden in deinem privaten Cloud-Speicher gesichert, damit du sie beim Handywechsel nicht verlierst.",
+    "es": "Tus datos se guardan en tu espacio privado en la nube, así no los pierdes al cambiar de móvil.",
+    "fr": "Tes données sont enregistrées dans ton espace privé dans le cloud : tu ne les perds pas en changeant de téléphone.",
+    "pl": "Twoje dane zapiszą się w Twojej prywatnej przestrzeni w chmurze, więc nie stracisz ich przy zmianie telefonu.",
+    "pt": "Seus dados ficam salvos no seu espaço privado na nuvem, assim você não os perde ao trocar de celular.",
+    "it": "I tuoi dati vengono salvati nel tuo spazio privato nel cloud, così non li perdi quando cambi telefono.",
+    "sk": "Údaje sa uložia do tvojho súkromného priestoru v cloude, takže o ne neprídeš ani pri výmene telefónu.",
+    "nl": "Je gegevens worden opgeslagen in je privéruimte in de cloud, zodat je ze niet kwijtraakt als je van telefoon wisselt."
+  },
+  "cloudSignInTitle": {
+    "en": "Sign in for cloud backup",
+    "cs": "Přihlášení pro zálohu do cloudu",
+    "de": "Für das Cloud-Backup anmelden",
+    "es": "Inicia sesión para la copia en la nube",
+    "fr": "Connexion pour la sauvegarde dans le cloud",
+    "pl": "Logowanie do kopii w chmurze",
+    "pt": "Entrar para o backup na nuvem",
+    "it": "Accedi per il backup nel cloud",
+    "sk": "Prihlásenie pre zálohu do cloudu",
+    "nl": "Inloggen voor cloudback-up"
+  },
+  "cloudStatusOff": {
+    "en": "Off. Your data stays only on this phone.",
+    "cs": "Vypnuto. Data jsou jen v tomto telefonu.",
+    "de": "Aus. Deine Daten bleiben nur auf diesem Handy.",
+    "es": "Desactivada. Tus datos solo están en este móvil.",
+    "fr": "Désactivée. Tes données restent uniquement sur ce téléphone.",
+    "pl": "Wyłączona. Twoje dane są tylko na tym telefonie.",
+    "pt": "Desativado. Seus dados ficam só neste celular.",
+    "it": "Disattivato. I tuoi dati restano solo su questo telefono.",
+    "sk": "Vypnuté. Údaje sú len v tomto telefóne.",
+    "nl": "Uit. Je gegevens staan alleen op deze telefoon."
+  },
+  "cloudStatusNever": {
+    "en": "No backup yet",
+    "cs": "Zatím žádná záloha",
+    "de": "Noch kein Backup",
+    "es": "Aún no hay ninguna copia",
+    "fr": "Pas encore de sauvegarde",
+    "pl": "Jeszcze nie ma kopii",
+    "pt": "Nenhum backup ainda",
+    "it": "Ancora nessun backup",
+    "sk": "Zatiaľ žiadna záloha",
+    "nl": "Nog geen back-up"
+  },
+  "cloudStatusLast": {
+    "en": "Last backup: {date}",
+    "cs": "Poslední záloha: {date}",
+    "de": "Letztes Backup: {date}",
+    "es": "Última copia: {date}",
+    "fr": "Dernière sauvegarde : {date}",
+    "pl": "Ostatnia kopia: {date}",
+    "pt": "Último backup: {date}",
+    "it": "Ultimo backup: {date}",
+    "sk": "Posledná záloha: {date}",
+    "nl": "Laatste back-up: {date}",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "cloudStatusFailed": {
+    "en": "The last backup failed. The app will try again later.",
+    "cs": "Poslední záloha se nepovedla. Aplikace to zkusí znovu později.",
+    "de": "Das letzte Backup ist fehlgeschlagen. Die App versucht es später erneut.",
+    "es": "La última copia falló. La app lo volverá a intentar más tarde.",
+    "fr": "La dernière sauvegarde a échoué. L’app réessaiera plus tard.",
+    "pl": "Ostatnia kopia się nie udała. Aplikacja spróbuje ponownie później.",
+    "pt": "O último backup falhou. O app vai tentar de novo mais tarde.",
+    "it": "L’ultimo backup non è riuscito. L’app riproverà più tardi.",
+    "sk": "Posledná záloha sa nepodarila. Aplikácia to skúsi znova neskôr.",
+    "nl": "De laatste back-up is mislukt. De app probeert het later opnieuw."
+  },
+  "cloudWifiOnly": {
+    "en": "Only on Wi-Fi",
+    "cs": "Jen přes Wi-Fi",
+    "de": "Nur über WLAN",
+    "es": "Solo con wifi",
+    "fr": "Uniquement en Wi-Fi",
+    "pl": "Tylko przez Wi-Fi",
+    "pt": "Só no Wi-Fi",
+    "it": "Solo con Wi-Fi",
+    "sk": "Len cez Wi-Fi",
+    "nl": "Alleen via wifi"
+  },
+  "cloudWifiOnlyHint": {
+    "en": "Automatic backups don't use mobile data",
+    "cs": "Automatická záloha nespotřebuje mobilní data",
+    "de": "Automatische Backups verbrauchen kein mobiles Datenvolumen",
+    "es": "Las copias automáticas no usan datos móviles",
+    "fr": "Les sauvegardes automatiques n’utilisent pas les données mobiles",
+    "pl": "Automatyczne kopie nie zużywają danych komórkowych",
+    "pt": "Os backups automáticos não usam dados móveis",
+    "it": "I backup automatici non usano i dati mobili",
+    "sk": "Automatická záloha nespotrebuje mobilné dáta",
+    "nl": "Automatische back-ups gebruiken geen mobiele data"
+  },
+  "cloudBackupNow": {
+    "en": "Back up now",
+    "cs": "Zálohovat teď",
+    "de": "Jetzt sichern",
+    "es": "Hacer copia ahora",
+    "fr": "Sauvegarder maintenant",
+    "pl": "Utwórz kopię teraz",
+    "pt": "Fazer backup agora",
+    "it": "Esegui backup ora",
+    "sk": "Zálohovať teraz",
+    "nl": "Nu back-up maken"
+  },
+  "cloudBackupDone": {
+    "en": "Backed up to the cloud.",
+    "cs": "Zálohováno do cloudu.",
+    "de": "In der Cloud gesichert.",
+    "es": "Copia guardada en la nube.",
+    "fr": "Sauvegardé dans le cloud.",
+    "pl": "Kopia zapisana w chmurze.",
+    "pt": "Backup salvo na nuvem.",
+    "it": "Backup salvato nel cloud.",
+    "sk": "Zálohované do cloudu.",
+    "nl": "Back-up opgeslagen in de cloud."
+  },
+  "cloudBackupFailed": {
+    "en": "Backup failed. Check your connection and try again.",
+    "cs": "Zálohování se nepovedlo. Zkontroluj připojení a zkus to znovu.",
+    "de": "Backup fehlgeschlagen. Prüfe deine Verbindung und versuche es erneut.",
+    "es": "No se pudo hacer la copia. Revisa la conexión e inténtalo de nuevo.",
+    "fr": "La sauvegarde a échoué. Vérifie ta connexion et réessaie.",
+    "pl": "Nie udało się utworzyć kopii. Sprawdź połączenie i spróbuj ponownie.",
+    "pt": "O backup falhou. Verifique sua conexão e tente de novo.",
+    "it": "Backup non riuscito. Controlla la connessione e riprova.",
+    "sk": "Zálohovanie sa nepodarilo. Skontroluj pripojenie a skús to znova.",
+    "nl": "Back-up mislukt. Controleer je verbinding en probeer het opnieuw."
+  },
+  "cloudBackupSkippedEmpty": {
+    "en": "This phone has no workouts yet, so your backup in the cloud was kept. You can restore it instead.",
+    "cs": "V tomto telefonu zatím nejsou žádné tréninky, takže záloha v cloudu zůstala beze změny. Můžeš ji místo toho obnovit.",
+    "de": "Auf diesem Handy gibt es noch keine Trainings, daher wurde dein Backup in der Cloud nicht überschrieben. Du kannst es stattdessen wiederherstellen.",
+    "es": "Este móvil aún no tiene entrenos, así que tu copia en la nube no se ha cambiado. Puedes restaurarla.",
+    "fr": "Ce téléphone n’a encore aucune séance : ta sauvegarde dans le cloud a donc été conservée. Tu peux plutôt la restaurer.",
+    "pl": "Na tym telefonie nie ma jeszcze treningów, więc kopia w chmurze pozostała bez zmian. Możesz ją zamiast tego przywrócić.",
+    "pt": "Este celular ainda não tem treinos, então seu backup na nuvem foi mantido. Você pode restaurá-lo.",
+    "it": "Su questo telefono non ci sono ancora allenamenti, quindi il backup nel cloud è stato mantenuto. Puoi invece ripristinarlo.",
+    "sk": "V tomto telefóne zatiaľ nie sú žiadne tréningy, takže záloha v cloude zostala bez zmeny. Môžeš ju namiesto toho obnoviť.",
+    "nl": "Op deze telefoon staan nog geen trainingen, dus je back-up in de cloud is bewaard. Je kunt hem in plaats daarvan terugzetten."
+  },
+  "cloudRestore": {
+    "en": "Restore from cloud",
+    "cs": "Obnovit z cloudu",
+    "de": "Aus der Cloud wiederherstellen",
+    "es": "Restaurar desde la nube",
+    "fr": "Restaurer depuis le cloud",
+    "pl": "Przywróć z chmury",
+    "pt": "Restaurar da nuvem",
+    "it": "Ripristina dal cloud",
+    "sk": "Obnoviť z cloudu",
+    "nl": "Terugzetten uit de cloud"
+  },
+  "cloudRestoreHint": {
+    "en": "Replaces everything in the app with a cloud backup",
+    "cs": "Nahradí všechno v aplikaci zálohou z cloudu",
+    "de": "Ersetzt alles in der App durch ein Backup aus der Cloud",
+    "es": "Sustituye todo lo de la app por una copia de la nube",
+    "fr": "Remplace tout dans l’app par une sauvegarde du cloud",
+    "pl": "Zastępuje wszystko w aplikacji kopią z chmury",
+    "pt": "Substitui tudo no app por um backup da nuvem",
+    "it": "Sostituisce tutto nell’app con un backup dal cloud",
+    "sk": "Nahradí všetko v aplikácii zálohou z cloudu",
+    "nl": "Vervangt alles in de app door een back-up uit de cloud"
+  },
+  "cloudRestoreLoadFailed": {
+    "en": "Couldn't load your backups. Check your connection and try again.",
+    "cs": "Zálohy se nepodařilo načíst. Zkontroluj připojení a zkus to znovu.",
+    "de": "Deine Backups konnten nicht geladen werden. Prüfe deine Verbindung und versuche es erneut.",
+    "es": "No se pudieron cargar tus copias. Revisa la conexión e inténtalo de nuevo.",
+    "fr": "Impossible de charger tes sauvegardes. Vérifie ta connexion et réessaie.",
+    "pl": "Nie udało się wczytać kopii. Sprawdź połączenie i spróbuj ponownie.",
+    "pt": "Não foi possível carregar seus backups. Verifique sua conexão e tente de novo.",
+    "it": "Impossibile caricare i backup. Controlla la connessione e riprova.",
+    "sk": "Zálohy sa nepodarilo načítať. Skontroluj pripojenie a skús to znova.",
+    "nl": "Je back-ups konden niet worden geladen. Controleer je verbinding en probeer het opnieuw."
+  },
+  "cloudRestoreEmpty": {
+    "en": "There's no backup in the cloud yet.",
+    "cs": "V cloudu zatím žádná záloha není.",
+    "de": "In der Cloud gibt es noch kein Backup.",
+    "es": "Aún no hay ninguna copia en la nube.",
+    "fr": "Il n’y a pas encore de sauvegarde dans le cloud.",
+    "pl": "W chmurze nie ma jeszcze żadnej kopii.",
+    "pt": "Ainda não há backup na nuvem.",
+    "it": "Nel cloud non c’è ancora nessun backup.",
+    "sk": "V cloude zatiaľ nie je žiadna záloha.",
+    "nl": "Er staat nog geen back-up in de cloud."
+  },
+  "cloudBackupLatest": {
+    "en": "Latest backup",
+    "cs": "Nejnovější záloha",
+    "de": "Neuestes Backup",
+    "es": "Copia más reciente",
+    "fr": "Sauvegarde la plus récente",
+    "pl": "Najnowsza kopia",
+    "pt": "Backup mais recente",
+    "it": "Backup più recente",
+    "sk": "Najnovšia záloha",
+    "nl": "Nieuwste back-up"
+  },
+  "cloudBackupPrevious": {
+    "en": "Previous backup",
+    "cs": "Předchozí záloha",
+    "de": "Vorheriges Backup",
+    "es": "Copia anterior",
+    "fr": "Sauvegarde précédente",
+    "pl": "Poprzednia kopia",
+    "pt": "Backup anterior",
+    "it": "Backup precedente",
+    "sk": "Predchádzajúca záloha",
+    "nl": "Vorige back-up"
+  },
+  "cloudBackupEntrySubtitle": {
+    "en": "{date}, {count, plural, =1{1 workout} other{{count} workouts}}",
+    "cs": "{date}, {count, plural, =1{1 trénink} few{{count} tréninky} other{{count} tréninků}}",
+    "de": "{date}, {count, plural, =1{1 Training} other{{count} Trainings}}",
+    "es": "{date}, {count, plural, =1{1 entreno} other{{count} entrenos}}",
+    "fr": "{date}, {count, plural, =1{1 séance} other{{count} séances}}",
+    "pl": "{date}, {count, plural, =1{1 trening} few{{count} treningi} many{{count} treningów} other{{count} treningu}}",
+    "pt": "{date}, {count, plural, =1{1 treino} other{{count} treinos}}",
+    "it": "{date}, {count, plural, =1{1 allenamento} other{{count} allenamenti}}",
+    "sk": "{date}, {count, plural, =1{1 tréning} few{{count} tréningy} other{{count} tréningov}}",
+    "nl": "{date}, {count, plural, =1{1 training} other{{count} trainingen}}",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cloudBackupEntryDevice": {
+    "en": "Device: {device}",
+    "cs": "Zařízení: {device}",
+    "de": "Gerät: {device}",
+    "es": "Dispositivo: {device}",
+    "fr": "Appareil : {device}",
+    "pl": "Urządzenie: {device}",
+    "pt": "Dispositivo: {device}",
+    "it": "Dispositivo: {device}",
+    "sk": "Zariadenie: {device}",
+    "nl": "Apparaat: {device}",
+    "placeholders": {
+      "device": {
+        "type": "String"
+      }
+    }
+  },
+  "cloudRestoring": {
+    "en": "Restoring your backup…",
+    "cs": "Obnovuju zálohu…",
+    "de": "Backup wird wiederhergestellt…",
+    "es": "Restaurando la copia…",
+    "fr": "Restauration de la sauvegarde…",
+    "pl": "Przywracanie kopii…",
+    "pt": "Restaurando o backup…",
+    "it": "Ripristino del backup…",
+    "sk": "Obnovujem zálohu…",
+    "nl": "Back-up terugzetten…"
+  },
+  "cloudRestoreOfferTitle": {
+    "en": "Restore your backup?",
+    "cs": "Obnovit zálohu?",
+    "de": "Backup wiederherstellen?",
+    "es": "¿Restaurar tu copia?",
+    "fr": "Restaurer ta sauvegarde ?",
+    "pl": "Przywrócić kopię?",
+    "pt": "Restaurar seu backup?",
+    "it": "Ripristinare il backup?",
+    "sk": "Obnoviť zálohu?",
+    "nl": "Back-up terugzetten?"
+  },
+  "cloudRestoreOfferMessage": {
+    "en": "Found a backup from {date} with {count, plural, =1{1 workout} other{{count} workouts}}. Restore it to this phone?",
+    "cs": "Našli jsme zálohu z {date}. Obsahuje {count, plural, =1{1 trénink} few{{count} tréninky} other{{count} tréninků}}. Obnovit ji do tohoto telefonu?",
+    "de": "Wir haben ein Backup vom {date} mit {count, plural, =1{1 Training} other{{count} Trainings}} gefunden. Auf diesem Handy wiederherstellen?",
+    "es": "Encontramos una copia del {date} con {count, plural, =1{1 entreno} other{{count} entrenos}}. ¿Restaurarla en este móvil?",
+    "fr": "Une sauvegarde du {date} avec {count, plural, =1{1 séance} other{{count} séances}} a été trouvée. La restaurer sur ce téléphone ?",
+    "pl": "Znaleźliśmy kopię z {date}. Zawiera {count, plural, =1{1 trening} few{{count} treningi} many{{count} treningów} other{{count} treningu}}. Przywrócić ją na tym telefonie?",
+    "pt": "Encontramos um backup de {date} com {count, plural, =1{1 treino} other{{count} treinos}}. Restaurar neste celular?",
+    "it": "Abbiamo trovato un backup del {date} con {count, plural, =1{1 allenamento} other{{count} allenamenti}}. Ripristinarlo su questo telefono?",
+    "sk": "Našli sme zálohu z {date}. Obsahuje {count, plural, =1{1 tréning} few{{count} tréningy} other{{count} tréningov}}. Obnoviť ju do tohto telefónu?",
+    "nl": "We hebben een back-up van {date} gevonden met {count, plural, =1{1 training} other{{count} trainingen}}. Terugzetten op deze telefoon?",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cloudRestoreOfferConfirm": {
+    "en": "Restore",
+    "cs": "Obnovit",
+    "de": "Wiederherstellen",
+    "es": "Restaurar",
+    "fr": "Restaurer",
+    "pl": "Przywróć",
+    "pt": "Restaurar",
+    "it": "Ripristina",
+    "sk": "Obnoviť",
+    "nl": "Terugzetten"
+  },
+  "cloudConsentTitle": {
+    "en": "Back up to the cloud?",
+    "cs": "Zálohovat do cloudu?",
+    "de": "In der Cloud sichern?",
+    "es": "¿Hacer copias en la nube?",
+    "fr": "Sauvegarder dans le cloud ?",
+    "pl": "Tworzyć kopie w chmurze?",
+    "pt": "Fazer backup na nuvem?",
+    "it": "Fare il backup nel cloud?",
+    "sk": "Zálohovať do cloudu?",
+    "nl": "Back-up maken in de cloud?"
+  },
+  "cloudConsentIntro": {
+    "en": "The app will regularly upload a copy of all your data: after workouts and otherwise at most once a day. You can turn it off at any time.",
+    "cs": "Aplikace bude pravidelně nahrávat kopii všech tvých dat: po tréninku a jinak nejvýš jednou denně. Kdykoli to můžeš vypnout.",
+    "de": "Die App lädt regelmäßig eine Kopie all deiner Daten hoch: nach dem Training und sonst höchstens einmal am Tag. Du kannst das jederzeit ausschalten.",
+    "es": "La app subirá regularmente una copia de todos tus datos: después de entrenar y, si no, como máximo una vez al día. Puedes desactivarlo cuando quieras.",
+    "fr": "L’app enverra régulièrement une copie de toutes tes données : après chaque séance et sinon au plus une fois par jour. Tu peux désactiver ça à tout moment.",
+    "pl": "Aplikacja będzie regularnie wysyłać kopię wszystkich Twoich danych: po treningu, a poza tym najwyżej raz dziennie. Możesz to w każdej chwili wyłączyć.",
+    "pt": "O app vai enviar regularmente uma cópia de todos os seus dados: depois dos treinos e, fora isso, no máximo uma vez por dia. Você pode desativar quando quiser.",
+    "it": "L’app caricherà regolarmente una copia di tutti i tuoi dati: dopo gli allenamenti e altrimenti al massimo una volta al giorno. Puoi disattivarlo in qualsiasi momento.",
+    "sk": "Aplikácia bude pravidelne nahrávať kópiu všetkých tvojich údajov: po tréningu a inak najviac raz denne. Kedykoľvek to môžeš vypnúť.",
+    "nl": "De app uploadt regelmatig een kopie van al je gegevens: na trainingen en verder hooguit één keer per dag. Je kunt dit altijd uitzetten."
+  },
+  "cloudConsentData": {
+    "en": "The backup includes health-related data: illness and injury periods, body weight and water intake.",
+    "cs": "Záloha obsahuje i údaje o zdraví: období nemoci a zranění, tělesnou váhu a pitný režim.",
+    "de": "Das Backup enthält auch Gesundheitsdaten: Krankheits- und Verletzungsphasen, Körpergewicht und Trinkmenge.",
+    "es": "La copia incluye datos de salud: periodos de enfermedad y lesión, peso corporal y consumo de agua.",
+    "fr": "La sauvegarde contient aussi des données de santé : périodes de maladie et de blessure, poids corporel et hydratation.",
+    "pl": "Kopia zawiera też dane o zdrowiu: okresy choroby i kontuzji, masę ciała i ilość wypitej wody.",
+    "pt": "O backup inclui dados de saúde: períodos de doença e lesão, peso corporal e consumo de água.",
+    "it": "Il backup contiene anche dati sulla salute: periodi di malattia e infortunio, peso corporeo e acqua bevuta.",
+    "sk": "Záloha obsahuje aj údaje o zdraví: obdobia choroby a zranenia, telesnú hmotnosť a pitný režim.",
+    "nl": "De back-up bevat ook gezondheidsgegevens: periodes van ziekte en blessures, lichaamsgewicht en hoeveel je drinkt."
+  },
+  "cloudConsentWhere": {
+    "en": "It's stored encrypted in your private space in Google Firebase (servers in the European Union).",
+    "cs": "Ukládá se šifrovaně do tvého soukromého prostoru v Google Firebase (servery v Evropské unii).",
+    "de": "Es wird verschlüsselt in deinem privaten Bereich bei Google Firebase gespeichert (Server in der Europäischen Union).",
+    "es": "Se guarda cifrada en tu espacio privado de Google Firebase (servidores en la Unión Europea).",
+    "fr": "Elle est stockée chiffrée dans ton espace privé sur Google Firebase (serveurs dans l’Union européenne).",
+    "pl": "Jest przechowywana w postaci zaszyfrowanej w Twojej prywatnej przestrzeni w Google Firebase (serwery w Unii Europejskiej).",
+    "pt": "Ele fica armazenado de forma criptografada no seu espaço privado no Google Firebase (servidores na União Europeia).",
+    "it": "Viene salvato in forma crittografata nel tuo spazio privato su Google Firebase (server nell’Unione europea).",
+    "sk": "Ukladá sa šifrovane do tvojho súkromného priestoru v Google Firebase (servery v Európskej únii).",
+    "nl": "Hij wordt versleuteld opgeslagen in je privéruimte bij Google Firebase (servers in de Europese Unie)."
+  },
+  "cloudConsentAccess": {
+    "en": "Only you can access it, when signed in with your account. Friends and other users never see it.",
+    "cs": "Přístup k ní máš jen ty po přihlášení svým účtem. Přátelé ani nikdo jiný ji nevidí.",
+    "de": "Nur du hast Zugriff darauf, wenn du mit deinem Konto angemeldet bist. Freunde und andere sehen es nie.",
+    "es": "Solo tú puedes acceder a ella, con tu cuenta. Ni tus amigos ni nadie más la ven.",
+    "fr": "Elle n’est accessible qu’à toi, avec ton compte. Tes amis et les autres utilisateurs ne la voient jamais.",
+    "pl": "Dostęp do niej masz tylko Ty po zalogowaniu na swoje konto. Znajomi ani nikt inny jej nie widzą.",
+    "pt": "Só você tem acesso a ele, entrando com a sua conta. Amigos e outras pessoas nunca o veem.",
+    "it": "Solo tu puoi accedervi, con il tuo account. Gli amici e gli altri utenti non lo vedono mai.",
+    "sk": "Prístup k nej máš len ty po prihlásení svojím účtom. Kamaráti ani nikto iný ju nevidia.",
+    "nl": "Alleen jij hebt er toegang toe, als je bent ingelogd met je account. Vrienden en anderen zien hem nooit."
+  },
+  "cloudConsentDeletion": {
+    "en": "When you delete your account, your backups are deleted too. You can also delete them yourself at any time.",
+    "cs": "Při smazání účtu se zálohy smažou taky. Kdykoli je můžeš smazat i ručně.",
+    "de": "Wenn du dein Konto löschst, werden auch deine Backups gelöscht. Du kannst sie auch jederzeit selbst löschen.",
+    "es": "Si eliminas tu cuenta, tus copias también se eliminan. También puedes borrarlas tú cuando quieras.",
+    "fr": "Si tu supprimes ton compte, tes sauvegardes sont supprimées aussi. Tu peux aussi les supprimer toi-même à tout moment.",
+    "pl": "Po usunięciu konta kopie też zostaną usunięte. Możesz je też w każdej chwili usunąć ręcznie.",
+    "pt": "Ao excluir sua conta, seus backups também são excluídos. Você também pode excluí-los quando quiser.",
+    "it": "Se elimini il tuo account, vengono eliminati anche i backup. Puoi anche eliminarli tu in qualsiasi momento.",
+    "sk": "Pri zmazaní účtu sa zmažú aj zálohy. Kedykoľvek ich môžeš zmazať aj ručne.",
+    "nl": "Als je je account verwijdert, worden je back-ups ook verwijderd. Je kunt ze ook zelf altijd verwijderen."
+  },
+  "cloudConsentAccept": {
+    "en": "Turn on",
+    "cs": "Zapnout",
+    "de": "Einschalten",
+    "es": "Activar",
+    "fr": "Activer",
+    "pl": "Włącz",
+    "pt": "Ativar",
+    "it": "Attiva",
+    "sk": "Zapnúť",
+    "nl": "Aanzetten"
+  },
+  "cloudDeleteBackups": {
+    "en": "Delete cloud backups",
+    "cs": "Smazat zálohy v cloudu",
+    "de": "Backups in der Cloud löschen",
+    "es": "Eliminar copias de la nube",
+    "fr": "Supprimer les sauvegardes du cloud",
+    "pl": "Usuń kopie z chmury",
+    "pt": "Excluir backups da nuvem",
+    "it": "Elimina i backup nel cloud",
+    "sk": "Zmazať zálohy v cloude",
+    "nl": "Cloudback-ups verwijderen"
+  },
+  "cloudDeleteTitle": {
+    "en": "Delete cloud backups?",
+    "cs": "Smazat zálohy v cloudu?",
+    "de": "Backups in der Cloud löschen?",
+    "es": "¿Eliminar las copias de la nube?",
+    "fr": "Supprimer les sauvegardes du cloud ?",
+    "pl": "Usunąć kopie z chmury?",
+    "pt": "Excluir os backups da nuvem?",
+    "it": "Eliminare i backup nel cloud?",
+    "sk": "Zmazať zálohy v cloude?",
+    "nl": "Cloudback-ups verwijderen?"
+  },
+  "cloudDeleteMessage": {
+    "en": "Both backups will be deleted from the cloud and automatic backup will be turned off. The data on this phone stays.",
+    "cs": "Obě zálohy se smažou z cloudu a automatická záloha se vypne. Data v tomto telefonu zůstanou.",
+    "de": "Beide Backups werden aus der Cloud gelöscht und das automatische Backup wird ausgeschaltet. Die Daten auf diesem Handy bleiben erhalten.",
+    "es": "Las dos copias se eliminarán de la nube y la copia automática se desactivará. Los datos de este móvil se conservan.",
+    "fr": "Les deux sauvegardes seront supprimées du cloud et la sauvegarde automatique sera désactivée. Les données de ce téléphone restent.",
+    "pl": "Obie kopie zostaną usunięte z chmury, a automatyczna kopia zostanie wyłączona. Dane na tym telefonie zostaną.",
+    "pt": "Os dois backups serão excluídos da nuvem e o backup automático será desativado. Os dados deste celular continuam aqui.",
+    "it": "Entrambi i backup verranno eliminati dal cloud e il backup automatico verrà disattivato. I dati su questo telefono restano.",
+    "sk": "Obe zálohy sa zmažú z cloudu a automatická záloha sa vypne. Údaje v tomto telefóne zostanú.",
+    "nl": "Beide back-ups worden uit de cloud verwijderd en automatische back-up wordt uitgezet. De gegevens op deze telefoon blijven staan."
+  },
+  "cloudDeleteConfirm": {
+    "en": "Delete",
+    "cs": "Smazat",
+    "de": "Löschen",
+    "es": "Eliminar",
+    "fr": "Supprimer",
+    "pl": "Usuń",
+    "pt": "Excluir",
+    "it": "Elimina",
+    "sk": "Zmazať",
+    "nl": "Verwijderen"
+  },
+  "cloudDeleteDone": {
+    "en": "Cloud backups deleted.",
+    "cs": "Zálohy v cloudu jsou smazané.",
+    "de": "Backups in der Cloud gelöscht.",
+    "es": "Copias de la nube eliminadas.",
+    "fr": "Sauvegardes du cloud supprimées.",
+    "pl": "Kopie z chmury zostały usunięte.",
+    "pt": "Backups da nuvem excluídos.",
+    "it": "Backup nel cloud eliminati.",
+    "sk": "Zálohy v cloude sú zmazané.",
+    "nl": "Cloudback-ups verwijderd."
+  },
+  "cloudDeleteFailed": {
+    "en": "Couldn't delete the backups. Check your connection and try again.",
+    "cs": "Zálohy se nepodařilo smazat. Zkontroluj připojení a zkus to znovu.",
+    "de": "Die Backups konnten nicht gelöscht werden. Prüfe deine Verbindung und versuche es erneut.",
+    "es": "No se pudieron eliminar las copias. Revisa la conexión e inténtalo de nuevo.",
+    "fr": "Impossible de supprimer les sauvegardes. Vérifie ta connexion et réessaie.",
+    "pl": "Nie udało się usunąć kopii. Sprawdź połączenie i spróbuj ponownie.",
+    "pt": "Não foi possível excluir os backups. Verifique sua conexão e tente de novo.",
+    "it": "Impossibile eliminare i backup. Controlla la connessione e riprova.",
+    "sk": "Zálohy sa nepodarilo zmazať. Skontroluj pripojenie a skús to znova.",
+    "nl": "De back-ups konden niet worden verwijderd. Controleer je verbinding en probeer het opnieuw."
+  }
+}

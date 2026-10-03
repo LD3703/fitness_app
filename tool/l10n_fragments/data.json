@@ -1,0 +1,147 @@
+{
+  "dataSectionTitle": {"en": "Units & data", "cs": "Jednotky a data"},
+  "dataUnits": {"en": "Units", "cs": "Jednotky"},
+  "dataUnitsMetric": {"en": "kg, ml", "cs": "kg, ml"},
+  "dataUnitsImperial": {"en": "lb, oz", "cs": "lb, oz"},
+  "dataRangeInvalid": {
+    "en": "Enter a number between {min} and {max}.",
+    "cs": "Zadej číslo od {min} do {max}.",
+    "placeholders": {"min": {"type": "String"}, "max": {"type": "String"}}
+  },
+  "dataGlassSize": {"en": "Glass size", "cs": "Velikost sklenice"},
+  "dataGlassSizeDialog": {
+    "en": "Glass size ({unit})",
+    "cs": "Velikost sklenice ({unit})",
+    "placeholders": {"unit": {"type": "String"}}
+  },
+  "dataBottleSize": {"en": "Bottle size", "cs": "Velikost láhve"},
+  "dataBottleSizeDialog": {
+    "en": "Bottle size ({unit})",
+    "cs": "Velikost láhve ({unit})",
+    "placeholders": {"unit": {"type": "String"}}
+  },
+  "dataWaterCustom": {"en": "Custom", "cs": "Jiné"},
+  "dataWaterCustomDialog": {
+    "en": "How much did you drink? ({unit})",
+    "cs": "Kolik jsi vypil/a? ({unit})",
+    "placeholders": {"unit": {"type": "String"}}
+  },
+  "dataWaterTrainingBonus": {
+    "en": "+{amount} today because you trained",
+    "cs": "+{amount} dnes, protože jsi trénoval/a",
+    "placeholders": {"amount": {"type": "String"}}
+  },
+  "dataWaterGoalDialog": {
+    "en": "Daily water goal ({unit})",
+    "cs": "Denní cíl pití ({unit})",
+    "placeholders": {"unit": {"type": "String"}}
+  },
+  "dataWeightDialogTitle": {
+    "en": "Today's weight ({unit})",
+    "cs": "Dnešní váha ({unit})",
+    "placeholders": {"unit": {"type": "String"}}
+  },
+  "dataOnboardingWeight": {
+    "en": "Current weight in {unit} (optional)",
+    "cs": "Aktuální váha v {unit} (nepovinné)",
+    "placeholders": {"unit": {"type": "String"}}
+  },
+  "dataNotifWaterBody": {
+    "en": "Your goal today is {goal}.",
+    "cs": "Dnešní cíl je {goal}.",
+    "placeholders": {"goal": {"type": "String"}}
+  },
+  "dataRecordLine": {
+    "en": "Record: 1RM ≈ {oneRepMax} ({weight} × {reps})",
+    "cs": "Rekord: 1RM ≈ {oneRepMax} ({weight} × {reps})",
+    "placeholders": {
+      "oneRepMax": {"type": "String"},
+      "weight": {"type": "String"},
+      "reps": {"type": "int"}
+    }
+  },
+  "dataRecordChangeLine": {
+    "en": "Estimated 1RM {newValue} (before {oldValue})",
+    "cs": "Odhad 1RM {newValue} (dříve {oldValue})",
+    "placeholders": {"newValue": {"type": "String"}, "oldValue": {"type": "String"}}
+  },
+  "dataPlanSetsInvalid": {
+    "en": "Check the values: reps 1–100 (seconds up to 600), weight 0–{maxWeight}, rest 0–600 s.",
+    "cs": "Zkontroluj hodnoty: opakování 1–100 (sekundy do 600), váha 0–{maxWeight}, pauza 0–600 s.",
+    "placeholders": {"maxWeight": {"type": "String"}}
+  },
+  "dataExportCsv": {"en": "Export data (CSV)", "cs": "Export dat (CSV)"},
+  "dataExportCsvHint": {
+    "en": "Workouts, sets, body weight, water and periods as spreadsheets",
+    "cs": "Tréninky, série, váha, pití a období jako tabulky"
+  },
+  "dataExportSubject": {"en": "Fitness data export", "cs": "Export fitness dat"},
+  "dataExportFailed": {"en": "Export failed. Please try again.", "cs": "Export se nepovedl. Zkus to znovu."},
+  "dataBackup": {"en": "Back up all data", "cs": "Zálohovat všechna data"},
+  "dataBackupHint": {
+    "en": "Save one file to Google Drive, iCloud Drive or anywhere you like",
+    "cs": "Ulož jeden soubor na Google Disk, iCloud Drive nebo kamkoli jinam"
+  },
+  "dataBackupSubject": {"en": "Fitness app backup", "cs": "Záloha fitness aplikace"},
+  "dataBackupFailed": {"en": "Backup failed. Please try again.", "cs": "Zálohu se nepodařilo vytvořit. Zkus to znovu."},
+  "dataRestore": {"en": "Restore from backup", "cs": "Obnovit ze zálohy"},
+  "dataRestoreHint": {
+    "en": "Replaces everything in the app with the backup",
+    "cs": "Nahradí všechna data v aplikaci obsahem zálohy"
+  },
+  "dataRestoreConfirmTitle": {"en": "Restore backup?", "cs": "Obnovit zálohu?"},
+  "dataRestoreConfirmMessage": {
+    "en": "All current data will be replaced by the backup ({count, plural, =1{1 workout} other{{count} workouts}}). This can't be undone.",
+    "cs": "Všechna současná data nahradí záloha ({count, plural, =1{1 trénink} few{{count} tréninky} other{{count} tréninků}}). Nejde to vrátit.",
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "dataRestoreConfirm": {"en": "Restore", "cs": "Obnovit"},
+  "dataRestoreDone": {"en": "Backup restored.", "cs": "Záloha je obnovená."},
+  "dataRestoreNotSqlite": {
+    "en": "This file isn't a backup (it's not a database file).",
+    "cs": "Tenhle soubor není záloha (není to databáze)."
+  },
+  "dataRestoreNotBackup": {
+    "en": "This file isn't a backup of this app.",
+    "cs": "Tenhle soubor není záloha této aplikace."
+  },
+  "dataRestoreNewer": {
+    "en": "This backup comes from a newer version of the app. Update the app first.",
+    "cs": "Záloha je z novější verze aplikace. Nejdřív aplikaci aktualizuj."
+  },
+  "dataRestoreFailed": {
+    "en": "Restore failed. Your data hasn't changed.",
+    "cs": "Obnovení se nepovedlo. Tvoje data zůstala beze změny."
+  },
+  "dataExerciseAdd": {"en": "Exercise", "cs": "Cvik"},
+  "dataExerciseNewTitle": {"en": "New exercise", "cs": "Nový cvik"},
+  "dataExerciseEditTitle": {"en": "Edit exercise", "cs": "Upravit cvik"},
+  "dataExerciseEdit": {"en": "Edit", "cs": "Upravit"},
+  "dataExerciseNotEditable": {
+    "en": "Only your own exercises can be edited.",
+    "cs": "Upravit jde jen vlastní cviky."
+  },
+  "dataExerciseName": {"en": "Name", "cs": "Název"},
+  "dataExerciseNameRequired": {"en": "Enter a name.", "cs": "Zadej název."},
+  "dataExerciseType": {"en": "Type", "cs": "Typ"},
+  "dataTypeWeightReps": {"en": "Weight × reps", "cs": "Váha × opakování"},
+  "dataTypeBodyweightReps": {"en": "Reps only", "cs": "Jen opakování"},
+  "dataTypeDuration": {"en": "Hold for time", "cs": "Výdrž na čas"},
+  "dataExerciseInstructions": {"en": "How to do it (optional)", "cs": "Jak na to (nepovinné)"},
+  "dataExerciseMet": {"en": "Intensity (MET)", "cs": "Náročnost (MET)"},
+  "dataExerciseMetHint": {
+    "en": "Used to estimate calories. 3 = light, 5 = moderate, 8 = hard.",
+    "cs": "Slouží k odhadu kalorií. 3 = lehké, 5 = střední, 8 = těžké."
+  },
+  "dataExerciseDeleteTitle": {"en": "Delete exercise?", "cs": "Smazat cvik?"},
+  "dataExerciseInUse": {
+    "en": "This exercise can't be deleted because it's in your workout history ({count, plural, =1{1 set} other{{count} sets}}).",
+    "cs": "Tenhle cvik nejde smazat, protože je v historii tréninků ({count, plural, =1{1 série} few{{count} série} other{{count} sérií}}).",
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "dataExerciseDeleteInPlans": {
+    "en": "It will also be removed from your plans ({count, plural, =1{1 plan item} other{{count} plan items}}).",
+    "cs": "Zároveň se odebere z plánů ({count, plural, =1{1 položka} few{{count} položky} other{{count} položek}}).",
+    "placeholders": {"count": {"type": "int"}}
+  }
+}

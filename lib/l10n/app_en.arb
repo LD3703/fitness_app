@@ -1,0 +1,1674 @@
+{
+  "@@locale": "en",
+  "appTitle": "Fitness App",
+  "tabToday": "Today",
+  "tabPlans": "Plans",
+  "tabExercises": "Exercises",
+  "tabProgress": "Progress",
+  "tabProfile": "Profile",
+  "cancel": "Cancel",
+  "save": "Save",
+  "errorGeneric": "Something went wrong.",
+  "todayWorkoutTitle": "Today's workout",
+  "todayNoWorkout": "No workout planned for today.",
+  "todayPlanB": "No time? 5 minutes at home",
+  "waterTitle": "Water",
+  "waterProgress": "{current} / {goal} ml",
+  "@waterProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "waterUndo": "Undo last",
+  "weightTitle": "Body weight",
+  "weightNone": "Not logged yet",
+  "weightValue": "{kg} kg",
+  "@weightValue": {
+    "placeholders": {
+      "kg": {
+        "type": "String"
+      }
+    }
+  },
+  "weightLog": "Log weight",
+  "weightDialogTitle": "Today's weight (kg)",
+  "weightInvalid": "Enter a number between 20 and 400.",
+  "periodIllness": "Illness",
+  "periodInjury": "Injury",
+  "periodCut": "Cut",
+  "periodBulk": "Bulk",
+  "periodMaintenance": "Maintenance",
+  "periodPause": "Break",
+  "exercisesSearchHint": "Search exercises",
+  "exercisesEmpty": "No exercises found.",
+  "filterAll": "All",
+  "exerciseMuscleGroup": "Muscle group",
+  "exerciseEquipment": "Equipment",
+  "exerciseInstructionsTitle": "How to do it",
+  "exerciseInstructionsMissing": "Instructions will be added soon.",
+  "muscleChest": "Chest",
+  "muscleBack": "Back",
+  "muscleShoulders": "Shoulders",
+  "muscleBiceps": "Biceps",
+  "muscleTriceps": "Triceps",
+  "muscleLegs": "Legs",
+  "muscleGlutes": "Glutes",
+  "muscleCore": "Core",
+  "muscleFullBody": "Full body",
+  "equipmentBarbell": "Barbell",
+  "equipmentDumbbell": "Dumbbell",
+  "equipmentMachine": "Machine",
+  "equipmentCable": "Cable",
+  "equipmentBodyweight": "Bodyweight",
+  "equipmentKettlebell": "Kettlebell",
+  "equipmentBand": "Resistance band",
+  "plansEmpty": "You have no workout plans yet.",
+  "plansNew": "New plan",
+  "profileWaterGoal": "Daily water goal",
+  "profileWaterGoalDialog": "Daily water goal (ml)",
+  "profileWaterGoalInvalid": "Enter a number between 500 and 6000.",
+  "profileMorningReminder": "Morning workout reminder",
+  "profileAbout": "About the app",
+  "ok": "OK",
+  "delete": "Delete",
+  "planNameHint": "e.g. Push A",
+  "planNoSchedule": "No fixed days",
+  "planRename": "Rename plan",
+  "planDeleteTitle": "Delete plan?",
+  "planDeleteMessage": "Plan \"{name}\" will be deleted. Your workout history stays.",
+  "@planDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "planDays": "Training days",
+  "planTime": "Planned time",
+  "planTimeNone": "Not set",
+  "planTimeClear": "Clear time",
+  "planExercises": "Exercises",
+  "planNoExercises": "Add the first exercise to this plan.",
+  "planAddExercise": "Add exercise",
+  "planTargetRest": "Rest in seconds (0–600)",
+  "planRemoveExercise": "Remove",
+  "workoutStart": "Start",
+  "workoutResume": "Resume",
+  "workoutFree": "Free workout",
+  "workoutFreeStart": "Workout without a plan",
+  "workoutInProgressTitle": "Workout in progress",
+  "workoutInProgressMessage": "You have an unfinished workout. Continue it, or discard it and start a new one?",
+  "workoutDiscardAndStart": "Discard and start new",
+  "workoutDiscard": "Discard workout",
+  "workoutDiscardTitle": "Discard workout?",
+  "workoutDiscardMessage": "All logged sets of this workout will be deleted.",
+  "workoutNoSetsTitle": "No sets logged",
+  "workoutNoSetsMessage": "You haven't completed any set. Discard this workout?",
+  "workoutFinish": "Finish",
+  "workoutFinishTitle": "Finish workout?",
+  "workoutFinishPendingMessage": "Sets that are not ticked off won't be saved.",
+  "workoutAlreadyFinished": "This workout has already been finished.",
+  "workoutSetInvalid": "Fill in valid weight and reps.",
+  "workoutRestLabel": "Rest {seconds} s",
+  "@workoutRestLabel": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "workoutColSet": "#",
+  "workoutColPrevious": "Last time",
+  "workoutColReps": "Reps",
+  "workoutAddSet": "Set",
+  "workoutRemoveSet": "Remove last set",
+  "workoutRest": "Rest",
+  "workoutSkipRest": "Skip",
+  "workoutSummaryTitle": "Workout finished",
+  "workoutSummaryDuration": "Duration",
+  "workoutSummarySets": "Sets",
+  "workoutSummaryVolume": "Volume",
+  "workoutSummaryKcal": "Calories (estimate)",
+  "workoutSummaryRecords": "New personal records",
+  "workoutRecordLine": "Estimated 1RM {newValue} kg (before {oldValue} kg)",
+  "@workoutRecordLine": {
+    "placeholders": {
+      "newValue": {
+        "type": "String"
+      },
+      "oldValue": {
+        "type": "String"
+      }
+    }
+  },
+  "todayWorkoutInProgress": "Workout in progress since {time}.",
+  "@todayWorkoutInProgress": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "historyTitle": "Workout history",
+  "historyEmpty": "Finished workouts will appear here.",
+  "historySets": "{count, plural, =1{1 set} other{{count} sets}}",
+  "@historySets": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "setWarmupShort": "W",
+  "recordLine": "Record: 1RM ≈ {oneRepMax} kg ({weight} kg × {reps})",
+  "@recordLine": {
+    "placeholders": {
+      "oneRepMax": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "lastTimeLine": "Last time: {sets}",
+  "@lastTimeLine": {
+    "placeholders": {
+      "sets": {
+        "type": "String"
+      }
+    }
+  },
+  "statsTitle": "Your performance",
+  "statsNoHistory": "You have not done this exercise yet. After the first workout you will see your record and last result here.",
+  "planFillFromLast": "Copy last workout",
+  "planSuggestWeights": "Suggest weights",
+  "planSuggestHint": "Suggestion is about 90 % of your estimated max for the given reps (1–2 reps in reserve). Warm-up is half. It is only a guide.",
+  "planSetsTitle": "Sets",
+  "planAddSet": "Set",
+  "planAddWarmup": "Warm-up",
+  "planToggleWarmup": "Warm-up set",
+  "planRemoveSet": "Remove set",
+  "planSetsInvalid": "Check the values: reps 1–100 (seconds up to 600), weight 0–1000 kg, rest 0–600 s.",
+  "planRemoveExerciseTitle": "Remove exercise from plan?",
+  "unsavedChangesTitle": "Discard changes?",
+  "unsavedChangesMessage": "You have unsaved changes.",
+  "discardChanges": "Discard",
+  "periodsTitle": "Periods",
+  "periodsSubtitle": "Illness, injury, cut, bulk…",
+  "periodsEmpty": "Mark illness, injury, cut or bulk here. The app will take it into account and your charts will show why performance changed.",
+  "periodAdd": "Add period",
+  "periodEdit": "Edit period",
+  "periodStart": "Start",
+  "periodEnd": "End",
+  "periodOngoing": "Still ongoing",
+  "periodNote": "Note (optional)",
+  "periodEndBeforeStart": "The end cannot be before the start.",
+  "periodOngoingSince": "since {date}",
+  "@periodOngoingSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "periodEndToday": "End today",
+  "periodEndIllness": "I'm healthy again",
+  "recoveryTitle": "Back after illness",
+  "undo": "Undo",
+  "planMoreActions": "More",
+  "planPostpone": "Postpone to tomorrow",
+  "planSkipToday": "Skip today",
+  "planPostponedTitle": "Moved to tomorrow",
+  "planSkippedTitle": "Skipped today",
+  "planPostponedLabel": "postponed",
+  "planPostponedToTomorrow": "Moved to tomorrow",
+  "planSkippedLabel": "Skipped today",
+  "planDoneToday": "Done",
+  "encTodayIllness1": "Getting well is the priority now. Rest is part of training too – your muscles will not disappear.",
+  "encTodayIllness2": "Illness is a pause, not a step back. A few days of rest will not erase your progress – it comes back fast.",
+  "encTodayIllness3": "With a fever or chest symptoms it is better to skip training. If you feel fine, light movement is enough.",
+  "encTodayInjury1": "An injury needs patience. Train only what does not hurt and give your body time.",
+  "encTodayInjury2": "You can keep your rhythm even with a limitation. Skip the injured area and focus on the rest.",
+  "encTodayRecovery1": "A few days after illness your performance is usually lower. Feel free to lower the weights – what matters is that you train.",
+  "encTodayRecovery2": "Your body is still getting back together. If you lift less than last time today, that is completely normal.",
+  "encTodayRecovery3": "The best comeback after illness is a gradual one. A few workouts and you will be back in shape.",
+  "encTodayCut1": "Stalling strength is normal during a cut. The goal is to keep it, not to break records.",
+  "encTodayCut2": "Every workout during a cut helps you keep muscle. Stick to the plan and results will come.",
+  "encWorkoutIllness": "You are training while ill. Go lighter and stop if you do not feel well.",
+  "encWorkoutInjury": "Skip exercises that load the injured area and do not overdo it.",
+  "encWorkoutRecovery1": "After illness start lighter – maybe 10–20 % less weight. The main thing is that you are here.",
+  "encWorkoutRecovery2": "Today is not about records. Every set brings you back into shape.",
+  "encWorkoutCut": "During a cut strength may hold or drop slightly. Keeping it is a success.",
+  "encSummaryRecovery1": "Great job! In this period the most important thing is that you trained. Your performance will be back soon.",
+  "encSummaryRecovery2": "Done even in a tough period. This is how you keep your shape.",
+  "encSummaryInjury": "Great job training around your injury. Consistency pays off.",
+  "encSummaryCut": "Solid workout during a cut – exactly how strength is maintained.",
+  "encSkipIllness1": "That is fine. Health comes first – you will catch up once you feel better.",
+  "encSkipIllness2": "Rest will do more for you now than training. You are not losing anything.",
+  "encSkipIllness3": "No stress. Once you are fit again, you will pick up right where you were.",
+  "encSkipRecovery": "That is fine. After illness it is better to build up gradually – you will catch up next time.",
+  "encSkipNormal1": "No worries, one workout does not decide anything. You will catch up next time.",
+  "encSkipNormal2": "All good. Long-term consistency matters, not a single day.",
+  "todayGreeting": "Hi, {name}",
+  "@todayGreeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "profileName": "Name",
+  "profileTrackingSection": "What I track",
+  "profileTrackingHint": "Turned-off features are hidden. Data already recorded is kept.",
+  "profileSettingsSection": "Settings",
+  "moduleWorkouts": "Workouts",
+  "moduleWorkoutsHint": "Plans, logging, records – always on",
+  "moduleWater": "Water intake",
+  "moduleWaterHint": "Daily goal and quick logging",
+  "moduleWeight": "Body weight",
+  "moduleWeightHint": "Weight log and trend",
+  "modulePeriods": "Periods and encouragement",
+  "modulePeriodsHint": "Illness, injury, cut, bulk and supportive messages",
+  "moduleCalories": "Calorie estimate",
+  "moduleCaloriesHint": "Estimated calories burned after a workout",
+  "onboardingTitle": "Welcome!",
+  "onboardingIntro": "Set up what you want to track. The app will show only that.",
+  "onboardingModulesTitle": "What do you want to track?",
+  "onboardingWeight": "Current weight in kg (optional)",
+  "onboardingStart": "Let's go",
+  "onboardingChangeLater": "You can change everything later in Profile.",
+  "calendarEventDescription": "Planned workout – added by the app. Change the plan in the app, the event will update itself.",
+  "chartWeightTitle": "Body weight",
+  "chartLastDays": "Last {days} days",
+  "@chartLastDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "chartWeightEmpty": "Log your weight on at least two days to see the trend.",
+  "chartWeightAverage": "7-day average",
+  "chartWeightDaily": "Daily weigh-ins",
+  "chartStrengthTitle": "Strength",
+  "chartStrengthSubtitle": "Estimated 1RM – the best set of each workout",
+  "chartStrengthEmpty": "Train an exercise at least twice to see your progress.",
+  "chartFrequencyTitle": "Training frequency",
+  "chartFrequencySubtitle": "Workouts per week, last 12 weeks",
+  "chartFrequencyEmpty": "Your first workout will show up here.",
+  "chartFrequencyTooltip": "Week of {week}: {count, plural, =1{1 workout} other{{count} workouts}}",
+  "@chartFrequencyTooltip": {
+    "placeholders": {
+      "week": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chartPeriodsLegend": "Periods:",
+  "notifMorningTitle": "Training day today 💪",
+  "notifMorningBody": "On the plan: {plans}. You've got this!",
+  "@notifMorningBody": {
+    "placeholders": {
+      "plans": {
+        "type": "String"
+      }
+    }
+  },
+  "notifMorningIllness": "On the plan: {plans}. You're marked as ill – rest is training too. Postpone it without guilt.",
+  "@notifMorningIllness": {
+    "placeholders": {
+      "plans": {
+        "type": "String"
+      }
+    }
+  },
+  "notifMorningRecovery": "On the plan: {plans}. Back after a break – go easy, lighter weights are fine.",
+  "@notifMorningRecovery": {
+    "placeholders": {
+      "plans": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPlanAtTime": "{plan} at {time}",
+  "@notifPlanAtTime": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notifRestTitle": "Rest is over",
+  "notifRestBody": "Time for the next set!",
+  "notifWaterTitle": "Time for a glass of water 💧",
+  "notifWaterBody": "Your goal today is {goal} ml.",
+  "@notifWaterBody": {
+    "placeholders": {
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "planBQuick": "5 min at home",
+  "planBIntro": "No time for the gym? A short home routine still counts. Pick one and go.",
+  "planBStart": "Start",
+  "planBExerciseOf": "Exercise {current} of {total}",
+  "@planBExerciseOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "planBRestNext": "Rest",
+  "planBNext": "Next: {exercise}",
+  "@planBNext": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      }
+    }
+  },
+  "planBPause": "Pause",
+  "planBResume": "Resume",
+  "planBQuitTitle": "Quit the routine?",
+  "planBQuit": "Quit",
+  "planBPostponeTitle": "Postpone the full workout?",
+  "planBPostponeMessage": "Do you want to move „{plan}“ to tomorrow, or skip it this time?",
+  "@planBPostponeMessage": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "planBPostponeNo": "Skip",
+  "planBPostponeYes": "Move to tomorrow",
+  "planBDoneTitle": "Done!",
+  "planBDoneMessage": "Five minutes beat zero. Keeping the habit is what counts.",
+  "planBHistoryTitle": "Plan B at home",
+  "profileRemindersSection": "Reminders & calendar",
+  "profileMorningReminderHint": "On training days at {time}",
+  "@profileMorningReminderHint": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "profileMorningReminderTime": "Reminder time",
+  "profileWaterReminders": "Water reminders",
+  "profileWaterRemindersHint": "At 10:00, 13:00, 16:00 and 19:00",
+  "profileCalendarSync": "Add workouts to calendar",
+  "profileCalendarSyncHint": "Planned workouts for the next 14 days",
+  "profileExactAlarms": "Precise timing of notifications",
+  "profileExactAlarmsHint": "Allow in Android settings so the rest timer rings on time",
+  "profileDeleteAll": "Delete all data",
+  "profileDeleteAllTitle": "Delete all data?",
+  "profileDeleteAllMessage": "Workouts, plans, records, water, weight and periods will be deleted from this phone. This cannot be undone.",
+  "profileDeleteAllConfirm": "Delete",
+  "templatesTitle": "Ready-made programs",
+  "templatesButton": "Programs",
+  "templatesEmptyCta": "Pick a ready-made program",
+  "templateAdded": "Added: {program}",
+  "@templateAdded": {
+    "placeholders": {
+      "program": {
+        "type": "String"
+      }
+    }
+  },
+  "waterTrainingBonus": "+{ml} ml today because you trained",
+  "@waterTrainingBonus": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "periodInjuryParts": "Injured body part",
+  "periodInjuryPartsHint": "In charts, the injury shows only for exercises on these parts.",
+  "periodInjuryPartsNone": "No part selected – the injury will show in all charts.",
+  "workoutInjuredPart": "Injured body part – go lighter or skip it.",
+  "calActionCountMeIn": "Count me in",
+  "calActionMove": "Move",
+  "calActionNoTime": "No time today",
+  "calRestOngoingTitle": "Resting",
+  "calRestOngoingBody": "Next set when the countdown ends",
+  "calNotifCollision": "Heads-up: at {time} you have “{event}” – it clashes with {plan}.",
+  "@calNotifCollision": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "event": {
+        "type": "String"
+      },
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "calProfileSection": "Calendar & reminders",
+  "calReadSwitch": "Find free time in my calendar",
+  "calReadHint": "Warns about clashes and suggests workout times. Your events stay on the phone.",
+  "calWaterRemindersHint": "Every {interval} min from {from} to {to}",
+  "@calWaterRemindersHint": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      },
+      "interval": {
+        "type": "int"
+      }
+    }
+  },
+  "calWaterFrom": "Water reminders from",
+  "calWaterTo": "Until",
+  "calWaterInterval": "Remind every",
+  "calMinutes": "{minutes} min",
+  "@calMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "calWaterRangeInvalid": "The end has to be later than the start.",
+  "calSuggestTime": "Suggest a time",
+  "calSuggestTitle": "Free time in your calendar",
+  "calSuggestHint": "Based on the next 7 days. The time applies to all days of the plan.",
+  "calSuggestAllDays": "Works on all days",
+  "calSuggestDayBusy": "No free hour this day",
+  "calSuggestNoDays": "Pick the plan's days first.",
+  "calSuggestNoSlots": "No free time found in the next 7 days.",
+  "calSuggestSaved": "Workout time set to {time}",
+  "@calSuggestSaved": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "calTodayTitle": "Calendar clash",
+  "calTodayCollision": "At {eventTime} you have “{event}”, your workout {plan} is planned for {time}.",
+  "@calTodayCollision": {
+    "placeholders": {
+      "eventTime": {
+        "type": "String"
+      },
+      "event": {
+        "type": "String"
+      },
+      "plan": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "calTodayFreeAt": "You're free today at {time}.",
+  "@calTodayFreeAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "calTodayNoFreeTime": "Today is full – no free hour left.",
+  "calMoveTomorrow": "Move to tomorrow",
+  "calMovedTomorrow": "{plan} moved to tomorrow",
+  "@calMovedTomorrow": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "dataSectionTitle": "Units & data",
+  "dataUnits": "Units",
+  "dataUnitsMetric": "kg, ml",
+  "dataUnitsImperial": "lb, oz",
+  "dataRangeInvalid": "Enter a number between {min} and {max}.",
+  "@dataRangeInvalid": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "dataGlassSize": "Glass size",
+  "dataGlassSizeDialog": "Glass size ({unit})",
+  "@dataGlassSizeDialog": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "dataBottleSize": "Bottle size",
+  "dataBottleSizeDialog": "Bottle size ({unit})",
+  "@dataBottleSizeDialog": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "dataWaterCustom": "Custom",
+  "dataWaterCustomDialog": "How much did you drink? ({unit})",
+  "@dataWaterCustomDialog": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "dataWaterTrainingBonus": "+{amount} today because you trained",
+  "@dataWaterTrainingBonus": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dataWaterGoalDialog": "Daily water goal ({unit})",
+  "@dataWaterGoalDialog": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "dataWeightDialogTitle": "Today's weight ({unit})",
+  "@dataWeightDialogTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "dataOnboardingWeight": "Current weight in {unit} (optional)",
+  "@dataOnboardingWeight": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "dataNotifWaterBody": "Your goal today is {goal}.",
+  "@dataNotifWaterBody": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "dataRecordLine": "Record: 1RM ≈ {oneRepMax} ({weight} × {reps})",
+  "@dataRecordLine": {
+    "placeholders": {
+      "oneRepMax": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "dataRecordChangeLine": "Estimated 1RM {newValue} (before {oldValue})",
+  "@dataRecordChangeLine": {
+    "placeholders": {
+      "newValue": {
+        "type": "String"
+      },
+      "oldValue": {
+        "type": "String"
+      }
+    }
+  },
+  "dataPlanSetsInvalid": "Check the values: reps 1–100 (seconds up to 600), weight 0–{maxWeight}, rest 0–600 s.",
+  "@dataPlanSetsInvalid": {
+    "placeholders": {
+      "maxWeight": {
+        "type": "String"
+      }
+    }
+  },
+  "dataExportCsv": "Export data (CSV)",
+  "dataExportCsvHint": "Workouts, sets, body weight, water and periods as spreadsheets",
+  "dataExportSubject": "Fitness data export",
+  "dataExportFailed": "Export failed. Please try again.",
+  "dataBackup": "Back up all data",
+  "dataBackupHint": "Save one file to Google Drive, iCloud Drive or anywhere you like",
+  "dataBackupSubject": "Fitness app backup",
+  "dataBackupFailed": "Backup failed. Please try again.",
+  "dataRestore": "Restore from backup",
+  "dataRestoreHint": "Replaces everything in the app with the backup",
+  "dataRestoreConfirmTitle": "Restore backup?",
+  "dataRestoreConfirmMessage": "All current data will be replaced by the backup ({count, plural, =1{1 workout} other{{count} workouts}}). This can't be undone.",
+  "@dataRestoreConfirmMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataRestoreConfirm": "Restore",
+  "dataRestoreDone": "Backup restored.",
+  "dataRestoreNotSqlite": "This file isn't a backup (it's not a database file).",
+  "dataRestoreNotBackup": "This file isn't a backup of this app.",
+  "dataRestoreNewer": "This backup comes from a newer version of the app. Update the app first.",
+  "dataRestoreFailed": "Restore failed. Your data hasn't changed.",
+  "dataExerciseAdd": "Exercise",
+  "dataExerciseNewTitle": "New exercise",
+  "dataExerciseEditTitle": "Edit exercise",
+  "dataExerciseEdit": "Edit",
+  "dataExerciseNotEditable": "Only your own exercises can be edited.",
+  "dataExerciseName": "Name",
+  "dataExerciseNameRequired": "Enter a name.",
+  "dataExerciseType": "Type",
+  "dataTypeWeightReps": "Weight × reps",
+  "dataTypeBodyweightReps": "Reps only",
+  "dataTypeDuration": "Hold for time",
+  "dataExerciseInstructions": "How to do it (optional)",
+  "dataExerciseMet": "Intensity (MET)",
+  "dataExerciseMetHint": "Used to estimate calories. 3 = light, 5 = moderate, 8 = hard.",
+  "dataExerciseDeleteTitle": "Delete exercise?",
+  "dataExerciseInUse": "This exercise can't be deleted because it's in your workout history ({count, plural, =1{1 set} other{{count} sets}}).",
+  "@dataExerciseInUse": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataExerciseDeleteInPlans": "It will also be removed from your plans ({count, plural, =1{1 plan item} other{{count} plan items}}).",
+  "@dataExerciseDeleteInPlans": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "healthSectionTitle": "Health",
+  "healthSyncAndroid": "Sync with Health Connect",
+  "healthSyncIos": "Sync with Apple Health",
+  "healthSyncHint": "Saves your workouts and syncs body weight both ways.",
+  "healthSyncHintWorkoutsOnly": "Saves your workouts.",
+  "healthPrivacyNote": "Only workouts and body weight are shared. Illness, injuries, other periods and water never leave your phone.",
+  "healthInstallTitle": "Health Connect needed",
+  "healthInstallMessage": "To sync, install or update the Health Connect app from Google Play, then turn this on again.",
+  "healthInstallAction": "Open Google Play",
+  "healthPermissionDenied": "No access granted, so sync stays off.",
+  "healthUnavailable": "Health data isn't available on this device.",
+  "healthWorkoutTitle": "Strength workout",
+  "healthPlanBTitle": "Quick home workout",
+  "shareAction": "Share",
+  "sharePreviewTitle": "Share",
+  "shareFailed": "Couldn't share. Try again.",
+  "shareWorkoutButton": "Share workout",
+  "shareRecordButton": "Share record",
+  "shareMyRecordButton": "Share my record",
+  "shareMyRecordTitle": "Your record",
+  "shareRecordValue": "{weight} × {reps} · est. 1RM {oneRm}",
+  "@shareRecordValue": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      },
+      "oneRm": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeButton": "Challenge a friend",
+  "shareCardRecordLabel": "Personal record",
+  "shareCardWorkoutLabel": "Workout done",
+  "shareCardOneRepMax": "Est. 1RM {value}",
+  "@shareCardOneRepMax": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "shareCardDuration": "Time",
+  "shareCardSets": "Sets",
+  "shareCardVolume": "Volume",
+  "shareCardRecords": "{count, plural, =1{1 new record} other{{count} new records}}",
+  "@shareCardRecords": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shareCardMoreExercises": "+{count} more",
+  "@shareCardMoreExercises": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shareRecordText": "New personal record! {exercise}: {weight} × {reps} (est. 1RM {oneRm}) 💪 {link}",
+  "@shareRecordText": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      },
+      "oneRm": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "shareWorkoutText": "Workout done: {sets} sets, {volume} lifted in {duration}. 💪 {link}",
+  "@shareWorkoutText": {
+    "placeholders": {
+      "sets": {
+        "type": "int"
+      },
+      "volume": {
+        "type": "String"
+      },
+      "duration": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeText": "I did {weight} × {reps} on {exercise} (est. 1RM {oneRm}). Can you beat me by {deadline}? {link}",
+  "@shareChallengeText": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      },
+      "oneRm": {
+        "type": "String"
+      },
+      "deadline": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeTitle": "Challenge",
+  "shareChallengeFrom": "{name} challenges you!",
+  "@shareChallengeFrom": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeFromAnonymous": "A friend challenges you!",
+  "shareChallengeGoal": "Beat an estimated 1RM of {value}",
+  "@shareChallengeGoal": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeYourBest": "Your best: {value}",
+  "@shareChallengeYourBest": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeNoRecord": "You don't have a record in this exercise yet.",
+  "shareChallengeDeadline": "Until {date}",
+  "@shareChallengeDeadline": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeUnknownExercise": "This exercise isn't in your library, so the challenge can't be tracked.",
+  "shareChallengeInvalid": "This challenge link doesn't work.",
+  "shareChallengeExpiredLink": "This challenge has already ended.",
+  "shareChallengeAlreadyAccepted": "You've already accepted this challenge.",
+  "shareChallengeAlreadyBeaten": "You're already above this – accepting completes it right away.",
+  "shareChallengeAccept": "Accept",
+  "shareChallengeDecline": "Decline",
+  "shareChallengeClose": "Close",
+  "shareChallengeAccepted": "Challenge accepted! You'll find it on Today.",
+  "shareChallengesTitle": "Challenges",
+  "shareKindWorkouts": "Workouts this month",
+  "shareKindWater": "Water this week",
+  "shareUnknownExercise": "Unknown exercise",
+  "shareProgressKg": "{current} / {target}",
+  "@shareProgressKg": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "shareProgressCount": "{current} / {target}",
+  "@shareProgressCount": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "shareProgressMl": "{current} / {target}",
+  "@shareProgressMl": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "shareFrom": "from {name}",
+  "@shareFrom": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "shareDaysLeft": "{count, plural, =0{Ends today} =1{1 day left} other{{count} days left}}",
+  "@shareDaysLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shareStatusCompleted": "Completed 🎉",
+  "shareStatusExpired": "Expired",
+  "shareHide": "Hide",
+  "shareMoreActions": "More",
+  "shareChallengeCompletedTitle": "Challenge completed! 🎉",
+  "shareCompletedRecord": "Challenge completed: {exercise} with est. 1RM {value}! 🎉 {link}",
+  "@shareCompletedRecord": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "shareCompletedRecordFrom": "I beat {name}'s challenge: {exercise} with est. 1RM {value}! 🎉 {link}",
+  "@shareCompletedRecordFrom": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "exercise": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "shareCompletedWorkouts": "Challenge completed: {count, plural, =1{1 workout} other{{count} workouts}} this month! 🎉 {link}",
+  "@shareCompletedWorkouts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "socialTitle": "Friends",
+  "socialSectionTitle": "Friends",
+  "socialFriendsTile": "Friends & challenges",
+  "socialProfileSignedOut": "Sign in to add friends",
+  "socialProfileSignedIn": "Leaderboard, invitations, challenges",
+  "socialUnread": "{count, plural, =1{1 new item} other{{count} new items}}",
+  "@socialUnread": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialNotSetUp": "Friends features aren't set up yet",
+  "socialNotSetUpHint": "The app works normally without them. Setup steps are in docs/social.md.",
+  "socialOffline": "Couldn't reach the server. Check your connection and try again.",
+  "socialRetry": "Try again",
+  "socialSignInTitle": "Train with friends",
+  "socialSignInText": "Invite friends to workouts, compare progress and challenge each other.",
+  "socialPrivacyTitle": "What friends see",
+  "socialPrivacyShared": "Only what you allow: records and workout counts. Your profile is visible only to friends; there's no public leaderboard.",
+  "socialPrivacyNever": "Never shared: periods, illness or injury, body weight, water amounts.",
+  "socialSignInGoogle": "Sign in with Google",
+  "socialSignInApple": "Sign in with Apple",
+  "socialSignInFailed": "Sign-in failed. Try again.",
+  "socialSettings": "Account & sharing",
+  "socialNameHint": "Friends see the name from your profile.",
+  "socialShareRecords": "Share records",
+  "socialShareRecordsHint": "New PRs and relative strength (ratio only)",
+  "socialShareStats": "Share workout stats",
+  "socialShareStatsHint": "Workouts per month, weekly volume, weeks you met your plan",
+  "socialSignOut": "Sign out",
+  "socialDeleteAccount": "Delete friends account",
+  "socialDeleteTitle": "Delete account?",
+  "socialDeleteMessage": "All your data on the server will be deleted: profile, friends, invitations and challenges. Workouts in this phone stay.",
+  "socialDeleteConfirm": "Delete",
+  "socialDeleted": "Account deleted.",
+  "socialDeleteFailed": "Couldn't delete the account. Check your connection and try again.",
+  "socialTabFriends": "Friends",
+  "socialTabLeaderboard": "Leaderboard",
+  "socialTabFeed": "News",
+  "socialAddFriend": "Add a friend",
+  "socialAddFriendHint": "Show your QR code, scan your friend's or send a link.",
+  "socialMyCode": "My QR",
+  "socialMyCodeHint": "Let your friend scan this code.",
+  "socialScan": "Scan QR",
+  "socialScanHint": "Point the camera at your friend's QR code.",
+  "socialCameraError": "Camera isn't available. You can type the code instead.",
+  "socialShareLink": "Send link",
+  "socialEnterCode": "Enter code",
+  "socialCopy": "Copy",
+  "socialCopied": "Copied",
+  "socialShareSubject": "Let's train together",
+  "socialShareText": "Add me as a friend in the gym app: {link}\nOr enter my code: {code}",
+  "@socialShareText": {
+    "placeholders": {
+      "link": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "socialCodeInvalid": "That's not a valid friend code.",
+  "socialCodeNotFound": "No one has this code.",
+  "socialCodeSelf": "That's your own code.",
+  "socialAlreadyFriend": "You're already friends.",
+  "socialAddConfirm": "Add {name} as a friend?",
+  "@socialAddConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialAddConfirmHint": "You'll see each other's shared stats and can send invitations and challenges.",
+  "socialAdd": "Add",
+  "socialFriendAdded": "{name} is now your friend.",
+  "@socialFriendAdded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialNoFriends": "No friends yet. Share your QR code or a link to get started.",
+  "socialStreak": "{count, plural, =1{1 week together} other{{count} weeks together}}",
+  "@socialStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialStreakNone": "No streak yet – meet your plans this week",
+  "socialStreakHidden": "Streak hidden (stats not shared)",
+  "socialInviteWorkout": "Invite to workout",
+  "socialChallengeFriend": "Challenge",
+  "socialRemove": "Remove friend",
+  "socialRemoveTitle": "Remove {name} from friends?",
+  "@socialRemoveTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialBoardWorkouts": "Workouts",
+  "socialBoardVolume": "Volume",
+  "socialBoardStrength": "Strength",
+  "socialBoardWorkoutsHint": "Workouts this month",
+  "socialBoardVolumeHint": "Volume this week (kg × reps)",
+  "socialBoardStrengthHint": "Best estimated 1RM ÷ body weight",
+  "socialBoardEmpty": "No data yet. Friends who don't share stats aren't listed.",
+  "socialBoardYou": "{name} (you)",
+  "@socialBoardYou": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialBoardPrivacy": "Only your friends see this leaderboard.",
+  "socialLiftBench": "Bench",
+  "socialLiftSquat": "Squat",
+  "socialLiftDeadlift": "Deadlift",
+  "socialKgValue": "{value} kg",
+  "@socialKgValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedEmpty": "Nothing new yet.",
+  "socialFeedFriend": "{name} added you as a friend.",
+  "@socialFeedFriend": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedRecord": "{name} set a new {exercise} record: {value}",
+  "@socialFeedRecord": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "exercise": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "socialAcceptChallenge": "Accept challenge",
+  "socialFeedInvite": "{name} invites you to a workout: {plan}, {when}",
+  "@socialFeedInvite": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "plan": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedInviteAccepted": "{name} accepted your invitation: {plan}, {when}",
+  "@socialFeedInviteAccepted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "plan": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedInviteDeclined": "{name} can't make it: {plan}, {when}",
+  "@socialFeedInviteDeclined": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "plan": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedChallenge": "{name} challenges you: {challenge} by {date}",
+  "@socialFeedChallenge": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "challenge": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedTookOn": "{name} accepted your challenge: {challenge}",
+  "@socialFeedTookOn": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "challenge": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedChallengeDone": "{name} completed your challenge!",
+  "@socialFeedChallengeDone": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialAccept": "Accept",
+  "socialDecline": "Decline",
+  "socialStatusAccepted": "Accepted",
+  "socialStatusDeclined": "Declined",
+  "socialStatusCancelled": "No longer available",
+  "socialExpired": "Expired",
+  "socialInviteGone": "This invitation is no longer available.",
+  "socialChallengeGone": "This challenge is no longer available.",
+  "socialChallengeAccepted": "Challenge accepted! You'll find it on Today.",
+  "socialCalendarAdded": "Added to your calendar.",
+  "socialCalendarNotAdded": "Accepted, but couldn't add it to the calendar.",
+  "socialCalendarTitle": "{plan} with {name}",
+  "@socialCalendarTitle": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialCalendarDescription": "Workout with {name}",
+  "@socialCalendarDescription": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialChallengeBeatRecord": "beat {exercise} {value}",
+  "@socialChallengeBeatRecord": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "socialChallengeWorkouts": "{count, plural, =1{1 workout this month} other{{count} workouts this month}}",
+  "@socialChallengeWorkouts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialChallengeWater": "hit your water goal this week",
+  "socialInviteTitle": "Invite {name}",
+  "@socialInviteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialInvitePlan": "Workout plan",
+  "socialInviteDay": "Day",
+  "socialInviteTime": "Time",
+  "socialInviteDuration": "Duration",
+  "socialMinutes": "{count} min",
+  "@socialMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialInviteHint": "When your friend accepts, the workout goes into both your calendars.",
+  "socialInviteNoPlans": "Create a workout plan first.",
+  "socialInviteInPast": "Pick a time in the future.",
+  "socialInviteSent": "Invitation sent to {name}.",
+  "@socialInviteSent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialSend": "Send",
+  "socialChallengeTitle": "Challenge {name}",
+  "@socialChallengeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialKindRecord": "Beat my record",
+  "socialKindRecordHint": "Your friend tries to beat your estimated 1RM by a date.",
+  "socialKindWorkouts": "Workouts this month",
+  "socialKindWorkoutsHint": "Who gets to the target number of workouts by the end of the month?",
+  "socialKindWater": "Weekly water",
+  "socialKindWaterHint": "Each of you hits your own water goal. Only the % is shared.",
+  "socialChallengeExercise": "Exercise",
+  "socialChallengeYourRecord": "Your record: {value}",
+  "@socialChallengeYourRecord": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "socialChallengeDeadline": "Deadline",
+  "socialChallengeUntil": "Until {date}",
+  "@socialChallengeUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "socialNoRecords": "Log a few workouts with weights first.",
+  "socialWaterOff": "Turn on water tracking in your profile first.",
+  "socialChallengePrivacy": "Friends see only the target and your progress, never your body weight or water amounts.",
+  "socialChallengeSent": "Challenge sent to {name}.",
+  "@socialChallengeSent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "statsVolumeTitle": "Volume",
+  "statsVolumeSubtitle": "Kg lifted per week, last {weeks} weeks",
+  "@statsVolumeSubtitle": {
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      }
+    }
+  },
+  "statsVolumeEmpty": "Log sets with weight to see your volume.",
+  "statsVolumeTooltip": "Week of {week}: {kg}",
+  "@statsVolumeTooltip": {
+    "placeholders": {
+      "week": {
+        "type": "String"
+      },
+      "kg": {
+        "type": "String"
+      }
+    }
+  },
+  "statsVolumeByGroup": "By muscle group, last {days} days",
+  "@statsVolumeByGroup": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "statsKg": "{kg}",
+  "@statsKg": {
+    "placeholders": {
+      "kg": {
+        "type": "String"
+      }
+    }
+  },
+  "statsActivityTitle": "Activity",
+  "statsActivitySubtitle": "Workout days, last {weeks} weeks",
+  "@statsActivitySubtitle": {
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      }
+    }
+  },
+  "statsActivityByGroup": "Workouts per muscle group, last {days} days",
+  "@statsActivityByGroup": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "statsActivityByGroupEmpty": "No workouts in this period yet.",
+  "statsTimes": "{count}×",
+  "@statsTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsActivityDay": "{date}: {count, plural, =0{no workout} =1{1 workout} other{{count} workouts}}",
+  "@statsActivityDay": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsActivityLess": "Less",
+  "statsActivityMore": "More",
+  "statsInsightsTitle": "Insights",
+  "statsInsightsEmpty": "Keep training – insights will show up here.",
+  "statsUnknownExercise": "Exercise",
+  "statsInsightWeightDropTitle": "Weight dropping fast",
+  "statsInsightWeightDropBody": "About {percent} % a week over the last 2 weeks. Losing up to ~1 % a week helps you keep your strength.",
+  "@statsInsightWeightDropBody": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightIllnessTitle": "Back after illness",
+  "statsInsightIllnessRecovered": "{exercise}: back to form in {days, plural, =1{1 day} other{{days} days}}",
+  "@statsInsightIllnessRecovered": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInsightIllnessBelow": "{exercise}: still ~{percent} % below your pre-illness best",
+  "@statsInsightIllnessBelow": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightCutOngoing": "Cut so far",
+  "statsInsightCutDone": "Cut summary",
+  "statsInsightWeightChange": "Body weight: {change} (7-day average)",
+  "@statsInsightWeightChange": {
+    "placeholders": {
+      "change": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightStrengthKept": "Strength kept on main lifts: {percent} %",
+  "@statsInsightStrengthKept": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightBulkOngoing": "Bulk so far",
+  "statsInsightBulkDone": "Bulk summary",
+  "statsInsightStrengthChange": "Strength on main lifts: {change} %",
+  "@statsInsightStrengthChange": {
+    "placeholders": {
+      "change": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightRecordsTitle": "{count, plural, =1{1 new record this month} other{{count} new records this month}}",
+  "@statsInsightRecordsTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInsightRecordsBest": "Best: {exercise}, 1RM ~{kg} ({gain} %)",
+  "@statsInsightRecordsBest": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "kg": {
+        "type": "String"
+      },
+      "gain": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightNeglectedTitle": "Forgotten muscle group",
+  "statsInsightNeglectedBody": "{group}: not trained for {days, plural, =1{1 day} other{{days} days}}",
+  "@statsInsightNeglectedBody": {
+    "placeholders": {
+      "group": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInsightConsistencyTitle": "Consistency",
+  "statsInsightConsistencyPlanned": "{average} workouts a week over the last 4 weeks (plan: {planned})",
+  "@statsInsightConsistencyPlanned": {
+    "placeholders": {
+      "average": {
+        "type": "String"
+      },
+      "planned": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInsightConsistencyNoPlan": "{average} workouts a week over the last 4 weeks",
+  "@statsInsightConsistencyNoPlan": {
+    "placeholders": {
+      "average": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightConsistencyOnTrack": "You're sticking to your plan. Nice!",
+  "statsInsightConsistencyBehind": "A bit below plan – every workout counts.",
+  "statsStreakWeeks": "{count, plural, =1{1 week in a row} other{{count} weeks in a row}}",
+  "@statsStreakWeeks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsStreakStart": "Start your streak this week",
+  "statsStreakThisWeek": "This week: {done} of {goal}",
+  "@statsStreakThisWeek": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "statsStreakHint": "A 5-minute home routine counts too.",
+  "statsTodayWeightDropTitle": "Easy does it",
+  "statsTodayWeightDropBody": "Your weight is dropping by about {percent} % a week. Try eating a bit more so you keep your energy and strength.",
+  "@statsTodayWeightDropBody": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "statsRecordsTitle": "Personal records",
+  "statsRecordsEmpty": "No records yet – log a set with weight.",
+  "statsRecordsEmptyShort": "Your best lifts will show up here",
+  "statsRecordsCount": "{count, plural, =1{1 exercise} other{{count} exercises}}",
+  "@statsRecordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsE1rmLabel": "est. 1RM",
+  "statsSetWeightReps": "{weight} × {reps}",
+  "@statsSetWeightReps": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "statsSetWeightRepsShort": "{weight} × {reps}",
+  "@statsSetWeightRepsShort": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "statsSetReps": "{reps, plural, =1{1 rep} other{{reps} reps}}",
+  "@statsSetReps": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "statsExerciseTitle": "Your progress",
+  "statsExerciseChartSubtitle": "Estimated 1RM – the best set of each workout",
+  "statsExerciseRecent": "Last workouts",
+  "widgetTitle": "Today",
+  "widgetWaterProgress": "💧 {current} / {goal}",
+  "@widgetWaterProgress": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetRestDay": "Rest day",
+  "widgetWorkoutDone": "Workout done ✓",
+  "widgetWorkoutInProgress": "Workout in progress",
+  "widgetWorkoutPlanned": "{name} · {time}",
+  "@widgetWorkoutPlanned": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetAddGlass": "+{ml}",
+  "@widgetAddGlass": {
+    "placeholders": {
+      "ml": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetAddGlassDescription": "Add a glass of water ({ml})",
+  "@widgetAddGlassDescription": {
+    "placeholders": {
+      "ml": {
+        "type": "String"
+      }
+    }
+  },
+  "permissionDenied": "Permission denied. You can allow it in your phone settings.",
+  "mediaAttribution": "Image: {author}, {license} · wger.de",
+  "mediaShowExercise": "Show how to do the exercise",
+  "aboutImageCredits": "Exercise images come from the open wger.de project and are licensed by their authors (mostly CC BY-SA). Author and license are shown under each image.",
+  "@mediaAttribution": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      },
+      "license": {
+        "type": "String"
+      }
+    }
+  }
+}

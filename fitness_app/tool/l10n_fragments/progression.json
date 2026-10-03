@@ -1,0 +1,697 @@
+{
+  "progressionSummaryTitle": {
+    "en": "Next time",
+    "cs": "Příště",
+    "de": "Nächstes Mal",
+    "es": "La próxima vez",
+    "fr": "La prochaine fois",
+    "pl": "Następnym razem",
+    "pt": "Da próxima vez",
+    "it": "La prossima volta",
+    "sk": "Nabudúce",
+    "nl": "Volgende keer"
+  },
+  "progressionIncreaseLine": {
+    "en": "{from} → {to} × {reps}",
+    "cs": "{from} → {to} × {reps}",
+    "de": "{from} → {to} × {reps}",
+    "es": "{from} → {to} × {reps}",
+    "fr": "{from} → {to} × {reps}",
+    "pl": "{from} → {to} × {reps}",
+    "pt": "{from} → {to} × {reps}",
+    "it": "{from} → {to} × {reps}",
+    "sk": "{from} → {to} × {reps}",
+    "nl": "{from} → {to} × {reps}",
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionRepsLine": {
+    "en": "+1 rep (target {reps})",
+    "cs": "+1 opakování (cíl {reps})",
+    "de": "+1 Wiederholung (Ziel {reps})",
+    "es": "+1 repetición (objetivo {reps})",
+    "fr": "+1 répétition (objectif {reps})",
+    "pl": "+1 powtórzenie (cel {reps})",
+    "pt": "+1 repetição (meta {reps})",
+    "it": "+1 ripetizione (obiettivo {reps})",
+    "sk": "+1 opakovanie (cieľ {reps})",
+    "nl": "+1 herhaling (doel {reps})",
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionSecondsLine": {
+    "en": "+{seconds} s (target {target} s)",
+    "cs": "+{seconds} s (cíl {target} s)",
+    "de": "+{seconds} s (Ziel {target} s)",
+    "es": "+{seconds} s (objetivo {target} s)",
+    "fr": "+{seconds} s (objectif {target} s)",
+    "pl": "+{seconds} s (cel {target} s)",
+    "pt": "+{seconds} s (meta {target} s)",
+    "it": "+{seconds} s (obiettivo {target} s)",
+    "sk": "+{seconds} s (cieľ {target} s)",
+    "nl": "+{seconds} s (doel {target} s)",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionDeloadLine": {
+    "en": "Deload to {weight} × {reps}",
+    "cs": "Odlehčení na {weight} × {reps}",
+    "de": "Entlastung auf {weight} × {reps}",
+    "es": "Descarga a {weight} × {reps}",
+    "fr": "Allègement à {weight} × {reps}",
+    "pl": "Odciążenie do {weight} × {reps}",
+    "pt": "Alívio para {weight} × {reps}",
+    "it": "Scarico a {weight} × {reps}",
+    "sk": "Odľahčenie na {weight} × {reps}",
+    "nl": "Ontlasten naar {weight} × {reps}",
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionHoldIllness": {
+    "en": "Stays the same – get well first.",
+    "cs": "Zůstává stejné – nejdřív se uzdrav.",
+    "de": "Bleibt gleich – werd erst mal gesund.",
+    "es": "Se queda igual – primero recupérate.",
+    "fr": "Ne change pas – guéris d’abord.",
+    "pl": "Bez zmian – najpierw wyzdrowiej.",
+    "pt": "Fica igual – primeiro recupera-te.",
+    "it": "Resta uguale – prima guarisci.",
+    "sk": "Zostáva rovnaké – najprv sa uzdrav.",
+    "nl": "Blijft gelijk – word eerst beter."
+  },
+  "progressionHoldRecovery": {
+    "en": "Stays the same – you’re still recovering after being sick.",
+    "cs": "Zůstává stejné – ještě se zotavuješ po nemoci.",
+    "de": "Bleibt gleich – du erholst dich noch von der Krankheit.",
+    "es": "Se queda igual – todavía te estás recuperando de la enfermedad.",
+    "fr": "Ne change pas – tu récupères encore après ta maladie.",
+    "pl": "Bez zmian – wciąż dochodzisz do siebie po chorobie.",
+    "pt": "Fica igual – ainda estás a recuperar da doença.",
+    "it": "Resta uguale – ti stai ancora riprendendo dalla malattia.",
+    "sk": "Zostáva rovnaké – ešte sa zotavuješ po chorobe.",
+    "nl": "Blijft gelijk – je bent nog aan het herstellen van je ziekte."
+  },
+  "progressionHoldInjury": {
+    "en": "Stays the same – this muscle group is injured.",
+    "cs": "Zůstává stejné – tahle partie je zraněná.",
+    "de": "Bleibt gleich – diese Muskelgruppe ist verletzt.",
+    "es": "Se queda igual – este grupo muscular está lesionado.",
+    "fr": "Ne change pas – ce groupe musculaire est blessé.",
+    "pl": "Bez zmian – ta partia mięśni jest kontuzjowana.",
+    "pt": "Fica igual – este grupo muscular está lesionado.",
+    "it": "Resta uguale – questo gruppo muscolare è infortunato.",
+    "sk": "Zostáva rovnaké – táto partia je zranená.",
+    "nl": "Blijft gelijk – deze spiergroep is geblesseerd."
+  },
+  "progressionHoldCut": {
+    "en": "Stays the same – no increases while you’re cutting.",
+    "cs": "Zůstává stejné – v dietě se nepřidává.",
+    "de": "Bleibt gleich – in der Diät wird nicht gesteigert.",
+    "es": "Se queda igual – durante la dieta no se sube.",
+    "fr": "Ne change pas – pas d’augmentation pendant la sèche.",
+    "pl": "Bez zmian – na redukcji nie zwiększamy.",
+    "pt": "Fica igual – durante a dieta não se aumenta.",
+    "it": "Resta uguale – durante la dieta non si aumenta.",
+    "sk": "Zostáva rovnaké – počas diéty sa nepridáva.",
+    "nl": "Blijft gelijk – tijdens het droogtrainen wordt er niet verhoogd."
+  },
+  "progressionApplyAll": {
+    "en": "Apply all",
+    "cs": "Použít vše",
+    "de": "Alle übernehmen",
+    "es": "Aplicar todo",
+    "fr": "Tout appliquer",
+    "pl": "Zastosuj wszystko",
+    "pt": "Aplicar tudo",
+    "it": "Applica tutto",
+    "sk": "Použiť všetko",
+    "nl": "Alles toepassen"
+  },
+  "progressionApplySelected": {
+    "en": "Apply selected ({count})",
+    "cs": "Použít vybrané ({count})",
+    "de": "Auswahl übernehmen ({count})",
+    "es": "Aplicar seleccionados ({count})",
+    "fr": "Appliquer la sélection ({count})",
+    "pl": "Zastosuj wybrane ({count})",
+    "pt": "Aplicar selecionados ({count})",
+    "it": "Applica selezionati ({count})",
+    "sk": "Použiť vybrané ({count})",
+    "nl": "Selectie toepassen ({count})",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionKeepCurrent": {
+    "en": "Keep current",
+    "cs": "Ponechat",
+    "de": "Beibehalten",
+    "es": "Mantener",
+    "fr": "Garder tel quel",
+    "pl": "Zostaw obecne",
+    "pt": "Manter atual",
+    "it": "Mantieni attuale",
+    "sk": "Ponechať",
+    "nl": "Huidige houden"
+  },
+  "progressionApply": {
+    "en": "Apply",
+    "cs": "Použít",
+    "de": "Übernehmen",
+    "es": "Aplicar",
+    "fr": "Appliquer",
+    "pl": "Zastosuj",
+    "pt": "Aplicar",
+    "it": "Applica",
+    "sk": "Použiť",
+    "nl": "Toepassen"
+  },
+  "progressionApplied": {
+    "en": "Plan updated.",
+    "cs": "Plán je upravený.",
+    "de": "Plan aktualisiert.",
+    "es": "Plan actualizado.",
+    "fr": "Programme mis à jour.",
+    "pl": "Plan zaktualizowany.",
+    "pt": "Plano atualizado.",
+    "it": "Piano aggiornato.",
+    "sk": "Plán je upravený.",
+    "nl": "Schema bijgewerkt."
+  },
+  "progressionAutoApplied": {
+    "en": "Plan updated automatically.",
+    "cs": "Plán se upravil automaticky.",
+    "de": "Plan automatisch aktualisiert.",
+    "es": "Plan actualizado automáticamente.",
+    "fr": "Programme mis à jour automatiquement.",
+    "pl": "Plan zaktualizowany automatycznie.",
+    "pt": "Plano atualizado automaticamente.",
+    "it": "Piano aggiornato automaticamente.",
+    "sk": "Plán sa upravil automaticky.",
+    "nl": "Schema automatisch bijgewerkt."
+  },
+  "progressionUndone": {
+    "en": "Changes undone.",
+    "cs": "Změny jsou vrácené.",
+    "de": "Änderungen rückgängig gemacht.",
+    "es": "Cambios deshechos.",
+    "fr": "Modifications annulées.",
+    "pl": "Zmiany cofnięte.",
+    "pt": "Alterações desfeitas.",
+    "it": "Modifiche annullate.",
+    "sk": "Zmeny sú vrátené.",
+    "nl": "Wijzigingen ongedaan gemaakt."
+  },
+  "progressionKept": {
+    "en": "Plan stays as it was.",
+    "cs": "Plán zůstává, jak byl.",
+    "de": "Der Plan bleibt, wie er war.",
+    "es": "El plan se queda como estaba.",
+    "fr": "Le programme reste tel quel.",
+    "pl": "Plan zostaje bez zmian.",
+    "pt": "O plano fica como estava.",
+    "it": "Il piano resta com’era.",
+    "sk": "Plán zostáva, ako bol.",
+    "nl": "Het schema blijft zoals het was."
+  },
+  "progressionStale": {
+    "en": "The plan changed in the meantime, so the proposal was dropped.",
+    "cs": "Plán se mezitím změnil, návrh jsem proto zahodil.",
+    "de": "Der Plan hat sich inzwischen geändert, deshalb wurde der Vorschlag verworfen.",
+    "es": "El plan ha cambiado mientras tanto, así que se ha descartado la propuesta.",
+    "fr": "Le programme a changé entre-temps, la proposition a donc été abandonnée.",
+    "pl": "Plan w międzyczasie się zmienił, więc propozycja została odrzucona.",
+    "pt": "O plano mudou entretanto, por isso a proposta foi descartada.",
+    "it": "Nel frattempo il piano è cambiato, quindi la proposta è stata scartata.",
+    "sk": "Plán sa medzitým zmenil, návrh som preto zahodil.",
+    "nl": "Het schema is intussen gewijzigd, daarom is het voorstel vervallen."
+  },
+  "progressionStrictIncrease1": {
+    "en": "Heavier weight. You asked for it, now you’ve got it.",
+    "cs": "Těžší váha. Chtěl jsi to, tak to máš.",
+    "de": "Mehr Gewicht. Du wolltest es so, jetzt hast du es.",
+    "es": "Más peso. Tú lo pediste, ahí lo tienes.",
+    "fr": "Plus lourd. Tu l’as voulu, tu l’as.",
+    "pl": "Większy ciężar. Sam tego chciałeś, to masz.",
+    "pt": "Mais peso. Pediste, agora aguenta.",
+    "it": "Più peso. L’hai voluto tu, eccolo.",
+    "sk": "Ťažšia váha. Chcel si to, tak to máš.",
+    "nl": "Zwaarder gewicht. Je vroeg erom, nu heb je het."
+  },
+  "progressionStrictIncrease2": {
+    "en": "That was too easy. Fixed it.",
+    "cs": "Bylo to moc lehké. Už jsem to opravil.",
+    "de": "Das war zu leicht. Hab ich korrigiert.",
+    "es": "Eso fue demasiado fácil. Ya lo he arreglado.",
+    "fr": "C’était trop facile. J’ai corrigé ça.",
+    "pl": "To było za łatwe. Już poprawiłem.",
+    "pt": "Isso foi fácil demais. Já corrigi.",
+    "it": "Era troppo facile. Ho rimediato.",
+    "sk": "Bolo to príliš ľahké. Už som to opravil.",
+    "nl": "Dat was te makkelijk. Opgelost."
+  },
+  "progressionStrictIncrease3": {
+    "en": "The bar just got heavier. No complaining – you earned it.",
+    "cs": "Činka právě ztěžkla. Nestěžuj si – zasloužil sis to.",
+    "de": "Die Stange ist gerade schwerer geworden. Nicht jammern – du hast es dir verdient.",
+    "es": "La barra acaba de pesar más. Nada de quejas: te lo has ganado.",
+    "fr": "La barre vient de s’alourdir. Pas de plaintes : tu l’as mérité.",
+    "pl": "Sztanga właśnie przytyła. Bez marudzenia – zasłużyłeś.",
+    "pt": "A barra acabou de ficar mais pesada. Nada de queixas – mereceste.",
+    "it": "Il bilanciere è appena diventato più pesante. Niente lamentele: te lo sei meritato.",
+    "sk": "Činka práve oťažela. Nesťažuj sa – zaslúžil si si to.",
+    "nl": "De stang is net zwaarder geworden. Niet klagen – je hebt het verdiend."
+  },
+  "progressionFriendlyIncrease1": {
+    "en": "Nice work – you’ve earned a heavier weight!",
+    "cs": "Skvělá práce – zasloužíš si těžší váhu!",
+    "de": "Starke Arbeit – du hast dir mehr Gewicht verdient!",
+    "es": "¡Buen trabajo! Te has ganado más peso.",
+    "fr": "Beau travail – tu as mérité une charge plus lourde !",
+    "pl": "Świetna robota – zasłużyłeś na większy ciężar!",
+    "pt": "Bom trabalho – mereceste mais peso!",
+    "it": "Ottimo lavoro: ti sei guadagnato un peso maggiore!",
+    "sk": "Skvelá práca – zaslúžiš si ťažšiu váhu!",
+    "nl": "Goed gedaan – je hebt een zwaarder gewicht verdiend!"
+  },
+  "progressionFriendlyIncrease2": {
+    "en": "You’re getting stronger. A little more next time.",
+    "cs": "Sílíš. Příště o kousek víc.",
+    "de": "Du wirst stärker. Nächstes Mal ein bisschen mehr.",
+    "es": "Te estás haciendo más fuerte. La próxima vez, un poco más.",
+    "fr": "Tu deviens plus fort. Un peu plus la prochaine fois.",
+    "pl": "Stajesz się silniejszy. Następnym razem trochę więcej.",
+    "pt": "Estás a ficar mais forte. Da próxima vez, um pouco mais.",
+    "it": "Stai diventando più forte. La prossima volta un po’ di più.",
+    "sk": "Silnieš. Nabudúce o kúsok viac.",
+    "nl": "Je wordt sterker. Volgende keer een beetje meer."
+  },
+  "progressionFriendlyIncrease3": {
+    "en": "Great progress! Your plan grows with you.",
+    "cs": "Pěkný pokrok! Plán roste s tebou.",
+    "de": "Toller Fortschritt! Dein Plan wächst mit dir.",
+    "es": "¡Gran progreso! Tu plan crece contigo.",
+    "fr": "Super progrès ! Ton programme évolue avec toi.",
+    "pl": "Świetny postęp! Twój plan rośnie razem z tobą.",
+    "pt": "Ótimo progresso! O teu plano cresce contigo.",
+    "it": "Ottimi progressi! Il tuo piano cresce con te.",
+    "sk": "Pekný pokrok! Plán rastie s tebou.",
+    "nl": "Mooie vooruitgang! Je schema groeit met je mee."
+  },
+  "progressionBadgeIncrease": {
+    "en": "↑ +{amount} next time",
+    "cs": "↑ +{amount} příště",
+    "de": "↑ +{amount} nächstes Mal",
+    "es": "↑ +{amount} la próxima vez",
+    "fr": "↑ +{amount} la prochaine fois",
+    "pl": "↑ +{amount} następnym razem",
+    "pt": "↑ +{amount} da próxima vez",
+    "it": "↑ +{amount} la prossima volta",
+    "sk": "↑ +{amount} nabudúce",
+    "nl": "↑ +{amount} volgende keer",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "progressionBadgeReps": {
+    "en": "↑ +1 rep next time",
+    "cs": "↑ +1 opakování příště",
+    "de": "↑ +1 Wiederholung nächstes Mal",
+    "es": "↑ +1 repetición la próxima vez",
+    "fr": "↑ +1 répétition la prochaine fois",
+    "pl": "↑ +1 powtórzenie następnym razem",
+    "pt": "↑ +1 repetição da próxima vez",
+    "it": "↑ +1 ripetizione la prossima volta",
+    "sk": "↑ +1 opakovanie nabudúce",
+    "nl": "↑ +1 herhaling volgende keer"
+  },
+  "progressionBadgeSeconds": {
+    "en": "↑ +{seconds} s next time",
+    "cs": "↑ +{seconds} s příště",
+    "de": "↑ +{seconds} s nächstes Mal",
+    "es": "↑ +{seconds} s la próxima vez",
+    "fr": "↑ +{seconds} s la prochaine fois",
+    "pl": "↑ +{seconds} s następnym razem",
+    "pt": "↑ +{seconds} s da próxima vez",
+    "it": "↑ +{seconds} s la prossima volta",
+    "sk": "↑ +{seconds} s nabudúce",
+    "nl": "↑ +{seconds} s volgende keer",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionBadgeDeload": {
+    "en": "↓ {weight} next time",
+    "cs": "↓ {weight} příště",
+    "de": "↓ {weight} nächstes Mal",
+    "es": "↓ {weight} la próxima vez",
+    "fr": "↓ {weight} la prochaine fois",
+    "pl": "↓ {weight} następnym razem",
+    "pt": "↓ {weight} da próxima vez",
+    "it": "↓ {weight} la prossima volta",
+    "sk": "↓ {weight} nabudúce",
+    "nl": "↓ {weight} volgende keer",
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "progressionPendingTitle": {
+    "en": "Proposed change",
+    "cs": "Navržená změna",
+    "de": "Vorgeschlagene Änderung",
+    "es": "Cambio propuesto",
+    "fr": "Modification proposée",
+    "pl": "Proponowana zmiana",
+    "pt": "Alteração proposta",
+    "it": "Modifica proposta",
+    "sk": "Navrhnutá zmena",
+    "nl": "Voorgestelde wijziging"
+  },
+  "progressionSectionTitle": {
+    "en": "Automatic progression",
+    "cs": "Automatická progrese",
+    "de": "Automatische Progression",
+    "es": "Progresión automática",
+    "fr": "Progression automatique",
+    "pl": "Automatyczna progresja",
+    "pt": "Progressão automática",
+    "it": "Progressione automatica",
+    "sk": "Automatická progresia",
+    "nl": "Automatische progressie"
+  },
+  "progressionAutoSwitch": {
+    "en": "Progress automatically",
+    "cs": "Progresovat automaticky",
+    "de": "Automatisch steigern",
+    "es": "Progresar automáticamente",
+    "fr": "Progresser automatiquement",
+    "pl": "Zwiększaj automatycznie",
+    "pt": "Progredir automaticamente",
+    "it": "Progredisci automaticamente",
+    "sk": "Progresovať automaticky",
+    "nl": "Automatisch opbouwen"
+  },
+  "progressionAutoSwitchHint": {
+    "en": "After a workout, the app proposes new targets for next time.",
+    "cs": "Po tréninku ti aplikace navrhne nové cíle na příště.",
+    "de": "Nach dem Training schlägt dir die App neue Ziele für das nächste Mal vor.",
+    "es": "Después del entrenamiento, la app te propone nuevos objetivos para la próxima vez.",
+    "fr": "Après la séance, l’application te propose de nouveaux objectifs pour la prochaine fois.",
+    "pl": "Po treningu aplikacja zaproponuje ci nowe cele na następny raz.",
+    "pt": "Depois do treino, a aplicação propõe-te novas metas para a próxima vez.",
+    "it": "Dopo l’allenamento, l’app ti propone nuovi obiettivi per la prossima volta.",
+    "sk": "Po tréningu ti aplikácia navrhne nové ciele na nabudúce.",
+    "nl": "Na de training stelt de app nieuwe doelen voor de volgende keer voor."
+  },
+  "progressionRepRange": {
+    "en": "Rep range",
+    "cs": "Rozsah opakování",
+    "de": "Wiederholungsbereich",
+    "es": "Rango de repeticiones",
+    "fr": "Plage de répétitions",
+    "pl": "Zakres powtórzeń",
+    "pt": "Intervalo de repetições",
+    "it": "Intervallo di ripetizioni",
+    "sk": "Rozsah opakovaní",
+    "nl": "Herhalingsbereik"
+  },
+  "progressionRepRangeMin": {
+    "en": "From",
+    "cs": "Od",
+    "de": "Von",
+    "es": "Desde",
+    "fr": "De",
+    "pl": "Od",
+    "pt": "De",
+    "it": "Da",
+    "sk": "Od",
+    "nl": "Van"
+  },
+  "progressionRepRangeMax": {
+    "en": "To",
+    "cs": "Do",
+    "de": "Bis",
+    "es": "Hasta",
+    "fr": "À",
+    "pl": "Do",
+    "pt": "Até",
+    "it": "A",
+    "sk": "Do",
+    "nl": "Tot"
+  },
+  "progressionRepRangeHint": {
+    "en": "Leave empty for automatic: {min}–{max}. Hit the top in all sets and the weight goes up.",
+    "cs": "Prázdné = automaticky {min}–{max}. Když dáš horní hranici ve všech sériích, přidá se váha.",
+    "de": "Leer lassen für automatisch: {min}–{max}. Schaffst du in allen Sätzen die Obergrenze, steigt das Gewicht.",
+    "es": "Déjalo vacío para automático: {min}–{max}. Si llegas al máximo en todas las series, sube el peso.",
+    "fr": "Laisse vide pour automatique : {min}–{max}. Atteins le haut de la plage dans toutes les séries et la charge augmente.",
+    "pl": "Zostaw puste dla automatycznego: {min}–{max}. Gdy dojdziesz do górnej granicy we wszystkich seriach, ciężar wzrośnie.",
+    "pt": "Deixa vazio para automático: {min}–{max}. Chega ao máximo em todas as séries e o peso sobe.",
+    "it": "Lascia vuoto per automatico: {min}–{max}. Raggiungi il massimo in tutte le serie e il peso aumenta.",
+    "sk": "Prázdne = automaticky {min}–{max}. Keď dáš hornú hranicu vo všetkých sériách, pridá sa váha.",
+    "nl": "Laat leeg voor automatisch: {min}–{max}. Haal je in alle sets de bovengrens, dan gaat het gewicht omhoog.",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionIncrementTitle": {
+    "en": "Weight increase",
+    "cs": "Přírůstek váhy",
+    "de": "Gewichtssteigerung",
+    "es": "Aumento de peso",
+    "fr": "Augmentation de charge",
+    "pl": "Przyrost ciężaru",
+    "pt": "Aumento de peso",
+    "it": "Aumento del peso",
+    "sk": "Prírastok váhy",
+    "nl": "Gewichtsverhoging"
+  },
+  "progressionIncrementAuto": {
+    "en": "Automatic ({value})",
+    "cs": "Automaticky ({value})",
+    "de": "Automatisch ({value})",
+    "es": "Automático ({value})",
+    "fr": "Automatique ({value})",
+    "pl": "Automatycznie ({value})",
+    "pt": "Automático ({value})",
+    "it": "Automatico ({value})",
+    "sk": "Automaticky ({value})",
+    "nl": "Automatisch ({value})",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "progressionIncrementCustom": {
+    "en": "Custom",
+    "cs": "Vlastní",
+    "de": "Eigener Wert",
+    "es": "Personalizado",
+    "fr": "Personnalisé",
+    "pl": "Własny",
+    "pt": "Personalizado",
+    "it": "Personalizzato",
+    "sk": "Vlastný",
+    "nl": "Eigen waarde"
+  },
+  "progressionIncrementLabel": {
+    "en": "Increase in {unit}",
+    "cs": "Přírůstek v {unit}",
+    "de": "Steigerung in {unit}",
+    "es": "Aumento en {unit}",
+    "fr": "Augmentation en {unit}",
+    "pl": "Przyrost w {unit}",
+    "pt": "Aumento em {unit}",
+    "it": "Aumento in {unit}",
+    "sk": "Prírastok v {unit}",
+    "nl": "Verhoging in {unit}",
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "progressionInvalid": {
+    "en": "Check the rep range (1–100, “From” not above “To”) and the weight increase.",
+    "cs": "Zkontroluj rozsah opakování (1–100, „Od“ nesmí být víc než „Do“) a přírůstek váhy.",
+    "de": "Prüf den Wiederholungsbereich (1–100, „Von“ nicht über „Bis“) und die Gewichtssteigerung.",
+    "es": "Revisa el rango de repeticiones (1–100, «Desde» no mayor que «Hasta») y el aumento de peso.",
+    "fr": "Vérifie la plage de répétitions (1–100, « De » pas au-dessus de « À ») et l’augmentation de charge.",
+    "pl": "Sprawdź zakres powtórzeń (1–100, „Od” nie większe niż „Do”) i przyrost ciężaru.",
+    "pt": "Verifica o intervalo de repetições (1–100, «De» não acima de «Até») e o aumento de peso.",
+    "it": "Controlla l’intervallo di ripetizioni (1–100, «Da» non oltre «A») e l’aumento del peso.",
+    "sk": "Skontroluj rozsah opakovaní (1–100, „Od“ nesmie byť viac ako „Do“) a prírastok váhy.",
+    "nl": "Controleer het herhalingsbereik (1–100, ‘Van’ niet boven ‘Tot’) en de gewichtsverhoging."
+  },
+  "progressionBodyweightHint": {
+    "en": "Once you finish all sets, the target goes up by 1 rep.",
+    "cs": "Když dáš všechny série, cíl se zvýší o 1 opakování.",
+    "de": "Schaffst du alle Sätze, steigt das Ziel um 1 Wiederholung.",
+    "es": "Cuando completes todas las series, el objetivo sube 1 repetición.",
+    "fr": "Quand tu réussis toutes les séries, l’objectif augmente d’une répétition.",
+    "pl": "Gdy zrobisz wszystkie serie, cel wzrośnie o 1 powtórzenie.",
+    "pt": "Quando completares todas as séries, a meta sobe 1 repetição.",
+    "it": "Quando completi tutte le serie, l’obiettivo sale di 1 ripetizione.",
+    "sk": "Keď dáš všetky série, cieľ sa zvýši o 1 opakovanie.",
+    "nl": "Haal je alle sets, dan gaat het doel 1 herhaling omhoog."
+  },
+  "progressionDurationHint": {
+    "en": "Once you hold all sets, the target goes up by {seconds} s.",
+    "cs": "Když vydržíš ve všech sériích, cíl se zvýší o {seconds} s.",
+    "de": "Hältst du alle Sätze durch, steigt das Ziel um {seconds} s.",
+    "es": "Cuando aguantes todas las series, el objetivo sube {seconds} s.",
+    "fr": "Quand tu tiens toutes les séries, l’objectif augmente de {seconds} s.",
+    "pl": "Gdy wytrzymasz wszystkie serie, cel wzrośnie o {seconds} s.",
+    "pt": "Quando aguentares todas as séries, a meta sobe {seconds} s.",
+    "it": "Quando resisti in tutte le serie, l’obiettivo sale di {seconds} s.",
+    "sk": "Keď vydržíš vo všetkých sériách, cieľ sa zvýši o {seconds} s.",
+    "nl": "Hou je alle sets vol, dan gaat het doel {seconds} s omhoog.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionLastChange": {
+    "en": "Last change: {change} ({date})",
+    "cs": "Poslední změna: {change} ({date})",
+    "de": "Letzte Änderung: {change} ({date})",
+    "es": "Último cambio: {change} ({date})",
+    "fr": "Dernière modification : {change} ({date})",
+    "pl": "Ostatnia zmiana: {change} ({date})",
+    "pt": "Última alteração: {change} ({date})",
+    "it": "Ultima modifica: {change} ({date})",
+    "sk": "Posledná zmena: {change} ({date})",
+    "nl": "Laatste wijziging: {change} ({date})",
+    "placeholders": {
+      "change": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "progressionNoChanges": {
+    "en": "No automatic changes yet.",
+    "cs": "Zatím žádné automatické změny.",
+    "de": "Noch keine automatischen Änderungen.",
+    "es": "Todavía no hay cambios automáticos.",
+    "fr": "Pas encore de modification automatique.",
+    "pl": "Jeszcze brak automatycznych zmian.",
+    "pt": "Ainda não há alterações automáticas.",
+    "it": "Ancora nessuna modifica automatica.",
+    "sk": "Zatiaľ žiadne automatické zmeny.",
+    "nl": "Nog geen automatische wijzigingen."
+  },
+  "progressionModeOff": {
+    "en": "Off",
+    "cs": "Vypnuto",
+    "de": "Aus",
+    "es": "Desactivada",
+    "fr": "Désactivée",
+    "pl": "Wyłączona",
+    "pt": "Desligada",
+    "it": "Disattivata",
+    "sk": "Vypnuté",
+    "nl": "Uit"
+  },
+  "progressionModeSuggest": {
+    "en": "Suggest",
+    "cs": "Navrhovat",
+    "de": "Vorschlagen",
+    "es": "Sugerir",
+    "fr": "Proposer",
+    "pl": "Proponuj",
+    "pt": "Sugerir",
+    "it": "Suggerisci",
+    "sk": "Navrhovať",
+    "nl": "Voorstellen"
+  },
+  "progressionModeAuto": {
+    "en": "Apply automatically",
+    "cs": "Použít automaticky",
+    "de": "Automatisch übernehmen",
+    "es": "Aplicar automáticamente",
+    "fr": "Appliquer automatiquement",
+    "pl": "Stosuj automatycznie",
+    "pt": "Aplicar automaticamente",
+    "it": "Applica automaticamente",
+    "sk": "Použiť automaticky",
+    "nl": "Automatisch toepassen"
+  },
+  "progressionModeOffHint": {
+    "en": "Targets in your plans change only when you edit them.",
+    "cs": "Cíle v plánech se mění jen tvou úpravou.",
+    "de": "Die Ziele in deinen Plänen ändern sich nur, wenn du sie bearbeitest.",
+    "es": "Los objetivos de tus planes solo cambian cuando los editas.",
+    "fr": "Les objectifs de tes programmes ne changent que si tu les modifies.",
+    "pl": "Cele w planach zmieniają się tylko wtedy, gdy je edytujesz.",
+    "pt": "As metas dos teus planos só mudam quando as editas.",
+    "it": "Gli obiettivi dei tuoi piani cambiano solo quando li modifichi.",
+    "sk": "Ciele v plánoch sa menia len tvojou úpravou.",
+    "nl": "Doelen in je schema’s veranderen alleen als je ze zelf aanpast."
+  },
+  "progressionModeSuggestHint": {
+    "en": "After a workout from a plan, you’ll see proposed weights and reps for next time.",
+    "cs": "Po tréninku z plánu uvidíš návrh vah a opakování na příště.",
+    "de": "Nach einem Training aus einem Plan siehst du Vorschläge für Gewicht und Wiederholungen beim nächsten Mal.",
+    "es": "Después de un entrenamiento de un plan, verás pesos y repeticiones propuestos para la próxima vez.",
+    "fr": "Après une séance d’un programme, tu verras les charges et répétitions proposées pour la prochaine fois.",
+    "pl": "Po treningu z planu zobaczysz propozycję ciężarów i powtórzeń na następny raz.",
+    "pt": "Depois de um treino de um plano, vês os pesos e repetições propostos para a próxima vez.",
+    "it": "Dopo un allenamento di un piano, vedrai i pesi e le ripetizioni proposti per la prossima volta.",
+    "sk": "Po tréningu z plánu uvidíš návrh váh a opakovaní na nabudúce.",
+    "nl": "Na een training uit een schema zie je voorgestelde gewichten en herhalingen voor de volgende keer."
+  },
+  "progressionModeAutoHint": {
+    "en": "Proposals go straight into the plan – you can undo them.",
+    "cs": "Návrhy se rovnou zapíšou do plánu – můžeš je vrátit.",
+    "de": "Vorschläge kommen direkt in den Plan – du kannst sie rückgängig machen.",
+    "es": "Las propuestas van directamente al plan; puedes deshacerlas.",
+    "fr": "Les propositions vont directement dans le programme – tu peux les annuler.",
+    "pl": "Propozycje trafiają od razu do planu – możesz je cofnąć.",
+    "pt": "As propostas vão diretamente para o plano – podes desfazê-las.",
+    "it": "Le proposte vanno direttamente nel piano: puoi annullarle.",
+    "sk": "Návrhy sa rovno zapíšu do plánu – môžeš ich vrátiť.",
+    "nl": "Voorstellen gaan meteen in het schema – je kunt ze ongedaan maken."
+  }
+}

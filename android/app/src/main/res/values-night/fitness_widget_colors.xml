@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fitness_widget_background">#FF1A2320</color>
+    <color name="fitness_widget_text">#FFDEE4E1</color>
+    <color name="fitness_widget_text_secondary">#FFBFC9C4</color>
+    <color name="fitness_widget_accent">#FF84D6BF</color>
+    <color name="fitness_widget_track">#FF334B44</color>
+    <color name="fitness_widget_button">#FF84D6BF</color>
+    <color name="fitness_widget_button_text">#FF00382D</color>
+</resources>

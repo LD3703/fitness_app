@@ -1,0 +1,103 @@
+{
+  "wearSectionTitle": {
+    "en": "Watch",
+    "cs": "Hodinky",
+    "de": "Uhr",
+    "es": "Reloj",
+    "fr": "Montre",
+    "pl": "Zegarek",
+    "pt": "Relógio",
+    "it": "Orologio",
+    "sk": "Hodinky",
+    "nl": "Horloge"
+  },
+  "wearStatusChecking": {
+    "en": "Looking for your watch…",
+    "cs": "Hledám hodinky…",
+    "de": "Suche nach deiner Uhr…",
+    "es": "Buscando tu reloj…",
+    "fr": "Recherche de ta montre…",
+    "pl": "Szukam zegarka…",
+    "pt": "Procurando seu relógio…",
+    "it": "Cerco il tuo orologio…",
+    "sk": "Hľadám hodinky…",
+    "nl": "Je horloge zoeken…"
+  },
+  "wearStatusConnected": {
+    "en": "Watch app connected",
+    "cs": "Aplikace v hodinkách je připojená",
+    "de": "Uhr-App verbunden",
+    "es": "App del reloj conectada",
+    "fr": "App de la montre connectée",
+    "pl": "Aplikacja na zegarku połączona",
+    "pt": "App do relógio conectado",
+    "it": "App dell’orologio connessa",
+    "sk": "Aplikácia v hodinkách je pripojená",
+    "nl": "Horloge-app verbonden"
+  },
+  "wearStatusWatchNearby": {
+    "en": "Watch connected – open the app on your watch",
+    "cs": "Hodinky jsou připojené – otevři v nich aplikaci",
+    "de": "Uhr verbunden – öffne die App auf deiner Uhr",
+    "es": "Reloj conectado: abre la app en tu reloj",
+    "fr": "Montre connectée – ouvre l’app sur ta montre",
+    "pl": "Zegarek połączony – otwórz aplikację na zegarku",
+    "pt": "Relógio conectado – abra o app no relógio",
+    "it": "Orologio connesso: apri l’app sull’orologio",
+    "sk": "Hodinky sú pripojené – otvor v nich aplikáciu",
+    "nl": "Horloge verbonden – open de app op je horloge"
+  },
+  "wearStatusNoWatch": {
+    "en": "No Wear OS watch connected",
+    "cs": "Nejsou připojené žádné hodinky s Wear OS",
+    "de": "Keine Wear-OS-Uhr verbunden",
+    "es": "No hay ningún reloj Wear OS conectado",
+    "fr": "Aucune montre Wear OS connectée",
+    "pl": "Brak połączonego zegarka z Wear OS",
+    "pt": "Nenhum relógio Wear OS conectado",
+    "it": "Nessun orologio Wear OS connesso",
+    "sk": "Nie sú pripojené žiadne hodinky s Wear OS",
+    "nl": "Geen Wear OS-horloge verbonden"
+  },
+  "wearLastSeen": {
+    "en": "Last contact at {time}",
+    "cs": "Naposledy ve spojení v {time}",
+    "de": "Zuletzt verbunden um {time}",
+    "es": "Último contacto a las {time}",
+    "fr": "Dernier contact à {time}",
+    "pl": "Ostatni kontakt o {time}",
+    "pt": "Último contato às {time}",
+    "it": "Ultimo contatto alle {time}",
+    "sk": "Naposledy v spojení o {time}",
+    "nl": "Laatste contact om {time}",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "wearHelp": {
+    "en": "Log sets from your Wear OS watch: install the app on your watch from Google Play and open it during a workout. Keep the workout open on your phone – the phone can stay in your pocket.",
+    "cs": "Série zapisuj z hodinek s Wear OS: nainstaluj si aplikaci do hodinek z Google Play a během tréninku ji otevři. Trénink nech otevřený v telefonu – telefon může zůstat v kapse.",
+    "de": "Erfasse Sätze mit deiner Wear-OS-Uhr: Installiere die App über Google Play auf der Uhr und öffne sie während des Trainings. Lass das Training auf dem Handy geöffnet – das Handy kann in der Tasche bleiben.",
+    "es": "Registra series desde tu reloj Wear OS: instala la app en el reloj desde Google Play y ábrela durante el entreno. Deja el entreno abierto en el móvil; el móvil puede quedarse en el bolsillo.",
+    "fr": "Enregistre tes séries depuis ta montre Wear OS : installe l’app sur la montre via Google Play et ouvre-la pendant la séance. Laisse la séance ouverte sur ton téléphone – il peut rester dans ta poche.",
+    "pl": "Zapisuj serie z zegarka z Wear OS: zainstaluj aplikację na zegarku z Google Play i otwórz ją podczas treningu. Zostaw trening otwarty w telefonie – telefon może zostać w kieszeni.",
+    "pt": "Registre séries pelo seu relógio Wear OS: instale o app no relógio pelo Google Play e abra durante o treino. Deixe o treino aberto no celular – ele pode ficar no bolso.",
+    "it": "Registra le serie dal tuo orologio Wear OS: installa l’app sull’orologio da Google Play e aprila durante l’allenamento. Lascia l’allenamento aperto sul telefono: il telefono può restare in tasca.",
+    "sk": "Série zapisuj z hodiniek s Wear OS: nainštaluj si aplikáciu do hodiniek z Google Play a počas tréningu ju otvor. Tréning nechaj otvorený v telefóne – telefón môže zostať vo vrecku.",
+    "nl": "Log sets vanaf je Wear OS-horloge: installeer de app via Google Play op je horloge en open hem tijdens je training. Laat de training open op je telefoon – die mag in je zak blijven."
+  },
+  "wearCheckButton": {
+    "en": "Check",
+    "cs": "Zkontrolovat",
+    "de": "Prüfen",
+    "es": "Comprobar",
+    "fr": "Vérifier",
+    "pl": "Sprawdź",
+    "pt": "Verificar",
+    "it": "Verifica",
+    "sk": "Skontrolovať",
+    "nl": "Controleren"
+  }
+}

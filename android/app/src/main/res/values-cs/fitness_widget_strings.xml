@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fitness_widget_title">Dnes</string>
+    <string name="fitness_widget_description">Pitný režim a dnešní trénink</string>
+    <string name="fitness_widget_open_app">Otevři aplikaci a načti dnešek</string>
+</resources>

@@ -1,0 +1,15 @@
+{
+  "healthSectionTitle": {"en": "Health", "cs": "Zdraví"},
+  "healthSyncAndroid": {"en": "Sync with Health Connect", "cs": "Propojit s Health Connect"},
+  "healthSyncIos": {"en": "Sync with Apple Health", "cs": "Propojit s Apple Zdravím"},
+  "healthSyncHint": {"en": "Saves your workouts and syncs body weight both ways.", "cs": "Ukládá tvoje tréninky a synchronizuje tělesnou váhu oběma směry."},
+  "healthSyncHintWorkoutsOnly": {"en": "Saves your workouts.", "cs": "Ukládá tvoje tréninky."},
+  "healthPrivacyNote": {"en": "Only workouts and body weight are shared. Illness, injuries, other periods and water never leave your phone.", "cs": "Sdílí se jen tréninky a tělesná váha. Nemoci, zranění, další období a pitný režim nikdy neopustí telefon."},
+  "healthInstallTitle": {"en": "Health Connect needed", "cs": "Chybí Health Connect"},
+  "healthInstallMessage": {"en": "To sync, install or update the Health Connect app from Google Play, then turn this on again.", "cs": "Pro propojení si z Google Play nainstaluj nebo aktualizuj aplikaci Health Connect a pak to zapni znovu."},
+  "healthInstallAction": {"en": "Open Google Play", "cs": "Otevřít Google Play"},
+  "healthPermissionDenied": {"en": "No access granted, so sync stays off.", "cs": "Přístup nebyl povolen, synchronizace zůstává vypnutá."},
+  "healthUnavailable": {"en": "Health data isn't available on this device.", "cs": "Zdravotní data nejsou na tomhle zařízení dostupná."},
+  "healthWorkoutTitle": {"en": "Strength workout", "cs": "Posilování"},
+  "healthPlanBTitle": {"en": "Quick home workout", "cs": "Rychlý trénink doma"}
+}

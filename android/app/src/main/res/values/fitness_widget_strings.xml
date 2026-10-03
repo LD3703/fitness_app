@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fitness_widget_title">Today</string>
+    <string name="fitness_widget_description">Water intake and today\'s workout</string>
+    <string name="fitness_widget_open_app">Open the app to load today</string>
+</resources>

@@ -1,0 +1,691 @@
+{
+  "socialTitle": {
+    "en": "Friends",
+    "cs": "Přátelé"
+  },
+  "socialSectionTitle": {
+    "en": "Friends",
+    "cs": "Přátelé"
+  },
+  "socialFriendsTile": {
+    "en": "Friends & challenges",
+    "cs": "Přátelé a výzvy"
+  },
+  "socialProfileSignedOut": {
+    "en": "Sign in to add friends",
+    "cs": "Přihlas se a přidej si přátele"
+  },
+  "socialProfileSignedIn": {
+    "en": "Leaderboard, invitations, challenges",
+    "cs": "Žebříček, pozvánky, výzvy"
+  },
+  "socialUnread": {
+    "en": "{count, plural, =1{1 new item} other{{count} new items}}",
+    "cs": "{count, plural, =1{1 novinka} few{{count} novinky} other{{count} novinek}}",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialNotSetUp": {
+    "en": "Friends features aren't set up yet",
+    "cs": "Funkce Přátel ještě nejsou nastavené"
+  },
+  "socialNotSetUpHint": {
+    "en": "The app works normally without them. Setup steps are in docs/social.md.",
+    "cs": "Aplikace funguje i bez nich. Postup nastavení je v docs/social.md."
+  },
+  "socialOffline": {
+    "en": "Couldn't reach the server. Check your connection and try again.",
+    "cs": "Nepodařilo se spojit se serverem. Zkontroluj připojení a zkus to znovu."
+  },
+  "socialRetry": {
+    "en": "Try again",
+    "cs": "Zkusit znovu"
+  },
+  "socialSignInTitle": {
+    "en": "Train with friends",
+    "cs": "Trénuj s přáteli"
+  },
+  "socialSignInText": {
+    "en": "Invite friends to workouts, compare progress and challenge each other.",
+    "cs": "Zvi přátele na trénink, porovnávejte pokroky a vyzývejte se navzájem."
+  },
+  "socialPrivacyTitle": {
+    "en": "What friends see",
+    "cs": "Co uvidí přátelé"
+  },
+  "socialPrivacyShared": {
+    "en": "Only what you allow: records and workout counts. Your profile is visible only to friends; there's no public leaderboard.",
+    "cs": "Jen to, co povolíš: rekordy a počty tréninků. Profil vidí jen přátelé, veřejný žebříček neexistuje."
+  },
+  "socialPrivacyNever": {
+    "en": "Never shared: periods, illness or injury, body weight, water amounts.",
+    "cs": "Nikdy se nesdílí: období, nemoc ani zranění, tělesná váha, množství vody."
+  },
+  "socialSignInGoogle": {
+    "en": "Sign in with Google",
+    "cs": "Přihlásit přes Google"
+  },
+  "socialSignInApple": {
+    "en": "Sign in with Apple",
+    "cs": "Přihlásit přes Apple"
+  },
+  "socialSignInFailed": {
+    "en": "Sign-in failed. Try again.",
+    "cs": "Přihlášení se nepovedlo. Zkus to znovu."
+  },
+  "socialSettings": {
+    "en": "Account & sharing",
+    "cs": "Účet a sdílení"
+  },
+  "socialNameHint": {
+    "en": "Friends see the name from your profile.",
+    "cs": "Přátelé vidí jméno z tvého profilu."
+  },
+  "socialShareRecords": {
+    "en": "Share records",
+    "cs": "Sdílet rekordy"
+  },
+  "socialShareRecordsHint": {
+    "en": "New PRs and relative strength (ratio only)",
+    "cs": "Nové rekordy a relativní síla (jen poměr)"
+  },
+  "socialShareStats": {
+    "en": "Share workout stats",
+    "cs": "Sdílet statistiky tréninků"
+  },
+  "socialShareStatsHint": {
+    "en": "Workouts per month, weekly volume, weeks you met your plan",
+    "cs": "Tréninky za měsíc, týdenní objem, týdny se splněným plánem"
+  },
+  "socialSignOut": {
+    "en": "Sign out",
+    "cs": "Odhlásit se"
+  },
+  "socialDeleteAccount": {
+    "en": "Delete friends account",
+    "cs": "Smazat účet pro přátele"
+  },
+  "socialDeleteTitle": {
+    "en": "Delete account?",
+    "cs": "Smazat účet?"
+  },
+  "socialDeleteMessage": {
+    "en": "All your data on the server will be deleted: profile, friends, invitations and challenges. Workouts in this phone stay.",
+    "cs": "Smažou se všechna tvoje data na serveru: profil, přátelé, pozvánky i výzvy. Tréninky v telefonu zůstanou."
+  },
+  "socialDeleteConfirm": {
+    "en": "Delete",
+    "cs": "Smazat"
+  },
+  "socialDeleted": {
+    "en": "Account deleted.",
+    "cs": "Účet je smazaný."
+  },
+  "socialDeleteFailed": {
+    "en": "Couldn't delete the account. Check your connection and try again.",
+    "cs": "Účet se nepodařilo smazat. Zkontroluj připojení a zkus to znovu."
+  },
+  "socialTabFriends": {
+    "en": "Friends",
+    "cs": "Přátelé"
+  },
+  "socialTabLeaderboard": {
+    "en": "Leaderboard",
+    "cs": "Žebříček"
+  },
+  "socialTabFeed": {
+    "en": "News",
+    "cs": "Novinky"
+  },
+  "socialAddFriend": {
+    "en": "Add a friend",
+    "cs": "Přidat přítele"
+  },
+  "socialAddFriendHint": {
+    "en": "Show your QR code, scan your friend's or send a link.",
+    "cs": "Ukaž svůj QR kód, naskenuj kamarádův nebo pošli odkaz."
+  },
+  "socialMyCode": {
+    "en": "My QR",
+    "cs": "Můj QR"
+  },
+  "socialMyCodeHint": {
+    "en": "Let your friend scan this code.",
+    "cs": "Nech kamaráda naskenovat tenhle kód."
+  },
+  "socialScan": {
+    "en": "Scan QR",
+    "cs": "Skenovat QR"
+  },
+  "socialScanHint": {
+    "en": "Point the camera at your friend's QR code.",
+    "cs": "Namiř fotoaparát na kamarádův QR kód."
+  },
+  "socialCameraError": {
+    "en": "Camera isn't available. You can type the code instead.",
+    "cs": "Fotoaparát není k dispozici. Kód můžeš zadat ručně."
+  },
+  "socialShareLink": {
+    "en": "Send link",
+    "cs": "Poslat odkaz"
+  },
+  "socialEnterCode": {
+    "en": "Enter code",
+    "cs": "Zadat kód"
+  },
+  "socialCopy": {
+    "en": "Copy",
+    "cs": "Kopírovat"
+  },
+  "socialCopied": {
+    "en": "Copied",
+    "cs": "Zkopírováno"
+  },
+  "socialShareSubject": {
+    "en": "Let's train together",
+    "cs": "Pojď trénovat se mnou"
+  },
+  "socialShareText": {
+    "en": "Add me as a friend in the gym app: {link}\nOr enter my code: {code}",
+    "cs": "Přidej si mě do přátel v aplikaci na posilovnu: {link}\nNebo zadej můj kód: {code}",
+    "placeholders": {
+      "link": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "socialCodeInvalid": {
+    "en": "That's not a valid friend code.",
+    "cs": "Tohle není platný kód přítele."
+  },
+  "socialCodeNotFound": {
+    "en": "No one has this code.",
+    "cs": "Tenhle kód nikdo nemá."
+  },
+  "socialCodeSelf": {
+    "en": "That's your own code.",
+    "cs": "Tohle je tvůj vlastní kód."
+  },
+  "socialAlreadyFriend": {
+    "en": "You're already friends.",
+    "cs": "Už jste přátelé."
+  },
+  "socialAddConfirm": {
+    "en": "Add {name} as a friend?",
+    "cs": "Přidat {name} do přátel?",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialAddConfirmHint": {
+    "en": "You'll see each other's shared stats and can send invitations and challenges.",
+    "cs": "Uvidíte navzájem sdílené statistiky a můžete si posílat pozvánky a výzvy."
+  },
+  "socialAdd": {
+    "en": "Add",
+    "cs": "Přidat"
+  },
+  "socialFriendAdded": {
+    "en": "{name} is now your friend.",
+    "cs": "{name} je teď tvůj přítel.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialNoFriends": {
+    "en": "No friends yet. Share your QR code or a link to get started.",
+    "cs": "Zatím žádní přátelé. Začni tím, že pošleš svůj QR kód nebo odkaz."
+  },
+  "socialStreak": {
+    "en": "{count, plural, =1{1 week together} other{{count} weeks together}}",
+    "cs": "{count, plural, =1{1 společný týden} few{{count} společné týdny} other{{count} společných týdnů}}",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialStreakNone": {
+    "en": "No streak yet – meet your plans this week",
+    "cs": "Zatím žádná série – splňte tento týden plán"
+  },
+  "socialStreakHidden": {
+    "en": "Streak hidden (stats not shared)",
+    "cs": "Série skrytá (statistiky se nesdílí)"
+  },
+  "socialInviteWorkout": {
+    "en": "Invite to workout",
+    "cs": "Pozvat na trénink"
+  },
+  "socialChallengeFriend": {
+    "en": "Challenge",
+    "cs": "Vyzvat"
+  },
+  "socialRemove": {
+    "en": "Remove friend",
+    "cs": "Odebrat z přátel"
+  },
+  "socialRemoveTitle": {
+    "en": "Remove {name} from friends?",
+    "cs": "Odebrat {name} z přátel?",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialBoardWorkouts": {
+    "en": "Workouts",
+    "cs": "Tréninky"
+  },
+  "socialBoardVolume": {
+    "en": "Volume",
+    "cs": "Objem"
+  },
+  "socialBoardStrength": {
+    "en": "Strength",
+    "cs": "Síla"
+  },
+  "socialBoardWorkoutsHint": {
+    "en": "Workouts this month",
+    "cs": "Tréninky tento měsíc"
+  },
+  "socialBoardVolumeHint": {
+    "en": "Volume this week (kg × reps)",
+    "cs": "Objem tento týden (kg × opakování)"
+  },
+  "socialBoardStrengthHint": {
+    "en": "Best estimated 1RM ÷ body weight",
+    "cs": "Nejlepší odhad 1RM ÷ tělesná váha"
+  },
+  "socialBoardEmpty": {
+    "en": "No data yet. Friends who don't share stats aren't listed.",
+    "cs": "Zatím žádná data. Přátelé, kteří statistiky nesdílí, tu nejsou."
+  },
+  "socialBoardYou": {
+    "en": "{name} (you)",
+    "cs": "{name} (ty)",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialBoardPrivacy": {
+    "en": "Only your friends see this leaderboard.",
+    "cs": "Tento žebříček vidí jen tví přátelé."
+  },
+  "socialLiftBench": {
+    "en": "Bench",
+    "cs": "Bench"
+  },
+  "socialLiftSquat": {
+    "en": "Squat",
+    "cs": "Dřep"
+  },
+  "socialLiftDeadlift": {
+    "en": "Deadlift",
+    "cs": "Mrtvý tah"
+  },
+  "socialKgValue": {
+    "en": "{value} kg",
+    "cs": "{value} kg",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedEmpty": {
+    "en": "Nothing new yet.",
+    "cs": "Zatím nic nového."
+  },
+  "socialFeedFriend": {
+    "en": "{name} added you as a friend.",
+    "cs": "{name} si tě přidal(a) do přátel.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedRecord": {
+    "en": "{name} set a new {exercise} record: {value}",
+    "cs": "{name} má nový rekord v cviku {exercise}: {value}",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "exercise": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "socialAcceptChallenge": {
+    "en": "Accept challenge",
+    "cs": "Přijmout výzvu"
+  },
+  "socialFeedInvite": {
+    "en": "{name} invites you to a workout: {plan}, {when}",
+    "cs": "{name} tě zve na trénink: {plan}, {when}",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "plan": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedInviteAccepted": {
+    "en": "{name} accepted your invitation: {plan}, {when}",
+    "cs": "{name} přijal(a) pozvánku: {plan}, {when}",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "plan": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedInviteDeclined": {
+    "en": "{name} can't make it: {plan}, {when}",
+    "cs": "{name} nemůže: {plan}, {when}",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "plan": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedChallenge": {
+    "en": "{name} challenges you: {challenge} by {date}",
+    "cs": "{name} tě vyzývá: {challenge} do {date}",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "challenge": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedTookOn": {
+    "en": "{name} accepted your challenge: {challenge}",
+    "cs": "{name} přijal(a) tvou výzvu: {challenge}",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "challenge": {
+        "type": "String"
+      }
+    }
+  },
+  "socialFeedChallengeDone": {
+    "en": "{name} completed your challenge!",
+    "cs": "{name} splnil(a) vaši výzvu!",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialAccept": {
+    "en": "Accept",
+    "cs": "Přijmout"
+  },
+  "socialDecline": {
+    "en": "Decline",
+    "cs": "Odmítnout"
+  },
+  "socialStatusAccepted": {
+    "en": "Accepted",
+    "cs": "Přijato"
+  },
+  "socialStatusDeclined": {
+    "en": "Declined",
+    "cs": "Odmítnuto"
+  },
+  "socialStatusCancelled": {
+    "en": "No longer available",
+    "cs": "Už neplatí"
+  },
+  "socialExpired": {
+    "en": "Expired",
+    "cs": "Vypršelo"
+  },
+  "socialInviteGone": {
+    "en": "This invitation is no longer available.",
+    "cs": "Tahle pozvánka už neplatí."
+  },
+  "socialChallengeGone": {
+    "en": "This challenge is no longer available.",
+    "cs": "Tahle výzva už neplatí."
+  },
+  "socialChallengeAccepted": {
+    "en": "Challenge accepted! You'll find it on Today.",
+    "cs": "Výzva přijata! Najdeš ji na obrazovce Dnes."
+  },
+  "socialCalendarAdded": {
+    "en": "Added to your calendar.",
+    "cs": "Přidáno do kalendáře."
+  },
+  "socialCalendarNotAdded": {
+    "en": "Accepted, but couldn't add it to the calendar.",
+    "cs": "Přijato, ale do kalendáře se to zapsat nepodařilo."
+  },
+  "socialCalendarTitle": {
+    "en": "{plan} with {name}",
+    "cs": "{plan} s {name}",
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialCalendarDescription": {
+    "en": "Workout with {name}",
+    "cs": "Společný trénink s {name}",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialChallengeBeatRecord": {
+    "en": "beat {exercise} {value}",
+    "cs": "překonat {exercise} {value}",
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "socialChallengeWorkouts": {
+    "en": "{count, plural, =1{1 workout this month} other{{count} workouts this month}}",
+    "cs": "{count, plural, =1{1 trénink tento měsíc} few{{count} tréninky tento měsíc} other{{count} tréninků tento měsíc}}",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialChallengeWater": {
+    "en": "hit your water goal this week",
+    "cs": "splnit pitný režim tento týden"
+  },
+  "socialInviteTitle": {
+    "en": "Invite {name}",
+    "cs": "Pozvat: {name}",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialInvitePlan": {
+    "en": "Workout plan",
+    "cs": "Tréninkový plán"
+  },
+  "socialInviteDay": {
+    "en": "Day",
+    "cs": "Den"
+  },
+  "socialInviteTime": {
+    "en": "Time",
+    "cs": "Čas"
+  },
+  "socialInviteDuration": {
+    "en": "Duration",
+    "cs": "Délka"
+  },
+  "socialMinutes": {
+    "en": "{count} min",
+    "cs": "{count} min",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialInviteHint": {
+    "en": "When your friend accepts, the workout goes into both your calendars.",
+    "cs": "Když kamarád přijme, trénink se zapíše do kalendáře vám oběma."
+  },
+  "socialInviteNoPlans": {
+    "en": "Create a workout plan first.",
+    "cs": "Nejdřív si vytvoř tréninkový plán."
+  },
+  "socialInviteInPast": {
+    "en": "Pick a time in the future.",
+    "cs": "Vyber čas v budoucnu."
+  },
+  "socialInviteSent": {
+    "en": "Invitation sent to {name}.",
+    "cs": "Pozvánka odeslána: {name}.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialSend": {
+    "en": "Send",
+    "cs": "Odeslat"
+  },
+  "socialChallengeTitle": {
+    "en": "Challenge {name}",
+    "cs": "Vyzvat: {name}",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialKindRecord": {
+    "en": "Beat my record",
+    "cs": "Překonej můj rekord"
+  },
+  "socialKindRecordHint": {
+    "en": "Your friend tries to beat your estimated 1RM by a date.",
+    "cs": "Kamarád se pokusí překonat tvůj odhad 1RM do zvoleného data."
+  },
+  "socialKindWorkouts": {
+    "en": "Workouts this month",
+    "cs": "Tréninky tento měsíc"
+  },
+  "socialKindWorkoutsHint": {
+    "en": "Who gets to the target number of workouts by the end of the month?",
+    "cs": "Kdo do konce měsíce dosáhne cílového počtu tréninků?"
+  },
+  "socialKindWater": {
+    "en": "Weekly water",
+    "cs": "Týdenní pitný režim"
+  },
+  "socialKindWaterHint": {
+    "en": "Each of you hits your own water goal. Only the % is shared.",
+    "cs": "Každý plní svůj cíl pitného režimu. Sdílí se jen procenta."
+  },
+  "socialChallengeExercise": {
+    "en": "Exercise",
+    "cs": "Cvik"
+  },
+  "socialChallengeYourRecord": {
+    "en": "Your record: {value}",
+    "cs": "Tvůj rekord: {value}",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "socialChallengeDeadline": {
+    "en": "Deadline",
+    "cs": "Termín"
+  },
+  "socialChallengeUntil": {
+    "en": "Until {date}",
+    "cs": "Do {date}",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "socialNoRecords": {
+    "en": "Log a few workouts with weights first.",
+    "cs": "Nejdřív zapiš pár tréninků s vahou."
+  },
+  "socialWaterOff": {
+    "en": "Turn on water tracking in your profile first.",
+    "cs": "Nejdřív si v profilu zapni sledování pitného režimu."
+  },
+  "socialChallengePrivacy": {
+    "en": "Friends see only the target and your progress, never your body weight or water amounts.",
+    "cs": "Přátelé vidí jen cíl a tvůj postup, nikdy tvou váhu ani množství vody."
+  },
+  "socialChallengeSent": {
+    "en": "Challenge sent to {name}.",
+    "cs": "Výzva odeslána: {name}.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
+}

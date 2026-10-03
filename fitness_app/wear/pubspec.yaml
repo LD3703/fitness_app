@@ -1,0 +1,26 @@
+name: fitness_wear
+description: Aplikace pro hodinky s Wear OS – zápis sérií během tréninku (doplněk k aplikaci v telefonu).
+publish_to: 'none'
+# Číslo sestavení (za +) musí být v Google Play jiné než u aplikace
+# v telefonu (stejná aplikace = společná řada versionCode). Hodinky proto
+# používají 1 000 000 + číslo sestavení telefonu – viz docs/wear_os.md.
+version: 0.1.0+1000001
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Spojení s telefonem (Wearable Data Layer) – stejný balíček jako v telefonu
+  watch_connectivity: ^0.2.10
+  # Tvar displeje (kulatý / hranatý) a úsporný režim (ambient)
+  wear_plus: ^1.2.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true

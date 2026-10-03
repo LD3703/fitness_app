@@ -1,0 +1,26 @@
+{
+  "widgetTitle": {"en": "Today", "cs": "Dnes"},
+  "widgetWaterProgress": {
+    "en": "💧 {current} / {goal} ml",
+    "cs": "💧 {current} / {goal} ml",
+    "placeholders": {"current": {"type": "String"}, "goal": {"type": "String"}}
+  },
+  "widgetRestDay": {"en": "Rest day", "cs": "Den volna"},
+  "widgetWorkoutDone": {"en": "Workout done ✓", "cs": "Trénink hotový ✓"},
+  "widgetWorkoutInProgress": {"en": "Workout in progress", "cs": "Trénink právě běží"},
+  "widgetWorkoutPlanned": {
+    "en": "{name} · {time}",
+    "cs": "{name} · {time}",
+    "placeholders": {"name": {"type": "String"}, "time": {"type": "String"}}
+  },
+  "widgetAddGlass": {
+    "en": "+{ml} ml",
+    "cs": "+{ml} ml",
+    "placeholders": {"ml": {"type": "int"}}
+  },
+  "widgetAddGlassDescription": {
+    "en": "Add a glass of water ({ml} ml)",
+    "cs": "Přidat sklenici vody ({ml} ml)",
+    "placeholders": {"ml": {"type": "int"}}
+  }
+}

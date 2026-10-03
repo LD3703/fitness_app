@@ -1,0 +1,76 @@
+# Buildy pro iOS na Codemagic (Mac v cloudu – na Windows iOS sestavit nejde).
+# Návod krok za krokem: README.md, kapitola „iOS přes Codemagic“.
+#
+# Oba workflow se spouští ručně tlačítkem „Start new build“ v Codemagic,
+# aby se zbytečně nečerpalo 500 minut zdarma měsíčně.
+
+workflows:
+  # 1) Kontrola, že se aplikace pro iOS přeloží. Nepotřebuje Apple účet.
+  #    Výsledek nejde nainstalovat do iPhonu – jen ověří, že build projde.
+  ios-check:
+    name: iOS – kontrola buildu (bez podpisu)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Balíčky
+        script: flutter pub get
+      - name: Generování kódu (překlady, databáze)
+        script: |
+          flutter gen-l10n
+          dart run build_runner build
+      - name: Testy
+        script: flutter test
+      - name: iOS build bez podpisu
+        script: flutter build ios --release --no-codesign
+    artifacts:
+      - /tmp/xcodebuild_logs/*.log
+
+  # 2) Podepsaný build a nahrání do TestFlightu (instalace na iPhone
+  #    přes aplikaci TestFlight). Potřebuje Apple Developer Program
+  #    a API klíč App Store Connect uložený v Codemagic pod názvem
+  #    „codemagic“ (Team settings → Integrations → Developer Portal).
+  ios-testflight:
+    name: iOS – TestFlight
+    instance_type: mac_mini_m2
+    max_build_duration: 90
+    integrations:
+      app_store_connect: codemagic
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        # Musí sedět s Bundle ID v Xcode projektu a v App Store Connect.
+        bundle_identifier: cz.dedina.fitnessApp
+      vars:
+        # Apple ID aplikace: App Store Connect → aplikace → App Information.
+        APP_STORE_APPLE_ID: 0000000000
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Balíčky
+        script: flutter pub get
+      - name: Generování kódu (překlady, databáze)
+        script: |
+          flutter gen-l10n
+          dart run build_runner build
+      - name: Testy
+        script: flutter test
+      - name: Nastavení podpisu v Xcode projektu
+        script: xcode-project use-profiles
+      - name: Build IPA
+        script: |
+          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID" || echo 0)
+          flutter build ipa --release \
+            --build-number=$((LATEST + 1)) \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true

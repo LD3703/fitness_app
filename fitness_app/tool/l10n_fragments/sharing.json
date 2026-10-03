@@ -1,0 +1,378 @@
+{
+  "shareAction": {
+    "en": "Share",
+    "cs": "Sdílet"
+  },
+  "sharePreviewTitle": {
+    "en": "Share",
+    "cs": "Sdílet"
+  },
+  "shareFailed": {
+    "en": "Couldn't share. Try again.",
+    "cs": "Sdílení se nepovedlo. Zkus to znovu."
+  },
+  "shareWorkoutButton": {
+    "en": "Share workout",
+    "cs": "Sdílet trénink"
+  },
+  "shareRecordButton": {
+    "en": "Share record",
+    "cs": "Sdílet rekord"
+  },
+  "shareMyRecordButton": {
+    "en": "Share my record",
+    "cs": "Sdílet můj rekord"
+  },
+  "shareMyRecordTitle": {
+    "en": "Your record",
+    "cs": "Tvůj rekord"
+  },
+  "shareRecordValue": {
+    "en": "{weight} kg × {reps} · est. 1RM {oneRm} kg",
+    "cs": "{weight} kg × {reps} · odhad 1RM {oneRm} kg",
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      },
+      "oneRm": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeButton": {
+    "en": "Challenge a friend",
+    "cs": "Vyzvat kamaráda"
+  },
+  "shareCardRecordLabel": {
+    "en": "Personal record",
+    "cs": "Osobní rekord"
+  },
+  "shareCardWorkoutLabel": {
+    "en": "Workout done",
+    "cs": "Trénink hotový"
+  },
+  "shareCardOneRepMax": {
+    "en": "Est. 1RM {value} kg",
+    "cs": "Odhad 1RM {value} kg",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "shareCardDuration": {
+    "en": "Time",
+    "cs": "Čas"
+  },
+  "shareCardSets": {
+    "en": "Sets",
+    "cs": "Série"
+  },
+  "shareCardVolume": {
+    "en": "Volume",
+    "cs": "Objem"
+  },
+  "shareCardRecords": {
+    "en": "{count, plural, =1{1 new record} other{{count} new records}}",
+    "cs": "{count, plural, =1{1 nový rekord} few{{count} nové rekordy} other{{count} nových rekordů}}",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shareCardMoreExercises": {
+    "en": "+{count} more",
+    "cs": "+{count} další",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shareRecordText": {
+    "en": "New personal record! {exercise}: {weight} kg × {reps} (est. 1RM {oneRm} kg) 💪 {link}",
+    "cs": "Nový osobní rekord! {exercise}: {weight} kg × {reps} (odhad 1RM {oneRm} kg) 💪 {link}",
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      },
+      "oneRm": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "shareWorkoutText": {
+    "en": "Workout done: {sets} sets, {volume} kg lifted in {duration}. 💪 {link}",
+    "cs": "Trénink hotový: {sets} sérií, {volume} kg zvednuto za {duration}. 💪 {link}",
+    "placeholders": {
+      "sets": {
+        "type": "int"
+      },
+      "volume": {
+        "type": "String"
+      },
+      "duration": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeText": {
+    "en": "I did {weight} kg × {reps} on {exercise} (est. 1RM {oneRm} kg). Can you beat me by {deadline}? {link}",
+    "cs": "Dal jsem {weight} kg × {reps} na {exercise} (odhad 1RM {oneRm} kg). Překonáš mě do {deadline}? {link}",
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      },
+      "oneRm": {
+        "type": "String"
+      },
+      "deadline": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeTitle": {
+    "en": "Challenge",
+    "cs": "Výzva"
+  },
+  "shareChallengeFrom": {
+    "en": "{name} challenges you!",
+    "cs": "{name} tě vyzývá!",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeFromAnonymous": {
+    "en": "A friend challenges you!",
+    "cs": "Kamarád tě vyzývá!"
+  },
+  "shareChallengeGoal": {
+    "en": "Beat an estimated 1RM of {value} kg",
+    "cs": "Překonej odhad 1RM {value} kg",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeYourBest": {
+    "en": "Your best: {value} kg",
+    "cs": "Tvoje maximum: {value} kg",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeNoRecord": {
+    "en": "You don't have a record in this exercise yet.",
+    "cs": "V tomhle cviku zatím nemáš rekord."
+  },
+  "shareChallengeDeadline": {
+    "en": "Until {date}",
+    "cs": "Do {date}",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "shareChallengeUnknownExercise": {
+    "en": "This exercise isn't in your library, so the challenge can't be tracked.",
+    "cs": "Tenhle cvik nemáš v knihovně, takže výzvu nejde sledovat."
+  },
+  "shareChallengeInvalid": {
+    "en": "This challenge link doesn't work.",
+    "cs": "Tenhle odkaz na výzvu nefunguje."
+  },
+  "shareChallengeExpiredLink": {
+    "en": "This challenge has already ended.",
+    "cs": "Tahle výzva už skončila."
+  },
+  "shareChallengeAlreadyAccepted": {
+    "en": "You've already accepted this challenge.",
+    "cs": "Tuhle výzvu už máš přijatou."
+  },
+  "shareChallengeAlreadyBeaten": {
+    "en": "You're already above this – accepting completes it right away.",
+    "cs": "Už jsi nad tím – po přijetí bude výzva hned splněná."
+  },
+  "shareChallengeAccept": {
+    "en": "Accept",
+    "cs": "Přijmout"
+  },
+  "shareChallengeDecline": {
+    "en": "Decline",
+    "cs": "Odmítnout"
+  },
+  "shareChallengeClose": {
+    "en": "Close",
+    "cs": "Zavřít"
+  },
+  "shareChallengeAccepted": {
+    "en": "Challenge accepted! You'll find it on Today.",
+    "cs": "Výzva přijata! Najdeš ji na obrazovce Dnes."
+  },
+  "shareChallengesTitle": {
+    "en": "Challenges",
+    "cs": "Výzvy"
+  },
+  "shareKindWorkouts": {
+    "en": "Workouts this month",
+    "cs": "Tréninky tento měsíc"
+  },
+  "shareKindWater": {
+    "en": "Water this week",
+    "cs": "Voda tento týden"
+  },
+  "shareUnknownExercise": {
+    "en": "Unknown exercise",
+    "cs": "Neznámý cvik"
+  },
+  "shareProgressKg": {
+    "en": "{current} / {target} kg",
+    "cs": "{current} / {target} kg",
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "shareProgressCount": {
+    "en": "{current} / {target}",
+    "cs": "{current} / {target}",
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "shareProgressMl": {
+    "en": "{current} / {target} ml",
+    "cs": "{current} / {target} ml",
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "shareFrom": {
+    "en": "from {name}",
+    "cs": "od {name}",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "shareDaysLeft": {
+    "en": "{count, plural, =0{Ends today} =1{1 day left} other{{count} days left}}",
+    "cs": "{count, plural, =0{Končí dnes} =1{Zbývá 1 den} few{Zbývají {count} dny} other{Zbývá {count} dní}}",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shareStatusCompleted": {
+    "en": "Completed 🎉",
+    "cs": "Splněno 🎉"
+  },
+  "shareStatusExpired": {
+    "en": "Expired",
+    "cs": "Vypršela"
+  },
+  "shareHide": {
+    "en": "Hide",
+    "cs": "Skrýt"
+  },
+  "shareMoreActions": {
+    "en": "More",
+    "cs": "Další"
+  },
+  "shareChallengeCompletedTitle": {
+    "en": "Challenge completed! 🎉",
+    "cs": "Výzva splněna! 🎉"
+  },
+  "shareCompletedRecord": {
+    "en": "Challenge completed: {exercise} with est. 1RM {value} kg! 🎉 {link}",
+    "cs": "Výzva splněna: {exercise} s odhadem 1RM {value} kg! 🎉 {link}",
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "shareCompletedRecordFrom": {
+    "en": "I beat {name}'s challenge: {exercise} with est. 1RM {value} kg! 🎉 {link}",
+    "cs": "Překonal jsem výzvu od {name}: {exercise} s odhadem 1RM {value} kg! 🎉 {link}",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "exercise": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "shareCompletedWorkouts": {
+    "en": "Challenge completed: {count, plural, =1{1 workout} other{{count} workouts}} this month! 🎉 {link}",
+    "cs": "Výzva splněna: {count, plural, =1{1 trénink} few{{count} tréninky} other{{count} tréninků}} tento měsíc! 🎉 {link}",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  }
+}

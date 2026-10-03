@@ -1,0 +1,65 @@
+{
+  "calActionCountMeIn": {"en": "Count me in", "cs": "Počítám s tím"},
+  "calActionMove": {"en": "Move", "cs": "Přesunout"},
+  "calActionNoTime": {"en": "No time today", "cs": "Dnes nestíhám"},
+  "calRestOngoingTitle": {"en": "Resting", "cs": "Pauza"},
+  "calRestOngoingBody": {"en": "Next set when the countdown ends", "cs": "Další série po odpočtu"},
+  "calNotifCollision": {
+    "en": "Heads-up: at {time} you have “{event}” – it clashes with {plan}.",
+    "cs": "Pozor: v {time} máš „{event}“ – koliduje to s tréninkem {plan}.",
+    "placeholders": {"time": {"type": "String"}, "event": {"type": "String"}, "plan": {"type": "String"}}
+  },
+  "calProfileSection": {"en": "Calendar & reminders", "cs": "Kalendář a připomínky"},
+  "calReadSwitch": {"en": "Find free time in my calendar", "cs": "Hledat volný čas v kalendáři"},
+  "calReadHint": {
+    "en": "Warns about clashes and suggests workout times. Your events stay on the phone.",
+    "cs": "Upozorní na kolize a navrhne časy tréninků. Tvoje události zůstanou v telefonu."
+  },
+  "calWaterRemindersHint": {
+    "en": "Every {interval} min from {from} to {to}",
+    "cs": "Každých {interval} min od {from} do {to}",
+    "placeholders": {"from": {"type": "String"}, "to": {"type": "String"}, "interval": {"type": "int"}}
+  },
+  "calWaterFrom": {"en": "Water reminders from", "cs": "Připomínky pití od"},
+  "calWaterTo": {"en": "Until", "cs": "Do"},
+  "calWaterInterval": {"en": "Remind every", "cs": "Připomínat každých"},
+  "calMinutes": {
+    "en": "{minutes} min",
+    "cs": "{minutes} min",
+    "placeholders": {"minutes": {"type": "int"}}
+  },
+  "calWaterRangeInvalid": {"en": "The end has to be later than the start.", "cs": "Konec musí být později než začátek."},
+  "calSuggestTime": {"en": "Suggest a time", "cs": "Navrhnout čas"},
+  "calSuggestTitle": {"en": "Free time in your calendar", "cs": "Volný čas v kalendáři"},
+  "calSuggestHint": {
+    "en": "Based on the next 7 days. The time applies to all days of the plan.",
+    "cs": "Podle příštích 7 dní. Čas platí pro všechny dny plánu."
+  },
+  "calSuggestAllDays": {"en": "Works on all days", "cs": "Hodí se na všechny dny"},
+  "calSuggestDayBusy": {"en": "No free hour this day", "cs": "Tento den nemáš volnou hodinu"},
+  "calSuggestNoDays": {"en": "Pick the plan's days first.", "cs": "Nejdřív vyber dny plánu."},
+  "calSuggestNoSlots": {"en": "No free time found in the next 7 days.", "cs": "V příštích 7 dnech jsem volný čas nenašel."},
+  "calSuggestSaved": {
+    "en": "Workout time set to {time}",
+    "cs": "Čas tréninku nastaven na {time}",
+    "placeholders": {"time": {"type": "String"}}
+  },
+  "calTodayTitle": {"en": "Calendar clash", "cs": "Kolize v kalendáři"},
+  "calTodayCollision": {
+    "en": "At {eventTime} you have “{event}”, your workout {plan} is planned for {time}.",
+    "cs": "V {eventTime} máš „{event}“, trénink {plan} máš naplánovaný na {time}.",
+    "placeholders": {"eventTime": {"type": "String"}, "event": {"type": "String"}, "plan": {"type": "String"}, "time": {"type": "String"}}
+  },
+  "calTodayFreeAt": {
+    "en": "You're free today at {time}.",
+    "cs": "Dnes máš volno v {time}.",
+    "placeholders": {"time": {"type": "String"}}
+  },
+  "calTodayNoFreeTime": {"en": "Today is full – no free hour left.", "cs": "Dnes je plno – volná hodina už nezbývá."},
+  "calMoveTomorrow": {"en": "Move to tomorrow", "cs": "Přesunout na zítra"},
+  "calMovedTomorrow": {
+    "en": "{plan} moved to tomorrow",
+    "cs": "Trénink {plan} je přesunutý na zítra",
+    "placeholders": {"plan": {"type": "String"}}
+  }
+}

@@ -1,0 +1,580 @@
+{
+  "premiumTitle": {
+    "en": "Premium",
+    "cs": "Premium",
+    "de": "Premium",
+    "es": "Premium",
+    "fr": "Premium",
+    "pl": "Premium",
+    "pt": "Premium",
+    "it": "Premium",
+    "sk": "Premium",
+    "nl": "Premium"
+  },
+  "premiumBadge": {
+    "en": "Premium",
+    "cs": "Premium",
+    "de": "Premium",
+    "es": "Premium",
+    "fr": "Premium",
+    "pl": "Premium",
+    "pt": "Premium",
+    "it": "Premium",
+    "sk": "Premium",
+    "nl": "Premium"
+  },
+  "premiumFeatureUnlimitedPlans": {
+    "en": "Unlimited custom plans",
+    "cs": "Neomezeně vlastních plánů",
+    "de": "Unbegrenzt eigene Pläne",
+    "es": "Planes propios ilimitados",
+    "fr": "Programmes personnels illimités",
+    "pl": "Nieograniczona liczba własnych planów",
+    "pt": "Planos próprios ilimitados",
+    "it": "Piani personalizzati illimitati",
+    "sk": "Neobmedzene vlastných plánov",
+    "nl": "Onbeperkt eigen schema’s"
+  },
+  "premiumFeatureAllPrograms": {
+    "en": "All ready-made programs",
+    "cs": "Všechny hotové programy",
+    "de": "Alle fertigen Programme",
+    "es": "Todos los programas listos",
+    "fr": "Tous les programmes prêts à l’emploi",
+    "pl": "Wszystkie gotowe programy",
+    "pt": "Todos os programas prontos",
+    "it": "Tutti i programmi pronti",
+    "sk": "Všetky hotové programy",
+    "nl": "Alle kant-en-klare programma’s"
+  },
+  "premiumFeatureExtraHomeRoutines": {
+    "en": "More Plan B home routines",
+    "cs": "Víc domácích rutin pro plán B",
+    "de": "Mehr Heimroutinen für Plan B",
+    "es": "Más rutinas en casa para el plan B",
+    "fr": "Plus de routines à la maison pour le plan B",
+    "pl": "Więcej domowych zestawów planu B",
+    "pt": "Mais rotinas em casa para o plano B",
+    "it": "Più routine a casa per il piano B",
+    "sk": "Viac domácich rutín pre plán B",
+    "nl": "Meer thuisroutines voor plan B"
+  },
+  "premiumFeaturePeriodBands": {
+    "en": "Periods highlighted in charts",
+    "cs": "Období vyznačená v grafech",
+    "de": "Phasen in Diagrammen markiert",
+    "es": "Periodos marcados en los gráficos",
+    "fr": "Périodes indiquées dans les graphiques",
+    "pl": "Okresy zaznaczone na wykresach",
+    "pt": "Períodos destacados nos gráficos",
+    "it": "Periodi evidenziati nei grafici",
+    "sk": "Obdobia vyznačené v grafoch",
+    "nl": "Periodes gemarkeerd in grafieken"
+  },
+  "premiumFeatureFullHistory": {
+    "en": "Full chart history",
+    "cs": "Celá historie v grafech",
+    "de": "Gesamter Verlauf in Diagrammen",
+    "es": "Historial completo en los gráficos",
+    "fr": "Historique complet dans les graphiques",
+    "pl": "Pełna historia na wykresach",
+    "pt": "Histórico completo nos gráficos",
+    "it": "Cronologia completa nei grafici",
+    "sk": "Celá história v grafoch",
+    "nl": "Volledige geschiedenis in grafieken"
+  },
+  "premiumFeatureInsights": {
+    "en": "Automatic insights",
+    "cs": "Automatické postřehy",
+    "de": "Automatische Erkenntnisse",
+    "es": "Observaciones automáticas",
+    "fr": "Analyses automatiques",
+    "pl": "Automatyczne spostrzeżenia",
+    "pt": "Observações automáticas",
+    "it": "Osservazioni automatiche",
+    "sk": "Automatické postrehy",
+    "nl": "Automatische inzichten"
+  },
+  "premiumFeatureCalendarSuggestions": {
+    "en": "Free time suggestions from your calendar",
+    "cs": "Návrhy volného času podle kalendáře",
+    "de": "Vorschläge für freie Zeit aus deinem Kalender",
+    "es": "Sugerencias de tiempo libre según tu calendario",
+    "fr": "Suggestions de créneaux libres selon ton agenda",
+    "pl": "Propozycje wolnego czasu z kalendarza",
+    "pt": "Sugestões de horários livres pelo seu calendário",
+    "it": "Suggerimenti di tempo libero dal tuo calendario",
+    "sk": "Návrhy voľného času podľa kalendára",
+    "nl": "Voorstellen voor vrije tijd uit je agenda"
+  },
+  "premiumFeatureCsvExport": {
+    "en": "Export to CSV",
+    "cs": "Export do CSV",
+    "de": "Export als CSV",
+    "es": "Exportar a CSV",
+    "fr": "Export en CSV",
+    "pl": "Eksport do CSV",
+    "pt": "Exportar para CSV",
+    "it": "Esportazione in CSV",
+    "sk": "Export do CSV",
+    "nl": "Exporteren naar CSV"
+  },
+  "premiumFeatureAutoProgression": {
+    "en": "Automatic progression",
+    "cs": "Automatické navyšování zátěže",
+    "de": "Automatische Steigerung",
+    "es": "Progresión automática",
+    "fr": "Progression automatique",
+    "pl": "Automatyczna progresja",
+    "pt": "Progressão automática",
+    "it": "Progressione automatica",
+    "sk": "Automatické navyšovanie záťaže",
+    "nl": "Automatische progressie"
+  },
+  "premiumFeatureCloudBackup": {
+    "en": "Automatic cloud backup",
+    "cs": "Automatická záloha do cloudu",
+    "de": "Automatische Cloud-Sicherung",
+    "es": "Copia de seguridad automática en la nube",
+    "fr": "Sauvegarde automatique dans le cloud",
+    "pl": "Automatyczna kopia zapasowa w chmurze",
+    "pt": "Backup automático na nuvem",
+    "it": "Backup automatico nel cloud",
+    "sk": "Automatická záloha do cloudu",
+    "nl": "Automatische back-up in de cloud"
+  },
+  "premiumFeatureWearOs": {
+    "en": "Wear OS watch app",
+    "cs": "Aplikace pro hodinky Wear OS",
+    "de": "App für Wear-OS-Uhren",
+    "es": "Aplicación para relojes Wear OS",
+    "fr": "Application pour montres Wear OS",
+    "pl": "Aplikacja na zegarki Wear OS",
+    "pt": "Aplicativo para relógios Wear OS",
+    "it": "App per orologi Wear OS",
+    "sk": "Aplikácia pre hodinky Wear OS",
+    "nl": "App voor Wear OS-horloges"
+  },
+  "premiumLockedHint": {
+    "en": "Part of Premium – tap to see more",
+    "cs": "Součást Premium – klepni pro víc",
+    "de": "Teil von Premium – tippe für mehr",
+    "es": "Parte de Premium: toca para ver más",
+    "fr": "Inclus dans Premium – touche pour en savoir plus",
+    "pl": "Część Premium – dotknij, aby dowiedzieć się więcej",
+    "pt": "Parte do Premium – toque para ver mais",
+    "it": "Parte di Premium – tocca per saperne di più",
+    "sk": "Súčasť Premium – ťukni pre viac",
+    "nl": "Onderdeel van Premium – tik voor meer"
+  },
+  "premiumPaywallTitle": {
+    "en": "Get more out of your training",
+    "cs": "Vytěž ze svého tréninku víc",
+    "de": "Hol mehr aus deinem Training heraus",
+    "es": "Saca más partido a tu entrenamiento",
+    "fr": "Tire le meilleur de ton entraînement",
+    "pl": "Wyciśnij więcej ze swojego treningu",
+    "pt": "Tire mais proveito do seu treino",
+    "it": "Ottieni di più dal tuo allenamento",
+    "sk": "Vyťaž zo svojho tréningu viac",
+    "nl": "Haal meer uit je training"
+  },
+  "premiumPaywallSubtitle": {
+    "en": "Premium unlocks everything the app can do.",
+    "cs": "Premium odemkne všechno, co aplikace umí.",
+    "de": "Premium schaltet alles frei, was die App kann.",
+    "es": "Premium desbloquea todo lo que puede hacer la aplicación.",
+    "fr": "Premium débloque tout ce que l’application sait faire.",
+    "pl": "Premium odblokowuje wszystko, co potrafi aplikacja.",
+    "pt": "O Premium desbloqueia tudo o que o aplicativo oferece.",
+    "it": "Premium sblocca tutto ciò che l’app sa fare.",
+    "sk": "Premium odomkne všetko, čo aplikácia vie.",
+    "nl": "Premium ontgrendelt alles wat de app kan."
+  },
+  "premiumFreeForever": {
+    "en": "Logging workouts stays free and unlimited.",
+    "cs": "Zapisování tréninků zůstává zdarma a bez omezení.",
+    "de": "Trainings eintragen bleibt kostenlos und unbegrenzt.",
+    "es": "Registrar entrenamientos sigue siendo gratis y sin límites.",
+    "fr": "Enregistrer tes séances reste gratuit et illimité.",
+    "pl": "Zapisywanie treningów pozostaje bezpłatne i bez ograniczeń.",
+    "pt": "Registrar treinos continua gratuito e ilimitado.",
+    "it": "Registrare gli allenamenti resta gratuito e senza limiti.",
+    "sk": "Zapisovanie tréningov zostáva zadarmo a bez obmedzení.",
+    "nl": "Trainingen vastleggen blijft gratis en onbeperkt."
+  },
+  "premiumPricePerYear": {
+    "en": "{price} / year",
+    "cs": "{price} / rok",
+    "de": "{price} / Jahr",
+    "es": "{price} / año",
+    "fr": "{price} / an",
+    "pl": "{price} / rok",
+    "pt": "{price} / ano",
+    "it": "{price} / anno",
+    "sk": "{price} / rok",
+    "nl": "{price} / jaar",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "premiumTrialNote": {
+    "en": "First month free, then billed yearly.",
+    "cs": "První měsíc zdarma, pak se platí ročně.",
+    "de": "Erster Monat kostenlos, danach jährliche Zahlung.",
+    "es": "Primer mes gratis, después pago anual.",
+    "fr": "Premier mois gratuit, puis paiement annuel.",
+    "pl": "Pierwszy miesiąc za darmo, potem płatność roczna.",
+    "pt": "Primeiro mês grátis, depois cobrança anual.",
+    "it": "Primo mese gratis, poi pagamento annuale.",
+    "sk": "Prvý mesiac zadarmo, potom sa platí ročne.",
+    "nl": "Eerste maand gratis, daarna jaarlijks betalen."
+  },
+  "premiumBuy": {
+    "en": "Try 1 month free",
+    "cs": "Vyzkoušej 1 měsíc zdarma",
+    "de": "1 Monat kostenlos testen",
+    "es": "Prueba 1 mes gratis",
+    "fr": "Essaie 1 mois gratuitement",
+    "pl": "Wypróbuj 1 miesiąc za darmo",
+    "pt": "Experimente 1 mês grátis",
+    "it": "Prova 1 mese gratis",
+    "sk": "Vyskúšaj 1 mesiac zadarmo",
+    "nl": "Probeer 1 maand gratis"
+  },
+  "premiumRestore": {
+    "en": "Restore purchases",
+    "cs": "Obnovit nákupy",
+    "de": "Käufe wiederherstellen",
+    "es": "Restaurar compras",
+    "fr": "Restaurer les achats",
+    "pl": "Przywróć zakupy",
+    "pt": "Restaurar compras",
+    "it": "Ripristina acquisti",
+    "sk": "Obnoviť nákupy",
+    "nl": "Aankopen herstellen"
+  },
+  "premiumManage": {
+    "en": "Manage subscription",
+    "cs": "Spravovat předplatné",
+    "de": "Abonnement verwalten",
+    "es": "Gestionar suscripción",
+    "fr": "Gérer l’abonnement",
+    "pl": "Zarządzaj subskrypcją",
+    "pt": "Gerenciar assinatura",
+    "it": "Gestisci abbonamento",
+    "sk": "Spravovať predplatné",
+    "nl": "Abonnement beheren"
+  },
+  "premiumLegalNote": {
+    "en": "Payment is charged to your store account. The subscription renews automatically every year unless you cancel it at least 24 hours before the end of the current period.",
+    "cs": "Platba se strhne z tvého účtu v obchodě. Předplatné se každý rok automaticky obnoví, pokud ho nezrušíš nejpozději 24 hodin před koncem aktuálního období.",
+    "de": "Die Zahlung wird über dein Store-Konto abgerechnet. Das Abonnement verlängert sich jedes Jahr automatisch, wenn du es nicht spätestens 24 Stunden vor Ende des aktuellen Zeitraums kündigst.",
+    "es": "El pago se carga a tu cuenta de la tienda. La suscripción se renueva automáticamente cada año salvo que la canceles al menos 24 horas antes del final del periodo actual.",
+    "fr": "Le paiement est débité de ton compte de la boutique. L’abonnement se renouvelle automatiquement chaque année, sauf si tu l’annules au moins 24 heures avant la fin de la période en cours.",
+    "pl": "Płatność zostanie pobrana z Twojego konta w sklepie. Subskrypcja odnawia się automatycznie co roku, chyba że anulujesz ją najpóźniej 24 godziny przed końcem bieżącego okresu.",
+    "pt": "O pagamento é cobrado na sua conta da loja. A assinatura é renovada automaticamente todo ano, a menos que você a cancele pelo menos 24 horas antes do fim do período atual.",
+    "it": "Il pagamento viene addebitato sul tuo account dello store. L’abbonamento si rinnova automaticamente ogni anno, a meno che tu non lo annulli almeno 24 ore prima della fine del periodo in corso.",
+    "sk": "Platba sa strhne z tvojho účtu v obchode. Predplatné sa každý rok automaticky obnoví, ak ho nezrušíš najneskôr 24 hodín pred koncom aktuálneho obdobia.",
+    "nl": "De betaling wordt via je store-account afgerekend. Het abonnement wordt elk jaar automatisch verlengd, tenzij je het minstens 24 uur voor het einde van de huidige periode opzegt."
+  },
+  "premiumTerms": {
+    "en": "Terms of use",
+    "cs": "Podmínky použití",
+    "de": "Nutzungsbedingungen",
+    "es": "Condiciones de uso",
+    "fr": "Conditions d’utilisation",
+    "pl": "Warunki korzystania",
+    "pt": "Termos de uso",
+    "it": "Termini di utilizzo",
+    "sk": "Podmienky používania",
+    "nl": "Gebruiksvoorwaarden"
+  },
+  "premiumPrivacy": {
+    "en": "Privacy policy",
+    "cs": "Zásady ochrany soukromí",
+    "de": "Datenschutzerklärung",
+    "es": "Política de privacidad",
+    "fr": "Politique de confidentialité",
+    "pl": "Polityka prywatności",
+    "pt": "Política de privacidade",
+    "it": "Informativa sulla privacy",
+    "sk": "Zásady ochrany súkromia",
+    "nl": "Privacybeleid"
+  },
+  "premiumActiveTitle": {
+    "en": "You have Premium",
+    "cs": "Máš Premium",
+    "de": "Du hast Premium",
+    "es": "Tienes Premium",
+    "fr": "Tu as Premium",
+    "pl": "Masz Premium",
+    "pt": "Você tem Premium",
+    "it": "Hai Premium",
+    "sk": "Máš Premium",
+    "nl": "Je hebt Premium"
+  },
+  "premiumActiveBody": {
+    "en": "Thank you for supporting the app!",
+    "cs": "Díky, že aplikaci podporuješ!",
+    "de": "Danke, dass du die App unterstützt!",
+    "es": "¡Gracias por apoyar la aplicación!",
+    "fr": "Merci de soutenir l’application !",
+    "pl": "Dziękujemy, że wspierasz aplikację!",
+    "pt": "Obrigado por apoiar o aplicativo!",
+    "it": "Grazie per sostenere l’app!",
+    "sk": "Vďaka, že aplikáciu podporuješ!",
+    "nl": "Bedankt dat je de app steunt!"
+  },
+  "premiumThanks": {
+    "en": "Premium is active. Enjoy!",
+    "cs": "Premium je aktivní. Užij si ho!",
+    "de": "Premium ist aktiv. Viel Spaß!",
+    "es": "Premium está activo. ¡Disfrútalo!",
+    "fr": "Premium est actif. Profites-en !",
+    "pl": "Premium jest aktywne. Miłego korzystania!",
+    "pt": "O Premium está ativo. Aproveite!",
+    "it": "Premium è attivo. Buon divertimento!",
+    "sk": "Premium je aktívne. Užívaj si ho!",
+    "nl": "Premium is actief. Veel plezier!"
+  },
+  "premiumPurchaseFailed": {
+    "en": "The purchase didn’t go through. Try again later.",
+    "cs": "Nákup se nepovedl. Zkus to později.",
+    "de": "Der Kauf hat nicht geklappt. Versuch es später noch einmal.",
+    "es": "La compra no se ha completado. Inténtalo más tarde.",
+    "fr": "L’achat n’a pas abouti. Réessaie plus tard.",
+    "pl": "Zakup się nie powiódł. Spróbuj ponownie później.",
+    "pt": "A compra não foi concluída. Tente novamente mais tarde.",
+    "it": "L’acquisto non è andato a buon fine. Riprova più tardi.",
+    "sk": "Nákup sa nepodaril. Skús to neskôr.",
+    "nl": "De aankoop is niet gelukt. Probeer het later opnieuw."
+  },
+  "premiumRestoreDone": {
+    "en": "Purchases restored.",
+    "cs": "Nákupy obnoveny.",
+    "de": "Käufe wiederhergestellt.",
+    "es": "Compras restauradas.",
+    "fr": "Achats restaurés.",
+    "pl": "Zakupy przywrócone.",
+    "pt": "Compras restauradas.",
+    "it": "Acquisti ripristinati.",
+    "sk": "Nákupy obnovené.",
+    "nl": "Aankopen hersteld."
+  },
+  "premiumRestoreNone": {
+    "en": "No previous purchase found.",
+    "cs": "Žádný dřívější nákup jsme nenašli.",
+    "de": "Kein früherer Kauf gefunden.",
+    "es": "No se ha encontrado ninguna compra anterior.",
+    "fr": "Aucun achat précédent trouvé.",
+    "pl": "Nie znaleziono wcześniejszego zakupu.",
+    "pt": "Nenhuma compra anterior encontrada.",
+    "it": "Nessun acquisto precedente trovato.",
+    "sk": "Žiadny skorší nákup sme nenašli.",
+    "nl": "Geen eerdere aankoop gevonden."
+  },
+  "premiumUnavailable": {
+    "en": "Purchases aren’t available right now. Try again later.",
+    "cs": "Nákupy teď nejsou dostupné. Zkus to později.",
+    "de": "Käufe sind gerade nicht verfügbar. Versuch es später noch einmal.",
+    "es": "Las compras no están disponibles ahora. Inténtalo más tarde.",
+    "fr": "Les achats ne sont pas disponibles pour le moment. Réessaie plus tard.",
+    "pl": "Zakupy są teraz niedostępne. Spróbuj ponownie później.",
+    "pt": "As compras não estão disponíveis agora. Tente novamente mais tarde.",
+    "it": "Gli acquisti non sono disponibili ora. Riprova più tardi.",
+    "sk": "Nákupy teraz nie sú dostupné. Skús to neskôr.",
+    "nl": "Aankopen zijn nu niet beschikbaar. Probeer het later opnieuw."
+  },
+  "premiumProfileSection": {
+    "en": "Premium",
+    "cs": "Premium",
+    "de": "Premium",
+    "es": "Premium",
+    "fr": "Premium",
+    "pl": "Premium",
+    "pt": "Premium",
+    "it": "Premium",
+    "sk": "Premium",
+    "nl": "Premium"
+  },
+  "premiumProfileActive": {
+    "en": "Premium active",
+    "cs": "Premium je aktivní",
+    "de": "Premium aktiv",
+    "es": "Premium activo",
+    "fr": "Premium actif",
+    "pl": "Premium aktywne",
+    "pt": "Premium ativo",
+    "it": "Premium attivo",
+    "sk": "Premium je aktívne",
+    "nl": "Premium actief"
+  },
+  "premiumProfileFree": {
+    "en": "Free version",
+    "cs": "Verze zdarma",
+    "de": "Kostenlose Version",
+    "es": "Versión gratuita",
+    "fr": "Version gratuite",
+    "pl": "Wersja bezpłatna",
+    "pt": "Versão gratuita",
+    "it": "Versione gratuita",
+    "sk": "Verzia zadarmo",
+    "nl": "Gratis versie"
+  },
+  "premiumProfileFreeHint": {
+    "en": "See what Premium offers – first month free",
+    "cs": "Podívej se, co nabízí Premium – první měsíc zdarma",
+    "de": "Sieh dir an, was Premium bietet – erster Monat kostenlos",
+    "es": "Descubre lo que ofrece Premium: primer mes gratis",
+    "fr": "Découvre ce que propose Premium – premier mois gratuit",
+    "pl": "Zobacz, co oferuje Premium – pierwszy miesiąc za darmo",
+    "pt": "Veja o que o Premium oferece – primeiro mês grátis",
+    "it": "Scopri cosa offre Premium – primo mese gratis",
+    "sk": "Pozri sa, čo ponúka Premium – prvý mesiac zadarmo",
+    "nl": "Bekijk wat Premium biedt – eerste maand gratis"
+  },
+  "premiumChartLimited": {
+    "en": "{days, plural, =1{Showing the last day. Full history is part of Premium.} other{Showing the last {days} days. Full history is part of Premium.}}",
+    "cs": "{days, plural, =1{Zobrazený je poslední den. Celá historie je součástí Premium.} few{Zobrazené jsou poslední {days} dny. Celá historie je součástí Premium.} other{Zobrazeno je posledních {days} dní. Celá historie je součástí Premium.}}",
+    "de": "{days, plural, =1{Angezeigt wird der letzte Tag. Der gesamte Verlauf ist Teil von Premium.} other{Angezeigt werden die letzten {days} Tage. Der gesamte Verlauf ist Teil von Premium.}}",
+    "es": "{days, plural, =1{Se muestra el último día. El historial completo es parte de Premium.} other{Se muestran los últimos {days} días. El historial completo es parte de Premium.}}",
+    "fr": "{days, plural, =1{Affichage du dernier jour. L’historique complet fait partie de Premium.} other{Affichage des {days} derniers jours. L’historique complet fait partie de Premium.}}",
+    "pl": "{days, plural, =1{Widoczny jest ostatni dzień. Pełna historia jest częścią Premium.} few{Widoczne są ostatnie {days} dni. Pełna historia jest częścią Premium.} many{Widocznych jest ostatnich {days} dni. Pełna historia jest częścią Premium.} other{Widoczne są ostatnie {days} dnia. Pełna historia jest częścią Premium.}}",
+    "pt": "{days, plural, =1{Mostrando o último dia. O histórico completo faz parte do Premium.} other{Mostrando os últimos {days} dias. O histórico completo faz parte do Premium.}}",
+    "it": "{days, plural, =1{Viene mostrato l’ultimo giorno. La cronologia completa fa parte di Premium.} other{Vengono mostrati gli ultimi {days} giorni. La cronologia completa fa parte di Premium.}}",
+    "sk": "{days, plural, =1{Zobrazený je posledný deň. Celá história je súčasťou Premium.} few{Zobrazené sú posledné {days} dni. Celá história je súčasťou Premium.} other{Zobrazených je posledných {days} dní. Celá história je súčasťou Premium.}}",
+    "nl": "{days, plural, =1{De laatste dag wordt getoond. De volledige geschiedenis hoort bij Premium.} other{De laatste {days} dagen worden getoond. De volledige geschiedenis hoort bij Premium.}}",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "premiumFrequencyLimited": {
+    "en": "{count, plural, =1{Workouts per week, last week} other{Workouts per week, last {count} weeks}}",
+    "cs": "{count, plural, =1{Tréninky za týden, poslední týden} few{Tréninky za týden, poslední {count} týdny} other{Tréninky za týden, posledních {count} týdnů}}",
+    "de": "{count, plural, =1{Trainings pro Woche, letzte Woche} other{Trainings pro Woche, letzte {count} Wochen}}",
+    "es": "{count, plural, =1{Entrenamientos por semana, última semana} other{Entrenamientos por semana, últimas {count} semanas}}",
+    "fr": "{count, plural, =1{Séances par semaine, dernière semaine} other{Séances par semaine, {count} dernières semaines}}",
+    "pl": "{count, plural, =1{Treningi w tygodniu, ostatni tydzień} few{Treningi w tygodniu, ostatnie {count} tygodnie} many{Treningi w tygodniu, ostatnie {count} tygodni} other{Treningi w tygodniu, ostatnie {count} tygodnia}}",
+    "pt": "{count, plural, =1{Treinos por semana, última semana} other{Treinos por semana, últimas {count} semanas}}",
+    "it": "{count, plural, =1{Allenamenti a settimana, ultima settimana} other{Allenamenti a settimana, ultime {count} settimane}}",
+    "sk": "{count, plural, =1{Tréningy za týždeň, posledný týždeň} few{Tréningy za týždeň, posledné {count} týždne} other{Tréningy za týždeň, posledných {count} týždňov}}",
+    "nl": "{count, plural, =1{Trainingen per week, laatste week} other{Trainingen per week, laatste {count} weken}}",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mediaAnimationAuthor": {
+    "en": "Animation: {author}",
+    "cs": "Animace: {author}",
+    "de": "Animation: {author}",
+    "es": "Animación: {author}",
+    "fr": "Animation : {author}",
+    "pl": "Animacja: {author}",
+    "pt": "Animação: {author}",
+    "it": "Animazione: {author}",
+    "sk": "Animácia: {author}",
+    "nl": "Animatie: {author}",
+    "placeholders": {
+      "author": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaAnimationAttribution": {
+    "en": "Animation: {author}, {license}",
+    "cs": "Animace: {author}, {license}",
+    "de": "Animation: {author}, {license}",
+    "es": "Animación: {author}, {license}",
+    "fr": "Animation : {author}, {license}",
+    "pl": "Animacja: {author}, {license}",
+    "pt": "Animação: {author}, {license}",
+    "it": "Animazione: {author}, {license}",
+    "sk": "Animácia: {author}, {license}",
+    "nl": "Animatie: {author}, {license}",
+    "placeholders": {
+      "author": {
+        "type": "String"
+      },
+      "license": {
+        "type": "String"
+      }
+    }
+  },
+  "premiumGiftTitle": {
+    "en": "Premium free for 6 months",
+    "cs": "Premium na půl roku zdarma",
+    "de": "Premium 6 Monate gratis",
+    "es": "Premium gratis durante 6 meses",
+    "fr": "Premium offert pendant 6 mois",
+    "pl": "Premium za darmo przez pół roku",
+    "pt": "Premium grátis por 6 meses",
+    "it": "Premium gratis per 6 mesi",
+    "sk": "Premium na pol roka zadarmo",
+    "nl": "Premium 6 maanden gratis"
+  },
+  "premiumGiftBody": {
+    "en": "Thanks for being here from the start! You get all Premium features free until {date}. You pay nothing and nothing renews automatically.",
+    "cs": "Díky, že jsi tu od začátku! Všechny funkce Premium máš zdarma až do {date}. Nic neplatíš a nic se ti samo nepředplatí.",
+    "de": "Danke, dass du von Anfang an dabei bist! Alle Premium-Funktionen sind für dich bis {date} kostenlos. Du zahlst nichts und es verlängert sich nichts automatisch.",
+    "es": "¡Gracias por estar aquí desde el principio! Tienes todas las funciones Premium gratis hasta el {date}. No pagas nada y nada se renueva automáticamente.",
+    "fr": "Merci d’être là depuis le début ! Toutes les fonctions Premium sont gratuites pour toi jusqu’au {date}. Tu ne paies rien et rien ne se renouvelle automatiquement.",
+    "pl": "Dzięki, że jesteś z nami od początku! Wszystkie funkcje Premium masz za darmo do {date}. Nic nie płacisz i nic nie odnowi się automatycznie.",
+    "pt": "Obrigado por estar aqui desde o começo! Você tem todos os recursos Premium grátis até {date}. Você não paga nada e nada é renovado automaticamente.",
+    "it": "Grazie per essere qui fin dall’inizio! Hai tutte le funzioni Premium gratis fino al {date}. Non paghi nulla e niente si rinnova automaticamente.",
+    "sk": "Vďaka, že si tu od začiatku! Všetky funkcie Premium máš zadarmo až do {date}. Nič neplatíš a nič sa ti samo nepredplatí.",
+    "nl": "Bedankt dat je er vanaf het begin bij bent! Je hebt alle Premium-functies gratis tot {date}. Je betaalt niets en er wordt niets automatisch verlengd.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "premiumGiftButton": {
+    "en": "Thanks, let’s go",
+    "cs": "Díky, jdeme na to",
+    "de": "Danke, los geht’s",
+    "es": "Gracias, ¡vamos!",
+    "fr": "Merci, c’est parti",
+    "pl": "Dzięki, zaczynamy",
+    "pt": "Valeu, vamos lá",
+    "it": "Grazie, si parte",
+    "sk": "Vďaka, ideme na to",
+    "nl": "Bedankt, aan de slag"
+  },
+  "premiumGiftProfileTitle": {
+    "en": "Premium free",
+    "cs": "Premium zdarma",
+    "de": "Premium gratis",
+    "es": "Premium gratis",
+    "fr": "Premium offert",
+    "pl": "Premium za darmo",
+    "pt": "Premium grátis",
+    "it": "Premium gratis",
+    "sk": "Premium zadarmo",
+    "nl": "Premium gratis"
+  },
+  "premiumGiftProfileUntil": {
+    "en": "Early-user gift – valid until {date}",
+    "cs": "Dárek pro první uživatele – platí do {date}",
+    "de": "Geschenk für frühe Nutzer – gültig bis {date}",
+    "es": "Regalo para los primeros usuarios: válido hasta el {date}",
+    "fr": "Cadeau pour les premiers utilisateurs – valable jusqu’au {date}",
+    "pl": "Prezent dla pierwszych użytkowników – ważny do {date}",
+    "pt": "Presente para os primeiros usuários – válido até {date}",
+    "it": "Regalo per i primi utenti – valido fino al {date}",
+    "sk": "Darček pre prvých používateľov – platí do {date}",
+    "nl": "Cadeau voor de eerste gebruikers – geldig tot {date}",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  }
+}

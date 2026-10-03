@@ -1,0 +1,385 @@
+{
+  "statsVolumeTitle": {
+    "en": "Volume",
+    "cs": "Objem"
+  },
+  "statsVolumeSubtitle": {
+    "en": "Kg lifted per week, last {weeks} weeks",
+    "cs": "Zvednutá kila za týden, posledních {weeks} týdnů",
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      }
+    }
+  },
+  "statsVolumeEmpty": {
+    "en": "Log sets with weight to see your volume.",
+    "cs": "Zapiš série s vahou a uvidíš svůj objem."
+  },
+  "statsVolumeTooltip": {
+    "en": "Week of {week}: {kg} kg",
+    "cs": "Týden od {week}: {kg} kg",
+    "placeholders": {
+      "week": {
+        "type": "String"
+      },
+      "kg": {
+        "type": "String"
+      }
+    }
+  },
+  "statsVolumeByGroup": {
+    "en": "By muscle group, last {days} days",
+    "cs": "Podle partií, posledních {days} dní",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "statsKg": {
+    "en": "{kg} kg",
+    "cs": "{kg} kg",
+    "placeholders": {
+      "kg": {
+        "type": "String"
+      }
+    }
+  },
+  "statsActivityTitle": {
+    "en": "Activity",
+    "cs": "Aktivita"
+  },
+  "statsActivitySubtitle": {
+    "en": "Workout days, last {weeks} weeks",
+    "cs": "Dny s tréninkem, posledních {weeks} týdnů",
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      }
+    }
+  },
+  "statsActivityByGroup": {
+    "en": "Workouts per muscle group, last {days} days",
+    "cs": "Tréninky podle partií, posledních {days} dní",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "statsActivityByGroupEmpty": {
+    "en": "No workouts in this period yet.",
+    "cs": "Za tohle období zatím žádný trénink."
+  },
+  "statsTimes": {
+    "en": "{count}×",
+    "cs": "{count}×",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsActivityDay": {
+    "en": "{date}: {count, plural, =0{no workout} =1{1 workout} other{{count} workouts}}",
+    "cs": "{date}: {count, plural, =0{bez tréninku} =1{1 trénink} few{{count} tréninky} other{{count} tréninků}}",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsActivityLess": {
+    "en": "Less",
+    "cs": "Méně"
+  },
+  "statsActivityMore": {
+    "en": "More",
+    "cs": "Víc"
+  },
+  "statsInsightsTitle": {
+    "en": "Insights",
+    "cs": "Postřehy"
+  },
+  "statsInsightsEmpty": {
+    "en": "Keep training – insights will show up here.",
+    "cs": "Trénuj dál – postřehy se tu časem objeví."
+  },
+  "statsUnknownExercise": {
+    "en": "Exercise",
+    "cs": "Cvik"
+  },
+  "statsInsightWeightDropTitle": {
+    "en": "Weight dropping fast",
+    "cs": "Váha jde dolů rychle"
+  },
+  "statsInsightWeightDropBody": {
+    "en": "About {percent} % a week over the last 2 weeks. Losing up to ~1 % a week helps you keep your strength.",
+    "cs": "Asi {percent} % týdně za poslední 2 týdny. Když budeš hubnout do ~1 % týdně, udržíš si líp sílu.",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightIllnessTitle": {
+    "en": "Back after illness",
+    "cs": "Návrat po nemoci"
+  },
+  "statsInsightIllnessRecovered": {
+    "en": "{exercise}: back to form in {days, plural, =1{1 day} other{{days} days}}",
+    "cs": "{exercise}: zpátky ve formě za {days, plural, =1{1 den} few{{days} dny} other{{days} dní}}",
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInsightIllnessBelow": {
+    "en": "{exercise}: still ~{percent} % below your pre-illness best",
+    "cs": "{exercise}: ještě asi o {percent} % pod formou před nemocí",
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightCutOngoing": {
+    "en": "Cut so far",
+    "cs": "Dieta zatím"
+  },
+  "statsInsightCutDone": {
+    "en": "Cut summary",
+    "cs": "Shrnutí diety"
+  },
+  "statsInsightWeightChange": {
+    "en": "Body weight: {change} kg (7-day average)",
+    "cs": "Váha: {change} kg (7denní průměr)",
+    "placeholders": {
+      "change": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightStrengthKept": {
+    "en": "Strength kept on main lifts: {percent} %",
+    "cs": "Udržená síla u hlavních cviků: {percent} %",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightBulkOngoing": {
+    "en": "Bulk so far",
+    "cs": "Nabírání zatím"
+  },
+  "statsInsightBulkDone": {
+    "en": "Bulk summary",
+    "cs": "Shrnutí nabírání"
+  },
+  "statsInsightStrengthChange": {
+    "en": "Strength on main lifts: {change} %",
+    "cs": "Síla u hlavních cviků: {change} %",
+    "placeholders": {
+      "change": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightRecordsTitle": {
+    "en": "{count, plural, =1{1 new record this month} other{{count} new records this month}}",
+    "cs": "{count, plural, =1{1 nový rekord tento měsíc} few{{count} nové rekordy tento měsíc} other{{count} nových rekordů tento měsíc}}",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInsightRecordsBest": {
+    "en": "Best: {exercise}, 1RM ~{kg} kg ({gain} %)",
+    "cs": "Nejlepší: {exercise}, 1RM ~{kg} kg ({gain} %)",
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "kg": {
+        "type": "String"
+      },
+      "gain": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightNeglectedTitle": {
+    "en": "Forgotten muscle group",
+    "cs": "Zapomenutá partie"
+  },
+  "statsInsightNeglectedBody": {
+    "en": "{group}: not trained for {days, plural, =1{1 day} other{{days} days}}",
+    "cs": "{group}: bez tréninku už {days, plural, =1{1 den} few{{days} dny} other{{days} dní}}",
+    "placeholders": {
+      "group": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInsightConsistencyTitle": {
+    "en": "Consistency",
+    "cs": "Pravidelnost"
+  },
+  "statsInsightConsistencyPlanned": {
+    "en": "{average} workouts a week over the last 4 weeks (plan: {planned})",
+    "cs": "Za poslední 4 týdny {average} tréninku týdně (plán: {planned})",
+    "placeholders": {
+      "average": {
+        "type": "String"
+      },
+      "planned": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInsightConsistencyNoPlan": {
+    "en": "{average} workouts a week over the last 4 weeks",
+    "cs": "Za poslední 4 týdny {average} tréninku týdně",
+    "placeholders": {
+      "average": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightConsistencyOnTrack": {
+    "en": "You're sticking to your plan. Nice!",
+    "cs": "Držíš se plánu. Paráda!"
+  },
+  "statsInsightConsistencyBehind": {
+    "en": "A bit below plan – every workout counts.",
+    "cs": "Trochu pod plánem – počítá se každý trénink."
+  },
+  "statsStreakWeeks": {
+    "en": "{count, plural, =1{1 week in a row} other{{count} weeks in a row}}",
+    "cs": "{count, plural, =1{1 týden v řadě} few{{count} týdny v řadě} other{{count} týdnů v řadě}}",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsStreakStart": {
+    "en": "Start your streak this week",
+    "cs": "Rozjeď sérii tento týden"
+  },
+  "statsStreakThisWeek": {
+    "en": "This week: {done} of {goal}",
+    "cs": "Tento týden: {done} z {goal}",
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "statsStreakHint": {
+    "en": "A 5-minute home routine counts too.",
+    "cs": "Počítá se i 5min rutina doma."
+  },
+  "statsTodayWeightDropTitle": {
+    "en": "Easy does it",
+    "cs": "Pomalu a jistě"
+  },
+  "statsTodayWeightDropBody": {
+    "en": "Your weight is dropping by about {percent} % a week. Try eating a bit more so you keep your energy and strength.",
+    "cs": "Váha ti klesá asi o {percent} % týdně. Zkus jíst trochu víc, ať ti zůstane energie i síla.",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "statsRecordsTitle": {
+    "en": "Personal records",
+    "cs": "Osobní rekordy"
+  },
+  "statsRecordsEmpty": {
+    "en": "No records yet – log a set with weight.",
+    "cs": "Zatím žádné rekordy – zapiš sérii s vahou."
+  },
+  "statsRecordsEmptyShort": {
+    "en": "Your best lifts will show up here",
+    "cs": "Tady uvidíš své nejlepší výkony"
+  },
+  "statsRecordsCount": {
+    "en": "{count, plural, =1{1 exercise} other{{count} exercises}}",
+    "cs": "{count, plural, =1{1 cvik} few{{count} cviky} other{{count} cviků}}",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsE1rmLabel": {
+    "en": "est. 1RM",
+    "cs": "odhad 1RM"
+  },
+  "statsSetWeightReps": {
+    "en": "{weight} kg × {reps}",
+    "cs": "{weight} kg × {reps}",
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "statsSetWeightRepsShort": {
+    "en": "{weight} × {reps}",
+    "cs": "{weight} × {reps}",
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "statsSetReps": {
+    "en": "{reps, plural, =1{1 rep} other{{reps} reps}}",
+    "cs": "{reps} opak.",
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "statsExerciseTitle": {
+    "en": "Your progress",
+    "cs": "Tvůj pokrok"
+  },
+  "statsExerciseChartSubtitle": {
+    "en": "Estimated 1RM – the best set of each workout",
+    "cs": "Odhad 1RM – nejlepší série každého tréninku"
+  },
+  "statsExerciseRecent": {
+    "en": "Last workouts",
+    "cs": "Poslední tréninky"
+  }
+}

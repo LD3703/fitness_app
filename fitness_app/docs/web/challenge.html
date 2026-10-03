@@ -1,0 +1,243 @@
+<!doctype html>
+<!--
+  Stránka výzvy: <web>/challenge?e=<slug|id>&v=<1RM kg>&n=<jméno>&d=<rrrr-mm-dd>[&x=<název cviku>]
+  Nahrát na web jako /challenge (nebo /challenge/index.html), aby odpovídala
+  odkazům z aplikace (kWebBaseUrl v lib/modules/links/deep_links.dart).
+  TODO: doplnit odkazy do obchodů a název aplikace (stejně jako v aplikaci).
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fitness App – Challenge</title>
+  <meta name="robots" content="noindex">
+  <style>
+    :root {
+      --bg1: #0e3b32;
+      --bg2: #2e7d6b;
+      --accent: #ffc857;
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.8);
+      --card: rgba(255, 255, 255, 0.1);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      background-attachment: fixed;
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+    main { width: 100%; max-width: 440px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; }
+    .brand svg { width: 34px; height: 34px; flex: none; }
+    .label {
+      margin-top: 32px; color: var(--accent); font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; font-size: 13px;
+    }
+    h1 { font-size: 28px; line-height: 1.2; margin: 8px 0 20px; }
+    .card { background: var(--card); border-radius: 16px; padding: 20px; }
+    .exercise { font-size: 20px; font-weight: 600; margin: 0 0 6px; }
+    .value { font-size: 56px; font-weight: 800; color: var(--accent); line-height: 1.1; }
+    .value small { font-size: 24px; }
+    .muted { color: var(--muted); font-size: 15px; margin: 8px 0 0; }
+    .buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+    a.btn {
+      display: block; text-align: center; text-decoration: none; border-radius: 999px;
+      padding: 14px 20px; font-weight: 700; font-size: 16px;
+    }
+    a.primary { background: var(--accent); color: #0e3b32; }
+    a.secondary { border: 1px solid rgba(255, 255, 255, 0.6); color: var(--text); }
+    .stores { display: flex; gap: 12px; }
+    .stores a { flex: 1; }
+    .hint { color: var(--muted); font-size: 13px; text-align: center; margin-top: 12px; }
+    .error { display: none; }
+  </style>
+</head>
+<body>
+<main>
+  <div class="brand">
+    <svg viewBox="0 0 34 34" aria-hidden="true">
+      <rect width="34" height="34" rx="9" fill="#ffc857"/>
+      <g fill="#0e3b32">
+        <rect x="7.5" y="15.6" width="19" height="2.8" rx="1"/>
+        <rect x="7.8" y="9.2" width="3.4" height="15.6" rx="1.2"/>
+        <rect x="22.8" y="9.2" width="3.4" height="15.6" rx="1.2"/>
+        <rect x="4.4" y="11.9" width="2.7" height="10.2" rx="0.9"/>
+        <rect x="26.9" y="11.9" width="2.7" height="10.2" rx="0.9"/>
+      </g>
+    </svg>
+    <span id="appName">Fitness App</span>
+  </div>
+
+  <section id="challenge">
+    <div class="label" id="label"></div>
+    <h1 id="title"></h1>
+    <div class="card">
+      <p class="exercise" id="exercise"></p>
+      <div class="value"><span id="value"></span> <small>kg</small></div>
+      <p class="muted" id="goal"></p>
+      <p class="muted" id="deadline"></p>
+    </div>
+  </section>
+
+  <section id="error" class="error">
+    <h1 id="errorText"></h1>
+  </section>
+
+  <div class="buttons">
+    <a class="btn primary" id="openApp" href="#"></a>
+    <div class="stores">
+      <a class="btn secondary" id="playStore" href="#"></a>
+      <a class="btn secondary" id="appStore" href="#"></a>
+    </div>
+    <p class="hint" id="hint"></p>
+  </div>
+</main>
+
+<script>
+(function () {
+  // TODO: doplnit po vydání (stejné jako kPlayStoreUrl / kAppStoreUrl v aplikaci).
+  var PLAY_STORE = 'https://play.google.com/store/apps/details?id=cz.dedina.fitness_app';
+  var APP_STORE = 'https://apps.apple.com/app/id0000000000';
+  var APP_SCHEME = 'fitnessapp';
+
+  var T = {
+    en: {
+      label: 'Challenge',
+      from: '{name} challenges you!',
+      anon: 'A friend challenges you!',
+      goal: 'Beat this estimated one-rep max.',
+      deadline: 'Until {date}',
+      open: 'Open in app',
+      play: 'Google Play',
+      apple: 'App Store',
+      hint: "Don't have the app yet? Get it, then open this link again.",
+      invalid: "This challenge link doesn't work.",
+      unknown: 'Exercise'
+    },
+    cs: {
+      label: 'Výzva',
+      from: '{name} tě vyzývá!',
+      anon: 'Kamarád tě vyzývá!',
+      goal: 'Překonej tenhle odhad maxima na jedno opakování.',
+      deadline: 'Do {date}',
+      open: 'Otevřít v aplikaci',
+      play: 'Google Play',
+      apple: 'App Store',
+      hint: 'Aplikaci ještě nemáš? Stáhni si ji a pak otevři tenhle odkaz znovu.',
+      invalid: 'Tenhle odkaz na výzvu nefunguje.',
+      unknown: 'Cvik'
+    },
+    de: {
+      label: 'Challenge',
+      from: '{name} fordert dich heraus!',
+      anon: 'Ein Freund fordert dich heraus!',
+      goal: 'Schlag dieses geschätzte Maximalgewicht (1RM).',
+      deadline: 'Bis {date}',
+      open: 'In der App öffnen',
+      play: 'Google Play',
+      apple: 'App Store',
+      hint: 'Du hast die App noch nicht? Lade sie herunter und öffne den Link dann erneut.',
+      invalid: 'Dieser Challenge-Link funktioniert nicht.',
+      unknown: 'Übung'
+    },
+    es: {
+      label: 'Reto',
+      from: '¡{name} te reta!',
+      anon: '¡Un amigo te reta!',
+      goal: 'Supera este máximo estimado a una repetición (1RM).',
+      deadline: 'Hasta el {date}',
+      open: 'Abrir en la app',
+      play: 'Google Play',
+      apple: 'App Store',
+      hint: '¿Aún no tienes la app? Descárgala y vuelve a abrir este enlace.',
+      invalid: 'Este enlace de reto no funciona.',
+      unknown: 'Ejercicio'
+    },
+    fr: {
+      label: 'Défi',
+      from: '{name} te lance un défi !',
+      anon: 'Un ami te lance un défi !',
+      goal: 'Bats ce maximum estimé sur une répétition (1RM).',
+      deadline: "Jusqu'au {date}",
+      open: "Ouvrir dans l'app",
+      play: 'Google Play',
+      apple: 'App Store',
+      hint: "Tu n'as pas encore l'app ? Télécharge-la puis rouvre ce lien.",
+      invalid: 'Ce lien de défi ne fonctionne pas.',
+      unknown: 'Exercice'
+    }
+  };
+
+  function pickLang() {
+    var langs = navigator.languages && navigator.languages.length
+      ? navigator.languages : [navigator.language || 'en'];
+    for (var i = 0; i < langs.length; i++) {
+      var code = String(langs[i] || '').toLowerCase().split('-')[0];
+      if (T[code]) return code;
+    }
+    return 'en';
+  }
+
+  var lang = pickLang();
+  var t = T[lang];
+  document.documentElement.lang = lang;
+
+  function text(id, value) { document.getElementById(id).textContent = value; }
+
+  function humanize(slug) {
+    var s = String(slug).replace(/[_\-]+/g, ' ').trim();
+    return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+  }
+
+  var params = new URLSearchParams(window.location.search);
+  var e = (params.get('e') || '').trim();
+  var v = parseFloat((params.get('v') || '').replace(',', '.'));
+  var n = (params.get('n') || '').trim().slice(0, 40);
+  var x = (params.get('x') || '').trim().slice(0, 40);
+  var d = (params.get('d') || '').trim();
+
+  text('openApp', t.open);
+  text('playStore', t.play);
+  text('appStore', t.apple);
+  text('hint', t.hint);
+  document.getElementById('playStore').href = PLAY_STORE;
+  document.getElementById('appStore').href = APP_STORE;
+
+  var valid = e && isFinite(v) && v > 0 && v <= 1000;
+  if (!valid) {
+    document.getElementById('challenge').style.display = 'none';
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('openApp').style.display = 'none';
+    text('errorText', t.invalid);
+    return;
+  }
+
+  // Odkaz do aplikace se stejnými parametry.
+  document.getElementById('openApp').href =
+    APP_SCHEME + '://challenge?' + params.toString();
+
+  text('label', t.label);
+  text('title', n ? t.from.replace('{name}', n) : t.anon);
+  document.title = (n ? t.from.replace('{name}', n) : t.anon) + ' – ' +
+    document.getElementById('appName').textContent;
+  // Číselné ID = vlastní cvik; název pak nese parametr x.
+  var exerciseName = x || (/^\d+$/.test(e) ? t.unknown : humanize(e));
+  text('exercise', exerciseName);
+  text('value', new Intl.NumberFormat(lang, { maximumFractionDigits: 1 }).format(v));
+  text('goal', t.goal);
+
+  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d);
+  if (m) {
+    var date = new Date(+m[1], +m[2] - 1, +m[3]);
+    text('deadline', t.deadline.replace('{date}',
+      new Intl.DateTimeFormat(lang, { dateStyle: 'long' }).format(date)));
+  }
+})();
+</script>
+</body>
+</html>
