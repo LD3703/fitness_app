@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'gym/gym_service.dart';
 import 'social_auth.dart';
 import 'social_backend.dart';
 import 'social_logic.dart';
@@ -460,6 +461,12 @@ class SocialService {
   /// uklízí totéž znovu (pro jistotu), ale aplikace na ni nespoléhá.
   Future<void> deleteAllServerData() async {
     final me = _me;
+    // Z posilovny odejít (smaže záznamy v žebříčku, sníží počet členů).
+    try {
+      await GymService.instance.leaveGym();
+    } catch (e) {
+      debugPrint('Social: leaving gym failed: $e');
+    }
     final code = await _myCode();
     final friends = await friendUids();
 
@@ -477,6 +484,7 @@ class SocialService {
           .docs
           .map((d) => d.reference),
       _private(me),
+      userDoc(me).collection('private').doc('gym'),
       if (code != null) _code(code),
       userDoc(me),
     ];

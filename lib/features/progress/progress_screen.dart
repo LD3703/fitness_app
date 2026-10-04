@@ -7,6 +7,7 @@ import '../../core/injury.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../modules/module_hub.dart';
+import '../../premium/premium.dart';
 import '../../providers.dart';
 import '../../ui/charts.dart';
 import '../../ui/format.dart';
@@ -34,6 +35,10 @@ class ProgressScreen extends ConsumerWidget {
     final periods = showPeriods
         ? ref.watch(periodsProvider).valueOrNull ?? const <Period>[]
         : const <Period>[];
+    // Premium: pruhy období v grafech (zdarma bez nich).
+    final bandsAllowed =
+        ref.watch(premiumProvider).isPremium(PremiumFeature.periodBands);
+    final bandPeriods = bandsAllowed ? periods : const <Period>[];
     final history = ref.watch(sessionHistoryProvider);
 
     return Scaffold(
@@ -41,11 +46,21 @@ class ProgressScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.only(bottom: 24),
         children: [
-          if (profile?.trackWeight ?? true) _WeightChartCard(periods: periods),
-          _StrengthChartCard(periods: periods),
+          if (profile?.trackWeight ?? true)
+            _WeightChartCard(periods: bandPeriods),
+          _StrengthChartCard(periods: bandPeriods),
           const _FrequencyCard(),
           ...moduleProgressCards(),
-          if (periods.isNotEmpty) _PeriodLegend(periods: periods),
+          if (periods.isNotEmpty)
+            bandsAllowed
+                ? _PeriodLegend(periods: periods)
+                : const Padding(
+                    padding: EdgeInsets.fromLTRB(16, 4, 16, 0),
+                    child: PremiumLockedPlaceholder(
+                      feature: PremiumFeature.periodBands,
+                      compact: true,
+                    ),
+                  ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
             child: Text(l10n.historyTitle,
@@ -154,19 +169,30 @@ class _WeightChartCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final entries = ref.watch(weightHistoryProvider).valueOrNull ?? const [];
+    // Premium: celá historie; zdarma posledních 30 dní.
+    final fullHistory =
+        ref.watch(premiumProvider).isPremium(PremiumFeature.fullHistory);
+    final allEntries =
+        ref.watch(weightHistoryProvider).valueOrNull ?? const <BodyWeightEntry>[];
+    final entries = pointsSince(
+      allEntries,
+      (BodyWeightEntry e) => e.day,
+      chartHistoryStart(DateTime.now(), fullHistory: fullHistory),
+    );
     // Grafy kreslí hodnoty rovnou ve zvolených jednotkách (kg / lb).
     final raw = [for (final e in entries) (x: e.day, y: kgToDisplay(e.weightKg))];
     final avg = movingAverage(raw);
 
     return _ChartCard(
       title: l10n.chartWeightTitle,
-      subtitle: l10n.chartLastDays(chartDays),
+      subtitle: l10n.chartLastDays(fullHistory ? chartDays : kFreeChartDays),
       child: raw.length < 2
           ? _EmptyChart(l10n.chartWeightEmpty)
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (allEntries.length > entries.length)
+                  const _HistoryLimitHint(),
                 TimeSeriesChart(
                   series: [
                     ChartSeries(
@@ -219,10 +245,17 @@ class _StrengthChartCard extends ConsumerWidget {
     final chosenId = ref.watch(chartExerciseProvider);
     final exercise = exercises.where((e) => e.id == chosenId).firstOrNull ??
         exercises.firstOrNull;
-    final points = exercise == null
+    final fullHistory =
+        ref.watch(premiumProvider).isPremium(PremiumFeature.fullHistory);
+    final allPoints = exercise == null
         ? const <SeriesPoint>[]
         : ref.watch(oneRepMaxSeriesProvider(exercise.id)).valueOrNull ??
             const <SeriesPoint>[];
+    final points = pointsSince(
+      allPoints,
+      (SeriesPoint p) => p.x,
+      chartHistoryStart(DateTime.now(), fullHistory: fullHistory),
+    );
 
     return _ChartCard(
       title: l10n.chartStrengthTitle,
@@ -243,20 +276,29 @@ class _StrengthChartCard extends ConsumerWidget {
                   ref.read(chartExerciseProvider.notifier).state = id,
             ),
       child: points.length < 2
-          ? _EmptyChart(l10n.chartStrengthEmpty)
-          : TimeSeriesChart(
-              series: [
-                ChartSeries(
-                  points: [
-                    for (final p in points) (x: p.x, y: kgToDisplay(p.y)),
+          ? (allPoints.length > points.length
+              ? const _HistoryLimitHint()
+              : _EmptyChart(l10n.chartStrengthEmpty))
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (allPoints.length > points.length)
+                  const _HistoryLimitHint(),
+                TimeSeriesChart(
+                  series: [
+                    ChartSeries(
+                      points: [
+                        for (final p in points) (x: p.x, y: kgToDisplay(p.y)),
+                      ],
+                      color: theme.colorScheme.primary,
+                    ),
                   ],
-                  color: theme.colorScheme.primary,
+                  bands: periodBands(periods, exercise!.muscleGroup),
+                  formatY: (v) =>
+                      '${formatDecimal(context, roundToStep(v, step: isImperial ? 1 : 0.5))} '
+                      '$weightUnit',
                 ),
               ],
-              bands: periodBands(periods, exercise!.muscleGroup),
-              formatY: (v) =>
-                  '${formatDecimal(context, roundToStep(v, step: isImperial ? 1 : 0.5))} '
-                  '$weightUnit',
             ),
     );
   }
@@ -270,13 +312,21 @@ class _FrequencyCard extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final dates = ref.watch(workoutDatesProvider).valueOrNull ?? const [];
-    final weeks = weeklyCounts(dates, DateTime.now());
+    final allWeeks = weeklyCounts(dates, DateTime.now());
+    // Premium: zdarma jen posledních 5 týdnů (≈ 30 dní).
+    final fullHistory =
+        ref.watch(premiumProvider).isPremium(PremiumFeature.fullHistory);
+    final weeks = allWeeks.sublist(
+      allWeeks.length - visibleWeekCount(allWeeks.length, fullHistory: fullHistory),
+    );
     final fmt = DateFormat.MMMd(Localizations.localeOf(context).toString());
     final total = weeks.fold<int>(0, (a, w) => a + w.count);
 
     return _ChartCard(
       title: l10n.chartFrequencyTitle,
-      subtitle: l10n.chartFrequencySubtitle,
+      subtitle: weeks.length < allWeeks.length
+          ? l10n.premiumFrequencyLimited(weeks.length)
+          : l10n.chartFrequencySubtitle,
       child: total == 0
           ? _EmptyChart(l10n.chartFrequencyEmpty)
           : WeeklyBarChart(
@@ -290,6 +340,18 @@ class _FrequencyCard extends ConsumerWidget {
             ),
     );
   }
+}
+
+/// Zdarma grafy ukazují jen posledních 30 dní – odkaz na Premium.
+class _HistoryLimitHint extends StatelessWidget {
+  const _HistoryLimitHint();
+
+  @override
+  Widget build(BuildContext context) => PremiumLockedPlaceholder(
+        feature: PremiumFeature.fullHistory,
+        compact: true,
+        text: AppLocalizations.of(context).premiumChartLimited(kFreeChartDays),
+      );
 }
 
 class _LegendItem extends StatelessWidget {

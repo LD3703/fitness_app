@@ -250,6 +250,77 @@ class WorkoutShareCard extends StatelessWidget {
   }
 }
 
+/// Data pro kartu získaného odznaku.
+class BadgeCardData {
+  const BadgeCardData({
+    required this.name,
+    required this.description,
+    required this.icon,
+    required this.date,
+  });
+
+  final String name;
+  final String description;
+
+  /// Ikona odznaku (Material ikona, žádné emoji).
+  final IconData icon;
+  final DateTime date;
+}
+
+/// Karta získaného odznaku (obrázek ke sdílení).
+class BadgeShareCard extends StatelessWidget {
+  const BadgeShareCard({super.key, required this.data, required this.label});
+
+  final BadgeCardData data;
+
+  /// Štítek nahoře („Nový odznak“).
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return _CardFrame(
+      label: label,
+      icon: Icons.military_tech,
+      date: data.date,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 84,
+            height: 84,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: _CardColors.accent,
+              border: Border.all(color: _CardColors.faint, width: 6),
+            ),
+            child: Icon(data.icon, size: 44, color: _CardColors.top),
+          ),
+          const SizedBox(height: 18),
+          Text(
+            data.name,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.w800,
+              height: 1.15,
+              color: _CardColors.text,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            data.description,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 15, color: _CardColors.muted),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _Stat extends StatelessWidget {
   const _Stat({required this.value, required this.label});
 

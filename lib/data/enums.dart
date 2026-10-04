@@ -41,3 +41,13 @@ enum ChallengeKind {
   /// Týdenní pitný režim (cíl = ml za týden).
   weeklyWater,
 }
+
+/// Pocit po tréninku (volitelný, v souhrnu). Upravuje zátěž tréninku
+/// v modelu únavy svalů (viz core/fatigue.dart).
+enum WorkoutFeeling { easy, ok, hard }
+
+/// Druh automatické změny cílů v plánu po tréninku (verze schématu 10,
+/// viz core/auto_progression.dart): vyšší váha, +1 opakování (u cviků na
+/// čas sekundy), odlehčení o 10 %, nebo „drží“ (zvýšení zablokované kvůli
+/// nemoci, zranění, zotavování nebo dietě).
+enum ProgressionKind { increase, reps, deload, hold }

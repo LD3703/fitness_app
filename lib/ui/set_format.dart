@@ -5,10 +5,12 @@ import '../data/database.dart';
 import '../l10n/app_localizations.dart';
 import 'format.dart';
 
-/// Stručný popis sérií plánu: „R 15 @ 40 kg · 3 × 10 @ 60 kg“ (nebo lb).
+/// Stručný popis sérií plánu:
+/// „Rozcvička 15 @ 40 kg · 3 × 10 @ 60 kg · Drop série 10“ (nebo lb).
+/// Rozcvička a drop série mají předponu celým slovem (žádné zkratky).
 String describePlanSets(
   BuildContext context,
-  Iterable<({int reps, double? weightKg, bool isWarmup})> sets, {
+  Iterable<({int reps, double? weightKg, bool isWarmup, bool isDrop})> sets, {
   required bool isDuration,
 }) {
   final l10n = AppLocalizations.of(context);
@@ -19,7 +21,11 @@ String describePlanSets(
     final weight = g.weightKg == null || isDuration
         ? ''
         : ' @ ${formatWeightWithUnit(context, g.weightKg!)}';
-    final prefix = g.isWarmup ? '${l10n.setWarmupShort} ' : '';
+    final prefix = g.isWarmup
+        ? '${l10n.setKindWarmup} '
+        : g.isDrop
+            ? '${l10n.setKindDrop} '
+            : '';
     parts.add('$prefix$base$weight');
   }
   return parts.join(' · ');

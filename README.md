@@ -17,10 +17,52 @@ Funguje:
   s předvyplněním z minula, sloupec „Minule“, časovač pauzy (−15 / +15 /
   přeskočit), přidání cviku i série během tréninku, pokračování po zavření
   aplikace, zahození tréninku.
-- **Souhrn po tréninku:** délka, počet sérií, objem, odhad kalorií
-  a nové osobní rekordy (odhad 1RM).
+- **Supersérie:** v editoru plánu (ikona řetězu u cviku → „Spojit s dalším
+  cvikem“) i během tréninku jde spojit 2–3 po sobě jdoucí cviky (A1, A2…).
+  V tréninku jsou v jednom rámečku, střídají se (po A1 se navrhne stejné kolo
+  A2) a pauza začne až po posledním cviku kola (podle jeho pauzy).
+- **Drop série:** v plánu i v tréninku („Drop série“ za odškrtnutou sérií
+  předvyplní váhu o 20 % nižší, zaokrouhlenou na kotouče); štítek „Drop série“,
+  pauza až po poslední drop sérii. Počítají se do objemu, ne do rekordů,
+  odhadu 1RM, žebříčku posilovny a výzev.
+- **Únava svalů:** karta „Regenerace svalů“ na obrazovce Dnes (partie od
+  nejunavenější, stav zotaveno / regeneruje se / unaveno s ikonou a %),
+  odhad z tréninků za 7 dní (vedlejší partie, drop série, poločas 24/36 h,
+  pocit po tréninku); před tréninkem podle plánu jemné upozornění, když je
+  partie unavená z ≥ 80 % (trénovat / plán B / odložit); nápověda v editoru
+  plánu.
+- **Souhrn po tréninku:** délka, počet sérií, objem, odhad kalorií,
+  nové osobní rekordy (odhad 1RM) a volitelný pocit (lehké / akorát /
+  náročné).
 - **Dnes:** dnešní plány podle dnů v týdnu, pokračování rozpracovaného
   tréninku, pitný režim, váha, aktuální období.
+- **Druh série celým slovem:** rozcvička a drop série mají místo čísla ikonu
+  a štítek „Rozcvička“ / „Drop série“ (v tréninku, editoru plánu i v popisu
+  sérií); v aplikaci nejsou jednopísmenné ani tečkové zkratky (jen jednotky
+  jako kg, lb, ml, min, s a 1RM).
+- **Progresivní přetížení:** karta na obrazovce Pokrok – pro každou partii
+  (hlavní partie cviků) porovná poslední 2 týdny s 2 týdny předtím: objem
+  pracovních sérií (drop série se počítají) a odhad 1RM cvik po cviku.
+  Stav slovem i ikonou: zlepšuje se (objem +2,5 % nebo 1RM cviku +1 %),
+  stagnuje, klesá (objem −10 % bez zlepšení 1RM), drží (pokles v dietě)
+  a důvod („Bench press: 1RM +3 %“, „Objem +8 %“). Týdny s nemocí, pauzou
+  nebo zraněním partie se vynechají. Stagnace 3+ týdny → tip (přidat
+  1–2 opakování / sérii / 2,5 kg či 5 lb). Se zapnutou ranní připomínkou
+  přijde v pondělí ráno týdenní souhrn.
+- **Odznaky:** série týdnů s progresem (2–52 týdnů), mistr partie (8 týdnů
+  progresu či udržení, z toho 4 s progresem), osobní rekordy (1, 10, 50)
+  a pravidelnost podle plánu (4, 12, 26 týdnů). Nové odznaky se ukážou
+  v souhrnu po tréninku se sdílením obrázku; galerie (získané barevně
+  s datem, zamčené šedě s návodem a postupem) z obrazovky Pokrok i z Profilu.
+- **Vzhled:** v Profilu světlý / tmavý / podle systému; tmavý motiv pro
+  všechny obrazovky, karty a grafy.
+- **Tón zpráv:** v onboardingu i v Profilu „Přátelský“ nebo „Přísný
+  trenér“ – hravý sarkasmus („Gauč tě určitě vytrénuje sám.“) po
+  vynechání/odložení tréninku, v ranní připomínce, připomínkách pití, po
+  plánu B, v souhrnu po tréninku, v tipech při stagnaci a v dialogu únavy
+  (tam přísně doporučí odpočinek). Všechny texty: docs/coach_tone.md. Bez urážek
+  a vulgarismů; při nemoci, zranění, 7 dní po nemoci a při únavě partie
+  ≥ 80 % se vždy použije přátelský text – zdraví má přednost.
 - **Pokrok:** grafy váhy (průměr za 7 dní + denní vážení), síly (odhad 1RM
   pro zvolený cvik) a počtu tréninků za týden; období (nemoc, dieta…) jsou
   v grafech vybarvená pruhem. Pod grafy historie tréninků.
@@ -35,7 +77,7 @@ Funguje:
   totéž jde měnit v Profilu, vypnuté funkce se skryjí.
 - **Odložení / vynechání tréninku:** z obrazovky Dnes (menu ⋮ u plánu),
   s uklidňující hláškou a možností vrátit.
-- **Cviky:** knihovna 53 cviků s návodem (CZ/EN), hledáním a filtrem.
+- **Cviky:** knihovna 55 cviků s návodem (CZ/EN), hledáním a filtrem.
 - **Hotové programy:** Full body 3×, Horní/dolní 4×, Push/Pull/Legs –
   přidají se jedním klepnutím do Plánů.
 - **Plán B:** 5minutová domácí rutina s časovačem (práce/pauza); po dokončení
@@ -46,7 +88,7 @@ Funguje:
   telefonu a při změně plánu se samy upraví.
 - **Pitný režim:** ve dny tréninku se cíl zvýší o 500 ml.
 - **Soukromí:** vše je jen v telefonu; v Profilu jde smazat všechna data.
-- **Jazyky:** angličtina, čeština, němčina, španělština, francouzština –
+- **Jazyky:** 10 jazyků (EN, CS, DE, ES, FR, PL, PT-BR, IT, SK, NL) –
   podle jazyka telefonu. Přeložené jsou i názvy cviků, návody, programy
   a rutiny plánu B; cvik jde vyhledat v kterémkoli jazyce i bez diakritiky.
 
@@ -69,13 +111,32 @@ Verze 2 a 3 (moduly v `lib/modules/`):
   cviky, jednotky kg/lb a ml/oz, vlastní objem sklenice a láhve.
 - **Přátelé (Firebase):** přihlášení Google/Apple, přátelé přes QR nebo
   odkaz, pozvánky na trénink do kalendáře, upozornění na rekordy přátel,
-  výzvy, žebříčky, společný streak. Než se nastaví Firebase
+  výzvy, žebříček přátel (tréninky, objem), společný streak a žebříček
+  posilovny (odhad 1RM v 16 cvicích – bench, dřep, mrtvý tah, tlaky,
+  bicepsové zdvihy, shyby a dipy se zátěží… – a tréninky v měsíci, filtr
+  pohlaví a věku, „Překonej mě“). Než se nastaví Firebase
   (`docs/social.md`), aplikace funguje dál a sekce Přátelé jen hlásí,
   že není nastavená.
-- **Polština** jako šestý jazyk.
+- **Automatická progrese:** po tréninku podle plánu navrhne v souhrnu
+  („Příště“) nové cíle cviků – dvojitá progrese v rozsahu opakování,
+  přírůstek podle partie a vybavení, odlehčení o 10 % po 2 neúspěších;
+  při nemoci, zranění partie, zotavování a dietě „drží“. Režim v Profilu
+  (vypnuto / navrhovat / použít automaticky s „Vrátit“), nastavení u cviku
+  v editoru plánu, štítek čekajícího návrhu v editoru plánu (schéma v10).
+- **Záloha do cloudu:** automatická záloha databáze do Firebase Cloud
+  Storage (po tréninku a jednou denně, volitelně jen přes Wi-Fi), obnovení
+  na novém telefonu (`docs/social.md`, „Automatická záloha“).
+- **Hodinky Wear OS:** aplikace pro hodinky ve složce `wear/` – zápis
+  sérií, úprava váhy a opakování, pauza (`docs/wear_os.md`).
+- **Premium:** připravené, ale vypnuté (`kPremiumLaunched = false`) –
+  kapitola 5a. Automatická progrese, automatická záloha do cloudu
+  a hodinky budou po spuštění součástí Premium; obnovení existující
+  zálohy zůstane vždy zdarma.
+- **Jazyky:** angličtina, čeština, němčina, španělština, francouzština,
+  polština, portugalština (Brazílie), italština, slovenština, nizozemština.
 
 Na iOS zatím není widget a Live Activity (potřebují Xcode na Macu).
-Reklamy a Premium nejsou součástí verzí 2 a 3.
+Reklamy nejsou součástí verzí 2 a 3; Premium je v kódu, ale vypnuté.
 
 ---
 
@@ -189,6 +250,56 @@ na začátku skriptu (ID je v adrese `https://wger.de/en/exercise/<ID>/view/`)
 a spusť ho znovu. Licence CC BY-SA vyžaduje uvést autora – aplikace ho
 ukazuje pod obrázkem a v „O aplikaci“.
 
+Když má cvik na wger.de animovaný GIF / WebP, skript ho stáhne přednostně
+(v aplikaci se pak přehrává animace místo střídání dvou obrázků). Seznam
+stažených obrázků se ukládá do `tool/media/wger_media.json`.
+
+### Animace cviků z koupeného balíčku (Gym Visual, ExerciseAnimatic)
+
+Aplikace umí přehrát animovaný GIF nebo WebP (klepnutím se animace
+zastaví / spustí). Postup:
+
+1. Kup balíček animací s licencí pro použití v mobilní aplikaci
+   (např. Gym Visual <https://www.gymvisual.com> nebo ExerciseAnimatic).
+   Licenci si přečti – obvykle zakazuje
+   soubory dál šířit jinak než uvnitř aplikace.
+2. Vyber soubory pro cviky z aplikace a dej je do jedné složky, např.
+   `C:\animace`. Pojmenuj je podle slugu cviku: `bench_press.gif`,
+   `back_squat.webp`, … (seznam slugů je v `lib/data/seed/seed_data.dart`,
+   první text v každém `SeedExercise(...)`). Velikost písmen, mezery
+   a pomlčky nevadí: `Bench-Press.GIF` = `bench_press`.
+3. Když nechceš soubory přejmenovávat, vytvoř `udaje.csv`:
+   ```csv
+   slug,file,author,license,author_url,source_url
+   *,,Gym Visual,,,https://www.gymvisual.com
+   bench_press,0025-barbell-bench-press.gif,,,,
+   back_squat,0043-barbell-full-squat.gif,,,,
+   ```
+   Řádek s `*` platí pro všechny soubory (autor, licence, odkaz). Prázdné
+   buňky se doplní z něj. Místo CSV jde i JSON se stejnými údaji.
+4. Spusť z kořene projektu:
+   ```powershell
+   dart run tool/media_import.dart C:\animace --author "Gym Visual" --url https://www.gymvisual.com
+   # nebo s údaji ze souboru
+   dart run tool/media_import.dart C:\animace --meta C:\animace\udaje.csv
+   flutter run
+   ```
+   Skript zkopíruje soubory do `assets/exercises/<slug>.gif` (nebo `.webp`),
+   zapíše `tool/media/purchased_media.json` a přegeneruje
+   `lib/data/seed/exercise_media.dart`. Koupená animace má přednost před
+   obrázky z wger.de; cviky bez animace dál ukazují obrázky z wger.de.
+   Na konci vypíše cviky, které ještě žádnou ukázku nemají.
+5. Další balíček přidáš stejným příkazem (nové soubory se přidají nebo
+   přepíšou starší). `--replace` smaže všechny dřív importované animace
+   a začne znovu. Pozdější `dart run tool/wger_import.dart` koupené
+   animace nepřepíše.
+
+Tipy: GIF bývá velký (kolem 1 MB). Skript upozorní, když obrázky cviků
+přesáhnou 40 MB – pak je převeď na animovaný WebP (výrazně menší) nebo
+zmenši na šířku kolem 480 px (např. `ffmpeg -i in.gif -vf scale=480:-1
+-loop 0 out.webp`). Pod animací aplikace ukazuje „Animace: autor“
+(a licenci, je-li vyplněná); klepnutí otevře odkaz `source_url`.
+
 ---
 
 ## 2b. iOS přes Codemagic
@@ -275,7 +386,7 @@ lib/
     enums.dart              výčty (partie, vybavení, typ období...)
     tables.dart             tabulky databáze podle specifikace
     database.dart           databáze, počáteční data, dotazy
-    seed/seed_data.dart     53 cviků + 3 domácí 5min rutiny
+    seed/seed_data.dart     55 cviků + 3 domácí 5min rutiny
     seed/seed_instructions.dart  návody ke cvikům (CZ/EN)
     seed/plan_templates.dart     hotové programy pro začátečníky
     seed/seed_translations.dart  cviky, návody a programy v de/es/fr
@@ -324,7 +435,11 @@ codemagic.yaml              buildy pro iOS v cloudu
 | home_widget | widget na plochu (Android) |
 | health | Health Connect / Apple Zdraví |
 | firebase_*, google_sign_in, sign_in_with_apple | přátelé a výzvy |
+| firebase_storage, connectivity_plus, device_info_plus | záloha do cloudu (Wi-Fi, název zařízení) |
 | qr_flutter, mobile_scanner | QR kód přítele |
+| watch_connectivity | spojení s hodinkami Wear OS (i ve `wear/`) |
+| wear_plus (jen `wear/`) | kulatý displej a úsporný režim hodinek |
+| purchases_flutter | předplatné Premium (RevenueCat), zatím vypnuté |
 
 ## 5. Co musíš nastavit ručně
 
@@ -332,14 +447,64 @@ codemagic.yaml              buildy pro iOS v cloudu
   `kAppStoreUrl` v `lib/modules/links/deep_links.dart`, název na kartách
   (`kShareAppName`) a stejné údaje v `docs/web/challenge.html`.
 - **Přátelé:** Firebase podle `docs/social.md`.
+- **Záloha do cloudu:** Cloud Storage v EU a nasazení `storage.rules`
+  (`docs/social.md`, kapitola „Automatická záloha“).
 - **Health Connect:** v Google Play Console vyplnit prohlášení o zdravotních
   oprávněních; u Applu zapnout HealthKit pro App ID `cz.dedina.fitnessApp`.
 - **iOS:** pro Firebase, Health a Apple přihlášení zapnout v Apple Developer
   u App ID schopnosti Push Notifications, HealthKit a Sign in with Apple.
+- **Hodinky (Wear OS):** samostatný projekt ve složce `wear/` – sestavení,
+  spárování emulátorů a vydání v Google Play podle `docs/wear_os.md`.
+- **Premium (až bude živnostenský list):** viz kapitola 5a.
+
+## 5a. Premium (zatím vypnuté)
+
+Aplikace je teď celá zdarma: v `lib/premium/premium.dart` je
+`kPremiumLaunched = false`, takže je vše odemčené a nikde se neukáže
+nákup ani paywall. Zapisování tréninků zůstane zdarma vždy.
+
+**Premium na půl roku zdarma pro první uživatele:** po dokončení
+úvodního nastavení (stávající uživatelé při prvním otevření po
+aktualizaci) se jednou ukáže hláška „Premium na půl roku zdarma“ a do
+profilu se uloží datum konce (`UserProfiles.premiumGiftUntil`, 6 měsíců).
+V Profilu je pak řádek „Premium zdarma – platí do …“. Dárek se dává jen
+dokud je `kPremiumLaunched = false`; po spuštění plateb se dodrží
+(funkce zůstanou odemčené do uloženého data) a noví uživatelé už
+dostanou jen zkušební měsíc z obchodu. Dárek je uložený v telefonu
+(a v záloze), ne v RevenueCat – kdo aplikaci přeinstaluje bez obnovení
+zálohy, o něj po spuštění plateb přijde.
+
+Co bude v Premium (roční předplatné 8 USD / 8 EUR, první měsíc zdarma):
+neomezeně vlastních plánů (zdarma 3), všechny hotové programy (zdarma 2),
+víc rutin plánu B (zdarma 3), pruhy období v grafech, celá historie grafů
+(zdarma 30 dní), automatické postřehy, návrhy volného času z kalendáře,
+export CSV, automatické navyšování zátěže, automatická záloha do cloudu
+a aplikace pro hodinky Wear OS.
+
+Spuštění:
+1. Google Play Console a App Store Connect: vytvoř roční předplatné
+   (stejné ID produktu, např. `premium_yearly`) se zkušební dobou 1 měsíc
+   a cenou 8 USD / 8 EUR. U Applu je potřeba smlouva „Paid Apps“
+   a bankovní / daňové údaje.
+2. <https://app.revenuecat.com>: nový projekt, přidej aplikace Android
+   (`cz.dedina.fitness_app`, servisní účet Google Play) a iOS
+   (`cz.dedina.fitnessApp`, klíč App Store Connect API). Vytvoř
+   entitlement `premium`, k němu oba produkty a nabídku (Offering)
+   „default“ s balíčkem typu Annual.
+3. Veřejné API klíče z RevenueCat (Project settings → API keys) vlož do
+   `kRevenueCatAndroidKey` a `kRevenueCatIosKey` v
+   `lib/premium/premium.dart` a přepni `kPremiumLaunched = true`.
+4. Doplň skutečné adresy podmínek a zásad ochrany soukromí
+   (`kPremiumTermsUrl`, `kPremiumPrivacyUrl` v
+   `lib/premium/premium_screen.dart`).
+5. Otestuj nákup testovacím účtem (Google Play: licenční testeři,
+   iOS: Sandbox v TestFlightu).
+
+Bez vyplněných klíčů aplikace nespadne, jen nákup nebude dostupný.
 
 ## 6. Další kroky
 
 1. První build, oprava chyb z překladače, testování na telefonu.
 2. Kontrola překladů rodilými mluvčími.
-3. Animace cviků (Gym Visual / ExerciseAnimatic).
-4. Reklamy a Premium (až s živnostenským listem).
+3. Animace cviků: koupit balíček a naimportovat (kapitola 2a).
+4. Spuštění Premium (kapitola 5a, až s živnostenským listem).

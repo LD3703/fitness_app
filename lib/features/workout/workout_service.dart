@@ -10,13 +10,18 @@ class WorkoutBlockData {
     required this.previous,
     required this.saved,
     required this.record,
+    this.supersetGroup,
   });
 
   final Exercise exercise;
 
-  /// Cílové série z plánu (opakování, váha, rozcvička).
+  /// Cílové série z plánu (opakování, váha, rozcvička, drop série).
   final List<PlanSetDraft> targets;
   final int restSeconds;
+
+  /// Supersérie: z plánu, nebo z už uložených sérií (propojení během
+  /// tréninku). null = samostatný cvik.
+  final int? supersetGroup;
 
   /// Osobní rekord cviku z předchozích tréninků.
   final ExerciseRecord? record;
@@ -42,9 +47,16 @@ class WorkoutSetup {
 
 const defaultRestSeconds = 90;
 
+/// Supersérie cviku podle už uložených sérií (poslední zapsaná série má
+/// aktuální stav – při propojení během tréninku se přepíší všechny).
+int? _savedSupersetGroup(List<SetEntry> saved) {
+  if (saved.isEmpty) return null;
+  return saved.reduce((a, b) => a.id > b.id ? a : b).supersetGroup;
+}
+
 /// Načte vše potřebné pro obrazovku tréninku: cviky z plánu, už zapsané
 /// série a hodnoty z minula. Cviky přidané během tréninku (mimo plán)
-/// jsou zařazeny na konec.
+/// jsou zařazeny na konec v pořadí, v jakém byly poprvé zapsány.
 Future<WorkoutSetup> loadWorkoutSetup(AppDatabase db, int sessionId) async {
   final session = await db.getSession(sessionId);
   final planId = session.planId;
@@ -64,18 +76,27 @@ Future<WorkoutSetup> loadWorkoutSetup(AppDatabase db, int sessionId) async {
 
   for (final it in planItems) {
     usedIds.add(it.exercise.id);
+    final saved = savedByExercise[it.exercise.id] ?? const <SetEntry>[];
     blocks.add(WorkoutBlockData(
       exercise: it.exercise,
       targets: [
         for (final s in it.sets)
-          (reps: s.reps, weightKg: s.weightKg, isWarmup: s.isWarmup),
+          (
+            reps: s.reps,
+            weightKg: s.weightKg,
+            isWarmup: s.isWarmup,
+            isDrop: s.isDrop,
+          ),
       ],
       restSeconds: it.item.restSeconds,
       previous: await db.previousSetsFor(it.exercise.id,
           excludeSessionId: sessionId),
-      saved: savedByExercise[it.exercise.id] ?? const [],
+      saved: saved,
       record: await db.exerciseRecord(it.exercise.id,
           excludeSessionId: sessionId),
+      supersetGroup: saved.isEmpty
+          ? it.item.supersetGroup
+          : _savedSupersetGroup(saved),
     ));
   }
 
@@ -84,7 +105,12 @@ Future<WorkoutSetup> loadWorkoutSetup(AppDatabase db, int sessionId) async {
       if (!usedIds.contains(id)) id,
   ];
   if (extraIds.isNotEmpty) {
-    final extras = await db.getExercisesByIds(extraIds);
+    // Pořadí podle první zapsané série, aby propojené cviky zůstaly u sebe.
+    int firstId(int exerciseId) => savedByExercise[exerciseId]!
+        .map((s) => s.id)
+        .reduce((a, b) => a < b ? a : b);
+    final extras = (await db.getExercisesByIds(extraIds))
+      ..sort((a, b) => firstId(a.id).compareTo(firstId(b.id)));
     for (final e in extras) {
       blocks.add(await loadExtraBlock(db, sessionId, e,
           saved: savedByExercise[e.id] ?? const []));
@@ -109,6 +135,7 @@ Future<WorkoutBlockData> loadExtraBlock(
           await db.previousSetsFor(exercise.id, excludeSessionId: sessionId),
       saved: saved,
       record: await db.exerciseRecord(exercise.id, excludeSessionId: sessionId),
+      supersetGroup: _savedSupersetGroup(saved),
     );
 
 /// Nový osobní rekord (odhad 1RM) dosažený v tréninku.
@@ -142,7 +169,8 @@ class WorkoutSummary {
 
 /// Ukončí trénink: spočítá souhrn, odhad kalorií a nové osobní rekordy.
 /// Rekord se hlásí jen při překonání předchozího výkonu – první zápis
-/// cviku rekordem není.
+/// cviku rekordem není. Drop série se počítají do objemu a počtu sérií,
+/// ne do rekordů.
 Future<WorkoutSummary> finishWorkout(AppDatabase db, int sessionId) async {
   final session = await db.getSession(sessionId);
   final sets = (await db.getSessionSets(sessionId))
@@ -164,6 +192,7 @@ Future<WorkoutSummary> finishWorkout(AppDatabase db, int sessionId) async {
     final r = s.reps;
     if (w != null && r != null) {
       volume += w * r;
+      if (s.isDrop) continue;
       final e1rm = estimateOneRepMax(w, r);
       if (e1rm != null && e1rm > (bestInSession[s.exerciseId] ?? 0)) {
         bestInSession[s.exerciseId] = e1rm;

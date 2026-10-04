@@ -38,6 +38,33 @@ import 'data/units.dart';
 // [imports:social]
 import 'social/social_module.dart';
 //
+// [imports:fatigue]
+import '../features/fatigue/fatigue_card.dart';
+//
+// [imports:overload]
+import '../features/overload/overload_card.dart';
+import '../features/overload/overload_notifications.dart';
+//
+// [imports:badges]
+import '../features/achievements/achievements_service.dart';
+import '../features/achievements/badges_screen.dart';
+//
+// [imports:progression]
+import 'progression/progression_profile_section.dart';
+import 'progression/progression_service.dart';
+import 'progression/progression_summary.dart';
+// [imports:cloud]
+import 'cloud/cloud_module.dart';
+// [imports:wear]
+import 'wear/wear_bridge.dart';
+import 'wear/wear_profile_section.dart';
+// [imports:premium]
+import '../premium/premium.dart';
+import '../premium/premium_gift.dart';
+import '../premium/premium_profile_section.dart';
+import '../premium/premium_screen.dart';
+import '../premium/premium_service.dart';
+//
 
 /// Inicializace před spuštěním aplikace (např. Firebase).
 /// Chyba jednoho modulu nesmí zastavit start aplikace.
@@ -57,6 +84,9 @@ Future<void> initModules() async {
     //
     // [social:init]
     socialInit,
+    //
+    // [premium:init]
+    PremiumService.instance.init,
     //
   ];
   for (final init in inits) {
@@ -90,6 +120,14 @@ List<ProviderListenable<Object?>> moduleAppProviders() => [
       // [social:app]
       socialAppProvider,
       //
+      // [cloud:app]
+      cloudAppProvider,
+      // [wear:app]
+      // Premium (wearOs) hlídá WearBridge (stav „premiumRequired“).
+      wearAppProvider,
+      // [premium:app]
+      premiumProfileSyncProvider,
+      //
     ];
 
 /// Obrazovky přes celou plochu (bez spodní lišty).
@@ -117,6 +155,13 @@ List<RouteBase> moduleRoutes() => [
       // [social:routes]
       ...socialRoutes(),
       //
+      // [badges:routes]
+      badgesRoute(),
+      //
+      // [premium:routes]
+      // Paywall existuje jen po spuštění Premium (do té doby nikde).
+      if (kPremiumLaunched) premiumRoute(),
+      //
     ];
 
 /// Karty na obrazovce Dnes (pod vodou a váhou). Každá karta si sama
@@ -140,6 +185,13 @@ List<Widget> moduleTodayCards() => [
       //
       // [social:today]
       //
+      // [fatigue:today]
+      const FatigueTodayCard(),
+      //
+      // [premium:today]
+      // Jednorázová hláška „Premium na půl roku zdarma“ (nic nezobrazí).
+      const PremiumGiftWelcome(),
+      //
     ];
 
 /// Karty na obrazovce Pokrok (pod grafy, nad historií).
@@ -149,6 +201,12 @@ List<Widget> moduleProgressCards() => [
       const StatsVolumeCard(),
       const StatsFrequencyCard(),
       const StatsRecordsEntryCard(),
+      //
+      // [overload:progress]
+      const OverloadProgressCard(),
+      //
+      // [badges:progress]
+      const BadgesEntryCard(),
       //
       // [sharing:progress]
       //
@@ -161,11 +219,18 @@ List<Widget> moduleProgressCards() => [
       // [data:progress]
       //
       // [social:progress]
+      const GymProgressCard(),
       //
     ];
 
 /// Sekce v Profilu (nad „O aplikaci“). Každá sekce má vlastní nadpis.
 List<Widget> moduleProfileSections() => [
+      // [premium:profile]
+      const PremiumProfileSection(),
+      //
+      // [badges:profile]
+      const BadgesProfileSection(),
+      //
       // [stats:profile]
       //
       // [sharing:profile]
@@ -181,8 +246,18 @@ List<Widget> moduleProfileSections() => [
       // [data:profile]
       const DataProfileSection(),
       //
+      // [cloud:profile]
+      const CloudProfileSection(),
+      //
       // [social:profile]
       const SocialProfileSection(),
+      //
+      // [progression:profile]
+      // Premium (autoProgression): štítek a paywall uvnitř sekce.
+      const ProgressionProfileSection(),
+      // [wear:profile]
+      // Premium (wearOs): upoutávka uvnitř sekce.
+      const WearProfileSection(),
       //
     ];
 
@@ -234,6 +309,13 @@ List<Widget> moduleSummaryActions(WorkoutSummary summary) => [
       SharingSummaryActions(summary: summary),
       CompletedChallengesSection(summary: summary),
       //
+      // [badges:summary]
+      NewBadgesSummarySection(summary: summary),
+      //
+      // [progression:summary]
+      // Premium (autoProgression): bez předplatného zamčená upoutávka.
+      ProgressionSummarySection(summary: summary),
+      //
       // [calendar:summary]
       //
       // [widgets:summary]
@@ -271,6 +353,17 @@ List<WorkoutFinishedHook> moduleWorkoutFinishedHooks() => [
       // [social:finished]
       SocialPublisher.onWorkoutFinished,
       //
+      // [badges:finished]
+      achievementsWorkoutFinished,
+      //
+      // [overload:finished]
+      overloadWorkoutFinished,
+      //
+      // [progression:finished]
+      progressionWorkoutFinished,
+      // [cloud:finished]
+      cloudWorkoutFinished,
+      //
     ];
 
 /// Po každé změně dat (s odstupem 2 s, viz SyncController).
@@ -294,6 +387,15 @@ List<SyncHook> moduleSyncHooks() => [
       //
       // [social:sync]
       SocialPublisher.onSync,
+      //
+      // [badges:sync]
+      achievementsSync,
+      //
+      // [overload:sync]
+      overloadSync,
+      //
+      // [cloud:sync]
+      cloudSync,
       //
     ];
 

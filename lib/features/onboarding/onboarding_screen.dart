@@ -9,8 +9,9 @@ import '../../providers.dart';
 import '../../ui/format.dart';
 import '../../ui/module_switches.dart';
 
-/// Úvodní průvodce při prvním spuštění: jméno a výběr toho,
-/// co chce uživatel sledovat. Po dokončení router přesměruje na Dnes.
+/// Úvodní průvodce při prvním spuštění: jméno, výběr toho, co chce
+/// uživatel sledovat, jednotky a tón zpráv (přátelský / přísný trenér).
+/// Po dokončení router přesměruje na Dnes.
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -25,6 +26,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   ModuleSettings _modules =
       (water: true, weight: true, periods: true, calories: true);
   UnitSystem _units = unitSystemNotifier.value;
+
+  /// Tón zpráv: 0 = přátelský, 1 = přísný trenér (UserProfile.coachTone).
+  int _coachTone = 0;
   String? _error;
   bool _saving = false;
 
@@ -43,6 +47,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         periods: p.trackPeriods,
         calories: p.showCalories,
       );
+      _coachTone = p.coachTone == 1 ? 1 : 0;
     }
   }
 
@@ -124,6 +129,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       trackWeight: Value(_modules.weight),
       trackPeriods: Value(_modules.periods),
       showCalories: Value(_modules.calories),
+      coachTone: Value(_coachTone),
       onboardingDone: const Value(true),
     ));
     // Přesměrování na Dnes zařídí router, jakmile se profil uloží.
@@ -213,6 +219,33 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       ),
                     ),
                   ],
+                  const SizedBox(height: 24),
+                  Text(l10n.coachToneTitle,
+                      style: theme.textTheme.titleMedium),
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.onboardingToneIntro,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  _ToneCard(
+                    selected: _coachTone == 0,
+                    icon: Icons.sentiment_satisfied_outlined,
+                    title: l10n.coachToneFriendly,
+                    example: l10n.onboardingToneExample(l10n.encSkipNormal1),
+                    onTap: () => setState(() => _coachTone = 0),
+                  ),
+                  const SizedBox(height: 8),
+                  _ToneCard(
+                    selected: _coachTone == 1,
+                    icon: Icons.sports,
+                    title: l10n.coachToneStrict,
+                    example: l10n.onboardingToneExample(l10n.coachSkip2),
+                    hint: l10n.coachToneStrictHint,
+                    onTap: () => setState(() => _coachTone = 1),
+                  ),
                   if (_error != null) ...[
                     const SizedBox(height: 12),
                     Text(
@@ -237,6 +270,97 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Volitelná karta tónu zpráv s ukázkovou hláškou.
+class _ToneCard extends StatelessWidget {
+  const _ToneCard({
+    required this.selected,
+    required this.icon,
+    required this.title,
+    required this.example,
+    required this.onTap,
+    this.hint,
+  });
+
+  final bool selected;
+  final IconData icon;
+  final String title;
+  final String example;
+  final String? hint;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return Semantics(
+      button: true,
+      selected: selected,
+      inMutuallyExclusiveGroup: true,
+      child: Card(
+        margin: EdgeInsets.zero,
+        elevation: 0,
+        color: selected
+            ? scheme.primary.withValues(alpha: 0.08)
+            : scheme.surfaceContainerLow,
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(
+            color: selected ? scheme.primary : scheme.outlineVariant,
+            width: selected ? 2 : 1,
+          ),
+        ),
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  icon,
+                  color: selected ? scheme.primary : scheme.onSurfaceVariant,
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title, style: theme.textTheme.titleSmall),
+                      const SizedBox(height: 4),
+                      Text(
+                        example,
+                        style: theme.textTheme.bodyMedium
+                            ?.copyWith(fontStyle: FontStyle.italic),
+                      ),
+                      if (hint != null) ...[
+                        const SizedBox(height: 6),
+                        Text(
+                          hint!,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: scheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Icon(
+                  selected
+                      ? Icons.radio_button_checked
+                      : Icons.radio_button_unchecked,
+                  color: selected ? scheme.primary : scheme.outline,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

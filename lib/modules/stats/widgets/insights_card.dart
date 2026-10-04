@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../data/database.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../premium/premium.dart';
 import '../../../ui/format.dart';
 import '../../../ui/labels.dart';
 import '../../data/units.dart';
@@ -23,6 +24,10 @@ class StatsInsightsCard extends ConsumerWidget {
     final exercises =
         ref.watch(statsExerciseMapProvider).valueOrNull ?? const <int, Exercise>{};
     if (insights == null) return const SizedBox.shrink();
+    // Premium: automatické postřehy.
+    if (!ref.watch(premiumProvider).isPremium(PremiumFeature.insights)) {
+      return const PremiumLockedPlaceholder(feature: PremiumFeature.insights);
+    }
 
     return StatsCard(
       title: l10n.statsInsightsTitle,

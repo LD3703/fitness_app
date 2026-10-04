@@ -47,11 +47,18 @@ double suggestWorkingWeight(
     roundToStep(weightForReps(oneRepMax, reps) * intensity, step: step);
 
 /// Skupina po sobě jdoucích stejných sérií, např. 3 × 10 × 60 kg.
-typedef SetGroup = ({int count, int reps, double? weightKg, bool isWarmup});
+typedef SetGroup = ({
+  int count,
+  int reps,
+  double? weightKg,
+  bool isWarmup,
+  bool isDrop,
+});
 
 /// Sloučí po sobě jdoucí stejné série do skupin pro stručný popis plánu.
+/// Rozcvičky a drop série se slučují jen se sériemi stejného druhu.
 List<SetGroup> groupSets(
-  Iterable<({int reps, double? weightKg, bool isWarmup})> sets,
+  Iterable<({int reps, double? weightKg, bool isWarmup, bool isDrop})> sets,
 ) {
   final groups = <SetGroup>[];
   for (final s in sets) {
@@ -59,19 +66,45 @@ List<SetGroup> groupSets(
       final last = groups.last;
       if (last.reps == s.reps &&
           last.weightKg == s.weightKg &&
-          last.isWarmup == s.isWarmup) {
+          last.isWarmup == s.isWarmup &&
+          last.isDrop == s.isDrop) {
         groups[groups.length - 1] = (
           count: last.count + 1,
           reps: last.reps,
           weightKg: last.weightKg,
           isWarmup: last.isWarmup,
+          isDrop: last.isDrop,
         );
         continue;
       }
     }
-    groups.add((count: 1, reps: s.reps, weightKg: s.weightKg, isWarmup: s.isWarmup));
+    groups.add((
+      count: 1,
+      reps: s.reps,
+      weightKg: s.weightKg,
+      isWarmup: s.isWarmup,
+      isDrop: s.isDrop,
+    ));
   }
   return groups;
+}
+
+/// Váha drop série: o [dropFraction] nižší než [previousKg], zaokrouhlená
+/// na krok kotoučů [step] (v kg). Null, když by vyšla 0 nebo méně.
+double? dropSetWeight(
+  double previousKg, {
+  double dropFraction = 0.2,
+  double step = 2.5,
+}) {
+  if (previousKg <= 0) return null;
+  final w = roundToStep(previousKg * (1 - dropFraction), step: step);
+  if (w <= 0) return null;
+  // Zaokrouhlení nahoru by mohlo vrátit stejnou váhu – drop musí být nižší.
+  if (w >= previousKg) {
+    final lower = w - step;
+    return lower > 0 ? lower : null;
+  }
+  return w;
 }
 
 /// Klouzavý průměr časové řady: pro každý bod průměr hodnot za posledních

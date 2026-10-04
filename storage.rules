@@ -1,0 +1,34 @@
+rules_version = '2';
+
+// Pravidla pro Cloud Storage (docs/social.md, „Automatická záloha“).
+// Jediné soubory jsou zálohy databáze uživatele:
+//   users/{uid}/backups/latest.sqlite a previous.sqlite
+// Číst, zapisovat a mazat je smí jen přihlášený vlastník. Vše ostatní
+// je zakázané (i výpis cizích složek).
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    // Záloha: menší než 50 MB (kCloudMaxBackupBytes v cloud_logic.dart),
+    // gzip s databází SQLite (nebo nezkomprimovaná databáze).
+    function validBackup() {
+      return request.resource.size > 0
+        && request.resource.size < 50 * 1024 * 1024
+        && request.resource.contentType in ['application/gzip', 'application/x-sqlite3'];
+    }
+
+    match /users/{uid}/backups/{fileName} {
+      allow read, delete: if isOwner(uid);
+      allow create, update: if isOwner(uid)
+        && fileName in ['latest.sqlite', 'previous.sqlite']
+        && validBackup();
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -2,7 +2,8 @@ rules_version = '2';
 
 // Pravidla pro sociální funkce aplikace (docs/social.md).
 // Zásady: profil a statistiky vidí jen přátelé, každý zapisuje jen svá
-// data, do novinek může psát jen přítel, žádné veřejné seznamy.
+// data, do novinek může psát jen přítel. Jediný veřejný seznam je adresář
+// posiloven (gyms) pro přihlášené; žebříček posilovny vidí jen její členové.
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -40,12 +41,15 @@ service cloud.firestore {
     }
 
     // ------------------------------------------------------------ users
+    // Relativní síla (relStrength) byla zrušena: pole už nesmí existovat
+    // (aplikace ho při zveřejnění statistik maže přes FieldValue.delete()).
+    // Tělesná váha ani nic z ní odvozeného se na server nikdy neposílá.
     function validUser(d) {
       return d.keys().hasOnly([
           'displayName', 'friendCode', 'createdAt', 'updatedAt', 'lang',
           'shareRecords', 'shareStats',
           'workoutsThisMonth', 'statsMonth', 'weeklyVolume', 'statsWeek',
-          'weeks', 'relStrength'])
+          'weeks'])
         && validName(d.displayName)
         && validCode(d.friendCode)
         && d.createdAt is timestamp
@@ -63,11 +67,7 @@ service cloud.firestore {
             && d.weeklyVolume >= 0 && d.weeklyVolume < 1000000))
         && (optional(d, 'statsWeek') || (d.statsWeek is string && d.statsWeek.size() <= 9))
         && (optional(d, 'weeks') || (d.shareStats == true
-            && d.weeks is map && d.weeks.size() <= 16))
-        // Relativní síla jen se zapnutým sdílením rekordů; jen poměry.
-        && (optional(d, 'relStrength') || (d.shareRecords == true
-            && d.relStrength is map
-            && d.relStrength.keys().hasOnly(['bench', 'squat', 'deadlift'])));
+            && d.weeks is map && d.weeks.size() <= 16));
     }
 
     match /users/{uid} {
@@ -120,14 +120,16 @@ service cloud.firestore {
       }
 
       // Tokeny pro push – jen vlastník (a Cloud Functions přes Admin SDK).
+      // private/gym: moje posilovna a nastavení žebříčku (jen vlastník).
       match /private/{docId} {
         allow read, delete: if isMe(uid);
-        allow create, update: if isMe(uid)
-          && docId == 'messaging'
-          && request.resource.data.keys().hasOnly(['fcmTokens', 'lang', 'updatedAt'])
-          && (optional(request.resource.data, 'fcmTokens')
-              || (request.resource.data.fcmTokens is list
-                  && request.resource.data.fcmTokens.size() <= 10));
+        allow create, update: if isMe(uid) && (
+          (docId == 'messaging'
+            && request.resource.data.keys().hasOnly(['fcmTokens', 'lang', 'updatedAt'])
+            && (optional(request.resource.data, 'fcmTokens')
+                || (request.resource.data.fcmTokens is list
+                    && request.resource.data.fcmTokens.size() <= 10)))
+          || (docId == 'gym' && validGymMembership(uid)));
       }
     }
 
@@ -236,6 +238,223 @@ service cloud.firestore {
         && request.auth.uid in resource.data.members
         && ownChallengeUpdate();
       allow delete: if signedIn() && request.auth.uid in resource.data.members;
+    }
+
+    // ------------------------------------------------------------- gyms
+    // Žebříček posilovny (docs/social.md, „Žebříček posilovny“).
+
+    function validNickname(n) {
+      return n is string && n.size() >= 1 && n.size() <= 24;
+    }
+
+    function validGender(g) {
+      return g in ['male', 'female', 'unspecified'];
+    }
+
+    // Věková skupina (jen skupina, nikdy věk ani rok narození):
+    // u40 = do 39, 40 = 40–49, 50 = 50–59, 60 = 60+.
+    function validAgeGroup(a) {
+      return a in ['u40', '40', '50', '60'];
+    }
+
+    function optionalAgeGroup(d) {
+      return optional(d, 'ageGroup') || validAgeGroup(d.ageGroup);
+    }
+
+    // Kód posilovny: 6 znaků ze stejné abecedy jako kód přítele.
+    function validGymCode(c) {
+      return c is string && c.matches('^[A-HJKMNP-Z2-9]{6}$');
+    }
+
+    function gymPath(gymId) {
+      return /databases/$(database)/documents/gyms/$(gymId);
+    }
+
+    function memberPath(gymId, uid) {
+      return /databases/$(database)/documents/gyms/$(gymId)/members/$(uid);
+    }
+
+    function isGymMember(gymId) {
+      return signedIn() && exists(memberPath(gymId, request.auth.uid));
+    }
+
+    // users/{uid}/private/gym: v jedné posilovně najednou – jinou smím
+    // nastavit, jen když ve staré po zápisu nejsem členem.
+    function validGymMembership(uid) {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['gymId', 'nickname', 'gender', 'show', 'updatedAt'])
+        && (d.gymId == null || (d.gymId is string && d.gymId.size() <= 40))
+        && validNickname(d.nickname)
+        && validGender(d.gender)
+        && d.show is bool
+        && (resource == null
+            || resource.data.get('gymId', null) == null
+            || resource.data.gymId == d.gymId
+            || !existsAfter(memberPath(resource.data.gymId, uid)));
+    }
+
+    function validGym(d) {
+      return d.keys().hasOnly([
+          'name', 'nameLower', 'city', 'cityLower', 'address', 'code',
+          'createdBy', 'createdAt', 'memberCount'])
+        && d.name is string && d.name.size() >= 1 && d.name.size() <= 60
+        && d.nameLower is string && d.nameLower.size() <= 60
+        && d.city is string && d.city.size() >= 1 && d.city.size() <= 60
+        && d.cityLower is string && d.cityLower.size() <= 60
+        && (optional(d, 'address') || (d.address is string && d.address.size() <= 120))
+        && validGymCode(d.code)
+        && d.memberCount is int;
+    }
+
+    // Kategorie žebříčku → max. hodnota (stejně jako GymCategory v
+    // gym_logic.dart a GYM_ABSOLUTE_LIMITS ve functions/src/plausibility.ts).
+    // Cviky = slug vestavěného cviku, kg odhadu 1RM (jednoručky na jednu
+    // jednoručku, shyby a dipy jen přidaná zátěž); workouts = tréninky/měsíc.
+    function categoryLimits() {
+      return {
+        'bench_press': 350,
+        'back_squat': 500,
+        'deadlift': 500,
+        'overhead_press': 250,
+        'incline_bench_press': 300,
+        'dumbbell_bench_press': 120,
+        'dumbbell_shoulder_press': 100,
+        'barbell_curl': 150,
+        'dumbbell_curl': 80,
+        'weighted_pull_up': 150,
+        'weighted_dips': 200,
+        'barbell_row': 300,
+        'leg_press': 1000,
+        'hip_thrust': 500,
+        'front_squat': 400,
+        'romanian_deadlift': 400,
+        'workouts': 62
+      };
+    }
+
+    function categoryLimit(c) {
+      return categoryLimits()[c];
+    }
+
+    // Moje ID záznamu `<uid>_<kategorie>` – i kategorie, kterou už aplikace
+    // nezná (bench, squat, relStrength z dřívějších verzí). Uid z Google /
+    // Apple přihlášení obsahuje jen písmena a číslice.
+    function isOwnEntryId(entryId) {
+      return entryId.matches('^' + request.auth.uid + '_[a-zA-Z_]{1,40}$');
+    }
+
+    // Pole, která smí zapsat klient. hidden, hiddenReason, reportCount
+    // a verified zapisuje jen server (Cloud Functions).
+    function entryClientKeys() {
+      return ['uid', 'category', 'nickname', 'gender', 'ageGroup', 'best',
+              'bestAt', 'bestMonth', 'monthKey', 'updatedAt'];
+    }
+
+    function validEntry(entryId, d) {
+      return d.uid == request.auth.uid
+        && d.category is string
+        && d.category in categoryLimits()
+        && entryId == request.auth.uid + '_' + d.category
+        && validNickname(d.nickname)
+        && validGender(d.gender)
+        && optionalAgeGroup(d)
+        && d.best is number && d.best >= 0 && d.best <= categoryLimit(d.category)
+        && d.bestAt is timestamp
+        && (optional(d, 'bestMonth') || (d.bestMonth is number
+            && d.bestMonth >= 0 && d.bestMonth <= categoryLimit(d.category)))
+        && d.monthKey is string && d.monthKey.matches('^[0-9]{4}-[0-9]{2}$')
+        && d.updatedAt == request.time;
+    }
+
+    match /gyms/{gymId} {
+      // Veřejný adresář posiloven pro přihlášené (hledání podle názvu/města).
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && validGym(request.resource.data)
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.memberCount == 1
+        && existsAfter(memberPath(gymId, request.auth.uid))
+        && getAfter(/databases/$(database)/documents/gymCodes/$(request.resource.data.code)).data.gymId == gymId;
+      // Počet členů: +1 jen spolu se vznikem mého členství, −1 se zánikem.
+      allow update: if signedIn()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberCount'])
+        && ((request.resource.data.memberCount == resource.data.memberCount + 1
+             && !exists(memberPath(gymId, request.auth.uid))
+             && existsAfter(memberPath(gymId, request.auth.uid)))
+          || (request.resource.data.memberCount == resource.data.memberCount - 1
+             && exists(memberPath(gymId, request.auth.uid))
+             && !existsAfter(memberPath(gymId, request.auth.uid))));
+      allow delete: if false;
+
+      // Členové: vidí je jen členové; každý zapisuje jen sebe.
+      match /members/{uid} {
+        allow read: if isGymMember(gymId);
+        allow create: if isMe(uid)
+          && request.resource.data.keys().hasOnly(['nickname', 'gender', 'ageGroup', 'joinedAt'])
+          && validNickname(request.resource.data.nickname)
+          && validGender(request.resource.data.gender)
+          && optionalAgeGroup(request.resource.data)
+          && request.resource.data.joinedAt == request.time
+          && getAfter(/databases/$(database)/documents/users/$(uid)/private/gym).data.gymId == gymId
+          && ((!exists(gymPath(gymId))
+               && getAfter(gymPath(gymId)).data.createdBy == uid
+               && getAfter(gymPath(gymId)).data.memberCount == 1)
+            || (exists(gymPath(gymId))
+               && getAfter(gymPath(gymId)).data.memberCount == get(gymPath(gymId)).data.memberCount + 1));
+        allow update: if isMe(uid)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nickname', 'gender', 'ageGroup'])
+          && validNickname(request.resource.data.nickname)
+          && validGender(request.resource.data.gender)
+          && optionalAgeGroup(request.resource.data);
+        allow delete: if isMe(uid)
+          && getAfter(gymPath(gymId)).data.memberCount == get(gymPath(gymId)).data.memberCount - 1;
+      }
+
+      // Záznamy žebříčku: gyms/{gymId}/entries/{uid}_{kategorie}.
+      match /entries/{entryId} {
+        allow read: if isGymMember(gymId);
+        allow create: if signedIn()
+          && isGymMember(gymId)
+          && request.resource.data.keys().hasOnly(entryClientKeys())
+          && validEntry(entryId, request.resource.data);
+        allow update: if signedIn()
+          && isGymMember(gymId)
+          && resource.data.uid == request.auth.uid
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(entryClientKeys())
+          && validEntry(entryId, request.resource.data);
+        // Mazat smí vlastník kdykoli (i neexistující záznam – odchod;
+        // i záznam zrušené kategorie z dřívější verze aplikace).
+        allow delete: if signedIn() && (isOwnEntryId(entryId)
+          || (resource != null && resource.data.uid == request.auth.uid));
+
+        // Nahlášení: každý člen jednou, ne sám sebe. Počítá Cloud Function.
+        match /reports/{reporterUid} {
+          allow get: if isMe(reporterUid);
+          allow list: if false;
+          allow create: if isMe(reporterUid)
+            && isGymMember(gymId)
+            && get(/databases/$(database)/documents/gyms/$(gymId)/entries/$(entryId)).data.uid != request.auth.uid
+            && request.resource.data.keys().hasOnly(['createdAt'])
+            && request.resource.data.createdAt == request.time;
+          allow update, delete: if false;
+        }
+      }
+    }
+
+    // Kód posilovny → ID (QR na recepci). Jen get; vzniká jen spolu
+    // s posilovnou a nikdy se nepřepisuje.
+    match /gymCodes/{code} {
+      allow get: if signedIn();
+      allow list: if false;
+      allow create: if signedIn()
+        && validGymCode(code)
+        && request.resource.data.keys().hasOnly(['gymId', 'name', 'city'])
+        && request.resource.data.gymId is string
+        && !exists(gymPath(request.resource.data.gymId))
+        && getAfter(gymPath(request.resource.data.gymId)).data.code == code
+        && getAfter(gymPath(request.resource.data.gymId)).data.createdBy == request.auth.uid;
+      allow update, delete: if false;
     }
 
     // Vše ostatní je zakázané.

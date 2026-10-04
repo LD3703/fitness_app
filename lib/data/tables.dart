@@ -69,6 +69,25 @@ class UserProfiles extends Table {
   BoolColumn get shareWorkoutStatsWithFriends =>
       boolean().withDefault(const Constant(true))();
 
+  /// Vzhled (verze schématu 9): 0 = podle systému, 1 = světlý, 2 = tmavý.
+  /// Viz AppTheme.themeModeOf.
+  IntColumn get themeMode => integer().withDefault(const Constant(0))();
+
+  /// Tón zpráv (verze schématu 9): 0 = přátelský, 1 = přísný trenér.
+  /// Přísný tón se při nemoci, zranění, zotavování a velké únavě
+  /// nepoužívá – viz core/coach_tone.dart.
+  IntColumn get coachTone => integer().withDefault(const Constant(0))();
+
+  /// Automatická progrese (verze schématu 10): 0 = vypnuto, 1 = navrhovat
+  /// po tréninku (výchozí), 2 = použít automaticky (s možností vrátit).
+  /// Viz core/auto_progression.dart.
+  IntColumn get progressionMode => integer().withDefault(const Constant(1))();
+
+  /// Premium zdarma pro první uživatele (verze schématu 11): do kdy platí.
+  /// Nastaví se při prvním zobrazení uvítací hlášky (jen dokud Premium
+  /// není spuštěné) a po spuštění plateb se dodrží. Viz premium_gift.dart.
+  DateTimeColumn get premiumGiftUntil => dateTime().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -125,6 +144,24 @@ class PlanExercises extends Table {
   /// Od verze schématu 2 se nepoužívá – viz [PlanSets].
   IntColumn get targetReps => integer().withDefault(const Constant(10))();
   IntColumn get restSeconds => integer().withDefault(const Constant(90))();
+
+  /// Supersérie (verze schématu 8): po sobě jdoucí cviky se stejnou
+  /// hodnotou tvoří jednu supersérii (A1, A2…). null = samostatný cvik.
+  IntColumn get supersetGroup => integer().nullable()();
+
+  // Automatická progrese (verze schématu 10, core/auto_progression.dart).
+  /// Rozsah opakování (u cviků na čas sekund); null = odvodit z cílových
+  /// opakování. Při první automatické změně se uloží.
+  IntColumn get repRangeMin => integer().nullable()();
+  IntColumn get repRangeMax => integer().nullable()();
+
+  /// Vlastní přírůstek váhy v kg; null = automaticky podle partie
+  /// a vybavení.
+  RealColumn get progressionIncrementKg => real().nullable()();
+
+  /// Navrhovat po tréninku nové cíle tohoto cviku.
+  BoolColumn get autoProgression =>
+      boolean().withDefault(const Constant(true))();
 }
 
 /// Cílová série cviku v plánu (verze schématu 2).
@@ -144,6 +181,10 @@ class PlanSets extends Table {
   /// Cílová váha v kg; null = bez cíle (předvyplní se z minula).
   RealColumn get weightKg => real().nullable()();
   BoolColumn get isWarmup => boolean().withDefault(const Constant(false))();
+
+  /// Drop série (verze 8): navazuje bez pauzy na předchozí sérii s nižší
+  /// vahou. Počítá se do objemu, ne do rekordů.
+  BoolColumn get isDrop => boolean().withDefault(const Constant(false))();
 }
 
 @DataClassName('WorkoutSession')
@@ -162,6 +203,9 @@ class WorkoutSessions extends Table {
 
   /// Kdy byl trénink zapsán do Health Connect / Apple Zdraví (v6).
   DateTimeColumn get healthExportedAt => dateTime().nullable()();
+
+  /// Pocit po tréninku (v8, volitelný): lehké / akorát / náročné.
+  IntColumn get feeling => intEnum<WorkoutFeeling>().nullable()();
 }
 
 @DataClassName('SetEntry')
@@ -178,6 +222,14 @@ class SetEntries extends Table {
   IntColumn get reps => integer().nullable()();
   IntColumn get durationSeconds => integer().nullable()();
   BoolColumn get isWarmup => boolean().withDefault(const Constant(false))();
+
+  /// Drop série (v8) – počítá se do objemu, ne do rekordů ani odhadu 1RM.
+  BoolColumn get isDrop => boolean().withDefault(const Constant(false))();
+
+  /// Supersérie v tréninku (v8): série cviků se stejnou hodnotou v jednom
+  /// tréninku patří do jedné supersérie. Ukládá se u každé série, aby
+  /// seskupení přežilo zavření aplikace i u tréninku bez plánu.
+  IntColumn get supersetGroup => integer().nullable()();
 }
 
 @DataClassName('WaterEntry')
@@ -283,4 +335,40 @@ class Challenges extends Table {
 
   /// ID výzvy na serveru (sociální funkce), jinak null.
   TextColumn get remoteId => text().nullable().unique()();
+}
+
+/// Získané odznaky (verze schématu 9). Katalog odznaků je v kódu
+/// (lib/features/achievements/badges.dart), tady jen co a kdy uživatel
+/// získal. [code] je stabilní kód odznaku („overload_streak_4“,
+/// „mastery_chest“, „records_10“…), [value] dosažená hodnota (týdny /
+/// počet rekordů), u mistrovství počet týdnů.
+@DataClassName('Achievement')
+class Achievements extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get code => text().unique()();
+  DateTimeColumn get earnedAt => dateTime()();
+  IntColumn get value => integer().nullable()();
+}
+
+/// Automatické změny cílů v plánu (verze schématu 10): návrhy po tréninku
+/// i už použité změny. [oldJson] / [newJson] = stav cviku v plánu před
+/// a po změně (série a rozsah, viz ProgressionSnapshot v
+/// core/auto_progression.dart; [newJson] navíc obsahuje údaje pro
+/// zobrazení). [applied] = změna je v plánu; nepoužitý návrh se po
+/// „Ponechat“ nebo vrácení smaže. Druh „drží“ se ukládá rovnou jako
+/// použitý (nic nemění).
+@DataClassName('ProgressionEvent')
+class ProgressionEvents extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get planExerciseId =>
+      integer()
+      .customConstraint('NOT NULL REFERENCES plan_exercises(id) ON DELETE CASCADE')();
+  IntColumn get sessionId =>
+      integer().nullable()
+      .customConstraint('NULL REFERENCES workout_sessions(id) ON DELETE SET NULL')();
+  DateTimeColumn get createdAt => dateTime()();
+  IntColumn get kind => intEnum<ProgressionKind>()();
+  TextColumn get oldJson => text()();
+  TextColumn get newJson => text()();
+  BoolColumn get applied => boolean().withDefault(const Constant(false))();
 }

@@ -4,6 +4,7 @@ import 'package:drift_flutter/drift_flutter.dart';
 import '../core/date_utils.dart';
 import '../core/formulas.dart';
 import '../core/injury.dart';
+import '../core/superset.dart';
 import 'enums.dart';
 import 'seed/content_i18n.dart';
 import 'seed/plan_templates.dart';
@@ -24,7 +25,13 @@ extension PeriodInjuryX on Period {
 typedef PlanItem = ({PlanExercise item, Exercise exercise, List<PlanSet> sets});
 
 /// Cílová série při ukládání z editoru (bez ID).
-typedef PlanSetDraft = ({int reps, double? weightKg, bool isWarmup});
+/// [isDrop] = drop série (navazuje bez pauzy s nižší vahou, v8).
+typedef PlanSetDraft = ({
+  int reps,
+  double? weightKg,
+  bool isWarmup,
+  bool isDrop,
+});
 
 /// Osobní rekord cviku: nejlepší odhad 1RM a série, ze které pochází.
 typedef ExerciseRecord = ({
@@ -74,6 +81,8 @@ typedef SessionSummary = ({
     HomeRoutineExercises,
     CalendarLinks,
     Challenges,
+    Achievements,
+    ProgressionEvents,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -83,13 +92,13 @@ class AppDatabase extends _$AppDatabase {
   static const _profileId = 1;
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 11;
 
   /// Výchozí série pro nově přidaný cvik: 3 × 10.
   static const defaultPlanSets = <PlanSetDraft>[
-    (reps: 10, weightKg: null, isWarmup: false),
-    (reps: 10, weightKg: null, isWarmup: false),
-    (reps: 10, weightKg: null, isWarmup: false),
+    (reps: 10, weightKg: null, isWarmup: false, isDrop: false),
+    (reps: 10, weightKg: null, isWarmup: false, isDrop: false),
+    (reps: 10, weightKg: null, isWarmup: false, isDrop: false),
   ];
 
   @override
@@ -103,13 +112,18 @@ class AppDatabase extends _$AppDatabase {
             // Verze 2: cíle po sériích. Stávající „N × opakování“ převedeme
             // na N stejných sérií, aby uživatelé o nic nepřišli.
             await m.createTable(planSets);
-            final items = await select(planExercises).get();
+            // Jen sloupce, které ve verzi 1 existovaly (novější sloupce
+            // přidávají až další kroky migrace).
+            final items = await customSelect(
+              'SELECT id, target_sets, target_reps FROM plan_exercises',
+            ).get();
             for (final it in items) {
-              for (var i = 0; i < it.targetSets; i++) {
+              final targetSets = it.read<int>('target_sets');
+              for (var i = 0; i < targetSets; i++) {
                 await into(planSets).insert(PlanSetsCompanion.insert(
-                  planExerciseId: it.id,
+                  planExerciseId: it.read<int>('id'),
                   position: i,
-                  reps: it.targetReps,
+                  reps: it.read<int>('target_reps'),
                 ));
               }
             }
@@ -151,6 +165,44 @@ class AppDatabase extends _$AppDatabase {
             }
             await m.addColumn(workoutSessions, workoutSessions.healthExportedAt);
             await m.createTable(challenges);
+          }
+          if (from < 7) {
+            // Verze 7: cviky se zátěží pro žebříček posilovny
+            // (weighted_pull_up, weighted_dips).
+            await _syncSeedExercises();
+          }
+          if (from < 8) {
+            // Verze 8: supersérie, drop série a pocit po tréninku
+            // (model únavy svalů).
+            await m.addColumn(planExercises, planExercises.supersetGroup);
+            // Při přechodu z verze 1 vznikla tabulka plan_sets výše už
+            // s novým sloupcem.
+            if (from >= 2) await m.addColumn(planSets, planSets.isDrop);
+            await m.addColumn(setEntries, setEntries.isDrop);
+            await m.addColumn(setEntries, setEntries.supersetGroup);
+            await m.addColumn(workoutSessions, workoutSessions.feeling);
+          }
+          if (from < 9) {
+            // Verze 9: vzhled (světlý / tmavý / podle systému), tón zpráv
+            // (přátelský / přísný trenér) a odznaky.
+            await m.addColumn(userProfiles, userProfiles.themeMode);
+            await m.addColumn(userProfiles, userProfiles.coachTone);
+            await m.createTable(achievements);
+          }
+          if (from < 10) {
+            // Verze 10: automatická progrese – rozsah opakování, přírůstek
+            // a přepínač u cviku v plánu, režim v profilu a historie změn.
+            await m.addColumn(planExercises, planExercises.repRangeMin);
+            await m.addColumn(planExercises, planExercises.repRangeMax);
+            await m.addColumn(
+                planExercises, planExercises.progressionIncrementKg);
+            await m.addColumn(planExercises, planExercises.autoProgression);
+            await m.addColumn(userProfiles, userProfiles.progressionMode);
+            await m.createTable(progressionEvents);
+          }
+          if (from < 11) {
+            // Verze 11: Premium na půl roku zdarma pro první uživatele.
+            await m.addColumn(userProfiles, userProfiles.premiumGiftUntil);
           }
         },
         beforeOpen: (details) async {
@@ -566,15 +618,24 @@ class AppDatabase extends _$AppDatabase {
         reps: sets[i].reps,
         weightKg: Value(sets[i].weightKg),
         isWarmup: Value(sets[i].isWarmup),
+        isDrop: Value(sets[i].isDrop),
       ));
     }
   }
 
-  Future<void> removePlanItem(int planExerciseId) =>
-      (delete(planExercises)..where((pe) => pe.id.equals(planExerciseId)))
-          .go();
+  Future<void> removePlanItem(int planExerciseId) => transaction(() async {
+        final item = await (select(planExercises)
+              ..where((pe) => pe.id.equals(planExerciseId)))
+            .getSingleOrNull();
+        await (delete(planExercises)
+              ..where((pe) => pe.id.equals(planExerciseId)))
+            .go();
+        // Supersérie, ze které cvik zmizel, může zůstat s jedním cvikem.
+        if (item != null) await _normalizePlanSupersets(item.planId);
+      });
 
   /// Uloží nové pořadí cviků v plánu (ID v požadovaném pořadí).
+  /// Supersérie, jejichž cviky už po přesunu nejdou po sobě, se rozpojí.
   Future<void> reorderPlanItems(List<int> planExerciseIdsInOrder) =>
       transaction(() async {
         for (var i = 0; i < planExerciseIdsInOrder.length; i++) {
@@ -582,6 +643,71 @@ class AppDatabase extends _$AppDatabase {
                 ..where((pe) => pe.id.equals(planExerciseIdsInOrder[i])))
               .write(PlanExercisesCompanion(position: Value(i)));
         }
+        if (planExerciseIdsInOrder.isNotEmpty) {
+          final first = await (select(planExercises)
+                ..where((pe) => pe.id.equals(planExerciseIdsInOrder.first)))
+              .getSingleOrNull();
+          if (first != null) await _normalizePlanSupersets(first.planId);
+        }
+      });
+
+  /// Cviky plánu v pořadí (bez sérií).
+  Future<List<PlanExercise>> _planExercisesInOrder(int planId) =>
+      (select(planExercises)
+            ..where((pe) => pe.planId.equals(planId))
+            ..orderBy([
+              (pe) => OrderingTerm.asc(pe.position),
+              (pe) => OrderingTerm.asc(pe.id),
+            ]))
+          .get();
+
+  /// Zapíše skupiny supersérií (ve stejném pořadí jako [items]), jen změny.
+  Future<void> _writePlanSupersets(
+    List<PlanExercise> items,
+    List<int?> groups,
+  ) async {
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].supersetGroup != groups[i]) {
+        await (update(planExercises)..where((pe) => pe.id.equals(items[i].id)))
+            .write(PlanExercisesCompanion(supersetGroup: Value(groups[i])));
+      }
+    }
+  }
+
+  Future<void> _normalizePlanSupersets(int planId) async {
+    final items = await _planExercisesInOrder(planId);
+    await _writePlanSupersets(
+      items,
+      normalizeSupersetGroups([for (final it in items) it.supersetGroup]),
+    );
+  }
+
+  /// Propojí cvik plánu s následujícím do supersérie.
+  /// Vrací false, když to nejde (poslední cvik, víc než 3 cviky…).
+  Future<bool> linkPlanItemWithNext(int planId, int planExerciseId) =>
+      transaction(() async {
+        final items = await _planExercisesInOrder(planId);
+        final index = items.indexWhere((it) => it.id == planExerciseId);
+        if (index < 0) return false;
+        final groups = linkSupersetWithNext(
+          [for (final it in items) it.supersetGroup],
+          index,
+        );
+        if (groups == null) return false;
+        await _writePlanSupersets(items, groups);
+        return true;
+      });
+
+  /// Vyjme cvik plánu ze supersérie.
+  Future<void> unlinkPlanItem(int planId, int planExerciseId) =>
+      transaction(() async {
+        final items = await _planExercisesInOrder(planId);
+        final index = items.indexWhere((it) => it.id == planExerciseId);
+        if (index < 0) return;
+        await _writePlanSupersets(
+          items,
+          unlinkSuperset([for (final it in items) it.supersetGroup], index),
+        );
       });
 
   // ---------------------------------------------------------------------
@@ -645,6 +771,8 @@ class AppDatabase extends _$AppDatabase {
     int? reps,
     int? durationSeconds,
     bool isWarmup = false,
+    bool isDrop = false,
+    int? supersetGroup,
   }) =>
       into(setEntries).insert(SetEntriesCompanion.insert(
         sessionId: sessionId,
@@ -654,6 +782,8 @@ class AppDatabase extends _$AppDatabase {
         reps: Value(reps),
         durationSeconds: Value(durationSeconds),
         isWarmup: Value(isWarmup),
+        isDrop: Value(isDrop),
+        supersetGroup: Value(supersetGroup),
       ));
 
   Future<void> updateSet(
@@ -672,6 +802,29 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> deleteSet(int id) =>
       (delete(setEntries)..where((e) => e.id.equals(id))).go();
+
+  /// Nové pořadí uložené série (po vložení drop série doprostřed cviku).
+  Future<void> updateSetPosition(int id, int position) =>
+      (update(setEntries)..where((e) => e.id.equals(id)))
+          .write(SetEntriesCompanion(position: Value(position)));
+
+  /// Supersérie cviku v tréninku: zapíše skupinu ke všem jeho sériím
+  /// (po propojení / rozpojení cviků během tréninku).
+  Future<void> setSessionSupersetGroup(
+    int sessionId,
+    int exerciseId,
+    int? group,
+  ) =>
+      (update(setEntries)
+            ..where((e) =>
+                e.sessionId.equals(sessionId) &
+                e.exerciseId.equals(exerciseId)))
+          .write(SetEntriesCompanion(supersetGroup: Value(group)));
+
+  /// Pocit po tréninku ze souhrnu (null = nevyplněno).
+  Future<void> setSessionFeeling(int sessionId, WorkoutFeeling? feeling) =>
+      (update(workoutSessions)..where((s) => s.id.equals(sessionId)))
+          .write(WorkoutSessionsCompanion(feeling: Value(feeling)));
 
   /// Série daného cviku z posledního dokončeného tréninku (pro předvyplnění).
   Future<List<SetEntry>> previousSetsFor(
@@ -703,7 +856,8 @@ class AppDatabase extends _$AppDatabase {
   }
 
   /// Osobní rekord cviku (nejvyšší odhad 1RM) ze všech dokončených
-  /// tréninků kromě [excludeSessionId]. Rozcvičkové série se nepočítají.
+  /// tréninků kromě [excludeSessionId]. Rozcvičkové ani drop série se
+  /// nepočítají.
   /// Null, pokud cvik ještě nebyl zapsán s vahou.
   Future<ExerciseRecord?> exerciseRecord(
     int exerciseId, {
@@ -711,6 +865,7 @@ class AppDatabase extends _$AppDatabase {
   }) async {
     Expression<bool> cond = setEntries.exerciseId.equals(exerciseId) &
         setEntries.isWarmup.equals(false) &
+        setEntries.isDrop.equals(false) &
         setEntries.weightKg.isNotNull() &
         setEntries.reps.isNotNull() &
         workoutSessions.endedAt.isNotNull();
@@ -782,9 +937,12 @@ class AppDatabase extends _$AppDatabase {
 
   /// Vytvoří plány uživatele z hotového programu. [languageCode] určuje
   /// jazyk názvů plánů.
+  /// [weekdayMasks] (volitelně) přepíše dny jednotlivých plánů programu
+  /// ve stejném pořadí, jak je má program.
   Future<void> addProgram(
     TemplateProgram program, {
     required String languageCode,
+    List<int>? weekdayMasks,
   }) =>
       transaction(() async {
         final ids = {
@@ -793,7 +951,10 @@ class AppDatabase extends _$AppDatabase {
               .get())
             e.slug!: e.id,
         };
-        for (final plan in program.plans) {
+        for (final (index, plan) in program.plans.indexed) {
+          final mask = (weekdayMasks != null && index < weekdayMasks.length)
+              ? weekdayMasks[index]
+              : plan.weekdaysMask;
           final planId = await into(workoutPlans).insert(
             WorkoutPlansCompanion.insert(
               name: seedText(
@@ -802,7 +963,7 @@ class AppDatabase extends _$AppDatabase {
                 cs: plan.nameCs,
                 other: (t) => t.planNames[plan.nameEn],
               ),
-              weekdaysMask: Value(plan.weekdaysMask),
+              weekdaysMask: Value(mask),
             ),
           );
           var position = 0;
@@ -990,6 +1151,7 @@ class AppDatabase extends _$AppDatabase {
     ])
       ..where(setEntries.exerciseId.equals(exerciseId) &
           setEntries.isWarmup.equals(false) &
+          setEntries.isDrop.equals(false) &
           setEntries.weightKg.isNotNull() &
           setEntries.reps.isNotNull() &
           workoutSessions.endedAt.isNotNull())
@@ -1029,6 +1191,7 @@ class AppDatabase extends _$AppDatabase {
         await delete(setEntries).go();
         await delete(workoutSessions).go();
         await delete(scheduledWorkouts).go();
+        await delete(progressionEvents).go();
         await delete(planSets).go();
         await delete(planExercises).go();
         await delete(workoutPlans).go();
@@ -1037,6 +1200,7 @@ class AppDatabase extends _$AppDatabase {
         await delete(periods).go();
         await delete(calendarLinks).go();
         await delete(challenges).go();
+        await delete(achievements).go();
         await (delete(exercises)..where((e) => e.isCustom.equals(true))).go();
         await delete(userProfiles).go();
         await into(userProfiles)

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../data/database.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers.dart';
+import '../gym/gym_logic.dart';
 import '../social_calendar.dart';
 import '../social_models.dart';
 import '../social_publisher.dart';
 import '../social_queries.dart';
 import '../social_service.dart';
+import 'gym_widgets.dart';
 import 'social_ui.dart';
 
 /// Záložka Novinky: rekordy přátel, pozvánky a výzvy.
@@ -282,6 +285,24 @@ class _FeedTabState extends ConsumerState<FeedTab> {
       case FeedType.challengeDone:
         icon = Icons.military_tech_outlined;
         text = l10n.socialFeedChallengeDone(name);
+      case FeedType.gymOvertaken:
+        // Zapisuje Cloud Function: data {gymId, gymName, category, value}.
+        // Staré položky mohou mít klíče bench / squat (před slugy cviků).
+        final category = gymCategoryFromAnyKey(item.str('category'));
+        if (category == null) return const SizedBox.shrink();
+        icon = Icons.trending_down;
+        text = l10n.socialGymFeedOvertaken(
+          name,
+          gymCategoryLabel(l10n, category),
+          gymValueText(context, category, item.number('value') ?? 0),
+          item.str('gymName') ?? '',
+        );
+        actions = [
+          FilledButton.tonal(
+            onPressed: () => context.push('/gym'),
+            child: Text(l10n.socialGymOpen),
+          ),
+        ];
       default:
         return const SizedBox.shrink();
     }

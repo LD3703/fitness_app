@@ -15,6 +15,12 @@ class RestTimer extends ChangeNotifier {
 
   bool get isRunning => _endAt != null;
 
+  /// Konec probíhající pauzy (pro hodinky, modul wear).
+  DateTime? get endsAt => _endAt;
+
+  /// Celková délka pauzy v sekundách (včetně přidaných).
+  int get totalSeconds => _totalSeconds;
+
   Duration get remaining {
     final end = _endAt;
     if (end == null) return Duration.zero;

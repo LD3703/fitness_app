@@ -16,9 +16,10 @@ ExerciseMedia? mediaForExercise(Exercise exercise) {
   return (media == null || media.images.isEmpty) ? null : media;
 }
 
-/// Ukázka cviku: obrázky výchozí a koncové polohy se střídají jako
-/// jednoduchá animace. Klepnutím se střídání zastaví / spustí.
-/// Pod obrázkem je autor a licence (vyžaduje CC BY-SA).
+/// Ukázka cviku: animovaný GIF / WebP ([ExerciseMedia.animated]), nebo
+/// obrázky výchozí a koncové polohy, které se střídají jako jednoduchá
+/// animace. Klepnutím se animace zastaví / spustí.
+/// Pod obrázkem je autor a licence (wger.de vyžaduje CC BY-SA).
 class ExerciseMediaView extends StatefulWidget {
   const ExerciseMediaView({super.key, required this.media});
 
@@ -37,6 +38,9 @@ class _ExerciseMediaViewState extends State<ExerciseMediaView> {
 
   List<ExerciseImage> get _images => widget.media.images;
 
+  /// Jde animaci zastavit (animovaný soubor nebo aspoň 2 obrázky)?
+  bool get _canPause => widget.media.animated || _images.length > 1;
+
   @override
   void initState() {
     super.initState();
@@ -48,20 +52,22 @@ class _ExerciseMediaViewState extends State<ExerciseMediaView> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.media != widget.media) {
       _index = 0;
+      _paused = false;
       _start();
     }
   }
 
   void _start() {
     _timer?.cancel();
-    if (_images.length < 2 || _paused) return;
+    // Animovaný GIF / WebP se přehrává sám, časovač je jen pro dvojici.
+    if (widget.media.animated || _images.length < 2 || _paused) return;
     _timer = Timer.periodic(_interval, (_) {
       if (mounted) setState(() => _index = (_index + 1) % _images.length);
     });
   }
 
   void _togglePause() {
-    if (_images.length < 2) return;
+    if (!_canPause) return;
     setState(() => _paused = !_paused);
     _start();
   }
@@ -76,7 +82,14 @@ class _ExerciseMediaViewState extends State<ExerciseMediaView> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final media = widget.media;
     final image = _images[_index % _images.length];
+    final link = media.sourceUrl ?? image.authorUrl;
+    final attribution = media.isFromWger
+        ? l10n.mediaAttribution(image.author, image.license)
+        : image.license.isEmpty
+            ? l10n.mediaAnimationAuthor(image.author)
+            : l10n.mediaAnimationAttribution(image.author, image.license);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -93,20 +106,38 @@ class _ExerciseMediaViewState extends State<ExerciseMediaView> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 250),
-                      child: Image.asset(
-                        image.asset,
-                        key: ValueKey(image.asset),
-                        fit: BoxFit.contain,
-                        errorBuilder: (_, __, ___) => Icon(
-                          Icons.fitness_center,
-                          size: 64,
-                          color: theme.colorScheme.outline,
+                    if (media.animated)
+                      // Image.asset přehrává GIF / WebP sám; TickerMode
+                      // vypnutý = animace stojí na aktuálním snímku.
+                      TickerMode(
+                        enabled: !_paused,
+                        child: Image.asset(
+                          image.asset,
+                          key: ValueKey(image.asset),
+                          fit: BoxFit.contain,
+                          gaplessPlayback: true,
+                          errorBuilder: (_, __, ___) => Icon(
+                            Icons.fitness_center,
+                            size: 64,
+                            color: theme.colorScheme.outline,
+                          ),
+                        ),
+                      )
+                    else
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 250),
+                        child: Image.asset(
+                          image.asset,
+                          key: ValueKey(image.asset),
+                          fit: BoxFit.contain,
+                          errorBuilder: (_, __, ___) => Icon(
+                            Icons.fitness_center,
+                            size: 64,
+                            color: theme.colorScheme.outline,
+                          ),
                         ),
                       ),
-                    ),
-                    if (_images.length > 1)
+                    if (_canPause)
                       Positioned(
                         right: 8,
                         bottom: 8,
@@ -124,14 +155,16 @@ class _ExerciseMediaViewState extends State<ExerciseMediaView> {
         ),
         const SizedBox(height: 4),
         InkWell(
-          onTap: () => launchUrl(
-            Uri.parse(widget.media.sourceUrl),
-            mode: LaunchMode.externalApplication,
-          ),
+          onTap: link == null
+              ? null
+              : () => launchUrl(
+                    Uri.parse(link),
+                    mode: LaunchMode.externalApplication,
+                  ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Text(
-              l10n.mediaAttribution(image.author, image.license),
+              attribution,
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
@@ -143,6 +176,7 @@ class _ExerciseMediaViewState extends State<ExerciseMediaView> {
 }
 
 /// Malý náhled cviku do seznamů (nic, když cvik obrázek nemá).
+/// U dvojice obrázků je to první snímek, u GIF / WebP rovnou soubor.
 class ExerciseThumbnail extends StatelessWidget {
   const ExerciseThumbnail({super.key, required this.exercise, this.size = 48});
 

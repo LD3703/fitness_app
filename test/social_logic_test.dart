@@ -72,20 +72,6 @@ void main() {
     });
   });
 
-  group('relativeStrength', () {
-    test('poměr zaokrouhlený na 0,05', () {
-      expect(relativeStrength(120, 80), 1.5);
-      expect(relativeStrength(101, 80), closeTo(1.25, 1e-9));
-    });
-
-    test('bez váhy nebo nesmyslná data → null', () {
-      expect(relativeStrength(100, null), isNull);
-      expect(relativeStrength(null, 80), isNull);
-      expect(relativeStrength(100, 10), isNull);
-      expect(relativeStrength(1000, 50), isNull);
-    });
-  });
-
   group('kód přítele', () {
     test('generuje platný kód', () {
       final code = generateFriendCode(Random(1));

@@ -54,10 +54,12 @@ class BackupService {
   static String backupFileName(DateTime now) =>
       'fitness_backup_${csvDate(now)}.sqlite';
 
-  /// Vytvoří soubor zálohy v dočasné složce.
-  static Future<File> createBackup(AppDatabase db) async {
+  /// Vytvoří soubor zálohy v dočasné složce. [fileName] umožní jiný název
+  /// (automatická záloha do cloudu nesmí přepsat ruční zálohu).
+  static Future<File> createBackup(AppDatabase db, {String? fileName}) async {
     final dir = await getTemporaryDirectory();
-    final file = File('${dir.path}/${backupFileName(DateTime.now())}');
+    final file =
+        File('${dir.path}/${fileName ?? backupFileName(DateTime.now())}');
     if (await file.exists()) await file.delete();
     await db.customStatement('VACUUM INTO ?', [file.path]);
     return file;
@@ -84,6 +86,27 @@ class BackupService {
       '${dir.path}/restore_${DateTime.now().millisecondsSinceEpoch}.sqlite',
     );
     await file.writeAsBytes(bytes, flush: true);
+    return file;
+  }
+
+  /// Zkontroluje soubor zálohy, který už leží na disku (např. stažený
+  /// z cloudu), a vrátí ho připravený pro [inspect] a [restore].
+  /// Soubor po obnovení smaž přes [discard].
+  static Future<File> prepareFile(File file) async {
+    final Uint8List header;
+    try {
+      final raf = await file.open();
+      try {
+        header = await raf.read(100);
+      } finally {
+        await raf.close();
+      }
+    } catch (e) {
+      throw RestoreException(RestoreError.failed, e);
+    }
+    if (!looksLikeSqlite(header)) {
+      throw RestoreException(RestoreError.notSqlite);
+    }
     return file;
   }
 

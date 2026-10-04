@@ -6,6 +6,8 @@ import '../../data/database.dart';
 import '../../features/workout/workout_service.dart';
 import '../../providers.dart';
 import '../../services/sync_controller.dart';
+import 'gym/gym_logic.dart';
+import 'gym/gym_publisher.dart';
 import 'social_auth.dart';
 import 'social_backend.dart';
 import 'social_calendar.dart';
@@ -18,9 +20,9 @@ import 'social_service.dart';
 /// Zveřejňování statistik a rekordů přátelům, synchronizace výzev.
 ///
 /// Sdílí se jen to, co uživatel povolil: počty tréninků, objem a splněné
-/// týdny (shareWorkoutStatsWithFriends), rekordy a relativní síla
-/// (shareRecordsWithFriends). Nikdy: období, nemoc/zranění, tělesná
-/// váha, množství vody.
+/// týdny (shareWorkoutStatsWithFriends) a rekordy (shareRecordsWithFriends).
+/// Nikdy: období, nemoc/zranění, tělesná váha (ani nic z ní odvozeného),
+/// množství vody.
 abstract final class SocialPublisher {
   static DateTime? _lastStats;
   static DateTime? _lastChallenges;
@@ -68,6 +70,8 @@ abstract final class SocialPublisher {
       await publishRecords(profile, summary.records);
     }
     await syncChallenges(db, force: true);
+    // Žebříček posilovny (když jsem v nějaké a chci být vidět).
+    await GymPublisher.publish(db, force: true);
   }
 
   /// [social:sync] – po změně dat (omezeno intervaly).
@@ -76,6 +80,7 @@ abstract final class SocialPublisher {
     final db = ref.read(databaseProvider);
     await syncChallenges(db);
     await publishStats(db, profile);
+    await GymPublisher.publish(db);
     await SocialMessaging.instance.registerToken();
   }
 
@@ -129,21 +134,9 @@ abstract final class SocialPublisher {
         }
       }
 
-      // Relativní síla: zveřejní se jen poměr, nikdy tělesná váha.
-      final bodyWeight = profile.shareRecordsWithFriends
-          ? await db.socialLatestBodyWeight()
-          : null;
-      final rel = <String, double>{};
-      if (bodyWeight != null) {
-        for (final e in relStrengthLifts.entries) {
-          final ratio = relativeStrength(
-            await db.socialBestOneRepMax(e.value),
-            bodyWeight,
-          );
-          if (ratio != null) rel[e.key] = ratio;
-        }
-      }
-      fields['relStrength'] = rel.isEmpty ? FieldValue.delete() : rel;
+      // Úklid: relativní síla (1RM ÷ tělesná váha) z dřívějších verzí
+      // se už nepočítá ani nesdílí – staré pole smažeme.
+      fields['relStrength'] = FieldValue.delete();
 
       await SocialService.instance.updateMe(fields);
     } catch (e) {
@@ -203,7 +196,11 @@ abstract final class SocialPublisher {
   static Future<void> syncChallenges(AppDatabase db, {bool force = false}) async {
     if (!_ready) return;
     try {
-      final locals = await db.socialRemoteChallenges();
+      // Výzvy „Překonej mě“ ze žebříčku posilovny jsou jen lokální.
+      final locals = [
+        for (final c in await db.socialRemoteChallenges())
+          if (!isGymChallengeRemoteId(c.remoteId)) c,
+      ];
       if (locals.isEmpty) return;
       final now = DateTime.now();
       final newlyDone = [
@@ -320,5 +317,6 @@ abstract final class SocialPublisher {
     _reportedProgress.clear();
     _reportedDone.clear();
     _handledFeed.clear();
+    GymPublisher.reset();
   }
 }

@@ -31,7 +31,7 @@ MuscleGroup? _group(int index) =>
 /// Dotazy modulu statistik.
 extension StatsQueries on AppDatabase {
   /// Pro každý cvik a dokončený trénink série s nejvyšším odhadem 1RM
-  /// (Epley, bez rozcvičky). SQLite u MAX() vrací ostatní sloupce z řádku
+  /// (Epley, bez rozcvičky a bez drop sérií). SQLite u MAX() vrací ostatní sloupce z řádku
   /// s maximem; samotný odhad se pak počítá v Dartu přes estimateOneRepMax.
   Stream<List<SessionBest>> watchSessionBests() {
     return customSelect(
@@ -41,7 +41,7 @@ extension StatsQueries on AppDatabase {
       'ELSE e.weight_kg * (1 + e.reps / 30.0) END) AS e1rm '
       'FROM set_entries e '
       'INNER JOIN workout_sessions s ON s.id = e.session_id '
-      'WHERE s.ended_at IS NOT NULL AND e.is_warmup = 0 '
+      'WHERE s.ended_at IS NOT NULL AND e.is_warmup = 0 AND e.is_drop = 0 '
       'AND e.weight_kg > 0 AND e.reps > 0 '
       'GROUP BY e.exercise_id, s.id '
       'ORDER BY s.started_at',
@@ -66,7 +66,8 @@ extension StatsQueries on AppDatabase {
     });
   }
 
-  /// Objem (kg × opakování, bez rozcvičky) každého dokončeného tréninku
+  /// Objem (kg × opakování, bez rozcvičky, drop série ano) každého
+  /// dokončeného tréninku
   /// od [from]. Tréninky bez série s vahou se vynechají.
   Stream<List<({DateTime x, double y})>> watchSessionVolumesSince(
     DateTime from,

@@ -72,10 +72,10 @@ void main() {
   group('groupSets', () {
     test('sloučí stejné série, rozcvičku drží zvlášť', () {
       final groups = groupSets([
-        (reps: 15, weightKg: 40, isWarmup: true),
-        (reps: 10, weightKg: 60, isWarmup: false),
-        (reps: 10, weightKg: 60, isWarmup: false),
-        (reps: 8, weightKg: 65, isWarmup: false),
+        (reps: 15, weightKg: 40, isWarmup: true, isDrop: false),
+        (reps: 10, weightKg: 60, isWarmup: false, isDrop: false),
+        (reps: 10, weightKg: 60, isWarmup: false, isDrop: false),
+        (reps: 8, weightKg: 65, isWarmup: false, isDrop: false),
       ]);
       expect(groups.length, 3);
       expect(groups[0].isWarmup, isTrue);
@@ -83,8 +83,37 @@ void main() {
       expect(groups[2].reps, 8);
     });
 
+    test('drop série se neslučují s pracovními', () {
+      final groups = groupSets([
+        (reps: 10, weightKg: 60, isWarmup: false, isDrop: false),
+        (reps: 10, weightKg: 60, isWarmup: false, isDrop: true),
+        (reps: 10, weightKg: 60, isWarmup: false, isDrop: true),
+      ]);
+      expect(groups.length, 2);
+      expect(groups[0].isDrop, isFalse);
+      expect(groups[1].isDrop, isTrue);
+      expect(groups[1].count, 2);
+    });
+
     test('prázdný vstup', () {
       expect(groupSets(const []), isEmpty);
+    });
+  });
+
+  group('dropSetWeight', () {
+    test('−20 % zaokrouhleno na 2,5 kg', () {
+      expect(dropSetWeight(100), 80);
+      expect(dropSetWeight(62.5), 50);
+    });
+
+    test('vždy nižší než předchozí váha', () {
+      // 5 kg × 0,8 = 4 → zaokrouhlí se na 5 → o krok níž = 2,5
+      expect(dropSetWeight(5), 2.5);
+    });
+
+    test('příliš nízká váha → null', () {
+      expect(dropSetWeight(2.5), isNull);
+      expect(dropSetWeight(0), isNull);
     });
   });
 }

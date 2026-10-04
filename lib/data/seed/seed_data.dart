@@ -187,6 +187,13 @@ const seedExercises = <SeedExercise>[
       Equipment.bodyweight, ExerciseType.bodyweightReps, 8.0),
   SeedExercise('kettlebell_swing', 'Kettlebell Swing', 'Švihy s kettlebellem',
       MuscleGroup.fullBody, Equipment.kettlebell, ExerciseType.weightReps, 8.0),
+
+  // --- Cviky se zátěží pro žebříček posilovny (verze schématu 7) ---
+  // Zapisuje se jen přidaná zátěž (opasek s kotoučem / jednoručka).
+  SeedExercise('weighted_pull_up', 'Weighted Pull-up', 'Shyby se zátěží',
+      MuscleGroup.back, Equipment.dumbbell, ExerciseType.weightReps, 8.0),
+  SeedExercise('weighted_dips', 'Weighted Dips', 'Dipy se zátěží',
+      MuscleGroup.triceps, Equipment.dumbbell, ExerciseType.weightReps, 8.0),
 ];
 
 /// Každá rutina má 5 cviků × (45 s práce + 15 s pauza) = 5 minut.

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../../data/database.dart';
 import '../../../features/progress/progress_screen.dart' show periodBands;
 import '../../../l10n/app_localizations.dart';
+import '../../../premium/premium.dart';
 import '../../../providers.dart';
 import '../../../ui/charts.dart';
 import '../../../ui/format.dart';
@@ -28,11 +29,21 @@ class ExerciseStatsSection extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     ref.watch(unitSystemProvider); // překreslit po změně kg / lb
-    final points = ref.watch(oneRepMaxSeriesProvider(exercise.id)).valueOrNull ??
-        const <SeriesPoint>[];
+    // Premium: celá historie a pruhy období (zdarma 30 dní bez pruhů).
+    final access = ref.watch(premiumProvider);
+    final fullHistory = access.isPremium(PremiumFeature.fullHistory);
+    final allPoints =
+        ref.watch(oneRepMaxSeriesProvider(exercise.id)).valueOrNull ??
+            const <SeriesPoint>[];
+    final points = pointsSince(
+      allPoints,
+      (SeriesPoint p) => p.x,
+      chartHistoryStart(DateTime.now(), fullHistory: fullHistory),
+    );
     final trackPeriods =
         ref.watch(profileProvider).valueOrNull?.trackPeriods ?? true;
-    final periods = trackPeriods
+    final periods = trackPeriods &&
+            access.isPremium(PremiumFeature.periodBands)
         ? ref.watch(periodsProvider).valueOrNull ?? const <Period>[]
         : const <Period>[];
     final locale = Localizations.localeOf(context).toString();
@@ -59,6 +70,12 @@ class ExerciseStatsSection extends ConsumerWidget {
                 l10n.statsKg(formatWeightWithUnit(context, v, rounded: true)),
           ),
         ],
+        if (!fullHistory && allPoints.length > points.length)
+          PremiumLockedPlaceholder(
+            feature: PremiumFeature.fullHistory,
+            compact: true,
+            text: l10n.premiumChartLimited(kFreeChartDays),
+          ),
         const SizedBox(height: 16),
         Text(l10n.statsExerciseRecent, style: theme.textTheme.titleSmall),
         const SizedBox(height: 4),

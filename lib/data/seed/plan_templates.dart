@@ -2,7 +2,12 @@
 /// vytvoří běžné (upravitelné) plány uživatele.
 library;
 
-typedef TemplateSet = ({int reps, double? weightKg, bool isWarmup});
+typedef TemplateSet = ({
+  int reps,
+  double? weightKg,
+  bool isWarmup,
+  bool isDrop,
+});
 
 class TemplateItem {
   const TemplateItem(this.slug, this.sets, {this.restSeconds = 90});
@@ -45,9 +50,9 @@ const _mon = 1, _tue = 2, _wed = 4, _thu = 8, _fri = 16;
 
 /// [count] stejných pracovních sérií, volitelně s jednou rozcvičkou navíc.
 List<TemplateSet> _sets(int count, int reps, {bool warmup = false}) => [
-      if (warmup) (reps: 12, weightKg: null, isWarmup: true),
+      if (warmup) (reps: 12, weightKg: null, isWarmup: true, isDrop: false),
       for (var i = 0; i < count; i++)
-        (reps: reps, weightKg: null, isWarmup: false),
+        (reps: reps, weightKg: null, isWarmup: false, isDrop: false),
     ];
 
 final templatePrograms = <TemplateProgram>[

@@ -8,6 +8,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
+import '../../premium/premium.dart';
 import '../../providers.dart';
 import '../../services/calendar_service.dart';
 import '../../services/notification_service.dart';
@@ -51,7 +52,15 @@ class _DataProfileSectionState extends ConsumerState<DataProfileSection> {
     }
   }
 
-  Future<void> _exportCsv() => _run(() async {
+  Future<void> _exportCsv() async {
+    // Premium: export CSV.
+    final allowed =
+        await requirePremium(context, ref, PremiumFeature.csvExport);
+    if (!allowed || !mounted) return;
+    await _exportCsvAllowed();
+  }
+
+  Future<void> _exportCsvAllowed() => _run(() async {
         final l10n = AppLocalizations.of(context);
         final origin = _shareOrigin();
         try {
@@ -217,6 +226,8 @@ class _DataProfileSectionState extends ConsumerState<DataProfileSection> {
           leading: const Icon(Icons.table_chart_outlined),
           title: Text(l10n.dataExportCsv),
           subtitle: Text(l10n.dataExportCsvHint),
+          trailing:
+              const PremiumBadgeIfLocked(feature: PremiumFeature.csvExport),
           enabled: !_busy,
           onTap: _exportCsv,
         ),

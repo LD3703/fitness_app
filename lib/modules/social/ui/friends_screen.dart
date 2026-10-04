@@ -4,11 +4,13 @@ import 'package:drift/drift.dart' show Value;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../data/database.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers.dart';
 import '../../../ui/dialogs.dart';
+import '../../cloud/cloud_backup_service.dart';
 import '../social_auth.dart';
 import '../social_backend.dart';
 import '../social_messaging.dart';
@@ -84,6 +86,11 @@ class _SignedInViewState extends ConsumerState<_SignedInView> {
         appBar: AppBar(
           title: Text(l10n.socialTitle),
           actions: [
+            IconButton(
+              tooltip: l10n.socialGymTitle,
+              icon: const Icon(Icons.fitness_center),
+              onPressed: () => context.push('/gym'),
+            ),
             IconButton(
               tooltip: l10n.socialSettings,
               icon: const Icon(Icons.manage_accounts_outlined),
@@ -298,6 +305,9 @@ class _SocialSettingsSheetState extends ConsumerState<_SocialSettingsSheet> {
     setState(() => _busy = true);
     try {
       await SocialMessaging.instance.unregister();
+      // Zálohy v Cloud Storage (modul cloud); chybu nevyhazuje – zálohy
+      // pak smaže Cloud Function cleanupDeletedUser.
+      await CloudBackupService.instance.deleteAll();
       await SocialService.instance.deleteAllServerData();
       try {
         await SocialAuth.instance.deleteAuthUser();

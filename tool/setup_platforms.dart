@@ -26,6 +26,9 @@ import 'platform/health.dart';
 // [platform-imports:social]
 import 'platform/social.dart';
 //
+// [platform-imports:wear]
+import 'platform/wear.dart';
+//
 
 void main() {
   var ok = true;
@@ -51,6 +54,9 @@ void main() {
   //
   // [platform:social]
   ok &= patchSocial();
+  //
+  // [platform:wear]
+  ok &= patchWear();
   //
   stdout.writeln(ok
       ? '\nHotovo. Teď spusť: flutter clean && flutter run'
@@ -186,7 +192,9 @@ const _plistKeys = {
       'Aplikace přidává naplánované tréninky do kalendáře.',
 };
 
-const _languages = ['en', 'cs', 'de', 'es', 'fr', 'pl'];
+const _languages = [
+  'en', 'cs', 'de', 'es', 'fr', 'pl', 'pt', 'it', 'sk', 'nl',
+];
 
 bool _patchInfoPlist() {
   final file = File('ios/Runner/Info.plist');
@@ -201,7 +209,25 @@ bool _patchInfoPlist() {
       add.write('\t<key>$k</key>\n\t<string>$v</string>\n');
     }
   });
-  if (!s.contains('<key>CFBundleLocalizations</key>')) {
+  // Doplnění nových jazyků do už existujícího seznamu.
+  final locKey = s.indexOf('<key>CFBundleLocalizations</key>');
+  if (locKey >= 0) {
+    final arrEnd = s.indexOf('</array>', locKey);
+    if (arrEnd > 0) {
+      final existing = s.substring(locKey, arrEnd);
+      final missing = [
+        for (final lang in _languages)
+          if (!existing.contains('<string>$lang</string>')) lang,
+      ];
+      if (missing.isNotEmpty) {
+        s = s.replaceRange(arrEnd, arrEnd,
+            '${missing.map((l) => '\t<string>$l</string>\n\t').join()}');
+        file.writeAsStringSync(s);
+        stdout.writeln('✓ ${file.path}: doplněny jazyky ${missing.join(', ')}.');
+      }
+    }
+  }
+  if (locKey < 0) {
     // Jazyky aplikace – iOS podle nich ukáže systémové texty ve správném
     // jazyce a v Nastavení nabídne volbu jazyka aplikace.
     add.write('\t<key>CFBundleLocalizations</key>\n\t<array>\n');

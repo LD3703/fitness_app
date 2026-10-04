@@ -9,8 +9,11 @@ import '../../core/formulas.dart';
 import '../../data/database.dart';
 import '../../data/seed/content_i18n.dart';
 import '../../l10n/app_localizations.dart';
+import '../../premium/premium.dart';
 import '../../providers.dart';
 import '../../ui/format.dart';
+import '../../core/coach_tone.dart';
+import '../../ui/coach_messages.dart';
 import '../../ui/labels.dart';
 import '../../ui/wellbeing_messages.dart';
 
@@ -207,6 +210,11 @@ class _PlanBScreenState extends ConsumerState<PlanBScreen> {
     }
     if (!mounted) return;
 
+    // Přísný trenér jen ve zdravé situaci a bez velké únavy.
+    final strict = await resolveCoachTone(ref) == CoachTone.strict;
+    if (!mounted) return;
+    final now = DateTime.now();
+
     final plan = _originalPlan;
     if (plan != null) {
       final postpone = await showDialog<bool>(
@@ -214,7 +222,9 @@ class _PlanBScreenState extends ConsumerState<PlanBScreen> {
         barrierDismissible: false,
         builder: (context) => AlertDialog(
           title: Text(l10n.planBPostponeTitle),
-          content: Text(l10n.planBPostponeMessage(plan.name)),
+          content: Text(strict
+              ? strictPlanBPostpone(l10n, plan.name, now)
+              : l10n.planBPostponeMessage(plan.name)),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
@@ -246,7 +256,8 @@ class _PlanBScreenState extends ConsumerState<PlanBScreen> {
       builder: (context) => AlertDialog(
         icon: const Icon(Icons.favorite_outline),
         title: Text(l10n.planBDoneTitle),
-        content: Text(extra ?? l10n.planBDoneMessage),
+        content: Text(extra ??
+            (strict ? strictPlanBDone(l10n, now) : l10n.planBDoneMessage)),
         actions: [
           FilledButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -313,6 +324,10 @@ class _PlanBScreenState extends ConsumerState<PlanBScreen> {
     if (_routines.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
+    // Premium: zdarma jsou první 3 rutiny.
+    final premium = ref
+        .watch(premiumProvider)
+        .isPremium(PremiumFeature.extraHomeRoutines);
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
@@ -322,11 +337,21 @@ class _PlanBScreenState extends ConsumerState<PlanBScreen> {
           spacing: 8,
           runSpacing: 8,
           children: [
-            for (final r in _routines)
+            for (final (index, r) in _routines.indexed)
               ChoiceChip(
+                avatar: isHomeRoutineLocked(index, premium: premium)
+                    ? const Icon(Icons.lock_outline, size: 16)
+                    : null,
                 label: Text(_routineName(context, r.routine)),
                 selected: identical(r, selected),
-                onSelected: (_) => setState(() => _selected = r),
+                onSelected: (_) async {
+                  if (isHomeRoutineLocked(index, premium: premium) &&
+                      !await requirePremium(
+                          context, ref, PremiumFeature.extraHomeRoutines)) {
+                    return;
+                  }
+                  if (mounted) setState(() => _selected = r);
+                },
               ),
           ],
         ),

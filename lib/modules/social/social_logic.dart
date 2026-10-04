@@ -91,27 +91,6 @@ Map<String, bool> trimWeeks(Map<String, bool> weeks, DateTime now,
 }
 
 // ---------------------------------------------------------------------------
-// Relativní síla
-// ---------------------------------------------------------------------------
-
-/// Cviky pro relativní sílu (klíč na serveru → slug vestavěného cviku).
-const relStrengthLifts = {
-  'bench': 'bench_press',
-  'squat': 'back_squat',
-  'deadlift': 'deadlift',
-};
-
-/// Poměr odhadu 1RM k tělesné váze, zaokrouhlený na 0,05.
-/// Hrubé zaokrouhlení ztěžuje dopočítání tělesné váhy z rekordu.
-double? relativeStrength(double? oneRepMax, double? bodyWeightKg) {
-  if (oneRepMax == null || bodyWeightKg == null) return null;
-  if (oneRepMax <= 0 || bodyWeightKg < 20) return null;
-  final ratio = oneRepMax / bodyWeightKg;
-  if (ratio > 10) return null;
-  return (ratio * 20).round() / 20;
-}
-
-// ---------------------------------------------------------------------------
 // Kód přítele a odkazy
 // ---------------------------------------------------------------------------
 

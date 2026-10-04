@@ -5,11 +5,14 @@
 //
 // Co udělá:
 //  1. Pro každý vestavěný cvik najde na wger.de nejlépe odpovídající cvik
-//     (podle anglického názvu) a stáhne až 2 obrázky (výchozí a koncová
+//     (podle anglického názvu). Má-li cvik animovaný GIF / WebP, stáhne
+//     ho (přednost); jinak stáhne až 2 obrázky (výchozí a koncová
 //     poloha – v aplikaci se střídají jako jednoduchá animace).
 //  2. Obrázky uloží do assets/exercises/<slug>_<n>.<přípona>.
-//  3. Vygeneruje lib/data/seed/exercise_media.dart s cestami a autory
-//     (licence CC BY-SA vyžaduje uvést autora – aplikace ho zobrazuje).
+//  3. Zapíše tool/media/wger_media.json a vygeneruje
+//     lib/data/seed/exercise_media.dart s cestami a autory (licence
+//     CC BY-SA vyžaduje uvést autora – aplikace ho zobrazuje). Koupené
+//     animace z tool/media_import.dart mají přednost a zůstanou.
 //  4. Zapíše tool/wger_report.csv – zkontroluj, jestli sedí přiřazení.
 //     Špatné přiřazení oprav v mapě _overrides níže (slug → ID cviku
 //     na wger.de; ID je v adrese https://wger.de/en/exercise/<ID>/view/)
@@ -19,9 +22,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'media/media_manifest.dart';
+
 const _api = 'https://wger.de/api/v2';
 const _englishLanguageId = 2;
 const _maxImagesPerExercise = 2;
+
+/// Kolik kandidátů na animaci (GIF / WebP) se nejvýš stáhne a ověří.
+const _maxAnimatedCandidates = 3;
 
 /// Ruční přiřazení slug → ID cviku na wger.de (má přednost před hledáním).
 const _overrides = <String, int>{
@@ -83,6 +91,8 @@ const _searchTerms = <String, List<String>>{
   'side_plank': ['Side Plank'],
   'burpee': ['Burpee', 'Burpees'],
   'kettlebell_swing': ['Kettlebell Swing', 'Kettlebell Swings'],
+  'weighted_pull_up': ['Weighted Pull-Up', 'Weighted Pull Up', 'Pull-Up'],
+  'weighted_dips': ['Weighted Dips', 'Weighted Dip', 'Dips'],
 };
 
 final _client = HttpClient()..userAgent = 'fitness_app-seed-import/1.0';
@@ -98,7 +108,7 @@ Future<void> main() async {
 
   final entries = <String, _Chosen>{};
   final report = StringBuffer(
-      'slug,wger_id,wger_name,score,images,ai_generated,alternatives\n');
+      'slug,wger_id,wger_name,score,images,animated,ai_generated,alternatives\n');
 
   for (final slug in _searchTerms.keys) {
     stdout.write('${slug.padRight(28)} ');
@@ -106,16 +116,16 @@ Future<void> main() async {
       final chosen = await _choose(slug);
       if (chosen == null) {
         stdout.writeln('– nenalezeno');
-        report.writeln('$slug,,,0,0,,');
+        report.writeln('$slug,,,0,0,,,');
         continue;
       }
-      final images = await _download(slug, chosen, assetsDir);
+      final (:images, :animated) = await _download(slug, chosen, assetsDir);
       if (images.isEmpty) {
         stdout.writeln('– ${chosen.name} (#${chosen.id}) bez obrázků');
       } else {
         stdout.writeln('✓ ${chosen.name} (#${chosen.id}), '
-            '${images.length} obr.');
-        entries[slug] = chosen.copyWith(images: images);
+            '${animated ? 'animace' : '${images.length} obr.'}');
+        entries[slug] = chosen.copyWith(images: images, animated: animated);
       }
       report.writeln([
         slug,
@@ -123,41 +133,36 @@ Future<void> main() async {
         _csv(chosen.name),
         chosen.score,
         images.length,
+        animated ? 'yes' : '',
         images.any((i) => i.aiGenerated) ? 'yes' : '',
         _csv(chosen.alternatives.join(' | ')),
       ].join(','));
     } catch (e) {
       stdout.writeln('✗ chyba: $e');
-      report.writeln('$slug,,,0,0,,');
+      report.writeln('$slug,,,0,0,,,');
     }
     // Ohleduplnost k serveru projektu wger.
     await Future<void>.delayed(const Duration(milliseconds: 300));
   }
 
   File('tool/wger_report.csv').writeAsStringSync(report.toString());
-  File('lib/data/seed/exercise_media.dart')
-      .writeAsStringSync(_generateDart(entries));
+  writeManifest(wgerManifestPath, {
+    for (final e in entries.entries)
+      e.key: MediaEntry(
+        wgerId: e.value.id,
+        animated: e.value.animated,
+        images: e.value.images,
+      ),
+  });
+  final merged = regenerateMediaDart();
   _client.close();
 
+  final purchased = readManifest(purchasedManifestPath);
   stdout.writeln('\nHotovo: ${entries.length} z ${_searchTerms.length} cviků '
-      'má obrázky.');
+      'má obrázky z wger.de'
+      '${purchased.isEmpty ? '' : ', ${purchased.length} koupených animací má přednost'}'
+      ' (celkem ${merged.length}).');
   stdout.writeln('Zkontroluj tool/wger_report.csv. Pak spusť flutter run.');
-}
-
-class _Image {
-  _Image({
-    required this.asset,
-    required this.author,
-    required this.authorUrl,
-    required this.license,
-    required this.aiGenerated,
-  });
-
-  final String asset;
-  final String author;
-  final String? authorUrl;
-  final String license;
-  final bool aiGenerated;
 }
 
 class _Chosen {
@@ -168,6 +173,7 @@ class _Chosen {
     required this.rawImages,
     required this.alternatives,
     this.images = const [],
+    this.animated = false,
   });
 
   final int id;
@@ -175,15 +181,21 @@ class _Chosen {
   final int score;
   final List<Map<String, dynamic>> rawImages;
   final List<String> alternatives;
-  final List<_Image> images;
+  final List<MediaImage> images;
+  final bool animated;
 
-  _Chosen copyWith({required List<_Image> images}) => _Chosen(
+  _Chosen copyWith({
+    required List<MediaImage> images,
+    required bool animated,
+  }) =>
+      _Chosen(
         id: id,
         name: name,
         score: score,
         rawImages: rawImages,
         alternatives: alternatives,
         images: images,
+        animated: animated,
       );
 }
 
@@ -306,81 +318,74 @@ List<Map<String, dynamic>> _images(Map<String, dynamic> info) {
   return list;
 }
 
-Future<List<_Image>> _download(
+/// Stáhne soubor (null = chyba).
+Future<List<int>?> _fetch(String url) async {
+  final req = await _client.getUrl(Uri.parse(url));
+  final res = await req.close().timeout(const Duration(seconds: 60));
+  if (res.statusCode != 200) {
+    await res.drain<void>();
+    return null;
+  }
+  return res.fold<List<int>>(<int>[], (a, b) => a..addAll(b));
+}
+
+String _absoluteUrl(Map<String, dynamic> raw) {
+  final url = '${raw['image']}';
+  return url.startsWith('/') ? 'https://wger.de$url' : url;
+}
+
+MediaImage _imageFrom(Map<String, dynamic> raw, String asset) {
+  final author = '${raw['license_author'] ?? ''}'.trim();
+  final authorUrl = '${raw['license_author_url'] ?? ''}'.trim();
+  return MediaImage(
+    asset: asset,
+    author: author.isEmpty ? 'wger.de' : author,
+    authorUrl: authorUrl.isEmpty ? null : authorUrl,
+    license: '${raw['license_title'] ?? 'CC BY-SA 4.0'}'.trim(),
+    aiGenerated: raw['is_ai_generated'] == true,
+  );
+}
+
+Future<({List<MediaImage> images, bool animated})> _download(
   String slug,
   _Chosen chosen,
   Directory dir,
 ) async {
-  // Staré obrázky cviku smažeme, ať po opravě přiřazení nezůstanou.
+  // Staré obrázky z wger.de (<slug>_<n>.<přípona>) smažeme, ať po opravě
+  // přiřazení nezůstanou. Koupené animace (<slug>.gif) zůstanou.
+  final own = RegExp('^${RegExp.escape(slug)}_\\d+\\.');
   for (final f in dir.listSync().whereType<File>()) {
-    final name = f.uri.pathSegments.last;
-    if (name.startsWith('${slug}_')) f.deleteSync();
+    if (own.hasMatch(f.uri.pathSegments.last)) f.deleteSync();
   }
-  final result = <_Image>[];
-  for (final raw in chosen.rawImages.take(_maxImagesPerExercise)) {
-    var url = '${raw['image']}';
-    if (url.startsWith('/')) url = 'https://wger.de$url';
+
+  // 1) Animovaný GIF / WebP má přednost (ověří se podle obsahu souboru).
+  final candidates = chosen.rawImages.where((raw) {
+    final url = _absoluteUrl(raw).toLowerCase();
+    return url.endsWith('.gif') || url.endsWith('.webp');
+  }).take(_maxAnimatedCandidates);
+  for (final raw in candidates) {
+    final url = _absoluteUrl(raw);
+    final bytes = await _fetch(url);
+    if (bytes == null || !isAnimatedImage(bytes)) continue;
     final ext = url.split('.').last.toLowerCase();
-    final asset = 'assets/exercises/${slug}_${result.length + 1}.$ext';
-    final req = await _client.getUrl(Uri.parse(url));
-    final res = await req.close().timeout(const Duration(seconds: 60));
-    if (res.statusCode != 200) {
-      await res.drain<void>();
-      continue;
-    }
-    final bytes = await res.fold<List<int>>(<int>[], (a, b) => a..addAll(b));
+    final asset = '$exerciseAssetsDir/${slug}_1.$ext';
     File(asset).writeAsBytesSync(bytes);
-    final author = '${raw['license_author'] ?? ''}'.trim();
-    final authorUrl = '${raw['license_author_url'] ?? ''}'.trim();
-    result.add(_Image(
-      asset: asset,
-      author: author.isEmpty ? 'wger.de' : author,
-      authorUrl: authorUrl.isEmpty ? null : authorUrl,
-      license: '${raw['license_title'] ?? 'CC BY-SA 4.0'}'.trim(),
-      aiGenerated: raw['is_ai_generated'] == true,
-    ));
+    return (images: [_imageFrom(raw, asset)], animated: true);
   }
-  return result;
+
+  // 2) Jinak až 2 statické obrázky (výchozí a koncová poloha).
+  final result = <MediaImage>[];
+  for (final raw in chosen.rawImages.take(_maxImagesPerExercise)) {
+    final url = _absoluteUrl(raw);
+    final ext = url.split('.').last.toLowerCase();
+    final asset = '$exerciseAssetsDir/${slug}_${result.length + 1}.$ext';
+    final bytes = await _fetch(url);
+    if (bytes == null) continue;
+    File(asset).writeAsBytesSync(bytes);
+    result.add(_imageFrom(raw, asset));
+  }
+  return (images: result, animated: false);
 }
 
 String _csv(String s) =>
     s.contains(RegExp(r'[",\n]')) ? '"${s.replaceAll('"', '""')}"' : s;
-
-String _dartString(String s) =>
-    "'${s.replaceAll(r'\', r'\\').replaceAll("'", r"\'").replaceAll(r'$', r'\$')}'";
-
-String _generateDart(Map<String, _Chosen> entries) {
-  final b = StringBuffer()
-    ..writeln('// Vygenerováno skriptem tool/wger_import.dart – neupravuj ručně.')
-    ..writeln('// Obrázky: projekt wger.de, licence uvedené u každého obrázku.')
-    ..writeln()
-    ..writeln("import 'exercise_media_types.dart';")
-    ..writeln()
-    ..writeln("export 'exercise_media_types.dart';")
-    ..writeln()
-    ..writeln('const exerciseMedia = <String, ExerciseMedia>{');
-  for (final e in entries.entries) {
-    final c = e.value;
-    b
-      ..writeln('  ${_dartString(e.key)}: ExerciseMedia(')
-      ..writeln('    wgerId: ${c.id},')
-      ..writeln('    images: [');
-    for (final i in c.images) {
-      b
-        ..writeln('      ExerciseImage(')
-        ..writeln('        asset: ${_dartString(i.asset)},')
-        ..writeln('        author: ${_dartString(i.author)},');
-      if (i.authorUrl != null) {
-        b.writeln('        authorUrl: ${_dartString(i.authorUrl!)},');
-      }
-      b.writeln('        license: ${_dartString(i.license)},');
-      if (i.aiGenerated) b.writeln('        aiGenerated: true,');
-      b.writeln('      ),');
-    }
-    b
-      ..writeln('    ],')
-      ..writeln('  ),');
-  }
-  b.writeln('};');
-  return b.toString();
-}

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/date_utils.dart';
 import '../../l10n/app_localizations.dart';
+import '../../premium/premium.dart';
 import '../../providers.dart';
 import '../../ui/weekdays.dart';
 import 'calendar_providers.dart';
@@ -44,6 +45,10 @@ class _CalendarTodayCardState extends ConsumerState<CalendarTodayCard> {
     if (conflicts.isEmpty) return const SizedBox.shrink();
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    // Premium: návrh volného času (upozornění na kolizi je zdarma).
+    final suggestionsAllowed = ref
+        .watch(premiumProvider)
+        .isPremium(PremiumFeature.calendarSuggestions);
 
     final children = <Widget>[
       Row(
@@ -69,7 +74,15 @@ class _CalendarTodayCardState extends ConsumerState<CalendarTodayCard> {
         workoutTime,
       )));
       final freeAt = c.freeAt;
-      if (freeAt != null) {
+      if (freeAt != null && !suggestionsAllowed) {
+        children.add(const Padding(
+          padding: EdgeInsets.only(top: 4, bottom: 8),
+          child: PremiumLockedPlaceholder(
+            feature: PremiumFeature.calendarSuggestions,
+            compact: true,
+          ),
+        ));
+      } else if (freeAt != null) {
         children.add(Padding(
           padding: const EdgeInsets.only(top: 4, bottom: 8),
           child: Text(

@@ -45,6 +45,7 @@ List<DeepLinkHandler> deepLinkHandlers() => [
       //
       // [links:social]
       socialDeepLink,
+      socialGymDeepLink,
       //
     ];
 

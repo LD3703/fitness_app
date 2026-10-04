@@ -59,6 +59,20 @@ dependencies:
   qr_flutter: ^4.1.0
   mobile_scanner: ^7.4.2
   #
+  # [deps:cloud]
+  # Automatická záloha do Firebase Cloud Storage (docs/social.md, „Automatická záloha“)
+  firebase_storage: ^13.6.0
+  # Záloha jen na Wi-Fi (nastavení „Jen přes Wi-Fi“)
+  connectivity_plus: ^7.3.1
+  # Název zařízení v metadatech zálohy (už je v projektu přes balíček health)
+  device_info_plus: ^13.2.0
+  # [deps:wear]
+  # Hodinky s Wear OS (Wearable Data Layer); stejný balíček používá wear/
+  watch_connectivity: ^0.2.10
+  # [deps:premium]
+  # Předplatné Premium přes RevenueCat (aktivní až s kPremiumLaunched = true)
+  purchases_flutter: ^10.14.0
+  #
 
 dev_dependencies:
   flutter_test:

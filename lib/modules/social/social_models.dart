@@ -30,12 +30,10 @@ class FriendProfile {
     this.statsMonth,
     this.weeklyVolume,
     this.statsWeek,
-    this.relStrength = const {},
     this.weeks = const {},
   });
 
   factory FriendProfile.fromMap(String uid, Map<String, Object?> m) {
-    final rel = readMap(m['relStrength']);
     final weeks = readMap(m['weeks']);
     return FriendProfile(
       uid: uid,
@@ -47,10 +45,6 @@ class FriendProfile {
       statsMonth: readString(m['statsMonth']),
       weeklyVolume: readDouble(m['weeklyVolume']),
       statsWeek: readString(m['statsWeek']),
-      relStrength: {
-        for (final e in rel.entries)
-          if (readDouble(e.value) case final v?) e.key: v,
-      },
       weeks: {
         for (final e in weeks.entries)
           if (e.value is bool) e.key: e.value! as bool,
@@ -70,9 +64,6 @@ class FriendProfile {
   final double? weeklyVolume;
   final String? statsWeek;
 
-  /// bench / squat / deadlift → 1RM ÷ tělesná váha.
-  final Map<String, double> relStrength;
-
   /// ISO týden → splnil plán.
   final Map<String, bool> weeks;
 
@@ -82,12 +73,6 @@ class FriendProfile {
 
   /// Objem v týdnu [week] (starší údaj se nepočítá).
   double? volumeIn(String week) => statsWeek == week ? weeklyVolume : null;
-
-  /// Součet poměrů všech tří cviků (jen když jsou všechny).
-  double? get relStrengthTotal {
-    if (relStrength.length < 3) return null;
-    return relStrength.values.fold<double>(0, (a, b) => a + b);
-  }
 }
 
 /// Vazba na přítele (users/{uid}/friends/{friendUid}).
@@ -107,7 +92,18 @@ abstract final class FeedType {
   static const challenge = 'challenge';
   static const challengeDone = 'challengeDone';
 
-  static const all = [friend, pr, invite, inviteReply, challenge, challengeDone];
+  /// Někdo mě v posilovně předběhl na 1. místě (zapisuje jen Cloud Function).
+  static const gymOvertaken = 'gymOvertaken';
+
+  static const all = [
+    friend,
+    pr,
+    invite,
+    inviteReply,
+    challenge,
+    challengeDone,
+    gymOvertaken,
+  ];
 }
 
 /// Položka novinek (users/{uid}/feed/{id}) – zapisuje ji přítel.

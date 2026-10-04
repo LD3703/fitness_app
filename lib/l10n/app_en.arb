@@ -76,7 +76,7 @@
   "profileAbout": "About the app",
   "ok": "OK",
   "delete": "Delete",
-  "planNameHint": "e.g. Push A",
+  "planNameHint": "For example: Push A",
   "planNoSchedule": "No fixed days",
   "planRename": "Rename plan",
   "planDeleteTitle": "Delete plan?",
@@ -122,7 +122,7 @@
       }
     }
   },
-  "workoutColSet": "#",
+  "workoutColSet": "Set",
   "workoutColPrevious": "Last time",
   "workoutColReps": "Reps",
   "workoutAddSet": "Set",
@@ -164,7 +164,6 @@
       }
     }
   },
-  "setWarmupShort": "W",
   "recordLine": "Record: 1RM ≈ {oneRepMax} kg ({weight} kg × {reps})",
   "@recordLine": {
     "placeholders": {
@@ -267,6 +266,18 @@
     }
   },
   "profileName": "Name",
+  "profileBirthYear": "Year of birth (optional)",
+  "profileBirthYearInvalid": "Enter a year between {min} and {max}",
+  "@profileBirthYearInvalid": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "profileTrackingSection": "What I track",
   "profileTrackingHint": "Turned-off features are hidden. Data already recorded is kept.",
   "profileSettingsSection": "Settings",
@@ -286,6 +297,19 @@
   "onboardingWeight": "Current weight in kg (optional)",
   "onboardingStart": "Let's go",
   "onboardingChangeLater": "You can change everything later in Profile.",
+  "onboardingToneIntro": "How should I talk to you? Applies to reminders and in-app messages.",
+  "@onboardingToneIntro": {
+    "description": "Onboarding: intro to the message tone choice (friendly / strict coach)"
+  },
+  "onboardingToneExample": "For example: “{text}”",
+  "@onboardingToneExample": {
+    "description": "Onboarding: example line under a tone option. text = a sample message, wrapped in language-appropriate quotes",
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
   "calendarEventDescription": "Planned workout – added by the app. Change the plan in the app, the event will update itself.",
   "chartWeightTitle": "Body weight",
   "chartLastDays": "Last {days} days",
@@ -738,7 +762,7 @@
   "shareRecordButton": "Share record",
   "shareMyRecordButton": "Share my record",
   "shareMyRecordTitle": "Your record",
-  "shareRecordValue": "{weight} × {reps} · est. 1RM {oneRm}",
+  "shareRecordValue": "{weight} × {reps} · estimated 1RM {oneRm}",
   "@shareRecordValue": {
     "placeholders": {
       "weight": {
@@ -755,7 +779,7 @@
   "shareChallengeButton": "Challenge a friend",
   "shareCardRecordLabel": "Personal record",
   "shareCardWorkoutLabel": "Workout done",
-  "shareCardOneRepMax": "Est. 1RM {value}",
+  "shareCardOneRepMax": "Estimated 1RM {value}",
   "@shareCardOneRepMax": {
     "placeholders": {
       "value": {
@@ -782,7 +806,7 @@
       }
     }
   },
-  "shareRecordText": "New personal record! {exercise}: {weight} × {reps} (est. 1RM {oneRm}) 💪 {link}",
+  "shareRecordText": "New personal record! {exercise}: {weight} × {reps} (estimated 1RM {oneRm}) 💪 {link}",
   "@shareRecordText": {
     "placeholders": {
       "exercise": {
@@ -819,7 +843,7 @@
       }
     }
   },
-  "shareChallengeText": "I did {weight} × {reps} on {exercise} (est. 1RM {oneRm}). Can you beat me by {deadline}? {link}",
+  "shareChallengeText": "I did {weight} × {reps} on {exercise} (estimated 1RM {oneRm}). Can you beat me by {deadline}? {link}",
   "@shareChallengeText": {
     "placeholders": {
       "exercise": {
@@ -944,7 +968,7 @@
   "shareHide": "Hide",
   "shareMoreActions": "More",
   "shareChallengeCompletedTitle": "Challenge completed! 🎉",
-  "shareCompletedRecord": "Challenge completed: {exercise} with est. 1RM {value}! 🎉 {link}",
+  "shareCompletedRecord": "Challenge completed: {exercise} with estimated 1RM {value}! 🎉 {link}",
   "@shareCompletedRecord": {
     "placeholders": {
       "exercise": {
@@ -958,7 +982,7 @@
       }
     }
   },
-  "shareCompletedRecordFrom": "I beat {name}'s challenge: {exercise} with est. 1RM {value}! 🎉 {link}",
+  "shareCompletedRecordFrom": "I beat {name}'s challenge: {exercise} with estimated 1RM {value}! 🎉 {link}",
   "@shareCompletedRecordFrom": {
     "placeholders": {
       "name": {
@@ -1014,7 +1038,7 @@
   "socialSettings": "Account & sharing",
   "socialNameHint": "Friends see the name from your profile.",
   "socialShareRecords": "Share records",
-  "socialShareRecordsHint": "New PRs and relative strength (ratio only)",
+  "socialShareRecordsHint": "New PRs (estimated 1RM)",
   "socialShareStats": "Share workout stats",
   "socialShareStatsHint": "Workouts per month, weekly volume, weeks you met your plan",
   "socialSignOut": "Sign out",
@@ -1096,10 +1120,8 @@
   },
   "socialBoardWorkouts": "Workouts",
   "socialBoardVolume": "Volume",
-  "socialBoardStrength": "Strength",
   "socialBoardWorkoutsHint": "Workouts this month",
   "socialBoardVolumeHint": "Volume this week (kg × reps)",
-  "socialBoardStrengthHint": "Best estimated 1RM ÷ body weight",
   "socialBoardEmpty": "No data yet. Friends who don't share stats aren't listed.",
   "socialBoardYou": "{name} (you)",
   "@socialBoardYou": {
@@ -1110,9 +1132,6 @@
     }
   },
   "socialBoardPrivacy": "Only your friends see this leaderboard.",
-  "socialLiftBench": "Bench",
-  "socialLiftSquat": "Squat",
-  "socialLiftDeadlift": "Deadlift",
   "socialKgValue": "{value} kg",
   "@socialKgValue": {
     "placeholders": {
@@ -1581,7 +1600,7 @@
       }
     }
   },
-  "statsE1rmLabel": "est. 1RM",
+  "statsE1rmLabel": "estimated 1RM",
   "statsSetWeightReps": "{weight} × {reps}",
   "@statsSetWeightReps": {
     "placeholders": {
@@ -1667,6 +1686,1172 @@
         "type": "String"
       },
       "license": {
+        "type": "String"
+      }
+    }
+  },
+  "socialGymTitle": "Gym leaderboard",
+  "socialGymIntroTitle": "Compete with your gym",
+  "socialGymIntroText": "Join your gym's leaderboard: bench press, squat, deadlift and more lifts, plus workouts this month – for everyone or by gender and age group. Scan the QR code at the reception or find your gym in the list.",
+  "socialGymScan": "Scan gym QR",
+  "socialGymFind": "Find gym",
+  "socialGymCreate": "Create gym",
+  "socialGymPrivacy": "Other gym members only see your nickname, estimated 1RM in the leaderboard exercises you've done, number of workouts and, if you enter them, your gender and age group (under 40, 40+, 50+, 60+). Your exact age, body weight, periods and water never leave your phone.",
+  "socialGymImplausible": "Performance looks unrealistic – it wasn't counted in the leaderboard",
+  "socialGymImplausibleDetail": "Performance looks unrealistic, it wasn't counted in the leaderboard: {categories}. Check your logged sets (weight and reps).",
+  "@socialGymImplausibleDetail": {
+    "placeholders": {
+      "categories": {
+        "type": "String"
+      }
+    }
+  },
+  "socialGymHiddenByMe": "You're hidden from the leaderboard.",
+  "socialGymHiddenReports": "Your result is hidden because several members reported it.",
+  "socialGymHiddenImplausible": "Your result is hidden because it looks unrealistic.",
+  "socialGymCatWorkouts": "Workouts",
+  "socialGymFilterAll": "All",
+  "socialGymFilterMen": "Men",
+  "socialGymFilterWomen": "Women",
+  "socialGymFilterAgeFrom": "{age}+",
+  "@socialGymFilterAgeFrom": {
+    "placeholders": {
+      "age": {
+        "type": "int"
+      }
+    }
+  },
+  "socialGymAgeMissing": "You're only listed under All. Add your year of birth to appear in age groups.",
+  "socialGymPeriodMonth": "This month",
+  "socialGymPeriodAllTime": "All time",
+  "socialGymHintLift": "Best estimated 1RM (Epley) from your working sets of up to {maxReps} reps.",
+  "@socialGymHintLift": {
+    "placeholders": {
+      "maxReps": {
+        "type": "int"
+      }
+    }
+  },
+  "socialGymNotePerDumbbell": "Weight of one dumbbell, as logged.",
+  "socialGymNoteAddedWeight": "Added weight only, without body weight.",
+  "socialGymHintWorkoutsMonth": "Finished workouts this month.",
+  "socialGymHintWorkoutsAllTime": "Most workouts in a single month.",
+  "socialGymBoardEmpty": "Nobody here yet. Finish a workout and you'll show up.",
+  "socialGymBeatMe": "Beat me",
+  "socialGymChallengeAdded": "Challenge added – you'll find it on the Today screen",
+  "socialGymChallengeExists": "You already have this challenge",
+  "socialGymReport": "Report",
+  "socialGymReportTitle": "Report {name}'s result?",
+  "@socialGymReportTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "socialGymReportMessage": "Report results that look fake. After 5 reports the result is hidden. You can report each result only once.",
+  "socialGymReported": "Thanks, result reported",
+  "socialGymReportedAlready": "You've already reported this result",
+  "socialGymQr": "Gym QR code",
+  "socialGymQrHint": "Print it for the reception – members scan it in the app to join.",
+  "socialGymSharePoster": "Share QR",
+  "socialGymShareText": "Join the {gym} leaderboard in the app: {link} (gym code {code})",
+  "@socialGymShareText": {
+    "placeholders": {
+      "gym": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "socialGymPosterTitle": "Gym leaderboard",
+  "socialGymPosterScan": "Scan the code in the app and join the leaderboard",
+  "socialGymMembers": "{count, plural, one{{count} member} other{{count} members}}",
+  "@socialGymMembers": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialGymWorkoutsValue": "{count, plural, one{{count} workout} other{{count} workouts}}",
+  "@socialGymWorkoutsValue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialGymMyProfile": "Nickname, age and visibility",
+  "socialGymLeave": "Leave gym",
+  "socialGymLeaveTitle": "Leave {gym}?",
+  "@socialGymLeaveTitle": {
+    "placeholders": {
+      "gym": {
+        "type": "String"
+      }
+    }
+  },
+  "socialGymLeaveMessage": "Your results will be removed from the leaderboard. You can join again anytime.",
+  "socialGymLeft": "You left the gym",
+  "socialGymNickname": "Nickname",
+  "socialGymNicknameHint": "Other gym members will see it",
+  "socialGymGender": "Gender",
+  "socialGymGenderMale": "Man",
+  "socialGymGenderFemale": "Woman",
+  "socialGymGenderUnspecified": "Don't say",
+  "socialGymGenderHint": "Only used for the men/women filter.",
+  "socialGymBirthYearHint": "Only your age group (under 40, 40+, 50+, 60+) is shown, never your age.",
+  "socialGymShowMe": "Show me in the gym leaderboard",
+  "socialGymShowMeHint": "When off, you only watch and nothing about you is published.",
+  "socialGymJoin": "Join",
+  "socialGymJoinTitle": "Join {gym}",
+  "@socialGymJoinTitle": {
+    "placeholders": {
+      "gym": {
+        "type": "String"
+      }
+    }
+  },
+  "socialGymJoinNote": "You can be in one gym at a time. You can change these settings anytime.",
+  "socialGymJoined": "Welcome to {gym}!",
+  "@socialGymJoined": {
+    "placeholders": {
+      "gym": {
+        "type": "String"
+      }
+    }
+  },
+  "socialGymOpen": "Open leaderboard",
+  "socialGymSwitchHint": "You'll leave your current gym (your results there will be removed).",
+  "socialGymNotFound": "Gym not found",
+  "socialGymCodeInvalid": "That's not a valid gym code",
+  "socialGymEnterCode": "Enter gym code",
+  "socialGymScanHint": "Point the camera at the gym's QR code",
+  "socialGymSearchHint": "Gym name or city",
+  "socialGymSearchEmpty": "No gym found. Create it!",
+  "socialGymCreateMissing": "My gym isn't listed – create it",
+  "socialGymCreateHint": "Anyone signed in can find the gym by name or city and join. You'll get a QR code for the reception.",
+  "socialGymName": "Gym name",
+  "socialGymCity": "City",
+  "socialGymAddress": "Address (optional)",
+  "socialGymAddressHint": "Helps tell apart gyms with similar names",
+  "socialGymCreated": "Gym created – share its QR code",
+  "socialGymProgressJoin": "Join your gym's leaderboard",
+  "socialGymShareStrongest": "Share",
+  "socialGymStrongestLabel": "Strongest in {gym}",
+  "@socialGymStrongestLabel": {
+    "placeholders": {
+      "gym": {
+        "type": "String"
+      }
+    }
+  },
+  "socialGymStrongestShareText": "I'm number one at {gym} – {category}: {value}. {link}",
+  "@socialGymStrongestShareText": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "gym": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "socialGymFeedOvertaken": "{name} took 1st place from you at {gym} – {category}: {value}",
+  "@socialGymFeedOvertaken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "category": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "gym": {
+        "type": "String"
+      }
+    }
+  },
+  "templateDaysHint": "Pick the days for each workout. You can change them later in the plan.",
+  "templateDaysConfirm": "Add program",
+  "supersetTitle": "Superset {letter}",
+  "@supersetTitle": {
+    "description": "Header of a superset group in the workout; letter = A, B…",
+    "placeholders": {
+      "letter": {
+        "type": "String"
+      }
+    }
+  },
+  "supersetHint": "Alternate the exercises, rest after the last one",
+  "supersetLinkNext": "Link with next exercise",
+  "supersetUnlink": "Remove from superset",
+  "supersetMenu": "Superset",
+  "supersetTooLarge": "A superset can have at most 3 exercises.",
+  "dropAdd": "Drop set",
+  "dropToggle": "Mark as drop set",
+  "dropCycleHint": "Tap to switch: working set → warm-up → drop set",
+  "fatigueTitle": "Muscle recovery",
+  "fatigueSubtitle": "{count, plural, one{From 1 workout in the last 7 days} other{From {count} workouts in the last 7 days}}",
+  "@fatigueSubtitle": {
+    "description": "Subtitle of the muscle recovery card on Today",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fatigueStatusRecovered": "Recovered",
+  "fatigueStatusRecovering": "Recovering",
+  "fatigueStatusFatigued": "Fatigued",
+  "fatiguePercent": "{percent} %",
+  "@fatiguePercent": {
+    "description": "Fatigue of a muscle group in percent",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "fatigueRecoveredList": "Recovered: {groups}",
+  "@fatigueRecoveredList": {
+    "description": "Comma-separated list of recovered muscle groups",
+    "placeholders": {
+      "groups": {
+        "type": "String"
+      }
+    }
+  },
+  "fatigueAllRecovered": "All muscle groups are recovered.",
+  "fatigueHint": "A rough estimate from your sets. Listen to your body.",
+  "fatigueWarningTitle": "Still recovering",
+  "fatigueWarningMessage": "Still fatigued: {group} ({percent} %). Train anyway, do Plan B at home, or postpone the workout to tomorrow?",
+  "@fatigueWarningMessage": {
+    "description": "Dialog before starting a workout when a muscle group of the plan is ≥ 80 % fatigued",
+    "placeholders": {
+      "group": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "fatigueTrainAnyway": "Train anyway",
+  "fatiguePlanB": "Plan B",
+  "fatiguePostpone": "Postpone",
+  "fatigueExerciseHint": "{group}: {percent} % fatigued",
+  "@fatigueExerciseHint": {
+    "description": "Plan editor: current fatigue of the exercise muscle group",
+    "placeholders": {
+      "group": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "fatigueFeelingQuestion": "How did it feel?",
+  "fatigueFeelingEasy": "Easy",
+  "fatigueFeelingOk": "Just right",
+  "fatigueFeelingHard": "Hard",
+  "setKindWarmup": "Warm-up",
+  "@setKindWarmup": {
+    "description": "Full-word label of a warm-up set (chip next to the set number)"
+  },
+  "setKindDrop": "Drop set",
+  "@setKindDrop": {
+    "description": "Full-word label of a drop set (chip next to the set number)"
+  },
+  "appearanceTitle": "Appearance",
+  "@appearanceTitle": {
+    "description": "Profile setting: light / dark / system theme"
+  },
+  "appearanceSystem": "System default",
+  "@appearanceSystem": {
+    "description": "Theme follows the phone setting"
+  },
+  "appearanceLight": "Light",
+  "@appearanceLight": {
+    "description": "Light theme"
+  },
+  "appearanceDark": "Dark",
+  "@appearanceDark": {
+    "description": "Dark theme"
+  },
+  "overloadTitle": "Progressive overload",
+  "@overloadTitle": {
+    "description": "Progress card title"
+  },
+  "overloadHint": "Last 2 weeks compared with the 2 weeks before. Weeks with illness, a break or an injury are skipped.",
+  "@overloadHint": {
+    "description": "Explains the comparison windows"
+  },
+  "overloadStatusProgressing": "Progressing",
+  "@overloadStatusProgressing": {
+    "description": "Status word of a muscle group"
+  },
+  "overloadStatusHolding": "Holding",
+  "@overloadStatusHolding": {
+    "description": "Status word: volume down during a cut, which is fine"
+  },
+  "overloadStatusStagnating": "Stagnating",
+  "@overloadStatusStagnating": {
+    "description": "Status word of a muscle group"
+  },
+  "overloadStatusDeclining": "Declining",
+  "@overloadStatusDeclining": {
+    "description": "Status word of a muscle group"
+  },
+  "overloadStatusInsufficient": "Not enough data",
+  "@overloadStatusInsufficient": {
+    "description": "Status word: not trained in both compared periods"
+  },
+  "overloadReasonOneRepMax": "{exercise}: 1RM {change} %",
+  "@overloadReasonOneRepMax": {
+    "description": "Reason: best estimated 1RM of an exercise changed. change is signed, e.g. +3",
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "change": {
+        "type": "String"
+      }
+    }
+  },
+  "overloadReasonVolume": "Volume {change} %",
+  "@overloadReasonVolume": {
+    "description": "Reason: training volume of the muscle group changed. change is signed, e.g. +8",
+    "placeholders": {
+      "change": {
+        "type": "String"
+      }
+    }
+  },
+  "overloadHoldingCut": "That's fine during a cut.",
+  "@overloadHoldingCut": {
+    "description": "Shown with the Holding status"
+  },
+  "overloadNoData": "Log a few weeks of workouts with weights to see how each muscle group progresses.",
+  "@overloadNoData": {
+    "description": "Empty state of the progressive overload card"
+  },
+  "overloadTipsTitle": "Tips",
+  "@overloadTipsTitle": {
+    "description": "Subheading above tips for stagnating muscle groups"
+  },
+  "overloadStagnantFor": "{group}: no progress for {count, plural, one{{count} week} other{{count} weeks}}",
+  "@overloadStagnantFor": {
+    "description": "Muscle group without progress for N weeks",
+    "placeholders": {
+      "group": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "overloadTipAddReps": "Try adding 1–2 reps to each working set.",
+  "@overloadTipAddReps": {
+    "description": "Tip for a stagnating muscle group"
+  },
+  "overloadTipAddSet": "Try adding one more working set.",
+  "@overloadTipAddSet": {
+    "description": "Tip for a stagnating muscle group"
+  },
+  "overloadTipAddWeight": "Try adding {weight} to your working sets.",
+  "@overloadTipAddWeight": {
+    "description": "Tip for a stagnating muscle group. weight = e.g. \"2.5 kg\" or \"5 lb\"",
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "overloadWaitingGroups": "Not enough data yet: {groups}",
+  "@overloadWaitingGroups": {
+    "description": "Muscle groups without enough data (comma separated list)",
+    "placeholders": {
+      "groups": {
+        "type": "String"
+      }
+    }
+  },
+  "overloadExcusedGroups": "Skipped last week (illness, break or injury): {groups}",
+  "@overloadExcusedGroups": {
+    "description": "Muscle groups whose last week was skipped (comma separated list)",
+    "placeholders": {
+      "groups": {
+        "type": "String"
+      }
+    }
+  },
+  "overloadNotifTitle": "Your weekly progress",
+  "@overloadNotifTitle": {
+    "description": "Weekly notification title (Monday morning)"
+  },
+  "overloadNotifBody": "Muscle groups progressing: {progressing} · stagnating: {stagnating} · declining: {declining}",
+  "@overloadNotifBody": {
+    "description": "Weekly notification body: number of muscle groups in each status",
+    "placeholders": {
+      "progressing": {
+        "type": "int"
+      },
+      "stagnating": {
+        "type": "int"
+      },
+      "declining": {
+        "type": "int"
+      }
+    }
+  },
+  "badgeGalleryTitle": "Badges",
+  "@badgeGalleryTitle": {
+    "description": "Badge gallery title and entry tiles"
+  },
+  "badgeProfileSection": "Achievements",
+  "@badgeProfileSection": {
+    "description": "Profile section heading with the badge gallery tile"
+  },
+  "badgeEarnedCount": "{earned} of {total} earned",
+  "@badgeEarnedCount": {
+    "description": "How many badges are earned",
+    "placeholders": {
+      "earned": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "badgeEarnedOn": "Earned {date}",
+  "@badgeEarnedOn": {
+    "description": "Date when a badge was earned",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "badgeProgress": "Best so far: {current} of {target}",
+  "@badgeProgress": {
+    "description": "Progress towards a locked badge",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "badgeLocked": "Locked",
+  "@badgeLocked": {
+    "description": "Accessibility label of the lock icon of a badge not earned yet"
+  },
+  "badgeShare": "Share badge",
+  "@badgeShare": {
+    "description": "Share button of a badge"
+  },
+  "badgeShareCardLabel": "New badge",
+  "@badgeShareCardLabel": {
+    "description": "Label at the top of the badge share image"
+  },
+  "badgeShareText": "I’ve got a new badge: “{name}”! {link}",
+  "@badgeShareText": {
+    "description": "Text shared with the badge image",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "badgeNewTitle": "{count, plural, one{New badge!} other{New badges!}}",
+  "@badgeNewTitle": {
+    "description": "Heading in the workout summary when badges were earned",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "badgeSectionOverload": "Progress streaks",
+  "@badgeSectionOverload": {
+    "description": "Gallery section: weeks in a row with progress"
+  },
+  "badgeSectionMastery": "Muscle mastery",
+  "@badgeSectionMastery": {
+    "description": "Gallery section: per muscle group badges"
+  },
+  "badgeSectionRecords": "Personal records",
+  "@badgeSectionRecords": {
+    "description": "Gallery section: personal records"
+  },
+  "badgeSectionConsistency": "Consistency",
+  "@badgeSectionConsistency": {
+    "description": "Gallery section: weeks in a row meeting the plan"
+  },
+  "badgeOverloadStreakName": "{count, plural, one{{count} week of progress} other{{count} weeks of progress}}",
+  "@badgeOverloadStreakName": {
+    "description": "Badge name: N weeks in a row with progress",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "badgeOverloadStreakDescription": "Progress in at least one muscle group, with none declining, {count, plural, one{{count} week} other{{count} weeks}} in a row.",
+  "@badgeOverloadStreakDescription": {
+    "description": "How to earn the progress streak badge",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "badgeMasteryName": "{group} mastery",
+  "@badgeMasteryName": {
+    "description": "Badge name: mastery of one muscle group",
+    "placeholders": {
+      "group": {
+        "type": "String"
+      }
+    }
+  },
+  "badgeMasteryDescription": "{group}: 8 weeks in a row progressing or holding, at least 4 of them progressing.",
+  "@badgeMasteryDescription": {
+    "description": "How to earn the muscle mastery badge (numbers 8 and 4 are fixed in code)",
+    "placeholders": {
+      "group": {
+        "type": "String"
+      }
+    }
+  },
+  "badgeRecordsName": "{count, plural, one{First personal record} other{{count} personal records}}",
+  "@badgeRecordsName": {
+    "description": "Badge name: number of personal records",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "badgeRecordsDescription": "{count, plural, one{Beat your best estimated 1RM in any exercise.} other{Beat your best estimated 1RM {count} times.}}",
+  "@badgeRecordsDescription": {
+    "description": "How to earn the personal records badge",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "badgeConsistencyName": "{count, plural, one{{count} week on plan} other{{count} weeks on plan}}",
+  "@badgeConsistencyName": {
+    "description": "Badge name: N weeks in a row meeting the plan",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "badgeConsistencyDescription": "{count, plural, one{Hit your weekly workout goal for {count} week.} other{Hit your weekly workout goal {count} weeks in a row.}}",
+  "@badgeConsistencyDescription": {
+    "description": "How to earn the consistency badge",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coachToneTitle": "Message tone",
+  "@coachToneTitle": {
+    "description": "Profile setting: tone of notifications and messages"
+  },
+  "coachToneFriendly": "Friendly",
+  "@coachToneFriendly": {
+    "description": "Friendly, supportive tone (default)"
+  },
+  "coachToneStrict": "Strict coach",
+  "@coachToneStrict": {
+    "description": "Strict coach tone: playful tough love"
+  },
+  "coachToneStrictHint": "Tough love – except when you’re ill, injured, recovering or very fatigued.",
+  "@coachToneStrictHint": {
+    "description": "Explains that the strict tone is off when health comes first"
+  },
+  "coachSkip1": "Skipping today, you lazybones? The couch is thrilled. Your muscles aren’t.",
+  "@coachSkip1": {
+    "description": "Strict coach: after skipping/postponing a workout (playful, never insulting)"
+  },
+  "coachSkip2": "Great choice. I’m sure the couch will train you all by itself.",
+  "@coachSkip2": {
+    "description": "Strict coach: after skipping/postponing a workout"
+  },
+  "coachSkip3": "Excuse logged. I won’t put it in your stats – it would show up way too often.",
+  "@coachSkip3": {
+    "description": "Strict coach: after skipping/postponing a workout"
+  },
+  "coachSkip4": "A day off? Right. And what exactly were you tired from yesterday?",
+  "@coachSkip4": {
+    "description": "Strict coach: after skipping/postponing a workout"
+  },
+  "coachSkip5": "The dumbbells asked where you were. I told them you had “important stuff”.",
+  "@coachSkip5": {
+    "description": "Strict coach: after skipping/postponing a workout"
+  },
+  "coachMorning1": "Morning. Today: {plans}. And no, “I’m too busy” is not an exercise.",
+  "@coachMorning1": {
+    "description": "Strict coach: morning reminder body. plans = plan names",
+    "placeholders": {
+      "plans": {
+        "type": "String"
+      }
+    }
+  },
+  "coachMorning2": "Today: {plans}. The weights won’t lift themselves – I checked.",
+  "@coachMorning2": {
+    "description": "Strict coach: morning reminder body. plans = plan names",
+    "placeholders": {
+      "plans": {
+        "type": "String"
+      }
+    }
+  },
+  "coachMorning3": "{plans} is waiting for you. Let me know once you’ve found an excuse. Or just show up instead.",
+  "@coachMorning3": {
+    "description": "Strict coach: morning reminder body. plans = plan names",
+    "placeholders": {
+      "plans": {
+        "type": "String"
+      }
+    }
+  },
+  "coachMorning4": "{plans} is on today. The couch only gets to wave at you from a distance.",
+  "@coachMorning4": {
+    "description": "Strict coach: morning reminder body. plans = plan names",
+    "placeholders": {
+      "plans": {
+        "type": "String"
+      }
+    }
+  },
+  "coachMorning5": "Today’s plan: {plans}. Future you is already embarrassed by today’s excuse. So don’t make one up.",
+  "@coachMorning5": {
+    "description": "Strict coach: morning reminder body. plans = plan names",
+    "placeholders": {
+      "plans": {
+        "type": "String"
+      }
+    }
+  },
+  "coachWater1": "Goal today: {goal}. Even a cactus drinks more than you.",
+  "@coachWater1": {
+    "description": "Strict coach: water reminder body. goal = e.g. \"2,500 ml\"",
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "coachWater2": "Your bottle isn’t decoration. Today’s goal: {goal}.",
+  "@coachWater2": {
+    "description": "Strict coach: water reminder body",
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "coachWater3": "Hydrate or stagnate. Today’s goal: {goal}.",
+  "@coachWater3": {
+    "description": "Strict coach: water reminder body",
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "coachWater4": "Muscles are about three-quarters water. Your drinking today isn’t even a quarter done. Goal: {goal}.",
+  "@coachWater4": {
+    "description": "Strict coach: water reminder body",
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "coachWater5": "Thirst is the last warning. Don’t wait for it – {goal} today.",
+  "@coachWater5": {
+    "description": "Strict coach: water reminder body",
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "coachPlanBPostpone1": "Five minutes? Cute. Moving “{plan}” to tomorrow, or are we just giving up?",
+  "@coachPlanBPostpone1": {
+    "description": "Strict coach: after Plan B, offer to move the full workout",
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "coachPlanBPostpone2": "Warm-up done. Now the real thing: “{plan}” tomorrow, or did the couch win again?",
+  "@coachPlanBPostpone2": {
+    "description": "Strict coach: after Plan B, offer to move the full workout",
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "coachPlanBPostpone3": "That was the appetiser. Full “{plan}” menu tomorrow?",
+  "@coachPlanBPostpone3": {
+    "description": "Strict coach: after Plan B, offer to move the full workout",
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "coachPlanBDone1": "Five minutes beats zero. But zero is a really low bar.",
+  "@coachPlanBDone1": {
+    "description": "Strict coach: after finishing Plan B"
+  },
+  "coachPlanBDone2": "Done. Just don’t let Plan B become Plan A.",
+  "@coachPlanBDone2": {
+    "description": "Strict coach: after finishing Plan B"
+  },
+  "coachPlanBDone3": "Better than nothing. Tomorrow, please aim higher than “better than nothing”.",
+  "@coachPlanBDone3": {
+    "description": "Strict coach: after finishing Plan B"
+  },
+  "coachDone1": "Look at that, it works. Who would’ve thought.",
+  "@coachDone1": {
+    "description": "Strict coach: praise in the workout summary after finishing a workout (playful, never insulting)"
+  },
+  "coachDone2": "Nice work. The couch lost today.",
+  "@coachDone2": {
+    "description": "Strict coach: praise in the workout summary after finishing a workout (playful, never insulting)"
+  },
+  "coachDone3": "Done. Your muscles will remember this. Your excuses won’t.",
+  "@coachDone3": {
+    "description": "Strict coach: praise in the workout summary after finishing a workout (playful, never insulting)"
+  },
+  "coachDone4": "Workout ticked off. Your excuses had the day off.",
+  "@coachDone4": {
+    "description": "Strict coach: praise in the workout summary after finishing a workout (playful, never insulting)"
+  },
+  "coachDone5": "See? And this morning you didn’t even feel like it.",
+  "@coachDone5": {
+    "description": "Strict coach: praise in the workout summary after finishing a workout (playful, never insulting)"
+  },
+  "coachFatigueWarning1": "No heroics: {group} is still {percent} % fatigued. Even the toughest recover – Plan B or tomorrow is the smart call. Train anyway only if you truly feel fresh.",
+  "@coachFatigueWarning1": {
+    "description": "Strict coach: dialog when a muscle group is ≥ 80 % fatigued. Tough, but recommends rest (health first)",
+    "placeholders": {
+      "group": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "coachFatigueWarning2": "{group}: {percent} % fatigue. Rest is part of training too. Plan B, tomorrow, or train anyway?",
+  "@coachFatigueWarning2": {
+    "description": "Strict coach: dialog when a muscle group is ≥ 80 % fatigued. Recommends rest",
+    "placeholders": {
+      "group": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "coachTipAddReps": "Same reps again? That barbell knows you by heart. Add 1–2 reps to every working set.",
+  "@coachTipAddReps": {
+    "description": "Strict coach: stagnation tip"
+  },
+  "coachTipAddSet": "Comfort zone detected. One more working set – it doesn’t bite.",
+  "@coachTipAddSet": {
+    "description": "Strict coach: stagnation tip"
+  },
+  "coachTipAddWeight": "Those weights are getting bored. Add {weight} to your working sets.",
+  "@coachTipAddWeight": {
+    "description": "Strict coach: stagnation tip. weight = e.g. \"2.5 kg\" or \"5 lb\"",
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "progressionSummaryTitle": "Next time",
+  "progressionIncreaseLine": "{from} → {to} × {reps}",
+  "@progressionIncreaseLine": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionRepsLine": "+1 rep (target {reps})",
+  "@progressionRepsLine": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionSecondsLine": "+{seconds} s (target {target} s)",
+  "@progressionSecondsLine": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionDeloadLine": "Deload to {weight} × {reps}",
+  "@progressionDeloadLine": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionHoldIllness": "Stays the same – get well first.",
+  "progressionHoldRecovery": "Stays the same – you’re still recovering after being sick.",
+  "progressionHoldInjury": "Stays the same – this muscle group is injured.",
+  "progressionHoldCut": "Stays the same – no increases while you’re cutting.",
+  "progressionApplyAll": "Apply all",
+  "progressionApplySelected": "Apply selected ({count})",
+  "@progressionApplySelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionKeepCurrent": "Keep current",
+  "progressionApply": "Apply",
+  "progressionApplied": "Plan updated.",
+  "progressionAutoApplied": "Plan updated automatically.",
+  "progressionUndone": "Changes undone.",
+  "progressionKept": "Plan stays as it was.",
+  "progressionStale": "The plan changed in the meantime, so the proposal was dropped.",
+  "progressionStrictIncrease1": "Heavier weight. You asked for it, now you’ve got it.",
+  "progressionStrictIncrease2": "That was too easy. Fixed it.",
+  "progressionStrictIncrease3": "The bar just got heavier. No complaining – you earned it.",
+  "progressionFriendlyIncrease1": "Nice work – you’ve earned a heavier weight!",
+  "progressionFriendlyIncrease2": "You’re getting stronger. A little more next time.",
+  "progressionFriendlyIncrease3": "Great progress! Your plan grows with you.",
+  "progressionBadgeIncrease": "↑ +{amount} next time",
+  "@progressionBadgeIncrease": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "progressionBadgeReps": "↑ +1 rep next time",
+  "progressionBadgeSeconds": "↑ +{seconds} s next time",
+  "@progressionBadgeSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionBadgeDeload": "↓ {weight} next time",
+  "@progressionBadgeDeload": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      }
+    }
+  },
+  "progressionPendingTitle": "Proposed change",
+  "progressionSectionTitle": "Automatic progression",
+  "progressionAutoSwitch": "Progress automatically",
+  "progressionAutoSwitchHint": "After a workout, the app proposes new targets for next time.",
+  "progressionRepRange": "Rep range",
+  "progressionRepRangeMin": "From",
+  "progressionRepRangeMax": "To",
+  "progressionRepRangeHint": "Leave empty for automatic: {min}–{max}. Hit the top in all sets and the weight goes up.",
+  "@progressionRepRangeHint": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionIncrementTitle": "Weight increase",
+  "progressionIncrementAuto": "Automatic ({value})",
+  "@progressionIncrementAuto": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "progressionIncrementCustom": "Custom",
+  "progressionIncrementLabel": "Increase in {unit}",
+  "@progressionIncrementLabel": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "progressionInvalid": "Check the rep range (1–100, “From” not above “To”) and the weight increase.",
+  "progressionBodyweightHint": "Once you finish all sets, the target goes up by 1 rep.",
+  "progressionDurationHint": "Once you hold all sets, the target goes up by {seconds} s.",
+  "@progressionDurationHint": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "progressionLastChange": "Last change: {change} ({date})",
+  "@progressionLastChange": {
+    "placeholders": {
+      "change": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "progressionNoChanges": "No automatic changes yet.",
+  "progressionModeOff": "Off",
+  "progressionModeSuggest": "Suggest",
+  "progressionModeAuto": "Apply automatically",
+  "progressionModeOffHint": "Targets in your plans change only when you edit them.",
+  "progressionModeSuggestHint": "After a workout from a plan, you’ll see proposed weights and reps for next time.",
+  "progressionModeAutoHint": "Proposals go straight into the plan – you can undo them.",
+  "cloudSectionTitle": "Cloud backup",
+  "cloudAutoBackup": "Automatic backup",
+  "cloudNotSetUp": "Cloud backup isn't set up in this version of the app yet.",
+  "cloudSignInToBackUp": "Sign in to back up automatically",
+  "cloudSignInHint": "Your data is saved to your private cloud space, so you won't lose it when you change phones.",
+  "cloudSignInTitle": "Sign in for cloud backup",
+  "cloudStatusOff": "Off. Your data stays only on this phone.",
+  "cloudStatusNever": "No backup yet",
+  "cloudStatusLast": "Last backup: {date}",
+  "@cloudStatusLast": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "cloudStatusFailed": "The last backup failed. The app will try again later.",
+  "cloudWifiOnly": "Only on Wi-Fi",
+  "cloudWifiOnlyHint": "Automatic backups don't use mobile data",
+  "cloudBackupNow": "Back up now",
+  "cloudBackupDone": "Backed up to the cloud.",
+  "cloudBackupFailed": "Backup failed. Check your connection and try again.",
+  "cloudBackupSkippedEmpty": "This phone has no workouts yet, so your backup in the cloud was kept. You can restore it instead.",
+  "cloudRestore": "Restore from cloud",
+  "cloudRestoreHint": "Replaces everything in the app with a cloud backup",
+  "cloudRestoreLoadFailed": "Couldn't load your backups. Check your connection and try again.",
+  "cloudRestoreEmpty": "There's no backup in the cloud yet.",
+  "cloudBackupLatest": "Latest backup",
+  "cloudBackupPrevious": "Previous backup",
+  "cloudBackupEntrySubtitle": "{date}, {count, plural, =1{1 workout} other{{count} workouts}}",
+  "@cloudBackupEntrySubtitle": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cloudBackupEntryDevice": "Device: {device}",
+  "@cloudBackupEntryDevice": {
+    "placeholders": {
+      "device": {
+        "type": "String"
+      }
+    }
+  },
+  "cloudRestoring": "Restoring your backup…",
+  "cloudRestoreOfferTitle": "Restore your backup?",
+  "cloudRestoreOfferMessage": "Found a backup from {date} with {count, plural, =1{1 workout} other{{count} workouts}}. Restore it to this phone?",
+  "@cloudRestoreOfferMessage": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cloudRestoreOfferConfirm": "Restore",
+  "cloudConsentTitle": "Back up to the cloud?",
+  "cloudConsentIntro": "The app will regularly upload a copy of all your data: after workouts and otherwise at most once a day. You can turn it off at any time.",
+  "cloudConsentData": "The backup includes health-related data: illness and injury periods, body weight and water intake.",
+  "cloudConsentWhere": "It's stored encrypted in your private space in Google Firebase (servers in the European Union).",
+  "cloudConsentAccess": "Only you can access it, when signed in with your account. Friends and other users never see it.",
+  "cloudConsentDeletion": "When you delete your account, your backups are deleted too. You can also delete them yourself at any time.",
+  "cloudConsentAccept": "Turn on",
+  "cloudDeleteBackups": "Delete cloud backups",
+  "cloudDeleteTitle": "Delete cloud backups?",
+  "cloudDeleteMessage": "Both backups will be deleted from the cloud and automatic backup will be turned off. The data on this phone stays.",
+  "cloudDeleteConfirm": "Delete",
+  "cloudDeleteDone": "Cloud backups deleted.",
+  "cloudDeleteFailed": "Couldn't delete the backups. Check your connection and try again.",
+  "wearSectionTitle": "Watch",
+  "wearStatusChecking": "Looking for your watch…",
+  "wearStatusConnected": "Watch app connected",
+  "wearStatusWatchNearby": "Watch connected – open the app on your watch",
+  "wearStatusNoWatch": "No Wear OS watch connected",
+  "wearLastSeen": "Last contact at {time}",
+  "@wearLastSeen": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "wearHelp": "Log sets from your Wear OS watch: install the app on your watch from Google Play and open it during a workout. Keep the workout open on your phone – the phone can stay in your pocket.",
+  "wearCheckButton": "Check",
+  "premiumTitle": "Premium",
+  "premiumBadge": "Premium",
+  "premiumFeatureUnlimitedPlans": "Unlimited custom plans",
+  "premiumFeatureAllPrograms": "All ready-made programs",
+  "premiumFeatureExtraHomeRoutines": "More Plan B home routines",
+  "premiumFeaturePeriodBands": "Periods highlighted in charts",
+  "premiumFeatureFullHistory": "Full chart history",
+  "premiumFeatureInsights": "Automatic insights",
+  "premiumFeatureCalendarSuggestions": "Free time suggestions from your calendar",
+  "premiumFeatureCsvExport": "Export to CSV",
+  "premiumFeatureAutoProgression": "Automatic progression",
+  "premiumFeatureCloudBackup": "Automatic cloud backup",
+  "premiumFeatureWearOs": "Wear OS watch app",
+  "premiumLockedHint": "Part of Premium – tap to see more",
+  "premiumPaywallTitle": "Get more out of your training",
+  "premiumPaywallSubtitle": "Premium unlocks everything the app can do.",
+  "premiumFreeForever": "Logging workouts stays free and unlimited.",
+  "premiumPricePerYear": "{price} / year",
+  "@premiumPricePerYear": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "premiumTrialNote": "First month free, then billed yearly.",
+  "premiumBuy": "Try 1 month free",
+  "premiumRestore": "Restore purchases",
+  "premiumManage": "Manage subscription",
+  "premiumLegalNote": "Payment is charged to your store account. The subscription renews automatically every year unless you cancel it at least 24 hours before the end of the current period.",
+  "premiumTerms": "Terms of use",
+  "premiumPrivacy": "Privacy policy",
+  "premiumActiveTitle": "You have Premium",
+  "premiumActiveBody": "Thank you for supporting the app!",
+  "premiumThanks": "Premium is active. Enjoy!",
+  "premiumPurchaseFailed": "The purchase didn’t go through. Try again later.",
+  "premiumRestoreDone": "Purchases restored.",
+  "premiumRestoreNone": "No previous purchase found.",
+  "premiumUnavailable": "Purchases aren’t available right now. Try again later.",
+  "premiumProfileSection": "Premium",
+  "premiumProfileActive": "Premium active",
+  "premiumProfileFree": "Free version",
+  "premiumProfileFreeHint": "See what Premium offers – first month free",
+  "premiumChartLimited": "{days, plural, =1{Showing the last day. Full history is part of Premium.} other{Showing the last {days} days. Full history is part of Premium.}}",
+  "@premiumChartLimited": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "premiumFrequencyLimited": "{count, plural, =1{Workouts per week, last week} other{Workouts per week, last {count} weeks}}",
+  "@premiumFrequencyLimited": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mediaAnimationAuthor": "Animation: {author}",
+  "@mediaAnimationAuthor": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaAnimationAttribution": "Animation: {author}, {license}",
+  "@mediaAnimationAttribution": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      },
+      "license": {
+        "type": "String"
+      }
+    }
+  },
+  "premiumGiftTitle": "Premium free for 6 months",
+  "premiumGiftBody": "Thanks for being here from the start! You get all Premium features free until {date}. You pay nothing and nothing renews automatically.",
+  "@premiumGiftBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "premiumGiftButton": "Thanks, let’s go",
+  "premiumGiftProfileTitle": "Premium free",
+  "premiumGiftProfileUntil": "Early-user gift – valid until {date}",
+  "@premiumGiftProfileUntil": {
+    "placeholders": {
+      "date": {
         "type": "String"
       }
     }

@@ -7,7 +7,7 @@ import '../social_models.dart';
 import '../social_service.dart';
 import 'social_ui.dart';
 
-enum _Metric { workouts, volume, strength }
+enum _Metric { workouts, volume }
 
 /// Žebříček mezi přáteli (jen přátelé, žádný veřejný žebříček).
 class LeaderboardTab extends ConsumerStatefulWidget {
@@ -19,19 +19,16 @@ class LeaderboardTab extends ConsumerStatefulWidget {
 
 class _LeaderboardTabState extends ConsumerState<LeaderboardTab> {
   _Metric _metric = _Metric.workouts;
-  String _lift = 'bench';
 
   double? _value(FriendProfile p, DateTime now) => switch (_metric) {
         _Metric.workouts =>
           p.shareStats ? p.workoutsIn(monthKey(now))?.toDouble() : null,
         _Metric.volume => p.shareStats ? p.volumeIn(isoWeekKey(now)) : null,
-        _Metric.strength => p.shareRecords ? p.relStrength[_lift] : null,
       };
 
   String _format(BuildContext context, double v) => switch (_metric) {
         _Metric.workouts => socialNumber(context, v, pattern: '0'),
         _Metric.volume => socialKg(context, v.roundToDouble()),
-        _Metric.strength => '${socialNumber(context, v)}×',
       };
 
   @override
@@ -44,11 +41,6 @@ class _LeaderboardTabState extends ConsumerState<LeaderboardTab> {
     final now = DateTime.now();
     final everyone = [if (me != null) me, ...friends];
     final ranked = rankBy<FriendProfile>(everyone, (p) => _value(p, now));
-    final liftNames = {
-      'bench': l10n.socialLiftBench,
-      'squat': l10n.socialLiftSquat,
-      'deadlift': l10n.socialLiftDeadlift,
-    };
 
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -65,37 +57,17 @@ class _LeaderboardTabState extends ConsumerState<LeaderboardTab> {
                 value: _Metric.volume,
                 label: Text(l10n.socialBoardVolume),
               ),
-              ButtonSegment(
-                value: _Metric.strength,
-                label: Text(l10n.socialBoardStrength),
-              ),
             ],
             selected: {_metric},
             onSelectionChanged: (s) => setState(() => _metric = s.first),
           ),
         ),
-        if (_metric == _Metric.strength)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-            child: Wrap(
-              spacing: 8,
-              children: [
-                for (final e in liftNames.entries)
-                  ChoiceChip(
-                    label: Text(e.value),
-                    selected: _lift == e.key,
-                    onSelected: (_) => setState(() => _lift = e.key),
-                  ),
-              ],
-            ),
-          ),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
           child: Text(
             switch (_metric) {
               _Metric.workouts => l10n.socialBoardWorkoutsHint,
               _Metric.volume => l10n.socialBoardVolumeHint,
-              _Metric.strength => l10n.socialBoardStrengthHint,
             },
             style: theme.textTheme.bodySmall,
           ),

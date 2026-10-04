@@ -13,6 +13,7 @@ import '../../services/notification_service.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/format.dart';
 import '../../ui/module_switches.dart';
+import '../../ui/number_input_dialog.dart';
 import '../../ui/weekdays.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -64,6 +65,38 @@ class ProfileScreen extends ConsumerWidget {
               }
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.cake_outlined),
+            title: Text(l10n.profileBirthYear),
+            subtitle: Text(profile.birthYear?.toString() ?? '–'),
+            trailing: profile.birthYear == null
+                ? null
+                : IconButton(
+                    tooltip: l10n.delete,
+                    icon: const Icon(Icons.clear),
+                    onPressed: () => db.updateProfile(
+                      const UserProfilesCompanion(birthYear: Value(null)),
+                    ),
+                  ),
+            onTap: () async {
+              // Stejný rozsah jako v žebříčku posilovny (gym_logic.dart).
+              final maxYear = DateTime.now().year - 10;
+              final year = await showNumberInputDialog(
+                context,
+                title: l10n.profileBirthYear,
+                min: 1920,
+                max: maxYear.toDouble(),
+                errorText: l10n.profileBirthYearInvalid(1920, maxYear),
+                initialValue: profile.birthYear?.toDouble(),
+                allowDecimals: false,
+              );
+              if (year != null) {
+                await db.updateProfile(
+                  UserProfilesCompanion(birthYear: Value(year.round())),
+                );
+              }
+            },
+          ),
           sectionTitle(l10n.profileTrackingSection),
           ModuleSwitches(
             value: (
@@ -89,6 +122,36 @@ class ProfileScreen extends ConsumerWidget {
           ),
           const Divider(),
           sectionTitle(l10n.profileSettingsSection),
+          ListTile(
+            leading: Icon(_appearanceIcon(profile.themeMode)),
+            title: Text(l10n.appearanceTitle),
+            subtitle: Text(_appearanceLabel(l10n, profile.themeMode)),
+            onTap: () async {
+              final mode = await _pickAppearance(context, profile.themeMode);
+              if (mode != null && mode != profile.themeMode) {
+                await db.updateProfile(
+                  UserProfilesCompanion(themeMode: Value(mode)),
+                );
+              }
+            },
+          ),
+          ListTile(
+            leading: Icon(profile.coachTone == 1
+                ? Icons.sports
+                : Icons.sentiment_satisfied_outlined),
+            title: Text(l10n.coachToneTitle),
+            subtitle: Text(profile.coachTone == 1
+                ? '${l10n.coachToneStrict} · ${l10n.coachToneStrictHint}'
+                : l10n.coachToneFriendly),
+            onTap: () async {
+              final tone = await _pickCoachTone(context, profile.coachTone);
+              if (tone != null && tone != profile.coachTone) {
+                await db.updateProfile(
+                  UserProfilesCompanion(coachTone: Value(tone)),
+                );
+              }
+            },
+          ),
           if (profile.trackWater)
             ListTile(
               leading: const Icon(Icons.water_drop_outlined),
@@ -226,6 +289,80 @@ class ProfileScreen extends ConsumerWidget {
           const SizedBox(height: 24),
         ],
       ),
+    );
+  }
+
+  /// Volby vzhledu v pořadí: podle systému, světlý, tmavý
+  /// (hodnoty UserProfile.themeMode, viz AppTheme.themeModeOf).
+  static const _appearanceModes = [0, 1, 2];
+
+  static IconData _appearanceIcon(int mode) => switch (mode) {
+        1 => Icons.light_mode_outlined,
+        2 => Icons.dark_mode_outlined,
+        _ => Icons.brightness_auto_outlined,
+      };
+
+  static String _appearanceLabel(AppLocalizations l10n, int mode) =>
+      switch (mode) {
+        1 => l10n.appearanceLight,
+        2 => l10n.appearanceDark,
+        _ => l10n.appearanceSystem,
+      };
+
+  Future<int?> _pickAppearance(BuildContext context, int current) {
+    final l10n = AppLocalizations.of(context);
+    return showDialog<int>(
+      context: context,
+      builder: (context) {
+        final scheme = Theme.of(context).colorScheme;
+        return SimpleDialog(
+          title: Text(l10n.appearanceTitle),
+          children: [
+            for (final mode in _appearanceModes)
+              ListTile(
+                leading: Icon(_appearanceIcon(mode)),
+                title: Text(_appearanceLabel(l10n, mode)),
+                trailing: mode == current
+                    ? Icon(Icons.check, color: scheme.primary)
+                    : null,
+                selected: mode == current,
+                onTap: () => Navigator.of(context).pop(mode),
+              ),
+          ],
+        );
+      },
+    );
+  }
+
+  /// Tón zpráv: 0 = přátelský, 1 = přísný trenér (UserProfile.coachTone,
+  /// viz core/coach_tone.dart).
+  Future<int?> _pickCoachTone(BuildContext context, int current) {
+    final l10n = AppLocalizations.of(context);
+    return showDialog<int>(
+      context: context,
+      builder: (context) {
+        final theme = Theme.of(context);
+        Widget option(int value, IconData icon, String title, String? hint) =>
+            ListTile(
+              leading: Icon(icon),
+              title: Text(title),
+              subtitle: hint == null ? null : Text(hint),
+              trailing: value == current
+                  ? Icon(Icons.check, color: theme.colorScheme.primary)
+                  : null,
+              selected: value == current,
+              onTap: () => Navigator.of(context).pop(value),
+            );
+        return SimpleDialog(
+          title: Text(l10n.coachToneTitle),
+          children: [
+            option(0, Icons.sentiment_satisfied_outlined,
+                l10n.coachToneFriendly, null),
+            option(1, Icons.sports, l10n.coachToneStrict,
+                l10n.coachToneStrictHint),
+          ],
+        );
+      },
     );
   }
 

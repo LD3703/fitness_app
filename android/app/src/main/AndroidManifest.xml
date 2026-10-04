@@ -113,4 +113,9 @@
             <data android:scheme="https" />
         </intent>
     </queries>
+    <queries>
+        <package android:name="com.google.android.wearable.app" />
+        <package android:name="com.google.android.apps.wear.companion" />
+        <package android:name="com.samsung.android.app.watchmanager" />
+    </queries>
 </manifest>

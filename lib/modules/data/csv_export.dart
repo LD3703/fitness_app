@@ -32,7 +32,7 @@ Future<List<File>> writeCsvExport(AppDatabase db) async {
     await write(
       'workouts.csv',
       buildCsv(
-        ['session_id', 'start', 'end', 'kind', 'plan_name', 'kcal'],
+        ['session_id', 'start', 'end', 'kind', 'plan_name', 'kcal', 'feeling'],
         [
           for (final w in workouts)
             [
@@ -44,6 +44,7 @@ Future<List<File>> writeCsvExport(AppDatabase db) async {
               w.session.estimatedKcal == null
                   ? null
                   : w.session.estimatedKcal!.roundToDouble(),
+              w.session.feeling?.name,
             ],
         ],
       ),
@@ -58,6 +59,8 @@ Future<List<File>> writeCsvExport(AppDatabase db) async {
           'exercise_slug',
           'set_number',
           'warmup',
+          'drop',
+          'superset',
           'weight_kg',
           'reps',
           'duration_s',
@@ -71,6 +74,8 @@ Future<List<File>> writeCsvExport(AppDatabase db) async {
               s.exercise.slug,
               s.set.position + 1,
               s.set.isWarmup,
+              s.set.isDrop,
+              s.set.supersetGroup,
               s.set.weightKg,
               s.set.reps,
               s.set.durationSeconds,

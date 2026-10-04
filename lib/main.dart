@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'l10n/app_localizations.dart';
 import 'modules/module_hub.dart';
+import 'providers.dart';
 import 'router.dart';
 import 'services/sync_controller.dart';
 import 'ui/theme.dart';
@@ -28,6 +29,9 @@ class FitnessApp extends ConsumerWidget {
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
+      themeMode: AppTheme.themeModeOf(
+        ref.watch(profileProvider.select((p) => p.valueOrNull?.themeMode)),
+      ),
       routerConfig: ref.watch(routerProvider),
       localizationsDelegates: const [
         AppLocalizations.delegate,

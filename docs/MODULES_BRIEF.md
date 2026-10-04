@@ -1,6 +1,6 @@
 # Brief pro moduly verzí 2 a 3 (pro vývojáře / agenty)
 
-Flutter aplikace pro posilovnu (Android + iOS), lokální data, 5 jazyků.
+Flutter aplikace pro posilovnu (Android + iOS), lokální data, 10 jazyků.
 Specifikace je shrnutá v tomto souboru; drž se jí.
 
 ## Technologie
@@ -92,6 +92,86 @@ Specifikace je shrnutá v tomto souboru; drž se jí.
   workoutsInMonth / weeklyWater), exerciseSlug?, exerciseId?, targetValue (kg odhadu 1RM /
   počet tréninků / ml za týden), fromName?, createdAt, deadline?, completedAt?,
   dismissedAt?, remoteId? (unikátní; výzvy od přátel ze serveru).
+
+## Schéma v8 (supersérie, drop série, únava)
+- PlanExercise: `supersetGroup` (int?, stejné číslo u po sobě jdoucích cviků =
+  supersérie; logika v `lib/core/superset.dart`).
+- PlanSet / SetEntry: `isDrop` (bool, výchozí false). Drop série se počítají do
+  objemu, NE do rekordů / odhadu 1RM / žebříčku / výzev – v dotazech na rekordy
+  filtruj `is_drop = 0` stejně jako `is_warmup = 0`.
+- SetEntry: `supersetGroup` (int?) – seskupení cviků v tréninku (i bez plánu).
+- WorkoutSession: `feeling` (WorkoutFeeling? – easy / ok / hard).
+- `PlanSetDraft` / `TemplateSet` = `({int reps, double? weightKg, bool isWarmup, bool isDrop})`.
+- Model únavy: `lib/core/fatigue.dart`, vedlejší partie cviků
+  `lib/data/seed/exercise_secondary_muscles.dart`, karta a provider
+  `lib/features/fatigue/`.
+
+## Schéma v9 (vzhled, odznaky, progresivní přetížení)
+- UserProfile: `themeMode` (int, výchozí 0 = podle systému, 1 = světlý, 2 = tmavý)
+  → `MaterialApp.themeMode` přes `AppTheme.themeModeOf` (lib/ui/theme.dart).
+  Volba v Profilu („Vzhled“).
+- UserProfile: `coachTone` (int, výchozí 0 = přátelský, 1 = přísný trenér).
+  Logika `lib/core/coach_tone.dart` (`effectiveCoachTone`: přísný jen při
+  situaci normal/cut a únavě < 80 %), texty `lib/ui/coach_messages.dart`
+  (klíče `coach*`, varianty se střídají po dnech; `resolveCoachTone(ref)` ověří
+  i únavu). Použito: dialog po vynechání/odložení (Dnes), ranní připomínka
+  a pití (NotificationService.reschedule), plán B, tipy v kartě přetížení,
+  dialog únavy před tréninkem (přísná varianta doporučuje odpočinek),
+  pochvala v souhrnu po tréninku (`strictDoneMessage`, jen když neplatí
+  žádná wellbeing hláška). Volba tónu i v onboardingu (karty s ukázkou).
+  Seznam všech přísných textů a bezpečnostních pravidel: docs/coach_tone.md.
+- Tabulka `Achievements` (třída `Achievement`): id, `code` (text, unikátní, např.
+  `overload_streak_4`, `mastery_chest`, `records_10`, `consistency_12` – kódy
+  neměnit), `earnedAt`, `value` (int?, práh odznaku). Maže ji `deleteAllUserData`,
+  záloha/obnova ji kopírují automaticky (`allTables`, sloupce podle názvů; starší
+  záloha bez tabulky → odznaky se po synchronizaci znovu doplní).
+- Progresivní přetížení: čistá logika `lib/core/progressive_overload.dart`
+  (ISO týdny, jen hlavní partie cviku, celé tělo se nehodnotí; objem bez
+  rozcvičky, drop série plným objemem; 1RM bez rozcvičky a drop sérií;
+  okna 2 + 2 týdny, vynechané týdny s nemocí / pauzou / zraněním partie, dieta
+  mění pokles na „drží“). UI a dotazy `lib/features/overload/`, karta pod
+  značkou `// [overload:progress]`, háčky `[overload:finished]` a
+  `[overload:sync]` plánují pondělní souhrn (notifikace ID 400, rezervováno
+  400–409; jen se zapnutou ranní připomínkou).
+- Odznaky: katalog a vyhodnocení `lib/features/achievements/badges.dart`
+  (čisté, test `test/badges_test.dart`), ukládání a háčky
+  `achievements_service.dart` (`[badges:finished]`, `[badges:sync]`), galerie
+  `/badges`, vstupy `[badges:progress]` a `[badges:profile]`, sekce „Nový odznak!“
+  v souhrnu `[badges:summary]` se sdílením (`BadgeShareCard` v
+  lib/modules/sharing/share_cards.dart).
+- Druh série v UI: místo jednopísmenných zkratek štítek `SetKindChip`
+  (lib/ui/set_kind_chip.dart) s klíči `setKindWarmup` / `setKindDrop`;
+  klíče `setWarmupShort` a `dropSetShort` jsou zrušené. Žádné jednopísmenné
+  ani tečkové zkratky v textech (výjimka: jednotky kg, lb, ml, oz, min, s, 1RM
+  a názvy dnů z DateFormat).
+
+## Schéma v10 (automatická progrese)
+- PlanExercise: `repRangeMin`, `repRangeMax` (int?, null = odvodit z cílových
+  opakování: cíl až cíl + 2 pro ≤ 8, jinak + 4; při první automatické změně se
+  uloží), `progressionIncrementKg` (real?, null = automaticky: 2,5 kg horní
+  polovina těla s činkou / strojem, 5 kg nohy, hýždě a mrtvý tah, 2 kg
+  jednoruční činky; v librách 5 / 10 / 5 lb), `autoProgression` (bool,
+  výchozí true).
+- UserProfile: `progressionMode` (int, výchozí 1): 0 = vypnuto, 1 = navrhovat
+  v souhrnu po tréninku, 2 = použít automaticky (s „Vrátit“).
+- Tabulka `ProgressionEvents` (třída `ProgressionEvent`): id, `planExerciseId`
+  (→ plan_exercises, ON DELETE CASCADE), `sessionId` (→ workout_sessions,
+  ON DELETE SET NULL), `createdAt`, `kind` (`ProgressionKind.increase / reps /
+  deload / hold`), `oldJson` / `newJson` (stav cviku v plánu před a po –
+  série a rozsah; `newJson.info` = údaje pro zobrazení), `applied`. Nepoužitý
+  návrh se po „Ponechat“, vrácení nebo ruční úpravě cviku smaže; „drží“ se
+  ukládá jako použitý. Maže ji `deleteAllUserData`.
+- Čistá logika `lib/core/auto_progression.dart` (dvojitá progrese, odlehčení
+  o 10 % po 2 neúspěšných trénincích se stejnou vahou, vlastní váha +1
+  opakování, čas +5 s; nemoc, zotavování, zranění partie a dieta → „drží“,
+  únava neblokuje), test `test/auto_progression_test.dart`. UI a dotazy
+  `lib/modules/progression/` (háček `[progression:finished]`, sekce „Příště“
+  `[progression:summary]`, volba v Profilu `[progression:profile]`, štítek
+  v editoru plánu, nastavení v editoru cviku). Placená funkce: id
+  `'autoProgression'` (`autoProgressionFeatureId`, `PremiumFeature.autoProgression`):
+  bez Premium háček nic nenavrhuje, souhrn ukáže zamčenou upoutávku, štítek
+  v editoru plánu se skryje, nastavení cviku je zamčené a volba v Profilu
+  otevře paywall (`requirePremium`). Před spuštěním Premium beze změny.
 
 ## Pravidla soukromí
 Záznamy o nemoci, zranění, tělesná váha a pitný režim nikdy neopustí telefon

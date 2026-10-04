@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../premium/premium.dart';
 import '../../providers.dart';
 import '../../ui/weekdays.dart';
 import 'calendar_providers.dart';
@@ -20,14 +21,29 @@ class CalendarPlanSection extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: OutlinedButton.icon(
-        onPressed: () => showModalBottomSheet<void>(
-          context: context,
-          isScrollControlled: true,
-          showDragHandle: true,
-          builder: (_) => _SuggestSheet(planId: planId),
-        ),
+        onPressed: () async {
+          // Premium: návrhy volného času z kalendáře.
+          final allowed = await requirePremium(
+              context, ref, PremiumFeature.calendarSuggestions);
+          if (!allowed || !context.mounted) return;
+          await showModalBottomSheet<void>(
+            context: context,
+            isScrollControlled: true,
+            showDragHandle: true,
+            builder: (_) => _SuggestSheet(planId: planId),
+          );
+        },
         icon: const Icon(Icons.event_available_outlined),
-        label: Text(l10n.calSuggestTime),
+        label: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(child: Text(l10n.calSuggestTime)),
+            const SizedBox(width: 6),
+            const PremiumBadgeIfLocked(
+              feature: PremiumFeature.calendarSuggestions,
+            ),
+          ],
+        ),
       ),
     );
   }

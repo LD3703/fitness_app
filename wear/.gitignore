@@ -1,0 +1,10 @@
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+
+# Složku android/ vytváří `flutter create` a upravuje tool/setup_wear.dart
+android/
+*.iml
+.idea/

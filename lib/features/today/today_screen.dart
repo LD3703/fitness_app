@@ -10,6 +10,8 @@ import '../../modules/module_hub.dart';
 import '../../providers.dart';
 import '../../ui/format.dart';
 import '../../ui/labels.dart';
+import '../../core/coach_tone.dart';
+import '../../ui/coach_messages.dart';
 import '../../ui/weekdays.dart';
 import '../../ui/wellbeing_messages.dart';
 import '../periods/periods_screen.dart';
@@ -74,12 +76,17 @@ class _WorkoutCard extends ConsumerWidget {
     }
     if (!context.mounted) return;
     final situation = ref.read(situationProvider);
+    // Přísný trenér jen ve zdravé situaci a bez velké únavy.
+    final tone = await resolveCoachTone(ref);
+    if (!context.mounted) return;
     await showEncouragementDialog(
       context,
       title: action == _PlanAction.postpone
           ? l10n.planPostponedTitle
           : l10n.planSkippedTitle,
-      message: wellbeingMessage(l10n, situation, MessagePlace.skip, now)!,
+      message: tone == CoachTone.strict
+          ? strictSkipMessage(l10n, now)
+          : wellbeingMessage(l10n, situation, MessagePlace.skip, now)!,
     );
   }
 

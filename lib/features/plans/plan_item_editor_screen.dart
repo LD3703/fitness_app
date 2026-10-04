@@ -6,13 +6,17 @@ import 'package:go_router/go_router.dart';
 import '../../core/formulas.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
+import '../../modules/progression/progression_plan_widgets.dart';
+import '../../modules/progression/progression_queries.dart';
 import '../../providers.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/format.dart';
 import '../../ui/labels.dart';
 import '../../ui/set_format.dart';
+import '../../ui/set_kind_chip.dart';
 
-/// Úprava jednoho cviku v plánu: série (opakování, cílová váha, rozcvička),
+/// Úprava jednoho cviku v plánu: série (opakování, cílová váha, rozcvička,
+/// drop série),
 /// pauza a přehled rekordu a posledního výkonu.
 class PlanItemEditorScreen extends ConsumerStatefulWidget {
   const PlanItemEditorScreen({
@@ -30,13 +34,22 @@ class PlanItemEditorScreen extends ConsumerStatefulWidget {
 }
 
 class _EditRow {
-  _EditRow({required String reps, required String weight, this.isWarmup = false})
-      : reps = TextEditingController(text: reps),
+  _EditRow({
+    required String reps,
+    required String weight,
+    this.isWarmup = false,
+    this.isDrop = false,
+  })  : reps = TextEditingController(text: reps),
         weight = TextEditingController(text: weight);
 
   final TextEditingController reps;
   final TextEditingController weight;
   bool isWarmup;
+
+  /// Drop série: hned po předchozí sérii s nižší vahou, bez pauzy.
+  bool isDrop;
+
+  bool get isWorking => !isWarmup && !isDrop;
 
   void dispose() {
     reps.dispose();
@@ -51,6 +64,9 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
   final _rows = <_EditRow>[];
   final _rest = TextEditingController();
   String? _error;
+
+  /// Nastavení automatické progrese (rozsah, přírůstek, přepínač).
+  ProgressionItemSettings? _progression;
 
   AppDatabase get _db => ref.read(databaseProvider);
 
@@ -71,6 +87,7 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
       r.dispose();
     }
     _rest.dispose();
+    _progression?.dispose();
     super.dispose();
   }
 
@@ -86,10 +103,12 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
     setState(() {
       _item = item;
       _rest.text = '${item.item.restSeconds}';
+      _progression = ProgressionItemSettings.fromItem(item.item);
       _rows.addAll(item.sets.map((s) => _EditRow(
             reps: '${s.reps}',
             weight: weightInputText(s.weightKg),
             isWarmup: s.isWarmup,
+            isDrop: s.isDrop,
           )));
       if (_rows.isEmpty) _rows.add(_EditRow(reps: '10', weight: ''));
     });
@@ -116,15 +135,59 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
   // -------------------------------------------------------------------
 
   void _addSet() {
-    final last = _rows.lastWhere((r) => !r.isWarmup, orElse: () => _rows.last);
+    final last = _rows.lastWhere((r) => r.isWorking, orElse: () => _rows.last);
     setState(() {
       _rows.add(_EditRow(reps: last.reps.text, weight: last.weight.text));
       _dirty = true;
     });
   }
 
+  /// Přidá drop sérii na konec: stejná opakování, váha o 20 % nižší.
+  void _addDrop() {
+    final last = _rows.last;
+    setState(() {
+      _rows.add(_EditRow(
+        reps: last.reps.text,
+        weight: _dropWeightText(last.weight.text),
+        isDrop: true,
+      ));
+      _dirty = true;
+    });
+  }
+
+  /// Text váhy drop série z textu váhy předchozí série (prázdný bez váhy).
+  String _dropWeightText(String previous) {
+    final kg = parseWeightInput(previous);
+    if (kg == null) return '';
+    return weightInputText(dropSetWeight(kg, step: weightStepKg));
+  }
+
+  void _toggleDrop(int index) {
+    setState(() {
+      final row = _rows[index];
+      row.isDrop = !row.isDrop;
+      if (row.isDrop) {
+        row.isWarmup = false;
+        // Prázdnou váhu doplníme podle předchozí série.
+        if (index > 0 && row.weight.text.trim().isEmpty) {
+          row.weight.text = _dropWeightText(_rows[index - 1].weight.text);
+        }
+      }
+      _dirty = true;
+    });
+  }
+
+  void _toggleWarmup(int index) {
+    setState(() {
+      final row = _rows[index];
+      row.isWarmup = !row.isWarmup;
+      if (row.isWarmup) row.isDrop = false;
+      _dirty = true;
+    });
+  }
+
   void _addWarmup() {
-    final firstWorking = _rows.where((r) => !r.isWarmup).firstOrNull;
+    final firstWorking = _rows.where((r) => r.isWorking).firstOrNull;
     final workingWeight =
         firstWorking == null ? null : parseDecimal(firstWorking.weight.text);
     final warmupCount = _rows.takeWhile((r) => r.isWarmup).length;
@@ -160,17 +223,30 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
           reps: '${(_isDuration ? s.durationSeconds : s.reps) ?? 10}',
           weight: weightInputText(s.weightKg),
           isWarmup: s.isWarmup,
+          isDrop: s.isDrop,
         ),
     ]);
   }
 
   void _suggestFromRecord(ExerciseRecord record) {
     double? firstWorking;
-    for (final r in _rows.where((r) => !r.isWarmup)) {
+    double? previous;
+    for (final r in _rows) {
+      if (r.isWarmup) continue;
+      if (r.isDrop) {
+        // Drop série navazuje na předchozí sérii: o 20 % méně.
+        final w = previous == null
+            ? null
+            : dropSetWeight(previous, step: weightStepKg);
+        r.weight.text = weightInputText(w);
+        previous = w;
+        continue;
+      }
       final reps = int.tryParse(r.reps.text) ?? 10;
       final w =
           suggestWorkingWeight(record.oneRepMax, reps, step: weightStepKg);
       firstWorking ??= w;
+      previous = w;
       r.weight.text = weightInputText(w);
     }
     for (final r in _rows.where((r) => r.isWarmup)) {
@@ -196,7 +272,12 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
         if (weight == null || weight < 0 || weight > 1000) return null;
         if (weight == 0) weight = null;
       }
-      result.add((reps: reps, weightKg: weight, isWarmup: r.isWarmup));
+      result.add((
+        reps: reps,
+        weightKg: weight,
+        isWarmup: r.isWarmup,
+        isDrop: r.isDrop && !r.isWarmup,
+      ));
     }
     return result;
   }
@@ -211,11 +292,20 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
           ));
       return;
     }
+    final progression = _progression?.collect();
+    if (_progression != null && progression == null) {
+      setState(() => _error = l10n.progressionInvalid);
+      return;
+    }
     await _db.savePlanItem(
       widget.planExerciseId,
       sets: sets,
       restSeconds: rest,
     );
+    if (progression != null) {
+      await _db.saveProgressionSettings(widget.planExerciseId, progression);
+    }
+    await _db.dropStaleProgression(widget.planExerciseId);
     _leave();
   }
 
@@ -308,18 +398,14 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
             ),
             for (var i = 0; i < _rows.length; i++)
               _SetEditorRow(
-                label: _rows[i].isWarmup
-                    ? l10n.setWarmupShort
-                    : '${++workingNumber}',
+                number: _rows[i].isWorking ? ++workingNumber : null,
                 row: _rows[i],
                 isDuration: _isDuration,
                 showWeight: _showWeight,
                 canDelete: _rows.length > 1,
                 onChanged: _markDirty,
-                onToggleWarmup: () => setState(() {
-                  _rows[i].isWarmup = !_rows[i].isWarmup;
-                  _dirty = true;
-                }),
+                onToggleWarmup: () => _toggleWarmup(i),
+                onToggleDrop: () => _toggleDrop(i),
                 onDelete: () => _removeRow(i),
               ),
             Padding(
@@ -337,6 +423,11 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
                     icon: const Icon(Icons.whatshot_outlined),
                     label: Text(l10n.planAddWarmup),
                   ),
+                  TextButton.icon(
+                    onPressed: _addDrop,
+                    icon: const Icon(Icons.trending_down),
+                    label: Text(l10n.dropAdd),
+                  ),
                 ],
               ),
             ),
@@ -350,6 +441,17 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
                 onChanged: (_) => _markDirty(),
               ),
             ),
+            if (_progression case final progression?)
+              ProgressionItemSettingsSection(
+                settings: progression,
+                exercise: item.exercise,
+                planExerciseId: widget.planExerciseId,
+                firstWorkingReps: int.tryParse(
+                  _rows.where((r) => r.isWorking).firstOrNull?.reps.text.trim() ??
+                      '',
+                ),
+                onChanged: _markDirty,
+              ),
             if (_error != null)
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
@@ -465,90 +567,120 @@ class _StatsCard extends StatelessWidget {
   }
 }
 
+/// Řádek série v editoru. Pracovní série má číslo; rozcvička a drop
+/// série mají místo čísla ikonu a nad řádkem štítek s celým slovem.
 class _SetEditorRow extends StatelessWidget {
   const _SetEditorRow({
-    required this.label,
+    required this.number,
     required this.row,
     required this.isDuration,
     required this.showWeight,
     required this.canDelete,
     required this.onChanged,
     required this.onToggleWarmup,
+    required this.onToggleDrop,
     required this.onDelete,
   });
 
-  final String label;
+  /// Číslo pracovní série; null u rozcvičky a drop série.
+  final int? number;
   final _EditRow row;
   final bool isDuration;
   final bool showWeight;
   final bool canDelete;
   final VoidCallback onChanged;
   final VoidCallback onToggleWarmup;
+  final VoidCallback onToggleDrop;
   final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final scheme = Theme.of(context).colorScheme;
+    final n = number;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 32,
-            child: Text(
-              label,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: row.isWarmup ? scheme.tertiary : null,
-              ),
+          if (n == null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 2),
+              child: SetKindChip(isWarmup: row.isWarmup),
             ),
-          ),
-          IconButton(
-            tooltip: l10n.planToggleWarmup,
-            isSelected: row.isWarmup,
-            onPressed: onToggleWarmup,
-            icon: const Icon(Icons.whatshot_outlined),
-            selectedIcon: Icon(Icons.whatshot, color: scheme.tertiary),
-          ),
-          Expanded(
-            child: TextField(
-              controller: row.reps,
-              keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                isDense: true,
-                labelText: isDuration ? 's' : l10n.workoutColReps,
+          Row(
+            children: [
+              SizedBox(
+                width: 32,
+                child: n != null
+                    ? Text(
+                        '$n',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      )
+                    : Icon(
+                        row.isWarmup ? Icons.whatshot : Icons.trending_down,
+                        size: 18,
+                        color: row.isWarmup ? scheme.tertiary : scheme.secondary,
+                        semanticLabel:
+                            row.isWarmup ? l10n.setKindWarmup : l10n.setKindDrop,
+                      ),
               ),
-              onChanged: (_) => onChanged(),
-            ),
-          ),
-          if (showWeight) ...[
-            const SizedBox(width: 8),
-            Expanded(
-              child: TextField(
-                controller: row.weight,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
-                ],
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  isDense: true,
-                  labelText: weightUnit,
-                  hintText: '–',
+              IconButton(
+                tooltip: l10n.planToggleWarmup,
+                isSelected: row.isWarmup,
+                visualDensity: VisualDensity.compact,
+                onPressed: onToggleWarmup,
+                icon: const Icon(Icons.whatshot_outlined),
+                selectedIcon: Icon(Icons.whatshot, color: scheme.tertiary),
+              ),
+              IconButton(
+                tooltip: l10n.dropToggle,
+                isSelected: row.isDrop,
+                visualDensity: VisualDensity.compact,
+                onPressed: onToggleDrop,
+                icon: const Icon(Icons.trending_down),
+                selectedIcon: Icon(Icons.trending_down, color: scheme.secondary),
+              ),
+              Expanded(
+                child: TextField(
+                  controller: row.reps,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    labelText: isDuration ? 's' : l10n.workoutColReps,
+                  ),
+                  onChanged: (_) => onChanged(),
                 ),
-                onChanged: (_) => onChanged(),
               ),
-            ),
-          ],
-          IconButton(
-            tooltip: l10n.planRemoveSet,
-            onPressed: canDelete ? onDelete : null,
-            icon: const Icon(Icons.close),
+              if (showWeight) ...[
+                const SizedBox(width: 8),
+                Expanded(
+                  child: TextField(
+                    controller: row.weight,
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+                    ],
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      labelText: weightUnit,
+                      hintText: '–',
+                    ),
+                    onChanged: (_) => onChanged(),
+                  ),
+                ),
+              ],
+              IconButton(
+                tooltip: l10n.planRemoveSet,
+                onPressed: canDelete ? onDelete : null,
+                icon: const Icon(Icons.close),
+              ),
+            ],
           ),
         ],
       ),

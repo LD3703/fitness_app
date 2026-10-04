@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../data/seed/content_i18n.dart';
 import '../../data/seed/plan_templates.dart';
 import '../../l10n/app_localizations.dart';
+import '../../premium/premium.dart';
 import '../../providers.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/weekdays.dart';
@@ -15,6 +16,19 @@ class PlansScreen extends ConsumerWidget {
 
   Future<void> _createPlan(BuildContext context, WidgetRef ref) async {
     final l10n = AppLocalizations.of(context);
+    // Premium: verze zdarma má nejvýš 3 vlastní plány (plány z hotových
+    // programů se nepočítají).
+    final plans = ref.read(plansProvider).valueOrNull ?? const [];
+    final customCount = countCustomPlans(
+      plans.where((p) => !p.isBuiltIn).map((p) => p.name),
+    );
+    final premium =
+        ref.read(premiumProvider).isPremium(PremiumFeature.unlimitedPlans);
+    if (!canCreateCustomPlan(customPlanCount: customCount, premium: premium) &&
+        !await requirePremium(context, ref, PremiumFeature.unlimitedPlans)) {
+      return;
+    }
+    if (!context.mounted) return;
     final name = await showTextInputDialog(
       context,
       title: l10n.plansNew,
@@ -34,6 +48,8 @@ class PlansScreen extends ConsumerWidget {
         en: p.descriptionEn,
         cs: p.descriptionCs,
         other: (t) => t.programDescriptions[p.slug]);
+    final premium =
+        ref.read(premiumProvider).isPremium(PremiumFeature.allPrograms);
     final program = await showModalBottomSheet<TemplateProgram>(
       context: context,
       showDragHandle: true,
@@ -47,19 +63,41 @@ class PlansScreen extends ConsumerWidget {
               child: Text(l10n.templatesTitle,
                   style: Theme.of(context).textTheme.titleMedium),
             ),
-            for (final p in templatePrograms)
+            for (final (index, p) in templatePrograms.indexed)
               ListTile(
                 leading: const Icon(Icons.auto_awesome_outlined),
                 title: Text(name(p)),
                 subtitle: Text(description(p)),
+                // Premium: zdarma jsou první 2 programy.
+                trailing: isProgramLocked(index, premium: premium)
+                    ? const PremiumBadge()
+                    : null,
                 onTap: () => Navigator.of(context).pop(p),
               ),
           ],
         ),
       ),
     );
-    if (program == null) return;
-    await ref.read(databaseProvider).addProgram(program, languageCode: lang);
+    if (program == null || !context.mounted) return;
+    if (isProgramLocked(templatePrograms.indexOf(program), premium: premium) &&
+        !await requirePremium(context, ref, PremiumFeature.allPrograms)) {
+      return;
+    }
+    if (!context.mounted) return;
+    // Dny tréninků si uživatel upraví hned při výběru programu.
+    final masks = await showDialog<List<int>>(
+      context: context,
+      builder: (context) => _ProgramDaysDialog(
+        program: program,
+        title: name(program),
+        planName: (p) => seedText(lang,
+            en: p.nameEn, cs: p.nameCs, other: (t) => t.planNames[p.nameEn]),
+      ),
+    );
+    if (masks == null || !context.mounted) return;
+    await ref
+        .read(databaseProvider)
+        .addProgram(program, languageCode: lang, weekdayMasks: masks);
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(l10n.templateAdded(name(program))),
@@ -139,6 +177,81 @@ class PlansScreen extends ConsumerWidget {
         icon: const Icon(Icons.add),
         label: Text(l10n.plansNew),
       ),
+    );
+  }
+}
+
+/// Výběr dnů pro každý plán hotového programu (předvyplněno z programu).
+class _ProgramDaysDialog extends StatefulWidget {
+  const _ProgramDaysDialog({
+    required this.program,
+    required this.title,
+    required this.planName,
+  });
+
+  final TemplateProgram program;
+  final String title;
+  final String Function(TemplatePlan plan) planName;
+
+  @override
+  State<_ProgramDaysDialog> createState() => _ProgramDaysDialogState();
+}
+
+class _ProgramDaysDialogState extends State<_ProgramDaysDialog> {
+  late final List<int> _masks = [
+    for (final p in widget.program.plans) p.weekdaysMask,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final dayNames = shortWeekdayNames(context);
+    final plans = widget.program.plans;
+
+    return AlertDialog(
+      title: Text(widget.title),
+      scrollable: true,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.templateDaysHint,
+            style: theme.textTheme.bodySmall
+                ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+          ),
+          for (var p = 0; p < plans.length; p++) ...[
+            const SizedBox(height: 16),
+            Text(widget.planName(plans[p]), style: theme.textTheme.titleSmall),
+            const SizedBox(height: 6),
+            Wrap(
+              spacing: 4,
+              runSpacing: 4,
+              children: [
+                for (var d = 0; d < 7; d++)
+                  FilterChip(
+                    label: Text(dayNames[d]),
+                    visualDensity: VisualDensity.compact,
+                    selected: isWeekdayInMask(_masks[p], d),
+                    onSelected: (_) =>
+                        setState(() => _masks[p] = toggleWeekday(_masks[p], d)),
+                  ),
+              ],
+            ),
+          ],
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.cancel),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.of(context).pop(List<int>.of(_masks)),
+          child: Text(l10n.templateDaysConfirm),
+        ),
+      ],
     );
   }
 }

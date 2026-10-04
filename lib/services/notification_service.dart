@@ -6,10 +6,14 @@ import 'package:intl/intl.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
+import '../core/coach_tone.dart';
+import '../core/fatigue.dart';
 import '../core/wellbeing.dart';
 import '../data/database.dart';
 import '../l10n/app_localizations.dart';
+import '../features/fatigue/fatigue_providers.dart';
 import '../modules/calendar/free_slots.dart';
+import '../ui/coach_messages.dart' show strictMorningBody, strictWaterBody;
 import '../ui/format.dart' show formatVolumeFor;
 import 'calendar_service.dart';
 import 'sync_controller.dart' show deviceLocalizations;
@@ -69,6 +73,12 @@ class NotificationService {
   static const _waterBase = 200; // rezervováno 200 … 399
   static const _waterSlots = 200;
   static const _waterPerDay = 24;
+
+  /// Týdenní souhrn progresivního přetížení (pondělí ráno),
+  /// rezervováno 400 … 409 (používá se jen 400).
+  /// Obsazená ID: 1–2 pauza, 100–106 ranní připomínky, 200–399 voda,
+  /// 400–409 týdenní souhrn, 5000–5999 zprávy od přátel (social).
+  static const _overloadWeeklyId = 400;
   static const _daysAhead = 7;
   static const _workoutMinutes = kDefaultWorkoutMinutes;
 
@@ -388,6 +398,20 @@ class NotificationService {
         );
       }
 
+      // Přísný trenér (UserProfile.coachTone): jen ve zdravé situaci a bez
+      // velké únavy v čase připomínky (odhad z dosavadních tréninků).
+      final chosenTone = coachToneOf(profile.coachTone);
+      List<FatigueSession>? fatigueSessions;
+      if (chosenTone == CoachTone.strict &&
+          profile.morningReminderEnabled &&
+          db != null) {
+        try {
+          fatigueSessions = await db.fatigueSessions(now.subtract(fatigueWindow));
+        } catch (e) {
+          debugPrint('Fatigue for reminders failed: $e');
+        }
+      }
+
       if (profile.morningReminderEnabled) {
         for (var d = 0; d < _daysAhead; d++) {
           final day = DateTime(today.year, today.month, today.day + d);
@@ -412,6 +436,15 @@ class NotificationService {
           final situation = profile.trackPeriods
               ? determineSituation(periods, at)
               : WellbeingSituation.normal;
+          final sessions = fatigueSessions;
+          // Bez odhadu únavy (chyba, žádná databáze) zůstává přátelský tón.
+          final tone = sessions == null
+              ? CoachTone.friendly
+              : effectiveCoachTone(
+                  chosenTone,
+                  situation,
+                  maxFatigue: maxFatiguePercent(computeFatigue(sessions, at)),
+                );
           var body = switch (situation) {
             WellbeingSituation.illness ||
             WellbeingSituation.injury =>
@@ -419,7 +452,9 @@ class NotificationService {
             WellbeingSituation.recovery => l10n.notifMorningRecovery(names),
             WellbeingSituation.cut ||
             WellbeingSituation.normal =>
-              l10n.notifMorningBody(names),
+              tone == CoachTone.strict
+                  ? strictMorningBody(l10n, names, day)
+                  : l10n.notifMorningBody(names),
           };
 
           final collision =
@@ -450,14 +485,26 @@ class NotificationService {
             final at = DateTime(today.year, today.month, today.day + d,
                 times[h] ~/ 60, times[h] % 60);
             if (!at.isAfter(now)) continue;
+            final goal = formatVolumeFor(
+              l10n.localeName,
+              profile.waterGoalMl,
+              unit: profile.unitSystem,
+            );
+            // Pití do tréninku netlačí – únava se neověřuje, nemoc,
+            // zranění a zotavování ale přísný tón vypnou.
+            final strict = effectiveCoachTone(
+                  chosenTone,
+                  profile.trackPeriods
+                      ? determineSituation(periods, at)
+                      : WellbeingSituation.normal,
+                ) ==
+                CoachTone.strict;
             await _plugin.zonedSchedule(
               id: _waterBase + d * _waterPerDay + h,
               title: l10n.notifWaterTitle,
-              body: l10n.dataNotifWaterBody(formatVolumeFor(
-                l10n.localeName,
-                profile.waterGoalMl,
-                unit: profile.unitSystem,
-              )),
+              body: strict
+                  ? strictWaterBody(l10n, goal, at, h)
+                  : l10n.dataNotifWaterBody(goal),
               scheduledDate: tz.TZDateTime.from(at, tz.UTC),
               notificationDetails: _waterDetails,
               androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
@@ -497,6 +544,53 @@ class NotificationService {
       );
     }
     return null;
+  }
+
+  // -------------------------------------------------------------------
+  // Týdenní souhrn progresivního přetížení
+  // -------------------------------------------------------------------
+
+  static const _overloadDetails = NotificationDetails(
+    android: AndroidNotificationDetails(
+      'overload_weekly',
+      'Weekly progress',
+      channelDescription: 'Weekly summary of progress per muscle group',
+      importance: Importance.defaultImportance,
+    ),
+    iOS: DarwinNotificationDetails(),
+  );
+
+  /// Naplánuje (nebo přeplánuje) týdenní souhrn na [at]. Volá se po
+  /// tréninku a po změně dat (lib/features/overload/overload_notifications.dart).
+  Future<void> scheduleOverloadSummary({
+    required DateTime at,
+    required String title,
+    required String body,
+  }) async {
+    if (!supported) return;
+    try {
+      await _init();
+      await _plugin.cancel(id: _overloadWeeklyId);
+      if (!at.isAfter(DateTime.now())) return;
+      await _plugin.zonedSchedule(
+        id: _overloadWeeklyId,
+        title: title,
+        body: body,
+        scheduledDate: tz.TZDateTime.from(at, tz.UTC),
+        notificationDetails: _overloadDetails,
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+      );
+    } catch (e) {
+      debugPrint('Overload summary scheduling failed: $e');
+    }
+  }
+
+  Future<void> cancelOverloadSummary() async {
+    if (!supported) return;
+    try {
+      await _init();
+      await _plugin.cancel(id: _overloadWeeklyId);
+    } catch (_) {}
   }
 
   /// Zruší všechny naplánované notifikace (např. po smazání dat).

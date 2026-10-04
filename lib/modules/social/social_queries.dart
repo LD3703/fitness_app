@@ -46,16 +46,6 @@ extension SocialQueries on AppDatabase {
   Future<Exercise?> socialExerciseBySlug(String slug) =>
       (select(exercises)..where((e) => e.slug.equals(slug))).getSingleOrNull();
 
-  /// Nejlepší odhad 1RM vestavěného cviku podle slugu.
-  Future<double?> socialBestOneRepMax(String slug) async {
-    final e = await socialExerciseBySlug(slug);
-    if (e == null) return null;
-    return (await exerciseRecord(e.id))?.oneRepMax;
-  }
-
-  Future<double?> socialLatestBodyWeight() async =>
-      (await watchLatestWeight().first)?.weightKg;
-
   /// Vypitá voda (ml) v intervalu [from, to) – nikdy neopouští telefon.
   Future<int> socialWaterBetween(DateTime from, DateTime to) async {
     final rows = await (select(waterEntries)

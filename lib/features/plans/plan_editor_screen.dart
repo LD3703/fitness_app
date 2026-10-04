@@ -2,17 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/fatigue.dart';
+import '../../core/superset.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../modules/data/units.dart';
 import '../../modules/module_hub.dart';
+import '../../modules/progression/progression_plan_widgets.dart';
 import '../../providers.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/labels.dart';
 import '../../ui/set_format.dart';
 import '../../ui/weekdays.dart';
 import '../exercises/exercise_picker.dart';
+import '../fatigue/fatigue_card.dart';
+import '../fatigue/fatigue_providers.dart';
 import '../workout/start_workout.dart';
+
+enum _LinkAction { linkNext, unlink }
 
 class PlanEditorScreen extends ConsumerWidget {
   const PlanEditorScreen({super.key, required this.planId});
@@ -95,6 +102,9 @@ class _PlanEditor extends ConsumerWidget {
     final db = ref.watch(databaseProvider);
     final items = ref.watch(planItemsProvider(plan.id)).valueOrNull ?? [];
     final dayNames = shortWeekdayNames(context);
+    final groups = [for (final it in items) it.item.supersetGroup];
+    final supersets = supersetLabels(groups);
+    final fatigue = ref.watch(fatigueProvider).valueOrNull;
 
     final header = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,11 +208,31 @@ class _PlanEditor extends ConsumerWidget {
         },
         itemBuilder: (context, i) {
           final it = items[i];
+          final g = it.exercise.muscleGroup;
           return _PlanItemTile(
             key: ValueKey(it.item.id),
             item: it,
             index: i,
+            supersetLabel: supersets[i],
+            canLinkNext: canLinkSupersetWithNext(groups, i),
+            fatiguePercent: fatigue == null || fatigue.sessions == 0
+                ? null
+                : fatigue.percent[g],
             onTap: () => context.go('/plans/${plan.id}/item/${it.item.id}'),
+            onLinkAction: (action) async {
+              if (action == _LinkAction.linkNext) {
+                final ok = await db.linkPlanItemWithNext(plan.id, it.item.id);
+                if (!ok && context.mounted) {
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(SnackBar(
+                      content: Text(l10n.supersetTooLarge),
+                    ));
+                }
+              } else {
+                await db.unlinkPlanItem(plan.id, it.item.id);
+              }
+            },
           );
         },
       ),
@@ -223,11 +253,23 @@ class _PlanItemTile extends ConsumerWidget {
     required this.item,
     required this.index,
     required this.onTap,
+    required this.onLinkAction,
+    this.supersetLabel,
+    this.canLinkNext = false,
+    this.fatiguePercent,
   });
 
   final PlanItem item;
   final int index;
   final VoidCallback onTap;
+  final ValueChanged<_LinkAction> onLinkAction;
+
+  /// „A1“, „A2“… u cviku v supersérii.
+  final String? supersetLabel;
+  final bool canLinkNext;
+
+  /// Současná únava hlavní partie cviku (null = bez tréninku za 7 dní).
+  final double? fatiguePercent;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -238,29 +280,120 @@ class _PlanItemTile extends ConsumerWidget {
     ref.watch(unitSystemProvider); // překreslit po změně kg / lb
     final setsText = describePlanSets(
       context,
-      item.sets.map((s) => (reps: s.reps, weightKg: s.weightKg, isWarmup: s.isWarmup)),
+      item.sets.map((s) => (
+            reps: s.reps,
+            weightKg: s.weightKg,
+            isWarmup: s.isWarmup,
+            isDrop: s.isDrop,
+          )),
       isDuration: item.exercise.type == ExerciseType.duration,
     );
-    return ListTile(
+    final label = supersetLabel;
+    final fatigue = fatiguePercent;
+    final fatigueState = fatigue == null ? null : fatigueStatus(fatigue);
+    final tile = ListTile(
+      leading: label == null
+          ? null
+          : Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                label,
+                style: TextStyle(
+                  color: theme.colorScheme.onPrimary,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
       title: Text(item.exercise.localizedName(context)),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(setsText),
           Text(l10n.workoutRestLabel(item.item.restSeconds)),
+          // Nepoužitý návrh automatické progrese („↑ +2,5 kg příště“).
+          // Premium (autoProgression): bez předplatného se štítek skryje
+          // sám (ProgressionPlanBadge).
+          ProgressionPlanBadge(
+            planId: item.item.planId,
+            planExerciseId: item.item.id,
+          ),
           if (record != null)
             Text(
               describeRecord(context, record),
               style: TextStyle(color: theme.colorScheme.tertiary),
             ),
+          // Jemná nápověda: partie je ještě unavená z minulých tréninků.
+          if (fatigue != null &&
+              fatigueState != null &&
+              fatigueState != FatigueStatus.recovered)
+            Row(
+              children: [
+                Icon(
+                  fatigueIcon(fatigueState),
+                  size: 14,
+                  color: fatigueColor(context, fatigueState),
+                ),
+                const SizedBox(width: 4),
+                Flexible(
+                  child: Text(
+                    l10n.fatigueExerciseHint(
+                      l10n.muscleGroup(item.exercise.muscleGroup),
+                      fatigue.round(),
+                    ),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
       isThreeLine: true,
       onTap: onTap,
-      trailing: ReorderableDragStartListener(
-        index: index,
-        child: const Icon(Icons.drag_handle),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          PopupMenuButton<_LinkAction>(
+            tooltip: l10n.supersetMenu,
+            icon: Icon(
+              Icons.link,
+              color: label == null ? null : theme.colorScheme.primary,
+            ),
+            onSelected: onLinkAction,
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: _LinkAction.linkNext,
+                enabled: canLinkNext,
+                child: Text(l10n.supersetLinkNext),
+              ),
+              if (label != null)
+                PopupMenuItem(
+                  value: _LinkAction.unlink,
+                  child: Text(l10n.supersetUnlink),
+                ),
+            ],
+          ),
+          ReorderableDragStartListener(
+            index: index,
+            child: const Icon(Icons.drag_handle),
+          ),
+        ],
       ),
+    );
+    if (label == null) return tile;
+    // Cviky supersérie spojuje svislá čára vlevo.
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(
+          left: BorderSide(color: theme.colorScheme.primary, width: 4),
+        ),
+      ),
+      child: tile,
     );
   }
 }

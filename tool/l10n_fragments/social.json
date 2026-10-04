@@ -89,8 +89,8 @@
     "cs": "Sdílet rekordy"
   },
   "socialShareRecordsHint": {
-    "en": "New PRs and relative strength (ratio only)",
-    "cs": "Nové rekordy a relativní síla (jen poměr)"
+    "en": "New PRs (estimated 1RM)",
+    "cs": "Nové rekordy (odhad 1RM)"
   },
   "socialShareStats": {
     "en": "Share workout stats",
@@ -292,10 +292,6 @@
     "en": "Volume",
     "cs": "Objem"
   },
-  "socialBoardStrength": {
-    "en": "Strength",
-    "cs": "Síla"
-  },
   "socialBoardWorkoutsHint": {
     "en": "Workouts this month",
     "cs": "Tréninky tento měsíc"
@@ -303,10 +299,6 @@
   "socialBoardVolumeHint": {
     "en": "Volume this week (kg × reps)",
     "cs": "Objem tento týden (kg × opakování)"
-  },
-  "socialBoardStrengthHint": {
-    "en": "Best estimated 1RM ÷ body weight",
-    "cs": "Nejlepší odhad 1RM ÷ tělesná váha"
   },
   "socialBoardEmpty": {
     "en": "No data yet. Friends who don't share stats aren't listed.",
@@ -324,18 +316,6 @@
   "socialBoardPrivacy": {
     "en": "Only your friends see this leaderboard.",
     "cs": "Tento žebříček vidí jen tví přátelé."
-  },
-  "socialLiftBench": {
-    "en": "Bench",
-    "cs": "Bench"
-  },
-  "socialLiftSquat": {
-    "en": "Squat",
-    "cs": "Dřep"
-  },
-  "socialLiftDeadlift": {
-    "en": "Deadlift",
-    "cs": "Mrtvý tah"
   },
   "socialKgValue": {
     "en": "{value} kg",

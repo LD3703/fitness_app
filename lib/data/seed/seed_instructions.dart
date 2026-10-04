@@ -433,4 +433,24 @@ const seedInstructions = <String, (String, String)>{
         '2. Předklonem v kyčlích ho pošli dozadu mezi nohy.\n'
         '3. Prudkým propnutím kyčlí ho vyšvihni do výše hrudníku, paže uvolněné.',
   ),
+  'weighted_pull_up': (
+    '1. Attach a plate to a dip belt or hold a dumbbell between your feet.\n'
+        '2. Hang from the bar with an overhand grip, shoulders active.\n'
+        '3. Pull up without swinging until your chin is over the bar.\n'
+        '4. Lower with control to a full hang. Log only the added weight.',
+    '1. Připni si kotouč na opasek s řetězem, nebo sevři jednoručku mezi chodidly.\n'
+        '2. Vis na hrazdě nadhmatem, ramena aktivně stažená.\n'
+        '3. Bez švihu se přitáhni, až je brada nad hrazdou.\n'
+        '4. Kontrolovaně se spusť do plného visu. Zapisuj jen přidanou zátěž.',
+  ),
+  'weighted_dips': (
+    '1. Attach a plate to a dip belt or hold a dumbbell between your feet.\n'
+        '2. Support yourself on the bars with straight arms.\n'
+        '3. Lower until your upper arms are about parallel to the floor.\n'
+        '4. Push back up, do not drop your shoulders forward. Log only the added weight.',
+    '1. Připni si kotouč na opasek s řetězem, nebo sevři jednoručku mezi chodidly.\n'
+        '2. Opři se na bradlech v propnutých pažích.\n'
+        '3. Spouštěj se, až jsou paže zhruba vodorovně.\n'
+        '4. Vytlač zpět, ramena nepropadej dopředu. Zapisuj jen přidanou zátěž.',
+  ),
 };

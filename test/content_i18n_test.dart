@@ -37,7 +37,8 @@ void main() {
     expect(pick('cs'), 'Bench press');
     expect(pick('en'), 'Bench Press');
     expect(pick('de'), seedTranslations['de']!.exerciseNames['bench_press']);
-    expect(pick('pl'), 'Bench Press');
+    // Jazyk bez překladu obsahu → angličtina.
+    expect(pick('ja'), 'Bench Press');
   });
 
   test('hledání cviku v kterémkoli jazyce a bez diakritiky', () {
