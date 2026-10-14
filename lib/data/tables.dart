@@ -138,7 +138,7 @@ class WorkoutPlans extends Table {
   BoolColumn get isBuiltIn => boolean().withDefault(const Constant(false))();
 
   /// Plán od trenéra nebo ze sdíleného odkazu (verze schématu 16,
-  /// docs/coach.md): „coach:<id>“ / „shared:<id>“, jinak null.
+  /// docs/coach.md): „`coach:<id>`“ / „`shared:<id>`“, jinak null.
   TextColumn get remoteId => text().nullable()();
 
   /// Verze plánu od trenéra – při vyšší verzi se plán přepíše.

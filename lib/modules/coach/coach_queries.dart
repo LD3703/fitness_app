@@ -2,7 +2,6 @@ import 'package:drift/drift.dart';
 import 'package:gymbar_coach/gymbar_coach.dart';
 
 import '../../data/database.dart';
-import '../../data/enums.dart';
 
 /// Dotazy do lokální databáze pro trenéra a klienta (docs/coach.md):
 /// převod plánu z/do tvaru [CoachPlan] a tréninky pro trenéra.
@@ -218,7 +217,7 @@ extension CoachQueries on AppDatabase {
     return CoachWorkout(
       id: coachWorkoutId(s.id),
       startedAt: s.startedAt,
-      durationMin: end == null ? null : end.difference(s.startedAt).inMinutes,
+      durationMin: end?.difference(s.startedAt).inMinutes,
       title: title,
       exercises: [
         for (final id in order)

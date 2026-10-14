@@ -136,7 +136,7 @@ class CoachWorkout {
     );
   }
 
-  /// ID dokumentu: „s<id tréninku v telefonu>“.
+  /// ID dokumentu: „`s<id tréninku v telefonu>`“.
   final String id;
   final DateTime startedAt;
   final int? durationMin;

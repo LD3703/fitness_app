@@ -225,6 +225,6 @@ class AssignedPlan {
 }
 
 /// Klíč, podle kterého aplikace pozná plán od trenéra / sdílený plán
-/// (WorkoutPlans.remoteId): „coach:<id>“, „shared:<id>“.
+/// (WorkoutPlans.remoteId): „`coach:<id>`“, „`shared:<id>`“.
 String assignedPlanRemoteId(String planId) => 'coach:$planId';
 String sharedPlanRemoteId(String planId) => 'shared:$planId';

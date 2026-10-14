@@ -67,7 +67,9 @@ void _paintTooltip(Canvas canvas, Size size, Offset anchor, List<String> lines,
   final h = tp.height + pad * 2;
   var left = anchor.dx + 10;
   if (left + w > size.width) left = anchor.dx - 10 - w;
-  final top = (anchor.dy - h - 10).clamp(0.0, math.max(0.0, size.height - h));
+  final top = (anchor.dy - h - 10)
+      .clamp(0.0, math.max(0.0, size.height - h))
+      .toDouble();
   final r = RRect.fromRectAndRadius(
       Rect.fromLTWH(math.max(0.0, left), top, w, h), const Radius.circular(6));
   canvas.drawRRect(r, Paint()..color = c.tooltipBg);
