@@ -598,7 +598,9 @@ service cloud.firestore {
     }
 
     match /trainers/{uid} {
-      allow read: if signedIn();
+      // Jen get podle uid (z kódu trenéra) – seznam všech trenérů ne.
+      allow get: if signedIn();
+      allow list: if false;
       allow create: if isMe(uid)
         && validTrainer(request.resource.data)
         && !('clientCount' in request.resource.data)
@@ -682,9 +684,12 @@ service cloud.firestore {
         allow delete: if isMe(clientUid);
       }
 
-      // Tělesná váha – jen se zvláštním souhlasem (shareWeight).
+      // Tělesná váha – jen se zvláštním souhlasem (shareWeight). Trenér ji
+      // nevidí ani tehdy, když po odvolání souhlasu dokument v telefonu
+      // nešel smazat (bez sítě).
       match /meta/{docId} {
-        allow read: if isMe(clientUid) || isTrainerOf(clientUid);
+        allow read: if isMe(clientUid)
+          || (isTrainerOf(clientUid) && get(linkPath(clientUid)).data.shareWeight == true);
         allow create, update: if isMe(clientUid)
           && docId == 'weight'
           && get(linkPath(clientUid)).data.shareWeight == true

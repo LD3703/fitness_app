@@ -96,6 +96,28 @@ jobs:
       - run: dart run tool/setup_wear.dart
       - run: flutter build apk --release
 
+  # Pravidla Firestore a Storage v emulátoru (tool/rules_test).
+  rules:
+    name: Pravidla Firestore a Storage (emulátor)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: tool/rules_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tool/rules_test/package-lock.json
+      - run: npm ci
+      - run: npm test
+
   functions:
     name: Cloud Functions (tsc + testy)
     runs-on: ubuntu-latest

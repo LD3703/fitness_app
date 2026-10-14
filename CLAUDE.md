@@ -35,6 +35,7 @@ flutter test
 (cd trainer_web && flutter pub get && flutter analyze --no-fatal-infos && flutter test)
 (cd wear && flutter pub get && flutter analyze --no-fatal-infos)
 (cd functions && npm ci && npm test)
+(cd tool/rules_test && npm ci && npm test)   # pravidla Firestore a Storage, potřebuje Javu
 ```
 
 Totéž běží v GitHub Actions (`.github/workflows/ci.yml`), navíc sestavení
