@@ -1,10 +1,17 @@
 <!doctype html>
-<!-- Úvodní stránka https://gymbar.app (Firebase Hosting, složka docs/web). -->
+<!-- Úvodní stránka https://gymbar.app (Firebase Hosting, složka docs/web).
+     Texty jsou v EN, CS, DE, ES a FR (data-lang); jazyk vybírá site.js,
+     tlačítka obchodů se řídí config.js. -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GymBar – Gym workout tracker</title>
+  <meta name="title-en" content="GymBar – Gym workout tracker">
+  <meta name="title-cs" content="GymBar – Deník do posilovny">
+  <meta name="title-de" content="GymBar – Trainingstagebuch fürs Gym">
+  <meta name="title-es" content="GymBar – Diario de entrenamiento para el gimnasio">
+  <meta name="title-fr" content="GymBar – Carnet d’entraînement musculation">
   <meta name="description" content="Log a set with two taps, let GymBar suggest next time's weight and challenge your friends. Works offline.">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
@@ -38,7 +45,13 @@
       color: var(--text);
       line-height: 1.5;
     }
-    main { max-width: 760px; margin: 0 auto; padding: 48px 20px 32px; }
+    main { max-width: 760px; margin: 0 auto; padding: 20px 16px 32px; }
+    .lang { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; margin-bottom: 28px; }
+    .lang button {
+      font: inherit; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 16px; cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.35); background: transparent; color: var(--muted); min-width: 40px;
+    }
+    .lang button[aria-pressed="true"] { background: var(--amber); border-color: var(--amber); color: var(--ink); }
     .hero { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
     .hero img { width: 112px; height: 112px; flex: none; }
     .wordmark {
@@ -54,34 +67,48 @@
       font-weight: 700; font-size: 16px; background: var(--amber); color: var(--ink);
     }
     .stores a + a { background: transparent; color: var(--text); border: 1px solid rgba(255, 255, 255, 0.6); }
+    .stores a.soon, .stores a + a.soon {
+      background: transparent; color: var(--muted); border: 1px dashed rgba(255, 255, 255, 0.45);
+      cursor: default; font-weight: 600;
+    }
     .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin: 44px 0; padding: 0; list-style: none; }
     .features li { background: var(--card); border-radius: 16px; padding: 18px; }
     .features strong { display: block; color: var(--amber); margin-bottom: 4px; }
-    footer { color: var(--muted); font-size: 14px; display: flex; gap: 18px; flex-wrap: wrap; border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 18px; }
+    footer { color: var(--muted); font-size: 14px; display: flex; gap: 8px 18px; flex-wrap: wrap; border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 18px; }
     footer a { color: var(--muted); }
     [data-lang] { display: none; }
-    body.cs [data-lang="cs"], body.en [data-lang="en"] { display: block; }
-    body.cs span[data-lang="cs"], body.en span[data-lang="en"] { display: inline; }
-    body.cs ul[data-lang="cs"], body.en ul[data-lang="en"] { display: grid; }
+    body.en [data-lang="en"], body.cs [data-lang="cs"], body.de [data-lang="de"],
+    body.es [data-lang="es"], body.fr [data-lang="fr"] { display: block; }
+    body.en span[data-lang="en"], body.cs span[data-lang="cs"], body.de span[data-lang="de"],
+    body.es span[data-lang="es"], body.fr span[data-lang="fr"] { display: inline; }
+    body.en ul[data-lang="en"], body.cs ul[data-lang="cs"], body.de ul[data-lang="de"],
+    body.es ul[data-lang="es"], body.fr ul[data-lang="fr"] { display: grid; }
   </style>
 </head>
 <body class="en">
 <main>
+  <div class="lang"></div>
   <div class="hero">
     <img src="/favicon.svg" alt="">
     <div>
       <h1 class="wordmark">Gym<span>Bar</span></h1>
       <p class="slogan" data-lang="en">Raise the bar.</p>
       <p class="slogan" data-lang="cs">Posuň laťku.</p>
+      <p class="slogan" data-lang="de">Leg die Latte höher.</p>
+      <p class="slogan" data-lang="es">Sube el listón.</p>
+      <p class="slogan" data-lang="fr">Place la barre plus haut.</p>
     </div>
   </div>
 
   <p class="lead" data-lang="en">A gym log that keeps track of your progress for you. Log a set with two taps, let the app suggest next time's weight and challenge your friends to beat your lifts.</p>
   <p class="lead" data-lang="cs">Deník do posilovny, který za tebe hlídá pokrok. Sérii zapíšeš dvěma klepnutími, aplikace navrhne váhu na příště a kamarády můžeš vyzvat, ať tě překonají.</p>
+  <p class="lead" data-lang="de">Ein Trainingstagebuch fürs Gym, das deinen Fortschritt für dich im Blick behält. Einen Satz trägst du mit zwei Tipps ein, die App schlägt das Gewicht fürs nächste Mal vor und du kannst Freunde herausfordern, dich zu übertreffen.</p>
+  <p class="lead" data-lang="es">Un diario de gimnasio que sigue tu progreso por ti. Registra una serie con dos toques, deja que la app te sugiera el peso para la próxima vez y reta a tus amigos a superar tus marcas.</p>
+  <p class="lead" data-lang="fr">Un carnet de musculation qui suit tes progrès pour toi. Enregistre une série en deux touches, laisse l’app te proposer la charge pour la prochaine fois et défie tes amis de battre tes performances.</p>
 
   <div class="stores">
-    <a id="playStore" href="#">Google Play</a>
-    <a id="appStore" href="#">App Store</a>
+    <a data-store="play" href="#">Google Play</a>
+    <a data-store="apple" href="#">App Store</a>
   </div>
 
   <ul class="features" data-lang="en">
@@ -96,26 +123,37 @@
     <li><strong>Žebříček posilovny</strong>Poměř se s lidmi ze své posilovny.</li>
     <li><strong>Offline a soukromě</strong>Funguje bez účtu, data zůstávají v telefonu.</li>
   </ul>
+  <ul class="features" data-lang="de">
+    <li><strong>Progression</strong>Vorschläge für Gewicht und Wiederholungen nach deinen letzten Trainings.</li>
+    <li><strong>Challenges</strong>Schick einem Freund deine beste Leistung und seht, wer die Latte höher legt.</li>
+    <li><strong>Gym-Rangliste</strong>Miss dich mit den Leuten aus deinem Gym.</li>
+    <li><strong>Offline &amp; privat</strong>Funktioniert ohne Konto, deine Daten bleiben auf dem Handy.</li>
+  </ul>
+  <ul class="features" data-lang="es">
+    <li><strong>Progresión</strong>Sugerencias de peso y repeticiones según tus últimos entrenamientos.</li>
+    <li><strong>Retos</strong>Envía a un amigo tu mejor marca y a ver quién sube el listón.</li>
+    <li><strong>Clasificación del gimnasio</strong>Compite con la gente de tu propio gimnasio.</li>
+    <li><strong>Sin conexión y privado</strong>Funciona sin cuenta y tus datos se quedan en tu teléfono.</li>
+  </ul>
+  <ul class="features" data-lang="fr">
+    <li><strong>Progression</strong>Charges et répétitions suggérées d’après tes dernières séances.</li>
+    <li><strong>Défis</strong>Envoie ta meilleure perf à un ami et voyez qui place la barre plus haut.</li>
+    <li><strong>Classement de la salle</strong>Mesure-toi aux gens de ta propre salle.</li>
+    <li><strong>Hors ligne et privé</strong>Fonctionne sans compte, tes données restent sur ton téléphone.</li>
+  </ul>
 
   <footer>
-    <a href="/privacy"><span data-lang="en">Privacy policy</span><span data-lang="cs">Zásady ochrany soukromí</span></a>
-    <a href="/terms"><span data-lang="en">Terms of use</span><span data-lang="cs">Podmínky použití</span></a>
-    <a href="/delete-account"><span data-lang="en">Delete account</span><span data-lang="cs">Smazání účtu</span></a>
+    <a href="/privacy"><span data-lang="en">Privacy policy</span><span data-lang="cs">Zásady ochrany soukromí</span><span data-lang="de">Datenschutzerklärung</span><span data-lang="es">Política de privacidad</span><span data-lang="fr">Politique de confidentialité</span></a>
+    <a href="/terms"><span data-lang="en">Terms of use</span><span data-lang="cs">Podmínky použití</span><span data-lang="de">Nutzungsbedingungen</span><span data-lang="es">Condiciones de uso</span><span data-lang="fr">Conditions d’utilisation</span></a>
+    <a href="/support"><span data-lang="en">Support</span><span data-lang="cs">Podpora</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span></a>
+    <a href="/delete-account"><span data-lang="en">Delete account</span><span data-lang="cs">Smazání účtu</span><span data-lang="de">Konto löschen</span><span data-lang="es">Eliminar cuenta</span><span data-lang="fr">Supprimer le compte</span></a>
     <a href="mailto:info@gymbar.app">info@gymbar.app</a>
+    <a href="https://www.openstreetmap.org/copyright"><span data-lang="en">Gym data © OpenStreetMap contributors</span><span data-lang="cs">Data posiloven © přispěvatelé OpenStreetMap</span><span data-lang="de">Studiodaten © OpenStreetMap-Mitwirkende</span><span data-lang="es">Datos de gimnasios © colaboradores de OpenStreetMap</span><span data-lang="fr">Données des salles © contributeurs OpenStreetMap</span></a>
     <span>© GymBar</span>
   </footer>
 </main>
 <script src="/config.js"></script>
-<script>
-(function () {
-  var langs = navigator.languages && navigator.languages.length
-    ? navigator.languages : [navigator.language || 'en'];
-  var cs = /^(cs|sk)\b/i.test(String(langs[0] || ''));
-  document.body.className = cs ? 'cs' : 'en';
-  document.documentElement.lang = cs ? 'cs' : 'en';
-  document.getElementById('playStore').href = window.GYMBAR.playStore;
-  document.getElementById('appStore').href = window.GYMBAR.appStore;
-})();
-</script>
+<script src="/site.js"></script>
+<script>GYMBAR.initPage();</script>
 </body>
 </html>

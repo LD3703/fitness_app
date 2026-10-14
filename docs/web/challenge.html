@@ -67,6 +67,7 @@
     a.secondary { border: 1px solid rgba(255, 255, 255, 0.6); color: var(--text); }
     .stores { display: flex; gap: 12px; }
     .stores a { flex: 1; }
+    .stores a.soon { border-style: dashed; color: var(--muted); cursor: default; font-weight: 600; font-size: 14px; }
     .hint { color: var(--muted); font-size: 13px; text-align: center; margin-top: 12px; }
     .error { display: none; }
   </style>
@@ -96,18 +97,17 @@
   <div class="buttons">
     <a class="btn primary" id="openApp" href="#"></a>
     <div class="stores">
-      <a class="btn secondary" id="playStore" href="#"></a>
-      <a class="btn secondary" id="appStore" href="#"></a>
+      <a class="btn secondary" id="playStore" data-store="play" href="#"></a>
+      <a class="btn secondary" id="appStore" data-store="apple" href="#"></a>
     </div>
     <p class="hint" id="hint"></p>
   </div>
 </main>
 
 <script src="/config.js"></script>
+<script src="/site.js"></script>
 <script>
 (function () {
-  var PLAY_STORE = window.GYMBAR.playStore;
-  var APP_STORE = window.GYMBAR.appStore;
   var APP_SCHEME = window.GYMBAR.scheme;
 
   var T = {
@@ -317,8 +317,8 @@
   text('playStore', t.play);
   text('appStore', t.apple);
   text('hint', t.hint);
-  document.getElementById('playStore').href = PLAY_STORE;
-  document.getElementById('appStore').href = APP_STORE;
+  // Odkazy do obchodů, nebo „již brzy“ podle config.js.
+  window.GYMBAR.storeButtons(lang);
 
   var valid = e && e.length <= MAX_EXERCISE && isFinite(v) && v > 0 && v <= 1000;
   if (!valid) {

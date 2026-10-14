@@ -286,6 +286,9 @@ class ProfileScreen extends ConsumerWidget {
                 Text(l10n.healthDisclaimer),
                 const SizedBox(height: 12),
                 Text(l10n.aboutImageCredits),
+                const SizedBox(height: 12),
+                // Licence ODbL: seznam posiloven pochází z OpenStreetMap.
+                Text(l10n.socialGymOsmAttribution),
               ],
             ),
           ),

@@ -2,179 +2,31 @@
 <!--
   Podmínky použití. Na webu jako /terms (kTermsUrl v
   lib/modules/links/deep_links.dart; souhlas před přihlášením k přátelům).
-  TODO před zveřejněním: doplnit údaje v hranatých závorkách [ ] v obou
+  TODO před zveřejněním: doplnit údaje v hranatých závorkách [ ] ve všech
   jazycích (jméno, adresa, datum) – stejně jako v privacy.html.
+  Texty jsou v EN, CS, DE, ES a FR; při úpravě změň všechny jazyky.
 -->
-<html lang="cs">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Podmínky použití / Terms of use</title>
+  <title>Terms of use – GymBar</title>
+  <meta name="title-en" content="Terms of use – GymBar">
+  <meta name="title-cs" content="Podmínky použití – GymBar">
+  <meta name="title-de" content="Nutzungsbedingungen – GymBar">
+  <meta name="title-es" content="Condiciones de uso – GymBar">
+  <meta name="title-fr" content="Conditions d’utilisation – GymBar">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <style>
-    :root {
-      --bg: #ffffff;
-      --text: #1b1f1e;
-      --muted: #59625f;
-      --accent: #2e7d6b;
-      --line: #dde3e1;
-      --head: #f2f6f5;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #121615;
-        --text: #e8eeec;
-        --muted: #a5b0ad;
-        --accent: #7cc9b5;
-        --line: #2c3533;
-        --head: #1b2120;
-      }
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    }
-    main { max-width: 820px; margin: 0 auto; padding: 24px 16px 64px; }
-    h1 { font-size: 1.8rem; line-height: 1.25; margin: 8px 0 4px; }
-    h2 { font-size: 1.2rem; margin: 32px 0 8px; color: var(--accent); }
-    p, li { margin: 8px 0; }
-    a { color: var(--accent); }
-    .meta { color: var(--muted); margin-bottom: 16px; }
-    .lead { font-size: 1.05rem; }
-    .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; color: var(--text); text-decoration: none; letter-spacing: -0.01em; }
-    .brand img { width: 32px; height: 32px; }
-    .brand .wm span { color: var(--accent); }
-    .lang { display: flex; gap: 8px; justify-content: flex-end; }
-    .lang button {
-      font: inherit; padding: 4px 12px; border-radius: 16px; cursor: pointer;
-      border: 1px solid var(--line); background: transparent; color: var(--text);
-    }
-    .lang button[aria-pressed="true"] {
-      background: var(--accent); border-color: var(--accent); color: var(--bg);
-    }
-    .table-wrap { overflow-x: auto; }
-    table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
-    th, td {
-      border: 1px solid var(--line); padding: 8px; text-align: left;
-      vertical-align: top;
-    }
-    th { background: var(--head); }
-    [data-lang] { display: none; }
-    body.cs [data-lang="cs"], body.en [data-lang="en"] { display: block; }
-  </style>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="/legal.css">
 </head>
-<body class="cs">
+<body class="en">
 <main>
   <div class="top">
     <a class="brand" href="/"><img src="/favicon.svg" alt=""><span class="wm">Gym<span>Bar</span></span></a>
-    <div class="lang" role="group" aria-label="Language">
-      <button type="button" data-set="cs">Čeština</button>
-      <button type="button" data-set="en">English</button>
-    </div>
+    <div class="lang"></div>
   </div>
 
-  <!-- ====================================================== ČEŠTINA -->
-  <article data-lang="cs" lang="cs">
-    <h1>Podmínky použití – GymBar</h1>
-    <p class="meta">Platné od [datum zveřejnění]</p>
-    <p class="lead">GymBar je deník do posilovny. Tyto podmínky platí pro
-      aplikaci GymBar a web gymbar.app. Používáním aplikace s nimi
-      souhlasíte; při přihlášení k přátelům a žebříčku posilovny to
-      potvrzujete zaškrtnutím.</p>
-
-    <h2>1. Kdo aplikaci provozuje</h2>
-    <p>Aplikaci provozuje [Jméno a příjmení], [adresa] (dále „my“).
-      Kontakt: <a href="mailto:info@gymbar.app">info@gymbar.app</a>.</p>
-
-    <h2>2. Zdraví a bezpečnost</h2>
-    <p><strong>GymBar není zdravotnický prostředek</strong> a nenahrazuje
-      lékaře, fyzioterapeuta ani trenéra. Návrhy vah, opakování a pauz,
-      odhady kalorií i únavy svalů jsou orientační. Před zahájením
-      tréninku, zvlášť při zdravotních potížích, těhotenství nebo po
-      zranění, se poraďte s lékařem. Trénujete na vlastní odpovědnost –
-      při bolesti nebo nevolnosti cvičení ukončete.</p>
-
-    <h2>3. Účet, přátelé a žebříček posilovny</h2>
-    <p>Deník funguje bez účtu. Pro přátele, výzvy, žebříček posilovny,
-      propojení s trenérem a zálohu do cloudu se přihlašujete účtem Google
-      nebo Apple. Pokud
-      vám ještě nebylo 15 let, používejte tyto funkce jen se souhlasem
-      rodiče. Za svůj účet a za to, co pod ním zveřejníte, odpovídáte
-      vy. Účet můžete kdykoli smazat v aplikaci (Přátelé → Smazat účet)
-      nebo podle návodu na <a href="/delete-account">gymbar.app/delete-account</a>.</p>
-
-    <h2>4. Pravidla obsahu – nulová tolerance</h2>
-    <p>Přezdívky, jméno pro přátele, názvy posiloven a další texty, které
-      vidí ostatní, nesmí obsahovat:</p>
-    <ul>
-      <li>urážky, nenávist nebo ponižování lidí kvůli původu, národnosti,
-        náboženství, pohlaví, sexuální orientaci, postižení či věku,</li>
-      <li>sexuální nebo vulgární obsah, výhrůžky, obtěžování a šikanu,</li>
-      <li>cizí osobní údaje, vydávání se za někoho jiného, reklamu
-        a spam,</li>
-      <li>nepravdivé výkony v žebříčku a jiné podvádění.</li>
-    </ul>
-    <p>Aplikace vyloženě hrubá slova sama odmítne. Nevhodnou přezdívku,
-      záznam v žebříčku nebo posilovnu může kdokoli nahlásit, uživatele
-      můžete zablokovat. Nahlášení řešíme zpravidla do 24 hodin: nevhodný
-      obsah odstraníme a uživateli, který pravidla porušuje, můžeme
-      přístup k přátelům a žebříčku omezit nebo účet zrušit.</p>
-
-    <h2>5. Žebříček a vytištěný žebříček</h2>
-    <p>Do žebříčku posilovny jde jen to, co popisují
-      <a href="/privacy">zásady ochrany soukromí</a> (přezdívka, nejtěžší
-      váha u vybraných cviků, počet tréninků…). Nereálné výkony skrývá
-      automatická kontrola. Členové posilovny mohou žebříček vytisknout
-      na nástěnku – jsou na něm jen přezdívky lidí, kteří to v aplikaci
-      nevypnuli.</p>
-
-    <h2>6. Trenéři a klienti</h2>
-    <p>Trenérem se v aplikaci nebo na webu
-      <a href="/trener">gymbar.app/trener</a> může označit kdokoli; pro
-      trenéry je GymBar zdarma. Status trenéra zanikne, když trenér 60 dní
-      nemá žádného klienta. Trenéry neověřujeme a nejsou to naši
-      zaměstnanci – za své rady, plány a komentáře odpovídají sami. Klient
-      si trenéra vybírá sám, se sdílením tréninků souhlasí při propojení
-      a propojení může kdykoli zrušit.</p>
-    <p>Trenér smí tréninky a další údaje klienta používat jen k jeho
-      trénování, nesmí je dál šířit ani používat k jinému účelu a po
-      zrušení propojení si je nesmí ponechávat mimo aplikaci. Jméno
-      a popis trenéra, plány a komentáře podléhají pravidlům obsahu
-      (část 4). Plán od trenéra je návrh – i pro něj platí část 2.</p>
-
-    <h2>7. Seznam posiloven</h2>
-    <p>Část posiloven pochází z OpenStreetMap (© přispěvatelé
-      OpenStreetMap, licence ODbL). Údaje o posilovnách nemusí být
-      přesné ani aktuální a posilovny s námi nejsou nijak spojené.</p>
-
-    <h2>8. Placené funkce</h2>
-    <p>Aplikace je teď zdarma. Pokud později nabídneme předplatné
-      Premium, uvidíte cenu a podmínky v aplikaci před nákupem; platbu
-      a zrušení předplatného zajišťuje Google Play nebo App Store podle
-      jejich pravidel.</p>
-
-    <h2>9. Odpovědnost</h2>
-    <p>Aplikaci poskytujeme tak, jak je, a nezaručujeme, že bude vždy
-      dostupná a bez chyb. Data v telefonu si zálohujte (Profil → Zálohovat všechna
-      data, nebo Záloha do cloudu). V rozsahu, který dovoluje zákon, neodpovídáme za
-      škodu vzniklou používáním aplikace; vaše práva spotřebitele tím
-      nejsou dotčena. U aplikace stažené z App Store platí také
-      standardní licenční podmínky Applu (Licensed Application End User
-      License Agreement).</p>
-
-    <h2>10. Změny a platné právo</h2>
-    <p>Podmínky můžeme upravit, když přidáme novou funkci nebo to
-      vyžaduje zákon; o podstatných změnách dáme vědět v aplikaci
-      předem. Platí právo České republiky. Spory se spotřebiteli lze
-      řešit i mimosoudně u České obchodní inspekce
-      (<a href="https://www.coi.cz">www.coi.cz</a>).</p>
-  </article>
-
-  <!-- ====================================================== ENGLISH -->
   <article data-lang="en" lang="en">
     <h1>Terms of use – GymBar</h1>
     <p class="meta">Effective from [publication date]</p>
@@ -249,16 +101,52 @@
       section 2 applies to it too.</p>
 
     <h2>7. Gym list</h2>
-    <p>Some gyms come from OpenStreetMap (© OpenStreetMap contributors,
+    <p>Some gyms come from OpenStreetMap (<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a>,
       ODbL licence). Gym details may be inaccurate or out of date, and the
       gyms are not affiliated with us.</p>
 
-    <h2>8. Paid features</h2>
-    <p>The app is currently free. If we offer a Premium subscription
-      later, you will see the price and terms in the app before buying;
-      payment and cancellation are handled by Google Play or the App Store
-      under their rules.</p>
-
+    <h2 id="premium">8. Premium</h2>
+    <p>Logging workouts is free and will stay free. The Premium
+      subscription unlocks extra features, for example unlimited custom
+      plans, all ready-made programmes, full chart history, automatic cloud
+      backup and the Wear OS watch app. The current list of features is
+      shown in the app before you buy. Until we launch Premium in the app,
+      all features are free.</p>
+    <ul>
+      <li><strong>One month free:</strong> when you start Premium for the
+        first time, the first month is free. If you don’t cancel before the
+        trial ends, it automatically becomes a paid subscription. The trial
+        can be used only once, under the store’s rules.</li>
+      <li><strong>Price:</strong> an annual subscription for USD 8 / EUR 8
+        per year, or the equivalent price in other currencies set by Google
+        Play or the App Store, including VAT where applicable. The exact
+        price is shown in the app and in the store before you confirm the
+        purchase.</li>
+      <li><strong>Payment and renewal:</strong> Google Play or Apple charges
+        your account when the free month ends. The subscription renews
+        automatically every year unless you cancel it at least 24 hours
+        before the end of the current period.</li>
+      <li><strong>Cancelling:</strong> in Google Play (Payments &amp;
+        subscriptions → Subscriptions) or on your iPhone (Settings → your
+        name → Subscriptions). Uninstalling the app does not cancel the
+        subscription. After you cancel, Premium stays active until the end
+        of the period you paid for.</li>
+      <li><strong>Refunds:</strong> payments are processed by Google or
+        Apple, so refunds are decided under their rules (Google Play, or
+        <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>).
+        Your statutory consumer rights are not affected.</li>
+      <li><strong>Price changes:</strong> the store will tell you in advance
+        about a price increase. If you don’t agree with the new price, you
+        can cancel the subscription.</li>
+      <li><strong>When Premium ends:</strong> your workouts and other data
+        are not deleted; only the Premium features are locked again.</li>
+      <li><strong>Six months free for early users:</strong> anyone who
+        started using the app before Premium launched received Premium free
+        for 6 months (the end date is shown in Profile). This gift does not
+        renew and nothing is charged for it. It is stored on your phone and
+        in your backup, so it is lost if you reinstall the app without
+        restoring a backup.</li>
+    </ul>
     <h2>9. Liability</h2>
     <p>We provide the app as is and do not guarantee it will always be
       available or error-free. Back up the data on your phone (Profile → Back up all
@@ -273,30 +161,622 @@
       requires it; we will tell you about significant changes in the app
       in advance. Czech law applies. Consumer disputes can also be
       resolved out of court through the Czech Trade Inspection Authority
-      (<a href="https://www.coi.cz">www.coi.cz</a>).</p>
+      (<a href="https://www.coi.cz">www.coi.cz</a>).
+      Mandatory consumer protection rules of your country of residence
+      are not affected.</p>
+  </article>
+  <article data-lang="cs" lang="cs">
+    <h1>Podmínky použití – GymBar</h1>
+    <p class="meta">Platné od [datum zveřejnění]</p>
+    <p class="lead">GymBar je deník do posilovny. Tyto podmínky platí pro
+      aplikaci GymBar a web gymbar.app. Používáním aplikace s nimi
+      souhlasíte; při přihlášení k přátelům a žebříčku posilovny to
+      potvrzujete zaškrtnutím.</p>
+
+    <h2>1. Kdo aplikaci provozuje</h2>
+    <p>Aplikaci provozuje [Jméno a příjmení], [adresa] (dále „my“).
+      Kontakt: <a href="mailto:info@gymbar.app">info@gymbar.app</a>.</p>
+
+    <h2>2. Zdraví a bezpečnost</h2>
+    <p><strong>GymBar není zdravotnický prostředek</strong> a nenahrazuje
+      lékaře, fyzioterapeuta ani trenéra. Návrhy vah, opakování a pauz,
+      odhady kalorií i únavy svalů jsou orientační. Před zahájením
+      tréninku, zvlášť při zdravotních potížích, těhotenství nebo po
+      zranění, se poraďte s lékařem. Trénujete na vlastní odpovědnost –
+      při bolesti nebo nevolnosti cvičení ukončete.</p>
+
+    <h2>3. Účet, přátelé a žebříček posilovny</h2>
+    <p>Deník funguje bez účtu. Pro přátele, výzvy, žebříček posilovny,
+      propojení s trenérem a zálohu do cloudu se přihlašujete účtem Google
+      nebo Apple. Pokud
+      vám ještě nebylo 15 let, používejte tyto funkce jen se souhlasem
+      rodiče. Za svůj účet a za to, co pod ním zveřejníte, odpovídáte
+      vy. Účet můžete kdykoli smazat v aplikaci (Přátelé → Smazat účet)
+      nebo podle návodu na <a href="/delete-account">gymbar.app/delete-account</a>.</p>
+
+    <h2>4. Pravidla obsahu – nulová tolerance</h2>
+    <p>Přezdívky, jméno pro přátele, názvy posiloven a další texty, které
+      vidí ostatní, nesmí obsahovat:</p>
+    <ul>
+      <li>urážky, nenávist nebo ponižování lidí kvůli původu, národnosti,
+        náboženství, pohlaví, sexuální orientaci, postižení či věku,</li>
+      <li>sexuální nebo vulgární obsah, výhrůžky, obtěžování a šikanu,</li>
+      <li>cizí osobní údaje, vydávání se za někoho jiného, reklamu
+        a spam,</li>
+      <li>nepravdivé výkony v žebříčku a jiné podvádění.</li>
+    </ul>
+    <p>Aplikace vyloženě hrubá slova sama odmítne. Nevhodnou přezdívku,
+      záznam v žebříčku nebo posilovnu může kdokoli nahlásit, uživatele
+      můžete zablokovat. Nahlášení řešíme zpravidla do 24 hodin: nevhodný
+      obsah odstraníme a uživateli, který pravidla porušuje, můžeme
+      přístup k přátelům a žebříčku omezit nebo účet zrušit.</p>
+
+    <h2>5. Žebříček a vytištěný žebříček</h2>
+    <p>Do žebříčku posilovny jde jen to, co popisují
+      <a href="/privacy">zásady ochrany soukromí</a> (přezdívka, nejtěžší
+      váha u vybraných cviků, počet tréninků…). Nereálné výkony skrývá
+      automatická kontrola. Členové posilovny mohou žebříček vytisknout
+      na nástěnku – jsou na něm jen přezdívky lidí, kteří to v aplikaci
+      nevypnuli.</p>
+
+    <h2>6. Trenéři a klienti</h2>
+    <p>Trenérem se v aplikaci nebo na webu
+      <a href="/trener">gymbar.app/trener</a> může označit kdokoli; pro
+      trenéry je GymBar zdarma. Status trenéra zanikne, když trenér 60 dní
+      nemá žádného klienta. Trenéry neověřujeme a nejsou to naši
+      zaměstnanci – za své rady, plány a komentáře odpovídají sami. Klient
+      si trenéra vybírá sám, se sdílením tréninků souhlasí při propojení
+      a propojení může kdykoli zrušit.</p>
+    <p>Trenér smí tréninky a další údaje klienta používat jen k jeho
+      trénování, nesmí je dál šířit ani používat k jinému účelu a po
+      zrušení propojení si je nesmí ponechávat mimo aplikaci. Jméno
+      a popis trenéra, plány a komentáře podléhají pravidlům obsahu
+      (část 4). Plán od trenéra je návrh – i pro něj platí část 2.</p>
+
+    <h2>7. Seznam posiloven</h2>
+    <p>Část posiloven pochází z OpenStreetMap (<a href="https://www.openstreetmap.org/copyright">© přispěvatelé
+      OpenStreetMap</a>, licence ODbL). Údaje o posilovnách nemusí být
+      přesné ani aktuální a posilovny s námi nejsou nijak spojené.</p>
+
+    <h2 id="premium">8. Premium</h2>
+    <p>Zapisování tréninků je zdarma a zdarma zůstane. Předplatné Premium
+      odemyká další funkce, například neomezený počet vlastních plánů,
+      všechny hotové programy, celou historii grafů, automatickou zálohu
+      do cloudu a aplikaci pro hodinky Wear OS. Aktuální seznam funkcí
+      uvidíte v aplikaci před nákupem. Dokud Premium v aplikaci
+      nespustíme, jsou všechny funkce zdarma.</p>
+    <ul>
+      <li><strong>Měsíc zdarma:</strong> při prvním spuštění Premium je
+        první měsíc zdarma. Pokud předplatné do konce zkušební doby
+        nezrušíte, automaticky se změní na placené. Zkušební měsíc lze
+        využít jen jednou podle pravidel obchodu.</li>
+      <li><strong>Cena:</strong> roční předplatné za 8 USD / 8 EUR ročně,
+        v jiných měnách v odpovídající ceně, kterou stanoví Google Play
+        nebo App Store, včetně DPH, pokud se uplatní. Přesnou cenu uvidíte
+        v aplikaci a v obchodě před potvrzením nákupu.</li>
+      <li><strong>Platba a obnovení:</strong> platbu strhne Google Play
+        nebo Apple z vašeho účtu po skončení zkušebního měsíce.
+        Předplatné se každý rok automaticky obnoví, pokud ho nezrušíte
+        nejpozději 24 hodin před koncem aktuálního období.</li>
+      <li><strong>Zrušení:</strong> v Google Play (Platby a předplatné →
+        Předplatná) nebo v iPhonu (Nastavení → vaše jméno → Předplatná).
+        Odinstalováním aplikace se předplatné nezruší. Po zrušení zůstane
+        Premium aktivní do konce zaplaceného období.</li>
+      <li><strong>Vrácení peněz:</strong> platby zpracovává Google nebo
+        Apple, proto o vrácení peněz rozhodují podle svých pravidel
+        (Google Play, případně
+        <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>).
+        Vaše zákonná práva spotřebitele tím nejsou dotčena.</li>
+      <li><strong>Změna ceny:</strong> o zvýšení ceny vás obchod předem
+        upozorní. Pokud s novou cenou nesouhlasíte, můžete předplatné
+        zrušit.</li>
+      <li><strong>Konec Premium:</strong> když předplatné skončí,
+        tréninky ani jiná data se nemažou, jen se znovu zamknou funkce
+        Premium.</li>
+      <li><strong>Půl roku zdarma pro první uživatele:</strong> kdo začal
+        aplikaci používat před spuštěním Premium, dostal Premium na
+        6 měsíců zdarma (datum konce je v Profilu). Tento dárek se
+        neobnovuje a nic se za něj neplatí. Je uložený v telefonu
+        a v záloze, takže po přeinstalování bez obnovení zálohy
+        zanikne.</li>
+    </ul>
+    <h2>9. Odpovědnost</h2>
+    <p>Aplikaci poskytujeme tak, jak je, a nezaručujeme, že bude vždy
+      dostupná a bez chyb. Data v telefonu si zálohujte (Profil → Zálohovat všechna
+      data, nebo Záloha do cloudu). V rozsahu, který dovoluje zákon, neodpovídáme za
+      škodu vzniklou používáním aplikace; vaše práva spotřebitele tím
+      nejsou dotčena. U aplikace stažené z App Store platí také
+      standardní licenční podmínky Applu (Licensed Application End User
+      License Agreement).</p>
+
+    <h2>10. Změny a platné právo</h2>
+    <p>Podmínky můžeme upravit, když přidáme novou funkci nebo to
+      vyžaduje zákon; o podstatných změnách dáme vědět v aplikaci
+      předem. Platí právo České republiky. Spory se spotřebiteli lze
+      řešit i mimosoudně u České obchodní inspekce
+      (<a href="https://www.coi.cz">www.coi.cz</a>).
+      Kogentní pravidla na ochranu spotřebitele v zemi vašeho bydliště
+      tím nejsou dotčena.</p>
+  </article>
+  <article data-lang="de" lang="de">
+    <h1>Nutzungsbedingungen – GymBar</h1>
+    <p class="meta">Gültig ab [Datum der Veröffentlichung]</p>
+    <p class="note">Diese Übersetzung dient Ihrer Information. Bei
+      Abweichungen gilt die tschechische Fassung.</p>
+    <p class="lead">GymBar ist ein Trainingstagebuch fürs Gym. Diese
+      Bedingungen gelten für die App GymBar und die Website gymbar.app.
+      Mit der Nutzung der App stimmen Sie ihnen zu; bei der Anmeldung für
+      Freunde und die Gym-Rangliste bestätigen Sie dies mit einem
+      Häkchen.</p>
+
+    <h2>1. Wer die App betreibt</h2>
+    <p>Die App wird betrieben von [Vor- und Nachname], [Adresse]
+      („wir“). Kontakt: <a href="mailto:info@gymbar.app">info@gymbar.app</a>.</p>
+
+    <h2>2. Gesundheit und Sicherheit</h2>
+    <p><strong>GymBar ist kein Medizinprodukt</strong> und ersetzt keinen
+      Arzt, Physiotherapeuten oder Trainer. Vorschläge für Gewichte,
+      Wiederholungen und Pausen sowie Schätzungen von Kalorien und
+      Muskelermüdung dienen nur zur Orientierung. Sprechen Sie vor dem
+      Trainingsbeginn mit einem Arzt, besonders bei gesundheitlichen
+      Beschwerden, in der Schwangerschaft oder nach einer Verletzung. Sie
+      trainieren auf eigene Verantwortung – brechen Sie das Training bei
+      Schmerzen oder Unwohlsein ab.</p>
+
+    <h2>3. Konto, Freunde und Gym-Rangliste</h2>
+    <p>Das Tagebuch funktioniert ohne Konto. Für Freunde, Challenges, die
+      Gym-Rangliste, die Verbindung mit einem Coach und das Cloud-Backup melden Sie sich mit Google oder
+      Apple an. Wenn Sie jünger als 15 Jahre sind, nutzen Sie diese
+      Funktionen nur mit Zustimmung eines Elternteils. Sie sind für Ihr
+      Konto und für alles verantwortlich, was Sie darüber veröffentlichen.
+      Sie können Ihr Konto jederzeit in der App löschen (Freunde →
+      Freunde-Konto löschen) oder wie unter
+      <a href="/delete-account">gymbar.app/delete-account</a> beschrieben.</p>
+
+    <h2>4. Inhaltsregeln – null Toleranz</h2>
+    <p>Spitznamen, Ihr Name für Freunde, Gym-Namen und alle anderen Texte,
+      die andere sehen, dürfen nicht enthalten:</p>
+    <ul>
+      <li>Beleidigungen, Hass oder Herabwürdigung von Menschen wegen ihrer
+        Herkunft, Nationalität, Religion, ihres Geschlechts, ihrer
+        sexuellen Orientierung, einer Behinderung oder ihres Alters,</li>
+      <li>sexuelle oder obszöne Inhalte, Drohungen, Belästigung oder
+        Mobbing,</li>
+      <li>personenbezogene Daten anderer, das Ausgeben als jemand anderes,
+        Werbung oder Spam,</li>
+      <li>gefälschte Leistungen in der Rangliste oder anderes
+        Schummeln.</li>
+    </ul>
+    <p>Grob beleidigende Wörter lehnt die App selbst ab. Jeder kann einen
+      unangemessenen Spitznamen, Ranglisteneintrag oder ein Gym melden,
+      und Sie können Nutzer blockieren. Meldungen bearbeiten wir in der
+      Regel innerhalb von 24 Stunden: Wir entfernen anstößige Inhalte und
+      können Nutzern, die gegen diese Regeln verstoßen, den Zugang zu
+      Freunden und zur Rangliste einschränken oder ihr Konto
+      schließen.</p>
+
+    <h2>5. Rangliste und gedruckte Rangliste</h2>
+    <p>In die Gym-Rangliste gelangt nur, was die
+      <a href="/privacy">Datenschutzerklärung</a> beschreibt (Spitzname,
+      höchstes Gewicht bei ausgewählten Übungen, Anzahl der Trainings…).
+      Eine automatische Prüfung blendet unrealistische Leistungen aus.
+      Mitglieder des Gyms können die Rangliste für das Schwarze Brett
+      ausdrucken – darauf stehen nur Spitznamen von Mitgliedern, die das in
+      der App nicht ausgeschaltet haben.</p>
+
+    <h2>6. Coaches und Kunden</h2>
+    <p>Coach kann in der App oder auf
+      <a href="/trener">gymbar.app/trener</a> jeder werden; für Coaches ist
+      GymBar kostenlos. Der Coach-Status endet, wenn ein Coach 60 Tage lang
+      keinen Kunden hat. Wir überprüfen Coaches nicht und sie sind nicht
+      unsere Mitarbeiter – für ihre Ratschläge, Pläne und Kommentare sind sie
+      selbst verantwortlich. Kunden wählen ihren Coach selbst, stimmen beim
+      Verbinden dem Teilen ihrer Trainings zu und können die Verbindung
+      jederzeit trennen.</p>
+    <p>Ein Coach darf die Trainings und anderen Daten eines Kunden nur zum
+      Coaching dieses Kunden verwenden, darf sie nicht weitergeben oder für
+      andere Zwecke nutzen und darf sie nach dem Ende der Verbindung nicht
+      außerhalb der App behalten. Name und Beschreibung des Coachs, Pläne und
+      Kommentare unterliegen den Inhaltsregeln (Abschnitt 4). Ein Plan vom
+      Coach ist ein Vorschlag – auch für ihn gilt Abschnitt 2.</p>
+
+    <h2>7. Gym-Liste</h2>
+    <p>Ein Teil der Gyms stammt aus OpenStreetMap
+      (<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap-Mitwirkende</a>,
+      Lizenz ODbL). Angaben zu Gyms können ungenau oder veraltet sein, und
+      die Gyms sind in keiner Weise mit uns verbunden.</p>
+
+    <h2 id="premium">8. Premium</h2>
+    <p>Das Erfassen von Trainings ist kostenlos und bleibt kostenlos. Das
+      Premium-Abo schaltet zusätzliche Funktionen frei, zum Beispiel
+      unbegrenzt eigene Pläne, alle fertigen Programme, den gesamten
+      Diagrammverlauf, das automatische Cloud-Backup und die App für
+      Wear-OS-Uhren. Die aktuelle Liste der Funktionen sehen Sie vor dem
+      Kauf in der App. Solange wir Premium in der App nicht gestartet
+      haben, sind alle Funktionen kostenlos.</p>
+    <ul>
+      <li><strong>Ein Monat gratis:</strong> Wenn Sie Premium zum ersten Mal
+        starten, ist der erste Monat kostenlos. Kündigen Sie nicht vor Ende
+        des Testzeitraums, wird daraus automatisch ein kostenpflichtiges
+        Abo. Den Testmonat können Sie nach den Regeln des Stores nur einmal
+        nutzen.</li>
+      <li><strong>Preis:</strong> Jahresabo für 8 USD / 8 EUR pro Jahr bzw.
+        einen entsprechenden Preis in anderen Währungen, den Google Play
+        oder der App Store festlegt, gegebenenfalls inklusive
+        Mehrwertsteuer. Den genauen Preis sehen Sie in der App und im Store,
+        bevor Sie den Kauf bestätigen.</li>
+      <li><strong>Zahlung und Verlängerung:</strong> Google Play oder Apple
+        belastet Ihr Konto, wenn der Gratismonat endet. Das Abo verlängert
+        sich jedes Jahr automatisch, sofern Sie es nicht spätestens
+        24 Stunden vor Ende des laufenden Zeitraums kündigen.</li>
+      <li><strong>Kündigung:</strong> in Google Play (Zahlungen und Abos →
+        Abos) oder auf dem iPhone (Einstellungen → Ihr Name → Abonnements).
+        Durch Deinstallieren der App wird das Abo nicht gekündigt. Nach der
+        Kündigung bleibt Premium bis zum Ende des bezahlten Zeitraums
+        aktiv.</li>
+      <li><strong>Erstattungen:</strong> Zahlungen werden von Google oder
+        Apple abgewickelt, daher entscheiden sie nach ihren eigenen Regeln
+        über Erstattungen (Google Play bzw.
+        <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>).
+        Ihre gesetzlichen Verbraucherrechte bleiben unberührt.</li>
+      <li><strong>Preisänderungen:</strong> Über eine Preiserhöhung
+        informiert Sie der Store im Voraus. Wenn Sie mit dem neuen Preis
+        nicht einverstanden sind, können Sie das Abo kündigen.</li>
+      <li><strong>Ende von Premium:</strong> Wenn das Abo endet, werden
+        Trainings und andere Daten nicht gelöscht; nur die
+        Premium-Funktionen werden wieder gesperrt.</li>
+      <li><strong>Sechs Monate gratis für frühe Nutzer:</strong> Wer die App
+        schon vor dem Start von Premium genutzt hat, hat Premium für
+        6 Monate kostenlos erhalten (das Enddatum steht im Profil). Dieses
+        Geschenk verlängert sich nicht und es wird nichts dafür berechnet.
+        Es ist auf dem Handy und im Backup gespeichert und geht verloren,
+        wenn Sie die App ohne Wiederherstellung eines Backups neu
+        installieren.</li>
+    </ul>
+
+    <h2>9. Haftung</h2>
+    <p>Wir stellen die App so bereit, wie sie ist, und garantieren nicht,
+      dass sie immer verfügbar und fehlerfrei ist. Sichern Sie die Daten
+      auf Ihrem Handy (Profil → Alle Daten sichern oder Cloud-Backup).
+      Soweit gesetzlich zulässig, haften wir nicht für Schäden, die durch
+      die Nutzung der App entstehen; Ihre Verbraucherrechte bleiben
+      unberührt. Für die aus dem App Store geladene App gilt außerdem
+      Apples Standard-Lizenzvertrag (Licensed Application End User License
+      Agreement).</p>
+
+    <h2>10. Änderungen und anwendbares Recht</h2>
+    <p>Wir können diese Bedingungen anpassen, wenn wir eine Funktion
+      hinzufügen oder das Gesetz es verlangt; über wesentliche Änderungen
+      informieren wir Sie vorab in der App. Es gilt tschechisches Recht.
+      Verbraucherstreitigkeiten können auch außergerichtlich über die
+      Tschechische Handelsinspektion (Česká obchodní inspekce,
+      <a href="https://www.coi.cz">www.coi.cz</a>) beigelegt werden.
+      Zwingende Verbraucherschutzvorschriften Ihres Wohnsitzlandes bleiben
+      unberührt.</p>
+  </article>
+  <article data-lang="es" lang="es">
+    <h1>Condiciones de uso – GymBar</h1>
+    <p class="meta">Vigentes desde [fecha de publicación]</p>
+    <p class="note">Esta traducción es meramente informativa. En caso de
+      discrepancia, prevalece la versión checa.</p>
+    <p class="lead">GymBar es un diario de entrenamiento para el gimnasio.
+      Estas condiciones se aplican a la app GymBar y al sitio web
+      gymbar.app. Al usar la app las aceptas; al iniciar sesión para usar
+      Amigos y la clasificación del gimnasio lo confirmas marcando una
+      casilla.</p>
+
+    <h2>1. Quién gestiona la app</h2>
+    <p>La app la gestiona [Nombre y apellidos], [dirección]
+      («nosotros»). Contacto:
+      <a href="mailto:info@gymbar.app">info@gymbar.app</a>.</p>
+
+    <h2>2. Salud y seguridad</h2>
+    <p><strong>GymBar no es un producto sanitario</strong> y no sustituye a
+      un médico, fisioterapeuta ni entrenador. Las sugerencias de peso,
+      repeticiones y descansos, así como las estimaciones de calorías y de
+      fatiga muscular, son solo orientativas. Consulta a un médico antes de
+      empezar a entrenar, sobre todo si tienes problemas de salud, estás
+      embarazada o te recuperas de una lesión. Entrenas bajo tu propia
+      responsabilidad: para si sientes dolor o malestar.</p>
+
+    <h2>3. Cuenta, amigos y clasificación del gimnasio</h2>
+    <p>El diario funciona sin cuenta. Para Amigos, retos, la
+      clasificación del gimnasio, la conexión con un entrenador y la copia en la nube inicias sesión con
+      Google o Apple. Si tienes menos de 15 años, usa estas funciones solo
+      con el consentimiento de tu padre, madre o tutor. Eres responsable de
+      tu cuenta y de lo que publiques con ella. Puedes eliminar tu cuenta
+      en cualquier momento en la app (Amigos → Eliminar cuenta de amigos)
+      o como se explica en
+      <a href="/delete-account">gymbar.app/delete-account</a>.</p>
+
+    <h2>4. Normas de contenido – tolerancia cero</h2>
+    <p>Los apodos, tu nombre para amigos, los nombres de gimnasios y
+      cualquier otro texto que vean otras personas no pueden contener:</p>
+    <ul>
+      <li>insultos, odio o contenido degradante hacia personas por su
+        origen, nacionalidad, religión, sexo, orientación sexual,
+        discapacidad o edad,</li>
+      <li>contenido sexual u obsceno, amenazas, acoso o intimidación,</li>
+      <li>datos personales de otras personas, suplantación de identidad,
+        publicidad o spam,</li>
+      <li>marcas falsas en la clasificación ni ninguna otra trampa.</li>
+    </ul>
+    <p>La app rechaza por sí misma las palabras gravemente ofensivas.
+      Cualquiera puede reportar un apodo, una marca de la clasificación o
+      un gimnasio inapropiados, y puedes bloquear a usuarios. Solemos
+      tramitar los reportes en un plazo de 24 horas: eliminamos el
+      contenido inadecuado y podemos restringir el acceso a Amigos y a la
+      clasificación o cerrar la cuenta de quien incumpla estas
+      normas.</p>
+
+    <h2>5. Clasificación y clasificación impresa</h2>
+    <p>A la clasificación del gimnasio solo llega lo que describe la
+      <a href="/privacy">política de privacidad</a> (apodo, peso máximo en
+      ejercicios seleccionados, número de entrenamientos…). Una
+      comprobación automática oculta las marcas poco realistas. Los
+      miembros del gimnasio pueden imprimir la clasificación para el
+      tablón de anuncios; en ella solo aparecen los apodos de quienes no lo
+      hayan desactivado en la app.</p>
+
+    <h2>6. Entrenadores y clientes</h2>
+    <p>Cualquiera puede hacerse entrenador en la app o en
+      <a href="/trener">gymbar.app/trener</a>; GymBar es gratis para los
+      entrenadores. El estado de entrenador termina cuando un entrenador pasa
+      60 días sin ningún cliente. No verificamos a los entrenadores y no son
+      empleados nuestros: responden de sus propios consejos, planes y
+      comentarios. Los clientes eligen a su entrenador, aceptan compartir sus
+      entrenamientos al conectarse y pueden desconectarse en cualquier
+      momento.</p>
+    <p>Un entrenador solo puede usar los entrenamientos y demás datos de un
+      cliente para entrenarle, no puede difundirlos ni usarlos para otro fin
+      y no puede conservarlos fuera de la app cuando termina la conexión. El
+      nombre y la descripción del entrenador, los planes y los comentarios
+      están sujetos a las normas de contenido (apartado 4). Un plan del
+      entrenador es una sugerencia: también se le aplica el apartado 2.</p>
+
+    <h2>7. Lista de gimnasios</h2>
+    <p>Parte de los gimnasios procede de OpenStreetMap
+      (<a href="https://www.openstreetmap.org/copyright">© colaboradores de OpenStreetMap</a>,
+      licencia ODbL). Los datos de los gimnasios pueden no ser exactos ni
+      estar actualizados, y los gimnasios no tienen ninguna relación con
+      nosotros.</p>
+
+    <h2 id="premium">8. Premium</h2>
+    <p>Registrar entrenamientos es gratis y seguirá siéndolo. La
+      suscripción Premium desbloquea funciones adicionales, por ejemplo
+      planes propios ilimitados, todos los programas predefinidos, todo el
+      historial de gráficos, la copia automática en la nube y la app para
+      relojes Wear OS. Verás la lista actual de funciones en la app antes
+      de comprar. Mientras no lancemos Premium en la app, todas las
+      funciones son gratuitas.</p>
+    <ul>
+      <li><strong>Un mes gratis:</strong> la primera vez que activas
+        Premium, el primer mes es gratis. Si no cancelas antes de que
+        termine la prueba, se convierte automáticamente en una suscripción
+        de pago. El mes de prueba solo puede usarse una vez, según las
+        normas de la tienda.</li>
+      <li><strong>Precio:</strong> suscripción anual de 8 USD / 8 EUR al
+        año, o el precio equivalente en otras monedas que fije Google Play
+        o App Store, con IVA incluido cuando corresponda. Verás el precio
+        exacto en la app y en la tienda antes de confirmar la compra.</li>
+      <li><strong>Pago y renovación:</strong> Google Play o Apple cobra en
+        tu cuenta cuando termina el mes gratis. La suscripción se renueva
+        automáticamente cada año salvo que la canceles al menos 24 horas
+        antes del final del periodo en curso.</li>
+      <li><strong>Cancelación:</strong> en Google Play (Pagos y
+        suscripciones → Suscripciones) o en el iPhone (Ajustes → tu nombre
+        → Suscripciones). Desinstalar la app no cancela la suscripción.
+        Tras cancelar, Premium sigue activo hasta el final del periodo
+        pagado.</li>
+      <li><strong>Reembolsos:</strong> los pagos los procesan Google o
+        Apple, así que deciden sobre los reembolsos según sus propias
+        normas (Google Play, o
+        <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>).
+        Esto no afecta a tus derechos legales como consumidor.</li>
+      <li><strong>Cambios de precio:</strong> la tienda te avisará con
+        antelación de cualquier subida de precio. Si no estás de acuerdo
+        con el nuevo precio, puedes cancelar la suscripción.</li>
+      <li><strong>Fin de Premium:</strong> cuando termina la suscripción,
+        tus entrenamientos y demás datos no se borran; solo se vuelven a
+        bloquear las funciones Premium.</li>
+      <li><strong>Seis meses gratis para los primeros usuarios:</strong>
+        quien empezó a usar la app antes del lanzamiento de Premium recibió
+        Premium gratis durante 6 meses (la fecha de fin aparece en Perfil).
+        Este regalo no se renueva y no se cobra nada por él. Se guarda en
+        el teléfono y en la copia de seguridad, por lo que se pierde si
+        reinstalas la app sin restaurar una copia.</li>
+    </ul>
+
+    <h2>9. Responsabilidad</h2>
+    <p>Ofrecemos la app tal cual y no garantizamos que esté siempre
+      disponible ni libre de errores. Haz copias de los datos de tu
+      teléfono (Perfil → Copia de seguridad de todo, o Copia en la nube).
+      En la medida en que lo permita la ley, no respondemos de los daños
+      derivados del uso de la app; tus derechos como consumidor no se ven
+      afectados. Para la app descargada del App Store se aplica además el
+      contrato de licencia estándar de Apple (Licensed Application End User
+      License Agreement).</p>
+
+    <h2>10. Cambios y legislación aplicable</h2>
+    <p>Podemos modificar estas condiciones cuando añadamos una función o lo
+      exija la ley; te avisaremos de los cambios importantes en la app con
+      antelación. Se aplica la legislación de la República Checa. Los
+      litigios con consumidores también pueden resolverse
+      extrajudicialmente ante la Inspección Comercial Checa (Česká
+      obchodní inspekce, <a href="https://www.coi.cz">www.coi.cz</a>). Las
+      normas imperativas de protección del consumidor de tu país de
+      residencia no se ven afectadas.</p>
+  </article>
+  <article data-lang="fr" lang="fr">
+    <h1>Conditions d’utilisation – GymBar</h1>
+    <p class="meta">En vigueur à partir du [date de publication]</p>
+    <p class="note">Cette traduction est fournie à titre informatif. En cas
+      de divergence, la version tchèque prévaut.</p>
+    <p class="lead">GymBar est un carnet d’entraînement pour la salle de
+      sport. Ces conditions s’appliquent à l’app GymBar et au site
+      gymbar.app. En utilisant l’app, vous les acceptez ; lorsque vous vous
+      connectez à Amis et au classement de la salle, vous le confirmez en
+      cochant une case.</p>
+
+    <h2>1. Qui exploite l’app</h2>
+    <p>L’app est exploitée par [Prénom et nom], [adresse] (« nous »).
+      Contact : <a href="mailto:info@gymbar.app">info@gymbar.app</a>.</p>
+
+    <h2>2. Santé et sécurité</h2>
+    <p><strong>GymBar n’est pas un dispositif médical</strong> et ne
+      remplace pas un médecin, un kinésithérapeute ou un coach. Les
+      suggestions de charges, de répétitions et de repos ainsi que les
+      estimations de calories et de fatigue musculaire sont données à titre
+      indicatif. Consultez un médecin avant de commencer à vous entraîner,
+      en particulier en cas de problèmes de santé, de grossesse ou après
+      une blessure. Vous vous entraînez sous votre propre responsabilité :
+      arrêtez en cas de douleur ou de malaise.</p>
+
+    <h2>3. Compte, amis et classement de la salle</h2>
+    <p>Le carnet fonctionne sans compte. Pour Amis, les défis, le
+      classement de la salle, la connexion avec un coach et la sauvegarde dans le cloud, vous vous
+      connectez avec Google ou Apple. Si vous avez moins de 15 ans,
+      n’utilisez ces fonctions qu’avec l’accord d’un parent. Vous êtes
+      responsable de votre compte et de ce que vous publiez avec. Vous
+      pouvez supprimer votre compte à tout moment dans l’app (Amis →
+      Supprimer le compte Amis) ou comme indiqué sur
+      <a href="/delete-account">gymbar.app/delete-account</a>.</p>
+
+    <h2>4. Règles de contenu – tolérance zéro</h2>
+    <p>Les pseudos, votre nom pour les amis, les noms de salles et tout
+      autre texte visible par d’autres ne doivent pas contenir :</p>
+    <ul>
+      <li>des insultes, de la haine ou des propos dégradants envers des
+        personnes en raison de leur origine, nationalité, religion, sexe,
+        orientation sexuelle, handicap ou âge,</li>
+      <li>des contenus sexuels ou obscènes, des menaces, du harcèlement ou
+        de l’intimidation,</li>
+      <li>des données personnelles d’autrui, une usurpation d’identité, de
+        la publicité ou du spam,</li>
+      <li>de fausses performances dans le classement ou toute autre
+        triche.</li>
+    </ul>
+    <p>L’app refuse d’elle-même les mots gravement injurieux. Chacun peut
+      signaler un pseudo, une entrée du classement ou une salle
+      inappropriés, et vous pouvez bloquer des utilisateurs. Nous traitons
+      les signalements généralement sous 24 heures : nous supprimons le
+      contenu répréhensible et pouvons restreindre l’accès à Amis et au
+      classement, ou fermer le compte d’un utilisateur qui enfreint ces
+      règles.</p>
+
+    <h2>5. Classement et classement imprimé</h2>
+    <p>Seul ce que décrit la
+      <a href="/privacy">politique de confidentialité</a> figure dans le
+      classement de la salle (pseudo, charge maximale sur certains
+      exercices, nombre de séances…). Un contrôle automatique masque les
+      performances irréalistes. Les membres de la salle peuvent imprimer le
+      classement pour le panneau d’affichage ; seuls y figurent les pseudos
+      des membres qui ne l’ont pas désactivé dans l’app.</p>
+
+    <h2>6. Coachs et clients</h2>
+    <p>Tout le monde peut devenir coach dans l’app ou sur
+      <a href="/trener">gymbar.app/trener</a> ; GymBar est gratuit pour les
+      coachs. Le statut de coach prend fin lorsqu’un coach n’a eu aucun
+      client pendant 60 jours. Nous ne vérifions pas les coachs et ce ne sont
+      pas nos employés : ils sont responsables de leurs conseils, plans et
+      commentaires. Les clients choisissent eux-mêmes leur coach, acceptent de
+      partager leurs séances lors de la connexion et peuvent se déconnecter à
+      tout moment.</p>
+    <p>Un coach ne peut utiliser les séances et autres données d’un client
+      que pour l’entraîner, ne doit pas les transmettre ni les utiliser à
+      d’autres fins et ne doit pas les conserver en dehors de l’app après la
+      fin de la connexion. Le nom et la description du coach, les plans et
+      les commentaires sont soumis aux règles de contenu (section 4). Un plan
+      du coach est une suggestion : la section 2 s’y applique aussi.</p>
+
+    <h2>7. Liste des salles</h2>
+    <p>Une partie des salles provient d’OpenStreetMap
+      (<a href="https://www.openstreetmap.org/copyright">© contributeurs OpenStreetMap</a>,
+      licence ODbL). Les informations sur les salles peuvent être inexactes
+      ou obsolètes, et les salles n’ont aucun lien avec nous.</p>
+
+    <h2 id="premium">8. Premium</h2>
+    <p>L’enregistrement des séances est gratuit et le restera.
+      L’abonnement Premium débloque des fonctions supplémentaires, par
+      exemple un nombre illimité de plans personnels, tous les programmes
+      prêts à l’emploi, l’historique complet des graphiques, la sauvegarde
+      automatique dans le cloud et l’app pour montres Wear OS. La liste
+      actuelle des fonctions est affichée dans l’app avant l’achat. Tant
+      que nous n’avons pas lancé Premium dans l’app, toutes les fonctions
+      sont gratuites.</p>
+    <ul>
+      <li><strong>Un mois offert :</strong> la première fois que vous
+        activez Premium, le premier mois est gratuit. Si vous ne résiliez
+        pas avant la fin de l’essai, il devient automatiquement un
+        abonnement payant. L’essai ne peut être utilisé qu’une fois, selon
+        les règles du store.</li>
+      <li><strong>Prix :</strong> abonnement annuel de 8 USD / 8 EUR par
+        an, ou le prix équivalent dans d’autres devises fixé par Google
+        Play ou l’App Store, TVA comprise le cas échéant. Le prix exact est
+        affiché dans l’app et dans le store avant que vous confirmiez
+        l’achat.</li>
+      <li><strong>Paiement et renouvellement :</strong> Google Play ou Apple
+        débite votre compte à la fin du mois offert. L’abonnement se
+        renouvelle automatiquement chaque année, sauf si vous le résiliez
+        au moins 24 heures avant la fin de la période en cours.</li>
+      <li><strong>Résiliation :</strong> dans Google Play (Paiements et
+        abonnements → Abonnements) ou sur l’iPhone (Réglages → votre nom →
+        Abonnements). Désinstaller l’app ne résilie pas l’abonnement. Après
+        la résiliation, Premium reste actif jusqu’à la fin de la période
+        payée.</li>
+      <li><strong>Remboursements :</strong> les paiements sont traités par
+        Google ou Apple, qui décident des remboursements selon leurs propres
+        règles (Google Play, ou
+        <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>).
+        Vos droits légaux de consommateur ne sont pas affectés.</li>
+      <li><strong>Changement de prix :</strong> le store vous informera à
+        l’avance de toute hausse de prix. Si vous n’acceptez pas le nouveau
+        prix, vous pouvez résilier l’abonnement.</li>
+      <li><strong>Fin de Premium :</strong> à la fin de l’abonnement, vos
+        séances et autres données ne sont pas supprimées ; seules les
+        fonctions Premium sont de nouveau verrouillées.</li>
+      <li><strong>Six mois offerts aux premiers utilisateurs :</strong>
+        quiconque a commencé à utiliser l’app avant le lancement de Premium
+        a reçu Premium gratuitement pendant 6 mois (la date de fin figure
+        dans Profil). Ce cadeau ne se renouvelle pas et rien n’est facturé.
+        Il est enregistré sur le téléphone et dans la sauvegarde ; il est
+        donc perdu si vous réinstallez l’app sans restaurer de
+        sauvegarde.</li>
+    </ul>
+
+    <h2>9. Responsabilité</h2>
+    <p>Nous fournissons l’app en l’état et ne garantissons pas qu’elle soit
+      toujours disponible ni exempte d’erreurs. Sauvegardez les données de
+      votre téléphone (Profil → Sauvegarder toutes les données, ou
+      Sauvegarde dans le cloud). Dans la mesure permise par la loi, nous ne
+      sommes pas responsables des dommages résultant de l’utilisation de
+      l’app ; vos droits de consommateur ne sont pas affectés. Pour l’app
+      téléchargée depuis l’App Store, le contrat de licence standard
+      d’Apple (Licensed Application End User License Agreement) s’applique
+      également.</p>
+
+    <h2>10. Modifications et droit applicable</h2>
+    <p>Nous pouvons modifier ces conditions lorsque nous ajoutons une
+      fonction ou que la loi l’exige ; nous vous informerons à l’avance
+      des changements importants dans l’app. Le droit tchèque s’applique.
+      Les litiges de consommation peuvent aussi être résolus à l’amiable
+      auprès de l’Inspection du commerce tchèque (Česká obchodní inspekce,
+      <a href="https://www.coi.cz">www.coi.cz</a>). Les règles impératives
+      de protection des consommateurs de votre pays de résidence ne sont
+      pas affectées.</p>
   </article>
 </main>
-<script>
-  (function () {
-    var buttons = document.querySelectorAll('[data-set]');
-    function show(lang) {
-      document.body.className = lang;
-      document.documentElement.lang = lang;
-      for (var i = 0; i < buttons.length; i++) {
-        buttons[i].setAttribute('aria-pressed',
-          String(buttons[i].getAttribute('data-set') === lang));
-      }
-    }
-    var param = new URLSearchParams(location.search).get('lang');
-    var nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
-    show(param === 'cs' || param === 'en' ? param
-      : (nav === 'cs' || nav === 'sk') ? 'cs' : 'en');
-    for (var i = 0; i < buttons.length; i++) {
-      buttons[i].addEventListener('click', function () {
-        show(this.getAttribute('data-set'));
-      });
-    }
-  })();
-</script>
+<footer class="site-footer">
+  <a href="/"><span data-lang="en">Home</span><span data-lang="cs">Úvod</span><span data-lang="de">Start</span><span data-lang="es">Inicio</span><span data-lang="fr">Accueil</span></a>
+  <a href="/privacy"><span data-lang="en">Privacy policy</span><span data-lang="cs">Zásady ochrany soukromí</span><span data-lang="de">Datenschutzerklärung</span><span data-lang="es">Política de privacidad</span><span data-lang="fr">Politique de confidentialité</span></a>
+  <a href="/terms"><span data-lang="en">Terms of use</span><span data-lang="cs">Podmínky použití</span><span data-lang="de">Nutzungsbedingungen</span><span data-lang="es">Condiciones de uso</span><span data-lang="fr">Conditions d’utilisation</span></a>
+  <a href="/support"><span data-lang="en">Support</span><span data-lang="cs">Podpora</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span></a>
+  <a href="/delete-account"><span data-lang="en">Delete account</span><span data-lang="cs">Smazání účtu</span><span data-lang="de">Konto löschen</span><span data-lang="es">Eliminar cuenta</span><span data-lang="fr">Supprimer le compte</span></a>
+  <a href="mailto:info@gymbar.app">info@gymbar.app</a>
+  <a href="https://www.openstreetmap.org/copyright"><span data-lang="en">Gym data © OpenStreetMap contributors</span><span data-lang="cs">Data posiloven © přispěvatelé OpenStreetMap</span><span data-lang="de">Studiodaten © OpenStreetMap-Mitwirkende</span><span data-lang="es">Datos de gimnasios © colaboradores de OpenStreetMap</span><span data-lang="fr">Données des salles © contributeurs OpenStreetMap</span></a>
+</footer>
+<script src="/config.js"></script>
+<script src="/site.js"></script>
+<script>GYMBAR.initPage();</script>
 </body>
 </html>
