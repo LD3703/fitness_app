@@ -57,6 +57,11 @@ sestavit).
   z telefonu se při ovládání z hodinek zruší (nepřijde dvakrát).
 - **Jednotky:** váhy jdou v kg, hodinky zobrazují kg / lb podle profilu
   (krok 2,5 kg / 5 lb), cviky na čas v sekundách (krok 5 s).
+- **Poznámky ke cvikům:** pod sérií na řadě je poznámka z plánu (u plánu
+  od trenéra „Trenér Jméno“) a moje poznámka u cviku – zkráceně na dva
+  řádky, klepnutím celá. Jen ke čtení, upravují se v telefonu. Pole
+  `note`, `nfrom`, `mnote` v `WearCurrentSet` přibyla bez změny verze
+  protokolu (starší hodinky je ignorují).
 
 ### Soubory
 

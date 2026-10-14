@@ -51,7 +51,11 @@ void main() {
         WearExerciseItem(
             blockIndex: 0, exerciseId: 1, name: 'A', doneSets: 3, totalSets: 3),
         WearExerciseItem(
-            blockIndex: 1, exerciseId: 42, name: 'B', doneSets: 2, totalSets: 4),
+            blockIndex: 1,
+            exerciseId: 42,
+            name: 'B',
+            doneSets: 2,
+            totalSets: 4),
       ],
     );
     final opened = openWearEnvelope(
@@ -69,6 +73,31 @@ void main() {
     expect(back.exercises.first.isDone, isTrue);
     expect(back.doneSets, 5);
     expect(back.totalSets, 7);
+  });
+
+  test('notes round trip, older state without notes', () {
+    const current = WearCurrentSet(
+      blockIndex: 0,
+      exerciseId: 1,
+      name: 'Squat',
+      isDuration: false,
+      weightRequired: true,
+      setIndex: 0,
+      setCount: 3,
+      kind: WearSetKind.working,
+      note: 'Deep',
+      noteFrom: 'Tom',
+      myNote: 'Rack 3',
+    );
+    final back = WearCurrentSet.fromJson(current.toJson())!;
+    expect((back.note, back.noteFrom, back.myNote), ('Deep', 'Tom', 'Rack 3'));
+
+    final json = current.toJson()
+      ..remove('note')
+      ..remove('nfrom')
+      ..remove('mnote');
+    final old = WearCurrentSet.fromJson(json)!;
+    expect((old.note, old.noteFrom, old.myNote), (null, null, null));
   });
 
   test('commands round trip', () {

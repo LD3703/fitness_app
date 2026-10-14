@@ -33,6 +33,8 @@ typedef WearBlockInput = ({
   bool isDuration,
   bool weightRequired,
   List<WearRowInput> rows,
+  String? planNote,
+  String? myNote,
 });
 
 /// Pozice série: index cviku a index řádku.
@@ -135,6 +137,7 @@ WearState buildActiveWearState({
   required String unit,
   required double kgPerUnit,
   required double weightStep,
+  String? noteFrom,
 }) {
   final pick = pickCurrentSet(blocks, suggested: suggested);
   WearCurrentSet? current;
@@ -154,6 +157,9 @@ WearState buildActiveWearState({
       value: row.value,
       previousWeightKg: block.isDuration ? null : row.previousWeightKg,
       previousValue: row.previousValue,
+      note: block.planNote,
+      noteFrom: block.planNote == null ? null : noteFrom,
+      myNote: block.myNote,
     );
   }
   return WearState(

@@ -26,9 +26,38 @@ WearBlockInput block(int id, List<WearRowInput> rows) => (
       isDuration: false,
       weightRequired: true,
       rows: rows,
+      planNote: null,
+      myNote: null,
     );
 
 void main() {
+  test('notes of the current exercise, trainer only with a plan note', () {
+    WearBlockInput noted(int id, {String? plan, String? mine}) => (
+          exerciseId: id,
+          name: 'E$id',
+          isDuration: false,
+          weightRequired: true,
+          rows: [row()],
+          planNote: plan,
+          myNote: mine,
+        );
+    WearCurrentSet current(WearBlockInput b) => buildActiveWearState(
+          sessionId: 1,
+          title: null,
+          startedAt: DateTime(2026),
+          blocks: [b],
+          unit: 'kg',
+          kgPerUnit: 1,
+          weightStep: 2.5,
+          noteFrom: 'Tom',
+        ).current!;
+
+    final both = current(noted(1, plan: 'Deep', mine: 'Rack 3'));
+    expect((both.note, both.noteFrom, both.myNote), ('Deep', 'Tom', 'Rack 3'));
+    final mine = current(noted(1, mine: 'Rack 3'));
+    expect((mine.note, mine.noteFrom, mine.myNote), (null, null, 'Rack 3'));
+  });
+
   test('fresh workout starts with the first set', () {
     final blocks = [
       block(1, [row(), row()]),
@@ -89,7 +118,11 @@ void main() {
     ];
     expect(nextExercisePosition(blocks, 0), (block: 2, row: 0));
     expect(nextExercisePosition(blocks, 2), (block: 0, row: 0));
-    expect(nextExercisePosition([block(1, [row()])], 0), isNull);
+    expect(
+        nextExercisePosition([
+          block(1, [row()])
+        ], 0),
+        isNull);
     expect(firstUndoneInBlock(blocks, 1), isNull);
     expect(firstUndoneInBlock(blocks, 2), (block: 2, row: 0));
   });
@@ -103,6 +136,8 @@ void main() {
         isDuration: true,
         weightRequired: false,
         rows: [row(kg: null, value: 30)],
+        planNote: null,
+        myNote: null,
       ),
     ];
     final state = buildActiveWearState(

@@ -69,8 +69,8 @@ void main() {
       expect(items[1].exercise.note, isNull);
       for (final i in items) {
         expect(i.item.note, isNull);
-        expect(i.sets.map((s) => (s.reps, s.weightKg)),
-            List.filled(3, (8, 60.0)));
+        expect(
+            i.sets.map((s) => (s.reps, s.weightKg)), List.filled(3, (8, 60.0)));
       }
 
       final workouts = await db.coachWorkoutsSince(DateTime(2026));
@@ -99,8 +99,7 @@ void main() {
       final id = await db.importCoachPlan(shared,
           remoteId: 'coach:abc', version: 1, from: 'Trenér');
       expect((await db.planByRemoteId('coach:abc'))!.id, id);
-      expect(
-          (await db.getPlanItems(id)).first.exercise.note, 'Lavice č. 3');
+      expect((await db.getPlanItems(id)).first.exercise.note, 'Lavice č. 3');
     });
 
     test('schéma po migraci je stejné jako u nové instalace', () async {

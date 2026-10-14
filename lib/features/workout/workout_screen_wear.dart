@@ -95,6 +95,8 @@ class _WorkoutWearLink implements WearWorkoutHandler {
           isDuration: b.isDuration,
           weightRequired: b.weightRequired,
           rows: [for (var i = 0; i < b.rows.length; i++) _row(b, i)],
+          planNote: b.data.planNote,
+          myNote: b.myNote,
         ),
     ];
   }
@@ -130,6 +132,7 @@ class _WorkoutWearLink implements WearWorkoutHandler {
       unit: weightUnit,
       kgPerUnit: isImperial ? kgPerLb : 1.0,
       weightStep: weightDisplayStep,
+      noteFrom: setup.planTrainer,
     );
   }
 
