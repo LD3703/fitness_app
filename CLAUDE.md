@@ -21,7 +21,7 @@ v kódu i dokumentace jsou **česky**.
 - `functions/` – Cloud Functions (TypeScript, Node 22, europe-west1).
 - `firestore.rules`, `storage.rules`, `firebase.json`, `docs/web/` (Hosting).
 - `wear/` – samostatný projekt hodinek.
-- Dokumentace: `README.md`, `docs/coach.md`, `docs/social.md`,
+- Dokumentace: `README.md`, `docs/coach.md`, `docs/social.md`, `docs/deploy.md`,
   `docs/app_store.md`, `docs/wear_os.md`.
 
 ## Ověření před commitem
@@ -54,5 +54,5 @@ výsledek a chyby oprav.
   dokud je Lukas nedodá.
 - Filtr slov blokuje jen vyloženě hrubá slova (hovorové nadávky projdou).
 - Firebase projekt `fitness-app-dc5e4`, doména gymbar.app, e-mail
-  info@gymbar.app. Nasazení (`firebase deploy`) dělá Lukas, pokud neřekne
-  jinak.
+  info@gymbar.app. Nasazení (`firebase deploy` nebo ruční workflow
+  „Nasazení Firebase“, docs/deploy.md) spouští Lukas, pokud neřekne jinak.

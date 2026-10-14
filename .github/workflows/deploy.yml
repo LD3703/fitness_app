@@ -1,0 +1,103 @@
+# Nasazení na Firebase (projekt fitness-app-dc5e4) – JEN RUČNĚ:
+# GitHub → Actions → „Nasazení Firebase“ → Run workflow → vybrat, co nasadit.
+# Nikdy se nespouští samo po pushi.
+#
+# Jednorázové nastavení (dělá Lukas, postup v docs/deploy.md):
+#  - secret FIREBASE_SERVICE_ACCOUNT: JSON klíč servisního účtu
+#    (Settings → Secrets and variables → Actions → Secrets),
+#  - pro hosting proměnná ASSETLINKS_JSON: obsah
+#    docs/web/.well-known/assetlinks.json z PC (Variables). Volitelně
+#    APPLE_APP_SITE_ASSOCIATION. Bez nich by nasazení webu smazalo App Links.
+name: Nasazení Firebase
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Co nasadit
+        type: choice
+        required: true
+        default: rules
+        options:
+          - rules
+          - functions
+          - hosting
+          - all
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Nasazení (${{ inputs.target }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Prostředí „production“ – v Settings → Environments jde zapnout
+    # ruční schválení před nasazením.
+    environment: production
+    env:
+      PROJECT: fitness-app-dc5e4
+      TARGET: ${{ inputs.target }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Pravidla se před nasazením otestují v emulátoru (tool/rules_test).
+      - if: inputs.target == 'rules' || inputs.target == 'all'
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - if: inputs.target == 'rules' || inputs.target == 'all'
+        working-directory: tool/rules_test
+        run: npm ci && npm test
+
+      - if: inputs.target == 'functions' || inputs.target == 'all'
+        working-directory: functions
+        run: npm ci && npm test
+
+      # Hosting: web pro trenéry + soubory App Links (nejsou v gitu).
+      - if: inputs.target == 'hosting' || inputs.target == 'all'
+        name: App Links (assetlinks.json z proměnné repozitáře)
+        env:
+          ASSETLINKS_JSON: ${{ vars.ASSETLINKS_JSON }}
+          AASA: ${{ vars.APPLE_APP_SITE_ASSOCIATION }}
+        run: |
+          if [ -z "$ASSETLINKS_JSON" ]; then
+            echo "::error::Chybí proměnná ASSETLINKS_JSON – nasazení webu by smazalo App Links (docs/deploy.md)."
+            exit 1
+          fi
+          mkdir -p docs/web/.well-known
+          printf '%s' "$ASSETLINKS_JSON" > docs/web/.well-known/assetlinks.json
+          node -e "JSON.parse(require('fs').readFileSync('docs/web/.well-known/assetlinks.json','utf8'))"
+          if [ -n "$AASA" ]; then
+            printf '%s' "$AASA" > docs/web/.well-known/apple-app-site-association
+          fi
+      - if: inputs.target == 'hosting' || inputs.target == 'all'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - if: inputs.target == 'hosting' || inputs.target == 'all'
+        working-directory: trainer_web
+        run: |
+          flutter pub get
+          flutter build web --release --base-href /trener/ -o ../docs/web/trener
+
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: firebase deploy
+        run: |
+          case "$TARGET" in
+            rules)     ONLY="firestore:rules,firestore:indexes,storage" ;;
+            functions) ONLY="functions" ;;
+            hosting)   ONLY="hosting" ;;
+            all)       ONLY="firestore:rules,firestore:indexes,storage,functions,hosting" ;;
+          esac
+          npx --yes firebase-tools@14 deploy --project "$PROJECT" --only "$ONLY" --non-interactive
