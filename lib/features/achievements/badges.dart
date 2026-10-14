@@ -15,7 +15,7 @@ enum BadgeKind {
   /// Mistrovství jedné partie (viz masteryProgress).
   mastery,
 
-  /// Počet osobních rekordů (odhad 1RM, bez drop sérií a rozcvičky).
+  /// Počet osobních rekordů (nejtěžší série, bez drop sérií a rozcvičky).
   records,
 
   /// Týdny v řadě se splněným plánem (počet tréninků za týden).
@@ -80,7 +80,7 @@ class BadgeProgress {
   final Map<MuscleGroup, int> masteryRuns;
   final Set<MuscleGroup> masteredGroups;
 
-  /// Počet osobních rekordů (překonání předchozího nejlepšího odhadu 1RM).
+  /// Počet osobních rekordů (překonání předchozí nejtěžší série).
   final int personalRecords;
 
   /// Nejdelší série týdnů se splněným plánem.
@@ -117,13 +117,13 @@ List<BadgeDef> newBadges(BadgeProgress progress, Set<String> existingCodes) => [
         if (!existingCodes.contains(b.code)) b,
     ];
 
-/// Počet osobních rekordů ze série nejlepších odhadů 1RM v jednotlivých
+/// Počet osobních rekordů z nejtěžších sérií v jednotlivých
 /// trénincích (podle cviku). Stejně jako v souhrnu tréninku: rekord je
 /// překonání předchozího nejlepšího výkonu (o víc než 0,01 kg) – první
 /// zápis cviku rekordem není.
-int countPersonalRecords(Map<int, List<StatPoint>> oneRepMaxByExercise) {
+int countPersonalRecords(Map<int, List<StatPoint>> topWeightByExercise) {
   var count = 0;
-  for (final points in oneRepMaxByExercise.values) {
+  for (final points in topWeightByExercise.values) {
     final sorted = [...points]..sort((a, b) => a.x.compareTo(b.x));
     double? best;
     for (final p in sorted) {
@@ -171,7 +171,7 @@ int longestWeekStreak(
 /// (requiredSessionsPerWeek ve stats/streak.dart).
 BadgeProgress computeBadgeProgress({
   required OverloadHistory overload,
-  required Map<int, List<StatPoint>> oneRepMaxByExercise,
+  required Map<int, List<StatPoint>> topWeightByExercise,
   required Iterable<DateTime> sessionDates,
   required int weeklyGoal,
   required DateTime now,
@@ -187,7 +187,7 @@ BadgeProgress computeBadgeProgress({
     overloadStreak: overload.longestStreak,
     masteryRuns: runs,
     masteredGroups: mastered,
-    personalRecords: countPersonalRecords(oneRepMaxByExercise),
+    personalRecords: countPersonalRecords(topWeightByExercise),
     consistencyStreak: longestWeekStreak(sessionDates, now, goal: weeklyGoal),
   );
 }

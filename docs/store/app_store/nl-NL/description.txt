@@ -1,0 +1,34 @@
+Een gym-logboek dat je vooruitgang voor je bijhoudt.
+
+Log een set met twee tikken, laat de app het gewicht voor de volgende keer voorstellen en zie hoe je sterker wordt. Werkt zonder account en offline, en je gegevens blijven op je telefoon.
+
+TRAINEN
+• Eigen schema's en kant-en-klare programma's; je kiest je trainingsdagen meteen
+• Sets, warming-up, supersets en dropsets
+• Rusttimer
+• Oefeningenbibliotheek met uitleg en voorbeelden
+• Plan B: een korte routine thuis als je niet naar de gym kunt
+
+VOORUITGANG
+• Automatische progressie: na de training het gewicht of de herhalingen voor de volgende keer
+• Controle op progressieve overload per spiergroep, met badges voor regelmaat
+• Persoonlijke records (je zwaarste set), volume en frequentie per spiergroep
+• Spiervermoeidheid: welke spiergroepen nog rust nodig hebben
+• Ziek, geblesseerd of aan het droogtrainen? Log de periode en de grafieken houden er rekening mee
+
+JOUW GYM EN VRIENDEN
+• Klassement van jouw gym: doe mee via de QR-code bij de balie of kies hem uit de lijst
+• Categorieën mannen en vrouwen en leeftijdsgroepen 40+, 50+ en 60+
+• Uitdagingen "verbreek mijn record", uitnodigingen om samen te trainen en reeksen met vrienden
+
+MEER
+• Toon van de coach: vriendelijk of streng tot sarcastisch
+• Water, lichaamsgewicht en herinneringen
+• Agenda: vindt vrije tijd om te trainen en zet het in je agenda
+• Apple Gezondheid
+• Donkere modus, kilo's en ponden, 10 talen
+
+PRIVACY
+Trainingen, lichaamsgewicht en gegevens over ziekte of blessures blijven op je telefoon. Naar onze servers gaat alleen wat je zelf aanzet: vrienden, het gym-klassement of de cloudback-up. Geen advertenties.
+
+GymBar is geen medisch hulpmiddel. Overleg met een arts voordat je begint met trainen, vooral als je gezondheidsklachten hebt.

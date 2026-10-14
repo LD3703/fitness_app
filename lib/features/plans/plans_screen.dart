@@ -7,6 +7,7 @@ import '../../data/seed/plan_templates.dart';
 import '../../l10n/app_localizations.dart';
 import '../../premium/premium.dart';
 import '../../providers.dart';
+import '../../ui/body_map.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/weekdays.dart';
 import '../workout/start_workout.dart';
@@ -151,12 +152,18 @@ class PlansScreen extends ConsumerWidget {
             itemBuilder: (context, i) {
               final plan = list[i];
               final parts = [
+                // Plán od trenéra / ze sdíleného odkazu (modul coach).
+                if (plan.remoteFrom != null)
+                  (plan.remoteId?.startsWith('coach:') ?? false)
+                      ? l10n.planFromTrainer(plan.remoteFrom!)
+                      : l10n.planFromShared(plan.remoteFrom!),
                 if (plan.weekdaysMask != 0)
                   describeWeekdays(context, plan.weekdaysMask),
                 if (plan.plannedTimeMinutes != null)
                   formatMinutesOfDay(context, plan.plannedTimeMinutes!),
               ];
               return ListTile(
+                leading: PlanBodyMapThumb(planId: plan.id),
                 title: Text(plan.name),
                 subtitle: Text(
                   parts.isEmpty ? l10n.planNoSchedule : parts.join(' · '),

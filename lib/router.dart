@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'data/database.dart';
+import 'l10n/app_localizations.dart';
 import 'modules/module_hub.dart';
 import 'providers.dart';
 
@@ -49,8 +50,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 final _routes = <RouteBase>[
     GoRoute(
       path: '/loading',
-      builder: (context, state) =>
-          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      builder: (context, state) => const _LoadingScreen(),
     ),
     GoRoute(
       path: '/welcome',
@@ -135,3 +135,44 @@ final _routes = <RouteBase>[
       ],
     ),
 ];
+
+/// Načítání profilu. Když databáze selže (např. chyba převodu na novou
+/// verzi), ukáže chybu s možností zkusit znovu místo nekonečného kolečka.
+class _LoadingScreen extends ConsumerWidget {
+  const _LoadingScreen();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profile = ref.watch(profileProvider);
+    if (!profile.hasError) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+    final l10n = AppLocalizations.of(context);
+    return Scaffold(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.error_outline, size: 48),
+              const SizedBox(height: 12),
+              Text(l10n.errorGeneric, textAlign: TextAlign.center),
+              const SizedBox(height: 4),
+              Text(
+                '${profile.error}',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              const SizedBox(height: 16),
+              FilledButton(
+                onPressed: () => ref.invalidate(profileProvider),
+                child: Text(l10n.socialRetry),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

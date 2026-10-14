@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
@@ -17,6 +18,10 @@ import '../ui/coach_messages.dart' show strictMorningBody, strictWaterBody;
 import '../ui/format.dart' show formatVolumeFor;
 import 'calendar_service.dart';
 import 'sync_controller.dart' show deviceLocalizations;
+
+/// Malá bílá ikona v liště upozornění na Androidu (silueta činky z loga).
+/// Soubor res/drawable/ic_stat_gymbar.xml vytvoří tool/setup_platforms.dart.
+const kNotificationIcon = '@drawable/ic_stat_gymbar';
 
 /// Obsah payloadu ranní připomínky: den a ID naplánovaných plánů.
 /// Formát: `morning|2026-10-05|3,5`.
@@ -102,39 +107,47 @@ class NotificationService {
   Future<void> _doInit() async {
     tzdata.initializeTimeZones();
     final l10n = deviceLocalizations();
-    final settings = InitializationSettings(
-      android: const AndroidInitializationSettings('@mipmap/ic_launcher'),
-      iOS: DarwinInitializationSettings(
-        requestAlertPermission: false,
-        requestBadgePermission: false,
-        requestSoundPermission: false,
-        notificationCategories: [
-          DarwinNotificationCategory(
-            morningCategory,
-            actions: [
-              DarwinNotificationAction.plain(
-                actionCountMeIn,
-                l10n.calActionCountMeIn,
-              ),
-              DarwinNotificationAction.plain(
-                actionMove,
-                l10n.calActionMove,
-                options: {DarwinNotificationActionOption.foreground},
-              ),
-              DarwinNotificationAction.plain(
-                actionNoTime,
-                l10n.calActionNoTime,
-                options: {DarwinNotificationActionOption.foreground},
-              ),
-            ],
+    final darwin = DarwinInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      notificationCategories: [
+        DarwinNotificationCategory(
+          morningCategory,
+          actions: [
+            DarwinNotificationAction.plain(
+              actionCountMeIn,
+              l10n.calActionCountMeIn,
+            ),
+            DarwinNotificationAction.plain(
+              actionMove,
+              l10n.calActionMove,
+              options: {DarwinNotificationActionOption.foreground},
+            ),
+            DarwinNotificationAction.plain(
+              actionNoTime,
+              l10n.calActionNoTime,
+              options: {DarwinNotificationActionOption.foreground},
+            ),
+          ],
+        ),
+      ],
+    );
+    Future<void> initialize(String androidIcon) => _plugin.initialize(
+          settings: InitializationSettings(
+            android: AndroidInitializationSettings(androidIcon),
+            iOS: darwin,
           ),
-        ],
-      ),
-    );
-    await _plugin.initialize(
-      settings: settings,
-      onDidReceiveNotificationResponse: _responses.add,
-    );
+          onDidReceiveNotificationResponse: _responses.add,
+        );
+    try {
+      await initialize(kNotificationIcon);
+    } on PlatformException catch (e) {
+      // Ikonu do res/drawable přidává tool/setup_platforms.dart. Bez ní
+      // by se upozornění vůbec nespustila – raději ikona aplikace.
+      debugPrint('Notification icon missing ($e), using launcher icon');
+      await initialize('@mipmap/ic_launcher');
+    }
     _ready = true;
   }
 
@@ -446,9 +459,8 @@ class NotificationService {
                   maxFatigue: maxFatiguePercent(computeFatigue(sessions, at)),
                 );
           var body = switch (situation) {
-            WellbeingSituation.illness ||
-            WellbeingSituation.injury =>
-              l10n.notifMorningIllness(names),
+            WellbeingSituation.illness => l10n.notifMorningIllness(names),
+            WellbeingSituation.injury => l10n.notifMorningInjury(names),
             WellbeingSituation.recovery => l10n.notifMorningRecovery(names),
             WellbeingSituation.cut ||
             WellbeingSituation.normal =>
@@ -480,7 +492,12 @@ class NotificationService {
           intervalMinutes: profile.waterReminderIntervalMinutes,
           maxCount: _waterPerDay,
         );
-        for (var d = 0; d < _daysAhead; d++) {
+        // iOS drží nejvýš 64 naplánovaných upozornění (nejbližší); voda by
+        // na 7 dní snadno vytlačila ranní připomínky. Na iOS proto jen
+        // 2 dny – okno se posouvá s každým novým dnem (currentDayProvider).
+        final waterDays =
+            defaultTargetPlatform == TargetPlatform.iOS ? 2 : _daysAhead;
+        for (var d = 0; d < waterDays; d++) {
           for (var h = 0; h < times.length; h++) {
             final at = DateTime(today.year, today.month, today.day + d,
                 times[h] ~/ 60, times[h] % 60);

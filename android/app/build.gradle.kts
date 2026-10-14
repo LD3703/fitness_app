@@ -1,10 +1,45 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
+    // START: FlutterFire Configuration
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    // END: FlutterFire Configuration
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// Podpis release buildu (tool/platform/signing.dart, README „Vydání pro
+// Android“): key.properties na tvém PC, nebo proměnné CM_KEYSTORE_*
+// v Codemagicu. Bez nich se release podepíše ladicím klíčem.
+val keystoreProperties = Properties().apply {
+    val candidates = listOf(
+        rootProject.file("key.properties"),
+    )
+    candidates.firstOrNull { it.exists() }?.let { file ->
+        FileInputStream(file).use { load(it) }
+    }
+}
+val releaseStoreFile: String? =
+    keystoreProperties.getProperty("storeFile") ?: System.getenv("CM_KEYSTORE_PATH")
+
 android {
+    signingConfigs {
+        create("release") {
+            releaseStoreFile?.let { path ->
+                storeFile = file(path)
+                storePassword = keystoreProperties.getProperty("storePassword")
+                    ?: System.getenv("CM_KEYSTORE_PASSWORD")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                    ?: System.getenv("CM_KEY_ALIAS")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+                    ?: System.getenv("CM_KEY_PASSWORD")
+            }
+        }
+    }
+
     namespace = "cz.dedina.fitness_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
@@ -34,7 +69,7 @@ android {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (releaseStoreFile != null) signingConfigs.getByName("release") else signingConfigs.getByName("debug")
         }
     }
 }

@@ -1,0 +1,10 @@
+# Ikona aplikace na hodinkách – stejné logo jako v telefonu.
+# Spuštění ve složce wear:  dart run flutter_launcher_icons
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: false
+  image_path_android: "../assets/branding/icon_android.png"
+  min_sdk_android: 30
+  adaptive_icon_background: "#2E7D6B"
+  adaptive_icon_foreground: "../assets/branding/adaptive_foreground.png"
+  adaptive_icon_foreground_inset: 0

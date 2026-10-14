@@ -96,4 +96,10 @@ extension SocialQueries on AppDatabase {
   Future<void> socialForgetRemoteIds() =>
       (update(challenges)..where((c) => c.remoteId.isNotNull()))
           .write(const ChallengesCompanion(remoteId: Value(null)));
+
+  /// Výzva na serveru už není (smazal ji přítel, nebo se zrušilo
+  /// přátelství): lokální výzva zůstane, jen se přestane hlásit na server.
+  Future<void> socialForgetRemoteId(String remoteId) =>
+      (update(challenges)..where((c) => c.remoteId.equals(remoteId)))
+          .write(const ChallengesCompanion(remoteId: Value(null)));
 }

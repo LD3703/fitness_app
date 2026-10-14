@@ -26,11 +26,14 @@
 //   "authorUrl": "...", "sourceUrl": "..."}}
 //
 // Co udělá:
-//  1. Zkopíruje soubory do assets/exercises/<slug>.<gif|webp>.
-//  2. Zapíše tool/media/purchased_media.json.
-//  3. Sloučí je s obrázky z wger.de (tool/media/wger_media.json) –
+//  1. Zkontroluje všechny soubory a zkopíruje je do dočasné složky
+//     .dart_tool/media_import/ (při chybě se v projektu nic nezmění).
+//  2. Přesune je do assets/exercises/<slug>.<gif|webp>.
+//  3. Zapíše tool/media/purchased_media.json.
+//  4. Sloučí je s obrázky z wger.de (tool/media/wger_media.json) –
 //     koupená animace vyhrává – a přegeneruje
 //     lib/data/seed/exercise_media.dart.
+//  5. Až potom smaže staré soubory, na které už nic neodkazuje.
 
 import 'dart:convert';
 import 'dart:io';
@@ -63,6 +66,36 @@ class _Meta {
         authorUrl: authorUrl ?? fallback?.authorUrl,
         sourceUrl: sourceUrl ?? fallback?.sourceUrl,
       );
+}
+
+/// Soubor připravený k importu (po kontrole, před kopírováním).
+class _Planned {
+  _Planned({
+    required this.file,
+    required this.ext,
+    required this.animated,
+    required this.info,
+    required this.author,
+  });
+
+  final File file;
+  final String ext;
+  final bool animated;
+  final _Meta info;
+  final String author;
+
+  String get name => file.uri.pathSegments.last;
+}
+
+/// Přesune [from] na [to] (existující soubor přepíše).
+void _moveFile(File from, String to) {
+  try {
+    from.renameSync(to);
+  } on FileSystemException {
+    // Záloha, když přejmenování nejde (jiný disk, Windows): kopie a smazání.
+    from.copySync(to);
+    from.deleteSync();
+  }
 }
 
 String? _clean(Object? v) {
@@ -263,17 +296,11 @@ Future<void> main(List<String> args) async {
 
   final known = knownExerciseSlugs();
   final assets = Directory(exerciseAssetsDir)..createSync(recursive: true);
+  final previous = readManifest(purchasedManifestPath);
+  // S --replace se dřív importované animace zahodí (obrázky z wger.de
+  // zůstanou) – soubory se ale smažou až po úspěšném importu (krok 4).
   final purchased =
-      replace ? <String, MediaEntry>{} : readManifest(purchasedManifestPath);
-  if (replace) {
-    // Dřív importované animace smažeme (obrázky z wger.de zůstanou).
-    for (final e in readManifest(purchasedManifestPath).values) {
-      for (final img in e.images) {
-        final f = File(img.asset);
-        if (f.existsSync()) f.deleteSync();
-      }
-    }
-  }
+      replace ? <String, MediaEntry>{} : <String, MediaEntry>{...previous};
 
   final files = source
       .listSync()
@@ -288,7 +315,9 @@ Future<void> main(List<String> args) async {
     return;
   }
 
-  var imported = 0;
+  // 1) Kontrola všech souborů. Při chybě skript skončí dřív, než cokoli
+  //    v projektu změní.
+  final planned = <String, _Planned>{};
   var skipped = 0;
   for (final file in files) {
     final name = file.uri.pathSegments.last;
@@ -303,41 +332,88 @@ Future<void> main(List<String> args) async {
     final author = info.author;
     if (author == null) {
       stderr.writeln('✗ $name: chybí autor – doplň --author "…" '
-          'nebo sloupec author v --meta.');
+          'nebo sloupec author v --meta. Nic se nezměnilo.');
       exitCode = 1;
       return;
     }
-    final bytes = file.readAsBytesSync();
-    final animated = isAnimatedImage(bytes);
-    final ext = name.split('.').last.toLowerCase();
-
-    // Jiná přípona téhož cviku (např. dřív .gif, teď .webp) se smaže.
-    for (final old in ['gif', 'webp']) {
-      final f = File('$exerciseAssetsDir/$slug.$old');
-      if (f.existsSync()) f.deleteSync();
+    final earlier = planned[slug];
+    if (earlier != null) {
+      stdout.writeln('! $name: cvik „$slug“ už má soubor ${earlier.name} '
+          '– použije se $name.');
+      skipped++;
     }
-    final asset = '$exerciseAssetsDir/$slug.$ext';
-    File(asset).writeAsBytesSync(bytes);
+    planned[slug] = _Planned(
+      file: file,
+      ext: name.split('.').last.toLowerCase(),
+      animated: isAnimatedImage(file.readAsBytesSync()),
+      info: info,
+      author: author,
+    );
+  }
+  if (planned.isEmpty) {
+    stderr.writeln('✗ Žádný soubor nepatří ke cviku z aplikace – '
+        'nic se nezměnilo.');
+    exitCode = 1;
+    return;
+  }
 
+  // 2) Kopie do dočasné složky (.dart_tool je v .gitignore). Když kopírování
+  //    selže, v assets/exercises/ ani v manifestu se nic nezmění.
+  final staging = Directory('.dart_tool/media_import');
+  if (staging.existsSync()) staging.deleteSync(recursive: true);
+  staging.createSync(recursive: true);
+  for (final e in planned.entries) {
+    e.value.file.copySync('${staging.path}/${e.key}.${e.value.ext}');
+  }
+
+  // 3) Výměna: nové soubory do assets/exercises/, manifest a
+  //    exercise_media.dart.
+  for (final e in planned.entries) {
+    final slug = e.key;
+    final p = e.value;
+    final asset = '$exerciseAssetsDir/$slug.${p.ext}';
+    _moveFile(File('${staging.path}/$slug.${p.ext}'), asset);
     purchased[slug] = MediaEntry(
-      animated: animated,
-      pageUrl: info.sourceUrl,
+      animated: p.animated,
+      pageUrl: p.info.sourceUrl,
       images: [
         MediaImage(
           asset: asset,
-          author: author,
-          authorUrl: info.authorUrl,
-          license: info.license ?? '',
+          author: p.author,
+          authorUrl: p.info.authorUrl,
+          license: p.info.license ?? '',
         ),
       ],
     );
-    imported++;
-    stdout.writeln('✓ $name → $asset'
-        '${animated ? '' : ' (není animovaný – ukáže se jako obrázek)'}');
+    stdout.writeln('✓ ${p.name} → $asset'
+        '${p.animated ? '' : ' (není animovaný – ukáže se jako obrázek)'}');
   }
-
+  final imported = planned.length;
   writeManifest(purchasedManifestPath, purchased);
   final merged = regenerateMediaDart();
+
+  // 4) Až teď smazat soubory, na které už nic neodkazuje: dřív importované
+  //    animace (--replace) a jiná přípona téhož cviku (dřív .gif, teď .webp).
+  final used = <String>{
+    for (final m in [readManifest(wgerManifestPath), purchased])
+      for (final entry in m.values)
+        for (final img in entry.images) img.asset,
+  };
+  final stale = <String>{
+    for (final entry in previous.values)
+      for (final img in entry.images) img.asset,
+    for (final slug in planned.keys)
+      for (final ext in ['gif', 'webp']) '$exerciseAssetsDir/$slug.$ext',
+  }.difference(used);
+  for (final path in stale) {
+    final f = File(path);
+    if (f.existsSync()) f.deleteSync();
+  }
+  try {
+    staging.deleteSync(recursive: true);
+  } on FileSystemException {
+    // Prázdná dočasná složka nevadí – smaže se při dalším spuštění.
+  }
 
   var total = 0;
   for (final f in assets.listSync().whereType<File>()) {

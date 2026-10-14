@@ -3,6 +3,25 @@ import 'package:fitness_app/core/formulas.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  group('recordValue (nejtěžší série)', () {
+    test('těžší váha vyhrává bez ohledu na opakování', () {
+      expect(recordValue(102.5, 1)! > recordValue(100, 12)!, isTrue);
+    });
+    test('při stejné váze rozhodují opakování', () {
+      expect(recordValue(100, 6)! > recordValue(100, 5)!, isTrue);
+      expect(recordValue(100, 5), recordValue(100, 5));
+    });
+    test('neplatné série', () {
+      expect(recordValue(null, 5), isNull);
+      expect(recordValue(0, 5), isNull);
+      expect(recordValue(100, 0), isNull);
+    });
+    test('váha zpět bez opakování', () {
+      expect(recordWeightOf(recordValue(102.06, 999)!), 102.06);
+      expect(recordWeightOf(recordValue(100, 1)!), 100);
+    });
+  });
+
   group('estimateOneRepMax', () {
     test('1 opakování vrací samotnou váhu', () {
       expect(estimateOneRepMax(100, 1), 100);

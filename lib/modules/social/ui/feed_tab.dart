@@ -226,8 +226,10 @@ class _FeedTabState extends ConsumerState<FeedTab> {
         text = l10n.socialFeedFriend(name);
       case FeedType.pr:
         icon = Icons.emoji_events_outlined;
+        final kg = socialKg(context, item.number('value') ?? 0);
+        final reps = item.number('reps')?.round();
         text = l10n.socialFeedRecord(
-            name, exercise, socialKg(context, item.number('value') ?? 0));
+            name, exercise, reps == null ? kg : '$kg × $reps');
         actions = pending
             ? [
                 FilledButton.tonal(

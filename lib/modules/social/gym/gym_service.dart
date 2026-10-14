@@ -2,20 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/text_filter.dart';
 import '../social_auth.dart';
 import '../social_backend.dart';
 import '../social_models.dart';
 import '../social_service.dart' show socialUserProvider;
+import 'geohash.dart';
 import 'gym_logic.dart';
 import 'gym_models.dart';
 
-/// Profil v žebříčku zadaný uživatelem (přezdívka, pohlaví, viditelnost
-/// a rok narození). Rok narození se ukládá jen do lokálního profilu
+/// Profil v žebříčku zadaný uživatelem (přezdívka, pohlaví, viditelnost,
+/// souhlas s vytištěným žebříčkem a rok narození). Rok narození se ukládá jen do lokálního profilu
 /// (`UserProfiles.birthYear`); ven jde jen věková skupina.
 typedef GymProfileInput = ({
   String nickname,
   GymGender gender,
   bool show,
+  bool printable,
   int? birthYear,
 });
 
@@ -94,12 +97,16 @@ class GymService {
         'nickname': sanitizeGymNickname(p.nickname),
         'gender': p.gender.name,
         'show': p.show,
+        'printable': p.printable,
         'updatedAt': FieldValue.serverTimestamp(),
       };
 
-  Map<String, Object?> _memberData(GymProfileInput p) {
+  /// Člen posilovny. `uid` (= ID dokumentu) slouží úklidu po smazání účtu
+  /// (Cloud Function hledá členství podle uid – collectionGroup 'members').
+  Map<String, Object?> _memberData(String uid, GymProfileInput p) {
     final group = gymAgeGroupOf(p.birthYear);
     return {
+      'uid': uid,
       'nickname': sanitizeGymNickname(p.nickname),
       'gender': p.gender.name,
       if (group != null) 'ageGroup': group.key,
@@ -108,8 +115,9 @@ class GymService {
   }
 
   /// Změna člena (přezdívka, pohlaví, věková skupina – bez skupiny se
-  /// pole smaže).
-  Map<String, Object?> _memberUpdate(GymProfileInput p) => {
+  /// pole smaže). `uid` doplní i členům z dřívějších verzí.
+  Map<String, Object?> _memberUpdate(String uid, GymProfileInput p) => {
+        'uid': uid,
         'nickname': sanitizeGymNickname(p.nickname),
         'gender': p.gender.name,
         'ageGroup': gymAgeGroupOf(p.birthYear)?.key ?? FieldValue.delete(),
@@ -138,32 +146,134 @@ class GymService {
     return getGym(gymId);
   }
 
-  /// Hledání podle začátku názvu nebo města (bez diakritiky). Prázdný
-  /// dotaz vrátí posilovny s nejvíc členy.
-  Future<List<Gym>> search(String query, {int limit = 20}) async {
+  /// Hledání podle začátku názvu nebo města (bez diakritiky), i „název
+  /// město“ a „město název“. Prázdný dotaz vrátí posilovny s nejvíc členy.
+  /// S polohou [near] se výsledky řadí podle vzdálenosti.
+  Future<List<GymWithDistance>> search(
+    String query, {
+    ({double lat, double lng})? near,
+    int limit = 30,
+  }) async {
     final q = normalizeGymSearch(query);
+    final byId = <String, Gym>{};
     if (q.isEmpty) {
+      // S rezervou – skryté posilovny se odfiltrují až v aplikaci.
       final snap = await _gyms
           .orderBy('memberCount', descending: true)
-          .limit(limit)
+          .limit(limit * 2)
           .get();
-      return [for (final d in snap.docs) Gym.fromMap(d.id, d.data())];
-    }
-    Future<QuerySnapshot<Map<String, dynamic>>> prefix(String field) => _gyms
-        .where(field, isGreaterThanOrEqualTo: q)
-        .where(field, isLessThan: gymSearchUpperBound(q))
-        .orderBy(field)
-        .limit(limit)
-        .get();
-    final results = await Future.wait([prefix('nameLower'), prefix('cityLower')]);
-    final byId = <String, Gym>{};
-    for (final snap in results) {
       for (final d in snap.docs) {
         byId[d.id] = Gym.fromMap(d.id, d.data());
       }
+    } else {
+      Future<QuerySnapshot<Map<String, dynamic>>> prefix(String field) => _gyms
+          .where(field, isGreaterThanOrEqualTo: q)
+          .where(field, isLessThan: gymSearchUpperBound(q))
+          .orderBy(field)
+          .limit(limit)
+          .get();
+      // nameCity / cityName mají posilovny z importu a nově založené;
+      // nameLower / cityLower i ty starší.
+      final results = await Future.wait([
+        prefix('nameCity'),
+        prefix('cityName'),
+        prefix('nameLower'),
+        prefix('cityLower'),
+      ]);
+      for (final snap in results) {
+        for (final d in snap.docs) {
+          byId[d.id] = Gym.fromMap(d.id, d.data());
+        }
+      }
+    }
+    final list = withDistance(byId.values.where((g) => g.isListed), near);
+    if (near == null) {
+      list.sort((a, b) => b.gym.memberCount.compareTo(a.gym.memberCount));
+    }
+    return list.take(limit).toList();
+  }
+
+  /// Posilovny v okolí bodu, nejbližší první: nejdřív do
+  /// [gymNearbyRadiusKm], a když je jich tam málo, do [gymWideRadiusKm].
+  Future<List<GymWithDistance>> nearby(
+    double lat,
+    double lng, {
+    int limit = 30,
+    double? radiusKm,
+  }) async {
+    Future<List<GymWithDistance>> within(String field, int precision, double km, int perQuery) async {
+      final cells = geohashCellsCovering(lat, lng, km, precision);
+      final snaps = await Future.wait([
+        for (final part in chunked(cells))
+          _gyms.where(field, whereIn: part).limit(perQuery).get(),
+      ]);
+      final gyms = <String, Gym>{
+        for (final s in snaps)
+          for (final d in s.docs) d.id: Gym.fromMap(d.id, d.data()),
+      };
+      return [
+        for (final g in withDistance(gyms.values.where((g) => g.isListed), (lat: lat, lng: lng)))
+          if (g.km != null && g.km! <= km) g,
+      ];
+    }
+
+    if (radiusKm != null) {
+      final precision = radiusKm <= gymNearbyRadiusKm ? 6 : 5;
+      return (await within('g$precision', precision, radiusKm, 150)).take(limit).toList();
+    }
+    var found = await within('g6', 6, gymNearbyRadiusKm, 150);
+    if (found.length < gymNearbyMinResults) {
+      found = await within('g5', 5, gymWideRadiusKm, 100);
+    }
+    return found.take(limit).toList();
+  }
+
+  /// Posilovny, které by mohly být tou zakládanou: do
+  /// [gymDuplicateRadiusKm] od mé polohy, nebo podobný název ve stejném
+  /// městě.
+  Future<List<GymWithDistance>> possibleDuplicates({
+    required String name,
+    required String city,
+    ({double lat, double lng})? near,
+  }) async {
+    final byId = <String, GymWithDistance>{};
+    if (near != null) {
+      for (final g in await nearby(near.lat, near.lng, radiusKm: gymDuplicateRadiusKm)) {
+        byId[g.gym.id] = g;
+      }
+    }
+    final cityKey = normalizeGymSearch(city);
+    final firstWord = normalizeGymSearch(name).split(' ').first;
+    if (firstWord.isNotEmpty) {
+      for (final g in await search(firstWord, near: near, limit: 40)) {
+        final sameCity = cityKey.isNotEmpty && normalizeGymSearch(g.gym.city) == cityKey;
+        final close = g.km != null && g.km! <= 1;
+        if (sameCity || close) byId.putIfAbsent(g.gym.id, () => g);
+      }
     }
     final list = byId.values.toList()
-      ..sort((a, b) => b.memberCount.compareTo(a.memberCount));
+      ..sort((a, b) => (a.km ?? double.infinity).compareTo(b.km ?? double.infinity));
+    return list.take(8).toList();
+  }
+
+  /// Vzdálenost od [near] (bez polohy null); s polohou seřazené od nejbližší,
+  /// posilovny bez polohy na konci.
+  static List<GymWithDistance> withDistance(
+    Iterable<Gym> gyms,
+    ({double lat, double lng})? near,
+  ) {
+    final list = [
+      for (final g in gyms)
+        (
+          gym: g,
+          km: near == null || !g.hasLocation
+              ? null
+              : haversineKm(near.lat, near.lng, g.lat!, g.lng!),
+        ),
+    ];
+    if (near != null) {
+      list.sort((a, b) => (a.km ?? double.infinity).compareTo(b.km ?? double.infinity));
+    }
     return list;
   }
 
@@ -173,6 +283,7 @@ class GymService {
     required String name,
     required String city,
     String? address,
+    ({double lat, double lng})? location,
     required GymProfileInput profile,
   }) async {
     final me = _me;
@@ -183,6 +294,10 @@ class GymService {
     final cleanCity = clampText(city, gymNameMaxLength);
     final cleanAddress =
         address == null ? '' : clampText(address, gymAddressMaxLength);
+    // Formulář hrubá slova odmítne už při psaní; tohle je pojistka.
+    if ([cleanName, cleanCity, cleanAddress].any(containsSevereProfanity)) {
+      throw ArgumentError('Gym name contains a blocked word');
+    }
     for (var attempt = 0; attempt < 5; attempt++) {
       final ref = _gyms.doc();
       final code = generateGymCode();
@@ -192,14 +307,17 @@ class GymService {
           'nameLower': normalizeGymSearch(cleanName),
           'city': cleanCity,
           'cityLower': normalizeGymSearch(cleanCity),
+          'nameCity': gymSearchKeys(cleanName, cleanCity).nameCity,
+          'cityName': gymSearchKeys(cleanName, cleanCity).cityName,
           if (cleanAddress.isNotEmpty) 'address': cleanAddress,
+          if (location != null) ...gymGeoFields(location.lat, location.lng),
           'code': code,
           'createdBy': me,
           'createdAt': FieldValue.serverTimestamp(),
           'memberCount': 1,
         })
         ..set(_code(code), {'gymId': ref.id, 'name': cleanName, 'city': cleanCity})
-        ..set(_member(ref.id, me), _memberData(profile))
+        ..set(_member(ref.id, me), _memberData(me, profile))
         ..set(_membership(me), _membershipData(ref.id, profile));
       try {
         await batch.commit().timeout(_writeTimeout);
@@ -225,11 +343,11 @@ class GymService {
         (await memberRef.get().timeout(_writeTimeout)).exists;
     final batch = _fs.batch()..set(_membership(me), _membershipData(gymId, profile));
     if (alreadyMember) {
-      batch.update(memberRef, _memberUpdate(profile));
+      batch.update(memberRef, _memberUpdate(me, profile));
     } else {
       // Počet členů hlídají pravidla: +1 jen spolu se vznikem členství.
       batch
-        ..set(memberRef, _memberData(profile))
+        ..set(memberRef, _memberData(me, profile))
         ..update(_gym(gymId), {'memberCount': FieldValue.increment(1)});
     }
     await batch.commit().timeout(_writeTimeout);
@@ -243,6 +361,8 @@ class GymService {
     if (gymId == null) return;
     final memberRef = _member(gymId, me);
     final isMember = (await memberRef.get()).exists;
+    // Moje nahlášení cizích záznamů (dokud jsem člen a smím záznamy číst).
+    if (isMember) await _deleteMyReports(gymId, me);
     final batch = _fs.batch();
     if (isMember) {
       batch
@@ -266,7 +386,7 @@ class GymService {
     final me = _me;
     final batch = _fs.batch()
       ..set(_membership(me), _membershipData(gymId, profile))
-      ..update(_member(gymId, me), _memberUpdate(profile));
+      ..update(_member(gymId, me), _memberUpdate(me, profile));
     await batch.commit().timeout(_writeTimeout);
     if (!profile.show) await deleteMyEntries(gymId);
   }
@@ -275,6 +395,26 @@ class GymService {
   // Žebříček
   // -------------------------------------------------------------------
 
+  Query<Map<String, dynamic>> _boardQuery(
+    String gymId,
+    GymCategory category, {
+    required bool monthly,
+    required String month,
+  }) {
+    final q = _entries(gymId).where('category', isEqualTo: category.key);
+    return (monthly
+            ? q
+                .where('monthKey', isEqualTo: month)
+                .orderBy('bestMonth', descending: true)
+            : q.orderBy('best', descending: true))
+        .limit(gymBoardLimit);
+  }
+
+  static List<GymEntry> _boardEntries(QuerySnapshot<Map<String, dynamic>> s) => [
+        for (final d in s.docs)
+          if (GymEntry.fromMap(d.id, d.data()) case final e?) e,
+      ];
+
   /// Záznamy kategorie seřazené podle hodnoty (celkově nebo za měsíc).
   /// Filtr pohlaví, věku a skryté záznamy řeší aplikace.
   Stream<List<GymEntry>> watchBoard(
@@ -282,19 +422,23 @@ class GymService {
     GymCategory category, {
     required bool monthly,
     required String month,
-  }) {
-    Query<Map<String, dynamic>> q =
-        _entries(gymId).where('category', isEqualTo: category.key);
-    q = monthly
-        ? q
-            .where('monthKey', isEqualTo: month)
-            .orderBy('bestMonth', descending: true)
-        : q.orderBy('best', descending: true);
-    return q.limit(gymBoardLimit).snapshots().map((s) => [
-          for (final d in s.docs)
-            if (GymEntry.fromMap(d.id, d.data()) case final e?) e,
-        ]);
-  }
+  }) =>
+      _boardQuery(gymId, category, monthly: monthly, month: month)
+          .snapshots()
+          .map(_boardEntries);
+
+  /// Jednorázově (vytištěný žebříček, gym_print.dart).
+  Future<List<GymEntry>> boardOnce(
+    String gymId,
+    GymCategory category, {
+    required bool monthly,
+    required String month,
+  }) async =>
+      _boardEntries(
+        await _boardQuery(gymId, category, monthly: monthly, month: month)
+            .get()
+            .timeout(_writeTimeout),
+      );
 
   /// Moje záznamy v posilovně podle kategorie (jeden dotaz podle uid;
   /// záznamy neznámých kategorií se vynechají).
@@ -387,15 +531,21 @@ class GymService {
   }
 
   /// Věková skupina u člena (mění se s novým rokem / zadáním roku
-  /// narození). Zapíše jen při změně.
+  /// narození) a pole `uid` u členů z dřívějších verzí. Zapíše jen při
+  /// změně.
   Future<void> syncMemberAgeGroup(String gymId, GymAgeGroup? group) async {
-    final ref = _member(gymId, _me);
+    final me = _me;
+    final ref = _member(gymId, me);
     final snap = await ref.get().timeout(_writeTimeout);
     final data = snap.data();
     if (data == null) return;
-    if (readString(data['ageGroup']) == group?.key) return;
+    final sameGroup = readString(data['ageGroup']) == group?.key;
+    if (sameGroup && data['uid'] == me) return;
     await quietWrite(
-      ref.update({'ageGroup': group?.key ?? FieldValue.delete()}),
+      ref.update({
+        if (!sameGroup) 'ageGroup': group?.key ?? FieldValue.delete(),
+        'uid': me,
+      }),
     );
   }
 
@@ -412,6 +562,31 @@ class GymService {
 
   Future<bool> hasReported(String gymId, String entryId) async =>
       (await _report(gymId, entryId, _me).get()).exists;
+
+  /// Smaže moje nahlášení v posilovně (při odchodu a smazání účtu).
+  /// Počet nahlášení na záznamech (reportCount) zůstává. Chyba odchod
+  /// nezastaví – pojistkou je Cloud Function onGymMemberDeleted (smaže
+  /// i nahlášení u záznamů, které vlastník mezitím smazal – ty aplikace
+  /// nevidí).
+  Future<void> _deleteMyReports(String gymId, String me) async {
+    try {
+      final entries = await _entries(gymId).get().timeout(_writeTimeout);
+      var batch = _fs.batch();
+      var count = 0;
+      for (final e in entries.docs) {
+        if (e.data()['uid'] == me) continue;
+        batch.delete(_report(gymId, e.id, me));
+        if (++count == 400) {
+          await batch.commit().timeout(_writeTimeout);
+          batch = _fs.batch();
+          count = 0;
+        }
+      }
+      if (count > 0) await batch.commit().timeout(_writeTimeout);
+    } catch (e) {
+      debugPrint('Gym: reports cleanup failed: $e');
+    }
+  }
 
   /// Nahlásí záznam (každý člen jen jednou; počítá Cloud Function).
   Future<void> report(String gymId, String entryId) => _report(gymId, entryId, _me)

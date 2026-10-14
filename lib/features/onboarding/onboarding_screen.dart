@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/text_filter.dart';
+
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers.dart';
+import '../../ui/brand_mark.dart';
 import '../../ui/format.dart';
 import '../../ui/module_switches.dart';
 
@@ -85,6 +88,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   Future<void> _finish() async {
     final l10n = AppLocalizations.of(context);
+    if (containsSevereProfanity(_name.text)) {
+      setState(() => _error = l10n.textFilterBlocked);
+      return;
+    }
     int? goal;
     if (_modules.water) {
       final min = mlToUnit(500, _units).floorToDouble();
@@ -150,6 +157,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const BrandMark(size: 56),
+                  const SizedBox(height: 16),
                   Text(l10n.onboardingTitle,
                       style: theme.textTheme.headlineMedium),
                   const SizedBox(height: 8),
@@ -261,6 +270,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   const SizedBox(height: 8),
                   Text(
                     l10n.onboardingChangeLater,
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.healthDisclaimer,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,

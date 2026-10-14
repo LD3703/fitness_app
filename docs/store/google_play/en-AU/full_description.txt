@@ -1,0 +1,36 @@
+A gym log that keeps track of your progress for you.
+
+Log a set with two taps, let the app suggest next time's weight and watch yourself get stronger. It works without an account and offline, and your data stays on your phone.
+
+TRAINING
+• Your own plans and ready-made programmes; pick your training days right away
+• Sets, warm-ups, supersets and drop sets
+• Rest timer, even on the lock screen
+• Exercise library with instructions and demos
+• Plan B: a short home routine when you can't make it to the gym
+
+PROGRESS
+• Auto progression: after a workout, the weight or reps to aim for next time
+• Progressive overload check for each muscle group, with badges for consistency
+• Personal bests (your heaviest set), volume and muscle group frequency
+• Muscle fatigue: which muscle groups still need rest
+• Ill, injured or cutting? Log the period and the charts take it into account
+
+YOUR GYM AND FRIENDS
+• Your gym's leaderboard: join with the QR code at reception or from the list
+• Men's and women's categories and age groups 40+, 50+ and 60+
+• "Beat my record" challenges, workout invitations and streaks with friends
+
+MORE
+• Coach tone: friendly, or strict to the point of sarcasm
+• Water intake, body weight and reminders
+• Home screen widget
+• Calendar: finds free time for a workout and adds it
+• Health Connect
+• Wear OS watch: log sets right from your wrist
+• Dark mode, kilograms and pounds, 10 languages
+
+PRIVACY
+Workouts, body weight and illness or injury records stay on your phone. Only what you switch on goes to our servers: friends, the gym leaderboard or cloud backup. No ads.
+
+GymBar is not a medical device. Talk to a doctor before you start training, especially if you have health problems.

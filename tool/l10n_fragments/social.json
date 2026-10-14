@@ -89,8 +89,8 @@
     "cs": "Sdílet rekordy"
   },
   "socialShareRecordsHint": {
-    "en": "New PRs (estimated 1RM)",
-    "cs": "Nové rekordy (odhad 1RM)"
+    "en": "New personal records",
+    "cs": "Nové osobní rekordy"
   },
   "socialShareStats": {
     "en": "Share workout stats",
@@ -189,8 +189,8 @@
     "cs": "Pojď trénovat se mnou"
   },
   "socialShareText": {
-    "en": "Add me as a friend in the gym app: {link}\nOr enter my code: {code}",
-    "cs": "Přidej si mě do přátel v aplikaci na posilovnu: {link}\nNebo zadej můj kód: {code}",
+    "en": "Add me as a friend in GymBar: {link}\nOr enter my code: {code}",
+    "cs": "Přidej si mě do přátel v GymBaru: {link}\nNebo zadej můj kód: {code}",
     "placeholders": {
       "link": {
         "type": "String"
@@ -602,8 +602,8 @@
     "cs": "Překonej můj rekord"
   },
   "socialKindRecordHint": {
-    "en": "Your friend tries to beat your estimated 1RM by a date.",
-    "cs": "Kamarád se pokusí překonat tvůj odhad 1RM do zvoleného data."
+    "en": "Your friend tries to beat your heaviest set by a date.",
+    "cs": "Kamarád se pokusí překonat tvou nejtěžší sérii do zvoleného data."
   },
   "socialKindWorkouts": {
     "en": "Workouts this month",
@@ -667,5 +667,17 @@
         "type": "String"
       }
     }
+  },
+  "socialDeleteNeedsSignIn": {
+    "en": "Your data is deleted, but the sign-in account remains. Sign in again and repeat the deletion.",
+    "cs": "Data jsou smazaná, ale přihlašovací účet zůstal. Přihlas se znovu a smazání zopakuj.",
+    "de": "Deine Daten sind gelöscht, aber das Anmeldekonto besteht noch. Melde dich erneut an und wiederhole das Löschen.",
+    "es": "Tus datos se han borrado, pero la cuenta de inicio de sesión sigue existiendo. Vuelve a iniciar sesión y repite el borrado.",
+    "fr": "Tes données sont supprimées, mais le compte de connexion existe encore. Reconnecte-toi et recommence la suppression.",
+    "pl": "Dane zostały usunięte, ale konto logowania pozostało. Zaloguj się ponownie i powtórz usuwanie.",
+    "pt": "Seus dados foram apagados, mas a conta de login continua. Entre de novo e repita a exclusão.",
+    "it": "I tuoi dati sono stati eliminati, ma l’account di accesso è rimasto. Accedi di nuovo e ripeti l’eliminazione.",
+    "sk": "Údaje sú zmazané, ale prihlasovací účet zostal. Prihlás sa znova a zmazanie zopakuj.",
+    "nl": "Je gegevens zijn verwijderd, maar het inlogaccount bestaat nog. Log opnieuw in en verwijder het nog een keer."
   }
 }

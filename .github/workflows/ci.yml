@@ -1,0 +1,136 @@
+# Kontrola po každém pushi: aplikace, web pro trenéry, Cloud Functions.
+# Nic nenasazuje a nepotřebuje žádné tajné klíče.
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app:
+    name: Aplikace (analyze + test)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter --version
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - run: flutter gen-l10n
+      - run: flutter analyze --no-fatal-infos
+      - run: flutter test
+
+  trainer_web:
+    name: Web pro trenéry (analyze + test + build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: trainer_web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze --no-fatal-infos
+      - run: flutter test
+      - run: flutter build web --release --base-href /trener/
+
+  # Sestavení APK odhalí chyby v Gradlu, manifestu a nativních pluginech,
+  # které analyze ani testy nevidí. Bez key.properties se release podepíše
+  # ladicím klíčem (android/app/build.gradle.kts), žádné tajné klíče netřeba.
+  android:
+    name: Android (build APK)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - run: flutter gen-l10n
+      - run: flutter build apk --release
+
+  # Hodinky: wear/android/ se negituje, vytvoří se stejně jako u Lukase
+  # (docs/wear_os.md, kapitola 2.2).
+  wear:
+    name: Hodinky Wear OS (analyze + build APK)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: wear
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze --no-fatal-infos
+      - run: flutter create . --platforms android --org cz.dedina --project-name fitness_wear
+      # Ukázkový test z flutter create (MyApp) do projektu nepatří.
+      - run: rm -rf test
+      - run: dart run tool/setup_wear.dart
+      - run: flutter build apk --release
+
+  # Pravidla Firestore a Storage v emulátoru (tool/rules_test).
+  rules:
+    name: Pravidla Firestore a Storage (emulátor)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: tool/rules_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tool/rules_test/package-lock.json
+      - run: npm ci
+      - run: npm test
+
+  functions:
+    name: Cloud Functions (tsc + testy)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: functions
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: functions/package-lock.json
+      - run: npm ci
+      - run: npm test

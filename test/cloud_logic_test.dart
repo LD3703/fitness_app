@@ -65,13 +65,180 @@ void main() {
     });
   });
 
-  test('prázdný telefon nepřepíše zálohu s tréninky', () {
-    expect(cloudShouldSkipEmpty(localWorkouts: 0, cloudWorkouts: 12), isTrue);
-    expect(cloudShouldSkipEmpty(localWorkouts: 0, cloudWorkouts: 0), isFalse);
-    expect(cloudShouldSkipEmpty(localWorkouts: 0, cloudWorkouts: null),
-        isFalse);
-    expect(cloudShouldSkipEmpty(localWorkouts: 3, cloudWorkouts: 120),
-        isFalse);
+  group('cloudOverwriteDecision', () {
+    CloudOverwriteDecision decide({
+      bool automatic = true,
+      bool confirmed = false,
+      required int local,
+      int? localBytes = 100000,
+      required int? cloud,
+      int? cloudBytes = 100000,
+    }) =>
+        cloudOverwriteDecision(
+          automatic: automatic,
+          confirmed: confirmed,
+          localWorkouts: local,
+          localBytes: localBytes,
+          cloudWorkouts: cloud,
+          cloudBytes: cloudBytes,
+        );
+
+    test('bez zálohy v cloudu se nahrává vždy', () {
+      expect(decide(local: 0, cloud: null), CloudOverwriteDecision.upload);
+      expect(decide(local: 0, cloud: null, localBytes: 1),
+          CloudOverwriteDecision.upload);
+    });
+
+    test('víc nebo stejně tréninků se nahrává', () {
+      expect(decide(local: 120, cloud: 120), CloudOverwriteDecision.upload);
+      expect(decide(local: 121, cloud: 120, localBytes: 10),
+          CloudOverwriteDecision.upload);
+    });
+
+    test('automaticky nikdy nepřepíše zálohu s víc tréninky', () {
+      // Prázdný telefon (dřív jediná ochrana).
+      expect(decide(local: 0, cloud: 12), CloudOverwriteDecision.skip);
+      // Nový telefon s pár tréninky proti velké záloze.
+      expect(decide(local: 3, cloud: 120), CloudOverwriteDecision.skip);
+      expect(decide(local: 119, cloud: 120), CloudOverwriteDecision.skip);
+      // Potvrzení se u automatické zálohy nebere v úvahu.
+      expect(decide(local: 3, cloud: 120, confirmed: true),
+          CloudOverwriteDecision.skip);
+    });
+
+    test('ručně se nejdřív ptá, po potvrzení nahraje', () {
+      expect(decide(automatic: false, local: 3, cloud: 120),
+          CloudOverwriteDecision.confirm);
+      expect(decide(automatic: false, confirmed: true, local: 3, cloud: 120),
+          CloudOverwriteDecision.upload);
+      expect(decide(automatic: false, local: 130, cloud: 120),
+          CloudOverwriteDecision.upload);
+    });
+
+    test('bez tréninků rozhoduje velikost (méně než polovina)', () {
+      expect(
+        decide(local: 0, cloud: 0, localBytes: 40000, cloudBytes: 100000),
+        CloudOverwriteDecision.skip,
+      );
+      expect(
+        decide(
+          automatic: false,
+          local: 0,
+          cloud: 0,
+          localBytes: 40000,
+          cloudBytes: 100000,
+        ),
+        CloudOverwriteDecision.confirm,
+      );
+      expect(
+        decide(local: 0, cloud: 0, localBytes: 50000, cloudBytes: 100000),
+        CloudOverwriteDecision.upload,
+      );
+      expect(
+        decide(local: 0, cloud: 0, localBytes: 90000, cloudBytes: 100000),
+        CloudOverwriteDecision.upload,
+      );
+    });
+
+    test('neznámá velikost o ničem nerozhoduje', () {
+      expect(decide(local: 0, cloud: 0, localBytes: null),
+          CloudOverwriteDecision.upload);
+      expect(decide(local: 0, cloud: 0, cloudBytes: null),
+          CloudOverwriteDecision.upload);
+      expect(decide(local: 0, cloud: 0, cloudBytes: 0),
+          CloudOverwriteDecision.upload);
+      // S tréninky se velikost neporovnává (menší soubor po VACUUM je OK).
+      expect(decide(local: 5, cloud: 5, localBytes: 10, cloudBytes: 100000),
+          CloudOverwriteDecision.upload);
+    });
+  });
+
+  group('cloudMayRotate', () {
+    test('ručně se previous přepisuje vždy', () {
+      expect(
+        cloudMayRotate(
+          automatic: false,
+          latestWorkouts: 3,
+          latestBytes: 10,
+          previousWorkouts: 120,
+          previousBytes: 100000,
+        ),
+        isTrue,
+      );
+    });
+
+    test('automaticky ne, když je latest menší než previous', () {
+      expect(
+        cloudMayRotate(
+          automatic: true,
+          latestWorkouts: 3,
+          latestBytes: 1000,
+          previousWorkouts: 120,
+          previousBytes: 100000,
+        ),
+        isFalse,
+      );
+      expect(
+        cloudMayRotate(
+          automatic: true,
+          latestWorkouts: 0,
+          latestBytes: 1000,
+          previousWorkouts: 0,
+          previousBytes: 100000,
+        ),
+        isFalse,
+      );
+    });
+
+    test('automaticky ano, když latest není menší nebo previous chybí', () {
+      expect(
+        cloudMayRotate(
+          automatic: true,
+          latestWorkouts: 120,
+          latestBytes: 100000,
+          previousWorkouts: 119,
+          previousBytes: 99000,
+        ),
+        isTrue,
+      );
+      expect(
+        cloudMayRotate(
+          automatic: true,
+          latestWorkouts: 0,
+          latestBytes: 10,
+          previousWorkouts: null,
+          previousBytes: null,
+        ),
+        isTrue,
+      );
+      // Jiný formát (gzip / bez komprese) → velikost se neporovnává.
+      expect(
+        cloudMayRotate(
+          automatic: true,
+          latestWorkouts: 0,
+          latestBytes: null,
+          previousWorkouts: 0,
+          previousBytes: null,
+        ),
+        isTrue,
+      );
+    });
+  });
+
+  test('typ obsahu zálohy', () {
+    expect(cloudIsGzipContentType(kCloudGzipContentType), isTrue);
+    expect(cloudIsGzipContentType(null), isTrue);
+    expect(cloudIsGzipContentType(kCloudSqliteContentType), isFalse);
+  });
+
+  test('čekání na potvrzení přežije JSON a jde vymazat', () {
+    final s = on.copyWith(needsConfirmation: true);
+    expect(CloudSettings.fromJson(s.toJson()).needsConfirmation, isTrue);
+    expect(s.copyWith(lastFailed: true).needsConfirmation, isTrue);
+    expect(s.copyWith(needsConfirmation: false).needsConfirmation, isFalse);
+    expect(const CloudSettings().needsConfirmation, isFalse);
+    expect(CloudSettings.fromJson({'needsConfirmation': 'yes'})
+        .needsConfirmation, isFalse);
   });
 
   test('nastavení přežije JSON i poškozený obsah', () {

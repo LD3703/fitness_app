@@ -8,10 +8,10 @@ import '../../l10n/app_localizations.dart';
 import '../../providers.dart';
 import '../../ui/format.dart';
 import '../../ui/labels.dart';
+import '../../ui/set_format.dart';
 import '../data/units.dart';
 import '../links/deep_links.dart';
 import 'challenge_link.dart';
-import 'challenge_progress.dart';
 import 'share_cards.dart';
 import 'share_service.dart';
 import 'sharing_queries.dart';
@@ -44,7 +44,6 @@ Future<void> shareRecord(
     exerciseName: name,
     weightKg: record.weightKg,
     reps: record.reps,
-    oneRepMax: record.oneRepMax,
     date: record.date,
   );
   await showShareCardPreview(
@@ -55,7 +54,6 @@ Future<void> shareRecord(
       name,
       formatWeightWithUnit(context, record.weightKg),
       record.reps,
-      formatWeightWithUnit(context, record.oneRepMax),
       kWebBaseUrl,
     ),
   );
@@ -115,18 +113,29 @@ Future<void> challengeFriend(
   final link = ChallengeLink(
     exercise: slug ?? '${exercise.id}',
     exerciseName: slug == null ? name : null,
-    value: roundToHalf(record.oneRepMax),
+    value: ChallengeLink.roundKg(record.weightKg),
+    reps: record.reps,
     fromName: profile.name?.trim(),
     deadline: deadline,
   );
   final locale = Localizations.localeOf(context).toString();
-  await shareText(
+  // Karta výzvy + text s odkazem (kamarád výzvu přijme přes odkaz).
+  await showShareCardPreview(
     context,
-    l10n.shareChallengeText(
+    card: ChallengeShareCard(
+      data: ChallengeCardData(
+        exerciseName: name,
+        weightKg: record.weightKg,
+        reps: record.reps,
+        deadline: deadline,
+        fromName: link.fromName,
+      ),
+    ),
+    fileName: 'challenge_${exercise.id}',
+    text: l10n.shareChallengeText(
       name,
       formatWeightWithUnit(context, record.weightKg),
       record.reps,
-      formatWeightWithUnit(context, link.value),
       DateFormat.yMMMd(locale).format(deadline),
       link.toWebUrl(kWebBaseUrl),
     ),
@@ -232,11 +241,8 @@ class ExerciseShareSection extends ConsumerWidget {
               Icon(Icons.emoji_events, color: theme.colorScheme.tertiary),
               const SizedBox(width: 8),
               Expanded(
-                child: Text(l10n.shareRecordValue(
-                  formatWeightWithUnit(context, record.weightKg),
-                  record.reps,
-                  formatWeightWithUnit(context, record.oneRepMax),
-                )),
+                child: Text(
+                    describeTopSet(context, record.weightKg, record.reps)),
               ),
             ],
           ),

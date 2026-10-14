@@ -26,7 +26,7 @@ void main() {
       final insights = computeInsights(InsightInput(
         now: now,
         periods: [illness],
-        oneRepMaxByExercise: {
+        topWeightByExercise: {
           1: [
             p(8, 1, 100),
             p(8, 10, 98),
@@ -48,7 +48,7 @@ void main() {
       final insights = computeInsights(InsightInput(
         now: now,
         periods: [illness],
-        oneRepMaxByExercise: {
+        topWeightByExercise: {
           1: [p(8, 1, 100), p(8, 20, 100), p(9, 5, 85), p(9, 20, 90)],
         },
       ));
@@ -65,7 +65,7 @@ void main() {
           illness,
           (type: PeriodType.illness, start: DateTime(2026, 9, 28), end: null),
         ],
-        oneRepMaxByExercise: {
+        topWeightByExercise: {
           1: [p(8, 1, 100), p(8, 20, 100), p(9, 5, 85)],
         },
       ));
@@ -77,7 +77,7 @@ void main() {
         now: now,
         trackPeriods: false,
         periods: [illness],
-        oneRepMaxByExercise: {
+        topWeightByExercise: {
           1: [p(8, 1, 100), p(8, 20, 100), p(9, 5, 85)],
         },
       ));
@@ -102,7 +102,7 @@ void main() {
           (type: PeriodType.cut, start: DateTime(2026, 8, 1), end: null),
         ],
         weights: weights,
-        oneRepMaxByExercise: {1: lift},
+        topWeightByExercise: {1: lift},
       ));
       final cut = only<CutSummaryInsight>(insights).single;
       expect(cut.ongoing, isTrue);
@@ -118,7 +118,7 @@ void main() {
           (type: PeriodType.cut, start: DateTime(2026, 8, 1), end: null),
         ],
         weights: weights,
-        oneRepMaxByExercise: {1: lift},
+        topWeightByExercise: {1: lift},
       ));
       final cut = only<CutSummaryInsight>(insights).single;
       expect(cut.weightChangeKg, isNull);
@@ -141,7 +141,7 @@ void main() {
           w(9, 18, 83),
           w(9, 19, 83),
         ],
-        oneRepMaxByExercise: {
+        topWeightByExercise: {
           1: [p(6, 10, 100), p(8, 1, 105), p(9, 15, 110)],
         },
       ));
@@ -158,7 +158,7 @@ void main() {
           (type: PeriodType.cut, start: DateTime(2026, 9, 25), end: null),
         ],
         weights: weights,
-        oneRepMaxByExercise: {1: lift},
+        topWeightByExercise: {1: lift},
       ));
       expect(only<CutSummaryInsight>(insights), isEmpty);
     });
@@ -168,7 +168,7 @@ void main() {
     test('počet a největší zlepšení', () {
       final insights = computeInsights(InsightInput(
         now: now,
-        oneRepMaxByExercise: {
+        topWeightByExercise: {
           1: [p(8, 10, 100), p(9, 15, 105)],
           2: [p(8, 10, 50), p(9, 16, 60)],
           3: [p(8, 10, 80), p(9, 16, 79)],
@@ -179,7 +179,7 @@ void main() {
       final r = only<MonthRecordsInsight>(insights).single;
       expect(r.count, 2);
       expect(r.bestExerciseId, 2);
-      expect(r.bestOneRepMax, 60);
+      expect(r.bestTopWeight, 60);
       expect(r.bestGainPercent, closeTo(20, 0.001));
     });
   });
@@ -309,7 +309,7 @@ void main() {
         w(9, 25, 85),
         w(9, 28, 85),
       ],
-      oneRepMaxByExercise: {
+      topWeightByExercise: {
         1: [p(7, 10, 100), p(8, 15, 97), p(9, 20, 101)],
       },
       groupSessions: [

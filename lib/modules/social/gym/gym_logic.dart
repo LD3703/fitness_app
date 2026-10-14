@@ -2,9 +2,10 @@
 // Datový model: docs/social.md, sekce „Žebříček posilovny“.
 import 'dart:math';
 
+import '../../../core/text_filter.dart';
 import '../social_logic.dart';
 
-/// Kategorie žebříčku: silový cvik (odhad 1RM vestavěného cviku) nebo
+/// Kategorie žebříčku: silový cvik (nejtěžší váha vestavěného cviku) nebo
 /// počet tréninků v měsíci. [key] je klíč na serveru (pole `category`
 /// a přípona ID záznamu `<uid>_<key>`); u cviků je to slug vestavěného
 /// cviku. Instance vznikají jen tady (konstanty), takže se porovnávají
@@ -21,11 +22,11 @@ class GymCategory {
   /// Klíč na serveru (slug cviku nebo „workouts“).
   final String key;
 
-  /// Absolutní hranice reálnosti: kg odhadu 1RM u cviků, počet tréninků
+  /// Absolutní hranice reálnosti: nejtěžší váha v kg u cviků, počet tréninků
   /// za měsíc. Stejně ve functions/src/plausibility.ts a firestore.rules.
   final double limit;
 
-  /// Odhad 1RM v kg (ne počet tréninků).
+  /// Váha v kg (ne počet tréninků).
   final bool isLift;
 
   /// Váha jedné jednoručky, jak se zapisuje.
@@ -217,20 +218,20 @@ const gymAddressMaxLength = 120;
 /// Od kolika nahlášení se záznam skryje (i bez Cloud Functions).
 const gymReportHideThreshold = 5;
 
-/// Série s víc opakováními se do žebříčku nepočítají (Epley je nad
-/// 12 opakování nepřesný a nadsazuje).
-const gymMaxReps = 12;
-
 /// Kolik záznamů žebříčku se načte (filtr pohlaví a věku běží v aplikaci).
 const gymBoardLimit = 300;
 
-/// Přezdívka: oříznutá, nejvýš [gymNicknameMaxLength] znaků, nikdy prázdná.
+/// Přezdívka: oříznutá, nejvýš [gymNicknameMaxLength] znaků, nikdy prázdná;
+/// s vyloženě hrubým slovem „?“ (formulář ji odmítne už při psaní).
 String sanitizeGymNickname(String input) {
   final t = input.trim().replaceAll(RegExp(r'\s+'), ' ');
   if (t.isEmpty) return '?';
-  return t.length > gymNicknameMaxLength
-      ? t.substring(0, gymNicknameMaxLength).trim()
-      : t;
+  return publicTextOr(
+    t.length > gymNicknameMaxLength
+        ? t.substring(0, gymNicknameMaxLength).trim()
+        : t,
+    '?',
+  );
 }
 
 /// Text oříznutý na [max] znaků (název, město, adresa).
@@ -260,7 +261,7 @@ bool isValidGymCode(String code) =>
     code.codeUnits.every(friendCodeAlphabet.codeUnits.contains);
 
 /// Kód posilovny z naskenovaného textu: odkaz `…/gym?code=…`
-/// (fitnessapp://gym?code=… i https://<web>/gym?code=…) nebo samotný kód.
+/// (gymbar://gym?code=… i `https://<web>/gym?code=…`) nebo samotný kód.
 String? parseGymCode(String scanned) {
   final text = scanned.trim();
   final uri = Uri.tryParse(text);
@@ -309,6 +310,29 @@ String normalizeGymSearch(String input) {
   return s.length > gymNameMaxLength ? s.substring(0, gymNameMaxLength) : s;
 }
 
+/// Hledací klíč „název město“ (nameCity) a „město název“ (cityName) –
+/// prefixové hledání najde „mcfit brno“ i „brno mcfit“. Stejně počítá
+/// import z OpenStreetMap (tool/gyms_import/lib.mjs, searchKeys).
+({String nameCity, String cityName}) gymSearchKeys(String name, String city) {
+  final n = normalizeGymSearch(name);
+  final c = normalizeGymSearch(city);
+  String join(String a, String b) => normalizeGymSearch(b.isEmpty ? a : '$a $b');
+  return (nameCity: join(n, c), cityName: join(c, n));
+}
+
+// ---------------------------------------------------------------------------
+// Posilovny v okolí
+// ---------------------------------------------------------------------------
+
+/// Okruh hledání v okolí (km) a širší okruh pro řídce osídlené oblasti,
+/// když je v tom užším míň než [gymNearbyMinResults] posiloven.
+const gymNearbyRadiusKm = 2.0;
+const gymWideRadiusKm = 15.0;
+const gymNearbyMinResults = 5;
+
+/// Kontrola duplicit při zakládání: posilovny do 250 m.
+const gymDuplicateRadiusKm = 0.25;
+
 /// Horní mez pro prefixový dotaz (`>= q` a `< q + ''`).
 String gymSearchUpperBound(String normalized) => '$normalized';
 
@@ -316,7 +340,7 @@ String gymSearchUpperBound(String normalized) => '$normalized';
 // Hodnoty
 // ---------------------------------------------------------------------------
 
-/// Odhad 1RM pro žebříček: na 0,5 kg (stejně jako rekordy pro přátele).
+/// Nejtěžší váha pro žebříček: na 0,5 kg.
 double roundGymLift(double kg) => roundRecord(kg);
 
 /// Nejvyšší počet tréninků v jednom měsíci (klíč „yyyy-MM“).

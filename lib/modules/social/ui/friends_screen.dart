@@ -1,16 +1,17 @@
 import 'dart:async';
 
 import 'package:drift/drift.dart' show Value;
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../data/database.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers.dart';
 import '../../../ui/dialogs.dart';
 import '../../cloud/cloud_backup_service.dart';
+import '../../links/deep_links.dart' show kTermsUrl;
 import '../social_auth.dart';
 import '../social_backend.dart';
 import '../social_messaging.dart';
@@ -20,6 +21,7 @@ import '../social_service.dart';
 import 'feed_tab.dart';
 import 'friends_tab.dart';
 import 'leaderboard_tab.dart';
+import 'moderation_ui.dart';
 import 'social_ui.dart';
 
 /// /friends – přátelé, žebříček a novinky.
@@ -165,6 +167,11 @@ class SocialSignInView extends ConsumerStatefulWidget {
 class _SocialSignInViewState extends ConsumerState<SocialSignInView> {
   bool _busy = false;
 
+  /// Souhlas s podmínkami použití (nulová tolerance k urážlivému obsahu –
+  /// App Review Guideline 1.2). Bez něj nejde přihlásit, takže ho má každý,
+  /// kdo něco zveřejňuje (přátelé, žebříček posilovny).
+  bool _termsAccepted = false;
+
   Future<void> _signIn(SocialSignInMethod method) async {
     final l10n = AppLocalizations.of(context);
     final db = ref.read(databaseProvider);
@@ -213,13 +220,35 @@ class _SocialSignInViewState extends ConsumerState<SocialSignInView> {
             ),
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 16),
+        CheckboxListTile(
+          contentPadding: EdgeInsets.zero,
+          controlAffinity: ListTileControlAffinity.leading,
+          value: _termsAccepted,
+          onChanged: (v) => setState(() => _termsAccepted = v ?? false),
+          title: Text(l10n.socialTermsAgree),
+          subtitle: Text(l10n.socialTermsAgreeHint),
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            onPressed: () => launchUrl(
+              Uri.parse(kTermsUrl),
+              mode: LaunchMode.externalApplication,
+            ),
+            icon: const Icon(Icons.open_in_new, size: 18),
+            label: Text(l10n.termsOfUse),
+          ),
+        ),
+        const SizedBox(height: 16),
         if (_busy)
           const Center(child: CircularProgressIndicator())
         else ...[
           if (auth.googleSupported)
             FilledButton.icon(
-              onPressed: () => _signIn(SocialSignInMethod.google),
+              onPressed: _termsAccepted
+                  ? () => _signIn(SocialSignInMethod.google)
+                  : null,
               icon: const Icon(Icons.login),
               label: Text(l10n.socialSignInGoogle),
             ),
@@ -234,7 +263,9 @@ class _SocialSignInViewState extends ConsumerState<SocialSignInView> {
                     ? Colors.black
                     : Colors.white,
               ),
-              onPressed: () => _signIn(SocialSignInMethod.apple),
+              onPressed: _termsAccepted
+                  ? () => _signIn(SocialSignInMethod.apple)
+                  : null,
               icon: const Icon(Icons.apple),
               label: Text(l10n.socialSignInApple),
             ),
@@ -309,21 +340,23 @@ class _SocialSettingsSheetState extends ConsumerState<_SocialSettingsSheet> {
       // pak smaže Cloud Function cleanupDeletedUser.
       await CloudBackupService.instance.deleteAll();
       await SocialService.instance.deleteAllServerData();
-      try {
-        await SocialAuth.instance.deleteAuthUser();
-      } on FirebaseAuthException catch (e) {
-        if (e.code != 'requires-recent-login') rethrow;
-        if (await SocialAuth.instance.reauthenticate()) {
-          await SocialAuth.instance.deleteAuthUser();
-        } else {
-          // Data jsou smazaná; účet zmizí i přes Cloud Function nebo
-          // při dalším pokusu. Aspoň odhlásit.
-          await SocialAuth.instance.signOut();
-        }
+      // Znovupřihlášení (u Apple vždy – kvůli zrušení tokenu) řeší
+      // deleteAuthUser sám.
+      var accountRemains = false;
+      if (!await SocialAuth.instance.deleteAuthUser()) {
+        // Data jsou smazaná, ale přihlašovací účet zůstal (bez
+        // znovupřihlášení ho Firebase smazat nedovolí). Odhlásit a říct
+        // to – smazání jde zopakovat po novém přihlášení.
+        accountRemains = true;
+        await SocialAuth.instance.signOut();
       }
       await db.socialForgetRemoteIds();
       SocialPublisher.reset();
-      messenger.showSnackBar(SnackBar(content: Text(l10n.socialDeleted)));
+      messenger.showSnackBar(SnackBar(
+        content: Text(accountRemains
+            ? l10n.socialDeleteNeedsSignIn
+            : l10n.socialDeleted),
+      ));
       if (mounted) nav.pop();
     } catch (e) {
       debugPrint('Social: delete account failed: $e');
@@ -386,6 +419,7 @@ class _SocialSettingsSheetState extends ConsumerState<_SocialSettingsSheet> {
                       style: theme.textTheme.bodySmall,
                     ),
                   ),
+                  const BlockedUsersTile(),
                   const Divider(),
                   ListTile(
                     leading: const Icon(Icons.logout),

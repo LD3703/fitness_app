@@ -1,0 +1,302 @@
+<!doctype html>
+<!--
+  Podmínky použití. Na webu jako /terms (kTermsUrl v
+  lib/modules/links/deep_links.dart; souhlas před přihlášením k přátelům).
+  TODO před zveřejněním: doplnit údaje v hranatých závorkách [ ] v obou
+  jazycích (jméno, adresa, datum) – stejně jako v privacy.html.
+-->
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Podmínky použití / Terms of use</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1b1f1e;
+      --muted: #59625f;
+      --accent: #2e7d6b;
+      --line: #dde3e1;
+      --head: #f2f6f5;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121615;
+        --text: #e8eeec;
+        --muted: #a5b0ad;
+        --accent: #7cc9b5;
+        --line: #2c3533;
+        --head: #1b2120;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    main { max-width: 820px; margin: 0 auto; padding: 24px 16px 64px; }
+    h1 { font-size: 1.8rem; line-height: 1.25; margin: 8px 0 4px; }
+    h2 { font-size: 1.2rem; margin: 32px 0 8px; color: var(--accent); }
+    p, li { margin: 8px 0; }
+    a { color: var(--accent); }
+    .meta { color: var(--muted); margin-bottom: 16px; }
+    .lead { font-size: 1.05rem; }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; color: var(--text); text-decoration: none; letter-spacing: -0.01em; }
+    .brand img { width: 32px; height: 32px; }
+    .brand .wm span { color: var(--accent); }
+    .lang { display: flex; gap: 8px; justify-content: flex-end; }
+    .lang button {
+      font: inherit; padding: 4px 12px; border-radius: 16px; cursor: pointer;
+      border: 1px solid var(--line); background: transparent; color: var(--text);
+    }
+    .lang button[aria-pressed="true"] {
+      background: var(--accent); border-color: var(--accent); color: var(--bg);
+    }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+    th, td {
+      border: 1px solid var(--line); padding: 8px; text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--head); }
+    [data-lang] { display: none; }
+    body.cs [data-lang="cs"], body.en [data-lang="en"] { display: block; }
+  </style>
+</head>
+<body class="cs">
+<main>
+  <div class="top">
+    <a class="brand" href="/"><img src="/favicon.svg" alt=""><span class="wm">Gym<span>Bar</span></span></a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-set="cs">Čeština</button>
+      <button type="button" data-set="en">English</button>
+    </div>
+  </div>
+
+  <!-- ====================================================== ČEŠTINA -->
+  <article data-lang="cs" lang="cs">
+    <h1>Podmínky použití – GymBar</h1>
+    <p class="meta">Platné od [datum zveřejnění]</p>
+    <p class="lead">GymBar je deník do posilovny. Tyto podmínky platí pro
+      aplikaci GymBar a web gymbar.app. Používáním aplikace s nimi
+      souhlasíte; při přihlášení k přátelům a žebříčku posilovny to
+      potvrzujete zaškrtnutím.</p>
+
+    <h2>1. Kdo aplikaci provozuje</h2>
+    <p>Aplikaci provozuje [Jméno a příjmení], [adresa] (dále „my“).
+      Kontakt: <a href="mailto:info@gymbar.app">info@gymbar.app</a>.</p>
+
+    <h2>2. Zdraví a bezpečnost</h2>
+    <p><strong>GymBar není zdravotnický prostředek</strong> a nenahrazuje
+      lékaře, fyzioterapeuta ani trenéra. Návrhy vah, opakování a pauz,
+      odhady kalorií i únavy svalů jsou orientační. Před zahájením
+      tréninku, zvlášť při zdravotních potížích, těhotenství nebo po
+      zranění, se poraďte s lékařem. Trénujete na vlastní odpovědnost –
+      při bolesti nebo nevolnosti cvičení ukončete.</p>
+
+    <h2>3. Účet, přátelé a žebříček posilovny</h2>
+    <p>Deník funguje bez účtu. Pro přátele, výzvy, žebříček posilovny,
+      propojení s trenérem a zálohu do cloudu se přihlašujete účtem Google
+      nebo Apple. Pokud
+      vám ještě nebylo 15 let, používejte tyto funkce jen se souhlasem
+      rodiče. Za svůj účet a za to, co pod ním zveřejníte, odpovídáte
+      vy. Účet můžete kdykoli smazat v aplikaci (Přátelé → Smazat účet)
+      nebo podle návodu na <a href="/delete-account">gymbar.app/delete-account</a>.</p>
+
+    <h2>4. Pravidla obsahu – nulová tolerance</h2>
+    <p>Přezdívky, jméno pro přátele, názvy posiloven a další texty, které
+      vidí ostatní, nesmí obsahovat:</p>
+    <ul>
+      <li>urážky, nenávist nebo ponižování lidí kvůli původu, národnosti,
+        náboženství, pohlaví, sexuální orientaci, postižení či věku,</li>
+      <li>sexuální nebo vulgární obsah, výhrůžky, obtěžování a šikanu,</li>
+      <li>cizí osobní údaje, vydávání se za někoho jiného, reklamu
+        a spam,</li>
+      <li>nepravdivé výkony v žebříčku a jiné podvádění.</li>
+    </ul>
+    <p>Aplikace vyloženě hrubá slova sama odmítne. Nevhodnou přezdívku,
+      záznam v žebříčku nebo posilovnu může kdokoli nahlásit, uživatele
+      můžete zablokovat. Nahlášení řešíme zpravidla do 24 hodin: nevhodný
+      obsah odstraníme a uživateli, který pravidla porušuje, můžeme
+      přístup k přátelům a žebříčku omezit nebo účet zrušit.</p>
+
+    <h2>5. Žebříček a vytištěný žebříček</h2>
+    <p>Do žebříčku posilovny jde jen to, co popisují
+      <a href="/privacy">zásady ochrany soukromí</a> (přezdívka, nejtěžší
+      váha u vybraných cviků, počet tréninků…). Nereálné výkony skrývá
+      automatická kontrola. Členové posilovny mohou žebříček vytisknout
+      na nástěnku – jsou na něm jen přezdívky lidí, kteří to v aplikaci
+      nevypnuli.</p>
+
+    <h2>6. Trenéři a klienti</h2>
+    <p>Trenérem se v aplikaci nebo na webu
+      <a href="/trener">gymbar.app/trener</a> může označit kdokoli; pro
+      trenéry je GymBar zdarma. Status trenéra zanikne, když trenér 60 dní
+      nemá žádného klienta. Trenéry neověřujeme a nejsou to naši
+      zaměstnanci – za své rady, plány a komentáře odpovídají sami. Klient
+      si trenéra vybírá sám, se sdílením tréninků souhlasí při propojení
+      a propojení může kdykoli zrušit.</p>
+    <p>Trenér smí tréninky a další údaje klienta používat jen k jeho
+      trénování, nesmí je dál šířit ani používat k jinému účelu a po
+      zrušení propojení si je nesmí ponechávat mimo aplikaci. Jméno
+      a popis trenéra, plány a komentáře podléhají pravidlům obsahu
+      (část 4). Plán od trenéra je návrh – i pro něj platí část 2.</p>
+
+    <h2>7. Seznam posiloven</h2>
+    <p>Část posiloven pochází z OpenStreetMap (© přispěvatelé
+      OpenStreetMap, licence ODbL). Údaje o posilovnách nemusí být
+      přesné ani aktuální a posilovny s námi nejsou nijak spojené.</p>
+
+    <h2>8. Placené funkce</h2>
+    <p>Aplikace je teď zdarma. Pokud později nabídneme předplatné
+      Premium, uvidíte cenu a podmínky v aplikaci před nákupem; platbu
+      a zrušení předplatného zajišťuje Google Play nebo App Store podle
+      jejich pravidel.</p>
+
+    <h2>9. Odpovědnost</h2>
+    <p>Aplikaci poskytujeme tak, jak je, a nezaručujeme, že bude vždy
+      dostupná a bez chyb. Data v telefonu si zálohujte (Profil → Zálohovat všechna
+      data, nebo Záloha do cloudu). V rozsahu, který dovoluje zákon, neodpovídáme za
+      škodu vzniklou používáním aplikace; vaše práva spotřebitele tím
+      nejsou dotčena. U aplikace stažené z App Store platí také
+      standardní licenční podmínky Applu (Licensed Application End User
+      License Agreement).</p>
+
+    <h2>10. Změny a platné právo</h2>
+    <p>Podmínky můžeme upravit, když přidáme novou funkci nebo to
+      vyžaduje zákon; o podstatných změnách dáme vědět v aplikaci
+      předem. Platí právo České republiky. Spory se spotřebiteli lze
+      řešit i mimosoudně u České obchodní inspekce
+      (<a href="https://www.coi.cz">www.coi.cz</a>).</p>
+  </article>
+
+  <!-- ====================================================== ENGLISH -->
+  <article data-lang="en" lang="en">
+    <h1>Terms of use – GymBar</h1>
+    <p class="meta">Effective from [publication date]</p>
+    <p class="lead">GymBar is a gym log. These terms apply to the GymBar
+      app and the gymbar.app website. By using the app you agree to them;
+      when you sign in to friends and the gym leaderboard you confirm this
+      with a checkbox.</p>
+
+    <h2>1. Who runs the app</h2>
+    <p>The app is run by [Full name], [address] (“we”).
+      Contact: <a href="mailto:info@gymbar.app">info@gymbar.app</a>.</p>
+
+    <h2>2. Health and safety</h2>
+    <p><strong>GymBar is not a medical device</strong> and does not
+      replace a doctor, physiotherapist or coach. Suggested weights, reps
+      and rest times, calorie and muscle fatigue estimates are for
+      guidance only. Talk to a doctor before you start training,
+      especially if you have health problems, are pregnant or recovering
+      from an injury. You train at your own risk – stop if you feel pain
+      or unwell.</p>
+
+    <h2>3. Account, friends and gym leaderboard</h2>
+    <p>The log works without an account. For friends, challenges, the gym
+      leaderboard, connecting with a coach and cloud backup you sign in
+      with Google or Apple. If
+      you are under 15, use these features only with a parent’s consent.
+      You are responsible for your account and for what you publish with
+      it. You can delete your account at any time in the app (Friends →
+      Delete account) or as described at
+      <a href="/delete-account">gymbar.app/delete-account</a>.</p>
+
+    <h2>4. Content rules – zero tolerance</h2>
+    <p>Nicknames, your name for friends, gym names and any other text
+      other people see must not contain:</p>
+    <ul>
+      <li>insults, hate or degrading content about people because of their
+        origin, nationality, religion, gender, sexual orientation,
+        disability or age,</li>
+      <li>sexual or obscene content, threats, harassment or bullying,</li>
+      <li>other people’s personal data, impersonation, advertising or
+        spam,</li>
+      <li>fake lifts in the leaderboard or any other cheating.</li>
+    </ul>
+    <p>The app rejects severely offensive words on its own. Anyone can
+      report an inappropriate nickname, leaderboard entry or gym, and you
+      can block users. We usually handle reports within 24 hours: we
+      remove objectionable content and may restrict access to friends and
+      the leaderboard or close the account of a user who breaks these
+      rules.</p>
+
+    <h2>5. Leaderboard and printed leaderboard</h2>
+    <p>Only what the <a href="/privacy">privacy policy</a> describes goes
+      to the gym leaderboard (nickname, heaviest weight in selected
+      exercises, number of workouts…). An automatic check hides
+      unrealistic lifts. Gym members can print the leaderboard for the
+      gym’s notice board – it only shows nicknames of members who did not
+      turn this off in the app.</p>
+
+    <h2>6. Coaches and clients</h2>
+    <p>Anyone can become a coach in the app or on
+      <a href="/trener">gymbar.app/trener</a>; GymBar is free for
+      coaches. Coach status ends when a coach has had no client for 60
+      days. We do not verify coaches and they are not our employees – they
+      are responsible for their own advice, plans and comments. Clients
+      choose their coach themselves, agree to share their workouts when
+      connecting and can disconnect at any time.</p>
+    <p>A coach may use a client’s workouts and other data only to coach
+      that client, must not pass them on or use them for any other purpose,
+      and must not keep them outside the app after the connection ends. A
+      coach’s name and description, plans and comments are subject to the
+      content rules (section 4). A plan from a coach is a suggestion –
+      section 2 applies to it too.</p>
+
+    <h2>7. Gym list</h2>
+    <p>Some gyms come from OpenStreetMap (© OpenStreetMap contributors,
+      ODbL licence). Gym details may be inaccurate or out of date, and the
+      gyms are not affiliated with us.</p>
+
+    <h2>8. Paid features</h2>
+    <p>The app is currently free. If we offer a Premium subscription
+      later, you will see the price and terms in the app before buying;
+      payment and cancellation are handled by Google Play or the App Store
+      under their rules.</p>
+
+    <h2>9. Liability</h2>
+    <p>We provide the app as is and do not guarantee it will always be
+      available or error-free. Back up the data on your phone (Profile → Back up all
+      data, or Cloud backup). To the extent permitted by law we are not liable
+      for damage arising from using the app; your consumer rights are not
+      affected. For the app downloaded from the App Store, Apple’s
+      standard Licensed Application End User License Agreement also
+      applies.</p>
+
+    <h2>10. Changes and governing law</h2>
+    <p>We may update these terms when we add a feature or the law
+      requires it; we will tell you about significant changes in the app
+      in advance. Czech law applies. Consumer disputes can also be
+      resolved out of court through the Czech Trade Inspection Authority
+      (<a href="https://www.coi.cz">www.coi.cz</a>).</p>
+  </article>
+</main>
+<script>
+  (function () {
+    var buttons = document.querySelectorAll('[data-set]');
+    function show(lang) {
+      document.body.className = lang;
+      document.documentElement.lang = lang;
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].setAttribute('aria-pressed',
+          String(buttons[i].getAttribute('data-set') === lang));
+      }
+    }
+    var param = new URLSearchParams(location.search).get('lang');
+    var nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    show(param === 'cs' || param === 'en' ? param
+      : (nav === 'cs' || nav === 'sk') ? 'cs' : 'en');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function () {
+        show(this.getAttribute('data-set'));
+      });
+    }
+  })();
+</script>
+</body>
+</html>

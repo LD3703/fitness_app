@@ -1,5 +1,6 @@
-# Buildy pro iOS na Codemagic (Mac v cloudu – na Windows iOS sestavit nejde).
-# Návod krok za krokem: README.md, kapitola „iOS přes Codemagic“.
+# Buildy na Codemagic: iOS (Mac v cloudu – na Windows iOS sestavit nejde)
+# a vydání pro Android do Google Play.
+# Návod: README.md, kapitoly „iOS přes Codemagic“ a „Vydání pro Android“.
 #
 # Oba workflow se spouští ručně tlačítkem „Start new build“ v Codemagic,
 # aby se zbytečně nečerpalo 500 minut zdarma měsíčně.
@@ -45,8 +46,10 @@ workflows:
         # Musí sedět s Bundle ID v Xcode projektu a v App Store Connect.
         bundle_identifier: cz.dedina.fitnessApp
       vars:
-        # Apple ID aplikace: App Store Connect → aplikace → App Information.
-        APP_STORE_APPLE_ID: 0000000000
+        # MUSÍŠ DOPLNIT: Apple ID aplikace (číslo) z App Store Connect →
+        # aplikace → App Information (README 2b, krok 3). V uvozovkách,
+        # jinak by YAML z nul udělal číslo 0.
+        APP_STORE_APPLE_ID: "0000000000"
       flutter: stable
       xcode: latest
       cocoapods: default
@@ -63,6 +66,10 @@ workflows:
         script: xcode-project use-profiles
       - name: Build IPA
         script: |
+          if [ "$APP_STORE_APPLE_ID" = "0000000000" ]; then
+            echo "Doplň APP_STORE_APPLE_ID v codemagic.yaml (README 2b, krok 3)."
+            exit 1
+          fi
           LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID" || echo 0)
           flutter build ipa --release \
             --build-number=$((LATEST + 1)) \
@@ -74,3 +81,55 @@ workflows:
       app_store_connect:
         auth: integration
         submit_to_testflight: true
+
+  # 3) Android: podepsaný App Bundle (.aab) a nahrání do Google Play
+  #    (interní testování, jako koncept). Potřebuje:
+  #    - upload klíč nahraný v Codemagic (Team settings → Code signing
+  #      identities → Android keystores) pod názvem „upload_keystore“,
+  #    - skupinu proměnných „google_play“ s proměnnou
+  #      GCLOUD_SERVICE_ACCOUNT_CREDENTIALS (JSON servisního účtu Google
+  #      Play, README „Vydání pro Android“),
+  #    - android/app/build.gradle(.kts) upravený skriptem
+  #      `dart run tool/setup_platforms.dart` (čte proměnné CM_KEYSTORE_*).
+  #    První .aab musí do Google Play nahrát ručně (to Google vyžaduje),
+  #    další verze už nahraje tento workflow.
+  android-release:
+    name: Android – Google Play (interní testování)
+    # Mac M2 je ve 500 minutách zdarma; linux_x2 bývá jen v placeném tarifu.
+    # Android se na Macu sestaví stejně (Android SDK je předinstalovaný).
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      android_signing:
+        - upload_keystore
+      groups:
+        - google_play
+      vars:
+        # Musí sedět s applicationId v android/app/build.gradle(.kts).
+        PACKAGE_NAME: cz.dedina.fitness_app
+      flutter: stable
+    scripts:
+      - name: Balíčky
+        script: flutter pub get
+      - name: Generování kódu (překlady, databáze)
+        script: |
+          flutter gen-l10n
+          dart run build_runner build
+      - name: Testy
+        script: flutter test
+      - name: Build App Bundle
+        script: |
+          # Bez nahraného buildu příkaz skončí chybou → začne se od 1
+          # (chyba zůstane vidět v logu).
+          LATEST=$(google-play get-latest-build-number \
+            --package-name "$PACKAGE_NAME" \
+            --tracks internal alpha beta production || echo 0)
+          flutter build appbundle --release --build-number=$((LATEST + 1))
+    artifacts:
+      - build/app/outputs/bundle/release/*.aab
+      - build/app/outputs/mapping/release/mapping.txt
+    publishing:
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        submit_as_draft: true

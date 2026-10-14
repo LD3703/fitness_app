@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/fatigue.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
+import '../../ui/body_map.dart';
 import '../../ui/labels.dart';
 import 'fatigue_providers.dart';
 
@@ -12,13 +13,16 @@ import 'fatigue_providers.dart';
 Color fatigueColor(BuildContext context, FatigueStatus status) {
   final dark = Theme.of(context).brightness == Brightness.dark;
   return switch (status) {
-    // Světlý motiv: unaveno tmavé, zotaveno světlé; tmavý motiv obráceně.
+    // Světlý motiv: unaveno nejtmavší (červená), zotavuje se nejsvětlejší
+    // (oranžová); tmavý motiv obráceně. Zotaveno je ve světlém motivu
+    // tmavě zelené (green 800, kontrast ~5 : 1 na bílé) – dřívější
+    // 0xFF81C784 mělo jen ~1,9 : 1 a ikona i pruh na kartě zanikaly.
     FatigueStatus.fatigued =>
       dark ? const Color(0xFFFFCDD2) : const Color(0xFFB71C1C),
     FatigueStatus.recovering =>
       dark ? const Color(0xFFFFA726) : const Color(0xFFEF6C00),
     FatigueStatus.recovered =>
-      dark ? const Color(0xFF388E3C) : const Color(0xFF81C784),
+      dark ? const Color(0xFF388E3C) : const Color(0xFF2E7D32),
   };
 }
 
@@ -78,7 +82,21 @@ class FatigueTodayCard extends ConsumerWidget {
             ),
             const SizedBox(height: 2),
             Text(l10n.fatigueSubtitle(report.sessions), style: muted),
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
+            // Mapa těla: partie v barvě stavu (stejné barvy jako řádky
+            // níže, které stav popisují i slovy a ikonou).
+            Center(
+              child: BodyMap(
+                height: 170,
+                colors: {
+                  for (final e in sorted)
+                    if (e.value >= 1)
+                      e.key: fatigueColor(context, fatigueStatus(e.value)),
+                },
+                semanticLabel: l10n.fatigueTitle,
+              ),
+            ),
+            const SizedBox(height: 12),
             for (final e in active) _FatigueRow(group: e.key, percent: e.value),
             if (recovered.isNotEmpty)
               Padding(

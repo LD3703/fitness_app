@@ -1,16 +1,15 @@
 import 'package:drift/drift.dart';
 
-import '../../../core/formulas.dart';
 import '../../../data/database.dart';
 import '../social_queries.dart';
 import 'gym_logic.dart';
 
 /// Dotazy do lokální databáze pro žebříček posilovny.
 extension GymQueries on AppDatabase {
-  /// Nejlepší odhad 1RM (Epley, [estimateOneRepMax]) vestavěného cviku
-  /// z dokončených tréninků – bez rozcvičky, drop sérií a sérií nad [gymMaxReps]
-  /// opakování. S [from] / [to] jen tréninky začaté v intervalu [from, to).
-  Future<double?> gymBestOneRepMax(
+  /// Nejtěžší váha vestavěného cviku z dokončených tréninků – bez
+  /// rozcvičky a drop sérií (počet opakování nerozhoduje).
+  /// S [from] / [to] jen tréninky začaté v intervalu [from, to).
+  Future<double?> gymBestWeight(
     String slug, {
     DateTime? from,
     DateTime? to,
@@ -40,10 +39,9 @@ extension GymQueries on AppDatabase {
     double? best;
     for (final r in rows) {
       final s = r.readTable(setEntries);
-      final reps = s.reps!;
-      if (reps > gymMaxReps) continue;
-      final e1rm = estimateOneRepMax(s.weightKg!, reps);
-      if (e1rm != null && (best == null || e1rm > best)) best = e1rm;
+      final weight = s.weightKg!;
+      if (weight <= 0 || s.reps! < 1) continue;
+      if (best == null || weight > best) best = weight;
     }
     return best;
   }

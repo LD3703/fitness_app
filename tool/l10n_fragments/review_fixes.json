@@ -1,0 +1,154 @@
+{
+  "workoutRestShorten": {
+    "en": "Shorten rest by {seconds} s",
+    "cs": "Zkrátit pauzu o {seconds} s",
+    "de": "Pause um {seconds} s verkürzen",
+    "es": "Acortar el descanso {seconds} s",
+    "fr": "Raccourcir le repos de {seconds} s",
+    "pl": "Skróć przerwę o {seconds} s",
+    "pt": "Encurtar o descanso em {seconds} s",
+    "it": "Accorcia il recupero di {seconds} s",
+    "sk": "Skrátiť pauzu o {seconds} s",
+    "nl": "Rust {seconds} s korter maken",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "workoutRestExtend": {
+    "en": "Extend rest by {seconds} s",
+    "cs": "Prodloužit pauzu o {seconds} s",
+    "de": "Pause um {seconds} s verlängern",
+    "es": "Alargar el descanso {seconds} s",
+    "fr": "Prolonger le repos de {seconds} s",
+    "pl": "Wydłuż przerwę o {seconds} s",
+    "pt": "Estender o descanso em {seconds} s",
+    "it": "Allunga il recupero di {seconds} s",
+    "sk": "Predĺžiť pauzu o {seconds} s",
+    "nl": "Rust {seconds} s langer maken",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "workoutMarkSetDone": {
+    "en": "Mark set as done",
+    "cs": "Označit sérii jako hotovou",
+    "de": "Satz als erledigt markieren",
+    "es": "Marcar serie como hecha",
+    "fr": "Marquer la série comme faite",
+    "pl": "Oznacz serię jako wykonaną",
+    "pt": "Marcar série como feita",
+    "it": "Segna la serie come fatta",
+    "sk": "Označiť sériu ako hotovú",
+    "nl": "Set markeren als gedaan"
+  },
+  "workoutMarkSetNotDone": {
+    "en": "Mark set as not done",
+    "cs": "Označit sérii jako nehotovou",
+    "de": "Satz als nicht erledigt markieren",
+    "es": "Marcar serie como no hecha",
+    "fr": "Marquer la série comme non faite",
+    "pl": "Oznacz serię jako niewykonaną",
+    "pt": "Marcar série como não feita",
+    "it": "Segna la serie come non fatta",
+    "sk": "Označiť sériu ako nehotovú",
+    "nl": "Set markeren als niet gedaan"
+  },
+  "workoutWeightField": {
+    "en": "Weight ({unit})",
+    "cs": "Váha ({unit})",
+    "de": "Gewicht ({unit})",
+    "es": "Peso ({unit})",
+    "fr": "Poids ({unit})",
+    "pl": "Ciężar ({unit})",
+    "pt": "Peso ({unit})",
+    "it": "Peso ({unit})",
+    "sk": "Váha ({unit})",
+    "nl": "Gewicht ({unit})",
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "workoutDurationField": {
+    "en": "Time in seconds",
+    "cs": "Čas v sekundách",
+    "de": "Zeit in Sekunden",
+    "es": "Tiempo en segundos",
+    "fr": "Durée en secondes",
+    "pl": "Czas w sekundach",
+    "pt": "Tempo em segundos",
+    "it": "Tempo in secondi",
+    "sk": "Čas v sekundách",
+    "nl": "Tijd in seconden"
+  },
+  "cloudStatusNeedsConfirm": {
+    "en": "Paused: this phone has less data than your backup in the cloud. Replace it with “Back up now”, or restore it instead.",
+    "cs": "Pozastaveno – v telefonu je méně dat než v záloze v cloudu. Nahradíš ji přes „Zálohovat teď“, nebo ji můžeš obnovit.",
+    "de": "Pausiert: Auf diesem Handy sind weniger Daten als in deinem Backup in der Cloud. Ersetze es mit „Jetzt sichern“ oder stelle es stattdessen wieder her.",
+    "es": "En pausa: este móvil tiene menos datos que tu copia en la nube. Sustitúyela con «Hacer copia ahora» o restáurala.",
+    "fr": "En pause : ce téléphone contient moins de données que ta sauvegarde dans le cloud. Remplace-la avec « Sauvegarder maintenant » ou restaure-la plutôt.",
+    "pl": "Wstrzymano: na tym telefonie jest mniej danych niż w kopii w chmurze. Zastąp ją przyciskiem „Utwórz kopię teraz” albo ją przywróć.",
+    "pt": "Pausado: este celular tem menos dados que seu backup na nuvem. Substitua com “Fazer backup agora” ou restaure o backup.",
+    "it": "In pausa: su questo telefono ci sono meno dati che nel backup nel cloud. Sostituiscilo con “Esegui backup ora” oppure ripristinalo.",
+    "sk": "Pozastavené – v telefóne je menej dát ako v zálohe v cloude. Nahradíš ju cez „Zálohovať teraz“, alebo ju môžeš obnoviť.",
+    "nl": "Gepauzeerd: op deze telefoon staan minder gegevens dan in je back-up in de cloud. Vervang hem met ‘Nu back-up maken’ of zet hem terug."
+  },
+  "cloudOverwriteTitle": {
+    "en": "Replace your cloud backup?",
+    "cs": "Nahradit zálohu v cloudu?",
+    "de": "Backup in der Cloud ersetzen?",
+    "es": "¿Sustituir la copia de la nube?",
+    "fr": "Remplacer la sauvegarde du cloud ?",
+    "pl": "Zastąpić kopię w chmurze?",
+    "pt": "Substituir o backup na nuvem?",
+    "it": "Sostituire il backup nel cloud?",
+    "sk": "Nahradiť zálohu v cloude?",
+    "nl": "Back-up in de cloud vervangen?"
+  },
+  "cloudOverwriteMessage": {
+    "en": "This phone has less data than your latest backup in the cloud. Replace it with the data from this phone? The current backup will be kept as the previous one.",
+    "cs": "V telefonu je méně dat než v nejnovější záloze v cloudu. Nahradit ji daty z tohoto telefonu? Současná záloha zůstane jako předchozí.",
+    "de": "Auf diesem Handy sind weniger Daten als in deinem neuesten Backup in der Cloud. Durch die Daten von diesem Handy ersetzen? Das aktuelle Backup bleibt als vorheriges erhalten.",
+    "es": "Este móvil tiene menos datos que tu última copia en la nube. ¿Sustituirla por los datos de este móvil? La copia actual se guardará como la anterior.",
+    "fr": "Ce téléphone contient moins de données que ta dernière sauvegarde dans le cloud. La remplacer par les données de ce téléphone ? La sauvegarde actuelle sera conservée comme précédente.",
+    "pl": "Na tym telefonie jest mniej danych niż w najnowszej kopii w chmurze. Zastąpić ją danymi z tego telefonu? Obecna kopia zostanie zachowana jako poprzednia.",
+    "pt": "Este celular tem menos dados que seu backup mais recente na nuvem. Substituir pelos dados deste celular? O backup atual será mantido como o anterior.",
+    "it": "Su questo telefono ci sono meno dati che nel backup più recente nel cloud. Sostituirlo con i dati di questo telefono? Il backup attuale verrà conservato come precedente.",
+    "sk": "V telefóne je menej dát ako v najnovšej zálohe v cloude. Nahradiť ju dátami z tohto telefónu? Súčasná záloha zostane ako predchádzajúca.",
+    "nl": "Op deze telefoon staan minder gegevens dan in je nieuwste back-up in de cloud. Vervangen door de gegevens van deze telefoon? De huidige back-up blijft bewaard als vorige."
+  },
+  "cloudOverwriteConfirm": {
+    "en": "Replace",
+    "cs": "Nahradit",
+    "de": "Ersetzen",
+    "es": "Sustituir",
+    "fr": "Remplacer",
+    "pl": "Zastąp",
+    "pt": "Substituir",
+    "it": "Sostituisci",
+    "sk": "Nahradiť",
+    "nl": "Vervangen"
+  },
+  "notifMorningInjury": {
+    "en": "On the plan: {plans}. You've logged an injury – skip exercises for the injured muscle group and take the rest easy.",
+    "cs": "V plánu: {plans}. Máš zapsané zranění – vynech cviky na zraněnou partii a zbytek ber zlehka.",
+    "de": "Auf dem Plan: {plans}. Du hast eine Verletzung eingetragen – lass Übungen für die verletzte Muskelgruppe weg und mach den Rest locker.",
+    "es": "En el plan: {plans}. Tienes una lesión registrada: sáltate los ejercicios del grupo muscular lesionado y tómate el resto con calma.",
+    "fr": "Au programme : {plans}. Tu as noté une blessure – saute les exercices pour la zone blessée et vas-y doucement pour le reste.",
+    "pl": "W planie: {plans}. Masz zapisaną kontuzję – pomiń ćwiczenia na kontuzjowaną partię, a resztę rób spokojnie.",
+    "pt": "No plano: {plans}. Você registrou uma lesão – pule os exercícios do grupo muscular lesionado e vá com calma no resto.",
+    "it": "In programma: {plans}. Hai segnato un infortunio: salta gli esercizi per il gruppo muscolare infortunato e prendi il resto con calma.",
+    "sk": "V pláne: {plans}. Máš zapísané zranenie – vynechaj cviky na zranenú partiu a zvyšok ber zľahka.",
+    "nl": "Op het programma: {plans}. Je hebt een blessure gelogd – sla oefeningen voor de geblesseerde spiergroep over en doe de rest rustig aan.",
+    "placeholders": {
+      "plans": {
+        "type": "String"
+      }
+    }
+  }
+}

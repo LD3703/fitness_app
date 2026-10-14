@@ -140,6 +140,9 @@ class WearCurrentSet {
     this.value,
     this.previousWeightKg,
     this.previousValue,
+    this.note,
+    this.noteFrom,
+    this.myNote,
   });
 
   /// Pořadí cviku v tréninku (pro jednoznačnost, když je cvik dvakrát).
@@ -166,6 +169,17 @@ class WearCurrentSet {
   final double? previousWeightKg;
   final int? previousValue;
 
+  /// Poznámka ke cviku v plánu (i od trenéra); null = bez poznámky.
+  /// Pole poznámek přibyla bez změny verze protokolu – starší hodinky je
+  /// ignorují, starší telefon je neposílá.
+  final String? note;
+
+  /// Jméno trenéra, když je plán od trenéra (k [note]).
+  final String? noteFrom;
+
+  /// Moje poznámka u cviku (platí pro cvik ve všech plánech).
+  final String? myNote;
+
   Map<String, Object?> toJson() => {
         'b': blockIndex,
         'ex': exerciseId,
@@ -179,6 +193,9 @@ class WearCurrentSet {
         'val': value,
         'pw': previousWeightKg,
         'pval': previousValue,
+        if (note != null) 'note': note,
+        if (noteFrom != null) 'nfrom': noteFrom,
+        if (myNote != null) 'mnote': myNote,
       };
 
   static WearCurrentSet? fromJson(Object? json) {
@@ -201,6 +218,9 @@ class WearCurrentSet {
       value: _int(m['val']),
       previousWeightKg: _double(m['pw']),
       previousValue: _int(m['pval']),
+      note: _string(m['note']),
+      noteFrom: _string(m['nfrom']),
+      myNote: _string(m['mnote']),
     );
   }
 }

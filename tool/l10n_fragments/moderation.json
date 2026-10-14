@@ -1,0 +1,255 @@
+{
+  "moderationReport": {
+    "en": "Report",
+    "cs": "Nahlásit",
+    "de": "Melden",
+    "es": "Denunciar",
+    "fr": "Signaler",
+    "pl": "Zgłoś",
+    "pt": "Denunciar",
+    "it": "Segnala",
+    "sk": "Nahlásiť",
+    "nl": "Melden"
+  },
+  "moderationReportGym": {
+    "en": "Report gym",
+    "cs": "Nahlásit posilovnu",
+    "de": "Studio melden",
+    "es": "Denunciar gimnasio",
+    "fr": "Signaler la salle",
+    "pl": "Zgłoś siłownię",
+    "pt": "Denunciar academia",
+    "it": "Segnala palestra",
+    "sk": "Nahlásiť posilňovňu",
+    "nl": "Gym melden"
+  },
+  "moderationReportTitle": {
+    "en": "Report “{name}”?",
+    "cs": "Nahlásit „{name}“?",
+    "de": "„{name}“ melden?",
+    "es": "¿Denunciar a «{name}»?",
+    "fr": "Signaler « {name} » ?",
+    "pl": "Zgłosić „{name}”?",
+    "pt": "Denunciar “{name}”?",
+    "it": "Segnalare «{name}»?",
+    "sk": "Nahlásiť „{name}“?",
+    "nl": "“{name}” melden?",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "moderationReportGymMessage": {
+    "en": "Only the app developer sees reports. A gym reported by five people disappears from the gym list.",
+    "cs": "Nahlášení uvidí jen vývojář aplikace. Posilovna, kterou nahlásí pět lidí, zmizí ze seznamu posiloven.",
+    "de": "Meldungen sieht nur der Entwickler der App. Ein Studio, das fünf Personen melden, verschwindet aus der Studioliste.",
+    "es": "Solo el desarrollador de la app ve las denuncias. Un gimnasio denunciado por cinco personas desaparece de la lista.",
+    "fr": "Seul le développeur de l’app voit les signalements. Une salle signalée par cinq personnes disparaît de la liste.",
+    "pl": "Zgłoszenia widzi tylko twórca aplikacji. Siłownia zgłoszona przez pięć osób znika z listy siłowni.",
+    "pt": "Só o desenvolvedor do app vê as denúncias. Uma academia denunciada por cinco pessoas some da lista.",
+    "it": "Solo lo sviluppatore dell’app vede le segnalazioni. Una palestra segnalata da cinque persone scompare dall’elenco.",
+    "sk": "Nahlásenie uvidí len vývojár aplikácie. Posilňovňa, ktorú nahlási päť ľudí, zmizne zo zoznamu posilňovní.",
+    "nl": "Alleen de ontwikkelaar van de app ziet meldingen. Een gym die door vijf mensen is gemeld, verdwijnt uit de lijst."
+  },
+  "moderationReportUserMessage": {
+    "en": "Only the app developer sees reports. {name} won't find out about it.",
+    "cs": "Nahlášení uvidí jen vývojář aplikace. {name} se o něm nedozví.",
+    "de": "Meldungen sieht nur der Entwickler der App. {name} erfährt nichts davon.",
+    "es": "Solo el desarrollador de la app ve las denuncias. {name} no se enterará.",
+    "fr": "Seul le développeur de l’app voit les signalements. {name} n’en saura rien.",
+    "pl": "Zgłoszenia widzi tylko twórca aplikacji. {name} się o tym nie dowie.",
+    "pt": "Só o desenvolvedor do app vê as denúncias. {name} não vai ficar sabendo.",
+    "it": "Solo lo sviluppatore dell’app vede le segnalazioni. {name} non lo saprà.",
+    "sk": "Nahlásenie uvidí len vývojár aplikácie. {name} sa o ňom nedozvie.",
+    "nl": "Alleen de ontwikkelaar van de app ziet meldingen. {name} komt het niet te weten.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "moderationReasonOffensive": {
+    "en": "Offensive or inappropriate",
+    "cs": "Urážlivý nebo nevhodný obsah",
+    "de": "Beleidigend oder unangemessen",
+    "es": "Ofensivo o inapropiado",
+    "fr": "Offensant ou inapproprié",
+    "pl": "Obraźliwe lub nieodpowiednie",
+    "pt": "Ofensivo ou inadequado",
+    "it": "Offensivo o inappropriato",
+    "sk": "Urážlivý alebo nevhodný obsah",
+    "nl": "Beledigend of ongepast"
+  },
+  "moderationReasonSpam": {
+    "en": "Spam or scam",
+    "cs": "Spam nebo podvod",
+    "de": "Spam oder Betrug",
+    "es": "Spam o estafa",
+    "fr": "Spam ou arnaque",
+    "pl": "Spam lub oszustwo",
+    "pt": "Spam ou golpe",
+    "it": "Spam o truffa",
+    "sk": "Spam alebo podvod",
+    "nl": "Spam of oplichting"
+  },
+  "moderationReasonOther": {
+    "en": "Something else",
+    "cs": "Něco jiného",
+    "de": "Etwas anderes",
+    "es": "Otra cosa",
+    "fr": "Autre chose",
+    "pl": "Coś innego",
+    "pt": "Outra coisa",
+    "it": "Altro",
+    "sk": "Niečo iné",
+    "nl": "Iets anders"
+  },
+  "moderationAlsoBlock": {
+    "en": "Also block",
+    "cs": "Zároveň zablokovat",
+    "de": "Auch blockieren",
+    "es": "Bloquear también",
+    "fr": "Bloquer aussi",
+    "pl": "Zablokuj też",
+    "pt": "Bloquear também",
+    "it": "Blocca anche",
+    "sk": "Zároveň zablokovať",
+    "nl": "Ook blokkeren"
+  },
+  "moderationAlsoBlockHint": {
+    "en": "Ends the friendship; they can't add you again or send you anything.",
+    "cs": "Zruší přátelství a už tě nebude moct znovu přidat ani ti nic poslat.",
+    "de": "Beendet die Freundschaft; die Person kann dich nicht erneut hinzufügen und dir nichts mehr senden.",
+    "es": "Termina la amistad; no podrá volver a agregarte ni enviarte nada.",
+    "fr": "Met fin à l’amitié ; la personne ne pourra plus t’ajouter ni rien t’envoyer.",
+    "pl": "Kończy znajomość; ta osoba nie będzie mogła ponownie cię dodać ani nic ci wysłać.",
+    "pt": "Desfaz a amizade; a pessoa não poderá te adicionar de novo nem te mandar nada.",
+    "it": "Chiude l’amicizia; non potrà più aggiungerti né inviarti nulla.",
+    "sk": "Zruší priateľstvo a už ťa nebude môcť znova pridať ani ti nič poslať.",
+    "nl": "Beëindigt de vriendschap; diegene kan je niet opnieuw toevoegen of je iets sturen."
+  },
+  "moderationReported": {
+    "en": "Thanks, we've received your report.",
+    "cs": "Díky, nahlášení jsme dostali.",
+    "de": "Danke, deine Meldung ist bei uns angekommen.",
+    "es": "Gracias, hemos recibido tu denuncia.",
+    "fr": "Merci, nous avons bien reçu ton signalement.",
+    "pl": "Dzięki, otrzymaliśmy zgłoszenie.",
+    "pt": "Obrigado, recebemos sua denúncia.",
+    "it": "Grazie, abbiamo ricevuto la segnalazione.",
+    "sk": "Vďaka, nahlásenie sme dostali.",
+    "nl": "Bedankt, we hebben je melding ontvangen."
+  },
+  "moderationBlock": {
+    "en": "Block",
+    "cs": "Zablokovat",
+    "de": "Blockieren",
+    "es": "Bloquear",
+    "fr": "Bloquer",
+    "pl": "Zablokuj",
+    "pt": "Bloquear",
+    "it": "Blocca",
+    "sk": "Zablokovať",
+    "nl": "Blokkeren"
+  },
+  "moderationBlockTitle": {
+    "en": "Block {name}?",
+    "cs": "Zablokovat: {name}?",
+    "de": "{name} blockieren?",
+    "es": "¿Bloquear a {name}?",
+    "fr": "Bloquer {name} ?",
+    "pl": "Zablokować: {name}?",
+    "pt": "Bloquear {name}?",
+    "it": "Bloccare {name}?",
+    "sk": "Zablokovať: {name}?",
+    "nl": "{name} blokkeren?",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "moderationBlockMessage": {
+    "en": "The friendship ends and {name} can no longer add you or send you challenges and invitations. You can unblock them under Friends → Blocked users.",
+    "cs": "Přátelství se zruší a {name} tě už nebude moct přidat ani ti posílat výzvy a pozvánky. Odblokovat jde v Přátelé → Zablokovaní uživatelé.",
+    "de": "Die Freundschaft endet und {name} kann dich nicht mehr hinzufügen oder dir Challenges und Einladungen senden. Entsperren kannst du unter Freunde → Blockierte Personen.",
+    "es": "La amistad termina y {name} ya no podrá agregarte ni enviarte retos ni invitaciones. Puedes desbloquear en Amigos → Usuarios bloqueados.",
+    "fr": "L’amitié prend fin et {name} ne pourra plus t’ajouter ni t’envoyer de défis ou d’invitations. Tu peux débloquer dans Amis → Utilisateurs bloqués.",
+    "pl": "Znajomość się kończy, a {name} nie będzie mógł cię dodać ani wysyłać ci wyzwań i zaproszeń. Odblokujesz w Znajomi → Zablokowani użytkownicy.",
+    "pt": "A amizade termina e {name} não poderá mais te adicionar nem te mandar desafios e convites. Dá para desbloquear em Amigos → Usuários bloqueados.",
+    "it": "L’amicizia termina e {name} non potrà più aggiungerti né inviarti sfide e inviti. Puoi sbloccare in Amici → Utenti bloccati.",
+    "sk": "Priateľstvo sa zruší a {name} ťa už nebude môcť pridať ani ti posielať výzvy a pozvánky. Odblokovať sa dá v Priatelia → Zablokovaní používatelia.",
+    "nl": "De vriendschap stopt en {name} kan je niet meer toevoegen of uitdagingen en uitnodigingen sturen. Deblokkeren kan via Vrienden → Geblokkeerde gebruikers.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "moderationBlocked": {
+    "en": "Blocked.",
+    "cs": "Zablokováno.",
+    "de": "Blockiert.",
+    "es": "Bloqueado.",
+    "fr": "Bloqué.",
+    "pl": "Zablokowano.",
+    "pt": "Bloqueado.",
+    "it": "Bloccato.",
+    "sk": "Zablokované.",
+    "nl": "Geblokkeerd."
+  },
+  "moderationBlockedList": {
+    "en": "Blocked users",
+    "cs": "Zablokovaní uživatelé",
+    "de": "Blockierte Personen",
+    "es": "Usuarios bloqueados",
+    "fr": "Utilisateurs bloqués",
+    "pl": "Zablokowani użytkownicy",
+    "pt": "Usuários bloqueados",
+    "it": "Utenti bloccati",
+    "sk": "Zablokovaní používatelia",
+    "nl": "Geblokkeerde gebruikers"
+  },
+  "moderationBlockedCount": {
+    "en": "{count, plural, =0{Nobody blocked} one{{count} person} other{{count} people}}",
+    "cs": "{count, plural, =0{Nikdo zablokovaný} one{{count} člověk} few{{count} lidé} many{{count} člověka} other{{count} lidí}}",
+    "de": "{count, plural, =0{Niemand blockiert} one{{count} Person} other{{count} Personen}}",
+    "es": "{count, plural, =0{Nadie bloqueado} one{{count} persona} other{{count} personas}}",
+    "fr": "{count, plural, =0{Personne de bloqué} one{{count} personne} other{{count} personnes}}",
+    "pl": "{count, plural, =0{Nikt nie jest zablokowany} one{{count} osoba} few{{count} osoby} many{{count} osób} other{{count} osoby}}",
+    "pt": "{count, plural, =0{Ninguém bloqueado} one{{count} pessoa} other{{count} pessoas}}",
+    "it": "{count, plural, =0{Nessuno bloccato} one{{count} persona} other{{count} persone}}",
+    "sk": "{count, plural, =0{Nikto zablokovaný} one{{count} človek} few{{count} ľudia} many{{count} človeka} other{{count} ľudí}}",
+    "nl": "{count, plural, =0{Niemand geblokkeerd} one{{count} persoon} other{{count} personen}}",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "moderationUnblock": {
+    "en": "Unblock",
+    "cs": "Odblokovat",
+    "de": "Entsperren",
+    "es": "Desbloquear",
+    "fr": "Débloquer",
+    "pl": "Odblokuj",
+    "pt": "Desbloquear",
+    "it": "Sblocca",
+    "sk": "Odblokovať",
+    "nl": "Deblokkeren"
+  },
+  "moderationNoneBlocked": {
+    "en": "You haven't blocked anyone.",
+    "cs": "Nikoho nemáš zablokovaného.",
+    "de": "Du hast niemanden blockiert.",
+    "es": "No has bloqueado a nadie.",
+    "fr": "Tu n’as bloqué personne.",
+    "pl": "Nikogo nie zablokowałeś.",
+    "pt": "Você não bloqueou ninguém.",
+    "it": "Non hai bloccato nessuno.",
+    "sk": "Nikoho nemáš zablokovaného.",
+    "nl": "Je hebt niemand geblokkeerd."
+  }
+}

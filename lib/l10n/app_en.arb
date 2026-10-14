@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "Fitness App",
+  "appTitle": "GymBar",
   "tabToday": "Today",
   "tabPlans": "Plans",
   "tabExercises": "Exercises",
@@ -135,17 +135,6 @@
   "workoutSummaryVolume": "Volume",
   "workoutSummaryKcal": "Calories (estimate)",
   "workoutSummaryRecords": "New personal records",
-  "workoutRecordLine": "Estimated 1RM {newValue} kg (before {oldValue} kg)",
-  "@workoutRecordLine": {
-    "placeholders": {
-      "newValue": {
-        "type": "String"
-      },
-      "oldValue": {
-        "type": "String"
-      }
-    }
-  },
   "todayWorkoutInProgress": "Workout in progress since {time}.",
   "@todayWorkoutInProgress": {
     "placeholders": {
@@ -164,20 +153,6 @@
       }
     }
   },
-  "recordLine": "Record: 1RM ≈ {oneRepMax} kg ({weight} kg × {reps})",
-  "@recordLine": {
-    "placeholders": {
-      "oneRepMax": {
-        "type": "String"
-      },
-      "weight": {
-        "type": "String"
-      },
-      "reps": {
-        "type": "int"
-      }
-    }
-  },
   "lastTimeLine": "Last time: {sets}",
   "@lastTimeLine": {
     "placeholders": {
@@ -190,7 +165,7 @@
   "statsNoHistory": "You have not done this exercise yet. After the first workout you will see your record and last result here.",
   "planFillFromLast": "Copy last workout",
   "planSuggestWeights": "Suggest weights",
-  "planSuggestHint": "Suggestion is about 90 % of your estimated max for the given reps (1–2 reps in reserve). Warm-up is half. It is only a guide.",
+  "planSuggestHint": "The suggestion is based on your heaviest set, converted to the given number of reps (1–2 reps in reserve). Warm-up is half. It is only a guide.",
   "planSetsTitle": "Sets",
   "planAddSet": "Set",
   "planAddWarmup": "Warm-up",
@@ -324,7 +299,7 @@
   "chartWeightAverage": "7-day average",
   "chartWeightDaily": "Daily weigh-ins",
   "chartStrengthTitle": "Strength",
-  "chartStrengthSubtitle": "Estimated 1RM – the best set of each workout",
+  "chartStrengthSubtitle": "Heaviest set of each workout",
   "chartStrengthEmpty": "Train an exercise at least twice to see your progress.",
   "chartFrequencyTitle": "Training frequency",
   "chartFrequencySubtitle": "Workouts per week, last 12 weeks",
@@ -653,12 +628,9 @@
       }
     }
   },
-  "dataRecordLine": "Record: 1RM ≈ {oneRepMax} ({weight} × {reps})",
+  "dataRecordLine": "Record: {weight} × {reps}",
   "@dataRecordLine": {
     "placeholders": {
-      "oneRepMax": {
-        "type": "String"
-      },
       "weight": {
         "type": "String"
       },
@@ -667,7 +639,7 @@
       }
     }
   },
-  "dataRecordChangeLine": "Estimated 1RM {newValue} (before {oldValue})",
+  "dataRecordChangeLine": "{newValue} (before {oldValue})",
   "@dataRecordChangeLine": {
     "placeholders": {
       "newValue": {
@@ -692,7 +664,7 @@
   "dataExportFailed": "Export failed. Please try again.",
   "dataBackup": "Back up all data",
   "dataBackupHint": "Save one file to Google Drive, iCloud Drive or anywhere you like",
-  "dataBackupSubject": "Fitness app backup",
+  "dataBackupSubject": "GymBar backup",
   "dataBackupFailed": "Backup failed. Please try again.",
   "dataRestore": "Restore from backup",
   "dataRestoreHint": "Replaces everything in the app with the backup",
@@ -762,31 +734,9 @@
   "shareRecordButton": "Share record",
   "shareMyRecordButton": "Share my record",
   "shareMyRecordTitle": "Your record",
-  "shareRecordValue": "{weight} × {reps} · estimated 1RM {oneRm}",
-  "@shareRecordValue": {
-    "placeholders": {
-      "weight": {
-        "type": "String"
-      },
-      "reps": {
-        "type": "int"
-      },
-      "oneRm": {
-        "type": "String"
-      }
-    }
-  },
   "shareChallengeButton": "Challenge a friend",
   "shareCardRecordLabel": "Personal record",
   "shareCardWorkoutLabel": "Workout done",
-  "shareCardOneRepMax": "Estimated 1RM {value}",
-  "@shareCardOneRepMax": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
   "shareCardDuration": "Time",
   "shareCardSets": "Sets",
   "shareCardVolume": "Volume",
@@ -806,7 +756,7 @@
       }
     }
   },
-  "shareRecordText": "New personal record! {exercise}: {weight} × {reps} (estimated 1RM {oneRm}) 💪 {link}",
+  "shareRecordText": "New personal record! {exercise}: {weight} × {reps} 💪 {link}",
   "@shareRecordText": {
     "placeholders": {
       "exercise": {
@@ -817,9 +767,6 @@
       },
       "reps": {
         "type": "int"
-      },
-      "oneRm": {
-        "type": "String"
       },
       "link": {
         "type": "String"
@@ -843,7 +790,7 @@
       }
     }
   },
-  "shareChallengeText": "I did {weight} × {reps} on {exercise} (estimated 1RM {oneRm}). Can you beat me by {deadline}? {link}",
+  "shareChallengeText": "I did {weight} × {reps} on {exercise}. Can you beat me by {deadline}? {link}",
   "@shareChallengeText": {
     "placeholders": {
       "exercise": {
@@ -854,9 +801,6 @@
       },
       "reps": {
         "type": "int"
-      },
-      "oneRm": {
-        "type": "String"
       },
       "deadline": {
         "type": "String"
@@ -876,7 +820,7 @@
     }
   },
   "shareChallengeFromAnonymous": "A friend challenges you!",
-  "shareChallengeGoal": "Beat an estimated 1RM of {value}",
+  "shareChallengeGoal": "Beat {value} – more weight, or more reps at the same weight",
   "@shareChallengeGoal": {
     "placeholders": {
       "value": {
@@ -968,7 +912,7 @@
   "shareHide": "Hide",
   "shareMoreActions": "More",
   "shareChallengeCompletedTitle": "Challenge completed! 🎉",
-  "shareCompletedRecord": "Challenge completed: {exercise} with estimated 1RM {value}! 🎉 {link}",
+  "shareCompletedRecord": "Challenge completed: {exercise} – {value}! 🎉 {link}",
   "@shareCompletedRecord": {
     "placeholders": {
       "exercise": {
@@ -982,7 +926,7 @@
       }
     }
   },
-  "shareCompletedRecordFrom": "I beat {name}'s challenge: {exercise} with estimated 1RM {value}! 🎉 {link}",
+  "shareCompletedRecordFrom": "I beat {name}'s challenge: {exercise} – {value}! 🎉 {link}",
   "@shareCompletedRecordFrom": {
     "placeholders": {
       "name": {
@@ -1038,7 +982,7 @@
   "socialSettings": "Account & sharing",
   "socialNameHint": "Friends see the name from your profile.",
   "socialShareRecords": "Share records",
-  "socialShareRecordsHint": "New PRs (estimated 1RM)",
+  "socialShareRecordsHint": "New personal records",
   "socialShareStats": "Share workout stats",
   "socialShareStatsHint": "Workouts per month, weekly volume, weeks you met your plan",
   "socialSignOut": "Sign out",
@@ -1063,7 +1007,7 @@
   "socialCopy": "Copy",
   "socialCopied": "Copied",
   "socialShareSubject": "Let's train together",
-  "socialShareText": "Add me as a friend in the gym app: {link}\nOr enter my code: {code}",
+  "socialShareText": "Add me as a friend in GymBar: {link}\nOr enter my code: {code}",
   "@socialShareText": {
     "placeholders": {
       "link": {
@@ -1330,7 +1274,7 @@
     }
   },
   "socialKindRecord": "Beat my record",
-  "socialKindRecordHint": "Your friend tries to beat your estimated 1RM by a date.",
+  "socialKindRecordHint": "Your friend tries to beat your heaviest set by a date.",
   "socialKindWorkouts": "Workouts this month",
   "socialKindWorkoutsHint": "Who gets to the target number of workouts by the end of the month?",
   "socialKindWater": "Weekly water",
@@ -1511,7 +1455,7 @@
       }
     }
   },
-  "statsInsightRecordsBest": "Best: {exercise}, 1RM ~{kg} ({gain} %)",
+  "statsInsightRecordsBest": "Best: {exercise}, {kg} ({gain} %)",
   "@statsInsightRecordsBest": {
     "placeholders": {
       "exercise": {
@@ -1600,7 +1544,6 @@
       }
     }
   },
-  "statsE1rmLabel": "estimated 1RM",
   "statsSetWeightReps": "{weight} × {reps}",
   "@statsSetWeightReps": {
     "placeholders": {
@@ -1632,7 +1575,7 @@
     }
   },
   "statsExerciseTitle": "Your progress",
-  "statsExerciseChartSubtitle": "Estimated 1RM – the best set of each workout",
+  "statsExerciseChartSubtitle": "Heaviest set of each workout",
   "statsExerciseRecent": "Last workouts",
   "widgetTitle": "Today",
   "widgetWaterProgress": "💧 {current} / {goal}",
@@ -1696,7 +1639,7 @@
   "socialGymScan": "Scan gym QR",
   "socialGymFind": "Find gym",
   "socialGymCreate": "Create gym",
-  "socialGymPrivacy": "Other gym members only see your nickname, estimated 1RM in the leaderboard exercises you've done, number of workouts and, if you enter them, your gender and age group (under 40, 40+, 50+, 60+). Your exact age, body weight, periods and water never leave your phone.",
+  "socialGymPrivacy": "Other gym members only see your nickname, your heaviest weight in the leaderboard exercises you've done, number of workouts and, if you enter them, your gender and age group (under 40, 40+, 50+, 60+). Your exact age, body weight, periods and water never leave your phone.",
   "socialGymImplausible": "Performance looks unrealistic – it wasn't counted in the leaderboard",
   "socialGymImplausibleDetail": "Performance looks unrealistic, it wasn't counted in the leaderboard: {categories}. Check your logged sets (weight and reps).",
   "@socialGymImplausibleDetail": {
@@ -1724,14 +1667,7 @@
   "socialGymAgeMissing": "You're only listed under All. Add your year of birth to appear in age groups.",
   "socialGymPeriodMonth": "This month",
   "socialGymPeriodAllTime": "All time",
-  "socialGymHintLift": "Best estimated 1RM (Epley) from your working sets of up to {maxReps} reps.",
-  "@socialGymHintLift": {
-    "placeholders": {
-      "maxReps": {
-        "type": "int"
-      }
-    }
-  },
+  "socialGymHintLift": "Your heaviest working set (warm-ups and drop sets don't count).",
   "socialGymNotePerDumbbell": "Weight of one dumbbell, as logged.",
   "socialGymNoteAddedWeight": "Added weight only, without body weight.",
   "socialGymHintWorkoutsMonth": "Finished workouts this month.",
@@ -1755,7 +1691,7 @@
   "socialGymQr": "Gym QR code",
   "socialGymQrHint": "Print it for the reception – members scan it in the app to join.",
   "socialGymSharePoster": "Share QR",
-  "socialGymShareText": "Join the {gym} leaderboard in the app: {link} (gym code {code})",
+  "socialGymShareText": "Join the {gym} leaderboard in GymBar: {link} (gym code {code})",
   "@socialGymShareText": {
     "placeholders": {
       "gym": {
@@ -2022,9 +1958,9 @@
   "@overloadStatusInsufficient": {
     "description": "Status word: not trained in both compared periods"
   },
-  "overloadReasonOneRepMax": "{exercise}: 1RM {change} %",
-  "@overloadReasonOneRepMax": {
-    "description": "Reason: best estimated 1RM of an exercise changed. change is signed, e.g. +3",
+  "overloadReasonTopWeight": "{exercise}: heaviest weight {change} %",
+  "@overloadReasonTopWeight": {
+    "description": "Reason: the heaviest set of an exercise changed. change is signed, e.g. +3",
     "placeholders": {
       "exercise": {
         "type": "String"
@@ -2256,7 +2192,7 @@
       }
     }
   },
-  "badgeRecordsDescription": "{count, plural, one{Beat your best estimated 1RM in any exercise.} other{Beat your best estimated 1RM {count} times.}}",
+  "badgeRecordsDescription": "{count, plural, one{Beat your heaviest set in any exercise.} other{Beat your heaviest set {count} times.}}",
   "@badgeRecordsDescription": {
     "description": "How to earn the personal records badge",
     "placeholders": {
@@ -2852,6 +2788,435 @@
   "@premiumGiftProfileUntil": {
     "placeholders": {
       "date": {
+        "type": "String"
+      }
+    }
+  },
+  "privacySection": "Privacy",
+  "privacyPolicy": "Privacy policy",
+  "privacyPolicyHint": "What the app stores and where it sends it",
+  "crashReportsTitle": "Send crash reports",
+  "crashReportsHint": "If the app crashes, it sends a description of the error and the phone model – no name and no workout data. It helps us fix bugs.",
+  "socialDeleteNeedsSignIn": "Your data is deleted, but the sign-in account remains. Sign in again and repeat the deletion.",
+  "moderationReport": "Report",
+  "moderationReportGym": "Report gym",
+  "moderationReportTitle": "Report “{name}”?",
+  "@moderationReportTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "moderationReportGymMessage": "Only the app developer sees reports. A gym reported by five people disappears from the gym list. A gym without members also disappears after five reports that it doesn’t exist or is a duplicate – if someone joins it later, it shows up again.",
+  "moderationReportUserMessage": "Only the app developer sees reports. {name} won't find out about it.",
+  "@moderationReportUserMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "moderationReasonOffensive": "Offensive or inappropriate",
+  "moderationReasonSpam": "Spam or scam",
+  "moderationReasonOther": "Something else",
+  "moderationAlsoBlock": "Also block",
+  "moderationAlsoBlockHint": "Ends the friendship; they can't add you again or send you anything.",
+  "moderationReported": "Thanks, we've received your report.",
+  "moderationBlock": "Block",
+  "moderationBlockTitle": "Block {name}?",
+  "@moderationBlockTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "moderationBlockMessage": "The friendship ends and {name} can no longer add you or send you challenges and invitations. You can unblock them under Friends → Blocked users.",
+  "@moderationBlockMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "moderationBlocked": "Blocked.",
+  "moderationBlockedList": "Blocked users",
+  "moderationBlockedCount": "{count, plural, =0{Nobody blocked} one{{count} person} other{{count} people}}",
+  "@moderationBlockedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "moderationUnblock": "Unblock",
+  "moderationNoneBlocked": "You haven't blocked anyone.",
+  "workoutRestShorten": "Shorten rest by {seconds} s",
+  "@workoutRestShorten": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "workoutRestExtend": "Extend rest by {seconds} s",
+  "@workoutRestExtend": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "workoutMarkSetDone": "Mark set as done",
+  "workoutMarkSetNotDone": "Mark set as not done",
+  "workoutWeightField": "Weight ({unit})",
+  "@workoutWeightField": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "workoutDurationField": "Time in seconds",
+  "cloudStatusNeedsConfirm": "Paused: this phone has less data than your backup in the cloud. Replace it with “Back up now”, or restore it instead.",
+  "cloudOverwriteTitle": "Replace your cloud backup?",
+  "cloudOverwriteMessage": "This phone has less data than your latest backup in the cloud. Replace it with the data from this phone? The current backup will be kept as the previous one.",
+  "cloudOverwriteConfirm": "Replace",
+  "notifMorningInjury": "On the plan: {plans}. You've logged an injury – skip exercises for the injured muscle group and take the rest easy.",
+  "@notifMorningInjury": {
+    "placeholders": {
+      "plans": {
+        "type": "String"
+      }
+    }
+  },
+  "bodyMapPrimary": "Main muscles",
+  "bodyMapSecondary": "Also worked",
+  "workoutSummaryMuscles": "Muscles worked",
+  "planMusclesTitle": "Muscles in this plan",
+  "exerciseMusclesTitle": "Muscles involved",
+  "muscleQuads": "Quads",
+  "muscleHamstrings": "Hamstrings",
+  "muscleCalves": "Calves",
+  "muscleForearms": "Forearms",
+  "muscleTraps": "Traps",
+  "muscleLowerBack": "Lower back",
+  "focusStrength": "Strength",
+  "focusMuscle": "Muscle",
+  "focusConditioning": "Conditioning",
+  "focusStrengthHint": "Heavy weights, few reps – long rests",
+  "focusMuscleHint": "Building muscle – medium rests",
+  "focusConditioningHint": "Fast pace, higher heart rate – short rests",
+  "restAutoHint": "Rest is set automatically by the exercise and workout focus",
+  "restManualHint": "Rest set manually in the plan",
+  "planRestAuto": "Automatic rest",
+  "planRestAutoValues": "Strength {strength} s · Muscle {muscle} s · Conditioning {conditioning} s",
+  "@planRestAutoValues": {
+    "placeholders": {
+      "strength": {
+        "type": "int"
+      },
+      "muscle": {
+        "type": "int"
+      },
+      "conditioning": {
+        "type": "int"
+      }
+    }
+  },
+  "planRestAutoLabel": "Rest {seconds} s · auto",
+  "@planRestAutoLabel": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "profileSex": "Sex",
+  "sexMale": "Male",
+  "sexFemale": "Female",
+  "sexUnspecified": "Prefer not to say",
+  "profileSexHint": "Only used for rest length – on average, women recover a little faster between sets.",
+  "socialGymNearby": "Gyms near you",
+  "socialGymNearbyFind": "Show gyms near me",
+  "socialGymNearbyHint": "Your location is only used to sort the list and isn’t saved.",
+  "socialGymNearbyEmpty": "No gyms found nearby. Search by name or city, or add yours.",
+  "socialGymMostMembers": "Most members",
+  "socialGymLocationOff": "Location is turned off.",
+  "socialGymLocationDenied": "GymBar can’t access your location.",
+  "socialGymLocationUnavailable": "Couldn’t get your location. Try again.",
+  "socialGymLocationSettings": "Settings",
+  "socialGymOsmAttribution": "Gym data © OpenStreetMap contributors",
+  "socialGymHereNow": "I’m at this gym right now",
+  "socialGymHereNowHint": "Saves the gym’s location so others can find it nearby.",
+  "socialGymDuplicateTitle": "Is it one of these?",
+  "socialGymDuplicateMessage": "These gyms are nearby or have a similar name. Join the right one instead of creating a duplicate.",
+  "socialGymDuplicateCreateAnyway": "No, create a new one",
+  "socialGymWebsite": "Website",
+  "moderationReasonClosed": "Doesn’t exist or is closed",
+  "moderationReasonDuplicate": "Duplicate of another gym",
+  "socialGymPrint": "Print leaderboard",
+  "socialGymPrintTitle": "Gym leaderboard",
+  "socialGymPrintMonth": "This month",
+  "socialGymPrintAllTime": "All time",
+  "socialGymPrintAsOf": "As of {date}",
+  "@socialGymPrintAsOf": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "socialGymPrintEmpty": "No one yet",
+  "socialGymPrintJoin": "Want to be up here too?",
+  "socialGymPrintJoinHint": "Scan the code, get GymBar and join this gym’s leaderboard.",
+  "socialGymPrintCode": "Gym code: {code}",
+  "@socialGymPrintCode": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "socialGymPrintNote": "Only nicknames of members who allowed printing. Heaviest weight lifted in a set.",
+  "socialGymPrintMe": "Show me on the printed leaderboard",
+  "socialGymPrintMeHint": "The leaderboard can be printed for the gym’s notice board. It only shows your nickname and your lifts.",
+  "socialGymPrintFailed": "Couldn’t prepare the leaderboard. Check your connection and try again.",
+  "socialGymPrintNothing": "Nothing to print yet – there are no lifts in the leaderboard.",
+  "termsOfUse": "Terms of use",
+  "socialTermsAgree": "I agree to the terms of use",
+  "socialTermsAgreeHint": "No offensive content or harassment. Inappropriate nicknames and gyms can be reported and we remove them.",
+  "textFilterBlocked": "This contains a word we don’t allow here. Please try something else.",
+  "healthDisclaimer": "GymBar is not a medical device. Talk to a doctor before you start training, especially if you have health problems.",
+  "coachTitle": "Coach",
+  "coachProfileTile": "Coach & clients",
+  "coachProfileNone": "Connect with a coach or become one",
+  "coachProfileClient": "Your coach: {name}",
+  "@coachProfileClient": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "coachProfileTrainer": "{count, plural, =0{You are a coach · no clients yet} one{You are a coach · 1 client} other{You are a coach · {count} clients}}",
+  "@coachProfileTrainer": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coachMyTrainer": "My coach",
+  "coachNoTrainerText": "A coach can send you training plans and see your workouts and charts. Connect with your coach’s link or QR code (just open it or scan it with your camera), or enter their code.",
+  "coachEnterCode": "Enter coach code",
+  "coachCodeLabel": "Coach code (6 characters)",
+  "coachCodeInvalid": "This isn’t a valid coach code.",
+  "coachNotFound": "There’s no coach with this code, or they are no longer a coach.",
+  "coachConnectTitle": "Connect with a coach",
+  "coachConnectShares": "Coach {name} will see:",
+  "@coachConnectShares": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "coachConnectShareList": "• your workouts: date, duration, plan, exercises, sets, weights and reps\n• charts and records calculated from them",
+  "coachConnectNotShared": "They won’t see notes, how a workout felt, illness or injury periods, water intake or other Apple Health / Health Connect data. You can disconnect at any time – your workouts are then deleted for the coach.",
+  "coachConnectWeight": "Also share body weight",
+  "coachConnectWeightHint": "Your coach will see a chart of your weight, including weigh-ins imported from Apple Health / Health Connect. You can turn it off at any time.",
+  "coachConnectReplace": "This will end your connection with coach {name}.",
+  "@coachConnectReplace": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "coachConnectButton": "Connect",
+  "coachConnectDone": "Connected. Your coach can now see your workouts.",
+  "coachConnectSelf": "You can’t be your own coach.",
+  "coachConnectedSince": "Connected since {date}",
+  "@coachConnectedSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "coachDisconnect": "Disconnect",
+  "coachDisconnectTitle": "Disconnect from your coach?",
+  "coachDisconnectMessage": "Your coach will no longer see your workouts and they will be deleted for them. Plans from your coach stay on your phone.",
+  "coachPlansFromTrainer": "Plans from your coach",
+  "coachPlansNone": "Your coach hasn’t sent you a plan yet.",
+  "coachPlanVersion": "Version {version} · tap to load it into Plans",
+  "@coachPlanVersion": {
+    "placeholders": {
+      "version": {
+        "type": "int"
+      }
+    }
+  },
+  "coachPlanDismiss": "Remove",
+  "coachNotes": "Coach comments",
+  "coachNotesNone": "No comments yet.",
+  "coachIAmTrainer": "I’m a coach",
+  "coachBecomeText": "As a coach you send plans to your clients and see their workouts and charts – in the app and on the web at gymbar.app/trener. It’s free for coaches. If you have no clients for 60 days, your coach status ends.",
+  "coachBecome": "Become a coach",
+  "coachNameLabel": "Coach name",
+  "coachBio": "A few words about you (optional)",
+  "coachBioHint": "E.g. your specialisation or gym. Clients see it before they connect.",
+  "coachEditProfile": "Edit coach profile",
+  "coachYourCode": "Your coach code",
+  "coachShareInvite": "Send an invite to a client",
+  "coachInviteText": "Connect with me in the GymBar app – I’ll see your workouts and send you a plan: {link}",
+  "@coachInviteText": {
+    "placeholders": {
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "coachClientsCount": "{count, plural, =0{No clients yet} one{1 client} other{{count} clients}}",
+  "@coachClientsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coachExpiresWarning": "Without a client, your coach status ends on {date}.",
+  "@coachExpiresWarning": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "coachMyClients": "My clients",
+  "coachOpenWeb": "Web for coaches",
+  "coachWebHint": "Client charts and plan building on your computer: gymbar.app/trener",
+  "coachStop": "End coach status",
+  "coachStopTitle": "End coach status?",
+  "coachStopMessage": "Your connections with all clients will end and their workouts will be deleted for you.",
+  "coachClientsNone": "You have no clients yet. Send them an invite or show them your QR code.",
+  "coachLastWorkout": "Last workout {when}",
+  "@coachLastWorkout": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "coachNeverTrained": "No workouts yet",
+  "coachDaysAgo": "{days, plural, =0{today} =1{yesterday} other{{days} days ago}}",
+  "@coachDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "coachThisWeek": "This week: {count}",
+  "@coachThisWeek": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coachInactiveBadge": "Inactive",
+  "coachWorkoutsPerWeek": "Workouts per week",
+  "coachRecords": "Records",
+  "coachRecentWorkouts": "Recent workouts",
+  "coachSendPlan": "Send plan",
+  "coachSendPlanPick": "Which plan do you want to send?",
+  "coachSendPlanDone": "Plan sent. It will appear in your client’s app.",
+  "coachNoPlansToSend": "You don’t have any plan of your own. Create one in Plans or on the web for coaches.",
+  "coachAddNote": "Comment on workout",
+  "coachNoteSent": "Comment sent.",
+  "coachRemoveClient": "Stop coaching",
+  "coachRemoveClientTitle": "Stop coaching {name}?",
+  "@coachRemoveClientTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "coachRemoveClientMessage": "The client disappears from your list and their workouts are deleted for you.",
+  "coachSetsCount": "{count, plural, one{1 set} other{{count} sets}}",
+  "@coachSetsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "planShareLink": "Share plan via link",
+  "planShareText": "Plan “{name}” in the GymBar app: {link}",
+  "@planShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "planSendToClient": "Send to client",
+  "planFromTrainer": "From coach: {name}",
+  "@planFromTrainer": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "planFromTrainerHint": "When your coach sends a new version, your changes to this plan are replaced.",
+  "planFromShared": "From: {name}",
+  "@planFromShared": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "sharedPlanTitle": "Shared plan",
+  "sharedPlanBy": "Shared by {name}",
+  "@sharedPlanBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "sharedPlanExercises": "{count, plural, one{1 exercise} other{{count} exercises}}",
+  "@sharedPlanExercises": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sharedPlanAdd": "Add to my plans",
+  "sharedPlanAdded": "The plan is now in your plans.",
+  "sharedPlanNotFound": "Plan not found. The link is invalid or the author deleted it.",
+  "exerciseNoteMine": "My note",
+  "exerciseNoteMineHint": "E.g. machine or seat setting. You’ll see it with the exercise in every workout.",
+  "exerciseNoteAdd": "Add note",
+  "exerciseNoteMenu": "My exercise note",
+  "planItemNote": "Note in this plan",
+  "planItemNoteHint": "E.g. technique, tempo or grip. You’ll see it when training with this plan.",
+  "planItemNoteFromTrainer": "Your coach wrote this note – a new version of the plan may change it.",
+  "workoutNoteFromTrainer": "Coach {name}",
+  "@workoutNoteFromTrainer": {
+    "description": "Label before a note from the coach shown with an exercise during a workout.",
+    "placeholders": {
+      "name": {
         "type": "String"
       }
     }

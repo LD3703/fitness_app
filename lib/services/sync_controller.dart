@@ -96,6 +96,9 @@ final syncControllerProvider = Provider<SyncController>((ref) {
   ref.listen(profileProvider, (_, __) => controller.schedule());
   ref.listen(periodsProvider, (_, __) => controller.schedule());
   ref.listen(scheduledTodayProvider, (_, __) => controller.schedule());
+  // Nový den (i po návratu z pozadí): posunout okno připomínek
+  // (plánují se jen 7 dní dopředu, na iOS voda jen 2 dny).
+  ref.listen(currentDayProvider, (_, __) => controller.schedule());
   ref.onDispose(controller.dispose);
   controller.schedule();
   return controller;

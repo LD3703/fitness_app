@@ -1,0 +1,1 @@
+Log een set in een paar seconden. De app stelt het gewicht voor de volgende keer voor, bewaakt progressieve overload en laat zien wie de sterkste van jouw gym is.

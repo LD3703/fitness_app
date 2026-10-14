@@ -114,26 +114,15 @@ bool _patchManifest(String receiverClass) {
   }
 
   // Aplikaci otevírá klepnutí na widget (návod home_widget „Detect Clicks“).
-  // Vypnutý vestavěný deep linking Flutteru: odkazy obsluhuje app_links
-  // a home_widget, go_router by jinak dostal homewidget://… jako cestu
-  // a ukázal chybovou stránku (doporučení balíčku app_links).
-  final additions = StringBuffer();
+  // Vypnutý vestavěný deep linking Flutteru (jinak by go_router dostal
+  // homewidget://… jako cestu) nastavuje tool/platform/links.dart
+  // (meta-data flutter_deeplinking_enabled) – platí pro všechny odkazy.
   if (!s.contains(_launchAction)) {
-    additions.write('''    <intent-filter>
+    s = s.replaceRange(activityEnd, activityEnd, '''    <intent-filter>
                 <action android:name="$_launchAction" />
             </intent-filter>
         ''');
     done.add('klepnutí na widget');
-  }
-  if (!s.contains('flutter_deeplinking_enabled')) {
-    additions.write('''    <meta-data
-                android:name="flutter_deeplinking_enabled"
-                android:value="false" />
-        ''');
-    done.add('flutter_deeplinking_enabled=false');
-  }
-  if (additions.isNotEmpty) {
-    s = s.replaceRange(activityEnd, activityEnd, additions.toString());
   }
 
   if (!s.contains('$_className"')) {

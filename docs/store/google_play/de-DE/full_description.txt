@@ -1,0 +1,36 @@
+Ein Trainingstagebuch fürs Gym, das deinen Fortschritt für dich im Blick behält.
+
+Trag einen Satz mit zwei Fingertipps ein, lass dir das Gewicht fürs nächste Mal vorschlagen und sieh zu, wie du stärker wirst. Die App funktioniert ohne Konto und offline, deine Daten bleiben auf deinem Handy.
+
+TRAINING
+• Eigene Pläne und fertige Programme, Trainingstage legst du direkt fest
+• Sätze, Aufwärmsätze, Supersätze und Drop-Sets
+• Pausentimer, auch auf dem Sperrbildschirm
+• Übungsbibliothek mit Anleitungen und Beispielen
+• Plan B: eine kurze Routine für zu Hause, wenn du es nicht ins Studio schaffst
+
+FORTSCHRITT
+• Automatische Progression: nach dem Training Gewicht oder Wiederholungen fürs nächste Mal
+• Prüfung der progressiven Überlastung je Muskelgruppe, Abzeichen für Regelmäßigkeit
+• Persönliche Rekorde (dein schwerster Satz), Volumen und Trainingshäufigkeit
+• Muskelermüdung: welche Muskelgruppen noch Ruhe brauchen
+• Krank, verletzt oder in der Diät? Trag den Zeitraum ein, die Diagramme berücksichtigen ihn
+
+DEIN STUDIO UND FREUNDE
+• Rangliste deines Studios: beitreten per QR-Code am Empfang oder aus der Liste
+• Kategorien Männer und Frauen, Altersgruppen 40+, 50+ und 60+
+• Challenges „Schlag meinen Rekord“, Einladungen zum gemeinsamen Training und Serien mit Freunden
+
+WEITERE FUNKTIONEN
+• Trainer-Ton: freundlich oder streng bis sarkastisch
+• Trinkmenge, Körpergewicht und Erinnerungen
+• Widget für den Startbildschirm
+• Kalender: findet freie Zeit fürs Training und trägt es ein
+• Health Connect
+• Wear-OS-Uhr: Sätze direkt am Handgelenk eintragen
+• Dunkler Modus, Kilogramm und Pfund, 10 Sprachen
+
+DATENSCHUTZ
+Trainings, Körpergewicht und Angaben zu Krankheit oder Verletzung bleiben auf deinem Handy. Auf unsere Server kommt nur, was du selbst einschaltest: Freunde, die Studio-Rangliste oder das Cloud-Backup. Keine Werbung.
+
+GymBar ist kein Medizinprodukt. Sprich vor dem Trainingsstart mit einem Arzt, besonders bei gesundheitlichen Problemen.

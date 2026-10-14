@@ -47,6 +47,9 @@ class WearStrings {
   String get allDone => cs ? 'Všechny série jsou hotové!' : 'All sets done!';
   String get weightLabel => cs ? 'Váha' : 'Weight';
   String get bodyweight => cs ? 'Vlastní váha' : 'Bodyweight';
+  String get note => cs ? 'Poznámka' : 'Note';
+  String get myNote => cs ? 'Moje poznámka' : 'My note';
+  String noteFromTrainer(String name) => cs ? 'Trenér $name' : 'Coach $name';
   String get increase => cs ? 'Přidat' : 'Increase';
   String get decrease => cs ? 'Ubrat' : 'Decrease';
 

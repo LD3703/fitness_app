@@ -1,0 +1,36 @@
+Un diario de gimnasio que controla tu progreso por ti.
+
+Registra una serie con dos toques, deja que la app te sugiera el peso para la próxima vez y mira cómo te vuelves más fuerte. Funciona sin cuenta y sin conexión, y tus datos se quedan en tu celular.
+
+ENTRENAMIENTO
+• Planes propios y programas listos; eliges los días de entrenamiento desde el inicio
+• Series, calentamiento, superseries y series descendentes
+• Temporizador de descanso, también en la pantalla de bloqueo
+• Biblioteca de ejercicios con instrucciones y demostraciones
+• Plan B: una rutina corta en casa cuando no llegas al gimnasio
+
+PROGRESO
+• Progresión automática: tras el entrenamiento, el peso o las repeticiones para la próxima vez
+• Control de la sobrecarga progresiva por grupo muscular e insignias por constancia
+• Récords personales (tu serie más pesada), volumen y frecuencia por grupo muscular
+• Fatiga muscular: qué grupos musculares aún necesitan descanso
+• ¿Enfermo, lesionado o a dieta? Registra el período y las gráficas lo tienen en cuenta
+
+TU GIMNASIO Y AMIGOS
+• Ranking de tu gimnasio: únete con el código QR de recepción o desde la lista
+• Categorías de hombres y mujeres y grupos de edad 40+, 50+ y 60+
+• Retos "supera mi récord", invitaciones a entrenar juntos y rachas con amigos
+
+MÁS FUNCIONES
+• Tono del entrenador: amable o estricto hasta el sarcasmo
+• Hidratación, peso corporal y recordatorios
+• Widget para la pantalla de inicio
+• Calendario: encuentra tiempo libre para entrenar y lo agenda
+• Health Connect
+• Reloj Wear OS: registra series desde la muñeca
+• Modo oscuro, kilos y libras, 10 idiomas
+
+PRIVACIDAD
+Los entrenamientos, el peso y los datos de enfermedad o lesión se quedan en tu celular. A nuestros servidores solo llega lo que tú activas: amigos, el ranking del gimnasio o la copia de seguridad en la nube. Sin anuncios.
+
+GymBar no es un dispositivo médico. Consulta a un médico antes de empezar a entrenar, sobre todo si tienes problemas de salud.

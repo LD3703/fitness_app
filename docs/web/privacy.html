@@ -1,0 +1,624 @@
+<!doctype html>
+<!--
+  Zásady ochrany soukromí. Nahrát na web jako /privacy (nebo
+  /privacy/index.html) – adresa musí odpovídat kPrivacyPolicyUrl
+  v lib/modules/links/deep_links.dart a údaji v Google Play Console
+  a App Store Connect.
+  TODO před zveřejněním: doplnit všechny údaje v hranatých závorkách
+  [ ] v obou jazycích (jméno, adresa, e-mail, datum).
+  Zdroj textu: dokument „Zásady ochrany soukromí – GymBar“.
+-->
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zásady ochrany soukromí / Privacy policy</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1b1f1e;
+      --muted: #59625f;
+      --accent: #2e7d6b;
+      --line: #dde3e1;
+      --head: #f2f6f5;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121615;
+        --text: #e8eeec;
+        --muted: #a5b0ad;
+        --accent: #7cc9b5;
+        --line: #2c3533;
+        --head: #1b2120;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    main { max-width: 820px; margin: 0 auto; padding: 24px 16px 64px; }
+    h1 { font-size: 1.8rem; line-height: 1.25; margin: 8px 0 4px; }
+    h2 { font-size: 1.2rem; margin: 32px 0 8px; color: var(--accent); }
+    p, li { margin: 8px 0; }
+    a { color: var(--accent); }
+    .meta { color: var(--muted); margin-bottom: 16px; }
+    .lead { font-size: 1.05rem; }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; color: var(--text); text-decoration: none; letter-spacing: -0.01em; }
+    .brand img { width: 32px; height: 32px; }
+    .brand .wm span { color: var(--accent); }
+    .lang { display: flex; gap: 8px; justify-content: flex-end; }
+    .lang button {
+      font: inherit; padding: 4px 12px; border-radius: 16px; cursor: pointer;
+      border: 1px solid var(--line); background: transparent; color: var(--text);
+    }
+    .lang button[aria-pressed="true"] {
+      background: var(--accent); border-color: var(--accent); color: var(--bg);
+    }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+    th, td {
+      border: 1px solid var(--line); padding: 8px; text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--head); }
+    [data-lang] { display: none; }
+    body.cs [data-lang="cs"], body.en [data-lang="en"] { display: block; }
+  </style>
+</head>
+<body class="cs">
+<main>
+  <div class="top">
+    <a class="brand" href="/"><img src="/favicon.svg" alt=""><span class="wm">Gym<span>Bar</span></span></a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-set="cs">Čeština</button>
+      <button type="button" data-set="en">English</button>
+    </div>
+  </div>
+
+  <!-- ====================================================== ČEŠTINA -->
+  <article data-lang="cs" lang="cs">
+    <h1>Zásady ochrany soukromí – GymBar</h1>
+    <p class="meta">Platné od [datum zveřejnění]</p>
+    <p class="lead">Tréninky, váha, pitný režim a údaje o nemoci či zranění
+      zůstávají jen v telefonu. Na server jde jen to, co uživatel sám
+      zapne: účet a přátelé, žebříček posilovny, propojení s trenérem,
+      záloha do cloudu a hlášení o pádech aplikace.</p>
+
+    <h2>1. Kdo je správce</h2>
+    <p>Správcem osobních údajů je [Jméno a příjmení], [adresa], [IČO,
+      pokud bude], autor aplikace GymBar. S dotazy k soukromí
+      nebo s uplatněním práv pište na <a href="mailto:info@gymbar.app">info@gymbar.app</a>. Odpovídáme
+      nejpozději do 30 dnů.</p>
+    <p>Pojem „aplikace“ zahrnuje aplikaci pro Android a iOS, aplikaci pro
+      hodinky Wear OS a webové stránky gymbar.app včetně webu pro trenéry
+      (gymbar.app/trener).</p>
+
+    <h2>2. Data, která zůstávají jen v telefonu</h2>
+    <p>Aplikace funguje bez účtu a bez internetu. Pokud nezapnete některou
+      funkci z části 3, ukládají se tyto údaje jen do databáze v telefonu
+      a my k nim nemáme přístup:</p>
+    <ul>
+      <li><strong>Profil:</strong> jméno nebo přezdívka, rok narození,
+        výška, pohlaví (nepovinné, jen pro délku pauz mezi sériemi),
+        jednotky, cíle, nastavení.</li>
+      <li><strong>Tréninky:</strong> plány, série, váhy, opakování,
+        poznámky ke cvikům, rekordy, odznaky, pocit po tréninku.</li>
+      <li><strong>Tělesná váha a pitný režim.</strong></li>
+      <li><strong>Období:</strong> nemoc, zranění (včetně partie), dieta,
+        nabírání. Jsou to údaje o zdraví, proto se nikdy nesdílejí
+        s přáteli ani v žebříčcích.</li>
+      <li><strong>Kalendář (jen když to povolíte):</strong> aplikace čte
+        časy událostí, aby našla volný čas na trénink, a zapisuje do
+        kalendáře naplánované tréninky. Události se z telefonu nikam
+        neodesílají.</li>
+      <li><strong>Health Connect / Apple Zdraví (jen když to
+        povolíte):</strong> aplikace zapisuje tréninky a spálené kalorie
+        a čte a zapisuje tělesnou váhu. Data z Health Connect a Apple
+        Zdraví nepoužíváme k reklamě a neprodáváme je. Převzatá tělesná
+        váha se stane součástí dat aplikace, na server se tedy dostane jen
+        v automatické záloze nebo při sdílení váhy s trenérem, pokud je
+        zapnete.</li>
+      <li><strong>Fotoaparát (jen když to povolíte):</strong> slouží jen ke
+        skenování QR kódu přítele nebo posilovny přímo v telefonu, obraz
+        se neukládá.</li>
+      <li><strong>Poloha (jen když to povolíte):</strong> slouží jen
+        k nalezení posiloven v okolí. Přesná poloha zůstává v telefonu:
+        aplikace z ní spočítá oblasti mřížky (řádově 1–5 km) a podle nich
+        načte posilovny ze serveru. Polohu neukládáme a nesledujeme ji na
+        pozadí. Výjimka: když při přidání posilovny zvolíte „Jsem teď
+        v této posilovně“, uloží se poloha posilovny (viz část 3).</li>
+      <li><strong>Hodinky Wear OS:</strong> telefon posílá do spárovaných
+        hodinek aktuální cvik a sérii a hodinky vrací odkliknuté série.
+        Přenos běží přes službu Google mezi vašimi zařízeními, ne přes náš
+        server.</li>
+      <li><strong>Ruční záloha a export CSV:</strong> soubor vytvoříte vy
+        a sami rozhodnete, kam ho uložíte nebo komu ho pošlete.</li>
+    </ul>
+    <p>Tyto údaje smažete odinstalováním aplikace nebo v Profilu →
+      Smazat všechna data.</p>
+
+    <h2>3. Data, která odcházejí na server</h2>
+    <p>Na server jde jen to, co souvisí s funkcí, kterou si sami zapnete.
+      Aplikace nemá reklamy ani analytiku chování a žádná data
+      neprodáváme.</p>
+    <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Funkce</th><th>Jaká data</th><th>Právní základ (GDPR)</th><th>Jak dlouho</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Přihlášení (Google nebo Apple)</td>
+          <td>identifikátor účtu, e-mail a jméno z účtu Google / Apple, časy přihlášení</td>
+          <td>plnění smlouvy, čl. 6 odst. 1 písm. b)</td>
+          <td>do smazání účtu</td></tr>
+        <tr><td>Přátelé, novinky, pozvánky a výzvy</td>
+          <td>jméno pro přátele, kód přítele, jazyk, seznam přátel, pozvánky
+            na trénink (název plánu, čas), výzvy (cvik, cíl, průběh); se
+            zapnutým sdílením také rekordy (nejtěžší série), počet tréninků v měsíci, týdenní objem a týdny se
+            splněným plánem</td>
+          <td>plnění smlouvy, čl. 6 odst. 1 písm. b)</td>
+          <td>do smazání účtu; sdílené statistiky do vypnutí sdílení</td></tr>
+        <tr><td>Žebříček posilovny</td>
+          <td>přezdívka, pohlaví (nepovinné), věková skupina (do 39, 40+,
+            50+, 60+; nikdy věk ani rok narození), nejtěžší váha u vybraných
+            cviků, počet tréninků, nahlášení záznamů; u založené posilovny
+            její název, město, adresa a volitelně její poloha</td>
+          <td>plnění smlouvy, čl. 6 odst. 1 písm. b); kontrola nereálných
+            výkonů a nahlášení: oprávněný zájem na férovém žebříčku,
+            čl. 6 odst. 1 písm. f)</td>
+          <td>do odchodu z posilovny, vypnutí viditelnosti nebo smazání
+            účtu; vaše nahlášení do smazání účtu nebo nahlášeného záznamu;
+            založená posilovna zůstává v seznamu pro ostatní členy, po
+            smazání účtu bez vazby na vás; vytištěný žebříček (níže) je
+            papír v posilovně, ten už z aplikace smazat nejde</td></tr>
+        <tr><td>Trenér – jako klient (jen když se sami propojíte)</td>
+          <td>jméno pro trenéra; tréninky (datum, délka, název plánu, cviky,
+            série, váhy, opakování); s druhým souhlasem také tělesná váha
+            (i vážení převzatá z Apple Zdraví / Health Connect); plány
+            a komentáře, které vám trenér pošle</td>
+          <td>souhlas, čl. 6 odst. 1 písm. a); tělesná váha výslovný souhlas,
+            čl. 9 odst. 2 písm. a)</td>
+          <td>do zrušení propojení (vámi nebo trenérem), zániku statusu
+            trenéra nebo smazání účtu; váha do vypnutí jejího sdílení</td></tr>
+        <tr><td>Trenér – jako trenér</td>
+          <td>jméno, popis, kód trenéra, počet klientů a datum, od kdy žádného
+            nemáte; vaše knihovna plánů; komentáře klientům; plány sdílené
+            odkazem (název plánu, cviky a poznámky k nim, jméno autora)</td>
+          <td>plnění smlouvy, čl. 6 odst. 1 písm. b)</td>
+          <td>do ukončení statusu trenéra (sami, nebo automaticky po 60 dnech
+            bez klienta) nebo smazání účtu; sdílený plán do jeho smazání nebo
+            smazání účtu</td></tr>
+        <tr><td>Upozornění (push)</td>
+          <td>token zařízení pro notifikace, jazyk</td>
+          <td>plnění smlouvy, čl. 6 odst. 1 písm. b)</td>
+          <td>do odhlášení nebo smazání účtu</td></tr>
+        <tr><td>Automatická záloha do cloudu (vypnutá, dokud ji nezapnete)</td>
+          <td>kopie celé databáze aplikace včetně údajů o zdraví (období
+            nemoci a zranění, tělesná váha, pitný režim); název zařízení,
+            počet tréninků a čas zálohy</td>
+          <td>výslovný souhlas, čl. 9 odst. 2 písm. a) a čl. 6 odst. 1
+            písm. a)</td>
+          <td>poslední 2 zálohy do jejich smazání v Profilu nebo do smazání
+            účtu</td></tr>
+        <tr><td>Nahlášení nevhodného obsahu a blokování</td>
+          <td>kdo nahlásil, co (posilovna nebo uživatel, jeho jméno), důvod
+            a čas; seznam vámi zablokovaných uživatelů (identifikátor
+            a jméno)</td>
+          <td>oprávněný zájem na bezpečné komunitě a dodržení pravidel
+            obchodů s aplikacemi, čl. 6 odst. 1 písm. f)</td>
+          <td>nahlášení 12 měsíců; blokování do odblokování nebo smazání
+            účtu</td></tr>
+        <tr><td>Hlášení o pádech aplikace (lze vypnout v Profilu)</td>
+          <td>popis chyby, model zařízení, verze systému a aplikace, čas,
+            náhodný identifikátor instalace; bez jména, e-mailu
+            a tréninkových dat</td>
+          <td>oprávněný zájem na opravě chyb, čl. 6 odst. 1 písm. f)</td>
+          <td>90 dnů</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>S přáteli se nikdy nesdílí tělesná váha, období nemoci či zranění
+      ani množství vypité vody. U výzvy na pitný režim vidí přítel jen
+      procento splnění. Žebříček posilovny vidí jen její členové a profil
+      jen vaši přátelé; vyhledávání uživatelů neexistuje.</p>
+    <p>Žebříček posilovny může kterýkoli člen vytisknout na nástěnku
+      posilovny (prvních 5 míst ve čtyřech cvicích, muži a ženy). Na papíře
+      jsou jen přezdívky a výkony členů, kteří nechali zapnuté „Ukázat mě
+      na vytištěném žebříčku“; nikdy jména, fotky, věk ani nic dalšího.</p>
+    <p><strong>Trenér:</strong> tréninky uvidí jen trenér, se kterým se
+      v aplikaci sami propojíte a se sdílením souhlasíte (v aplikaci i na
+      webu gymbar.app/trener). Trenér nevidí poznámky, pocit z tréninku,
+      období nemoci či zranění, pitný režim ani jiná data z Apple Zdraví /
+      Health Connect; tělesnou váhu jen s vaším zvláštním souhlasem.
+      Trenér je samostatná osoba, ne náš zaměstnanec – za to, jak s tím,
+      co uvidí, naloží mimo aplikaci, odpovídá sám. Po zrušení propojení se
+      tréninky, váha, plány a komentáře u trenéra automaticky smažou; plány
+      uložené ve vašem telefonu vám zůstanou. Plán sdílený odkazem si
+      může načíst kdokoli, kdo odkaz má.</p>
+    <p>Nahlášení vidí jen vývojář aplikace, nahlášená osoba se o nich
+      nedozví. Posilovnu nahlášenou pěti lidmi skryjeme ze seznamu
+      posiloven, posilovnu bez členů i po pěti nahlášeních, že neexistuje
+      nebo je duplicitní (když do ní pak někdo vstoupí, znovu se ukáže).</p>
+    <p>Seznam posiloven pochází z veřejné databáze OpenStreetMap
+      (© přispěvatelé OpenStreetMap, licence ODbL) a doplňují ho uživatelé.
+      Neobsahuje žádné osobní údaje.</p>
+    <p>Nereálné výkony v žebříčku posilovny skrývá automatická kontrola
+      a záznam nahlášený pěti členy se skryje. Jde jen o viditelnost
+      v žebříčku, nemá to žádný jiný dopad a vaše data v telefonu zůstanou
+      beze změny.</p>
+
+    <h2>4. Kdo data zpracovává a kde</h2>
+    <p>Serverovou část provozujeme na službách Google Firebase. Google je
+      zpracovatelem, data používá jen pro nás a podle smlouvy
+      o zpracování.</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Služba</th><th>K čemu</th><th>Kde jsou servery</th></tr></thead>
+      <tbody>
+        <tr><td>Firebase Authentication</td><td>přihlášení</td><td>globálně, i v USA</td></tr>
+        <tr><td>Cloud Firestore</td><td>profil pro přátele, novinky, výzvy, žebříček posilovny, data pro trenéra</td><td>EU (Belgie a Nizozemsko)</td></tr>
+        <tr><td>Cloud Functions</td><td>notifikace, kontrola žebříčku, počet klientů trenéra, úklid po zrušení propojení a smazání účtu</td><td>EU (Belgie)</td></tr>
+        <tr><td>Firebase Hosting</td><td>webové stránky gymbar.app a web pro trenéry</td><td>globálně (síť CDN)</td></tr>
+        <tr><td>Cloud Storage</td><td>automatická záloha</td><td>EU</td></tr>
+        <tr><td>Firebase Cloud Messaging</td><td>doručení notifikací</td><td>globálně, i v USA</td></tr>
+        <tr><td>Firebase Crashlytics</td><td>hlášení o pádech</td><td>USA</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Předání do USA je kryté rámcem ochrany osobních údajů mezi EU a USA
+      (Data Privacy Framework), ke kterému se Google přihlásil,
+      a standardními smluvními doložkami. Podrobnosti uvádí
+      <a href="https://firebase.google.com/support/privacy">Google ve
+      zásadách Firebase</a>.</p>
+    <p>Při přihlášení přes Google nebo Apple a při doručování notifikací na
+      iPhone zpracovávají údaje také Google a Apple podle svých vlastních
+      zásad. Data o zdraví zůstávají v EU a na server se dostanou jen
+      v automatické záloze nebo ve sdílení váhy s trenérem, které jste sami
+      zapnuli.</p>
+
+    <h2>5. Vaše práva a smazání dat</h2>
+    <p>Máte právo na přístup ke svým údajům, jejich opravu, výmaz, omezení
+      zpracování a přenositelnost. Proti zpracování na základě oprávněného
+      zájmu můžete vznést námitku a souhlas můžete kdykoli odvolat.
+      Odvolání nemá vliv na zpracování před ním.</p>
+    <p>Většinu práv uplatníte přímo v aplikaci:</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Co chcete</th><th>Kde v aplikaci</th></tr></thead>
+      <tbody>
+        <tr><td>Smazat účet a všechna data na serveru</td><td>Přátelé → Smazat účet pro přátele</td></tr>
+        <tr><td>Přestat sdílet rekordy nebo statistiky</td><td>Přátelé → Sdílet rekordy / Sdílet statistiky tréninků</td></tr>
+        <tr><td>Zmizet ze žebříčku posilovny</td><td>Žebříček posilovny → vypnout Ukázat mě v žebříčku posilovny, nebo Opustit posilovnu</td></tr>
+        <tr><td>Nebýt na vytištěném žebříčku</td><td>Žebříček posilovny → menu → Přezdívka, věk a viditelnost → vypnout Ukázat mě na vytištěném žebříčku</td></tr>
+        <tr><td>Odvolat souhlas se zálohou a smazat ji</td><td>Profil → Smazat zálohy v cloudu</td></tr>
+        <tr><td>Přestat sdílet tréninky s trenérem</td><td>Profil → Trenér a klienti → Zrušit propojení</td></tr>
+        <tr><td>Přestat sdílet tělesnou váhu s trenérem</td><td>Profil → Trenér a klienti → vypnout Sdílet i tělesnou váhu</td></tr>
+        <tr><td>Ukončit status trenéra</td><td>Profil → Trenér a klienti → Ukončit status trenéra (nebo na webu pro trenéry)</td></tr>
+        <tr><td>Nahlásit nebo zablokovat uživatele</td><td>Přátelé → menu u přítele → Nahlásit / Zablokovat</td></tr>
+        <tr><td>Vypnout hlášení o pádech</td><td>Profil → Soukromí → Odesílat hlášení o pádech</td></tr>
+        <tr><td>Získat kopii svých dat</td><td>Profil → Jednotky a data → Export dat (CSV) nebo Zálohovat všechna data</td></tr>
+        <tr><td>Smazat data v telefonu</td><td>Profil → Smazat všechna data, nebo odinstalovat aplikaci</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Smazání účtu odstraní profil, přátele, novinky, výzvy, záznamy
+      a nahlášení v žebříčku posilovny, vaše nahlášení obsahu, seznam
+      zablokovaných, zálohy v cloudu, propojení s trenérem (včetně
+      tréninků sdílených s trenérem), status trenéra s knihovnou plánů
+      a plány sdílené odkazem. Posilovny, které
+      jste založili, zůstanou ostatním členům v seznamu, už bez vazby na
+      váš účet. O smazání účtu můžete požádat i bez aplikace, postup je na
+      stránce <a href="delete-account">Smazání účtu</a>. U přihlášení přes Apple se
+      zruší i propojení s Apple ID. Ostatní žádosti posílejte na
+      <a href="mailto:info@gymbar.app">info@gymbar.app</a>.</p>
+    <p>Pokud si myslíte, že s údaji nakládáme špatně, můžete podat
+      stížnost u Úřadu pro ochranu osobních údajů, Pplk. Sochora 27,
+      170 00 Praha 7, <a href="https://uoou.gov.cz">www.uoou.gov.cz</a>,
+      nebo u dozorového úřadu ve své zemi.</p>
+
+    <h2>6. Děti, zabezpečení a změny</h2>
+    <p><strong>Děti:</strong> aplikace je určená osobám od 16 let. Vědomě
+      nezpracováváme údaje mladších dětí. Pokud zjistíte, že nám je dítě
+      poskytlo, napište nám a smažeme je.</p>
+    <p><strong>Zabezpečení:</strong> komunikace se serverem je šifrovaná
+      (HTTPS) a data na serverech Google jsou šifrovaná i v klidu.
+      Pravidla databáze a úložiště dovolí číst vaše soukromá data a zálohy
+      jen vám po přihlášení. Žádný systém ale není bezpečný na 100 %; při
+      úniku dat budeme postupovat podle GDPR.</p>
+    <p><strong>Změny zásad:</strong> zásady upravíme, když přidáme funkci,
+      která mění zpracování údajů (například placené Premium nebo
+      reklamy). O podstatné změně vás informujeme v aplikaci předem.
+      Aktuální verze je vždy na této stránce.</p>
+  </article>
+
+  <!-- ====================================================== ENGLISH -->
+  <article data-lang="en" lang="en">
+    <h1>Privacy policy – GymBar</h1>
+    <p class="meta">Effective from [publication date]</p>
+    <p class="lead">Your workouts, body weight, water intake and illness or
+      injury records stay on your phone. Only what you switch on yourself
+      goes to our servers: your account and friends, the gym leaderboard,
+      connecting with a coach, cloud backup and crash reports.</p>
+
+    <h2>1. Who is responsible</h2>
+    <p>The data controller is [Full name], [address], [company ID, if
+      any], the developer of GymBar. For privacy questions or to
+      exercise your rights, email <a href="mailto:info@gymbar.app">info@gymbar.app</a>. We reply within 30
+      days at the latest.</p>
+    <p>“The app” means the Android and iOS app, the Wear OS watch app and
+      the website gymbar.app, including the coach site
+      (gymbar.app/trener).</p>
+
+    <h2>2. Data that stays on your phone</h2>
+    <p>The app works without an account and offline. Unless you switch on
+      a feature from section 3, the following data is stored only in the
+      database on your phone and we have no access to it:</p>
+    <ul>
+      <li><strong>Profile:</strong> name or nickname, year of birth,
+        height, sex (optional, only used for rest length between sets),
+        units, goals, settings.</li>
+      <li><strong>Workouts:</strong> plans, sets, weights, reps, exercise
+        notes, records, badges, how you felt after a workout.</li>
+      <li><strong>Body weight and water intake.</strong></li>
+      <li><strong>Periods:</strong> illness, injury (including the muscle
+        group), cutting, bulking. This is health data, so it is never
+        shared with friends or in leaderboards.</li>
+      <li><strong>Calendar (only if you allow it):</strong> the app reads
+        event times to find free time for a workout and adds planned
+        workouts to your calendar. Events never leave your phone.</li>
+      <li><strong>Health Connect / Apple Health (only if you allow
+        it):</strong> the app writes workouts and calories burned and reads
+        and writes body weight. We do not use data from Health Connect or
+        Apple Health for advertising and we do not sell it. Imported body
+        weight becomes part of the app data, so it reaches our servers only
+        in the automatic backup or when you share body weight with your
+        coach, if you turn them on.</li>
+      <li><strong>Camera (only if you allow it):</strong> used only to
+        scan a friend’s or gym’s QR code on the phone; images are not
+        stored.</li>
+      <li><strong>Location (only if you allow it):</strong> used only to
+        find gyms near you. Your exact location stays on the phone: the
+        app turns it into grid areas (roughly 1–5 km) and uses them to load
+        gyms from the server. We don’t store your location or track it in
+        the background. Exception: if you choose “I’m at this gym right
+        now” when adding a gym, the gym’s location is saved (see part 3).</li>
+      <li><strong>Wear OS watch:</strong> the phone sends the current
+        exercise and set to your paired watch and the watch sends back
+        completed sets. The transfer runs through Google’s service between
+        your own devices, not through our servers.</li>
+      <li><strong>Manual backup and CSV export:</strong> you create the
+        file and decide where to save it or who to send it to.</li>
+    </ul>
+    <p>You can delete this data by uninstalling the app or in Profile →
+      Delete all data.</p>
+
+    <h2>3. Data that goes to our servers</h2>
+    <p>Only data needed for a feature you switch on yourself is sent to
+      our servers. The app has no ads and no behavioural analytics, and we
+      do not sell any data.</p>
+    <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Feature</th><th>What data</th><th>Legal basis (GDPR)</th><th>How long</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Sign-in (Google or Apple)</td>
+          <td>account identifier, email and name from your Google / Apple
+            account, sign-in times</td>
+          <td>performance of a contract, Art. 6(1)(b)</td>
+          <td>until you delete your account</td></tr>
+        <tr><td>Friends, feed, invitations and challenges</td>
+          <td>name shown to friends, friend code, language, friend list,
+            workout invitations (plan name, time), challenges (exercise,
+            target, progress); if you enable sharing, also records
+            (heaviest set), workouts per month, weekly volume and
+            weeks with the plan completed</td>
+          <td>performance of a contract, Art. 6(1)(b)</td>
+          <td>until you delete your account; shared statistics until you
+            turn sharing off</td></tr>
+        <tr><td>Gym leaderboard</td>
+          <td>nickname, gender (optional), age group (under 40, 40+, 50+,
+            60+; never your age or year of birth), heaviest weight for
+            selected exercises, number of workouts, reports of entries; for
+            a gym you create, its name, city, address and optionally its
+            location</td>
+          <td>performance of a contract, Art. 6(1)(b); checks of
+            unrealistic lifts and reports: legitimate interest in a fair
+            leaderboard, Art. 6(1)(f)</td>
+          <td>until you leave the gym, hide yourself or delete your
+            account; your reports until you delete your account or the
+            reported entry is removed; a gym you create stays listed for
+            other members, unlinked from you after account deletion; a
+            printed leaderboard (see below) is paper in the gym and can't be
+            deleted from the app</td></tr>
+        <tr><td>Coach – as a client (only if you connect yourself)</td>
+          <td>name shown to the coach; workouts (date, duration, plan name,
+            exercises, sets, weights, reps); with a second consent also body
+            weight (including weigh-ins imported from Apple Health / Health
+            Connect); plans and comments your coach sends you</td>
+          <td>consent, Art. 6(1)(a); body weight explicit consent,
+            Art. 9(2)(a)</td>
+          <td>until the connection ends (by you or the coach), the coach
+            status ends or you delete your account; body weight until you
+            turn its sharing off</td></tr>
+        <tr><td>Coach – as a coach</td>
+          <td>name, description, coach code, number of clients and the date
+            since you have had none; your plan library; comments to clients;
+            plans shared by link (plan name, exercises and their notes, author name)</td>
+          <td>performance of a contract, Art. 6(1)(b)</td>
+          <td>until you end your coach status (yourself, or automatically
+            after 60 days without a client) or delete your account; a shared
+            plan until you delete it or your account</td></tr>
+        <tr><td>Push notifications</td>
+          <td>device notification token, language</td>
+          <td>performance of a contract, Art. 6(1)(b)</td>
+          <td>until you sign out or delete your account</td></tr>
+        <tr><td>Automatic cloud backup (off until you turn it on)</td>
+          <td>a copy of the whole app database including health data
+            (illness and injury periods, body weight, water intake); device
+            name, number of workouts and backup time</td>
+          <td>explicit consent, Art. 9(2)(a) and Art. 6(1)(a)</td>
+          <td>the last 2 backups, until you delete them in Profile or
+            delete your account</td></tr>
+        <tr><td>Reporting content and blocking</td>
+          <td>who reported, what (a gym or a user and their name), the
+            reason and time; the list of users you blocked (identifier and
+            name)</td>
+          <td>legitimate interest in a safe community and in complying with
+            app store rules, Art. 6(1)(f)</td>
+          <td>reports 12 months; blocks until you unblock or delete your
+            account</td></tr>
+        <tr><td>Crash reports (can be turned off in Profile)</td>
+          <td>error description, device model, system and app version,
+            time, a random installation identifier; no name, email or
+            workout data</td>
+          <td>legitimate interest in fixing bugs, Art. 6(1)(f)</td>
+          <td>90 days</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Body weight, illness or injury periods and water amounts are never
+      shared with friends. In a water challenge your friend only sees the
+      percentage completed. Only members of a gym see its leaderboard and
+      only your friends see your profile; there is no user search.</p>
+    <p>Any member can print the gym leaderboard for the gym’s notice
+      board (top 5 in four exercises, men and women). The printout shows
+      only nicknames and lifts of members who left “Show me on the printed
+      leaderboard” on; it never shows names, photos, age or anything
+      else.</p>
+    <p><strong>Coach:</strong> only a coach you connect with yourself and
+      agree to share with sees your workouts (in the app and on the coach
+      site gymbar.app/trener). The coach does not see notes, how a workout
+      felt, illness or injury periods, water intake or other Apple Health /
+      Health Connect data; body weight only with your separate consent. A
+      coach is an independent person, not our employee, and is responsible
+      for what they do outside the app with what they see. When the
+      connection ends, your workouts, weight, plans and comments are
+      deleted for the coach automatically; plans saved on your phone stay
+      there. Anyone with the link can open a plan shared by link.</p>
+    <p>Only the app developer sees reports; the reported person is not
+      told. A gym reported by five people is hidden from the gym list; a
+      gym without members also after five reports that it doesn’t exist
+      or is a duplicate (it shows up again once someone joins it).</p>
+    <p>The gym list comes from the public OpenStreetMap database
+      (© OpenStreetMap contributors, ODbL licence) and is completed by
+      users. It contains no personal data.</p>
+    <p>An automatic check hides unrealistic lifts in the gym leaderboard,
+      and an entry reported by five members is hidden. This only affects
+      visibility in the leaderboard, has no other effect, and your data on
+      your phone stays unchanged.</p>
+
+    <h2>4. Who processes the data and where</h2>
+    <p>Our server side runs on Google Firebase. Google acts as our
+      processor and uses the data only on our behalf under a data
+      processing agreement.</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Service</th><th>Purpose</th><th>Server location</th></tr></thead>
+      <tbody>
+        <tr><td>Firebase Authentication</td><td>sign-in</td><td>global, including the USA</td></tr>
+        <tr><td>Cloud Firestore</td><td>profile for friends, feed, challenges, gym leaderboard, coach data</td><td>EU (Belgium and the Netherlands)</td></tr>
+        <tr><td>Cloud Functions</td><td>notifications, leaderboard checks, coach client count, clean-up after disconnecting and account deletion</td><td>EU (Belgium)</td></tr>
+        <tr><td>Firebase Hosting</td><td>the gymbar.app website and the coach site</td><td>global (CDN)</td></tr>
+        <tr><td>Cloud Storage</td><td>automatic backup</td><td>EU</td></tr>
+        <tr><td>Firebase Cloud Messaging</td><td>delivering notifications</td><td>global, including the USA</td></tr>
+        <tr><td>Firebase Crashlytics</td><td>crash reports</td><td>USA</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Transfers to the USA are covered by the EU–US Data Privacy
+      Framework, in which Google participates, and by standard contractual
+      clauses. See <a href="https://firebase.google.com/support/privacy">Google’s
+      Firebase privacy information</a> for details.</p>
+    <p>When you sign in with Google or Apple and when notifications are
+      delivered to an iPhone, Google and Apple also process data under
+      their own policies. Health data stays in the EU and reaches our
+      servers only in the automatic backup or body weight sharing with
+      your coach that you turned on yourself.</p>
+
+    <h2>5. Your rights and deleting your data</h2>
+    <p>You have the right to access, correct, erase, restrict and port your
+      data. You can object to processing based on legitimate interest and
+      withdraw consent at any time; withdrawal does not affect processing
+      before it.</p>
+    <p>You can exercise most rights directly in the app:</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>What you want</th><th>Where in the app</th></tr></thead>
+      <tbody>
+        <tr><td>Delete your account and all data on our servers</td><td>Friends → Delete friends account</td></tr>
+        <tr><td>Stop sharing records or statistics</td><td>Friends → Share records / Share workout stats</td></tr>
+        <tr><td>Leave the gym leaderboard</td><td>Gym leaderboard → turn off Show me in the gym leaderboard, or Leave gym</td></tr>
+        <tr><td>Stay off the printed leaderboard</td><td>Gym leaderboard → menu → Nickname, age and visibility → turn off Show me on the printed leaderboard</td></tr>
+        <tr><td>Withdraw backup consent and delete backups</td><td>Profile → Delete cloud backups</td></tr>
+        <tr><td>Stop sharing workouts with your coach</td><td>Profile → Coach &amp; clients → Disconnect</td></tr>
+        <tr><td>Stop sharing body weight with your coach</td><td>Profile → Coach &amp; clients → turn off Also share body weight</td></tr>
+        <tr><td>End your coach status</td><td>Profile → Coach &amp; clients → End coach status (or on the coach site)</td></tr>
+        <tr><td>Report or block a user</td><td>Friends → menu next to the friend → Report / Block</td></tr>
+        <tr><td>Turn off crash reports</td><td>Profile → Privacy → Send crash reports</td></tr>
+        <tr><td>Get a copy of your data</td><td>Profile → Units &amp; data → Export data (CSV) or Back up all data</td></tr>
+        <tr><td>Delete data on your phone</td><td>Profile → Delete all data, or uninstall the app</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Deleting your account removes your profile, friends, feed,
+      challenges, gym leaderboard entries and reports, your content
+      reports, your block list, cloud backups, your coach connection
+      (including workouts shared with the coach), your coach status with
+      your plan library, and plans shared by link.
+      Gyms you created stay listed for other members, no longer linked to
+      your account. You can also request deletion without the app, see
+      <a href="delete-account">Delete your account</a>. If you signed
+      in with Apple, the link to your Apple ID is revoked as well. Send any
+      other requests to <a href="mailto:info@gymbar.app">info@gymbar.app</a>.</p>
+    <p>If you believe we handle your data incorrectly, you can lodge a
+      complaint with the Czech Office for Personal Data Protection (Úřad
+      pro ochranu osobních údajů), Pplk. Sochora 27, 170 00 Prague 7,
+      <a href="https://uoou.gov.cz">www.uoou.gov.cz</a>, or with the
+      supervisory authority in your country.</p>
+
+    <h2>6. Children, security and changes</h2>
+    <p><strong>Children:</strong> the app is intended for people aged 16
+      and over. We do not knowingly process data of younger children. If
+      you find out that a child has given us data, contact us and we will
+      delete it.</p>
+    <p><strong>Security:</strong> communication with our servers is
+      encrypted (HTTPS) and data on Google’s servers is encrypted at rest.
+      Database and storage rules allow only you, when signed in, to read
+      your private data and backups. No system is 100% secure; in case of
+      a data breach we will act as required by the GDPR.</p>
+    <p><strong>Changes:</strong> we will update this policy when we add a
+      feature that changes how data is processed (for example paid Premium
+      or ads). We will tell you about significant changes in the app in
+      advance. The current version is always on this page.</p>
+  </article>
+</main>
+<script>
+  (function () {
+    var buttons = document.querySelectorAll('[data-set]');
+    function show(lang) {
+      document.body.className = lang;
+      document.documentElement.lang = lang;
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].setAttribute('aria-pressed',
+          String(buttons[i].getAttribute('data-set') === lang));
+      }
+    }
+    var param = new URLSearchParams(location.search).get('lang');
+    var nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    show(param === 'cs' || param === 'en' ? param
+      : (nav === 'cs' || nav === 'sk') ? 'cs' : 'en');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function () {
+        show(this.getAttribute('data-set'));
+      });
+    }
+  })();
+</script>
+</body>
+</html>

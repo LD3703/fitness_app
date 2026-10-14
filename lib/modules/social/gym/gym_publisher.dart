@@ -20,7 +20,7 @@ typedef GymPublishResult = ({Set<GymCategory> rejected});
 ///
 /// Volá se z háčků modulu social (SocialPublisher: po tréninku a při
 /// synchronizaci, nejvýš jednou za 15 min) a při otevření žebříčku.
-/// Ven jde jen: odhad 1RM cviků z [GymCategory.lifts], které uživatel
+/// Ven jde jen: nejtěžší váha cviků z [GymCategory.lifts], které uživatel
 /// dělal (na 0,5 kg), počet tréninků a věková skupina (u40 / 40 / 50 / 60,
 /// z roku narození v profilu – nikdy věk ani rok). Tělesná váha, období
 /// ani voda se nepoužijí.
@@ -150,7 +150,8 @@ abstract final class GymPublisher {
             prev.monthKey == month &&
             prev.nickname == nickname &&
             prev.gender == membership.gender &&
-            prev.ageGroup == ageGroup;
+            prev.ageGroup == ageGroup &&
+            prev.noPrint == !membership.printable;
         if (unchanged) continue;
 
         changes[category] = {
@@ -164,6 +165,8 @@ abstract final class GymPublisher {
             'bestAt': FieldValue.serverTimestamp(),
           'bestMonth': bestMonth ?? FieldValue.delete(),
           'monthKey': month,
+          // Jen „ne“ se ukládá (true); bez pole = smí na vytištěný žebříček.
+          'noPrint': membership.printable ? FieldValue.delete() : true,
           'updatedAt': FieldValue.serverTimestamp(),
         };
       }
@@ -188,10 +191,10 @@ abstract final class GymPublisher {
     for (final c in GymCategory.lifts) {
       final slug = c.exerciseSlug!;
       // Jen cviky, které uživatel opravdu dělal (jinak se nic nezveřejní).
-      final all = await db.gymBestOneRepMax(slug);
+      final all = await db.gymBestWeight(slug);
       final month = all == null
           ? null
-          : await db.gymBestOneRepMax(slug, from: monthStart, to: monthEnd);
+          : await db.gymBestWeight(slug, from: monthStart, to: monthEnd);
       lifts[c] = (
         all: all == null ? null : roundGymLift(all),
         month: month == null ? null : roundGymLift(month),

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/text_filter.dart';
 import 'gym/gym_service.dart';
 import 'social_auth.dart';
 import 'social_backend.dart';
@@ -96,10 +97,11 @@ class SocialService {
     throw StateError('Could not create a friend code');
   }
 
+  /// Jméno pro přátele: oříznuté, s vyloženě hrubým slovem „?“.
   static String _name(String name) {
     final t = name.trim();
     if (t.isEmpty) return '?';
-    return t.length > 40 ? t.substring(0, 40) : t;
+    return publicTextOr(t.length > 40 ? t.substring(0, 40) : t, '?');
   }
 
   Stream<FriendProfile?> watchMe() {
@@ -134,6 +136,43 @@ class SocialService {
     } catch (_) {
       return null;
     }
+  }
+
+  /// Vymění můj kód přítele za nový a starý zruší. Volá se po odebrání
+  /// a zablokování přítele – starý kód znal (je v mém profilu) a mohl by se
+  /// s ním přidat znovu. Přestanou platit i dříve rozeslané odkazy a QR.
+  /// QR a odkaz v záložce Přátelé se obnoví samy (socialMeProvider sleduje
+  /// můj dokument; [_myCode] čte vždy aktuální kód).
+  Future<void> rotateFriendCode() async {
+    final me = _me;
+    final data = (await userDoc(me).get()).data();
+    if (data == null) return;
+    final old = readString(data['friendCode']);
+    final name = _name(readString(data['displayName']) ?? '?');
+    for (var attempt = 0; attempt < 5; attempt++) {
+      final code = generateFriendCode();
+      if (code == old) continue;
+      // Pravidla: nový kód musí po zápisu patřit mně (getAfter).
+      final batch = _fs.batch()
+        ..set(_code(code), {'uid': me, 'name': name})
+        ..update(userDoc(me), {
+          'friendCode': code,
+          // Pole z dřívějších verzí, které pravidla už nepovolí.
+          'relStrength': FieldValue.delete(),
+        });
+      if (old != null) batch.delete(_code(old));
+      try {
+        await quietWrite(
+          batch.commit(),
+          timeout: const Duration(seconds: 15),
+        );
+        return;
+      } on FirebaseException catch (e) {
+        // Kód už někdo má (pravidla nedovolí přepsat cizí) → zkusit jiný.
+        if (e.code != 'permission-denied') rethrow;
+      }
+    }
+    throw StateError('Could not rotate the friend code');
   }
 
   // -------------------------------------------------------------------
@@ -205,6 +244,13 @@ class SocialService {
       ..delete(_friends(me).doc(friendUid))
       ..delete(_friends(friendUid).doc(me));
     await quietWrite(batch.commit());
+    // Odebraný přítel zná můj kód – s novým se bez nového pozvání znovu
+    // nepřidá. Když výměna selže, přítel zůstane odebraný.
+    try {
+      await rotateFriendCode();
+    } catch (e) {
+      debugPrint('Social: friend code rotation failed: $e');
+    }
   }
 
   // -------------------------------------------------------------------
@@ -239,6 +285,9 @@ class SocialService {
   }
 
   /// Zapíše položku do novinek přátel [to] (výchozí: všem přátelům).
+  /// Každému zvlášť: jednostranná vazba (přítel mě mezitím odebral –
+  /// pravidla zápis odmítnou) nebo jiná chyba u jednoho nezastaví zápis
+  /// ostatním.
   Future<void> fanOut(
     String type,
     String myName,
@@ -248,14 +297,16 @@ class SocialService {
     final me = _me;
     final targets = to ?? await friendUids();
     if (targets.isEmpty) return;
-    // Dávka unese max. 500 zápisů.
-    for (var i = 0; i < targets.length; i += 400) {
-      final batch = _fs.batch();
-      for (final f in targets.skip(i).take(400)) {
-        batch.set(_feed(f).doc(), _feedData(type, me, myName, data));
+    final item = _feedData(type, me, myName, data);
+    Future<void> writeOne(String friendUid) async {
+      try {
+        await quietWrite(_feed(friendUid).doc().set(item));
+      } catch (e) {
+        debugPrint('Social: feed item for $friendUid failed: $e');
       }
-      await quietWrite(batch.commit());
     }
+
+    await Future.wait(targets.map(writeOne));
   }
 
   Future<void> updateFeedItem(
@@ -377,7 +428,10 @@ class SocialService {
         'deadline': Timestamp.fromDate(deadline),
         'createdAt': FieldValue.serverTimestamp(),
         'exerciseSlug': exerciseSlug,
-        'exerciseName': exerciseNameEn,
+        // Název vlastního cviku vidí přítel – bez hrubých slov.
+        'exerciseName': exerciseNameEn == null
+            ? null
+            : publicTextOr(exerciseNameEn, '?'),
         'accepted': {if (creatorAccepted) me: true},
         'declined': <String, Object?>{},
         'completed': <String, Object?>{},
@@ -462,11 +516,10 @@ class SocialService {
   Future<void> deleteAllServerData() async {
     final me = _me;
     // Z posilovny odejít (smaže záznamy v žebříčku, sníží počet členů).
-    try {
-      await GymService.instance.leaveGym();
-    } catch (e) {
-      debugPrint('Social: leaving gym failed: $e');
-    }
+    // Když to selže, mazání se přeruší (chybu ukáže volající): bez
+    // private/gym by členství v posilovně zůstalo a pravidla smazání
+    // private/gym, dokud jsem členem, ani nedovolí.
+    await GymService.instance.leaveGym();
     final code = await _myCode();
     final friends = await friendUids();
 
@@ -481,6 +534,9 @@ class SocialService {
           .docs
           .map((d) => d.reference),
       ...(await _challenges.where('members', arrayContains: me).get())
+          .docs
+          .map((d) => d.reference),
+      ...(await userDoc(me).collection('blocked').get())
           .docs
           .map((d) => d.reference),
       _private(me),

@@ -2,11 +2,14 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/text_filter.dart';
 import '../../../data/database.dart';
 import '../../../data/seed/content_i18n.dart';
 import '../../../data/seed/seed_data.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../ui/brand_mark.dart';
 import '../../../ui/format.dart';
 import '../../links/deep_links.dart';
 import '../../sharing/share_cards.dart';
@@ -129,6 +132,7 @@ class _GymProfileSheetState extends State<_GymProfileSheet> {
   );
   late GymGender _gender = widget.initial.gender;
   late bool _show = widget.initial.show;
+  late bool _printable = widget.initial.printable;
   late final _birthYear = TextEditingController(
     text: widget.initial.birthYear?.toString() ?? '',
   );
@@ -149,7 +153,10 @@ class _GymProfileSheetState extends State<_GymProfileSheet> {
     return isValidBirthYear(int.tryParse(t), _currentYear);
   }
 
-  bool get _valid => _nickname.text.trim().isNotEmpty && _birthYearValid;
+  bool get _nicknameBlocked => containsSevereProfanity(_nickname.text);
+
+  bool get _valid =>
+      _nickname.text.trim().isNotEmpty && !_nicknameBlocked && _birthYearValid;
 
   /// Chybu ukážeme až u celého (čtyřmístného) roku, ne při psaní.
   bool get _showBirthYearError =>
@@ -162,6 +169,7 @@ class _GymProfileSheetState extends State<_GymProfileSheet> {
       nickname: sanitizeGymNickname(nick),
       gender: _gender,
       show: _show,
+      printable: _printable,
       birthYear: int.tryParse(_birthYear.text.trim()),
     ));
   }
@@ -196,6 +204,8 @@ class _GymProfileSheetState extends State<_GymProfileSheet> {
                 decoration: InputDecoration(
                   labelText: l10n.socialGymNickname,
                   helperText: l10n.socialGymNicknameHint,
+                  errorText: _nicknameBlocked ? l10n.textFilterBlocked : null,
+                  errorMaxLines: 3,
                 ),
                 onChanged: (_) => setState(() {}),
               ),
@@ -241,6 +251,15 @@ class _GymProfileSheetState extends State<_GymProfileSheet> {
                 subtitle: Text(l10n.socialGymShowMeHint),
                 value: _show,
                 onChanged: (v) => setState(() => _show = v),
+              ),
+              SwitchListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(l10n.socialGymPrintMe),
+                subtitle: Text(l10n.socialGymPrintMeHint),
+                value: _show && _printable,
+                // Kdo není v žebříčku vůbec, není ani na papíře.
+                onChanged:
+                    _show ? (v) => setState(() => _printable = v) : null,
               ),
               Text(l10n.socialGymPrivacy, style: theme.textTheme.bodySmall),
               const SizedBox(height: 16),
@@ -381,12 +400,12 @@ class GymPosterCard extends StatelessWidget {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AppLogoMark(size: 26),
+                      BrandMark(size: 26),
                       SizedBox(width: 8),
-                      Text(
-                        kShareAppName,
-                        style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.w700),
+                      BrandWordmark(
+                        fontSize: 17,
+                        color: _ink,
+                        barColor: Color(0xFF2E7D6B),
                       ),
                     ],
                   ),
@@ -538,16 +557,9 @@ class GymStrongestCard extends StatelessWidget {
                 children: [
                   const Row(
                     children: [
-                      AppLogoMark(size: 34),
+                      BrandMark(size: 34),
                       SizedBox(width: 10),
-                      Text(
-                        kShareAppName,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0.3,
-                        ),
-                      ),
+                      BrandWordmark(fontSize: 20, barColor: _accent),
                     ],
                   ),
                   const SizedBox(height: 28),
@@ -625,3 +637,80 @@ class GymStrongestCard extends StatelessWidget {
     );
   }
 }
+
+// ---------------------------------------------------------------------------
+// Adresář posiloven (hledání, okolí, kontrola duplicit)
+// ---------------------------------------------------------------------------
+
+/// Vzdálenost: „0,4 km“ / „12 km“, v imperiálních jednotkách v mílích.
+String formatGymDistance(BuildContext context, double km) {
+  final value = isImperial ? km / 1.609344 : km;
+  final unit = isImperial ? 'mi' : 'km';
+  return '${formatDecimal(context, value, maxDecimals: value < 10 ? 1 : 0)} $unit';
+}
+
+/// Řádek posilovny v seznamu: název, město a adresa, vzdálenost a členové.
+class GymListTile extends StatelessWidget {
+  const GymListTile({super.key, required this.item, required this.onTap});
+
+  final GymWithDistance item;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final g = item.gym;
+    final km = item.km;
+    final place = [
+      if (g.city.isNotEmpty) g.city,
+      if (g.address != null && g.address!.isNotEmpty) g.address!,
+    ].join(' · ');
+    return ListTile(
+      leading: const Icon(Icons.fitness_center),
+      title: Text(g.name),
+      subtitle: place.isEmpty ? null : Text(place),
+      trailing: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          if (km != null)
+            Text(formatGymDistance(context, km),
+                style: Theme.of(context).textTheme.labelLarge),
+          Text(
+            l10n.socialGymMembers(g.memberCount),
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
+      ),
+      onTap: onTap,
+    );
+  }
+}
+
+/// Uvedení zdroje dat posiloven (licence ODbL OpenStreetMap).
+class OsmAttribution extends StatelessWidget {
+  const OsmAttribution({super.key});
+
+  static final copyrightUrl = Uri.parse('https://www.openstreetmap.org/copyright');
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    return InkWell(
+      onTap: () => launchUrl(copyrightUrl, mode: LaunchMode.externalApplication),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Text(
+          l10n.socialGymOsmAttribution,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+      ),
+    );
+  }
+}
+

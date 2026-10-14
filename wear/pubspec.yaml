@@ -4,7 +4,7 @@ publish_to: 'none'
 # Číslo sestavení (za +) musí být v Google Play jiné než u aplikace
 # v telefonu (stejná aplikace = společná řada versionCode). Hodinky proto
 # používají 1 000 000 + číslo sestavení telefonu – viz docs/wear_os.md.
-version: 0.1.0+1000001
+version: 0.3.10+1000017
 
 environment:
   sdk: ^3.6.0
@@ -21,6 +21,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  # Ikona aplikace (flutter_launcher_icons.yaml)
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true

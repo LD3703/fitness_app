@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <!-- Web je na gymbar.app/trener/ – build: flutter build web --base-href /trener/ -->
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GymBar pro trenéry – tréninky a grafy klientů, plány.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#2E7D6B">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  <title>GymBar pro trenéry</title>
+  <style>
+    body { margin: 0; background: #F4FBF8; }
+    @media (prefers-color-scheme: dark) { body { background: #0F1513; } }
+    #loading { position: fixed; inset: 0; display: flex; align-items: center;
+      justify-content: center; font: 16px system-ui, sans-serif; color: #2E7D6B; }
+  </style>
+</head>
+<body>
+  <div id="loading">GymBar…</div>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

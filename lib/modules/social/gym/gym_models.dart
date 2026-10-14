@@ -13,6 +13,13 @@ class Gym {
     required this.createdBy,
     this.address,
     this.memberCount = 0,
+    this.hidden = false,
+    this.lat,
+    this.lng,
+    this.country,
+    this.website,
+    this.source,
+    this.osmMissing = false,
   });
 
   factory Gym.fromMap(String id, Map<String, Object?> m) => Gym(
@@ -23,6 +30,13 @@ class Gym {
         code: readString(m['code']) ?? '',
         createdBy: readString(m['createdBy']) ?? '',
         memberCount: readInt(m['memberCount']) ?? 0,
+        hidden: m['hidden'] == true,
+        lat: readDouble(m['lat']),
+        lng: readDouble(m['lng']),
+        country: readString(m['country']),
+        website: readString(m['website']),
+        source: readString(m['source']),
+        osmMissing: m['osmMissing'] == true,
       );
 
   final String id;
@@ -32,7 +46,38 @@ class Gym {
   final String code;
   final String createdBy;
   final int memberCount;
+
+  /// Skrytá z adresáře po nahlášeních (zapisuje jen Cloud Function
+  /// onContentReportCreated). Připojit se jde dál kódem / QR.
+  final bool hidden;
+
+  /// Poloha (import z OpenStreetMap, nebo zakladatel v posilovně).
+  final double? lat;
+  final double? lng;
+
+  /// Země (ISO 3166-1) – jen u posiloven z importu.
+  final String? country;
+
+  /// Web posilovny (z OpenStreetMap).
+  final String? website;
+
+  /// Původ: „osm“ = import z OpenStreetMap, null = založil uživatel.
+  final String? source;
+
+  /// Posilovna při posledním importu v OpenStreetMap chyběla (zavřená?).
+  final bool osmMissing;
+
+  bool get isFromOsm => source == 'osm';
+
+  bool get hasLocation => lat != null && lng != null;
+
+  /// Ukázat v seznamech: ne skrytou po nahlášeních a ne prázdnou
+  /// posilovnu, která z OpenStreetMap zmizela.
+  bool get isListed => !hidden && !(osmMissing && memberCount == 0);
 }
+
+/// Posilovna se vzdáleností od uživatele (km; null = bez polohy).
+typedef GymWithDistance = ({Gym gym, double? km});
 
 /// Moje členství a nastavení (users/{uid}/private/gym) – vidí jen vlastník.
 /// Uložené ve Firestore, ne v lokální databázi (schéma se nemění).
@@ -42,6 +87,7 @@ class GymMembership {
     required this.nickname,
     required this.gender,
     required this.show,
+    this.printable = true,
   });
 
   factory GymMembership.fromMap(Map<String, Object?> m) => GymMembership(
@@ -49,6 +95,7 @@ class GymMembership {
         nickname: readString(m['nickname']),
         gender: gymGenderFromKey(readString(m['gender'])),
         show: m['show'] != false,
+        printable: m['printable'] != false,
       );
 
   /// null = nejsem v žádné posilovně.
@@ -58,6 +105,10 @@ class GymMembership {
 
   /// „Ukázat mě v žebříčku posilovny“.
   final bool show;
+
+  /// „Ukázat mě na vytištěném žebříčku“ (nástěnka posilovny). Bez pole
+  /// (dřívější verze) = ano.
+  final bool printable;
 }
 
 /// Záznam v žebříčku (gyms/{gymId}/entries/{uid}_{kategorie}).
@@ -78,6 +129,7 @@ class GymEntry {
     this.reportCount = 0,
     this.verifiedValue,
     this.verifiedAt,
+    this.noPrint = false,
   });
 
   static GymEntry? fromMap(String id, Map<String, Object?> m) {
@@ -101,6 +153,7 @@ class GymEntry {
       reportCount: readInt(m['reportCount']) ?? 0,
       verifiedValue: readDouble(verified['value']),
       verifiedAt: readDate(verified['at']),
+      noPrint: m['noPrint'] == true,
     );
   }
 
@@ -130,12 +183,18 @@ class GymEntry {
   final double? verifiedValue;
   final DateTime? verifiedAt;
 
+  /// Autor nechce být na vytištěném žebříčku (GymMembership.printable).
+  final bool noPrint;
+
   /// Skrytý záznam (nereálný výkon nebo nahlášení) – i bez Cloud
   /// Functions skryje aplikace záznamy s [gymReportHideThreshold] nahlášeními.
   bool get isHidden => hidden || reportCount >= gymReportHideThreshold;
 
+  /// Skrytý trvale (nahlášení, ruční skrytí vývojářem) – ne kvůli
+  /// nereálné hodnotě (`hiddenReason` „implausible:…“).
   bool get hiddenForReports =>
-      reportCount >= gymReportHideThreshold || hiddenReason == 'reports';
+      reportCount >= gymReportHideThreshold ||
+      (hidden && !(hiddenReason ?? '').startsWith('implausible'));
 
   /// Hodnota pro žebříček: měsíční jen pro aktuální měsíc.
   double? valueFor({required bool monthly, required String month}) =>

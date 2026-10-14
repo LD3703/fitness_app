@@ -16,7 +16,7 @@ enum ImplausibleReason {
   jump,
 }
 
-/// Absolutní hranice kategorie: kg odhadu 1RM u cviků (u jednoruček na
+/// Absolutní hranice kategorie: nejtěžší váha v kg u cviků (u jednoruček na
 /// jednu jednoručku, u shybů a dipů jen přidaná zátěž), počet tréninků za
 /// měsíc. Hodnoty jsou u kategorií ([GymCategory.limit]).
 double gymAbsoluteLimit(GymCategory category) => category.limit;

@@ -263,7 +263,11 @@ class WearBridge {
               .toJson());
           return;
         }
-        _queue = _queue.then((_) => _run(id, command));
+        // Chyba jednoho příkazu nesmí frontu zastavit (další `then` by se
+        // na chybné future už nespustilo a hodinky by zůstaly bez odpovědí).
+        _queue = _queue
+            .then((_) => _run(id, command))
+            .catchError((Object e) => debugPrint('Wear queue: $e'));
     }
   }
 
@@ -283,9 +287,14 @@ class WearBridge {
       result = (ok: false, reason: WearAckReason.error);
     }
     if (_disposed) return;
-    _send(WearAck(id, ok: result.ok, reason: result.reason).toJson());
-    // Vždy poslat stav – hodinky podle něj zahodí své dočasné úpravy.
-    publish(force: true);
+    try {
+      _send(WearAck(id, ok: result.ok, reason: result.reason).toJson());
+      // Vždy poslat stav – hodinky podle něj zahodí své dočasné úpravy.
+      // (buildState obrazovky tréninku může selhat – nesmí shodit frontu.)
+      publish(force: true);
+    } catch (e) {
+      debugPrint('Wear command ${command.name}: reply failed: $e');
+    }
   }
 
   WearCommandResult _handleWithoutScreen(WearCommand command) {

@@ -6,14 +6,14 @@
 // nehodnotí) se po týdnech spočítá:
 // - objem = Σ váha × opakování pracovních sérií (rozcvička ne, drop série
 //   ano – celým objemem),
-// - nejlepší odhad 1RM každého cviku (bez rozcvičky a drop sérií).
+// - nejtěžší série každého cviku (bez rozcvičky a drop sérií).
 //
 // Hodnocení „k týdnu W“ (W = poslední dokončený týden) porovná poslední
 // 2 týdny (W a předchozí) s 2 týdny před nimi:
-// - progres: objem +≥ 2,5 % NEBO odhad 1RM některého cviku partie +≥ 1 %
+// - progres: objem +≥ 2,5 % NEBO nejtěžší váha některého cviku partie +≥ 1 %
 //   (porovnává se cvik po cviku, aby výsledek nezkreslila jiná skladba
 //   cviků),
-// - pokles: objem −≥ 10 % a žádné zlepšení 1RM,
+// - pokles: objem −≥ 10 % a žádné zlepšení nejtěžší váhy,
 // - jinak stagnace,
 // - málo dat: partie nebyla trénovaná (se zátěží) v obou oknech.
 // Týdny, které zasáhla nemoc, pauza nebo zranění TÉTO partie, se z oken
@@ -50,9 +50,9 @@ typedef OverloadPeriod = ({
 
 enum OverloadStatus { progressing, holding, stagnating, declining, insufficientData }
 
-enum OverloadReasonKind { oneRepMax, volume }
+enum OverloadReasonKind { topWeight, volume }
 
-/// Důvod stavu: změna odhadu 1RM cviku [exerciseId] nebo změna objemu
+/// Důvod stavu: změna nejtěžší váhy cviku [exerciseId] nebo změna objemu
 /// partie, v procentech (záporné = pokles).
 typedef OverloadReason = ({
   OverloadReasonKind kind,
@@ -76,7 +76,7 @@ enum OverloadWeekOutcome {
 }
 
 const overloadVolumeProgressPercent = 2.5;
-const overloadOneRepMaxProgressPercent = 1.0;
+const overloadTopWeightProgressPercent = 1.0;
 const overloadVolumeDeclinePercent = 10.0;
 
 /// Počet týdnů v jednom okně (poslední 2 týdny vs. 2 týdny před nimi).
@@ -89,17 +89,31 @@ const overloadLookbackWeeks = 12;
 /// Od kolika týdnů stagnace v řadě se ukáže tip.
 const overloadTipAfterWeeks = 3;
 
-/// Hodnocené partie (cviky na celé tělo se nehodnotí).
+/// Hodnocené partie (cviky na celé tělo se nehodnotí). Menší partie se
+/// počítají k větším ([overloadGroupOf]), aby karta nebyla dlouhá.
 const overloadGroups = <MuscleGroup>[
   MuscleGroup.chest,
   MuscleGroup.back,
   MuscleGroup.shoulders,
   MuscleGroup.biceps,
   MuscleGroup.triceps,
-  MuscleGroup.legs,
+  MuscleGroup.quads,
+  MuscleGroup.hamstrings,
   MuscleGroup.glutes,
+  MuscleGroup.calves,
   MuscleGroup.core,
 ];
+
+/// Partie, pod kterou se cvik hodnotí: trapézy a spodní záda pod záda,
+/// předloktí pod biceps, souhrnné „nohy“ (vlastní cviky) pod stehna.
+/// Null = nehodnotí se (celé tělo).
+MuscleGroup? overloadGroupOf(MuscleGroup g) => switch (g) {
+      MuscleGroup.traps || MuscleGroup.lowerBack => MuscleGroup.back,
+      MuscleGroup.forearms => MuscleGroup.biceps,
+      MuscleGroup.legs => MuscleGroup.quads,
+      MuscleGroup.fullBody => null,
+      _ => g,
+    };
 
 const _eps = 1e-9;
 
@@ -140,7 +154,7 @@ class GroupOverload {
   /// Změna objemu posledních 2 týdnů proti 2 předchozím (%).
   final double? volumeChangePercent;
 
-  /// Důvody stavu (nejlepší zlepšení 1RM a/nebo změna objemu).
+  /// Důvody stavu (nejlepší zlepšení nejtěžší váhy a/nebo změna objemu).
   final List<OverloadReason> reasons;
 
   /// Kolik hodnocených týdnů v řadě (včetně tohoto) partie stagnuje.
@@ -288,14 +302,15 @@ OverloadHistory computeOverloadHistory(
   DateTime? firstWeek;
   for (final s in sets) {
     if (s.isWarmup || s.weightKg <= 0 || s.reps <= 0) continue;
-    if (!overloadGroups.contains(s.group)) continue;
+    final group = overloadGroupOf(s.group);
+    if (group == null) continue;
     final w = overloadWeekStart(s.date);
-    final agg = (data[s.group] ??= {})[w] ??= _WeekAgg();
+    final agg = (data[group] ??= {})[w] ??= _WeekAgg();
     agg.volume += s.weightKg * s.reps;
     if (!s.isDrop) {
-      final e1rm = estimateOneRepMax(s.weightKg, s.reps);
-      if (e1rm != null && e1rm > (agg.best[s.exerciseId] ?? 0)) {
-        agg.best[s.exerciseId] = e1rm;
+      final value = recordValue(s.weightKg, s.reps);
+      if (value != null && value > (agg.best[s.exerciseId] ?? 0)) {
+        agg.best[s.exerciseId] = value;
       }
     }
     if (firstWeek == null || w.isBefore(firstWeek)) firstWeek = w;
@@ -379,11 +394,17 @@ GroupOverload _evaluate(
     );
   }
 
-  // Týdny pro obě okna (od nejnovějšího), bez vynechaných.
+  // Týdny pro obě okna (od nejnovějšího), bez vynechaných. Ne před
+  // prvním týdnem, kdy partie vůbec trénovala – prázdné týdny před
+  // začátkem by se počítaly jako nulový objem a každý třetí týden by
+  // pak vypadal jako velký pokrok.
+  final groupFirst = weeksData.keys.reduce((a, b) => a.isBefore(b) ? a : b);
   final picked = <DateTime>[];
   var cursor = week;
   for (var i = 0;
-      i < overloadLookbackWeeks && picked.length < 2 * overloadWindowWeeks;
+      i < overloadLookbackWeeks &&
+          picked.length < 2 * overloadWindowWeeks &&
+          !cursor.isBefore(groupFirst);
       i++) {
     if (kindOf(g, cursor) != _WeekKind.skipped) picked.add(cursor);
     cursor = _addDays(cursor, -7);
@@ -418,7 +439,7 @@ GroupOverload _evaluate(
 
   final volumeChange = (current.volume / before.volume - 1) * 100;
 
-  // Nejlepší zlepšení 1RM cviku, který je v obou oknech.
+  // Nejlepší zlepšení nejtěžší váhy cviku, který je v obou oknech.
   int? bestExercise;
   double? bestChange;
   for (final e in current.best.entries) {
@@ -430,8 +451,8 @@ GroupOverload _evaluate(
       bestExercise = e.key;
     }
   }
-  final e1rmImproved = bestChange != null &&
-      bestChange >= overloadOneRepMaxProgressPercent - _eps;
+  final topWeightImproved = bestChange != null &&
+      bestChange >= overloadTopWeightProgressPercent - _eps;
   final volumeUp = volumeChange >= overloadVolumeProgressPercent - _eps;
   final volumeDown = volumeChange <= -overloadVolumeDeclinePercent + _eps;
   final inCut = recent.any((w) => kindOf(g, w) == _WeekKind.cut);
@@ -442,7 +463,7 @@ GroupOverload _evaluate(
     exerciseId: null,
   );
 
-  if (e1rmImproved || volumeUp) {
+  if (topWeightImproved || volumeUp) {
     return GroupOverload(
       group: g,
       week: week,
@@ -450,10 +471,10 @@ GroupOverload _evaluate(
       inCut: inCut,
       volumeChangePercent: volumeChange,
       reasons: [
-        if (e1rmImproved)
+        if (topWeightImproved)
           (
-            kind: OverloadReasonKind.oneRepMax,
-            percent: bestChange!,
+            kind: OverloadReasonKind.topWeight,
+            percent: bestChange,
             exerciseId: bestExercise,
           ),
         if (volumeUp) volumeReason,

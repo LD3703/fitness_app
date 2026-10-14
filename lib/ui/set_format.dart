@@ -39,11 +39,18 @@ String describeDoneSet(BuildContext context, SetEntry s) {
   return w == null ? '$reps×' : '${formatWeight(context, w)} × $reps';
 }
 
-/// „Rekord: 1RM ≈ 85 kg (75 kg × 5)“.
+/// „100 kg × 5“ (bez opakování jen „100 kg“) – rekordní série, cíl výzvy.
+String describeTopSet(BuildContext context, double weightKg, int? reps) {
+  final weight = formatWeightWithUnit(context, weightKg);
+  return reps == null
+      ? weight
+      : AppLocalizations.of(context).statsSetWeightReps(weight, reps);
+}
+
+/// „Rekord: 75 kg × 5“ (nejtěžší série).
 String describeRecord(BuildContext context, ExerciseRecord r) {
   final l10n = AppLocalizations.of(context);
   return l10n.dataRecordLine(
-    formatWeightWithUnit(context, r.oneRepMax, rounded: true),
     formatWeightWithUnit(context, r.weightKg),
     r.reps,
   );

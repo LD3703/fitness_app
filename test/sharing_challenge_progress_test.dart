@@ -77,25 +77,25 @@ void main() {
 
     test('rekord je potřeba překonat, rovnost nestačí', () {
       expect(
-        challengeProgress(ChallengeKind.beatRecord, 100, bestOneRepMax: 100)
+        challengeProgress(ChallengeKind.beatRecord, 100, bestTopWeight: 100)
             .reached,
         isFalse,
       );
       final p = challengeProgress(ChallengeKind.beatRecord, 100,
-          bestOneRepMax: 100.5);
+          bestTopWeight: 100.5);
       expect(p.reached, isTrue);
       expect(p.fraction, 1);
     });
 
     test('rekord: poměr pro ukazatel', () {
       final p =
-          challengeProgress(ChallengeKind.beatRecord, 120, bestOneRepMax: 90);
+          challengeProgress(ChallengeKind.beatRecord, 120, bestTopWeight: 90);
       expect(p.fraction, closeTo(0.75, 1e-9));
     });
 
     test('tréninky za měsíc: stačí dosáhnout cíle', () {
       final p = challengeProgress(ChallengeKind.workoutsInMonth, 12,
-          workoutsThisMonth: 12, bestOneRepMax: 999, waterMlThisWeek: 1);
+          workoutsThisMonth: 12, bestTopWeight: 999, waterMlThisWeek: 1);
       expect(p.current, 12);
       expect(p.reached, isTrue);
       expect(

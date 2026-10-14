@@ -84,7 +84,7 @@ List<RouteBase> socialRoutes() => [
       ),
     ];
 
-/// [links:social] – fitnessapp://friend?code=XXXX nebo <web>/friend?code=XXXX.
+/// [links:social] – gymbar://friend?code=XXXX nebo `<web>/friend?code=XXXX`.
 bool socialDeepLink(Uri uri, GoRouter router) {
   if (!isAppLink(uri, 'friend')) return false;
   final code = uri.queryParameters['code'];
@@ -95,7 +95,7 @@ bool socialDeepLink(Uri uri, GoRouter router) {
   return true;
 }
 
-/// [links:social] – fitnessapp://gym?code=XXXXXX nebo <web>/gym?code=XXXXXX.
+/// [links:social] – gymbar://gym?code=XXXXXX nebo `<web>/gym?code=XXXXXX`.
 bool socialGymDeepLink(Uri uri, GoRouter router) {
   if (!isAppLink(uri, 'gym')) return false;
   final code = parseGymCode(uri.toString());

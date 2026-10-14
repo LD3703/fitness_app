@@ -1,0 +1,12 @@
+{
+  "name": "GymBar pro trenéry",
+  "short_name": "GymBar Trenér",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#F4FBF8",
+  "theme_color": "#2E7D6B",
+  "description": "Tréninky a grafy klientů, plány.",
+  "icons": [
+    { "src": "icons/Icon-192.png", "sizes": "192x192", "type": "image/png" }
+  ]
+}

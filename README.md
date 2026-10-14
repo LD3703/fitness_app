@@ -1,4 +1,4 @@
-# Fitness App
+# GymBar
 
 Gym tracker s obdobími (nemoc, cut, bulk), pitným režimem a plánem B.
 Specifikace: dokument „Fitness aplikace – specifikace“ v Claude.
@@ -12,11 +12,16 @@ Funguje:
   změna pořadí cviků tažením.
 - **Série v plánu:** každá série má vlastní počet opakování, cílovou váhu
   a může být rozcvičková; převzetí z minulého tréninku; orientační návrh vah
-  podle osobního rekordu; u cviku je vidět rekord (odhad 1RM) a poslední výkon.
+  podle osobního rekordu; u cviku je vidět rekord (nejtěžší série) a poslední výkon.
 - **Trénink:** spuštění z plánu, z obrazovky Dnes i bez plánu; zápis sérií
   s předvyplněním z minula, sloupec „Minule“, časovač pauzy (−15 / +15 /
   přeskočit), přidání cviku i série během tréninku, pokračování po zavření
   aplikace, zahození tréninku.
+- **Automatické pauzy:** nahoře v tréninku volba zaměření Síla / Svaly /
+  Kondice (pamatuje se pro další trénink). Pauza se počítá podle náročnosti
+  cviku (těžký vícekloubový → izolovaný → střed těla → kondiční), zaměření
+  a volitelného pohlaví v profilu (ženy −15 %). V editoru cviku v plánu jde
+  přepnout na ruční pauzu (`core/rest_time.dart`, schéma v14).
 - **Supersérie:** v editoru plánu (ikona řetězu u cviku → „Spojit s dalším
   cvikem“) i během tréninku jde spojit 2–3 po sobě jdoucí cviky (A1, A2…).
   V tréninku jsou v jednom rámečku, střídají se (po A1 se navrhne stejné kolo
@@ -24,7 +29,7 @@ Funguje:
 - **Drop série:** v plánu i v tréninku („Drop série“ za odškrtnutou sérií
   předvyplní váhu o 20 % nižší, zaokrouhlenou na kotouče); štítek „Drop série“,
   pauza až po poslední drop sérii. Počítají se do objemu, ne do rekordů,
-  odhadu 1RM, žebříčku posilovny a výzev.
+  žebříčku posilovny a výzev.
 - **Únava svalů:** karta „Regenerace svalů“ na obrazovce Dnes (partie od
   nejunavenější, stav zotaveno / regeneruje se / unaveno s ikonou a %),
   odhad z tréninků za 7 dní (vedlejší partie, drop série, poločas 24/36 h,
@@ -32,20 +37,20 @@ Funguje:
   partie unavená z ≥ 80 % (trénovat / plán B / odložit); nápověda v editoru
   plánu.
 - **Souhrn po tréninku:** délka, počet sérií, objem, odhad kalorií,
-  nové osobní rekordy (odhad 1RM) a volitelný pocit (lehké / akorát /
+  nové osobní rekordy (nejtěžší série) a volitelný pocit (lehké / akorát /
   náročné).
 - **Dnes:** dnešní plány podle dnů v týdnu, pokračování rozpracovaného
   tréninku, pitný režim, váha, aktuální období.
 - **Druh série celým slovem:** rozcvička a drop série mají místo čísla ikonu
   a štítek „Rozcvička“ / „Drop série“ (v tréninku, editoru plánu i v popisu
   sérií); v aplikaci nejsou jednopísmenné ani tečkové zkratky (jen jednotky
-  jako kg, lb, ml, min, s a 1RM).
+  jako kg, lb, ml, min a s).
 - **Progresivní přetížení:** karta na obrazovce Pokrok – pro každou partii
   (hlavní partie cviků) porovná poslední 2 týdny s 2 týdny předtím: objem
-  pracovních sérií (drop série se počítají) a odhad 1RM cvik po cviku.
-  Stav slovem i ikonou: zlepšuje se (objem +2,5 % nebo 1RM cviku +1 %),
-  stagnuje, klesá (objem −10 % bez zlepšení 1RM), drží (pokles v dietě)
-  a důvod („Bench press: 1RM +3 %“, „Objem +8 %“). Týdny s nemocí, pauzou
+  pracovních sérií (drop série se počítají) a nejtěžší váhu cvik po cviku.
+  Stav slovem i ikonou: zlepšuje se (objem +2,5 % nebo nejtěžší váha cviku +1 %),
+  stagnuje, klesá (objem −10 % bez zlepšení váhy), drží (pokles v dietě)
+  a důvod („Bench press: nejtěžší váha +3 %“, „Objem +8 %“). Týdny s nemocí, pauzou
   nebo zraněním partie se vynechají. Stagnace 3+ týdny → tip (přidat
   1–2 opakování / sérii / 2,5 kg či 5 lb). Se zapnutou ranní připomínkou
   přijde v pondělí ráno týdenní souhrn.
@@ -63,8 +68,8 @@ Funguje:
   (tam přísně doporučí odpočinek). Všechny texty: docs/coach_tone.md. Bez urážek
   a vulgarismů; při nemoci, zranění, 7 dní po nemoci a při únavě partie
   ≥ 80 % se vždy použije přátelský text – zdraví má přednost.
-- **Pokrok:** grafy váhy (průměr za 7 dní + denní vážení), síly (odhad 1RM
-  pro zvolený cvik) a počtu tréninků za týden; období (nemoc, dieta…) jsou
+- **Pokrok:** grafy váhy (průměr za 7 dní + denní vážení), síly (nejtěžší série
+  zvoleného cviku) a počtu tréninků za týden; období (nemoc, dieta…) jsou
   v grafech vybarvená pruhem. Pod grafy historie tréninků.
 - **Období:** nemoc, zranění, dieta, nabírání, udržování, pauza (přidat,
   ukončit, upravit, smazat) – ikona vlajky na obrazovce Dnes nebo Profil.
@@ -77,7 +82,7 @@ Funguje:
   totéž jde měnit v Profilu, vypnuté funkce se skryjí.
 - **Odložení / vynechání tréninku:** z obrazovky Dnes (menu ⋮ u plánu),
   s uklidňující hláškou a možností vrátit.
-- **Cviky:** knihovna 55 cviků s návodem (CZ/EN), hledáním a filtrem.
+- **Cviky:** knihovna 170 cviků s návodem (10 jazyků), hledáním a filtrem.
 - **Hotové programy:** Full body 3×, Horní/dolní 4×, Push/Pull/Legs –
   přidají se jedním klepnutím do Plánů.
 - **Plán B:** 5minutová domácí rutina s časovačem (práce/pauza); po dokončení
@@ -96,7 +101,7 @@ Verze 2 a 3 (moduly v `lib/modules/`):
 - **Statistiky:** objem po týdnech a partiích, kalendář aktivity, jak často
   trénuješ kterou partii, automatické postřehy (návrat po nemoci, shrnutí
   diety a nabírání, nové rekordy, pravidelnost, zanedbaná partie, příliš
-  rychlé hubnutí), obrazovka Osobní rekordy, historie a graf 1RM v detailu
+  rychlé hubnutí), obrazovka Osobní rekordy, historie a graf nejtěžší série v detailu
   cviku, streak týdnů na obrazovce Dnes.
 - **Sdílení a výzvy:** obrázek rekordu a tréninku ke sdílení, výzva odkazem
   („Překonáš mě?“), přijetí výzvy z odkazu, aktivní výzvy s postupem na Dnes.
@@ -112,9 +117,12 @@ Verze 2 a 3 (moduly v `lib/modules/`):
 - **Přátelé (Firebase):** přihlášení Google/Apple, přátelé přes QR nebo
   odkaz, pozvánky na trénink do kalendáře, upozornění na rekordy přátel,
   výzvy, žebříček přátel (tréninky, objem), společný streak a žebříček
-  posilovny (odhad 1RM v 16 cvicích – bench, dřep, mrtvý tah, tlaky,
+  posilovny (nejtěžší váha v 16 cvicích – bench, dřep, mrtvý tah, tlaky,
   bicepsové zdvihy, shyby a dipy se zátěží… – a tréninky v měsíci, filtr
-  pohlaví a věku, „Překonej mě“). Než se nastaví Firebase
+  pohlaví a věku, „Překonej mě“). Adresář posiloven je předplněný
+  z OpenStreetMap pro Evropu a Ameriku (posilovny v okolí podle polohy,
+  kontrola duplicit, nahlášení „neexistuje“; `docs/gyms_import.md`).
+  Než se nastaví Firebase
   (`docs/social.md`), aplikace funguje dál a sekce Přátelé jen hlásí,
   že není nastavená.
 - **Automatická progrese:** po tréninku podle plánu navrhne v souhrnu
@@ -126,6 +134,12 @@ Verze 2 a 3 (moduly v `lib/modules/`):
 - **Záloha do cloudu:** automatická záloha databáze do Firebase Cloud
   Storage (po tréninku a jednou denně, volitelně jen přes Wi-Fi), obnovení
   na novém telefonu (`docs/social.md`, „Automatická záloha“).
+- **Trenér a klienti:** kdokoli se stane trenérem (zdarma; bez klienta
+  60 dní status zanikne), klient se připojí kódem / QR / odkazem a souhlasí
+  se sdílením tréninků (váha zvlášť). Trenér vidí klienty, grafy, rekordy
+  a historii v aplikaci i na webu gymbar.app/trener, píše komentáře
+  a posílá plány, které se klientovi samy uloží; plán jde sdílet i odkazem
+  (`docs/coach.md`).
 - **Hodinky Wear OS:** aplikace pro hodinky ve složce `wear/` – zápis
   sérií, úprava váhy a opakování, pauza (`docs/wear_os.md`).
 - **Premium:** připravené, ale vypnuté (`kPremiumLaunched = false`) –
@@ -252,7 +266,9 @@ ukazuje pod obrázkem a v „O aplikaci“.
 
 Když má cvik na wger.de animovaný GIF / WebP, skript ho stáhne přednostně
 (v aplikaci se pak přehrává animace místo střídání dvou obrázků). Seznam
-stažených obrázků se ukládá do `tool/media/wger_media.json`.
+stažených obrázků se ukládá do `tool/media/wger_media.json`. Obrázky se
+stahují nejdřív do dočasné složky; když stažení cviku selže (výpadek sítě),
+cvik si ponechá předchozí obrázky a stačí skript spustit znovu.
 
 ### Animace cviků z koupeného balíčku (Gym Visual, ExerciseAnimatic)
 
@@ -292,7 +308,9 @@ zastaví / spustí). Postup:
 5. Další balíček přidáš stejným příkazem (nové soubory se přidají nebo
    přepíšou starší). `--replace` smaže všechny dřív importované animace
    a začne znovu. Pozdější `dart run tool/wger_import.dart` koupené
-   animace nepřepíše.
+   animace nepřepíše. Skript nejdřív zkontroluje všechny soubory (např.
+   chybějícího autora) – při chybě se nic nezmění; staré soubory maže až
+   po úspěšném importu.
 
 Tipy: GIF bývá velký (kolem 1 MB). Skript upozorní, když obrázky cviků
 přesáhnou 40 MB – pak je převeď na animovaný WebP (výrazně menší) nebo
@@ -316,7 +334,7 @@ Jeden build trvá zhruba 10–20 minut. Nastavení je v `codemagic.yaml`.
    ```powershell
    git init
    git add .
-   git commit -m "Fitness app"
+   git commit -m "GymBar"
    git branch -M main
    git remote add origin https://github.com/TVUJ_UCET/fitness_app.git
    git push -u origin main
@@ -341,7 +359,11 @@ Tenhle build nejde nainstalovat do iPhonu – jen ověří, že kód funguje i n
    `cz.dedina.fitnessApp`). Stejné musí být v `codemagic.yaml`.
 3. V App Store Connect → Apps → **+** → New App vytvoř aplikaci s tímto
    Bundle ID. Její **Apple ID** (číslo v App Information) zapiš do
-   `codemagic.yaml` místo `0000000000`.
+   `codemagic.yaml` místo `0000000000` (nech uvozovky; dokud tam jsou
+   nuly, workflow hned skončí s upozorněním). Na šifrování (Export
+   Compliance) se TestFlight u každého buildu ptát nebude – odpověď
+   „jen standardní šifrování“ je v `Info.plist`
+   (`ITSAppUsesNonExemptEncryption`, doplní `tool/setup_platforms.dart`).
 4. App Store Connect → Users and Access → Integrations → App Store Connect
    API → vytvoř klíč s rolí **App Manager** a stáhni soubor `.p8`.
 5. V Codemagic: Team settings → Integrations → Developer Portal → Connect,
@@ -352,6 +374,147 @@ Tenhle build nejde nainstalovat do iPhonu – jen ověří, že kód funguje i n
    (záložka TestFlight) se přidej jako interní tester.
 
 ---
+
+## 2d. Vydání pro Android (Google Play)
+
+### Krok 1: upload klíč (jednorázově, na tvém PC)
+Klíč podepisuje každou verzi, kterou nahraješ do Google Play. Google pak
+aplikaci podepíše svým klíčem (Play App Signing), takže při ztrátě
+upload klíče jde požádat o nový – i tak ho **zálohuj** (soubor i hesla
+do správce hesel a mimo počítač).
+
+```powershell
+& "C:\Program Files\Android\Android Studio\jbr\bin\keytool.exe" -genkey -v `
+  -keystore $HOME\upload-keystore.jks -storetype JKS `
+  -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+```
+
+Vytvoř soubor `android\key.properties` (je v `.gitignore`, do gitu
+nepatří):
+
+```properties
+storePassword=<heslo z keytoolu>
+keyPassword=<heslo z keytoolu>
+keyAlias=upload
+storeFile=C:/Users/<tvé jméno>/upload-keystore.jks
+```
+
+`storeFile` musí být **absolutní cesta** (s lomítky `/`) – relativní cestu
+by Gradle hledal ve složce `app` projektu, který se zrovna sestavuje
+(u hodinek ve `wear\android\app`), a podpis by selhal.
+
+Pak `dart run tool/setup_platforms.dart` – doplní do
+`android/app/build.gradle.kts` načtení klíče (bez `key.properties` se
+release dál podepisuje ladicím klíčem, takže `flutter run --release`
+funguje jako dosud). Změněný `build.gradle.kts` commitni.
+
+### Krok 2: build
+```powershell
+flutter build appbundle --release
+```
+Výsledek: `build\app\outputs\bundle\release\app-release.aab`.
+Před každým nahráním zvyš v `pubspec.yaml` číslo za `+`
+(`version: 0.1.0+1` → `0.1.0+2`); Google Play stejné číslo dvakrát
+nepřijme. Číslo před `+` je verze, kterou vidí uživatelé.
+
+### Krok 3: Google Play Console
+1. Účet vývojáře na <https://play.google.com/console> (25 USD jednorázově,
+   ověření totožnosti).
+2. *Vytvořit aplikaci* → název, jazyk, aplikace, zdarma.
+3. *Obsah aplikace* – podklady jsou v dokumentu „Texty a formuláře pro
+   obchody“ (`docs/store/`):
+   - Zásady ochrany soukromí → adresa `/privacy` (`docs/web/privacy.html`),
+   - Smazání účtu → adresa `/delete-account`
+     (`docs/web/delete-account.html`),
+   - Bezpečnost dat, Health Connect, hodnocení obsahu (dotazník), cílová
+     skupina 16+, reklamy: ne.
+4. *Hlavní záznam v obchodu* – texty z `docs/store/google_play/<lokalizace>/` (přidej
+   i další jazyky záznamu podle `docs/store/README.md`), ikona
+   512 × 512, grafika 1024 × 500, aspoň 2 snímky obrazovky.
+5. *Testování → Interní testování* → nahraj první `.aab` **ručně**.
+   U nového osobního účtu pak Google vyžaduje uzavřené testování
+   (naposledy 12 testerů po 14 dní), než povolí produkční vydání –
+   pravidla si ověř přímo v konzoli.
+
+### Krok 4 (volitelné): automatické nahrávání z Codemagicu
+Workflow `android-release` v `codemagic.yaml` sestaví `.aab` a nahraje ho
+do interního testování jako koncept.
+1. Codemagic → Team settings → *Code signing identities* → *Android
+   keystores*: nahraj `upload-keystore.jks`, hesla, alias `upload`,
+   název reference `upload_keystore`.
+2. Servisní účet pro Google Play API: v Google Cloud konzoli zapni
+   **Google Play Android Developer API**, vytvoř servisní účet a klíč JSON
+   (Google ho stáhne jako `<projekt>-<čísla>.json` – nech ho mimo projekt,
+   nebo ho přejmenuj na `play-service-account.json`, ten je v `.gitignore`);
+   v Play Console → *Uživatelé a oprávnění* → pozvat e-mail servisního
+   účtu s oprávněním vydávat do testovacích stopáží.
+   `PACKAGE_NAME` v `codemagic.yaml` musí sedět s `applicationId`.
+3. Codemagic → aplikace → *Environment variables*: skupina
+   `google_play`, proměnná `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS` = celý obsah
+   JSON (označit jako Secret).
+4. *Start new build* → workflow „Android – Google Play“. Číslo buildu si
+   workflow vezme samo (poslední v Google Play + 1).
+
+Workflow běží na Macu M2 (Linux bývá jen v placeném tarifu), takže
+čerpá stejných 500 minut zdarma jako iOS buildy.
+
+Hodinky: aplikace z `wear/` se nahrává do stejné aplikace v Play Console
+jako samostatný `.aab` pro Wear OS (`docs/wear_os.md`); `setup_wear.dart`
+jí nastaví stejný podpis (čte `wear\android\key.properties`, jinak
+`android\key.properties` telefonu). Aplikace v telefonu čte jen svůj
+`android\key.properties`.
+
+## 2e. Název GymBar, ikona a web gymbar.app
+
+### Ikona, úvodní obrazovka a název pod ikonou (jednorázově, na tvém PC)
+Obrázky jsou hotové v `assets/branding` (logo varianta 1, vykresluje je
+`tool/branding/render.py`). Do složek `android` a `ios` je dostaneš takto:
+
+```powershell
+flutter pub get
+dart run flutter_launcher_icons
+dart run flutter_native_splash:create
+dart run tool/setup_platforms.dart
+cd wear
+# jen poprvé, když složka wear\android ještě neexistuje (docs/wear_os.md):
+flutter create . --platforms android --org cz.dedina --project-name fitness_wear
+flutter pub get
+dart run tool/setup_wear.dart
+dart run flutter_launcher_icons
+cd ..
+flutter clean
+flutter run --release
+```
+
+`setup_platforms.dart` nastaví název „GymBar“ pod ikonou (Android
+i iOS), malou ikonu upozornění, barvu push upozornění a přepíše schéma
+odkazů `fitnessapp://` na `gymbar://`. Změněné soubory v `android/`,
+`ios/` a `wear/android/` pak commitni, ať je má i Codemagic.
+
+ID aplikace (`cz.dedina.fitness_app`, `cz.dedina.fitnessApp`) zůstávají –
+uživatelé je nevidí a jsou na ně navázané Firebase, podpis a obchody.
+
+### Grafika do obchodů
+`docs/store/graphics/play_icon_512.png` (ikona pro Google Play) a
+`play_feature_graphic.png` (1024 × 500, „Hlavní obrázek“ v Play Console).
+App Store si ikonu vezme z buildu. Názvy aplikace pro obchody jsou
+v `docs/store/*/<jazyk>/title.txt` a `name.txt`.
+
+### Web gymbar.app (Firebase Hosting, zdarma i s HTTPS)
+Stránky jsou v `docs/web`: úvodní stránka, `/privacy`, `/terms`,
+`/delete-account`, `/challenge` (výzvy), `/friend` + `/gym` + `/coach`
+(pozvánky, QR kódy), `/plan` (sdílený plán) a `/trener` (web pro trenéry –
+sestavuje se zvlášť, `docs/coach.md`).
+
+1. Ve složce projektu: `firebase deploy --only hosting`.
+2. Firebase Console → Hosting → *Add custom domain* → `gymbar.app`
+   (a případně `www.gymbar.app` s přesměrováním).
+3. Záznamy, které Firebase ukáže (TXT a A), zadej v DNS u registrátora
+   domény. Ověření a certifikát trvají od pár minut do 24 hodin.
+4. Než stránky spustíš, doplň v `docs/web/privacy.html`
+   a `delete-account.html` jméno, adresu, e-mail a datum (hledej `[`).
+5. Po vydání v App Store doplň ID aplikace v `docs/web/config.js`
+   a `kAppStoreUrl` v `lib/modules/links/deep_links.dart`.
 
 ## 2c. Jazyky
 
@@ -368,6 +531,16 @@ Aplikace se přepne podle jazyka telefonu; nepodporovaný jazyk = angličtina.
 Překlady připravil Claude; před vydáním je dobré nechat je projít rodilým
 mluvčím (hlavně krátká tlačítka a názvy cviků).
 
+**Popisy oprávnění na iOS** (kalendář, Apple Zdraví, fotoaparát, uložení
+obrázku do Fotek) jsou v `Info.plist` anglicky – iPhone je tak ukáže
+všem uživatelům a rozumí jim i kontrola Applu. Skripty v `tool/` je
+zapisují a dřívější české výchozí texty samy nahradí anglickými (vlastní
+text, který jsi do `Info.plist` napsal ručně, nechají). *Volitelně:*
+překlad do dalších jazyků jde přidat v Xcode souborem `InfoPlist.strings`
+(File → New → File → Strings File, název `InfoPlist`, pak Localize… pro
+každý jazyk, řádky ve tvaru `"NSCameraUsageDescription" = "…";`). Na Windows
+to nejde a skripty to nedělají – stačí angličtina.
+
 ---
 
 ## 3. Struktura projektu
@@ -378,7 +551,7 @@ lib/
   router.dart               navigace (5 záložek + detail cviku)
   providers.dart            Riverpod providery (propojení UI a databáze)
   core/
-    formulas.dart           1RM (Epley), kalorie (MET), klouzavý průměr
+    formulas.dart           rekord (nejtěžší série), kalorie (MET), klouzavý průměr
     wellbeing.dart          situace podle období (nemoc, po nemoci, dieta)
     injury.dart             zranění podle partie (grafy, upozornění)
     date_utils.dart         začátek/konec dne
@@ -386,7 +559,7 @@ lib/
     enums.dart              výčty (partie, vybavení, typ období...)
     tables.dart             tabulky databáze podle specifikace
     database.dart           databáze, počáteční data, dotazy
-    seed/seed_data.dart     55 cviků + 3 domácí 5min rutiny
+    seed/seed_data.dart     170 cviků + 3 domácí 5min rutiny
     seed/seed_instructions.dart  návody ke cvikům (CZ/EN)
     seed/plan_templates.dart     hotové programy pro začátečníky
     seed/seed_translations.dart  cviky, návody a programy v de/es/fr
@@ -409,7 +582,7 @@ lib/
     onboarding/             úvodní průvodce při prvním spuštění
     periods/                období (nemoc, zranění, dieta…)
 test/
-  formulas_test.dart        testy výpočtů (1RM, kalorie, data)
+  formulas_test.dart        testy výpočtů (rekordy, kalorie, data)
   helpers_test.dart         testy dnů v týdnu a formátování
   wellbeing_test.dart       testy určení situace (nemoc, po nemoci…)
   charts_data_test.dart     testy dat pro grafy
@@ -417,6 +590,12 @@ test/
   content_i18n_test.dart    testy překladů obsahu a hledání
 tool/
   setup_platforms.dart      úprava Android/iOS souborů pro pluginy
+  trainer_catalog.dart      katalog cviků pro web trenérů
+packages/
+  gymbar_coach/             sdílený čistý Dart (aplikace + web): plány,
+                            tréninky pro trenéra, statistiky, filtr slov
+trainer_web/                web pro trenéry gymbar.app/trener (Flutter web,
+                            docs/coach.md)
 codemagic.yaml              buildy pro iOS v cloudu
 ```
 
@@ -431,6 +610,7 @@ codemagic.yaml              buildy pro iOS v cloudu
 | flutter_local_notifications, timezone | upozornění |
 | device_calendar_plus | kalendář (zápis i čtení) |
 | app_links, url_launcher | odkazy do aplikace, otevření webu |
+| pdf, printing | vytištěný žebříček posilovny (A4 → tisk / PDF) |
 | share_plus, path_provider, file_picker | sdílení, export, záloha |
 | home_widget | widget na plochu (Android) |
 | health | Health Connect / Apple Zdraví |
@@ -443,10 +623,25 @@ codemagic.yaml              buildy pro iOS v cloudu
 
 ## 5. Co musíš nastavit ručně
 
-- **Doména webu a odkazy do obchodů:** `kWebBaseUrl`, `kPlayStoreUrl`,
-  `kAppStoreUrl` v `lib/modules/links/deep_links.dart`, název na kartách
-  (`kShareAppName`) a stejné údaje v `docs/web/challenge.html`.
+- **Web a odkazy do obchodů:** doména `gymbar.app` je nastavená
+  (`kWebBaseUrl`); po vydání v App Store doplň `kAppStoreUrl`
+  v `lib/modules/links/deep_links.dart` a `docs/web/config.js`. Nasazení
+  webu: kapitola 2e.
+- **Odkazy otevírají rovnou aplikaci (Android App Links):** odkazy
+  `https://gymbar.app/challenge|friend|gym` otevře Android přímo v aplikaci,
+  když web vrací `/.well-known/assetlinks.json` s otiskem klíče, kterým je
+  aplikace podepsaná. Intent-filter přidá `dart run tool/setup_platforms.dart`,
+  soubor vytvoří `dart run tool/assetlinks.dart` (ladicí klíč + release klíč
+  z `android/key.properties`; po nahrání do Google Play přidej
+  `--add <SHA-256>` klíče „App signing key“ z Play Console → App integrity)
+  a pak `firebase deploy --only hosting`. Soubor je v `.gitignore`.
+  Kontrola v telefonu: `adb shell pm get-app-links cz.dedina.fitness_app`
+  (má být `verified`), znovu ověřit:
+  `adb shell pm verify-app-links --re-verify cz.dedina.fitness_app`.
 - **Přátelé:** Firebase podle `docs/social.md`.
+- **Trenéři a klienti, web gymbar.app/trener:** `docs/coach.md` (pravidla
+  Firestore, funkce, `flutterfire configure` pro web, autorizovaná doména
+  `gymbar.app`, build webu do `docs/web/trener`).
 - **Záloha do cloudu:** Cloud Storage v EU a nasazení `storage.rules`
   (`docs/social.md`, kapitola „Automatická záloha“).
 - **Health Connect:** v Google Play Console vyplnit prohlášení o zdravotních
@@ -455,6 +650,28 @@ codemagic.yaml              buildy pro iOS v cloudu
   u App ID schopnosti Push Notifications, HealthKit a Sign in with Apple.
 - **Hodinky (Wear OS):** samostatný projekt ve složce `wear/` – sestavení,
   spárování emulátorů a vydání v Google Play podle `docs/wear_os.md`.
+- **Vydání v App Store:** krok za krokem v `docs/app_store.md` (účet,
+  App ID a jeho funkce, klíče pro Firebase a Codemagic, štítky soukromí,
+  poznámky pro kontrolu Applu).
+- **Podmínky použití:** `docs/web/terms.html` (na webu `/terms`, souhlas
+  před přihlášením k přátelům a žebříčku). Doplň jméno, adresu a datum
+  (hledej `[`) stejně jako u zásad ochrany soukromí. Slibují vyřízení
+  nahlášení zpravidla do 24 hodin – nahlášení chodí do Firestore
+  (`contentReports`), kontroluj je.
+- **Filtr hrubých slov:** `packages/gymbar_coach/lib/src/text_filter.dart`
+  (sdílí ho aplikace i web pro trenéry; v aplikaci přes
+  `lib/core/text_filter.dart`) – jen urážky skupin, sexuální vulgarity
+  a nacismus, hovorové nadávky projdou. Seznam slov rozšíříš tamtéž (a doplň
+  test v `test/text_filter_test.dart`).
+- **Zásady ochrany soukromí:** text je v `docs/web/privacy.html` (čeština
+  a angličtina, kontakt info@gymbar.app). Doplň v něm jméno, adresu a datum
+  (hledej `[`), nahraj ho na web (kapitola 2e) – bude na `/privacy`
+  a stejnou adresu zadej v Google Play Console (Obsah aplikace → Zásady
+  ochrany soukromí) a v App Store Connect. Aplikace na ni odkazuje
+  z Profilu → Soukromí (`kPrivacyPolicyUrl` v
+  `lib/modules/links/deep_links.dart`). Při přidání funkce, která posílá
+  data jinam (Premium, reklamy, analytika), zásady uprav.
+- **Hlášení o pádech (Crashlytics):** viz `docs/social.md`, krok 5a.
 - **Premium (až bude živnostenský list):** viz kapitola 5a.
 
 ## 5a. Premium (zatím vypnuté)

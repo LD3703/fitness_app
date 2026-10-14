@@ -1,5 +1,3 @@
-import 'dart:ui' show FontFeature;
-
 import 'package:flutter/material.dart';
 
 import '../watch_controller.dart';
@@ -259,7 +257,95 @@ class _SetPanel extends StatelessWidget {
                 ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
         ],
+        // Poznámky jen ke čtení – upravují se v telefonu.
+        if (entry.note case final note?)
+          _NoteTile(
+            key: ValueKey('note-${entry.exerciseId}'),
+            icon: entry.noteFrom == null
+                ? Icons.sticky_note_2_outlined
+                : Icons.sports,
+            label: entry.noteFrom == null
+                ? s.note
+                : s.noteFromTrainer(entry.noteFrom!),
+            text: note,
+          ),
+        if (entry.myNote case final note?)
+          _NoteTile(
+            key: ValueKey('mynote-${entry.exerciseId}'),
+            icon: Icons.edit_note,
+            label: s.myNote,
+            text: note,
+          ),
       ],
+    );
+  }
+}
+
+/// Poznámka ke cviku: zkráceně na dva řádky, klepnutím celá.
+class _NoteTile extends StatefulWidget {
+  const _NoteTile({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.text,
+  });
+
+  final IconData icon;
+  final String label;
+  final String text;
+
+  @override
+  State<_NoteTile> createState() => _NoteTileState();
+}
+
+class _NoteTileState extends State<_NoteTile> {
+  bool _expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final muted = theme.colorScheme.onSurfaceVariant;
+    return Padding(
+      padding: const EdgeInsets.only(top: 6),
+      child: Material(
+        color: theme.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: () => setState(() => _expanded = !_expanded),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 6, 10, 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Icon(widget.icon, size: 14, color: muted),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Text(
+                        widget.label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style:
+                            theme.textTheme.labelSmall?.copyWith(color: muted),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  widget.text,
+                  maxLines: _expanded ? null : 2,
+                  overflow: _expanded ? null : TextOverflow.ellipsis,
+                  style: theme.textTheme.bodySmall,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

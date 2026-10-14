@@ -150,7 +150,7 @@ class _BadgeTile extends StatelessWidget {
             Text(
               l10n.badgeEarnedOn(DateFormat.yMMMd(locale).format(a.earnedAt)),
               style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.primary),
+                  ?.copyWith(color: theme.colorScheme.tertiary),
             )
           else if (p != null && p.current > 0)
             Text(l10n.badgeProgress(p.current, p.target), style: muted),
@@ -184,7 +184,7 @@ class BadgesEntryCard extends ConsumerWidget {
     return Card(
       child: ListTile(
         leading:
-            Icon(Icons.military_tech_outlined, color: theme.colorScheme.primary),
+            Icon(Icons.military_tech_outlined, color: theme.colorScheme.tertiary),
         title: Text(l10n.badgeGalleryTitle),
         subtitle: Text(
           l10n.badgeEarnedCount(_earnedCount(earned), badgeCatalog.length),

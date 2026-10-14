@@ -50,7 +50,7 @@ class ExercisesScreen extends ConsumerWidget {
                       .read(exerciseGroupFilterProvider.notifier)
                       .state = null,
                 ),
-                for (final g in MuscleGroup.values)
+                for (final g in muscleGroupsUiOrder)
                   _GroupChip(
                     label: l10n.muscleGroup(g),
                     selected: selectedGroup == g,

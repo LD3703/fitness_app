@@ -29,7 +29,8 @@ void main() {
     });
 
     test('badgeByCode', () {
-      expect(badgeByCode('mastery_legs')?.group, MuscleGroup.legs);
+      expect(badgeByCode('mastery_quads')?.group, MuscleGroup.quads);
+      expect(badgeByCode('mastery_legs'), isNull);
       expect(badgeByCode('records_10')?.threshold, 10);
       expect(badgeByCode('unknown'), isNull);
     });
@@ -111,11 +112,11 @@ void main() {
 
     test('computeBadgeProgress ze surových dat', () {
       GroupOverload g(OverloadStatus s) =>
-          GroupOverload(group: MuscleGroup.legs, week: DateTime(2026), status: s);
+          GroupOverload(group: MuscleGroup.quads, week: DateTime(2026), status: s);
       final history = OverloadHistory(
         weeks: [for (var i = 0; i < 8; i++) DateTime(2026, 6, 1 + 7 * i)],
         byGroup: {
-          MuscleGroup.legs: [
+          MuscleGroup.quads: [
             for (var i = 0; i < 8; i++)
               g(i.isEven
                   ? OverloadStatus.progressing
@@ -126,7 +127,7 @@ void main() {
       );
       final progress = computeBadgeProgress(
         overload: history,
-        oneRepMaxByExercise: {
+        topWeightByExercise: {
           1: [
             (x: DateTime(2026, 9, 1), y: 100),
             (x: DateTime(2026, 9, 8), y: 102),
@@ -138,12 +139,12 @@ void main() {
       );
       // Týdny „drží“ sérii neprodlužují, „progres“ ano: 1 týden v řadě.
       expect(progress.overloadStreak, 1);
-      expect(progress.masteredGroups, {MuscleGroup.legs});
-      expect(progress.masteryRuns[MuscleGroup.legs], 8);
+      expect(progress.masteredGroups, {MuscleGroup.quads});
+      expect(progress.masteryRuns[MuscleGroup.quads], 8);
       expect(progress.personalRecords, 1);
       expect(progress.consistencyStreak, 1);
       final codes = {for (final b in earnedBadges(progress)) b.code};
-      expect(codes, containsAll(['mastery_legs', 'records_1']));
+      expect(codes, containsAll(['mastery_quads', 'records_1']));
       expect(codes, isNot(contains('overload_streak_2')));
     });
   });

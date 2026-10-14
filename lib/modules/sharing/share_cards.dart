@@ -1,14 +1,13 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../ui/brand_mark.dart';
 import '../../ui/format.dart';
 import '../links/deep_links.dart';
 
-/// Název aplikace na kartách. TODO: změnit, až bude název finální.
-const kShareAppName = 'Fitness App';
+/// Název aplikace v textech ke sdílení (na kartách je BrandWordmark).
+const kShareAppName = 'GymBar';
 
 /// Logický rozměr karty (4:5). Obrázek se renderuje ve 3× → 1080 × 1350 px,
 /// což je rozměr, který Instagram i ostatní sítě berou bez ořezu.
@@ -36,14 +35,12 @@ class RecordCardData {
     required this.exerciseName,
     required this.weightKg,
     required this.reps,
-    required this.oneRepMax,
     required this.date,
   });
 
   final String exerciseName;
   final double weightKg;
   final int reps;
-  final double oneRepMax;
   final DateTime date;
 }
 
@@ -111,7 +108,7 @@ class RecordShareCard extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' $weightUnit',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
                     color: _CardColors.accent,
@@ -126,22 +123,6 @@ class RecordShareCard extends StatelessWidget {
                   ),
                 ),
               ]),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: _CardColors.faint,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              l10n.shareCardOneRepMax(formatWeightWithUnit(context, data.oneRepMax)),
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: _CardColors.text,
-              ),
             ),
           ),
         ],
@@ -244,6 +225,112 @@ class WorkoutShareCard extends StatelessWidget {
                 ),
               ),
           ],
+        ],
+      ),
+    );
+  }
+}
+
+/// Data pro kartu výzvy kamarádovi.
+class ChallengeCardData {
+  const ChallengeCardData({
+    required this.exerciseName,
+    required this.weightKg,
+    required this.reps,
+    required this.deadline,
+    this.fromName,
+  });
+
+  final String exerciseName;
+
+  /// Rekordní (nejtěžší) série vyzývajícího – tu má kamarád překonat.
+  final double weightKg;
+  final int reps;
+  final DateTime deadline;
+
+  /// Jméno vyzývajícího; bez jména „Kamarád tě vyzývá!“.
+  final String? fromName;
+}
+
+/// Karta výzvy (obrázek ke sdílení spolu s odkazem na výzvu).
+class ChallengeShareCard extends StatelessWidget {
+  const ChallengeShareCard({super.key, required this.data});
+
+  final ChallengeCardData data;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).toString();
+    final name = data.fromName?.trim();
+    return _CardFrame(
+      label: l10n.shareChallengeTitle,
+      icon: Icons.sports_score,
+      date: data.deadline,
+      dateText: l10n.shareChallengeDeadline(
+          DateFormat.yMMMMd(locale).format(data.deadline)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            name == null || name.isEmpty
+                ? l10n.shareChallengeFromAnonymous
+                : l10n.shareChallengeFrom(name),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.w800,
+              height: 1.15,
+              color: _CardColors.text,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            data.exerciseName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: _CardColors.muted,
+            ),
+          ),
+          const SizedBox(height: 6),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text.rich(
+              TextSpan(children: [
+                TextSpan(
+                  text: formatWeight(context, data.weightKg),
+                  style: const TextStyle(
+                    fontSize: 72,
+                    fontWeight: FontWeight.w800,
+                    height: 1,
+                    color: _CardColors.accent,
+                  ),
+                ),
+                TextSpan(
+                  text: ' $weightUnit',
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: _CardColors.accent,
+                  ),
+                ),
+                TextSpan(
+                  text: '  × ${data.reps}',
+                  style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w700,
+                    color: _CardColors.text,
+                  ),
+                ),
+              ]),
+            ),
+          ),
         ],
       ),
     );
@@ -365,6 +452,7 @@ class _CardFrame extends StatelessWidget {
     required this.icon,
     required this.date,
     required this.child,
+    this.dateText,
   });
 
   final String label;
@@ -372,10 +460,13 @@ class _CardFrame extends StatelessWidget {
   final DateTime date;
   final Widget child;
 
+  /// Vlastní text pod štítkem místo data (např. „Do 24. října 2026“).
+  final String? dateText;
+
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context).toString();
-    final dateText = DateFormat.yMMMMd(locale).format(date);
+    final dateLine = dateText ?? DateFormat.yMMMMd(locale).format(date);
     // Karta má pevnou velikost – velikost písma v systému ji nesmí rozbít.
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
@@ -398,15 +489,15 @@ class _CardFrame extends StatelessWidget {
             child: Stack(
               children: [
                 // Dekorativní kruhy v pozadí.
-                Positioned(
+                const Positioned(
                   right: -80,
                   top: -60,
                   child: _Ring(size: 240, color: _CardColors.faint),
                 ),
-                Positioned(
+                const Positioned(
                   right: -30,
                   bottom: 40,
-                  child: _Ring(size: 140, color: const Color(0x1AFFFFFF)),
+                  child: _Ring(size: 140, color: Color(0x1AFFFFFF)),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(28, 28, 28, 22),
@@ -415,16 +506,12 @@ class _CardFrame extends StatelessWidget {
                     children: [
                       const Row(
                         children: [
-                          AppLogoMark(size: 34),
+                          BrandMark(size: 34),
                           SizedBox(width: 10),
-                          Text(
-                            kShareAppName,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 0.3,
-                              color: _CardColors.text,
-                            ),
+                          BrandWordmark(
+                            fontSize: 20,
+                            color: _CardColors.text,
+                            barColor: _CardColors.accent,
                           ),
                         ],
                       ),
@@ -450,7 +537,7 @@ class _CardFrame extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        dateText,
+                        dateLine,
                         style: const TextStyle(
                             fontSize: 13, color: _CardColors.muted),
                       ),
@@ -500,51 +587,4 @@ class _Ring extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Jednoduché logo aplikace: činka v zaobleném čtverci.
-class AppLogoMark extends StatelessWidget {
-  const AppLogoMark({super.key, this.size = 32});
-
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size.square(size),
-      painter: const _LogoPainter(),
-    );
-  }
-}
-
-class _LogoPainter extends CustomPainter {
-  const _LogoPainter();
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final s = math.min(size.width, size.height);
-    final bg = Paint()..color = _CardColors.accent;
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(Offset.zero & Size.square(s),
-          Radius.circular(s * 0.26)),
-      bg,
-    );
-
-    final ink = Paint()..color = _CardColors.top;
-    final cy = s / 2;
-    RRect bar(double cx, double w, double h) => RRect.fromRectAndRadius(
-          Rect.fromCenter(center: Offset(cx, cy), width: w, height: h),
-          Radius.circular(w * 0.35),
-        );
-    // Tyč
-    canvas.drawRRect(bar(s / 2, s * 0.56, s * 0.08), ink);
-    // Kotouče (velký + malý na každé straně)
-    for (final dir in [-1.0, 1.0]) {
-      canvas.drawRRect(bar(s / 2 + dir * s * 0.22, s * 0.1, s * 0.46), ink);
-      canvas.drawRRect(bar(s / 2 + dir * s * 0.33, s * 0.08, s * 0.30), ink);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _LogoPainter oldDelegate) => false;
 }

@@ -9,9 +9,10 @@ import '../../../ui/dialogs.dart';
 import '../social_logic.dart';
 import '../social_models.dart';
 import '../social_service.dart';
+import 'moderation_ui.dart';
 import 'social_ui.dart';
 
-enum _FriendAction { invite, challenge, remove }
+enum _FriendAction { invite, challenge, remove, report, block }
 
 /// Záložka Přátelé: přidání přítele a seznam se společnými sériemi.
 class FriendsTab extends ConsumerWidget {
@@ -239,6 +240,10 @@ class _FriendTile extends StatelessWidget {
                 destructive: true,
               );
               if (ok) await SocialService.instance.removeFriend(friend.uid);
+            case _FriendAction.report:
+              await reportUserFlow(context, uid: friend.uid, name: name);
+            case _FriendAction.block:
+              await blockUserFlow(context, uid: friend.uid, name: name);
           }
         },
         itemBuilder: (context) => [
@@ -253,6 +258,14 @@ class _FriendTile extends StatelessWidget {
           PopupMenuItem(
             value: _FriendAction.remove,
             child: Text(l10n.socialRemove),
+          ),
+          PopupMenuItem(
+            value: _FriendAction.block,
+            child: Text(l10n.moderationBlock),
+          ),
+          PopupMenuItem(
+            value: _FriendAction.report,
+            child: Text(l10n.moderationReport),
           ),
         ],
       ),

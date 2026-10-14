@@ -29,6 +29,26 @@ ios/.symlinks/
 ios/Flutter/Generated.xcconfig
 ios/Flutter/flutter_export_environment.sh
 
+# Tajné klíče a přístupy – do gitu NEPATŘÍ
+# (google-services.json a GoogleService-Info.plist z flutterfire do gitu
+# patří – nejsou tajné, proto tu nejsou.)
+*.p8
+*.p12
+*.mobileprovision
+.env
+.env.*
+# JSON klíč servisního účtu Google Play (README 2d, krok 4)
+*service-account*.json
+*service_account*.json
+play-*.json
+
 # Ostatní
 .DS_Store
 *.log
+
+# Android App Links – vytváří tool/assetlinks.dart na tvém PC (otisky klíčů)
+docs/web/.well-known/assetlinks.json
+docs/web/.well-known/apple-app-site-association
+
+# Web pro trenéry – sestavený výstup (flutter build web v trainer_web/)
+docs/web/trener/

@@ -127,7 +127,7 @@ class _InsightTile extends StatelessWidget {
       MonthRecordsInsight(
         :final count,
         :final bestExerciseId,
-        :final bestOneRepMax,
+        :final bestTopWeight,
         :final bestGainPercent,
       ) =>
         (
@@ -137,7 +137,7 @@ class _InsightTile extends StatelessWidget {
           [
             l10n.statsInsightRecordsBest(
               name(bestExerciseId),
-              formatWeightWithUnit(context, bestOneRepMax, rounded: true),
+              formatWeightWithUnit(context, bestTopWeight, rounded: true),
               signedPct(bestGainPercent),
             ),
           ],

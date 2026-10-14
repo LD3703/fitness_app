@@ -1,0 +1,16 @@
+# Ikony aplikace z loga GymBar (assets/branding, vykreslí tool/branding/render.py).
+# Spuštění:  dart run flutter_launcher_icons
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path_android: "assets/branding/icon_android.png"
+  # iOS: čtverec bez průhlednosti, rohy zaoblí systém.
+  image_path_ios: "assets/branding/icon_ios.png"
+  remove_alpha_ios: true
+  min_sdk_android: 21
+  # Android 8+: adaptivní ikona (popředí se v obrázku už vejde do masky).
+  adaptive_icon_background: "#2E7D6B"
+  adaptive_icon_foreground: "assets/branding/adaptive_foreground.png"
+  adaptive_icon_foreground_inset: 0
+  # Android 13+: jednobarevná ikona pro motiv ikon.
+  adaptive_icon_monochrome: "assets/branding/adaptive_monochrome.png"

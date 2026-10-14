@@ -105,9 +105,7 @@ RepRange effectiveRepRange(List<TargetSet> targets, {int? min, int? max}) {
 }
 
 bool _isLowerBody(MuscleGroup group, String? slug) =>
-    group == MuscleGroup.legs ||
-    group == MuscleGroup.glutes ||
-    (slug?.contains('deadlift') ?? false);
+    group.isLowerBody || (slug?.contains('deadlift') ?? false);
 
 /// Výchozí přírůstek váhy v kg.
 /// Metricky: horní polovina těla s činkou / strojem 2,5 kg, dolní (nohy,
@@ -216,7 +214,7 @@ class ProgressionBlockers {
     if (illness) return HoldReason.illness;
     if (recovery) return HoldReason.recovery;
     if (injuredAll ||
-        injured.contains(group) ||
+        injured.any((g) => g.overlaps(group)) ||
         (group == MuscleGroup.fullBody && injured.isNotEmpty)) {
       return HoldReason.injury;
     }

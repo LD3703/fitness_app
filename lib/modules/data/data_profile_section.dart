@@ -12,6 +12,7 @@ import '../../premium/premium.dart';
 import '../../providers.dart';
 import '../../services/calendar_service.dart';
 import '../../services/notification_service.dart';
+import '../../services/sync_controller.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/format.dart';
 import 'backup_service.dart';
@@ -106,7 +107,11 @@ class _DataProfileSectionState extends ConsumerState<DataProfileSection> {
   Future<void> _restore() => _run(() async {
         final l10n = AppLocalizations.of(context);
         final db = ref.read(databaseProvider);
+        // Přečíst hned – po chybě už widget nemusí existovat.
+        final sync = ref.read(syncControllerProvider);
         File? file;
+        var cleared = false;
+        var restored = false;
         try {
           final picked = await FilePicker.pickFile(
             dialogTitle: l10n.dataRestore,
@@ -126,9 +131,11 @@ class _DataProfileSectionState extends ConsumerState<DataProfileSection> {
           if (!ok) return;
           // Události a notifikace podle současných dat uklidíme; po obnovení
           // je SyncController naplánuje znovu podle dat ze zálohy.
+          cleared = true;
           await NotificationService.instance.cancelAll();
           await CalendarService.instance.removeFuture(db);
           await BackupService.restore(db, file);
+          restored = true;
           _snack(l10n.dataRestoreDone);
         } on RestoreException catch (e) {
           debugPrint('Restore failed: $e');
@@ -138,6 +145,10 @@ class _DataProfileSectionState extends ConsumerState<DataProfileSection> {
           _snack(l10n.dataRestoreFailed);
         } finally {
           if (file != null) await BackupService.discard(file);
+          // Obnovení selhalo až po úklidu: data zůstala stejná, takže
+          // streamy synchronizaci samy nespustí – připomínky a události
+          // v kalendáři je potřeba naplánovat znovu podle současných dat.
+          if (cleared && !restored) sync.schedule();
         }
       });
 

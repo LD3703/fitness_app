@@ -95,6 +95,8 @@ class _WorkoutWearLink implements WearWorkoutHandler {
           isDuration: b.isDuration,
           weightRequired: b.weightRequired,
           rows: [for (var i = 0; i < b.rows.length; i++) _row(b, i)],
+          planNote: b.data.planNote,
+          myNote: b.myNote,
         ),
     ];
   }
@@ -130,6 +132,7 @@ class _WorkoutWearLink implements WearWorkoutHandler {
       unit: weightUnit,
       kgPerUnit: isImperial ? kgPerLb : 1.0,
       weightStep: weightDisplayStep,
+      noteFrom: setup.planTrainer,
     );
   }
 
@@ -199,8 +202,10 @@ class _WorkoutWearLink implements WearWorkoutHandler {
     final block = _s._blocks[b];
     if (c.setIndex < 0 || c.setIndex >= block.rows.length) return _notFound;
     final row = block.rows[c.setIndex];
-    // Opakovaně doručený příkaz – série už je zapsaná.
-    if (row.isDone) return _ok;
+    // Opakovaně doručený příkaz – série už je zapsaná, nebo se právě
+    // zapisuje (klepnutí v telefonu / předchozí příkaz); druhý zápis by
+    // vložil stejnou sérii dvakrát.
+    if (row.isDone || row.saving) return _ok;
 
     if (!block.isDuration) {
       final kg = c.weightKg;

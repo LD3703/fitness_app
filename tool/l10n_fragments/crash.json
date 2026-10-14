@@ -1,0 +1,62 @@
+{
+  "privacySection": {
+    "en": "Privacy",
+    "cs": "Soukromí",
+    "de": "Datenschutz",
+    "es": "Privacidad",
+    "fr": "Confidentialité",
+    "pl": "Prywatność",
+    "pt": "Privacidade",
+    "it": "Privacy",
+    "sk": "Súkromie",
+    "nl": "Privacy"
+  },
+  "privacyPolicy": {
+    "en": "Privacy policy",
+    "cs": "Zásady ochrany soukromí",
+    "de": "Datenschutzerklärung",
+    "es": "Política de privacidad",
+    "fr": "Politique de confidentialité",
+    "pl": "Polityka prywatności",
+    "pt": "Política de privacidade",
+    "it": "Informativa sulla privacy",
+    "sk": "Zásady ochrany súkromia",
+    "nl": "Privacybeleid"
+  },
+  "privacyPolicyHint": {
+    "en": "What the app stores and where it sends it",
+    "cs": "Co aplikace ukládá a kam to posílá",
+    "de": "Was die App speichert und wohin sie es sendet",
+    "es": "Qué guarda la app y adónde lo envía",
+    "fr": "Ce que l’app enregistre et où elle l’envoie",
+    "pl": "Co aplikacja zapisuje i dokąd to wysyła",
+    "pt": "O que o app guarda e para onde envia",
+    "it": "Cosa salva l’app e dove lo invia",
+    "sk": "Čo aplikácia ukladá a kam to posiela",
+    "nl": "Wat de app opslaat en waar het naartoe gaat"
+  },
+  "crashReportsTitle": {
+    "en": "Send crash reports",
+    "cs": "Odesílat hlášení o pádech",
+    "de": "Absturzberichte senden",
+    "es": "Enviar informes de errores",
+    "fr": "Envoyer les rapports de plantage",
+    "pl": "Wysyłaj raporty o awariach",
+    "pt": "Enviar relatórios de falhas",
+    "it": "Invia segnalazioni di arresti anomali",
+    "sk": "Odosielať hlásenia o pádoch",
+    "nl": "Crashrapporten versturen"
+  },
+  "crashReportsHint": {
+    "en": "If the app crashes, it sends a description of the error and the phone model – no name and no workout data. It helps us fix bugs.",
+    "cs": "Když aplikace spadne, pošle popis chyby a model telefonu – bez jména a bez dat z tréninků. Pomáhá opravovat chyby.",
+    "de": "Wenn die App abstürzt, sendet sie eine Fehlerbeschreibung und das Handymodell – ohne Namen und ohne Trainingsdaten. Das hilft uns, Fehler zu beheben.",
+    "es": "Si la app se cierra por un error, envía una descripción del error y el modelo del teléfono, sin nombre ni datos de entrenamiento. Nos ayuda a corregir fallos.",
+    "fr": "Si l’app plante, elle envoie une description de l’erreur et le modèle du téléphone – sans nom ni données d’entraînement. Cela nous aide à corriger les bugs.",
+    "pl": "Gdy aplikacja się zawiesi, wysyła opis błędu i model telefonu – bez imienia i bez danych z treningów. Pomaga nam naprawiać błędy.",
+    "pt": "Se o app travar, ele envia uma descrição do erro e o modelo do celular – sem nome e sem dados de treino. Isso nos ajuda a corrigir falhas.",
+    "it": "Se l’app si chiude per un errore, invia una descrizione dell’errore e il modello del telefono, senza nome né dati di allenamento. Ci aiuta a correggere i bug.",
+    "sk": "Keď aplikácia spadne, pošle popis chyby a model telefónu – bez mena a bez údajov z tréningov. Pomáha opravovať chyby.",
+    "nl": "Als de app crasht, stuurt hij een foutbeschrijving en het telefoonmodel – zonder naam en zonder trainingsgegevens. Zo kunnen we fouten oplossen."
+  }
+}

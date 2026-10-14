@@ -136,7 +136,34 @@ class _CloudProfileSectionState extends ConsumerState<CloudProfileSection> {
           lastFailedAt: null,
           retryAfter: null,
         ));
-    final result = await _service.backupNow(ref.read(databaseProvider));
+    await _manualBackup(l10n);
+  }
+
+  /// Ruční záloha (tlačítko „Zálohovat teď“ i první záloha po zapnutí).
+  /// Když data v telefonu vypadají menší než záloha v cloudu, nejdřív se
+  /// zeptá, jestli ji opravdu přepsat.
+  Future<void> _manualBackup(AppLocalizations l10n) async {
+    final db = ref.read(databaseProvider);
+    var result = await _service.backupNow(db);
+    // skippedSmaller: souběžně běžela automatická záloha se stejným závěrem.
+    if (result == CloudBackupResult.needsConfirmation ||
+        result == CloudBackupResult.skippedSmaller) {
+      if (!mounted) return;
+      final ok = await showConfirmDialog(
+        context,
+        title: l10n.cloudOverwriteTitle,
+        message: l10n.cloudOverwriteMessage,
+        confirmLabel: l10n.cloudOverwriteConfirm,
+        destructive: true,
+      );
+      if (!ok) {
+        // Automatická záloha teď bude čekat – ukázat to ve stavu.
+        await CloudSettingsStore.instance
+            .update((s) => s.copyWith(needsConfirmation: true));
+        return;
+      }
+      result = await _service.backupNow(db, confirmed: true);
+    }
     _snack(_resultText(l10n, result));
   }
 
@@ -152,7 +179,10 @@ class _CloudProfileSectionState extends ConsumerState<CloudProfileSection> {
   String _resultText(AppLocalizations l10n, CloudBackupResult r) =>
       switch (r) {
         CloudBackupResult.done => l10n.cloudBackupDone,
-        CloudBackupResult.skippedEmpty => l10n.cloudBackupSkippedEmpty,
+        CloudBackupResult.skippedSmaller ||
+        CloudBackupResult.needsConfirmation =>
+          l10n.cloudStatusNeedsConfirm,
+        CloudBackupResult.disabled => l10n.cloudStatusOff,
         CloudBackupResult.notSignedIn ||
         CloudBackupResult.failed =>
           l10n.cloudBackupFailed,
@@ -165,8 +195,7 @@ class _CloudProfileSectionState extends ConsumerState<CloudProfileSection> {
             !mounted) {
           return;
         }
-        final result = await _service.backupNow(ref.read(databaseProvider));
-        _snack(_resultText(l10n, result));
+        await _manualBackup(l10n);
       });
 
   // ---------------------------------------------------------------------
@@ -218,8 +247,14 @@ class _CloudProfileSectionState extends ConsumerState<CloudProfileSection> {
     final lastText = last == null
         ? l10n.cloudStatusNever
         : l10n.cloudStatusLast(cloudDateTime(context, last));
+    if (s.needsConfirmation) {
+      return '${l10n.cloudStatusNeedsConfirm}\n$lastText';
+    }
     return s.lastFailed ? '${l10n.cloudStatusFailed}\n$lastText' : lastText;
   }
+
+  /// Je potřeba upozornit (chyba nebo čekání na potvrzení)?
+  static bool _warning(CloudSettings s) => s.lastFailed || s.needsConfirmation;
 
   @override
   Widget build(BuildContext context) {
@@ -258,10 +293,10 @@ class _CloudProfileSectionState extends ConsumerState<CloudProfileSection> {
         SwitchListTile(
           // Zapnutí volá requirePremium (_enable).
           secondary: Icon(
-            enabled && settings.lastFailed
+            enabled && _warning(settings)
                 ? Icons.sync_problem_outlined
                 : Icons.cloud_sync_outlined,
-            color: enabled && settings.lastFailed
+            color: enabled && _warning(settings)
                 ? theme.colorScheme.error
                 : null,
           ),
@@ -273,7 +308,7 @@ class _CloudProfileSectionState extends ConsumerState<CloudProfileSection> {
             ],
           ),
           subtitle: Text(_status(context, settings.copyWith(enabled: enabled))),
-          isThreeLine: enabled && settings.lastFailed,
+          isThreeLine: enabled && _warning(settings),
           value: enabled,
           onChanged: _busy ? null : _setEnabled,
         ),

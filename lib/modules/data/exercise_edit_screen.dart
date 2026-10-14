@@ -226,7 +226,7 @@ class _ExerciseEditScreenState extends ConsumerState<ExerciseEditScreen> {
               label: Text(l10n.exerciseMuscleGroup),
               initialSelection: _group,
               dropdownMenuEntries: [
-                for (final g in MuscleGroup.values)
+                for (final g in muscleGroupsUiOrder)
                   DropdownMenuEntry(value: g, label: l10n.muscleGroup(g)),
               ],
               onSelected: (g) {

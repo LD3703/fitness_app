@@ -5,13 +5,13 @@ import 'package:purchases_flutter/purchases_flutter.dart' as rc;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/app_localizations.dart';
-import '../modules/links/deep_links.dart' show kWebBaseUrl;
+import '../modules/links/deep_links.dart' show kPrivacyPolicyUrl, kTermsUrl;
 import 'premium.dart';
 import 'premium_service.dart';
 
 /// Podmínky použití a zásady ochrany soukromí (doplň skutečné adresy).
-const kPremiumTermsUrl = '$kWebBaseUrl/terms';
-const kPremiumPrivacyUrl = '$kWebBaseUrl/privacy';
+const kPremiumTermsUrl = kTermsUrl;
+const kPremiumPrivacyUrl = kPrivacyPolicyUrl;
 
 /// Správa předplatného, když RevenueCat odkaz nevrátí.
 const _playSubscriptionsUrl = 'https://play.google.com/store/account/subscriptions';

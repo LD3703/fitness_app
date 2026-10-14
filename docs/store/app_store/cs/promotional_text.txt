@@ -1,0 +1,1 @@
+Zapiš trénink za pár vteřin. Aplikace navrhne váhu na příště, ohlídá progresivní přetížení a ukáže, kdo je nejsilnější ve tvé posilovně.

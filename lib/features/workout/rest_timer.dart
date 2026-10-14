@@ -34,10 +34,26 @@ class RestTimer extends ChangeNotifier {
     return (remaining.inMilliseconds / (_totalSeconds * 1000)).clamp(0.0, 1.0);
   }
 
+  /// Spustí pauzu. Pauza 0 s (nebo záporná) případnou běžící pauzu
+  /// zastaví – další série navazuje hned.
   void start(int seconds) {
-    if (seconds <= 0) return;
-    _totalSeconds = seconds;
-    _endAt = DateTime.now().add(Duration(seconds: seconds));
+    if (seconds <= 0) {
+      if (isRunning) _stop();
+      return;
+    }
+    _run(DateTime.now().add(Duration(seconds: seconds)), seconds);
+  }
+
+  /// Obnoví pauzu s koncem [endAt] (např. po návratu na obrazovku
+  /// tréninku); [totalSeconds] je celková délka pro ukazatel průběhu.
+  void resume(DateTime endAt, int totalSeconds) {
+    if (!endAt.isAfter(DateTime.now())) return;
+    _run(endAt, totalSeconds);
+  }
+
+  void _run(DateTime endAt, int totalSeconds) {
+    _totalSeconds = totalSeconds;
+    _endAt = endAt;
     _ticker?.cancel();
     _ticker = Timer.periodic(const Duration(milliseconds: 250), (_) => _tick());
     notifyListeners();

@@ -33,8 +33,9 @@ class SocialAuth {
 
   Future<void>? _googleInit;
 
-  /// Kód z posledního přihlášení přes Apple (pro zrušení tokenu při
-  /// smazání účtu – vyžaduje App Store).
+  /// Autorizační kód z posledního přihlášení přes Apple. Platí jen pár
+  /// minut a jen jednou – ke zrušení tokenu při smazání účtu (vyžaduje App
+  /// Store) se proto vždy získá nový ([deleteAuthUser]).
   String? _appleAuthorizationCode;
 
   FirebaseAuth get _auth => FirebaseAuth.instance;
@@ -129,7 +130,12 @@ class SocialAuth {
     }
   }
 
-  Future<({AuthCredential credential, String? name})?> _appleCredential() async {
+  /// [codeInCredential] = false: autorizační kód se do přihlašovacích
+  /// údajů nedá (Firebase ho nespotřebuje) – jen se uloží pro zrušení
+  /// tokenu při smazání účtu.
+  Future<({AuthCredential credential, String? name})?> _appleCredential({
+    bool codeInCredential = true,
+  }) async {
     final rawNonce = _nonce();
     final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
     try {
@@ -148,7 +154,7 @@ class SocialAuth {
       final credential = OAuthProvider('apple.com').credential(
         idToken: idToken,
         rawNonce: rawNonce,
-        accessToken: apple.authorizationCode,
+        accessToken: codeInCredential ? apple.authorizationCode : null,
       );
       // Jméno Apple pošle jen při úplně prvním přihlášení.
       final name = [apple.givenName, apple.familyName]
@@ -185,24 +191,47 @@ class SocialAuth {
   }
 
   /// Smaže účet ve Firebase Auth (data na serveru maže volající předem).
-  /// U Apple nejdřív zruší token (pravidla App Store).
-  Future<void> deleteAuthUser() async {
+  ///
+  /// U Apple se vždy nejdřív znovu přihlásí přes Apple: čerstvé přihlášení
+  /// chce Firebase před smazáním a čerstvý autorizační kód je potřeba ke
+  /// zrušení tokenu (pravidla App Store; kód z dřívějšího přihlášení už
+  /// neplatí). Pak zruší token a smaže účet. U Google se znovu přihlásí
+  /// jen na požádání Firebase (requires-recent-login).
+  ///
+  /// Vrací false, když uživatel nové přihlášení zrušil (účet zůstal).
+  Future<bool> deleteAuthUser() async {
     final user = currentUser;
-    if (user == null) return;
+    if (user == null) return true;
     final isApple = user.providerData.any((p) => p.providerId == 'apple.com');
-    final code = _appleAuthorizationCode;
-    if (isApple && code != null) {
+    if (isApple) {
+      _appleAuthorizationCode = null;
+      final result = await _appleCredential(codeInCredential: false);
+      if (result == null) return false;
+      await user.reauthenticateWithCredential(result.credential);
+      final code = _appleAuthorizationCode;
+      _appleAuthorizationCode = null;
+      if (code != null) {
+        try {
+          await _auth.revokeTokenWithAuthorizationCode(code);
+        } catch (e) {
+          debugPrint('Social: Apple token revoke failed: $e');
+        }
+      }
+      await user.delete();
+    } else {
       try {
-        await _auth.revokeTokenWithAuthorizationCode(code);
-      } catch (e) {
-        debugPrint('Social: Apple token revoke failed: $e');
+        await user.delete();
+      } on FirebaseAuthException catch (e) {
+        if (e.code != 'requires-recent-login') rethrow;
+        if (!await reauthenticate()) return false;
+        await user.delete();
       }
     }
-    await user.delete();
     if (_googleInit != null) {
       try {
         await GoogleSignIn.instance.disconnect();
       } catch (_) {}
     }
+    return true;
   }
 }

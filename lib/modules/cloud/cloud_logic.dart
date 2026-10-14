@@ -36,7 +36,7 @@ enum CloudBackupTrigger {
   manual,
 }
 
-/// Místo zálohy v cloudu: users/{uid}/backups/<slot>.sqlite.
+/// Místo zálohy v cloudu: `users/{uid}/backups/<slot>.sqlite`.
 enum CloudSlot { latest, previous }
 
 String cloudBackupPath(String uid, CloudSlot slot) =>
@@ -56,6 +56,7 @@ class CloudSettings {
     this.lastFailedAt,
     this.retryAfter,
     this.restoreOfferedUids = const [],
+    this.needsConfirmation = false,
   });
 
   /// Automatická záloha zapnutá (výchozí vypnuto, zapíná se se souhlasem).
@@ -80,6 +81,10 @@ class CloudSettings {
   /// Účty, kterým už aplikace na tomto zařízení nabídla obnovení.
   final List<String> restoreOfferedUids;
 
+  /// Automatická záloha se přeskočila, protože data v telefonu vypadají
+  /// menší než záloha v cloudu – čeká na potvrzení („Zálohovat teď“).
+  final bool needsConfirmation;
+
   CloudSettings copyWith({
     bool? enabled,
     bool? wifiOnly,
@@ -89,6 +94,7 @@ class CloudSettings {
     Object? lastFailedAt = _keep,
     Object? retryAfter = _keep,
     List<String>? restoreOfferedUids,
+    bool? needsConfirmation,
   }) =>
       CloudSettings(
         enabled: enabled ?? this.enabled,
@@ -107,6 +113,7 @@ class CloudSettings {
             ? this.retryAfter
             : retryAfter as DateTime?,
         restoreOfferedUids: restoreOfferedUids ?? this.restoreOfferedUids,
+        needsConfirmation: needsConfirmation ?? this.needsConfirmation,
       );
 
   Map<String, Object?> toJson() => {
@@ -118,6 +125,7 @@ class CloudSettings {
         'lastFailedAt': lastFailedAt?.toUtc().toIso8601String(),
         'retryAfter': retryAfter?.toUtc().toIso8601String(),
         'restoreOfferedUids': restoreOfferedUids,
+        'needsConfirmation': needsConfirmation,
       };
 
   /// Poškozený nebo neúplný soubor nevadí – chybějící hodnoty jsou výchozí.
@@ -137,6 +145,7 @@ class CloudSettings {
       restoreOfferedUids: uids is List
           ? [for (final u in uids) if (u is String) u]
           : const [],
+      needsConfirmation: json['needsConfirmation'] == true,
     );
   }
 }
@@ -167,13 +176,94 @@ bool cloudBackupDue(
   return now.difference(last) >= interval;
 }
 
-/// Telefon bez tréninků nesmí přepsat zálohu, ve které tréninky jsou
-/// (typicky nové zařízení před obnovením).
-bool cloudShouldSkipEmpty({
+/// Data bez tréninků jsou „zřetelně menší“, když mají méně než tento
+/// podíl velikosti druhé zálohy.
+const kCloudSmallerSizeRatio = 0.5;
+
+/// Vypadají data A menší než data B? Méně tréninků; když nemají tréninky
+/// ani jedna, rozhoduje velikost souboru (méně než polovina). Velikosti
+/// předávej jen ve stejném formátu (obě gzip, nebo obě bez komprese),
+/// jinak null – pak se podle velikosti nerozhoduje.
+bool cloudLooksSmaller({
+  required int workouts,
+  required int? bytes,
+  required int otherWorkouts,
+  required int? otherBytes,
+}) {
+  if (workouts < otherWorkouts) return true;
+  if (workouts > 0 || otherWorkouts > 0) return false;
+  if (bytes == null || otherBytes == null || otherBytes <= 0) return false;
+  return bytes < otherBytes * kCloudSmallerSizeRatio;
+}
+
+/// Co udělat s novou zálohou, když už v cloudu nějaká (latest) je.
+enum CloudOverwriteDecision {
+  /// Nahrát.
+  upload,
+
+  /// Automatická záloha: nepřepisovat, jen si zapamatovat, že je potřeba
+  /// potvrzení (CloudSettings.needsConfirmation, ukáže se v Profilu).
+  skip,
+
+  /// Ruční záloha: nejdřív se zeptat uživatele.
+  confirm,
+}
+
+/// Smí data v telefonu přepsat nejnovější zálohu v cloudu?
+///
+/// Data, která vypadají menší než záloha v cloudu ([cloudLooksSmaller]:
+/// méně tréninků, nebo bez tréninků zřetelně menší soubor), automatická
+/// záloha nikdy nenahraje – typicky nový nebo vymazaný telefon, který by
+/// jinak přepsal jedinou dobrou kopii. Ruční záloha se zeptá
+/// ([confirmed] = uživatel už souhlasil). [cloudWorkouts] null = v cloudu
+/// zatím žádná záloha není.
+CloudOverwriteDecision cloudOverwriteDecision({
+  required bool automatic,
+  bool confirmed = false,
   required int localWorkouts,
+  required int? localBytes,
   required int? cloudWorkouts,
-}) =>
-    localWorkouts == 0 && (cloudWorkouts ?? 0) > 0;
+  required int? cloudBytes,
+}) {
+  if (cloudWorkouts == null) return CloudOverwriteDecision.upload;
+  final smaller = cloudLooksSmaller(
+    workouts: localWorkouts,
+    bytes: localBytes,
+    otherWorkouts: cloudWorkouts,
+    otherBytes: cloudBytes,
+  );
+  if (!smaller) return CloudOverwriteDecision.upload;
+  if (automatic) return CloudOverwriteDecision.skip;
+  return confirmed
+      ? CloudOverwriteDecision.upload
+      : CloudOverwriteDecision.confirm;
+}
+
+/// Smí se dosavadní latest před nahráním nové zálohy přesunout do
+/// previous? Automatická záloha to neudělá, když latest vypadá menší než
+/// previous (např. po ručním přepsání menšími daty) – previous je pak
+/// jediná větší kopie. Ruční záloha přesouvá vždy. [previousWorkouts]
+/// null = previous zatím neexistuje.
+bool cloudMayRotate({
+  required bool automatic,
+  required int latestWorkouts,
+  required int? latestBytes,
+  required int? previousWorkouts,
+  required int? previousBytes,
+}) {
+  if (!automatic || previousWorkouts == null) return true;
+  return !cloudLooksSmaller(
+    workouts: latestWorkouts,
+    bytes: latestBytes,
+    otherWorkouts: previousWorkouts,
+    otherBytes: previousBytes,
+  );
+}
+
+/// Je soubor v Cloud Storage zkomprimovaný gzipem? Starší zálohy mohly
+/// být nahrané bez komprese (typ [kCloudSqliteContentType]).
+bool cloudIsGzipContentType(String? contentType) =>
+    contentType != kCloudSqliteContentType;
 
 /// Začínají data hlavičkou gzip (1f 8b)?
 bool looksLikeGzip(Uint8List header) =>

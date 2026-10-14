@@ -156,11 +156,16 @@ class HealthSync {
     final health =
         canRead ? await _service.readWeights(importFrom, now) : <WeightSample>[];
 
+    // Co už aplikace do Health zapsala – drží se celé období importu
+    // (90 dní), aby se váha smazaná v aplikaci z Health nevrátila.
+    final exported = pruneExportedWeights(await _loadExported(), importFrom);
+
     // a) Import: dny bez záznamu v aplikaci. Existující záznam se nepřepisuje.
     final app = await db.healthWeightsSince(importFrom);
     final toImport = weightsToImport(
       health: health,
       appDays: {for (final e in app) e.day},
+      ownExports: exported,
     );
     for (final e in toImport.entries) {
       await db.insertWeightIfMissing(e.key, e.value);
@@ -172,8 +177,6 @@ class HealthSync {
     // poznat, co už v Health je. Na iOS čtení zjistit nejde, proto navíc
     // pamatujeme, co už aplikace zapsala.
     if (!canRead) return;
-    final exported =
-        pruneExportedWeights(await _loadExported(), exportFrom);
     final toExport = weightsToExport(
       app: [
         for (final e in app) (day: e.day, kg: e.weightKg),

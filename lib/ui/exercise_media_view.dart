@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../data/database.dart';
 import '../data/seed/exercise_media.dart';
 import '../l10n/app_localizations.dart';
+import 'body_map.dart';
 import 'labels.dart';
 
 /// Obrázky vestavěného cviku (null u vlastních cviků a cviků bez obrázku).
@@ -175,8 +176,9 @@ class _ExerciseMediaViewState extends State<ExerciseMediaView> {
   }
 }
 
-/// Malý náhled cviku do seznamů (nic, když cvik obrázek nemá).
-/// U dvojice obrázků je to první snímek, u GIF / WebP rovnou soubor.
+/// Malý náhled cviku do seznamů: ikona partie (výřez postavy s obarvenou
+/// hlavní a vedlejší partií). Fotky a animace z wger jsou v detailu cviku
+/// a v ukázce během tréninku.
 class ExerciseThumbnail extends StatelessWidget {
   const ExerciseThumbnail({super.key, required this.exercise, this.size = 48});
 
@@ -184,33 +186,8 @@ class ExerciseThumbnail extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) {
-    final media = mediaForExercise(exercise);
-    if (media == null) {
-      return SizedBox(
-        width: size,
-        height: size,
-        child: Icon(
-          Icons.fitness_center,
-          color: Theme.of(context).colorScheme.outline,
-        ),
-      );
-    }
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
-      child: ColoredBox(
-        color: Colors.white,
-        child: Image.asset(
-          media.images.first.asset,
-          width: size,
-          height: size,
-          fit: BoxFit.cover,
-          cacheWidth: (size * 3).round(),
-          errorBuilder: (_, __, ___) => SizedBox(width: size, height: size),
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) =>
+      ExerciseMuscleIcon(exercise: exercise, size: size);
 }
 
 /// Spodní panel s ukázkou cviku (např. během tréninku).
