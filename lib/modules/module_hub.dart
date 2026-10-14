@@ -38,6 +38,9 @@ import 'data/units.dart';
 // [imports:social]
 import 'social/social_module.dart';
 //
+// [imports:coach]
+import 'coach/coach_module.dart';
+//
 // [imports:fatigue]
 import '../features/fatigue/fatigue_card.dart';
 //
@@ -58,6 +61,9 @@ import 'cloud/cloud_module.dart';
 // [imports:wear]
 import 'wear/wear_bridge.dart';
 import 'wear/wear_profile_section.dart';
+// [imports:crash]
+import 'crash/crash_reporting.dart';
+import 'crash/privacy_profile_section.dart';
 // [imports:premium]
 import '../premium/premium.dart';
 import '../premium/premium_gift.dart';
@@ -84,6 +90,10 @@ Future<void> initModules() async {
     //
     // [social:init]
     socialInit,
+    //
+    // [crash:init]
+    // Až po socialInit (potřebuje spuštěné Firebase).
+    CrashReporting.init,
     //
     // [premium:init]
     PremiumService.instance.init,
@@ -154,6 +164,9 @@ List<RouteBase> moduleRoutes() => [
       //
       // [social:routes]
       ...socialRoutes(),
+      //
+      // [coach:routes]
+      ...coachRoutes(),
       //
       // [badges:routes]
       badgesRoute(),
@@ -252,6 +265,13 @@ List<Widget> moduleProfileSections() => [
       // [social:profile]
       const SocialProfileSection(),
       //
+      // [coach:profile]
+      const CoachProfileSection(),
+      //
+      // [crash:profile]
+      // Zásady ochrany soukromí a vypínač hlášení o pádech.
+      const PrivacyProfileSection(),
+      //
       // [progression:profile]
       // Premium (autoProgression): štítek a paywall uvnitř sekce.
       const ProgressionProfileSection(),
@@ -298,6 +318,9 @@ List<Widget> modulePlanEditorSections(int planId) => [
       // [data:plan]
       //
       // [social:plan]
+      //
+      // [coach:plan]
+      CoachPlanSection(planId: planId),
       //
     ];
 
@@ -353,6 +376,9 @@ List<WorkoutFinishedHook> moduleWorkoutFinishedHooks() => [
       // [social:finished]
       SocialPublisher.onWorkoutFinished,
       //
+      // [coach:finished]
+      CoachSync.onWorkoutFinished,
+      //
       // [badges:finished]
       achievementsWorkoutFinished,
       //
@@ -387,6 +413,9 @@ List<SyncHook> moduleSyncHooks() => [
       //
       // [social:sync]
       SocialPublisher.onSync,
+      //
+      // [coach:sync]
+      CoachSync.onSync,
       //
       // [badges:sync]
       achievementsSync,

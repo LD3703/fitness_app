@@ -58,30 +58,46 @@ const _fullBodyLoad = 0.3;
 const _dropFactor = 0.7;
 const _planBFactor = 0.5;
 
-/// Partie, pro které se únava počítá (celé tělo se rozkládá do ostatních).
+/// Partie, pro které se únava počítá. Celé tělo se rozkládá do všech,
+/// souhrnné „nohy“ do stehen, hamstringů a lýtek.
 const fatigueGroups = <MuscleGroup>[
   MuscleGroup.chest,
   MuscleGroup.back,
+  MuscleGroup.traps,
+  MuscleGroup.lowerBack,
   MuscleGroup.shoulders,
   MuscleGroup.biceps,
   MuscleGroup.triceps,
-  MuscleGroup.legs,
-  MuscleGroup.glutes,
+  MuscleGroup.forearms,
   MuscleGroup.core,
+  MuscleGroup.glutes,
+  MuscleGroup.quads,
+  MuscleGroup.hamstrings,
+  MuscleGroup.calves,
 ];
+
+/// Podíl zátěže souhrnných „nohou“ pro jednotlivé partie nohou
+/// (lýtka u dřepů a výpadů pracují méně).
+double _legShare(MuscleGroup g) => g == MuscleGroup.calves ? 0.5 : 1.0;
 
 /// Poločas odeznění zátěže v hodinách: velké partie 36 h, malé 24 h.
 double fatigueHalfLifeHours(MuscleGroup g) => switch (g) {
       MuscleGroup.legs ||
       MuscleGroup.back ||
       MuscleGroup.glutes ||
-      MuscleGroup.chest =>
+      MuscleGroup.chest ||
+      MuscleGroup.quads ||
+      MuscleGroup.hamstrings ||
+      MuscleGroup.lowerBack =>
         36.0,
       MuscleGroup.shoulders ||
       MuscleGroup.biceps ||
       MuscleGroup.triceps ||
       MuscleGroup.core ||
-      MuscleGroup.fullBody =>
+      MuscleGroup.fullBody ||
+      MuscleGroup.calves ||
+      MuscleGroup.forearms ||
+      MuscleGroup.traps =>
         24.0,
     };
 
@@ -105,6 +121,10 @@ Map<MuscleGroup, double> setLoad(FatigueSet s) {
     for (final g in fatigueGroups) {
       add(g, _fullBodyLoad);
     }
+  } else if (s.primary == MuscleGroup.legs) {
+    for (final g in legMuscleGroups) {
+      add(g, _primaryLoad * _legShare(g));
+    }
   } else {
     add(s.primary, _primaryLoad);
   }
@@ -113,6 +133,10 @@ Map<MuscleGroup, double> setLoad(FatigueSet s) {
     if (g == MuscleGroup.fullBody) {
       for (final x in fatigueGroups) {
         add(x, _fullBodyLoad * _secondaryLoad);
+      }
+    } else if (g == MuscleGroup.legs) {
+      for (final x in legMuscleGroups) {
+        add(x, _secondaryLoad * _legShare(x));
       }
     } else {
       add(g, _secondaryLoad);
@@ -177,10 +201,21 @@ MapEntry<MuscleGroup, double>? mostFatiguedOf(
   double threshold = fatigueWarningPercent,
 }) {
   MapEntry<MuscleGroup, double>? best;
-  for (final g in groups.toSet()) {
+  for (final g in {for (final x in groups) ...x.specific}) {
     final p = report.percent[g];
     if (p == null || p < threshold) continue;
     if (best == null || p > best.value) best = MapEntry(g, p);
+  }
+  return best;
+}
+
+/// Únava partie v procentech; u souhrnných „nohou“ nejunavenější z nich.
+/// Null, když se pro partii únava nepočítá (celé tělo).
+double? fatiguePercentOf(FatigueReport report, MuscleGroup group) {
+  double? best;
+  for (final g in group.specific) {
+    final p = report.percent[g];
+    if (p != null && (best == null || p > best)) best = p;
   }
   return best;
 }

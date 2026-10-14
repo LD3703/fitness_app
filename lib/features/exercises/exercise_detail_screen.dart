@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../modules/module_hub.dart';
 import '../../providers.dart';
+import '../../ui/body_map.dart';
+import '../../ui/dialogs.dart';
 import '../../ui/exercise_media_view.dart';
 import '../../ui/labels.dart';
 
@@ -39,24 +42,34 @@ class ExerciseDetailScreen extends ConsumerWidget {
           body: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              if (mediaForExercise(e) case final media?)
-                ExerciseMediaView(media: media)
-              else
-                AspectRatio(
-                aspectRatio: 16 / 9,
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    Icons.fitness_center,
-                    size: 64,
-                    color: theme.colorScheme.onSurfaceVariant,
+              if (mediaForExercise(e) case final media?) ...[
+                ExerciseMediaView(media: media),
+                const SizedBox(height: 16),
+              ],
+              // Zapojené partie na postavě (hlavní plně, vedlejší světleji).
+              Card(
+                margin: EdgeInsets.zero,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(l10n.exerciseMusclesTitle,
+                          style: theme.textTheme.titleMedium),
+                      const SizedBox(height: 8),
+                      TrainedBodyMap(
+                        sets: muscleSetsOf([e]),
+                        primaryLabel: l10n.bodyMapPrimary,
+                        secondaryLabel: l10n.bodyMapSecondary,
+                        groupName: l10n.muscleGroup,
+                        height: 180,
+                      ),
+                    ],
                   ),
                 ),
               ),
+              const SizedBox(height: 16),
+              _MyNoteCard(exercise: e),
               const SizedBox(height: 16),
               _InfoRow(
                 label: l10n.exerciseMuscleGroup,
@@ -76,6 +89,48 @@ class ExerciseDetailScreen extends ConsumerWidget {
           ),
         );
       },
+    );
+  }
+}
+
+/// Moje poznámka ke cviku (např. nastavení stroje) – ukazuje se i při
+/// tréninku.
+class _MyNoteCard extends ConsumerWidget {
+  const _MyNoteCard({required this.exercise});
+
+  final Exercise exercise;
+
+  Future<void> _edit(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context);
+    final text = await showNoteDialog(
+      context,
+      title: l10n.exerciseNoteMine,
+      initialValue: exercise.note ?? '',
+      hintText: l10n.exerciseNoteMineHint,
+      maxLength: exerciseNoteMax,
+    );
+    if (text == null) return;
+    await ref.read(databaseProvider).setExerciseNote(exercise.id, text);
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final note = exercise.note;
+    return Card(
+      margin: EdgeInsets.zero,
+      child: ListTile(
+        leading: const Icon(Icons.edit_note),
+        title: Text(note ?? l10n.exerciseNoteAdd),
+        subtitle: Text(
+          note == null ? l10n.exerciseNoteMineHint : l10n.exerciseNoteMine,
+          style: theme.textTheme.bodySmall
+              ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+        ),
+        trailing: Icon(note == null ? Icons.add : Icons.edit_outlined),
+        onTap: () => _edit(context, ref),
+      ),
     );
   }
 }

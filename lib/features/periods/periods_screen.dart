@@ -216,7 +216,7 @@ class _PeriodDialogState extends State<_PeriodDialog> {
               spacing: 6,
               runSpacing: 6,
               children: [
-                for (final g in MuscleGroup.values)
+                for (final g in muscleGroupsUiOrder)
                   if (g != MuscleGroup.fullBody)
                     FilterChip(
                       label: Text(l10n.muscleGroup(g)),

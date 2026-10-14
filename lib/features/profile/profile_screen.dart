@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../app_version.dart';
+import '../../core/rest_time.dart';
+import '../../core/text_filter.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../modules/data/unit_dialogs.dart';
@@ -10,8 +13,10 @@ import '../../modules/module_hub.dart';
 import '../../providers.dart';
 import '../../services/calendar_service.dart';
 import '../../services/notification_service.dart';
+import '../../ui/brand_mark.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/format.dart';
+import '../../ui/labels.dart';
 import '../../ui/module_switches.dart';
 import '../../ui/number_input_dialog.dart';
 import '../../ui/weekdays.dart';
@@ -57,6 +62,9 @@ class ProfileScreen extends ConsumerWidget {
                 context,
                 title: l10n.profileName,
                 initialValue: name ?? '',
+                // Jméno vidí přátelé – bez vyloženě hrubých slov.
+                validator: (t) =>
+                    containsSevereProfanity(t) ? l10n.textFilterBlocked : null,
               );
               if (newName != null) {
                 await db.updateProfile(
@@ -95,6 +103,18 @@ class ProfileScreen extends ConsumerWidget {
                   UserProfilesCompanion(birthYear: Value(year.round())),
                 );
               }
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.wc_outlined),
+            title: Text(l10n.profileSex),
+            subtitle: Text(l10n.sex(sexOf(profile.sex))),
+            onTap: () async {
+              final picked = await _pickSex(context, sexOf(profile.sex));
+              if (picked == null) return;
+              await db.updateProfile(UserProfilesCompanion(
+                sex: Value(picked.$1?.index),
+              ));
             },
           ),
           sectionTitle(l10n.profileTrackingSection),
@@ -260,8 +280,13 @@ class ProfileScreen extends ConsumerWidget {
             onTap: () => showAboutDialog(
               context: context,
               applicationName: l10n.appTitle,
-              applicationVersion: '0.1.0',
-              children: [Text(l10n.aboutImageCredits)],
+              applicationVersion: '$kAppVersion ($kAppBuildDate)',
+              applicationIcon: const BrandMark(size: 48),
+              children: [
+                Text(l10n.healthDisclaimer),
+                const SizedBox(height: 12),
+                Text(l10n.aboutImageCredits),
+              ],
             ),
           ),
           ListTile(
@@ -328,6 +353,42 @@ class ProfileScreen extends ConsumerWidget {
                 selected: mode == current,
                 onTap: () => Navigator.of(context).pop(mode),
               ),
+          ],
+        );
+      },
+    );
+  }
+
+  /// Volba pohlaví. Vrací záznam, aby šlo rozlišit „neuvádět“ (null)
+  /// od zavření dialogu.
+  Future<(Sex?,)?> _pickSex(BuildContext context, Sex? current) {
+    final l10n = AppLocalizations.of(context);
+    return showDialog<(Sex?,)>(
+      context: context,
+      builder: (context) {
+        final theme = Theme.of(context);
+        Widget option(Sex? value) => ListTile(
+              title: Text(l10n.sex(value)),
+              trailing: value == current
+                  ? Icon(Icons.check, color: theme.colorScheme.primary)
+                  : null,
+              selected: value == current,
+              onTap: () => Navigator.of(context).pop((value,)),
+            );
+        return SimpleDialog(
+          title: Text(l10n.profileSex),
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+              child: Text(
+                l10n.profileSexHint,
+                style: theme.textTheme.bodySmall
+                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              ),
+            ),
+            option(Sex.male),
+            option(Sex.female),
+            option(null),
           ],
         );
       },

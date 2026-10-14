@@ -5,6 +5,8 @@
 // Spuštění z kořene projektu:  dart run tool/setup_platforms.dart
 import 'dart:io';
 
+import 'platform/branding.dart';
+import 'platform/ios_store.dart';
 import 'platform/links.dart';
 
 // Úpravy pro jednotlivé moduly verzí 2 a 3 jsou v tool/platform/.
@@ -29,6 +31,12 @@ import 'platform/social.dart';
 // [platform-imports:wear]
 import 'platform/wear.dart';
 //
+// [platform-imports:crash]
+import 'platform/crash.dart';
+//
+// [platform-imports:signing]
+import 'platform/signing.dart';
+//
 
 void main() {
   var ok = true;
@@ -37,6 +45,7 @@ void main() {
   ok &= _patchInfoPlist();
   ok &= _patchAppDelegate();
   ok &= patchLinks();
+  ok &= patchBranding();
   // [platform:stats]
   //
   // [platform:sharing]
@@ -55,8 +64,18 @@ void main() {
   // [platform:social]
   ok &= patchSocial();
   //
+  // App Store: PrivacyInfo.xcprivacy, jen iPhone, Universal Links
+  // (po patchSocial – ten založí Runner.entitlements).
+  ok &= patchIosStore();
+  //
   // [platform:wear]
   ok &= patchWear();
+  //
+  // [platform:crash]
+  ok &= patchCrash();
+  //
+  // [platform:signing]
+  ok &= patchSigning();
   //
   stdout.writeln(ok
       ? '\nHotovo. Teď spusť: flutter clean && flutter run'
@@ -126,6 +145,10 @@ const _permissions = [
   'android.permission.VIBRATE',
   'android.permission.READ_CALENDAR',
   'android.permission.WRITE_CALENDAR',
+  // Posilovny v okolí (jen když aplikace běží; Android 12+ nabídne
+  // i přibližnou polohu).
+  'android.permission.ACCESS_COARSE_LOCATION',
+  'android.permission.ACCESS_FINE_LOCATION',
 ];
 
 const _receivers = '''
@@ -183,18 +206,67 @@ bool _patchManifest() {
 
 // ---------------------------------------------------------------- iOS
 
+/// Popisy oprávnění v Info.plist. Anglicky: aplikace je pro celý svět
+/// (10 jazyků) a texty čte i kontrola Applu. Překlad by šel přidat
+/// soubory InfoPlist.strings v Xcode (README, kapitola 2c).
 const _plistKeys = {
   'NSCalendarsUsageDescription':
-      'Aplikace přidává naplánované tréninky do kalendáře.',
+      'The app adds your planned workouts to your calendar.',
+  // Modul calendar (tool/platform/calendar.dart) text pak rozšíří
+  // o hledání volného času.
   'NSCalendarsFullAccessUsageDescription':
-      'Aplikace přidává naplánované tréninky do kalendáře a při změně plánu je upraví.',
+      'The app adds your planned workouts to your calendar and updates them '
+          'when your plan changes.',
   'NSCalendarsWriteOnlyAccessUsageDescription':
-      'Aplikace přidává naplánované tréninky do kalendáře.',
+      'The app adds your planned workouts to your calendar.',
+  // Sdílení obrázků (karta tréninku, plakát s QR kódem) přes systémovou
+  // nabídku: bez tohoto klíče aplikace při „Uložit obrázek“ spadne.
+  'NSPhotoLibraryAddUsageDescription':
+      'The app saves the workout cards and images you share to your photo '
+          'library when you choose Save Image.',
+  // Posilovny v okolí (geolocator). Aplikace žádá jen „při používání“;
+  // klíč Always vyžaduje knihovna, i když se nepoužívá.
+  'NSLocationWhenInUseUsageDescription':
+      'Your location is used to show gyms near you and, if you choose, to '
+          'save the location of a gym you add. It is not stored otherwise.',
+  'NSLocationAlwaysAndWhenInUseUsageDescription':
+      'Your location is used to show gyms near you while you use the app. '
+          'GymBar does not track your location in the background.',
+};
+
+/// Dřívější české výchozí texty. Má-li je Info.plist beze změny, nahradí
+/// se anglickými z [_plistKeys]; vlastní text (cokoli jiného) zůstane.
+const _legacyPlistValues = <String, List<String>>{
+  'NSCalendarsUsageDescription': [
+    'Aplikace přidává naplánované tréninky do kalendáře.',
+  ],
+  'NSCalendarsFullAccessUsageDescription': [
+    'Aplikace přidává naplánované tréninky do kalendáře a při změně plánu je upraví.',
+  ],
+  'NSCalendarsWriteOnlyAccessUsageDescription': [
+    'Aplikace přidává naplánované tréninky do kalendáře.',
+  ],
 };
 
 const _languages = [
   'en', 'cs', 'de', 'es', 'fr', 'pl', 'pt', 'it', 'sk', 'nl',
 ];
+
+/// Nahradí text pod klíčem [key], je-li jedním z [legacy]. Když klíč chybí
+/// nebo má vlastní text, vrátí [plist] beze změny.
+String _replaceLegacyString(
+  String plist,
+  String key,
+  List<String> legacy,
+  String value,
+) {
+  final m = RegExp(
+    '(<key>${RegExp.escape(key)}</key>\\s*<string>)([^<]*)(</string>)',
+  ).firstMatch(plist);
+  if (m == null || !legacy.contains(m.group(2)!.trim())) return plist;
+  return plist.replaceRange(
+      m.start, m.end, '${m.group(1)}$value${m.group(3)}');
+}
 
 bool _patchInfoPlist() {
   final file = File('ios/Runner/Info.plist');
@@ -203,15 +275,38 @@ bool _patchInfoPlist() {
     return true;
   }
   var s = file.readAsStringSync();
+  final original = s;
+  final done = <String>[];
+
+  // 1) Dřívější české výchozí popisy → anglické.
+  final beforeLegacy = s;
+  for (final e in _legacyPlistValues.entries) {
+    s = _replaceLegacyString(s, e.key, e.value, _plistKeys[e.key]!);
+  }
+  if (s != beforeLegacy) done.add('popisy oprávnění anglicky');
+
+  // 2) Chybějící klíče.
   final add = StringBuffer();
+  final added = <String>[];
   _plistKeys.forEach((k, v) {
     if (!s.contains('<key>$k</key>')) {
       add.write('\t<key>$k</key>\n\t<string>$v</string>\n');
+      added.add(k);
     }
   });
-  // Doplnění nových jazyků do už existujícího seznamu.
+  // Aplikace používá jen standardní šifrování (HTTPS), které je z exportních
+  // pravidel vyjmuté – App Store Connect se pak u každého buildu neptá.
+  if (!s.contains('<key>ITSAppUsesNonExemptEncryption</key>')) {
+    add.write('\t<key>ITSAppUsesNonExemptEncryption</key>\n\t<false/>\n');
+    added.add('ITSAppUsesNonExemptEncryption');
+  }
+  if (added.isNotEmpty) done.add('přidáno ${added.join(', ')}');
+
+  // 3) Jazyky aplikace – iOS podle nich ukáže systémové texty ve správném
+  //    jazyce a v Nastavení nabídne volbu jazyka aplikace.
   final locKey = s.indexOf('<key>CFBundleLocalizations</key>');
   if (locKey >= 0) {
+    // Doplnění nových jazyků do už existujícího seznamu.
     final arrEnd = s.indexOf('</array>', locKey);
     if (arrEnd > 0) {
       final existing = s.substring(locKey, arrEnd);
@@ -221,33 +316,33 @@ bool _patchInfoPlist() {
       ];
       if (missing.isNotEmpty) {
         s = s.replaceRange(arrEnd, arrEnd,
-            '${missing.map((l) => '\t<string>$l</string>\n\t').join()}');
-        file.writeAsStringSync(s);
-        stdout.writeln('✓ ${file.path}: doplněny jazyky ${missing.join(', ')}.');
+            missing.map((l) => '\t<string>$l</string>\n\t').join());
+        done.add('doplněny jazyky ${missing.join(', ')}');
       }
     }
-  }
-  if (locKey < 0) {
-    // Jazyky aplikace – iOS podle nich ukáže systémové texty ve správném
-    // jazyce a v Nastavení nabídne volbu jazyka aplikace.
+  } else {
     add.write('\t<key>CFBundleLocalizations</key>\n\t<array>\n');
     for (final lang in _languages) {
       add.write('\t\t<string>$lang</string>\n');
     }
     add.write('\t</array>\n');
+    done.add('jazyky');
   }
-  if (add.isEmpty) {
+
+  if (add.isNotEmpty) {
+    final i = s.lastIndexOf('</dict>');
+    if (i < 0) {
+      stderr.writeln('✗ ${file.path}: značka </dict> nenalezena.');
+      return false;
+    }
+    s = s.replaceRange(i, i, add.toString());
+  }
+  if (s == original) {
     stdout.writeln('• ${file.path}: už upraveno.');
     return true;
   }
-  final i = s.lastIndexOf('</dict>');
-  if (i < 0) {
-    stderr.writeln('✗ ${file.path}: značka </dict> nenalezena.');
-    return false;
-  }
-  s = s.replaceRange(i, i, add.toString());
   file.writeAsStringSync(s);
-  stdout.writeln('✓ ${file.path}: přidány popisy oprávnění a jazyky.');
+  stdout.writeln('✓ ${file.path}: ${done.join('; ')}.');
   return true;
 }
 
@@ -271,10 +366,10 @@ bool _patchAppDelegate() {
         'nenalezena – upozornění na iOS se při otevřené aplikaci neukážou.');
     return true; // Není kritické, build projde.
   }
-  s = s.replaceRange(brace + 1, brace + 1, """
+  s = s.replaceRange(brace + 1, brace + 1, '''
 
     UNUserNotificationCenter.current().delegate =
-      self as? UNUserNotificationCenterDelegate""");
+      self as? UNUserNotificationCenterDelegate''');
   if (!s.contains('import UserNotifications')) {
     s = s.replaceFirst('import UIKit', 'import UIKit\nimport UserNotifications');
   }

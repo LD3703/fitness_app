@@ -86,11 +86,11 @@ void main() {
     });
 
     test('parseFriendCode z odkazu i z textu', () {
-      expect(parseFriendCode('fitnessapp://friend?code=abcd2345'), 'ABCD2345');
-      expect(parseFriendCode('https://example.com/friend?code=ABCD2345'),
+      expect(parseFriendCode('gymbar://friend?code=abcd2345'), 'ABCD2345');
+      expect(parseFriendCode('https://gymbar.app/friend?code=ABCD2345'),
           'ABCD2345');
       expect(parseFriendCode('ABCD 2345'), 'ABCD2345');
-      expect(parseFriendCode('https://example.com/other'), isNull);
+      expect(parseFriendCode('https://gymbar.app/other'), isNull);
       expect(parseFriendCode('nonsense'), isNull);
     });
   });

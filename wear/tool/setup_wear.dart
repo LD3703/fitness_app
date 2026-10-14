@@ -17,9 +17,19 @@
 //   korunka (kanály fitness_wear/native a fitness_wear/rotary, viz
 //   lib/native.dart). Soubor se celý přepíše.
 // - Černé pozadí při startu (místo bílého záblesku).
+// - Podpis release buildu stejným klíčem jako telefon
+//   (../../tool/platform/signing.dart, README „Vydání pro Android“):
+//   wear/android/key.properties, jinak android/key.properties telefonu
+//   (storeFile v něm musí být absolutní cesta).
 // - Smaže výchozí test/widget_test.dart z `flutter create` (odkazuje na
 //   neexistující MyApp).
 import 'dart:io';
+
+// Stejný podpis release jako telefon (key.properties z ../android).
+import '../../tool/platform/signing.dart';
+
+/// Název aplikace na hodinkách (stejný jako v telefonu).
+const kAppName = 'GymBar';
 
 const _defaultApplicationId = 'cz.dedina.fitness_app';
 
@@ -45,6 +55,8 @@ void main(List<String> args) {
   ok &= _patchGradle(applicationId);
   ok &= _patchManifest();
   ok &= _writeMainActivity();
+  // Hodinky hledají klíč i v ../android/key.properties (telefon).
+  ok &= patchSigning(phoneKeyFallback: true);
   _blackLaunchBackground();
   _removeDefaultTest();
 
@@ -70,13 +82,6 @@ String? _phoneApplicationId() {
   return null;
 }
 
-String? _phoneLabel() {
-  final f = File('../android/app/src/main/AndroidManifest.xml');
-  if (!f.existsSync()) return null;
-  final m = RegExp(r'<application[^>]*android:label="([^"]*)"')
-      .firstMatch(f.readAsStringSync());
-  return m?.group(1);
-}
 
 // ---------------------------------------------------------------- Gradle
 
@@ -172,12 +177,14 @@ bool _patchManifest() {
     s = s.replaceRange(m.end, m.end, '\n${inApp.join('\n')}');
   }
 
-  // Stejný název jako aplikace v telefonu (flutter create dá „fitness_wear“).
-  final label = _phoneLabel() ?? 'Fitness App';
-  s = s.replaceFirst(
-    RegExp(r'android:label="fitness_wear"'),
-    'android:label="$label"',
-  );
+  // Stejný název jako aplikace v telefonu (flutter create dá „fitness_wear“,
+  // starší verze skriptu převzaly „fitness_app“ / „Fitness App“).
+  final app = RegExp(r'<application[^>]*>').firstMatch(s);
+  if (app != null) {
+    final tag = app.group(0)!.replaceFirst(
+        RegExp(r'android:label="[^"]*"'), 'android:label="$kAppName"');
+    s = s.replaceRange(app.start, app.end, tag);
+  }
 
   if (s != original) {
     file.writeAsStringSync(s);

@@ -14,6 +14,7 @@ import '../../l10n/app_localizations.dart';
 import '../../premium/premium.dart';
 import '../../providers.dart';
 import '../../router.dart';
+import '../../services/sync_controller.dart';
 import '../../ui/dialogs.dart';
 import '../data/backup_service.dart';
 import '../social/social_service.dart' show socialUserProvider;
@@ -152,6 +153,9 @@ Future<bool> runCloudRestore(
 ) async {
   final l10n = AppLocalizations.of(context);
   final messenger = ScaffoldMessenger.maybeOf(context);
+  // Přečíst hned – po obnovení už [context] nemusí existovat.
+  final sync = ProviderScope.containerOf(context, listen: false)
+      .read(syncControllerProvider);
   BuildContext? dialogContext;
   unawaited(showDialog<void>(
     context: context,
@@ -188,6 +192,11 @@ Future<bool> runCloudRestore(
     debugPrint('Cloud: restore failed: $e');
     message = l10n.dataRestoreFailed;
   }
+  // Po chybě mohly být notifikace a události v kalendáři už uklizené
+  // (CloudBackupService.restore), data se ale nezměnila a streamy
+  // synchronizaci nespustí – naplánovat je znovu podle současných dat
+  // (stejně jako SyncController po úspěšném obnovení).
+  if (!ok) sync.schedule();
   // Zavřít jen dialog průběhu (router mohl mezitím stránku vyměnit).
   final dc = dialogContext;
   if (dc != null && dc.mounted) Navigator.of(dc).pop();

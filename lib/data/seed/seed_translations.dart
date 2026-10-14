@@ -70,6 +70,121 @@ const seedTranslations = <String, SeedTranslation>{
       'kettlebell_swing': 'Kettlebell Swing',
       'weighted_pull_up': 'Klimmzug mit Zusatzgewicht',
       'weighted_dips': 'Dips mit Zusatzgewicht',
+      'barbell_shrug': 'Langhantel-Shrugs',
+      'dumbbell_shrug': 'Kurzhantel-Shrugs',
+      'wrist_curl': 'Handgelenk-Curls',
+      'reverse_curl': 'Reverse Curls',
+      'dead_hang': 'Hängen an der Stange',
+      'back_extension': 'Rückenstrecken (Hyperextensions)',
+      'good_morning': 'Good Mornings',
+      'superman': 'Superman',
+      'decline_bench_press': 'Negativ-Bankdrücken',
+      'smith_bench_press': 'Bankdrücken an der Multipresse',
+      'dumbbell_fly': 'Kurzhantel-Flys',
+      'incline_dumbbell_fly': 'Schrägbank-Flys mit Kurzhanteln',
+      'low_to_high_cable_fly': 'Cable Flys von unten nach oben',
+      'incline_chest_press_machine': 'Schrägbank-Brustpresse',
+      'chest_dips': 'Dips für die Brust',
+      'incline_push_up': 'Erhöhte Liegestütze',
+      'decline_push_up': 'Liegestütze mit erhöhten Füßen',
+      'dumbbell_floor_press': 'Floor Press mit Kurzhanteln',
+      't_bar_row': 'T-Bar-Rudern',
+      'pendlay_row': 'Pendlay-Rudern',
+      'machine_row': 'Rudern an der Maschine',
+      'chest_supported_row': 'Kurzhantelrudern auf der Schrägbank',
+      'close_grip_lat_pulldown': 'Latzug mit engem Griff',
+      'straight_arm_pulldown': 'Überzüge am Kabel mit gestreckten Armen',
+      'band_assisted_pull_up': 'Klimmzüge mit Band',
+      'inverted_row': 'Umgekehrtes Rudern',
+      'neutral_grip_pull_up': 'Klimmzüge im Neutralgriff',
+      'rack_pull': 'Rack Pulls',
+      'trap_bar_deadlift': 'Kreuzheben mit Trap Bar',
+      'single_arm_cable_row': 'Einarmiges Kabelrudern',
+      'dumbbell_pullover': 'Kurzhantel-Pullover',
+      'renegade_row': 'Renegade Rows',
+      'arnold_press': 'Arnold Press',
+      'shoulder_press_machine': 'Schulterpresse an der Maschine',
+      'push_press': 'Push Press',
+      'cable_lateral_raise': 'Seitheben am Kabel',
+      'machine_lateral_raise': 'Seitheben an der Maschine',
+      'front_raise': 'Frontheben mit Kurzhanteln',
+      'upright_row': 'Aufrechtes Rudern',
+      'reverse_pec_deck': 'Reverse Butterfly',
+      'band_pull_apart': 'Band Pull-Aparts',
+      'handstand_push_up': 'Handstand-Liegestütze',
+      'landmine_press': 'Landmine Press',
+      'preacher_curl': 'Scott-Curls',
+      'concentration_curl': 'Konzentrationscurls',
+      'incline_dumbbell_curl': 'Schrägbank-Curls',
+      'ez_bar_curl': 'SZ-Curls',
+      'rope_hammer_curl': 'Hammer Curls am Seil',
+      'machine_biceps_curl': 'Bizeps-Curls an der Maschine',
+      'band_curl': 'Bizeps-Curls mit Band',
+      'rope_pushdown': 'Trizepsdrücken am Seil',
+      'overhead_cable_extension': 'Trizepsdrücken über Kopf am Kabel',
+      'triceps_kickback': 'Trizeps-Kickbacks',
+      'bench_dips': 'Bank-Dips',
+      'machine_triceps_dip': 'Dip-Maschine',
+      'single_arm_pushdown': 'Einarmiges Trizepsdrücken am Kabel',
+      'diamond_push_up': 'Diamant-Liegestütze',
+      'reverse_wrist_curl': 'Reverse Handgelenk-Curls',
+      'hack_squat': 'Hackenschmidt-Kniebeuge',
+      'smith_squat': 'Kniebeuge an der Multipresse',
+      'walking_lunge': 'Ausfallschritte im Gehen',
+      'reverse_lunge': 'Ausfallschritte nach hinten',
+      'step_up': 'Step-ups',
+      'split_squat': 'Split Squats',
+      'sumo_squat': 'Sumo-Kniebeuge mit Kurzhantel',
+      'pistol_squat': 'Pistol Squat (einbeinige Kniebeuge)',
+      'single_leg_press': 'Einbeinige Beinpresse',
+      'hip_adduction_machine': 'Adduktorenmaschine',
+      'wall_sit': 'Wandsitzen',
+      'jump_squat': 'Sprungkniebeugen',
+      'box_jump': 'Box Jumps',
+      'seated_leg_curl': 'Sitzende Beinbeuger-Curls',
+      'nordic_curl': 'Nordic Hamstring Curls',
+      'single_leg_rdl': 'Einbeiniges rumänisches Kreuzheben',
+      'dumbbell_romanian_deadlift': 'Rumänisches Kreuzheben mit Kurzhanteln',
+      'stiff_leg_deadlift': 'Kreuzheben mit gestreckten Beinen',
+      'stability_ball_leg_curl': 'Beinbeuger-Curls auf dem Gymnastikball',
+      'sumo_deadlift': 'Sumo-Kreuzheben',
+      'cable_glute_kickback': 'Glute Kickbacks am Kabel',
+      'hip_abduction_machine': 'Abduktorenmaschine',
+      'machine_hip_thrust': 'Hip Thrust an der Maschine',
+      'single_leg_glute_bridge': 'Einbeinige Glute Bridge',
+      'donkey_kick': 'Donkey Kicks',
+      'fire_hydrant': 'Fire Hydrants',
+      'banded_lateral_walk': 'Seitwärtsgehen mit Band',
+      'cable_pull_through': 'Cable Pull-Through',
+      'seated_calf_raise': 'Wadenheben im Sitzen',
+      'single_leg_calf_raise': 'Einbeiniges Wadenheben',
+      'leg_press_calf_raise': 'Wadenheben an der Beinpresse',
+      'sit_up': 'Sit-ups',
+      'decline_sit_up': 'Sit-ups auf der Negativbank',
+      'bicycle_crunch': 'Bicycle Crunches',
+      'reverse_crunch': 'Reverse Crunches',
+      'lying_leg_raise': 'Beinheben im Liegen',
+      'captains_chair_knee_raise': 'Knieheben im Stütz (Captain’s Chair)',
+      'ab_wheel_rollout': 'Bauchroller',
+      'russian_twist': 'Russian Twists',
+      'v_up': 'V-Ups',
+      'hollow_hold': 'Hollow Body Hold',
+      'pallof_press': 'Pallof Press',
+      'cable_woodchopper': 'Holzhacker am Kabel',
+      'plank_shoulder_tap': 'Plank mit Schultertippen',
+      'bird_dog': 'Bird Dog',
+      'power_clean': 'Umsetzen (Power Clean)',
+      'thruster': 'Thruster',
+      'turkish_get_up': 'Turkish Get-up',
+      'bear_crawl': 'Bärengang',
+      'high_knees': 'Kniehebelauf',
+      'jump_rope': 'Seilspringen',
+      'rowing_machine': 'Rudergerät',
+      'stationary_bike': 'Heimtrainer',
+      'treadmill_run': 'Laufen auf dem Laufband',
+      'elliptical': 'Crosstrainer',
+      'stair_climber': 'Stepper (Treppensteiger)',
+      'air_bike': 'Air Bike',
     },
     exerciseInstructions: {
       'bench_press':
@@ -298,6 +413,466 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Stütz dich mit gestreckten Armen auf den Barren.\n'
         '3. Senk dich ab, bis die Oberarme etwa parallel zum Boden sind.\n'
         '4. Drück dich wieder hoch, Schultern nicht nach vorne fallen lassen. Trag nur das Zusatzgewicht ein.',
+      'barbell_shrug':
+        '1. Steh aufrecht, Stange mit gestreckten Armen, schulterbreiter Griff.\n'
+        '2. Zieh die Schultern gerade nach oben Richtung Ohren, Arme bleiben gestreckt.\n'
+        '3. Oben kurz halten, dann langsam absenken. Schultern nicht kreisen.',
+      'dumbbell_shrug':
+        '1. Steh mit einer Kurzhantel in jeder Hand, Handflächen zum Körper.\n'
+        '2. Zieh die Schultern so hoch wie möglich gerade nach oben.\n'
+        '3. Kurz halten und kontrolliert absenken.',
+      'wrist_curl':
+        '1. Setz dich, Unterarme mit den Handflächen nach oben auf Oberschenkel oder Bank, Handgelenke über der Kante.\n'
+        '2. Lass die Kurzhanteln bis zu den Fingerspitzen rollen.\n'
+        '3. Handgelenke so weit wie möglich hochbeugen, Unterarme bleiben ruhig.',
+      'reverse_curl':
+        '1. Steh aufrecht, Stange im schulterbreiten Obergriff.\n'
+        '2. Curl die Stange hoch, Ellbogen am Körper, Handgelenke gerade.\n'
+        '3. Langsam bis zu gestreckten Armen absenken.',
+      'dead_hang':
+        '1. Greif die Stange im schulterbreiten Obergriff.\n'
+        '2. Häng mit gestreckten Armen, Füße in der Luft, Körper ruhig.\n'
+        '3. Halte die vorgegebene Zeit, Schultern leicht aktiv.',
+      'back_extension':
+        '1. Polster knapp unter die Hüfte, Fersen fest einhaken.\n'
+        '2. Oberkörper mit geradem Rücken absenken, bis du die Beinrückseite spürst.\n'
+        '3. Bis in eine Linie mit den Beinen aufrichten, nicht überstrecken. Für mehr Last eine Scheibe halten.',
+      'good_morning':
+        '1. Stange auf dem oberen Rücken wie bei der Kniebeuge, Füße hüftbreit, Knie leicht gebeugt.\n'
+        '2. Hüfte nach hinten schieben und mit geradem Rücken vorbeugen, bis der Oberkörper fast waagerecht ist.\n'
+        '3. Hüfte nach vorne bringen und aufrichten. Mit wenig Gewicht beginnen.',
+      'superman':
+        '1. Leg dich auf den Bauch, Arme über dem Kopf gestreckt.\n'
+        '2. Heb Arme, Brust und Beine gleichzeitig vom Boden.\n'
+        '3. Oben eine Sekunde halten, dann langsam absenken.',
+      'decline_bench_press':
+        '1. Hak die Beine an der Negativbank ein, Griff etwas breiter als schulterbreit.\n'
+        '2. Senk die Stange kontrolliert zur unteren Brust.\n'
+        '3. Drück sie bis zu gestreckten Armen hoch, Schulterblätter bleiben zurückgezogen.',
+      'smith_bench_press':
+        '1. Stell die Bank so, dass die Stange über der Brustmitte liegt.\n'
+        '2. Entriegle die Stange und senk sie kontrolliert zur Brust.\n'
+        '3. Drück sie hoch, ohne die Ellbogen hart durchzustrecken, und häng sie am Ende ein.',
+      'dumbbell_fly':
+        '1. Leg dich auf eine Flachbank, Kurzhanteln über der Brust, Ellbogen leicht gebeugt.\n'
+        '2. Öffne die Arme in einem weiten Bogen, bis du eine Dehnung in der Brust spürst.\n'
+        '3. Führ die Hanteln wieder zusammen, der Ellbogenwinkel bleibt gleich.',
+      'incline_dumbbell_fly':
+        '1. Stell die Bank auf 30°, Kurzhanteln über der Brust, Ellbogen locker.\n'
+        '2. Senk sie in einem weiten Bogen, bis du die obere Brust gedehnt spürst.\n'
+        '3. Führ sie über der Brust wieder zusammen.',
+      'low_to_high_cable_fly':
+        '1. Stell beide Seilzüge unten ein und steh leicht vorgebeugt dazwischen.\n'
+        '2. Führ die Griffe nach oben und vor der oberen Brust zusammen.\n'
+        '3. Langsam zurück in die Dehnung, Ellbogen leicht gebeugt.',
+      'incline_chest_press_machine':
+        '1. Stell den Sitz so ein, dass die Griffe auf Höhe der oberen Brust sind.\n'
+        '2. Drück die Griffe nach vorne oben, bis die Arme fast gestreckt sind.\n'
+        '3. Langsam zurück, bis du eine Dehnung in der Brust spürst.',
+      'chest_dips':
+        '1. Stütz dich auf den Barren und lehn den Oberkörper nach vorne.\n'
+        '2. Senk dich mit leicht ausgestellten Ellbogen ab, bis du die Brust gedehnt spürst.\n'
+        '3. Drück dich wieder hoch, die Vorlage bleibt.',
+      'incline_push_up':
+        '1. Stütz die Hände auf eine Bank oder Box, Körper in einer Linie.\n'
+        '2. Senk die Brust zur Kante, Ellbogen etwa 45° vom Körper.\n'
+        '3. Drück dich wieder hoch. Je höher die Stütze, desto leichter.',
+      'decline_push_up':
+        '1. Leg die Füße auf eine Bank, Hände unter den Schultern am Boden.\n'
+        '2. Senk die Brust mit fester Körpermitte zum Boden.\n'
+        '3. Drück dich hoch, ohne dass die Hüfte durchhängt.',
+      'dumbbell_floor_press':
+        '1. Leg dich auf den Boden, Knie gebeugt, Kurzhanteln über der Brust.\n'
+        '2. Senk ab, bis die Oberarme den Boden berühren, kurz halten.\n'
+        '3. Drück wieder bis zu gestreckten Armen hoch.',
+      't_bar_row':
+        '1. Stell dich über die Stange, beug dich mit geradem Rücken vor und greif den Griff.\n'
+        '2. Zieh das Gewicht zur Brust und zieh die Schulterblätter zusammen.\n'
+        '3. Kontrolliert absenken, ohne den Rücken rund zu machen.',
+      'pendlay_row':
+        '1. Stange am Boden, Oberkörper fast waagerecht, Rücken gerade.\n'
+        '2. Zieh die Stange explosiv zur unteren Brust.\n'
+        '3. Leg sie nach jeder Wiederholung ab und richte dich neu aus.',
+      'machine_row':
+        '1. Setz dich mit der Brust ans Polster und greif die Griffe.\n'
+        '2. Zieh die Griffe zum Körper, Ellbogen eng, Schulterblätter zusammen.\n'
+        '3. Langsam zurück, bis die Arme gestreckt sind.',
+      'chest_supported_row':
+        '1. Leg dich bäuchlings auf eine Bank mit 30–45°, Kurzhanteln hängen nach unten.\n'
+        '2. Zieh sie seitlich hoch und spann die Schulterblätter an.\n'
+        '3. Langsam bis zur vollen Dehnung absenken.',
+      'close_grip_lat_pulldown':
+        '1. Setz dich mit engem oder V-Griff an den Latzug, Oberschenkel unter den Polstern.\n'
+        '2. Zieh den Griff zur oberen Brust, Ellbogen nach unten und hinten.\n'
+        '3. Lass ihn langsam nach oben, bis die Arme gestreckt sind.',
+      'straight_arm_pulldown':
+        '1. Steh vor dem oberen Kabel, Arme fast gestreckt, leicht vorgebeugt.\n'
+        '2. Drück die Stange mit dem Latissimus im Bogen bis zu den Oberschenkeln.\n'
+        '3. Langsam zurück, die Ellbogen bleiben fast gestreckt.',
+      'band_assisted_pull_up':
+        '1. Häng ein Widerstandsband über die Stange und stell Fuß oder Knie hinein.\n'
+        '2. Zieh dich hoch, bis das Kinn über der Stange ist.\n'
+        '3. Kontrolliert in den vollen Hang absenken. Dünneres Band = weniger Hilfe.',
+      'inverted_row':
+        '1. Häng dich unter eine tiefe Stange oder Ringe, Körper gerade, Fersen am Boden.\n'
+        '2. Zieh die Brust zur Stange und spann die Schulterblätter an.\n'
+        '3. Kontrolliert absenken. Je aufrechter, desto leichter.',
+      'neutral_grip_pull_up':
+        '1. Häng dich an parallele Griffe, Handflächen zueinander.\n'
+        '2. Zieh dich hoch, bis das Kinn über den Griffen ist.\n'
+        '3. Kontrolliert in den vollen Hang absenken.',
+      'rack_pull':
+        '1. Leg die Stange knapp unter oder über Kniehöhe auf die Ablagen.\n'
+        '2. Greif sie, spann den Rumpf an und richte dich mit der Hüfte nach vorne auf.\n'
+        '3. Mit geradem Rücken zurück auf die Ablagen.',
+      'trap_bar_deadlift':
+        '1. Stell dich in die Trap Bar, Füße hüftbreit, greif die Griffe.\n'
+        '2. Spann an, drück den Boden weg und steh aufrecht auf.\n'
+        '3. Mit geradem Rücken wieder absenken.',
+      'single_arm_cable_row':
+        '1. Greif einen Einzelgriff am Kabel auf Hüfthöhe, Arm gestreckt.\n'
+        '2. Zieh ihn zur Seite, Ellbogen nah am Körper.\n'
+        '3. Langsam zurück und die Schulter leicht nach vorne lassen.',
+      'dumbbell_pullover':
+        '1. Leg dich auf eine Bank und halt eine Kurzhantel mit beiden Händen über der Brust.\n'
+        '2. Senk sie im Bogen hinter den Kopf, Ellbogen leicht gebeugt.\n'
+        '3. Zieh sie zurück über die Brust.',
+      'renegade_row':
+        '1. Geh mit den Händen auf zwei Kurzhanteln in den Liegestütz, Füße breit.\n'
+        '2. Zieh eine Hantel zur Hüfte, ohne die Hüfte zu drehen.\n'
+        '3. Absetzen und mit dem anderen Arm wiederholen.',
+      'arnold_press':
+        '1. Setz dich, Kurzhanteln vor den Schultern, Handflächen zu dir.\n'
+        '2. Drück nach oben und dreh dabei die Handflächen nach vorne.\n'
+        '3. Beim Absenken zurück in die Ausgangsposition drehen.',
+      'shoulder_press_machine':
+        '1. Stell den Sitz so ein, dass die Griffe auf Schulterhöhe beginnen.\n'
+        '2. Drück nach oben, bis die Arme fast gestreckt sind.\n'
+        '3. Langsam zurück auf Schulterhöhe.',
+      'push_press':
+        '1. Stange vorne auf den Schultern, Füße hüftbreit.\n'
+        '2. Kurz in die Knie gehen, dann mit Schwung aus den Beinen die Stange über den Kopf drücken.\n'
+        '3. Kontrolliert zurück auf die Schultern.',
+      'cable_lateral_raise':
+        '1. Steh seitlich zum unteren Kabel, Griff in der entfernten Hand.\n'
+        '2. Heb den Arm seitlich bis auf Schulterhöhe.\n'
+        '3. Langsam absenken, Spannung halten.',
+      'machine_lateral_raise':
+        '1. Setz dich, die Polster liegen außen an den Armen.\n'
+        '2. Heb die Arme bis auf Schulterhöhe.\n'
+        '3. Langsam absenken, Gewicht nicht ablegen.',
+      'front_raise':
+        '1. Steh mit Kurzhanteln vor den Oberschenkeln.\n'
+        '2. Heb sie nach vorne bis auf Schulterhöhe, Arme fast gestreckt.\n'
+        '3. Langsam absenken, ohne Schwung.',
+      'upright_row':
+        '1. Halt die Stange vor den Oberschenkeln, Griff etwa schulterbreit.\n'
+        '2. Zieh sie am Körper entlang bis auf Brusthöhe, die Ellbogen führen.\n'
+        '3. Langsam absenken. Bei Druck in der Schulter nicht so hoch ziehen.',
+      'reverse_pec_deck':
+        '1. Setz dich mit Blick zur Maschine, Brust am Polster, greif die Griffe.\n'
+        '2. Öffne die Arme im Bogen nach hinten bis in Linie mit dem Körper.\n'
+        '3. Langsam zurück.',
+      'band_pull_apart':
+        '1. Halt ein Band vor dir auf Schulterhöhe, Arme gestreckt.\n'
+        '2. Zieh es bis zur Brust auseinander und spann die Schulterblätter an.\n'
+        '3. Langsam zurück.',
+      'handstand_push_up':
+        '1. Schwing dich an der Wand in den Handstand, Hände schulterbreit.\n'
+        '2. Senk den Kopf kontrolliert Richtung Boden.\n'
+        '3. Drück dich bis zu gestreckten Armen hoch. Leg eine Matte unter den Kopf.',
+      'landmine_press':
+        '1. Halt das Ende einer Landmine-Stange an der Schulter, Schrittstellung.\n'
+        '2. Drück sie nach oben vorne, bis der Arm gestreckt ist.\n'
+        '3. Kontrolliert zurück zur Schulter.',
+      'preacher_curl':
+        '1. Setz dich an die Scottbank, Oberarme flach auf dem Polster, SZ-Stange in den Händen.\n'
+        '2. Curl die Stange hoch, ohne die Ellbogen anzuheben.\n'
+        '3. Langsam fast bis zur Streckung absenken.',
+      'concentration_curl':
+        '1. Setz dich auf eine Bank, Ellbogen an der Innenseite des Oberschenkels.\n'
+        '2. Curl die Kurzhantel zur Schulter.\n'
+        '3. Langsam bis zur vollen Dehnung absenken.',
+      'incline_dumbbell_curl':
+        '1. Lehn dich an eine Bank mit 45–60°, Arme hängen gerade nach unten.\n'
+        '2. Curl die Kurzhanteln hoch, die Oberarme bleiben ruhig.\n'
+        '3. Langsam bis zur vollen Dehnung absenken.',
+      'ez_bar_curl':
+        '1. Steh mit der SZ-Stange an den abgewinkelten Griffen, Arme gestreckt.\n'
+        '2. Curl sie hoch, ohne mit dem Körper zu schwingen.\n'
+        '3. Langsam bis zu gestreckten Armen absenken.',
+      'rope_hammer_curl':
+        '1. Häng ein Seil an den unteren Kabelzug, Handflächen zueinander.\n'
+        '2. Curl das Seil hoch, Ellbogen am Körper.\n'
+        '3. Langsam absenken, Spannung halten.',
+      'machine_biceps_curl':
+        '1. Setz dich, Oberarme aufs Polster, greif die Griffe.\n'
+        '2. Curl die Griffe zu den Schultern.\n'
+        '3. Langsam fast bis zur Streckung absenken.',
+      'band_curl':
+        '1. Stell dich auf die Mitte des Bandes, Enden in den Händen.\n'
+        '2. Curl die Hände zu den Schultern, Ellbogen am Körper.\n'
+        '3. Langsam absenken.',
+      'rope_pushdown':
+        '1. Greif das Seil am oberen Kabel, Ellbogen am Körper.\n'
+        '2. Drück das Seil nach unten und zieh unten die Enden auseinander.\n'
+        '3. Lass es langsam bis etwa 90° im Ellbogen hoch.',
+      'overhead_cable_extension':
+        '1. Steh mit dem Rücken zum Kabel, Seil hinter dem Kopf, Ellbogen oben.\n'
+        '2. Streck die Arme nach vorne oben.\n'
+        '3. Beug die Ellbogen langsam wieder hinter den Kopf.',
+      'triceps_kickback':
+        '1. Beug dich vor, Oberarm parallel zum Körper, Ellbogen gebeugt.\n'
+        '2. Streck den Arm nach hinten ganz durch.\n'
+        '3. Langsam zurückbeugen, der Oberarm bleibt ruhig.',
+      'bench_dips':
+        '1. Stütz die Hände hinter dir auf die Bankkante, Beine nach vorne.\n'
+        '2. Beug die Ellbogen auf etwa 90° und senk dich ab.\n'
+        '3. Drück dich wieder bis zu gestreckten Armen hoch.',
+      'machine_triceps_dip':
+        '1. Setz dich in die Maschine und greif die seitlichen Griffe.\n'
+        '2. Drück die Griffe nach unten, bis die Arme gestreckt sind.\n'
+        '3. Lass sie langsam bis etwa 90° im Ellbogen hoch.',
+      'single_arm_pushdown':
+        '1. Greif einen Einzelgriff am oberen Kabel, Ellbogen am Körper.\n'
+        '2. Drück ihn nach unten, bis der Arm gestreckt ist.\n'
+        '3. Langsam hochlassen, der Ellbogen bleibt an seinem Platz.',
+      'diamond_push_up':
+        '1. Liegestützposition, Hände unter der Brust zusammen, Finger bilden eine Raute.\n'
+        '2. Senk die Brust zu den Händen, Ellbogen am Körper.\n'
+        '3. Mit geradem Körper wieder hochdrücken.',
+      'reverse_wrist_curl':
+        '1. Setz dich, Unterarme auf den Oberschenkeln, Handflächen nach unten, Handgelenke über den Knien.\n'
+        '2. Heb die Handrücken so hoch wie möglich.\n'
+        '3. Langsam absenken.',
+      'hack_squat':
+        '1. Stell dich auf die Plattform, Rücken am Polster, Schultern unter den Polstern.\n'
+        '2. Geh in die Hocke, bis die Oberschenkel mindestens parallel zur Plattform sind.\n'
+        '3. Drück dich über den ganzen Fuß wieder hoch.',
+      'smith_squat':
+        '1. Stange auf dem oberen Rücken, Füße etwas vor der Stange.\n'
+        '2. Geh mit geradem Rücken mindestens bis zur Parallele runter.\n'
+        '3. Steh auf und häng die Stange am Ende ein.',
+      'walking_lunge':
+        '1. Halt Kurzhanteln seitlich und mach einen langen Schritt nach vorne.\n'
+        '2. Senk das hintere Knie fast bis zum Boden.\n'
+        '3. Drück dich über den vorderen Fuß hoch und geh direkt in den nächsten Schritt.',
+      'reverse_lunge':
+        '1. Steh aufrecht, Kurzhanteln seitlich.\n'
+        '2. Tritt nach hinten und senk das hintere Knie fast bis zum Boden.\n'
+        '3. Über den vorderen Fuß zurückdrücken. Beine abwechseln.',
+      'step_up':
+        '1. Stell dich mit Kurzhanteln vor eine Bank oder Box.\n'
+        '2. Setz einen Fuß darauf und steig mit Kraft aus diesem Bein hoch.\n'
+        '3. Langsam wieder runter. Beine abwechseln oder eine Seite nach der anderen.',
+      'split_squat':
+        '1. Stell dich in eine lange Schrittstellung, Kurzhanteln in den Händen.\n'
+        '2. Senk dich senkrecht ab, bis das hintere Knie fast den Boden berührt.\n'
+        '3. Wieder hochdrücken. Alle Wiederholungen, dann Seite wechseln.',
+      'sumo_squat':
+        '1. Breiter Stand, Fußspitzen nach außen, eine Kurzhantel zwischen den Beinen.\n'
+        '2. Geh mit aufrechtem Oberkörper in die Hocke, Knie zeigen in Richtung Zehen.\n'
+        '3. Steh auf und spann den Po an.',
+      'pistol_squat':
+        '1. Steh auf einem Bein, das andere gestreckt nach vorne.\n'
+        '2. Geh kontrolliert so tief wie möglich, Arme vorne zum Ausbalancieren.\n'
+        '3. Wieder aufstehen. Anfangs darfst du dich festhalten.',
+      'single_leg_press':
+        '1. Setz dich in die Beinpresse, ein Fuß mittig auf der Plattform.\n'
+        '2. Lass die Plattform ab, bis das Knie etwa 90° gebeugt ist.\n'
+        '3. Drück zurück, ohne das Knie zu überstrecken. Beine wechseln.',
+      'hip_adduction_machine':
+        '1. Setz dich in die Maschine, die Polster innen an den Knien.\n'
+        '2. Drück die Beine zusammen.\n'
+        '3. Langsam wieder öffnen.',
+      'wall_sit':
+        '1. Lehn dich mit dem Rücken an eine Wand und rutsch nach unten.\n'
+        '2. Stopp, wenn die Knie etwa 90° gebeugt sind, Füße unter den Knien.\n'
+        '3. Halte die vorgegebene Zeit, Rücken flach an der Wand.',
+      'jump_squat':
+        '1. Steh mit schulterbreiten Füßen.\n'
+        '2. Geh in die Hocke und spring explosiv hoch.\n'
+        '3. Weich landen und direkt in die nächste Kniebeuge.',
+      'box_jump':
+        '1. Stell dich vor eine stabile Box.\n'
+        '2. Schwing die Arme und spring auf die Box, weich landen.\n'
+        '3. Ganz aufrichten, dann heruntersteigen.',
+      'seated_leg_curl':
+        '1. Setz dich in die Maschine, Polster über den Fersen, Oberschenkel fixiert.\n'
+        '2. Zieh die Fersen so weit wie möglich nach unten hinten.\n'
+        '3. Langsam zurück.',
+      'nordic_curl':
+        '1. Knie dich hin und fixier die Fersen unter etwas Stabilem.\n'
+        '2. Senk den Körper so langsam wie möglich nach vorne, Hüfte gestreckt.\n'
+        '3. Fang dich mit den Händen ab und zieh dich mit dem Beinbeuger zurück.',
+      'single_leg_rdl':
+        '1. Steh auf einem Bein mit einer Kurzhantel, Knie leicht gebeugt.\n'
+        '2. Beug dich vor, das freie Bein geht nach hinten, Rücken gerade.\n'
+        '3. Mit der Hüfte nach vorne wieder aufrichten.',
+      'dumbbell_romanian_deadlift':
+        '1. Steh mit Kurzhanteln vor den Oberschenkeln, Knie locker.\n'
+        '2. Schieb die Hüfte nach hinten und führ die Hanteln an den Beinen entlang nach unten.\n'
+        '3. Bei Dehnung im Beinbeuger stoppen und aufrichten.',
+      'stiff_leg_deadlift':
+        '1. Steh mit der Stange in den Händen, Beine fast gestreckt.\n'
+        '2. Beug dich mit geradem Rücken vor und führ die Stange an den Beinen entlang.\n'
+        '3. Mit Beinbeuger und Po wieder aufrichten.',
+      'stability_ball_leg_curl':
+        '1. Leg dich auf den Rücken, Fersen auf dem Ball, Hüfte angehoben.\n'
+        '2. Roll den Ball durch Beugen der Knie zu dir.\n'
+        '3. Langsam zurückrollen, die Hüfte bleibt oben.',
+      'sumo_deadlift':
+        '1. Breiter Stand, Fußspitzen nach außen, Stange zwischen den Beinen greifen.\n'
+        '2. Spann an, drück die Knie nach außen und steh mit der Stange nah am Körper auf.\n'
+        '3. Mit geradem Rücken wieder absetzen.',
+      'cable_glute_kickback':
+        '1. Leg eine Fußmanschette am unteren Kabel an und halt dich an der Maschine fest.\n'
+        '2. Kick das Bein mit angespanntem Po nach hinten oben.\n'
+        '3. Langsam zurück, ohne ins Hohlkreuz zu gehen.',
+      'hip_abduction_machine':
+        '1. Setz dich in die Maschine, die Polster außen an den Knien.\n'
+        '2. Drück die Beine so weit wie möglich auseinander.\n'
+        '3. Langsam wieder zusammenführen.',
+      'machine_hip_thrust':
+        '1. Leg den oberen Rücken ans Polster und den Gurt über die Hüfte.\n'
+        '2. Drück die Hüfte hoch, bis Knie bis Schultern eine Linie bilden.\n'
+        '3. Oben den Po anspannen und langsam absenken.',
+      'single_leg_glute_bridge':
+        '1. Leg dich auf den Rücken, ein Fuß am Boden, das andere Bein gestreckt nach oben.\n'
+        '2. Drück die Hüfte über die Ferse des Standbeins hoch.\n'
+        '3. Langsam absenken. Alle Wiederholungen, dann Seite wechseln.',
+      'donkey_kick':
+        '1. Geh in den Vierfüßlerstand, Hände unter den Schultern.\n'
+        '2. Heb ein gebeugtes Bein nach hinten oben, Fußsohle zur Decke.\n'
+        '3. Langsam absenken, ohne ins Hohlkreuz zu gehen.',
+      'fire_hydrant':
+        '1. Geh in den Vierfüßlerstand, Rücken gerade.\n'
+        '2. Heb ein gebeugtes Bein seitlich bis auf Hüfthöhe.\n'
+        '3. Langsam absenken, die Hüfte bleibt gerade.',
+      'banded_lateral_walk':
+        '1. Leg ein Mini-Band über die Knie oder Knöchel und beug die Knie leicht.\n'
+        '2. Geh seitwärts, das Band bleibt gespannt.\n'
+        '3. Zähl die Schritte in eine Richtung und geh zurück.',
+      'cable_pull_through':
+        '1. Steh mit dem Rücken zum unteren Kabel, Seil zwischen den Beinen.\n'
+        '2. Beug dich mit geradem Rücken vor und lass das Seil nach hinten.\n'
+        '3. Mit der Hüfte nach vorne aufrichten und den Po anspannen.',
+      'seated_calf_raise':
+        '1. Setz dich, Polster auf den Oberschenkeln, Fußballen auf der Stufe.\n'
+        '2. Heb die Fersen so hoch wie möglich.\n'
+        '3. Langsam bis zur vollen Dehnung absenken.',
+      'single_leg_calf_raise':
+        '1. Stell dich mit einem Fuß auf eine Stufenkante und halt dich fest.\n'
+        '2. Geh so hoch wie möglich auf die Zehenspitze.\n'
+        '3. Senk die Ferse unter die Stufe in die volle Dehnung.',
+      'leg_press_calf_raise':
+        '1. Setz dich in die Beinpresse, Fußballen an der Unterkante der Plattform.\n'
+        '2. Drück die Plattform durch Strecken der Füße weg.\n'
+        '3. Langsam zurück in die Dehnung. Knie gestreckt halten.',
+      'sit_up':
+        '1. Leg dich auf den Rücken, Knie gebeugt, Füße am Boden.\n'
+        '2. Roll dich ganz bis zum Sitzen hoch.\n'
+        '3. Langsam wieder ablegen.',
+      'decline_sit_up':
+        '1. Hak die Füße an der Negativbank ein und leg dich zurück.\n'
+        '2. Roll dich hoch, bis der Oberkörper aufrecht ist.\n'
+        '3. Langsam zurück. Für mehr Last eine Scheibe halten.',
+      'bicycle_crunch':
+        '1. Leg dich auf den Rücken, Hände am Kopf, Beine angehoben.\n'
+        '2. Führ einen Ellbogen zum gegenüberliegenden Knie, das andere Bein streckt sich.\n'
+        '3. Seiten wechseln wie beim Radfahren.',
+      'reverse_crunch':
+        '1. Leg dich auf den Rücken, Knie 90° gebeugt, Arme am Boden.\n'
+        '2. Roll das Becken hoch und zieh die Knie zur Brust.\n'
+        '3. Langsam absenken, ohne Schwung.',
+      'lying_leg_raise':
+        '1. Leg dich auf den Rücken, Beine gestreckt, unterer Rücken am Boden.\n'
+        '2. Heb die Beine, bis sie zur Decke zeigen.\n'
+        '3. Langsam absenken, ohne ins Hohlkreuz zu gehen.',
+      'captains_chair_knee_raise':
+        '1. Stütz dich mit den Unterarmen auf die Polster, Rücken an der Lehne.\n'
+        '2. Zieh die Knie zur Brust.\n'
+        '3. Langsam absenken, ohne Schwung.',
+      'ab_wheel_rollout':
+        '1. Knie dich hin und halt den Bauchroller unter den Schultern.\n'
+        '2. Roll so weit nach vorne, wie es ohne Hohlkreuz geht.\n'
+        '3. Mit der Bauchmuskulatur zurückziehen.',
+      'russian_twist':
+        '1. Setz dich leicht zurückgelehnt hin, Füße angehoben oder am Boden.\n'
+        '2. Dreh den Oberkörper und tipp neben der Hüfte auf den Boden.\n'
+        '3. Zur anderen Seite drehen. Für mehr Last ein Gewicht halten.',
+      'v_up':
+        '1. Leg dich auf den Rücken, Arme über dem Kopf, Beine gestreckt.\n'
+        '2. Heb Arme und Beine gleichzeitig und berühr die Zehen.\n'
+        '3. Langsam wieder ablegen.',
+      'hollow_hold':
+        '1. Leg dich auf den Rücken und drück den unteren Rücken in den Boden.\n'
+        '2. Heb Schultern und gestreckte Beine etwas vom Boden.\n'
+        '3. Halte die vorgegebene Zeit ohne Hohlkreuz.',
+      'pallof_press':
+        '1. Steh seitlich zum Kabel auf Brusthöhe, Griff an der Brust.\n'
+        '2. Drück den Griff gerade nach vorne, ohne dass sich der Körper dreht.\n'
+        '3. Zurück zur Brust. Beide Seiten trainieren.',
+      'cable_woodchopper':
+        '1. Steh seitlich zum oberen Kabel, Griff mit beiden Händen.\n'
+        '2. Zieh ihn diagonal nach unten über den Körper und dreh den Oberkörper.\n'
+        '3. Langsam zurück. Beide Seiten trainieren.',
+      'plank_shoulder_tap':
+        '1. Geh in den hohen Unterarmstütz, Füße etwas auseinander.\n'
+        '2. Tipp mit einer Hand die gegenüberliegende Schulter an, ohne die Hüfte zu bewegen.\n'
+        '3. Hand wechseln.',
+      'bird_dog':
+        '1. Geh in den Vierfüßlerstand, Rücken gerade.\n'
+        '2. Streck einen Arm nach vorne und das gegenüberliegende Bein nach hinten.\n'
+        '3. Kurz halten, zurück und Seite wechseln.',
+      'power_clean':
+        '1. Steh über der Stange, Griff knapp außerhalb der Knie, Rücken gerade.\n'
+        '2. Zieh die Stange explosiv am Körper hoch und fang sie vorne auf den Schultern.\n'
+        '3. Aufrichten und absetzen. Technik mit leichter Stange lernen.',
+      'thruster':
+        '1. Halt die Stange vorne auf den Schultern.\n'
+        '2. Geh in die Hocke und drück sie beim Aufstehen in einer Bewegung über den Kopf.\n'
+        '3. Zurück auf die Schultern und direkt in die nächste Kniebeuge.',
+      'turkish_get_up':
+        '1. Leg dich auf den Rücken und halt eine Kettlebell mit einer Hand senkrecht nach oben.\n'
+        '2. Steh Schritt für Schritt auf, Blick auf die Kettlebell, Arm gestreckt.\n'
+        '3. Auf demselben Weg zurück in die Rückenlage. Beide Seiten.',
+      'bear_crawl':
+        '1. Stütz dich auf Hände und Füße, Knie knapp über dem Boden, Rücken gerade.\n'
+        '2. Krabbel vorwärts und beweg dabei gegenüberliegende Hand und Fuß gleichzeitig.\n'
+        '3. Hüfte tief halten für die vorgegebene Zeit.',
+      'high_knees':
+        '1. Lauf auf der Stelle und zieh die Knie bis auf Hüfthöhe.\n'
+        '2. Arbeite mit den Armen und bleib auf den Fußballen.\n'
+        '3. Halte ein schnelles Tempo für die vorgegebene Zeit.',
+      'jump_rope':
+        '1. Halt die Griffe auf Hüfthöhe, Ellbogen nah am Körper.\n'
+        '2. Dreh das Seil aus den Handgelenken und spring nur so hoch wie nötig.\n'
+        '3. Weich auf den Fußballen landen für die vorgegebene Zeit.',
+      'rowing_machine':
+        '1. Schnall die Füße fest und greif den Griff mit gestreckten Armen.\n'
+        '2. Drück mit den Beinen ab, lehn dich leicht zurück und zieh den Griff zu den unteren Rippen.\n'
+        '3. In umgekehrter Reihenfolge zurück: Arme, Oberkörper, Beine. Gleichmäßiges Tempo.',
+      'stationary_bike':
+        '1. Stell den Sattel so ein, dass das Knie unten leicht gebeugt ist.\n'
+        '2. Tritt in gleichmäßigem Tempo mit geradem Rücken.\n'
+        '3. Stell den Widerstand nach deinem Ziel ein, für die vorgegebene Zeit.',
+      'treadmill_run':
+        '1. Fang mit Gehen an und steigere langsam die Geschwindigkeit.\n'
+        '2. Lauf aufrecht mit lockeren Schultern, Landung unter der Hüfte.\n'
+        '3. Vor dem Absteigen ins Gehen abbremsen.',
+      'elliptical':
+        '1. Steig auf die Pedale und greif die beweglichen Griffe.\n'
+        '2. Beweg dich gleichmäßig und arbeite mit den Armen mit.\n'
+        '3. Halte ein gleichmäßiges Tempo für die vorgegebene Zeit.',
+      'stair_climber':
+        '1. Steig auf und wähl ein Tempo, das du halten kannst.\n'
+        '2. Steig aufrecht, die Geländer nur leicht zum Ausbalancieren nutzen.\n'
+        '3. Mach weiter für die vorgegebene Zeit.',
+      'air_bike':
+        '1. Setz dich aufs Rad und greif die beweglichen Griffe.\n'
+        '2. Tritt in die Pedale und drück und zieh gleichzeitig an den Griffen.\n'
+        '3. Je mehr du gibst, desto mehr bremst der Lüfter. Für die vorgegebene Zeit.',
     },
     routineNames: {
       'home_upper': 'Oberkörper in 5 Minuten',
@@ -382,6 +957,121 @@ const seedTranslations = <String, SeedTranslation>{
       'kettlebell_swing': 'Swing con kettlebell',
       'weighted_pull_up': 'Dominadas lastradas',
       'weighted_dips': 'Fondos lastrados',
+      'barbell_shrug': 'Encogimientos con barra',
+      'dumbbell_shrug': 'Encogimientos con mancuernas',
+      'wrist_curl': 'Curl de muñeca',
+      'reverse_curl': 'Curl inverso',
+      'dead_hang': 'Colgarse de la barra',
+      'back_extension': 'Hiperextensiones',
+      'good_morning': 'Buenos días con barra',
+      'superman': 'Superman',
+      'decline_bench_press': 'Press de banca declinado',
+      'smith_bench_press': 'Press de banca en máquina Smith',
+      'dumbbell_fly': 'Aperturas con mancuernas',
+      'incline_dumbbell_fly': 'Aperturas inclinadas con mancuernas',
+      'low_to_high_cable_fly': 'Cruce de poleas de abajo arriba',
+      'incline_chest_press_machine': 'Press inclinado en máquina',
+      'chest_dips': 'Fondos para pecho',
+      'incline_push_up': 'Flexiones inclinadas',
+      'decline_push_up': 'Flexiones declinadas',
+      'dumbbell_floor_press': 'Press en el suelo con mancuernas',
+      't_bar_row': 'Remo en barra T',
+      'pendlay_row': 'Remo Pendlay',
+      'machine_row': 'Remo en máquina',
+      'chest_supported_row': 'Remo con mancuernas apoyado en banco inclinado',
+      'close_grip_lat_pulldown': 'Jalón al pecho con agarre estrecho',
+      'straight_arm_pulldown': 'Jalón con brazos rectos',
+      'band_assisted_pull_up': 'Dominadas asistidas con banda',
+      'inverted_row': 'Remo invertido',
+      'neutral_grip_pull_up': 'Dominadas con agarre neutro',
+      'rack_pull': 'Rack pull',
+      'trap_bar_deadlift': 'Peso muerto con barra hexagonal',
+      'single_arm_cable_row': 'Remo en polea a una mano',
+      'dumbbell_pullover': 'Pullover con mancuerna',
+      'renegade_row': 'Remo renegado',
+      'arnold_press': 'Press Arnold',
+      'shoulder_press_machine': 'Press de hombros en máquina',
+      'push_press': 'Push press',
+      'cable_lateral_raise': 'Elevaciones laterales en polea',
+      'machine_lateral_raise': 'Elevaciones laterales en máquina',
+      'front_raise': 'Elevaciones frontales con mancuernas',
+      'upright_row': 'Remo al mentón',
+      'reverse_pec_deck': 'Pec deck inverso',
+      'band_pull_apart': 'Aperturas con banda',
+      'handstand_push_up': 'Flexiones en pino',
+      'landmine_press': 'Press landmine',
+      'preacher_curl': 'Curl en banco Scott',
+      'concentration_curl': 'Curl concentrado',
+      'incline_dumbbell_curl': 'Curl inclinado con mancuernas',
+      'ez_bar_curl': 'Curl con barra Z',
+      'rope_hammer_curl': 'Curl martillo con cuerda',
+      'machine_biceps_curl': 'Curl de bíceps en máquina',
+      'band_curl': 'Curl con banda',
+      'rope_pushdown': 'Extensión de tríceps con cuerda',
+      'overhead_cable_extension': 'Extensión de tríceps sobre la cabeza en polea',
+      'triceps_kickback': 'Patada de tríceps',
+      'bench_dips': 'Fondos en banco',
+      'machine_triceps_dip': 'Fondos en máquina',
+      'single_arm_pushdown': 'Extensión de tríceps en polea a una mano',
+      'diamond_push_up': 'Flexiones diamante',
+      'reverse_wrist_curl': 'Curl de muñeca inverso',
+      'hack_squat': 'Sentadilla hack',
+      'smith_squat': 'Sentadilla en máquina Smith',
+      'walking_lunge': 'Zancadas caminando',
+      'reverse_lunge': 'Zancadas hacia atrás',
+      'step_up': 'Subidas al cajón',
+      'split_squat': 'Sentadilla split',
+      'sumo_squat': 'Sentadilla sumo con mancuerna',
+      'pistol_squat': 'Sentadilla pistol',
+      'single_leg_press': 'Prensa a una pierna',
+      'hip_adduction_machine': 'Máquina de aductores',
+      'wall_sit': 'Sentadilla isométrica en pared',
+      'jump_squat': 'Sentadilla con salto',
+      'box_jump': 'Salto al cajón',
+      'seated_leg_curl': 'Curl femoral sentado',
+      'nordic_curl': 'Curl nórdico',
+      'single_leg_rdl': 'Peso muerto rumano a una pierna',
+      'dumbbell_romanian_deadlift': 'Peso muerto rumano con mancuernas',
+      'stiff_leg_deadlift': 'Peso muerto con piernas rígidas',
+      'stability_ball_leg_curl': 'Curl femoral con fitball',
+      'sumo_deadlift': 'Peso muerto sumo',
+      'cable_glute_kickback': 'Patada de glúteo en polea',
+      'hip_abduction_machine': 'Máquina de abductores',
+      'machine_hip_thrust': 'Hip thrust en máquina',
+      'single_leg_glute_bridge': 'Puente de glúteo a una pierna',
+      'donkey_kick': 'Patada de burro',
+      'fire_hydrant': 'Fire hydrant (abducción a cuatro patas)',
+      'banded_lateral_walk': 'Paso lateral con banda',
+      'cable_pull_through': 'Pull-through en polea',
+      'seated_calf_raise': 'Elevación de talones sentado',
+      'single_leg_calf_raise': 'Elevación de talón a una pierna',
+      'leg_press_calf_raise': 'Elevación de talones en prensa',
+      'sit_up': 'Abdominales completos (sit-up)',
+      'decline_sit_up': 'Sit-up en banco declinado',
+      'bicycle_crunch': 'Crunch bicicleta',
+      'reverse_crunch': 'Crunch inverso',
+      'lying_leg_raise': 'Elevación de piernas tumbado',
+      'captains_chair_knee_raise': 'Elevación de rodillas en silla romana',
+      'ab_wheel_rollout': 'Rueda abdominal',
+      'russian_twist': 'Giro ruso',
+      'v_up': 'V-up',
+      'hollow_hold': 'Hollow hold',
+      'pallof_press': 'Press Pallof',
+      'cable_woodchopper': 'Leñador en polea',
+      'plank_shoulder_tap': 'Plancha con toque de hombro',
+      'bird_dog': 'Bird dog',
+      'power_clean': 'Cargada de potencia (power clean)',
+      'thruster': 'Thruster',
+      'turkish_get_up': 'Levantamiento turco',
+      'bear_crawl': 'Paso de oso',
+      'high_knees': 'Rodillas arriba (skipping)',
+      'jump_rope': 'Comba',
+      'rowing_machine': 'Remo ergómetro',
+      'stationary_bike': 'Bicicleta estática',
+      'treadmill_run': 'Correr en cinta',
+      'elliptical': 'Elíptica',
+      'stair_climber': 'Escaladora',
+      'air_bike': 'Air bike',
     },
     exerciseInstructions: {
       'bench_press':
@@ -610,6 +1300,466 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Apóyate en las paralelas con los brazos estirados.\n'
         '3. Baja hasta que los brazos queden más o menos paralelos al suelo.\n'
         '4. Empuja de vuelta arriba sin dejar caer los hombros hacia delante. Anota solo el peso añadido.',
+      'barbell_shrug':
+        '1. De pie, sujeta la barra con los brazos extendidos, agarre al ancho de hombros.\n'
+        '2. Sube los hombros en vertical hacia las orejas, brazos rectos.\n'
+        '3. Pausa arriba y baja despacio. No hagas círculos con los hombros.',
+      'dumbbell_shrug':
+        '1. De pie, una mancuerna en cada mano a los lados, palmas hacia el cuerpo.\n'
+        '2. Sube los hombros en vertical lo más alto que puedas.\n'
+        '3. Mantén un momento y baja con control.',
+      'wrist_curl':
+        '1. Siéntate con los antebrazos sobre los muslos o un banco, palmas arriba, muñecas fuera del borde.\n'
+        '2. Deja que las mancuernas rueden hacia la punta de los dedos.\n'
+        '3. Flexiona las muñecas lo más arriba posible, antebrazos quietos.',
+      'reverse_curl':
+        '1. De pie, sujeta la barra en prono al ancho de hombros.\n'
+        '2. Sube la barra con los codos pegados al cuerpo y las muñecas rectas.\n'
+        '3. Baja despacio hasta extender los brazos.',
+      'dead_hang':
+        '1. Agarra la barra en prono al ancho de hombros.\n'
+        '2. Cuélgate con los brazos extendidos, pies en el aire, cuerpo quieto.\n'
+        '3. Aguanta el tiempo marcado con los hombros ligeramente activos.',
+      'back_extension':
+        '1. Coloca el apoyo justo debajo de la cadera y fija los talones.\n'
+        '2. Baja el tronco con la espalda recta hasta notar el estiramiento de los isquios.\n'
+        '3. Sube hasta quedar alineado con las piernas, sin hiperextender. Sujeta un disco para más carga.',
+      'good_morning':
+        '1. Barra sobre la parte alta de la espalda como en la sentadilla, pies al ancho de cadera, rodillas algo flexionadas.\n'
+        '2. Lleva la cadera atrás e inclínate con la espalda recta hasta que el tronco esté casi horizontal.\n'
+        '3. Empuja la cadera adelante para subir. Empieza con poco peso.',
+      'superman':
+        '1. Túmbate boca abajo con los brazos extendidos por encima de la cabeza.\n'
+        '2. Levanta brazos, pecho y piernas del suelo a la vez.\n'
+        '3. Mantén un segundo arriba y baja despacio.',
+      'decline_bench_press':
+        '1. Sujeta las piernas en el banco declinado, agarre algo más ancho que los hombros.\n'
+        '2. Baja la barra con control hasta la parte baja del pecho.\n'
+        '3. Empuja hasta extender los brazos, escápulas juntas.',
+      'smith_bench_press':
+        '1. Coloca el banco para que la barra quede sobre el centro del pecho.\n'
+        '2. Desbloquea la barra y bájala al pecho con control.\n'
+        '3. Empuja sin bloquear los codos de golpe y engancha la barra al final.',
+      'dumbbell_fly':
+        '1. Túmbate en un banco plano, mancuernas sobre el pecho, codos algo flexionados.\n'
+        '2. Abre los brazos en un arco amplio hasta notar estiramiento en el pecho.\n'
+        '3. Vuelve a juntarlas sin cambiar el ángulo del codo.',
+      'incline_dumbbell_fly':
+        '1. Pon el banco a 30°, mancuernas sobre el pecho, codos relajados.\n'
+        '2. Bájalas en un arco amplio hasta notar estiramiento en la parte alta del pecho.\n'
+        '3. Vuelve a juntarlas sobre el pecho.',
+      'low_to_high_cable_fly':
+        '1. Pon las poleas abajo y colócate entre ellas algo inclinado.\n'
+        '2. Lleva los agarres hacia arriba y juntos delante de la parte alta del pecho.\n'
+        '3. Vuelve despacio al estiramiento, codos algo flexionados.',
+      'incline_chest_press_machine':
+        '1. Ajusta el asiento para que los agarres queden a la altura de la parte alta del pecho.\n'
+        '2. Empuja hacia delante y arriba hasta casi extender los brazos.\n'
+        '3. Vuelve despacio hasta notar el estiramiento.',
+      'chest_dips':
+        '1. Apóyate en las paralelas e inclina el torso hacia delante.\n'
+        '2. Baja con los codos algo abiertos hasta notar estiramiento en el pecho.\n'
+        '3. Sube manteniendo la inclinación.',
+      'incline_push_up':
+        '1. Apoya las manos en un banco o cajón, cuerpo recto.\n'
+        '2. Baja el pecho al borde, codos a unos 45° del cuerpo.\n'
+        '3. Vuelve a subir. Cuanto más alto el apoyo, más fácil.',
+      'decline_push_up':
+        '1. Pies sobre un banco, manos en el suelo bajo los hombros.\n'
+        '2. Baja el pecho al suelo con el abdomen firme.\n'
+        '3. Sube sin que la cadera se hunda.',
+      'dumbbell_floor_press':
+        '1. Túmbate en el suelo, rodillas flexionadas, mancuernas sobre el pecho.\n'
+        '2. Baja hasta que los brazos toquen el suelo y pausa.\n'
+        '3. Empuja hasta extender los brazos.',
+      't_bar_row':
+        '1. Colócate sobre la barra, inclínate con la espalda recta y agarra el asa.\n'
+        '2. Lleva el peso al pecho juntando las escápulas.\n'
+        '3. Baja con control sin redondear la espalda.',
+      'pendlay_row':
+        '1. Barra en el suelo, torso casi horizontal, espalda recta.\n'
+        '2. Tira de la barra de forma explosiva a la parte baja del pecho.\n'
+        '3. Apóyala en el suelo en cada repetición y recoloca la postura.',
+      'machine_row':
+        '1. Siéntate con el pecho contra el respaldo y agarra los asas.\n'
+        '2. Tira hacia el cuerpo, codos pegados, escápulas juntas.\n'
+        '3. Vuelve despacio hasta extender los brazos.',
+      'chest_supported_row':
+        '1. Túmbate boca abajo en un banco a 30–45°, mancuernas colgando.\n'
+        '2. Llévalas hacia los costados juntando las escápulas.\n'
+        '3. Baja despacio hasta el estiramiento completo.',
+      'close_grip_lat_pulldown':
+        '1. Siéntate en la polea con agarre estrecho o en V, muslos bajo los rodillos.\n'
+        '2. Lleva el agarre a la parte alta del pecho, codos abajo y atrás.\n'
+        '3. Deja que suba despacio hasta extender los brazos.',
+      'straight_arm_pulldown':
+        '1. De pie frente a la polea alta, brazos casi rectos, algo inclinado.\n'
+        '2. Baja la barra en arco hasta los muslos usando el dorsal.\n'
+        '3. Vuelve despacio, codos casi rectos.',
+      'band_assisted_pull_up':
+        '1. Pasa una banda por la barra y apoya un pie o una rodilla en ella.\n'
+        '2. Sube hasta que la barbilla pase la barra.\n'
+        '3. Baja con control hasta colgar. Banda más fina = menos ayuda.',
+      'inverted_row':
+        '1. Cuélgate bajo una barra baja o anillas, cuerpo recto, talones en el suelo.\n'
+        '2. Lleva el pecho a la barra juntando las escápulas.\n'
+        '3. Baja con control. Cuanto más vertical, más fácil.',
+      'neutral_grip_pull_up':
+        '1. Cuélgate de agarres paralelos, palmas enfrentadas.\n'
+        '2. Sube hasta que la barbilla pase los agarres.\n'
+        '3. Baja con control hasta colgar por completo.',
+      'rack_pull':
+        '1. Coloca la barra en los soportes justo por debajo o encima de las rodillas.\n'
+        '2. Agárrala, aprieta el abdomen y sube empujando la cadera hacia delante.\n'
+        '3. Bájala a los soportes con la espalda recta.',
+      'trap_bar_deadlift':
+        '1. Colócate dentro de la barra hexagonal, pies al ancho de cadera, agarra los asas.\n'
+        '2. Aprieta, empuja el suelo y sube hasta quedar erguido.\n'
+        '3. Baja la barra con la espalda recta.',
+      'single_arm_cable_row':
+        '1. Agarra un asa en la polea a media altura, brazo extendido.\n'
+        '2. Llévala al costado, codo pegado al cuerpo.\n'
+        '3. Vuelve despacio dejando que el hombro avance un poco.',
+      'dumbbell_pullover':
+        '1. Túmbate en un banco con una mancuerna sobre el pecho, sujeta con las dos manos.\n'
+        '2. Bájala en arco detrás de la cabeza, codos algo flexionados.\n'
+        '3. Llévala de vuelta sobre el pecho.',
+      'renegade_row':
+        '1. En posición de flexión sobre dos mancuernas, pies separados.\n'
+        '2. Lleva una mancuerna a la cadera sin girar la pelvis.\n'
+        '3. Apóyala y repite con el otro brazo.',
+      'arnold_press':
+        '1. Sentado, mancuernas delante de los hombros, palmas hacia ti.\n'
+        '2. Empuja hacia arriba girando las palmas hacia delante.\n'
+        '3. Baja girando de vuelta a la posición inicial.',
+      'shoulder_press_machine':
+        '1. Ajusta el asiento para que los agarres empiecen a la altura de los hombros.\n'
+        '2. Empuja hasta casi extender los brazos.\n'
+        '3. Baja despacio a la altura de los hombros.',
+      'push_press':
+        '1. Barra sobre la parte delantera de los hombros, pies al ancho de cadera.\n'
+        '2. Flexiona un poco las rodillas y con el impulso de las piernas empuja la barra sobre la cabeza.\n'
+        '3. Bájala con control a los hombros.',
+      'cable_lateral_raise':
+        '1. De lado a la polea baja, agarre en la mano más alejada.\n'
+        '2. Eleva el brazo lateralmente hasta la altura del hombro.\n'
+        '3. Baja despacio manteniendo la tensión.',
+      'machine_lateral_raise':
+        '1. Siéntate con los rodillos por fuera de los brazos.\n'
+        '2. Eleva los brazos hasta la altura de los hombros.\n'
+        '3. Baja despacio sin soltar el peso.',
+      'front_raise':
+        '1. De pie, mancuernas delante de los muslos.\n'
+        '2. Elévalas al frente hasta la altura de los hombros, brazos casi rectos.\n'
+        '3. Baja despacio sin balancearte.',
+      'upright_row':
+        '1. Sujeta la barra delante de los muslos, agarre al ancho de hombros.\n'
+        '2. Súbela pegada al cuerpo hasta el pecho, los codos guían.\n'
+        '3. Baja despacio. Si molestan los hombros, no subas tanto.',
+      'reverse_pec_deck':
+        '1. Siéntate mirando a la máquina, pecho en el respaldo, agarra los asas.\n'
+        '2. Abre los brazos hacia atrás en arco hasta alinearlos con el cuerpo.\n'
+        '3. Vuelve despacio.',
+      'band_pull_apart':
+        '1. Sujeta una banda delante a la altura de los hombros, brazos rectos.\n'
+        '2. Sepárala hasta tocar el pecho juntando las escápulas.\n'
+        '3. Vuelve despacio.',
+      'handstand_push_up':
+        '1. Sube al pino contra la pared, manos al ancho de hombros.\n'
+        '2. Baja la cabeza hacia el suelo con control.\n'
+        '3. Empuja hasta extender los brazos. Pon una colchoneta bajo la cabeza.',
+      'landmine_press':
+        '1. Sujeta el extremo de la barra landmine junto al hombro, pies escalonados.\n'
+        '2. Empuja hacia arriba y delante hasta extender el brazo.\n'
+        '3. Vuelve con control al hombro.',
+      'preacher_curl':
+        '1. Siéntate en el banco Scott, brazos apoyados, barra Z en las manos.\n'
+        '2. Sube la barra sin despegar los codos.\n'
+        '3. Baja despacio casi hasta extender.',
+      'concentration_curl':
+        '1. Sentado en un banco, codo apoyado en la cara interna del muslo.\n'
+        '2. Sube la mancuerna hacia el hombro.\n'
+        '3. Baja despacio hasta el estiramiento completo.',
+      'incline_dumbbell_curl':
+        '1. Recuéstate en un banco a 45–60°, brazos colgando.\n'
+        '2. Sube las mancuernas sin mover los brazos.\n'
+        '3. Baja despacio hasta el estiramiento completo.',
+      'ez_bar_curl':
+        '1. De pie, sujeta la barra Z por la parte angulada, brazos extendidos.\n'
+        '2. Súbela sin balancear el cuerpo.\n'
+        '3. Baja despacio hasta extender los brazos.',
+      'rope_hammer_curl':
+        '1. Engancha una cuerda en la polea baja, palmas enfrentadas.\n'
+        '2. Sube la cuerda con los codos pegados.\n'
+        '3. Baja despacio manteniendo la tensión.',
+      'machine_biceps_curl':
+        '1. Siéntate con los brazos en el apoyo y agarra los asas.\n'
+        '2. Sube los agarres hacia los hombros.\n'
+        '3. Baja despacio casi hasta extender.',
+      'band_curl':
+        '1. Pisa el centro de la banda, extremos en las manos.\n'
+        '2. Sube las manos a los hombros, codos pegados.\n'
+        '3. Baja despacio.',
+      'rope_pushdown':
+        '1. Sujeta la cuerda en la polea alta, codos pegados.\n'
+        '2. Empuja hacia abajo y separa los extremos al final.\n'
+        '3. Deja que suba despacio hasta unos 90° de codo.',
+      'overhead_cable_extension':
+        '1. De espaldas a la polea, cuerda detrás de la cabeza, codos arriba.\n'
+        '2. Extiende los brazos hacia delante y arriba.\n'
+        '3. Flexiona despacio los codos de vuelta.',
+      'triceps_kickback':
+        '1. Inclínate, brazo paralelo al cuerpo, codo flexionado.\n'
+        '2. Extiende el brazo hacia atrás por completo.\n'
+        '3. Flexiona despacio sin mover el brazo.',
+      'bench_dips':
+        '1. Apoya las manos en el borde de un banco detrás de ti, piernas al frente.\n'
+        '2. Baja flexionando los codos a unos 90°.\n'
+        '3. Empuja hasta extender los brazos.',
+      'machine_triceps_dip':
+        '1. Siéntate en la máquina y agarra los asas laterales.\n'
+        '2. Empuja hacia abajo hasta extender los brazos.\n'
+        '3. Deja que suban despacio hasta unos 90° de codo.',
+      'single_arm_pushdown':
+        '1. Sujeta un asa en la polea alta, codo pegado.\n'
+        '2. Empuja hacia abajo hasta extender el brazo.\n'
+        '3. Deja que suba despacio, el codo no se mueve.',
+      'diamond_push_up':
+        '1. Posición de flexión con las manos juntas bajo el pecho formando un rombo.\n'
+        '2. Baja el pecho a las manos, codos pegados.\n'
+        '3. Sube con el cuerpo recto.',
+      'reverse_wrist_curl':
+        '1. Sentado, antebrazos sobre los muslos, palmas abajo, muñecas fuera de las rodillas.\n'
+        '2. Sube el dorso de las manos lo más alto posible.\n'
+        '3. Baja despacio.',
+      'hack_squat':
+        '1. Súbete a la plataforma, espalda en el respaldo, hombros bajo los rodillos.\n'
+        '2. Baja hasta que los muslos queden al menos paralelos a la plataforma.\n'
+        '3. Empuja con todo el pie para subir.',
+      'smith_squat':
+        '1. Barra en la parte alta de la espalda, pies algo por delante de la barra.\n'
+        '2. Baja con la espalda recta al menos hasta la paralela.\n'
+        '3. Sube y engancha la barra al final.',
+      'walking_lunge':
+        '1. Sujeta mancuernas a los lados y da un paso largo al frente.\n'
+        '2. Baja la rodilla trasera casi al suelo.\n'
+        '3. Empuja con el pie delantero y sigue con la siguiente zancada.',
+      'reverse_lunge':
+        '1. De pie, mancuernas a los lados.\n'
+        '2. Da un paso atrás y baja la rodilla trasera casi al suelo.\n'
+        '3. Empuja con el pie delantero para volver. Alterna piernas.',
+      'step_up':
+        '1. Ponte frente a un banco o cajón con mancuernas.\n'
+        '2. Apoya un pie arriba y sube empujando con esa pierna.\n'
+        '3. Baja despacio. Alterna piernas o haz un lado y luego el otro.',
+      'split_squat':
+        '1. Colócate en zancada larga con mancuernas en las manos.\n'
+        '2. Baja en vertical hasta que la rodilla trasera casi toque el suelo.\n'
+        '3. Sube. Termina las repeticiones y cambia de pierna.',
+      'sumo_squat':
+        '1. Pies separados, puntas hacia fuera, una mancuerna entre las piernas.\n'
+        '2. Baja con el torso erguido, rodillas en la dirección de los pies.\n'
+        '3. Sube y aprieta los glúteos.',
+      'pistol_squat':
+        '1. Apóyate en una pierna con la otra estirada al frente.\n'
+        '2. Baja con control lo más profundo posible, brazos al frente para equilibrarte.\n'
+        '3. Sube. Al principio puedes sujetarte a algo.',
+      'single_leg_press':
+        '1. Siéntate en la prensa con un pie en el centro de la plataforma.\n'
+        '2. Baja la plataforma hasta que la rodilla esté a unos 90°.\n'
+        '3. Empuja sin bloquear la rodilla. Cambia de pierna.',
+      'hip_adduction_machine':
+        '1. Siéntate con los rodillos por dentro de las rodillas.\n'
+        '2. Junta las piernas.\n'
+        '3. Ábrelas despacio de nuevo.',
+      'wall_sit':
+        '1. Apoya la espalda en la pared y deslízate hacia abajo.\n'
+        '2. Para cuando las rodillas estén a unos 90°, pies bajo las rodillas.\n'
+        '3. Aguanta el tiempo marcado, espalda pegada a la pared.',
+      'jump_squat':
+        '1. De pie, pies al ancho de hombros.\n'
+        '2. Baja en sentadilla y salta de forma explosiva.\n'
+        '3. Aterriza suave y enlaza con la siguiente sentadilla.',
+      'box_jump':
+        '1. Ponte frente a un cajón estable.\n'
+        '2. Balancea los brazos y salta al cajón aterrizando suave.\n'
+        '3. Ponte de pie del todo y baja caminando.',
+      'seated_leg_curl':
+        '1. Siéntate en la máquina, rodillo sobre los talones, muslos sujetos.\n'
+        '2. Lleva los talones hacia abajo y atrás todo lo posible.\n'
+        '3. Vuelve despacio.',
+      'nordic_curl':
+        '1. De rodillas con los talones sujetos bajo algo estable.\n'
+        '2. Deja caer el cuerpo hacia delante lo más despacio posible, cadera recta.\n'
+        '3. Frénate con las manos y vuelve tirando con los isquios.',
+      'single_leg_rdl':
+        '1. Apóyate en una pierna con una mancuerna, rodilla algo flexionada.\n'
+        '2. Inclínate mientras la pierna libre va hacia atrás, espalda recta.\n'
+        '3. Vuelve a subir empujando la cadera hacia delante.',
+      'dumbbell_romanian_deadlift':
+        '1. De pie con mancuernas delante de los muslos, rodillas relajadas.\n'
+        '2. Lleva la cadera atrás y desliza las mancuernas por las piernas.\n'
+        '3. Para al notar el estiramiento de los isquios y sube.',
+      'stiff_leg_deadlift':
+        '1. De pie con la barra, piernas casi rectas.\n'
+        '2. Inclínate con la espalda recta bajando la barra junto a las piernas.\n'
+        '3. Sube apretando isquios y glúteos.',
+      'stability_ball_leg_curl':
+        '1. Boca arriba, talones sobre el fitball, cadera elevada.\n'
+        '2. Acerca el balón flexionando las rodillas.\n'
+        '3. Llévalo de vuelta despacio, la cadera sigue arriba.',
+      'sumo_deadlift':
+        '1. Pies muy separados, puntas hacia fuera, agarra la barra entre las piernas.\n'
+        '2. Aprieta, empuja las rodillas hacia fuera y sube con la barra pegada.\n'
+        '3. Bájala con la espalda recta.',
+      'cable_glute_kickback':
+        '1. Ponte una tobillera en la polea baja y sujétate a la máquina.\n'
+        '2. Lleva la pierna atrás y arriba apretando el glúteo.\n'
+        '3. Vuelve despacio sin arquear la zona lumbar.',
+      'hip_abduction_machine':
+        '1. Siéntate con los rodillos por fuera de las rodillas.\n'
+        '2. Separa las piernas todo lo posible.\n'
+        '3. Júntalas despacio.',
+      'machine_hip_thrust':
+        '1. Apoya la parte alta de la espalda en el respaldo y pon el cinturón sobre la cadera.\n'
+        '2. Sube la cadera hasta alinear rodillas y hombros.\n'
+        '3. Aprieta los glúteos arriba y baja despacio.',
+      'single_leg_glute_bridge':
+        '1. Boca arriba, un pie en el suelo y la otra pierna estirada hacia arriba.\n'
+        '2. Sube la cadera empujando con el talón apoyado.\n'
+        '3. Baja despacio. Termina y cambia de pierna.',
+      'donkey_kick':
+        '1. A cuatro patas, manos bajo los hombros.\n'
+        '2. Sube una pierna flexionada hacia atrás, planta del pie al techo.\n'
+        '3. Baja despacio sin arquear la espalda.',
+      'fire_hydrant':
+        '1. A cuatro patas, espalda recta.\n'
+        '2. Eleva una pierna flexionada hacia el lado hasta la altura de la cadera.\n'
+        '3. Baja despacio, la cadera no se inclina.',
+      'banded_lateral_walk':
+        '1. Pon una minibanda sobre las rodillas o tobillos y flexiona un poco las rodillas.\n'
+        '2. Camina de lado manteniendo la banda tensa.\n'
+        '3. Cuenta los pasos hacia un lado y vuelve.',
+      'cable_pull_through':
+        '1. De espaldas a la polea baja, cuerda entre las piernas.\n'
+        '2. Inclínate con la espalda recta dejando que la cuerda vaya atrás.\n'
+        '3. Empuja la cadera hacia delante para subir y aprieta los glúteos.',
+      'seated_calf_raise':
+        '1. Sentado, rodillo sobre los muslos, puntas de los pies en el escalón.\n'
+        '2. Sube los talones todo lo posible.\n'
+        '3. Baja despacio hasta el estiramiento completo.',
+      'single_leg_calf_raise':
+        '1. Apoya un pie en el borde de un escalón y sujétate.\n'
+        '2. Sube de puntillas lo más alto posible.\n'
+        '3. Baja el talón por debajo del escalón para estirar.',
+      'leg_press_calf_raise':
+        '1. Siéntate en la prensa con las puntas en el borde inferior de la plataforma.\n'
+        '2. Empuja la plataforma estirando los pies.\n'
+        '3. Deja que vuelva despacio para estirar. Rodillas rectas.',
+      'sit_up':
+        '1. Boca arriba, rodillas flexionadas, pies en el suelo.\n'
+        '2. Sube hasta quedar sentado.\n'
+        '3. Baja despacio.',
+      'decline_sit_up':
+        '1. Sujeta los pies en el banco declinado y túmbate.\n'
+        '2. Sube hasta que el torso quede vertical.\n'
+        '3. Baja despacio. Sujeta un disco para más carga.',
+      'bicycle_crunch':
+        '1. Boca arriba, manos junto a la cabeza, piernas elevadas.\n'
+        '2. Lleva un codo hacia la rodilla contraria mientras estiras la otra pierna.\n'
+        '3. Alterna los lados como pedaleando.',
+      'reverse_crunch':
+        '1. Boca arriba, rodillas a 90°, brazos en el suelo.\n'
+        '2. Despega la cadera y lleva las rodillas al pecho.\n'
+        '3. Baja despacio sin balancearte.',
+      'lying_leg_raise':
+        '1. Boca arriba, piernas estiradas, zona lumbar pegada al suelo.\n'
+        '2. Sube las piernas hasta que apunten al techo.\n'
+        '3. Bájalas despacio sin arquear la espalda.',
+      'captains_chair_knee_raise':
+        '1. Apoya los antebrazos en los soportes y la espalda en el respaldo.\n'
+        '2. Lleva las rodillas al pecho.\n'
+        '3. Baja despacio sin balancearte.',
+      'ab_wheel_rollout':
+        '1. De rodillas, sujeta la rueda bajo los hombros.\n'
+        '2. Rueda hacia delante todo lo que puedas sin hundir la zona lumbar.\n'
+        '3. Vuelve tirando con el abdomen.',
+      'russian_twist':
+        '1. Sentado algo reclinado, pies elevados o en el suelo.\n'
+        '2. Gira el torso y toca el suelo junto a la cadera.\n'
+        '3. Gira al otro lado. Sujeta un peso para más carga.',
+      'v_up':
+        '1. Boca arriba, brazos por encima de la cabeza, piernas estiradas.\n'
+        '2. Sube brazos y piernas a la vez y toca los pies.\n'
+        '3. Baja despacio.',
+      'hollow_hold':
+        '1. Boca arriba, pega la zona lumbar al suelo.\n'
+        '2. Despega un poco los hombros y las piernas estiradas.\n'
+        '3. Aguanta el tiempo marcado sin arquear la espalda.',
+      'pallof_press':
+        '1. De lado a una polea a la altura del pecho, agarre junto al pecho.\n'
+        '2. Empuja el agarre al frente sin dejar que el cuerpo gire.\n'
+        '3. Vuelve al pecho. Trabaja ambos lados.',
+      'cable_woodchopper':
+        '1. De lado a la polea alta, sujeta el agarre con las dos manos.\n'
+        '2. Tira en diagonal hacia abajo cruzando el cuerpo y girando el torso.\n'
+        '3. Vuelve despacio. Trabaja ambos lados.',
+      'plank_shoulder_tap':
+        '1. En plancha alta, pies algo separados.\n'
+        '2. Toca el hombro contrario con una mano sin mover la cadera.\n'
+        '3. Cambia de mano.',
+      'bird_dog':
+        '1. A cuatro patas, espalda recta.\n'
+        '2. Estira un brazo al frente y la pierna contraria atrás.\n'
+        '3. Mantén un momento, vuelve y cambia de lado.',
+      'power_clean':
+        '1. Colócate sobre la barra, agarre justo fuera de las rodillas, espalda recta.\n'
+        '2. Tira de forma explosiva junto al cuerpo y recíbela sobre la parte delantera de los hombros.\n'
+        '3. Ponte de pie y baja la barra. Aprende la técnica con poco peso.',
+      'thruster':
+        '1. Sujeta la barra sobre la parte delantera de los hombros.\n'
+        '2. Baja en sentadilla y al subir empuja la barra sobre la cabeza en un solo movimiento.\n'
+        '3. Bájala a los hombros y enlaza con la siguiente sentadilla.',
+      'turkish_get_up':
+        '1. Boca arriba, sujeta una kettlebell con una mano hacia arriba.\n'
+        '2. Levántate paso a paso mirando la kettlebell con el brazo recto.\n'
+        '3. Vuelve igual hasta tumbarte. Trabaja ambos lados.',
+      'bear_crawl':
+        '1. Apóyate en manos y pies, rodillas justo sobre el suelo, espalda recta.\n'
+        '2. Avanza moviendo a la vez la mano y el pie contrarios.\n'
+        '3. Mantén la cadera baja durante el tiempo marcado.',
+      'high_knees':
+        '1. Corre en el sitio subiendo las rodillas a la altura de la cadera.\n'
+        '2. Mueve los brazos y mantente sobre la punta de los pies.\n'
+        '3. Mantén un ritmo rápido durante el tiempo marcado.',
+      'jump_rope':
+        '1. Sujeta los mangos a la altura de la cadera, codos cerca del cuerpo.\n'
+        '2. Gira la cuerda con las muñecas y salta lo justo para que pase.\n'
+        '3. Aterriza suave sobre la punta de los pies durante el tiempo marcado.',
+      'rowing_machine':
+        '1. Sujeta los pies y agarra el manillar con los brazos rectos.\n'
+        '2. Empuja con las piernas, inclínate un poco atrás y lleva el manillar a las costillas bajas.\n'
+        '3. Vuelve en orden inverso: brazos, torso, piernas. Ritmo constante.',
+      'stationary_bike':
+        '1. Ajusta el sillín para que la rodilla quede algo flexionada abajo.\n'
+        '2. Pedalea a ritmo constante con la espalda recta.\n'
+        '3. Ajusta la resistencia a tu objetivo durante el tiempo marcado.',
+      'treadmill_run':
+        '1. Empieza caminando y sube la velocidad poco a poco.\n'
+        '2. Corre erguido con los hombros relajados, apoyando bajo la cadera.\n'
+        '3. Reduce a paso de caminar antes de bajarte.',
+      'elliptical':
+        '1. Súbete a los pedales y agarra los manillares móviles.\n'
+        '2. Muévete con fluidez empujando y tirando también con los brazos.\n'
+        '3. Mantén un ritmo constante durante el tiempo marcado.',
+      'stair_climber':
+        '1. Súbete y elige una velocidad que puedas mantener.\n'
+        '2. Sube erguido, usa las barandillas solo para equilibrarte.\n'
+        '3. Sigue durante el tiempo marcado.',
+      'air_bike':
+        '1. Siéntate y agarra los manillares móviles.\n'
+        '2. Pedalea mientras empujas y tiras de los manillares.\n'
+        '3. Cuanto más fuerte vas, más frena el ventilador. Durante el tiempo marcado.',
     },
     routineNames: {
       'home_upper': 'Tren superior en 5 minutos',
@@ -695,6 +1845,121 @@ const seedTranslations = <String, SeedTranslation>{
       'kettlebell_swing': 'Swing kettlebell',
       'weighted_pull_up': 'Tractions lestées',
       'weighted_dips': 'Dips lestés',
+      'barbell_shrug': 'Shrugs à la barre',
+      'dumbbell_shrug': 'Shrugs aux haltères',
+      'wrist_curl': 'Curl poignets',
+      'reverse_curl': 'Curl inversé',
+      'dead_hang': 'Suspension à la barre',
+      'back_extension': 'Extensions lombaires',
+      'good_morning': 'Good morning',
+      'superman': 'Superman',
+      'decline_bench_press': 'Développé couché décliné',
+      'smith_bench_press': 'Développé couché à la Smith machine',
+      'dumbbell_fly': 'Écarté couché aux haltères',
+      'incline_dumbbell_fly': 'Écarté incliné aux haltères',
+      'low_to_high_cable_fly': 'Écarté à la poulie de bas en haut',
+      'incline_chest_press_machine': 'Presse pectorale inclinée',
+      'chest_dips': 'Dips pour les pectoraux',
+      'incline_push_up': 'Pompes inclinées',
+      'decline_push_up': 'Pompes déclinées',
+      'dumbbell_floor_press': 'Floor press aux haltères',
+      't_bar_row': 'Rowing barre T',
+      'pendlay_row': 'Rowing Pendlay',
+      'machine_row': 'Rowing assis à la machine',
+      'chest_supported_row': 'Rowing haltères sur banc incliné',
+      'close_grip_lat_pulldown': 'Tirage vertical prise serrée',
+      'straight_arm_pulldown': 'Pull-over à la poulie bras tendus',
+      'band_assisted_pull_up': 'Tractions assistées avec élastique',
+      'inverted_row': 'Rowing inversé',
+      'neutral_grip_pull_up': 'Tractions prise neutre',
+      'rack_pull': 'Rack pull',
+      'trap_bar_deadlift': 'Soulevé de terre à la trap bar',
+      'single_arm_cable_row': 'Rowing à la poulie à un bras',
+      'dumbbell_pullover': 'Pull-over avec haltère',
+      'renegade_row': 'Renegade row',
+      'arnold_press': 'Développé Arnold',
+      'shoulder_press_machine': 'Développé épaules à la machine',
+      'push_press': 'Push press',
+      'cable_lateral_raise': 'Élévations latérales à la poulie',
+      'machine_lateral_raise': 'Élévations latérales à la machine',
+      'front_raise': 'Élévations frontales aux haltères',
+      'upright_row': 'Tirage menton',
+      'reverse_pec_deck': 'Pec deck inversé',
+      'band_pull_apart': 'Écartés à l’élastique',
+      'handstand_push_up': 'Pompes en équilibre',
+      'landmine_press': 'Développé landmine',
+      'preacher_curl': 'Curl au pupitre',
+      'concentration_curl': 'Curl concentré',
+      'incline_dumbbell_curl': 'Curl incliné aux haltères',
+      'ez_bar_curl': 'Curl barre EZ',
+      'rope_hammer_curl': 'Curl marteau à la corde',
+      'machine_biceps_curl': 'Curl biceps à la machine',
+      'band_curl': 'Curl à l’élastique',
+      'rope_pushdown': 'Extension triceps à la corde',
+      'overhead_cable_extension': 'Extension triceps au-dessus de la tête à la poulie',
+      'triceps_kickback': 'Kickback triceps',
+      'bench_dips': 'Dips sur banc',
+      'machine_triceps_dip': 'Dips à la machine',
+      'single_arm_pushdown': 'Extension triceps à la poulie à un bras',
+      'diamond_push_up': 'Pompes diamant',
+      'reverse_wrist_curl': 'Curl poignets inversé',
+      'hack_squat': 'Hack squat',
+      'smith_squat': 'Squat à la Smith machine',
+      'walking_lunge': 'Fentes marchées',
+      'reverse_lunge': 'Fentes arrière',
+      'step_up': 'Montées sur banc',
+      'split_squat': 'Split squat',
+      'sumo_squat': 'Squat sumo à l’haltère',
+      'pistol_squat': 'Pistol squat',
+      'single_leg_press': 'Presse à cuisses unilatérale',
+      'hip_adduction_machine': 'Machine à adducteurs',
+      'wall_sit': 'Chaise contre le mur',
+      'jump_squat': 'Squat sauté',
+      'box_jump': 'Box jump',
+      'seated_leg_curl': 'Leg curl assis',
+      'nordic_curl': 'Nordic curl',
+      'single_leg_rdl': 'Soulevé de terre roumain sur une jambe',
+      'dumbbell_romanian_deadlift': 'Soulevé de terre roumain aux haltères',
+      'stiff_leg_deadlift': 'Soulevé de terre jambes tendues',
+      'stability_ball_leg_curl': 'Leg curl sur swiss ball',
+      'sumo_deadlift': 'Soulevé de terre sumo',
+      'cable_glute_kickback': 'Kickback fessier à la poulie',
+      'hip_abduction_machine': 'Machine à abducteurs',
+      'machine_hip_thrust': 'Hip thrust à la machine',
+      'single_leg_glute_bridge': 'Pont fessier sur une jambe',
+      'donkey_kick': 'Donkey kick',
+      'fire_hydrant': 'Fire hydrant',
+      'banded_lateral_walk': 'Marche latérale avec élastique',
+      'cable_pull_through': 'Pull-through à la poulie',
+      'seated_calf_raise': 'Mollets assis',
+      'single_leg_calf_raise': 'Mollets sur une jambe',
+      'leg_press_calf_raise': 'Mollets à la presse',
+      'sit_up': 'Sit-ups',
+      'decline_sit_up': 'Sit-ups sur banc décliné',
+      'bicycle_crunch': 'Crunch vélo',
+      'reverse_crunch': 'Crunch inversé',
+      'lying_leg_raise': 'Relevés de jambes allongé',
+      'captains_chair_knee_raise': 'Relevés de genoux à la chaise romaine',
+      'ab_wheel_rollout': 'Roue abdominale',
+      'russian_twist': 'Russian twist',
+      'v_up': 'V-up',
+      'hollow_hold': 'Hollow hold',
+      'pallof_press': 'Pallof press',
+      'cable_woodchopper': 'Bûcheron à la poulie',
+      'plank_shoulder_tap': 'Planche avec touches d’épaule',
+      'bird_dog': 'Bird dog',
+      'power_clean': 'Épaulé en puissance (power clean)',
+      'thruster': 'Thruster',
+      'turkish_get_up': 'Turkish get-up',
+      'bear_crawl': 'Marche de l’ours',
+      'high_knees': 'Montées de genoux',
+      'jump_rope': 'Corde à sauter',
+      'rowing_machine': 'Rameur',
+      'stationary_bike': 'Vélo d’appartement',
+      'treadmill_run': 'Course sur tapis',
+      'elliptical': 'Vélo elliptique',
+      'stair_climber': 'Simulateur d’escalier',
+      'air_bike': 'Air bike',
     },
     exerciseInstructions: {
       'bench_press':
@@ -923,6 +2188,466 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Appuie-toi sur les barres, bras tendus.\n'
         '3. Descends jusqu’à ce que tes bras soient à peu près parallèles au sol.\n'
         '4. Repousse vers le haut, sans laisser tomber les épaules vers l’avant. Note uniquement la charge ajoutée.',
+      'barbell_shrug':
+        '1. Debout, tiens la barre bras tendus, prise largeur d’épaules.\n'
+        '2. Monte les épaules à la verticale vers les oreilles, bras tendus.\n'
+        '3. Marque une pause en haut puis redescends lentement. Ne fais pas rouler les épaules.',
+      'dumbbell_shrug':
+        '1. Debout, un haltère dans chaque main le long du corps, paumes vers toi.\n'
+        '2. Monte les épaules à la verticale le plus haut possible.\n'
+        '3. Tiens un instant puis redescends avec contrôle.',
+      'wrist_curl':
+        '1. Assis, avant-bras sur les cuisses ou un banc, paumes vers le haut, poignets dans le vide.\n'
+        '2. Laisse les haltères rouler jusqu’au bout des doigts.\n'
+        '3. Remonte les poignets le plus haut possible, avant-bras immobiles.',
+      'reverse_curl':
+        '1. Debout, tiens la barre en pronation, largeur d’épaules.\n'
+        '2. Monte la barre, coudes le long du corps, poignets droits.\n'
+        '3. Redescends lentement jusqu’aux bras tendus.',
+      'dead_hang':
+        '1. Saisis la barre en pronation, largeur d’épaules.\n'
+        '2. Reste suspendu bras tendus, pieds décollés, corps immobile.\n'
+        '3. Tiens le temps prévu, épaules légèrement engagées.',
+      'back_extension':
+        '1. Place le coussin juste sous les hanches et bloque les talons.\n'
+        '2. Descends le buste dos droit jusqu’à sentir l’étirement des ischios.\n'
+        '3. Remonte jusqu’à l’alignement avec les jambes, sans cambrer. Tiens un disque pour plus de charge.',
+      'good_morning':
+        '1. Barre sur le haut du dos comme au squat, pieds largeur de hanches, genoux légèrement fléchis.\n'
+        '2. Recule les hanches et penche-toi dos droit jusqu’à ce que le buste soit presque horizontal.\n'
+        '3. Pousse les hanches vers l’avant pour te redresser. Commence léger.',
+      'superman':
+        '1. Allonge-toi sur le ventre, bras tendus au-dessus de la tête.\n'
+        '2. Décolle en même temps les bras, la poitrine et les jambes.\n'
+        '3. Tiens une seconde en haut puis redescends lentement.',
+      'decline_bench_press':
+        '1. Cale tes jambes sur le banc décliné, prise un peu plus large que les épaules.\n'
+        '2. Descends la barre en contrôle vers le bas des pectoraux.\n'
+        '3. Pousse jusqu’aux bras tendus, omoplates serrées.',
+      'smith_bench_press':
+        '1. Place le banc pour que la barre arrive au milieu de la poitrine.\n'
+        '2. Décroche la barre et descends-la en contrôle vers la poitrine.\n'
+        '3. Pousse sans verrouiller brutalement les coudes, puis raccroche la barre.',
+      'dumbbell_fly':
+        '1. Allonge-toi sur un banc plat, haltères au-dessus de la poitrine, coudes légèrement fléchis.\n'
+        '2. Ouvre les bras en un large arc jusqu’à sentir l’étirement des pectoraux.\n'
+        '3. Ramène les haltères ensemble sans changer l’angle des coudes.',
+      'incline_dumbbell_fly':
+        '1. Règle le banc à 30°, haltères au-dessus de la poitrine, coudes souples.\n'
+        '2. Descends en large arc jusqu’à sentir l’étirement du haut des pectoraux.\n'
+        '3. Ramène-les ensemble au-dessus de la poitrine.',
+      'low_to_high_cable_fly':
+        '1. Règle les deux poulies en bas et place-toi entre elles, légèrement penché.\n'
+        '2. Monte les poignées et rapproche-les devant le haut de la poitrine.\n'
+        '3. Reviens lentement en étirement, coudes légèrement fléchis.',
+      'incline_chest_press_machine':
+        '1. Règle le siège pour que les poignées soient à hauteur du haut de la poitrine.\n'
+        '2. Pousse vers l’avant et le haut jusqu’aux bras presque tendus.\n'
+        '3. Reviens lentement jusqu’à sentir l’étirement.',
+      'chest_dips':
+        '1. En appui sur les barres, penche le buste vers l’avant.\n'
+        '2. Descends coudes légèrement écartés jusqu’à sentir l’étirement des pectoraux.\n'
+        '3. Remonte en gardant l’inclinaison.',
+      'incline_push_up':
+        '1. Mains sur un banc ou une box, corps aligné.\n'
+        '2. Descends la poitrine vers le bord, coudes à environ 45° du corps.\n'
+        '3. Remonte. Plus l’appui est haut, plus c’est facile.',
+      'decline_push_up':
+        '1. Pieds sur un banc, mains au sol sous les épaules.\n'
+        '2. Descends la poitrine vers le sol, gainage serré.\n'
+        '3. Remonte sans laisser tomber le bassin.',
+      'dumbbell_floor_press':
+        '1. Allongé au sol, genoux fléchis, haltères au-dessus de la poitrine.\n'
+        '2. Descends jusqu’à ce que les bras touchent le sol, marque une pause.\n'
+        '3. Pousse jusqu’aux bras tendus.',
+      't_bar_row':
+        '1. Place-toi au-dessus de la barre, penche-toi dos droit et saisis la poignée.\n'
+        '2. Tire la charge vers la poitrine en serrant les omoplates.\n'
+        '3. Redescends en contrôle sans arrondir le dos.',
+      'pendlay_row':
+        '1. Barre au sol, buste presque horizontal, dos droit.\n'
+        '2. Tire la barre de façon explosive vers le bas de la poitrine.\n'
+        '3. Repose-la au sol à chaque répétition et replace-toi.',
+      'machine_row':
+        '1. Assieds-toi poitrine contre le coussin et saisis les poignées.\n'
+        '2. Tire vers toi, coudes serrés, omoplates rapprochées.\n'
+        '3. Reviens lentement jusqu’aux bras tendus.',
+      'chest_supported_row':
+        '1. Allonge-toi à plat ventre sur un banc à 30–45°, haltères pendants.\n'
+        '2. Tire-les vers les hanches en serrant les omoplates.\n'
+        '3. Redescends lentement en étirement complet.',
+      'close_grip_lat_pulldown':
+        '1. Assieds-toi au tirage avec une poignée serrée ou en V, cuisses calées.\n'
+        '2. Tire la poignée vers le haut de la poitrine, coudes vers le bas et l’arrière.\n'
+        '3. Laisse remonter lentement jusqu’aux bras tendus.',
+      'straight_arm_pulldown':
+        '1. Face à la poulie haute, bras presque tendus, légèrement penché.\n'
+        '2. Abaisse la barre en arc jusqu’aux cuisses avec les dorsaux.\n'
+        '3. Remonte lentement, coudes presque tendus.',
+      'band_assisted_pull_up':
+        '1. Passe un élastique sur la barre et place un pied ou un genou dedans.\n'
+        '2. Monte jusqu’à ce que le menton passe la barre.\n'
+        '3. Redescends en contrôle en suspension complète. Élastique plus fin = moins d’aide.',
+      'inverted_row':
+        '1. Suspends-toi sous une barre basse ou des anneaux, corps droit, talons au sol.\n'
+        '2. Tire la poitrine vers la barre en serrant les omoplates.\n'
+        '3. Redescends en contrôle. Plus tu es vertical, plus c’est facile.',
+      'neutral_grip_pull_up':
+        '1. Suspends-toi à des poignées parallèles, paumes face à face.\n'
+        '2. Monte jusqu’à ce que le menton passe les poignées.\n'
+        '3. Redescends en contrôle en suspension complète.',
+      'rack_pull':
+        '1. Pose la barre sur les sécurités juste sous ou au-dessus des genoux.\n'
+        '2. Saisis-la, gaine-toi et redresse-toi en poussant les hanches vers l’avant.\n'
+        '3. Repose-la sur les sécurités, dos droit.',
+      'trap_bar_deadlift':
+        '1. Place-toi dans la trap bar, pieds largeur de hanches, saisis les poignées.\n'
+        '2. Gaine-toi, pousse le sol et redresse-toi.\n'
+        '3. Redescends la barre dos droit.',
+      'single_arm_cable_row':
+        '1. Saisis une poignée à la poulie à mi-hauteur, bras tendu.\n'
+        '2. Tire-la vers la hanche, coude près du corps.\n'
+        '3. Reviens lentement en laissant l’épaule avancer un peu.',
+      'dumbbell_pullover':
+        '1. Allongé sur un banc, tiens un haltère à deux mains au-dessus de la poitrine.\n'
+        '2. Descends-le en arc derrière la tête, coudes légèrement fléchis.\n'
+        '3. Ramène-le au-dessus de la poitrine.',
+      'renegade_row':
+        '1. En position de pompe sur deux haltères, pieds écartés.\n'
+        '2. Tire un haltère vers la hanche sans tourner le bassin.\n'
+        '3. Repose-le et recommence de l’autre bras.',
+      'arnold_press':
+        '1. Assis, haltères devant les épaules, paumes vers toi.\n'
+        '2. Pousse vers le haut en tournant les paumes vers l’avant.\n'
+        '3. Redescends en revenant à la position de départ.',
+      'shoulder_press_machine':
+        '1. Règle le siège pour que les poignées partent à hauteur d’épaules.\n'
+        '2. Pousse jusqu’aux bras presque tendus.\n'
+        '3. Redescends lentement à hauteur d’épaules.',
+      'push_press':
+        '1. Barre sur l’avant des épaules, pieds largeur de hanches.\n'
+        '2. Fléchis légèrement les genoux puis pousse la barre au-dessus de la tête avec l’élan des jambes.\n'
+        '3. Ramène-la sur les épaules en contrôle.',
+      'cable_lateral_raise':
+        '1. De profil à la poulie basse, poignée dans la main éloignée.\n'
+        '2. Monte le bras sur le côté jusqu’à hauteur d’épaule.\n'
+        '3. Redescends lentement en gardant la tension.',
+      'machine_lateral_raise':
+        '1. Assieds-toi, coussins contre l’extérieur des bras.\n'
+        '2. Monte les bras jusqu’à hauteur d’épaules.\n'
+        '3. Redescends lentement sans poser la charge.',
+      'front_raise':
+        '1. Debout, haltères devant les cuisses.\n'
+        '2. Monte-les devant toi jusqu’à hauteur d’épaules, bras presque tendus.\n'
+        '3. Redescends lentement sans élan.',
+      'upright_row':
+        '1. Tiens la barre devant les cuisses, prise environ largeur d’épaules.\n'
+        '2. Monte-la le long du corps jusqu’à la poitrine, coudes en premier.\n'
+        '3. Redescends lentement. Si les épaules coincent, monte moins haut.',
+      'reverse_pec_deck':
+        '1. Assis face à la machine, poitrine contre le coussin, saisis les poignées.\n'
+        '2. Ouvre les bras vers l’arrière en arc jusqu’à l’alignement du corps.\n'
+        '3. Reviens lentement.',
+      'band_pull_apart':
+        '1. Tiens un élastique devant toi à hauteur d’épaules, bras tendus.\n'
+        '2. Écarte-le jusqu’à la poitrine en serrant les omoplates.\n'
+        '3. Reviens lentement.',
+      'handstand_push_up':
+        '1. Monte en équilibre contre un mur, mains largeur d’épaules.\n'
+        '2. Descends la tête vers le sol en contrôle.\n'
+        '3. Pousse jusqu’aux bras tendus. Mets un tapis sous la tête.',
+      'landmine_press':
+        '1. Tiens l’extrémité de la barre landmine à l’épaule, pieds décalés.\n'
+        '2. Pousse vers le haut et l’avant jusqu’au bras tendu.\n'
+        '3. Ramène-la à l’épaule en contrôle.',
+      'preacher_curl':
+        '1. Assis au pupitre, bras à plat sur le coussin, barre EZ en main.\n'
+        '2. Monte la barre sans décoller les coudes.\n'
+        '3. Redescends lentement presque bras tendus.',
+      'concentration_curl':
+        '1. Assis sur un banc, coude calé contre l’intérieur de la cuisse.\n'
+        '2. Monte l’haltère vers l’épaule.\n'
+        '3. Redescends lentement en étirement complet.',
+      'incline_dumbbell_curl':
+        '1. Adossé à un banc à 45–60°, bras pendants.\n'
+        '2. Monte les haltères sans bouger les bras.\n'
+        '3. Redescends lentement en étirement complet.',
+      'ez_bar_curl':
+        '1. Debout, tiens la barre EZ aux parties coudées, bras tendus.\n'
+        '2. Monte-la sans balancer le corps.\n'
+        '3. Redescends lentement jusqu’aux bras tendus.',
+      'rope_hammer_curl':
+        '1. Accroche une corde à la poulie basse, paumes face à face.\n'
+        '2. Monte la corde, coudes le long du corps.\n'
+        '3. Redescends lentement en gardant la tension.',
+      'machine_biceps_curl':
+        '1. Assis, bras sur le coussin, saisis les poignées.\n'
+        '2. Monte les poignées vers les épaules.\n'
+        '3. Redescends lentement presque bras tendus.',
+      'band_curl':
+        '1. Debout sur le milieu de l’élastique, extrémités en main.\n'
+        '2. Monte les mains vers les épaules, coudes le long du corps.\n'
+        '3. Redescends lentement.',
+      'rope_pushdown':
+        '1. Tiens la corde à la poulie haute, coudes le long du corps.\n'
+        '2. Pousse vers le bas et écarte les extrémités en fin de mouvement.\n'
+        '3. Laisse remonter lentement jusqu’à environ 90° au coude.',
+      'overhead_cable_extension':
+        '1. Dos à la poulie, corde derrière la tête, coudes en haut.\n'
+        '2. Tends les bras vers l’avant et le haut.\n'
+        '3. Fléchis lentement les coudes derrière la tête.',
+      'triceps_kickback':
+        '1. Penché en avant, bras le long du corps, coude fléchi.\n'
+        '2. Tends complètement le bras vers l’arrière.\n'
+        '3. Fléchis lentement sans bouger le bras.',
+      'bench_dips':
+        '1. Mains sur le bord d’un banc derrière toi, jambes devant.\n'
+        '2. Descends en fléchissant les coudes à environ 90°.\n'
+        '3. Remonte jusqu’aux bras tendus.',
+      'machine_triceps_dip':
+        '1. Assieds-toi dans la machine et saisis les poignées latérales.\n'
+        '2. Pousse vers le bas jusqu’aux bras tendus.\n'
+        '3. Laisse remonter lentement jusqu’à environ 90° au coude.',
+      'single_arm_pushdown':
+        '1. Tiens une poignée à la poulie haute, coude le long du corps.\n'
+        '2. Pousse vers le bas jusqu’au bras tendu.\n'
+        '3. Laisse remonter lentement, le coude ne bouge pas.',
+      'diamond_push_up':
+        '1. Position de pompe, mains jointes sous la poitrine en losange.\n'
+        '2. Descends la poitrine vers les mains, coudes serrés.\n'
+        '3. Remonte corps gainé.',
+      'reverse_wrist_curl':
+        '1. Assis, avant-bras sur les cuisses, paumes vers le bas, poignets dans le vide.\n'
+        '2. Monte le dos des mains le plus haut possible.\n'
+        '3. Redescends lentement.',
+      'hack_squat':
+        '1. Monte sur la plateforme, dos contre le dossier, épaules sous les coussins.\n'
+        '2. Descends jusqu’à ce que les cuisses soient au moins parallèles à la plateforme.\n'
+        '3. Remonte en poussant avec tout le pied.',
+      'smith_squat':
+        '1. Barre sur le haut du dos, pieds un peu devant la barre.\n'
+        '2. Descends dos droit au moins jusqu’à la parallèle.\n'
+        '3. Remonte et raccroche la barre à la fin.',
+      'walking_lunge':
+        '1. Haltères le long du corps, fais un grand pas en avant.\n'
+        '2. Descends le genou arrière presque au sol.\n'
+        '3. Pousse sur le pied avant et enchaîne directement la fente suivante.',
+      'reverse_lunge':
+        '1. Debout, haltères le long du corps.\n'
+        '2. Recule d’un pas et descends le genou arrière presque au sol.\n'
+        '3. Pousse sur le pied avant pour revenir. Alterne les jambes.',
+      'step_up':
+        '1. Place-toi devant un banc ou une box avec des haltères.\n'
+        '2. Pose un pied dessus et monte en poussant avec cette jambe.\n'
+        '3. Redescends lentement. Alterne ou fais un côté puis l’autre.',
+      'split_squat':
+        '1. Mets-toi en fente longue, haltères en main.\n'
+        '2. Descends à la verticale jusqu’à ce que le genou arrière frôle le sol.\n'
+        '3. Remonte. Termine les répétitions puis change de jambe.',
+      'sumo_squat':
+        '1. Pieds écartés, pointes vers l’extérieur, un haltère entre les jambes.\n'
+        '2. Descends buste droit, genoux dans l’axe des pieds.\n'
+        '3. Remonte en serrant les fessiers.',
+      'pistol_squat':
+        '1. Debout sur une jambe, l’autre tendue devant.\n'
+        '2. Descends en contrôle le plus bas possible, bras devant pour l’équilibre.\n'
+        '3. Remonte. Au début, tu peux te tenir à quelque chose.',
+      'single_leg_press':
+        '1. Assieds-toi à la presse, un pied au centre de la plateforme.\n'
+        '2. Descends jusqu’à environ 90° au genou.\n'
+        '3. Pousse sans verrouiller le genou. Change de jambe.',
+      'hip_adduction_machine':
+        '1. Assieds-toi, coussins contre l’intérieur des genoux.\n'
+        '2. Serre les jambes.\n'
+        '3. Rouvre-les lentement.',
+      'wall_sit':
+        '1. Dos contre un mur, glisse vers le bas.\n'
+        '2. Arrête-toi genoux à environ 90°, pieds sous les genoux.\n'
+        '3. Tiens le temps prévu, dos plaqué au mur.',
+      'jump_squat':
+        '1. Debout, pieds largeur d’épaules.\n'
+        '2. Descends en squat et saute de façon explosive.\n'
+        '3. Réceptionne en douceur et enchaîne le squat suivant.',
+      'box_jump':
+        '1. Place-toi devant une box stable.\n'
+        '2. Lance les bras et saute sur la box, réception en douceur.\n'
+        '3. Redresse-toi complètement puis redescends à pied.',
+      'seated_leg_curl':
+        '1. Assis dans la machine, coussin au-dessus des talons, cuisses bloquées.\n'
+        '2. Ramène les talons vers le bas et l’arrière au maximum.\n'
+        '3. Reviens lentement.',
+      'nordic_curl':
+        '1. À genoux, talons calés sous un support stable.\n'
+        '2. Descends le buste vers l’avant le plus lentement possible, hanches tendues.\n'
+        '3. Rattrape-toi avec les mains et remonte avec les ischios.',
+      'single_leg_rdl':
+        '1. Debout sur une jambe avec un haltère, genou légèrement fléchi.\n'
+        '2. Penche-toi en avant, jambe libre vers l’arrière, dos droit.\n'
+        '3. Redresse-toi en poussant les hanches vers l’avant.',
+      'dumbbell_romanian_deadlift':
+        '1. Debout, haltères devant les cuisses, genoux souples.\n'
+        '2. Recule les hanches et descends les haltères le long des jambes.\n'
+        '3. Arrête-toi à l’étirement des ischios et redresse-toi.',
+      'stiff_leg_deadlift':
+        '1. Debout avec la barre, jambes presque tendues.\n'
+        '2. Penche-toi dos droit en descendant la barre le long des jambes.\n'
+        '3. Redresse-toi en contractant ischios et fessiers.',
+      'stability_ball_leg_curl':
+        '1. Sur le dos, talons sur le ballon, bassin levé.\n'
+        '2. Ramène le ballon vers toi en fléchissant les genoux.\n'
+        '3. Repousse-le lentement, bassin toujours levé.',
+      'sumo_deadlift':
+        '1. Pieds très écartés, pointes vers l’extérieur, barre saisie entre les jambes.\n'
+        '2. Gaine-toi, pousse les genoux vers l’extérieur et redresse-toi barre près du corps.\n'
+        '3. Redescends-la dos droit.',
+      'cable_glute_kickback':
+        '1. Attache une sangle de cheville à la poulie basse et tiens-toi à la machine.\n'
+        '2. Envoie la jambe vers l’arrière et le haut en serrant le fessier.\n'
+        '3. Reviens lentement sans cambrer.',
+      'hip_abduction_machine':
+        '1. Assieds-toi, coussins contre l’extérieur des genoux.\n'
+        '2. Écarte les jambes au maximum.\n'
+        '3. Ramène-les lentement.',
+      'machine_hip_thrust':
+        '1. Haut du dos contre le dossier, ceinture sur les hanches.\n'
+        '2. Monte le bassin jusqu’à l’alignement genoux-épaules.\n'
+        '3. Serre les fessiers en haut et redescends lentement.',
+      'single_leg_glute_bridge':
+        '1. Sur le dos, un pied au sol, l’autre jambe tendue vers le haut.\n'
+        '2. Monte le bassin en poussant sur le talon au sol.\n'
+        '3. Redescends lentement. Termine puis change de jambe.',
+      'donkey_kick':
+        '1. À quatre pattes, mains sous les épaules.\n'
+        '2. Monte une jambe fléchie vers l’arrière, plante du pied vers le plafond.\n'
+        '3. Redescends lentement sans cambrer.',
+      'fire_hydrant':
+        '1. À quatre pattes, dos plat.\n'
+        '2. Monte une jambe fléchie sur le côté jusqu’à hauteur de hanche.\n'
+        '3. Redescends lentement, bassin stable.',
+      'banded_lateral_walk':
+        '1. Place une mini-bande au-dessus des genoux ou aux chevilles, genoux légèrement fléchis.\n'
+        '2. Marche sur le côté en gardant l’élastique tendu.\n'
+        '3. Compte les pas d’un côté puis reviens.',
+      'cable_pull_through':
+        '1. Dos à la poulie basse, corde entre les jambes.\n'
+        '2. Penche-toi dos droit en laissant la corde partir vers l’arrière.\n'
+        '3. Pousse les hanches vers l’avant pour te redresser et serre les fessiers.',
+      'seated_calf_raise':
+        '1. Assis, coussin sur les cuisses, avant des pieds sur la marche.\n'
+        '2. Monte les talons le plus haut possible.\n'
+        '3. Redescends lentement en étirement complet.',
+      'single_leg_calf_raise':
+        '1. Un pied sur le bord d’une marche, tiens-toi.\n'
+        '2. Monte sur la pointe le plus haut possible.\n'
+        '3. Descends le talon sous la marche pour l’étirement.',
+      'leg_press_calf_raise':
+        '1. Assis à la presse, avant des pieds sur le bord bas de la plateforme.\n'
+        '2. Pousse la plateforme en tendant les pieds.\n'
+        '3. Laisse revenir lentement en étirement. Genoux tendus.',
+      'sit_up':
+        '1. Sur le dos, genoux fléchis, pieds au sol.\n'
+        '2. Enroule-toi jusqu’à la position assise.\n'
+        '3. Redescends lentement.',
+      'decline_sit_up':
+        '1. Cale les pieds sur le banc décliné et allonge-toi.\n'
+        '2. Remonte jusqu’à ce que le buste soit vertical.\n'
+        '3. Redescends lentement. Tiens un disque pour plus de charge.',
+      'bicycle_crunch':
+        '1. Sur le dos, mains près de la tête, jambes levées.\n'
+        '2. Amène un coude vers le genou opposé en tendant l’autre jambe.\n'
+        '3. Alterne comme si tu pédalais.',
+      'reverse_crunch':
+        '1. Sur le dos, genoux à 90°, bras au sol.\n'
+        '2. Décolle le bassin et ramène les genoux vers la poitrine.\n'
+        '3. Redescends lentement sans élan.',
+      'lying_leg_raise':
+        '1. Sur le dos, jambes tendues, bas du dos plaqué au sol.\n'
+        '2. Monte les jambes jusqu’à ce qu’elles pointent vers le plafond.\n'
+        '3. Redescends lentement sans cambrer.',
+      'captains_chair_knee_raise':
+        '1. En appui sur les avant-bras, dos contre le dossier.\n'
+        '2. Ramène les genoux vers la poitrine.\n'
+        '3. Redescends lentement sans balancer.',
+      'ab_wheel_rollout':
+        '1. À genoux, tiens la roue sous les épaules.\n'
+        '2. Roule vers l’avant aussi loin que possible sans creuser le bas du dos.\n'
+        '3. Reviens en tirant avec les abdos.',
+      'russian_twist':
+        '1. Assis légèrement penché en arrière, pieds levés ou au sol.\n'
+        '2. Tourne le buste et touche le sol à côté de la hanche.\n'
+        '3. Tourne de l’autre côté. Tiens un poids pour plus de charge.',
+      'v_up':
+        '1. Sur le dos, bras au-dessus de la tête, jambes tendues.\n'
+        '2. Monte bras et jambes en même temps et touche tes pieds.\n'
+        '3. Redescends lentement.',
+      'hollow_hold':
+        '1. Sur le dos, plaque le bas du dos au sol.\n'
+        '2. Décolle légèrement les épaules et les jambes tendues.\n'
+        '3. Tiens le temps prévu sans cambrer.',
+      'pallof_press':
+        '1. De profil à une poulie à hauteur de poitrine, poignée contre la poitrine.\n'
+        '2. Pousse la poignée droit devant sans laisser le corps tourner.\n'
+        '3. Ramène-la à la poitrine. Fais les deux côtés.',
+      'cable_woodchopper':
+        '1. De profil à la poulie haute, poignée à deux mains.\n'
+        '2. Tire en diagonale vers le bas à travers le corps en tournant le buste.\n'
+        '3. Reviens lentement. Fais les deux côtés.',
+      'plank_shoulder_tap':
+        '1. En planche haute, pieds légèrement écartés.\n'
+        '2. Touche l’épaule opposée d’une main sans bouger le bassin.\n'
+        '3. Change de main.',
+      'bird_dog':
+        '1. À quatre pattes, dos plat.\n'
+        '2. Tends un bras devant et la jambe opposée derrière.\n'
+        '3. Tiens un instant, reviens et change de côté.',
+      'power_clean':
+        '1. Au-dessus de la barre, prise juste à l’extérieur des genoux, dos droit.\n'
+        '2. Tire la barre de façon explosive le long du corps et réceptionne-la sur l’avant des épaules.\n'
+        '3. Redresse-toi et repose la barre. Apprends la technique avec une barre légère.',
+      'thruster':
+        '1. Tiens la barre sur l’avant des épaules.\n'
+        '2. Descends en squat puis, en remontant, pousse la barre au-dessus de la tête d’un seul mouvement.\n'
+        '3. Ramène-la sur les épaules et enchaîne le squat suivant.',
+      'turkish_get_up':
+        '1. Sur le dos, tiens un kettlebell bras tendu vers le haut.\n'
+        '2. Relève-toi étape par étape, regard sur le kettlebell, bras tendu.\n'
+        '3. Reviens au sol par le même chemin. Fais les deux côtés.',
+      'bear_crawl':
+        '1. En appui sur mains et pieds, genoux juste au-dessus du sol, dos plat.\n'
+        '2. Avance en bougeant en même temps la main et le pied opposés.\n'
+        '3. Garde le bassin bas pendant le temps prévu.',
+      'high_knees':
+        '1. Cours sur place en montant les genoux à hauteur de hanches.\n'
+        '2. Utilise les bras et reste sur l’avant des pieds.\n'
+        '3. Garde un rythme rapide pendant le temps prévu.',
+      'jump_rope':
+        '1. Tiens les poignées à hauteur de hanches, coudes près du corps.\n'
+        '2. Fais tourner la corde avec les poignets et saute juste assez haut.\n'
+        '3. Réceptionne en douceur sur l’avant des pieds pendant le temps prévu.',
+      'rowing_machine':
+        '1. Attache tes pieds et saisis la poignée bras tendus.\n'
+        '2. Pousse avec les jambes, penche-toi un peu en arrière et tire la poignée vers le bas des côtes.\n'
+        '3. Reviens dans l’ordre inverse : bras, buste, jambes. Rythme régulier.',
+      'stationary_bike':
+        '1. Règle la selle pour que le genou reste légèrement fléchi en bas.\n'
+        '2. Pédale à rythme régulier, dos droit.\n'
+        '3. Règle la résistance selon ton objectif pendant le temps prévu.',
+      'treadmill_run':
+        '1. Commence en marchant et augmente la vitesse progressivement.\n'
+        '2. Cours droit, épaules relâchées, appuis sous les hanches.\n'
+        '3. Ralentis à la marche avant de descendre.',
+      'elliptical':
+        '1. Monte sur les pédales et saisis les poignées mobiles.\n'
+        '2. Bouge de façon fluide en poussant et tirant aussi avec les bras.\n'
+        '3. Garde un rythme régulier pendant le temps prévu.',
+      'stair_climber':
+        '1. Monte et choisis une vitesse que tu peux tenir.\n'
+        '2. Grimpe droit, utilise les rampes seulement pour l’équilibre.\n'
+        '3. Continue pendant le temps prévu.',
+      'air_bike':
+        '1. Assieds-toi et saisis les poignées mobiles.\n'
+        '2. Pédale en poussant et tirant les poignées en même temps.\n'
+        '3. Plus tu accélères, plus le ventilateur freine. Pendant le temps prévu.',
     },
     routineNames: {
       'home_upper': 'Haut du corps en 5 minutes',
@@ -1008,6 +2733,121 @@ const seedTranslations = <String, SeedTranslation>{
       'kettlebell_swing': 'Swing kettlebell',
       'weighted_pull_up': 'Podciąganie z obciążeniem',
       'weighted_dips': 'Pompki na poręczach z obciążeniem',
+      'barbell_shrug': 'Szrugsy ze sztangą',
+      'dumbbell_shrug': 'Szrugsy z hantlami',
+      'wrist_curl': 'Uginanie nadgarstków',
+      'reverse_curl': 'Uginanie ramion nachwytem',
+      'dead_hang': 'Zwis na drążku',
+      'back_extension': 'Wyprosty tułowia (hiperekstensje)',
+      'good_morning': 'Good morning ze sztangą',
+      'superman': 'Superman',
+      'decline_bench_press': 'Wyciskanie na ławce skośnej głową w dół',
+      'smith_bench_press': 'Wyciskanie na ławce na maszynie Smitha',
+      'dumbbell_fly': 'Rozpiętki z hantlami',
+      'incline_dumbbell_fly': 'Rozpiętki na ławce skośnej',
+      'low_to_high_cable_fly': 'Rozpiętki na wyciągu od dołu do góry',
+      'incline_chest_press_machine': 'Wyciskanie na maszynie skośnej',
+      'chest_dips': 'Pompki na poręczach na klatkę',
+      'incline_push_up': 'Pompki z rękami na podwyższeniu',
+      'decline_push_up': 'Pompki z nogami na podwyższeniu',
+      'dumbbell_floor_press': 'Wyciskanie hantli leżąc na podłodze',
+      't_bar_row': 'Wiosłowanie T-sztangą',
+      'pendlay_row': 'Wiosłowanie Pendlaya',
+      'machine_row': 'Wiosłowanie na maszynie siedząc',
+      'chest_supported_row': 'Wiosłowanie hantlami w leżeniu na ławce skośnej',
+      'close_grip_lat_pulldown': 'Ściąganie drążka wąskim chwytem',
+      'straight_arm_pulldown': 'Ściąganie drążka prostymi rękami',
+      'band_assisted_pull_up': 'Podciąganie z gumą',
+      'inverted_row': 'Podciąganie australijskie',
+      'neutral_grip_pull_up': 'Podciąganie chwytem neutralnym',
+      'rack_pull': 'Martwy ciąg ze stojaków',
+      'trap_bar_deadlift': 'Martwy ciąg z trap barem',
+      'single_arm_cable_row': 'Wiosłowanie jednorącz na wyciągu',
+      'dumbbell_pullover': 'Przenoszenie hantla za głowę (pullover)',
+      'renegade_row': 'Wiosłowanie w podporze (renegade row)',
+      'arnold_press': 'Wyciskanie Arnolda',
+      'shoulder_press_machine': 'Wyciskanie na barki na maszynie',
+      'push_press': 'Push press',
+      'cable_lateral_raise': 'Unoszenie ramienia bokiem na wyciągu',
+      'machine_lateral_raise': 'Unoszenie ramion bokiem na maszynie',
+      'front_raise': 'Unoszenie hantli przodem',
+      'upright_row': 'Wiosłowanie sztangą do brody',
+      'reverse_pec_deck': 'Odwrotne rozpiętki na maszynie',
+      'band_pull_apart': 'Rozciąganie gumy',
+      'handstand_push_up': 'Pompki w staniu na rękach',
+      'landmine_press': 'Wyciskanie landmine',
+      'preacher_curl': 'Uginanie na modlitewniku',
+      'concentration_curl': 'Uginanie koncentryczne',
+      'incline_dumbbell_curl': 'Uginanie hantli na ławce skośnej',
+      'ez_bar_curl': 'Uginanie ze sztangą łamaną',
+      'rope_hammer_curl': 'Uginanie młotkowe na wyciągu z liną',
+      'machine_biceps_curl': 'Uginanie ramion na maszynie',
+      'band_curl': 'Uginanie ramion z gumą',
+      'rope_pushdown': 'Prostowanie ramion z liną na wyciągu',
+      'overhead_cable_extension': 'Prostowanie ramion nad głową na wyciągu',
+      'triceps_kickback': 'Prostowanie ramienia w opadzie (kickback)',
+      'bench_dips': 'Pompki w podporze tyłem o ławkę',
+      'machine_triceps_dip': 'Prostowanie ramion na maszynie (dipy)',
+      'single_arm_pushdown': 'Prostowanie ramienia jednorącz na wyciągu',
+      'diamond_push_up': 'Pompki diamentowe',
+      'reverse_wrist_curl': 'Prostowanie nadgarstków nachwytem',
+      'hack_squat': 'Przysiad na maszynie hack',
+      'smith_squat': 'Przysiad na maszynie Smitha',
+      'walking_lunge': 'Wykroki w marszu',
+      'reverse_lunge': 'Wykroki w tył',
+      'step_up': 'Wejścia na ławkę',
+      'split_squat': 'Przysiad w wykroku',
+      'sumo_squat': 'Przysiad sumo z hantlem',
+      'pistol_squat': 'Przysiad na jednej nodze (pistol)',
+      'single_leg_press': 'Wypychanie nogą na suwnicy (jednonóż)',
+      'hip_adduction_machine': 'Przywodzenie nóg na maszynie',
+      'wall_sit': 'Krzesełko przy ścianie',
+      'jump_squat': 'Przysiad z wyskokiem',
+      'box_jump': 'Wskoki na skrzynię',
+      'seated_leg_curl': 'Uginanie nóg siedząc na maszynie',
+      'nordic_curl': 'Nordic curl (uginanie nordyckie)',
+      'single_leg_rdl': 'Rumuński martwy ciąg na jednej nodze',
+      'dumbbell_romanian_deadlift': 'Rumuński martwy ciąg z hantlami',
+      'stiff_leg_deadlift': 'Martwy ciąg na prostych nogach',
+      'stability_ball_leg_curl': 'Uginanie nóg na piłce gimnastycznej',
+      'sumo_deadlift': 'Martwy ciąg sumo',
+      'cable_glute_kickback': 'Odwodzenie nogi w tył na wyciągu',
+      'hip_abduction_machine': 'Odwodzenie nóg na maszynie',
+      'machine_hip_thrust': 'Hip thrust na maszynie',
+      'single_leg_glute_bridge': 'Most biodrowy na jednej nodze',
+      'donkey_kick': 'Wymachy nogą w tył w klęku (donkey kick)',
+      'fire_hydrant': 'Odwodzenie nogi w bok w klęku (fire hydrant)',
+      'banded_lateral_walk': 'Chód boczny z gumą',
+      'cable_pull_through': 'Przeciąganie liny między nogami (pull-through)',
+      'seated_calf_raise': 'Wspięcia na palce siedząc',
+      'single_leg_calf_raise': 'Wspięcia na palce na jednej nodze',
+      'leg_press_calf_raise': 'Wspięcia na palce na suwnicy',
+      'sit_up': 'Siady z leżenia',
+      'decline_sit_up': 'Siady na ławce skośnej',
+      'bicycle_crunch': 'Brzuszki rowerowe',
+      'reverse_crunch': 'Odwrotne brzuszki',
+      'lying_leg_raise': 'Unoszenie nóg w leżeniu',
+      'captains_chair_knee_raise': 'Unoszenie kolan w podporze na poręczach',
+      'ab_wheel_rollout': 'Kółko do ćwiczeń brzucha',
+      'russian_twist': 'Russian twist (skręty rosyjskie)',
+      'v_up': 'Scyzoryk (V-up)',
+      'hollow_hold': 'Hollow hold (łódka)',
+      'pallof_press': 'Pallof press',
+      'cable_woodchopper': 'Drwal na wyciągu',
+      'plank_shoulder_tap': 'Deska z dotykaniem barków',
+      'bird_dog': 'Bird dog (unoszenie ręki i nogi w klęku)',
+      'power_clean': 'Zarzut siłowy (power clean)',
+      'thruster': 'Thruster (przysiad z wyciskaniem)',
+      'turkish_get_up': 'Tureckie wstawanie',
+      'bear_crawl': 'Chód niedźwiedzia',
+      'high_knees': 'Skip A (wysokie kolana)',
+      'jump_rope': 'Skakanka',
+      'rowing_machine': 'Ergometr wioślarski',
+      'stationary_bike': 'Rower stacjonarny',
+      'treadmill_run': 'Bieg na bieżni',
+      'elliptical': 'Orbitrek',
+      'stair_climber': 'Stepper schodowy',
+      'air_bike': 'Rower powietrzny (air bike)',
     },
     exerciseInstructions: {
       'bench_press':
@@ -1236,6 +3076,466 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Oprzyj się na poręczach na wyprostowanych ramionach.\n'
         '3. Opuść się, aż ramiona będą mniej więcej równoległe do podłogi.\n'
         '4. Wypchnij się w górę, nie wysuwaj barków do przodu. Zapisuj tylko dodatkowy ciężar.',
+      'barbell_shrug':
+        '1. Stań prosto, trzymaj sztangę w wyprostowanych rękach, chwyt na szerokość barków.\n'
+        '2. Unieś barki pionowo w stronę uszu, ręce pozostają proste.\n'
+        '3. Zatrzymaj się na górze i powoli opuść. Nie kręć barkami.',
+      'dumbbell_shrug':
+        '1. Stań z hantlami wzdłuż ciała, dłonie skierowane do siebie.\n'
+        '2. Unieś barki pionowo jak najwyżej.\n'
+        '3. Zatrzymaj na chwilę i powoli opuść.',
+      'wrist_curl':
+        '1. Usiądź, oprzyj przedramiona na udach lub ławce dłońmi do góry, nadgarstki poza krawędzią.\n'
+        '2. Pozwól hantlom stoczyć się do czubków palców.\n'
+        '3. Unieś nadgarstki jak najwyżej, przedramiona się nie ruszają.',
+      'reverse_curl':
+        '1. Stań i trzymaj sztangę nachwytem na szerokość barków.\n'
+        '2. Uginaj ramiona, łokcie przy bokach, nadgarstki proste.\n'
+        '3. Powoli opuść do wyprostowanych rąk.',
+      'dead_hang':
+        '1. Chwyć drążek nachwytem na szerokość barków.\n'
+        '2. Wiś na prostych rękach, stopy nad ziemią, ciało nieruchomo.\n'
+        '3. Wytrzymaj zadany czas, barki lekko aktywne.',
+      'back_extension':
+        '1. Ustaw poduszkę tuż pod biodrami i zablokuj pięty.\n'
+        '2. Opuść tułów z prostymi plecami, aż poczujesz rozciąganie z tyłu ud.\n'
+        '3. Unieś się do linii z nogami, nie przeprostowuj. Dla większego obciążenia trzymaj talerz.',
+      'good_morning':
+        '1. Sztanga na górze pleców jak przy przysiadzie, stopy na szerokość bioder, kolana lekko ugięte.\n'
+        '2. Cofnij biodra i pochyl się z prostymi plecami, aż tułów będzie prawie poziomo.\n'
+        '3. Wypchnij biodra do przodu i wróć do pionu. Zacznij od małego ciężaru.',
+      'superman':
+        '1. Połóż się na brzuchu, ręce wyciągnięte za głowę.\n'
+        '2. Jednocześnie unieś ręce, klatkę piersiową i nogi nad podłogę.\n'
+        '3. Zatrzymaj sekundę na górze i powoli opuść.',
+      'decline_bench_press':
+        '1. Zablokuj nogi na ławce skośnej ujemnej, chwyt nieco szerszy niż barki.\n'
+        '2. Kontrolowanie opuść sztangę do dolnej części klatki.\n'
+        '3. Wyciśnij do wyprostowanych rąk, łopatki ściągnięte.',
+      'smith_bench_press':
+        '1. Ustaw ławkę tak, by sztanga była nad środkiem klatki.\n'
+        '2. Odblokuj sztangę i kontrolowanie opuść ją do klatki.\n'
+        '3. Wyciśnij bez gwałtownego blokowania łokci i na końcu zaczep sztangę.',
+      'dumbbell_fly':
+        '1. Połóż się na ławce płaskiej, hantle nad klatką, łokcie lekko ugięte.\n'
+        '2. Rozłóż ręce szerokim łukiem, aż poczujesz rozciąganie klatki.\n'
+        '3. Zbliż hantle z powrotem, nie zmieniając kąta w łokciach.',
+      'incline_dumbbell_fly':
+        '1. Ustaw ławkę na 30°, hantle nad klatką, łokcie miękkie.\n'
+        '2. Opuszczaj je szerokim łukiem, aż poczujesz rozciąganie górnej części klatki.\n'
+        '3. Zbliż je z powrotem nad klatką.',
+      'low_to_high_cable_fly':
+        '1. Ustaw oba wyciągi nisko i stań między nimi w lekkim pochyleniu.\n'
+        '2. Prowadź uchwyty w górę i do siebie przed górną częścią klatki.\n'
+        '3. Powoli wróć do rozciągnięcia, łokcie lekko ugięte.',
+      'incline_chest_press_machine':
+        '1. Ustaw siedzisko tak, by uchwyty były na wysokości górnej części klatki.\n'
+        '2. Wypychaj uchwyty do przodu i w górę do prawie prostych rąk.\n'
+        '3. Powoli wróć, aż poczujesz rozciąganie klatki.',
+      'chest_dips':
+        '1. Oprzyj się na poręczach i pochyl tułów do przodu.\n'
+        '2. Opuszczaj się z łokciami lekko na zewnątrz, aż poczujesz rozciąganie klatki.\n'
+        '3. Wypchnij się w górę, utrzymując pochylenie.',
+      'incline_push_up':
+        '1. Oprzyj dłonie o ławkę lub skrzynię, ciało w jednej linii.\n'
+        '2. Opuść klatkę do krawędzi, łokcie ok. 45° od ciała.\n'
+        '3. Wypchnij się. Im wyższe podparcie, tym łatwiej.',
+      'decline_push_up':
+        '1. Stopy na ławce, dłonie na podłodze pod barkami.\n'
+        '2. Opuść klatkę do podłogi z napiętym brzuchem.\n'
+        '3. Wypchnij się, biodra nie opadają.',
+      'dumbbell_floor_press':
+        '1. Połóż się na podłodze, kolana ugięte, hantle nad klatką.\n'
+        '2. Opuszczaj, aż ramiona dotkną podłogi, krótka pauza.\n'
+        '3. Wyciśnij do wyprostowanych rąk.',
+      't_bar_row':
+        '1. Stań nad sztangą, pochyl się z prostymi plecami i chwyć uchwyt.\n'
+        '2. Przyciągnij ciężar do klatki, ściągając łopatki.\n'
+        '3. Opuść kontrolowanie, nie zaokrąglaj pleców.',
+      'pendlay_row':
+        '1. Sztanga na podłodze, tułów prawie poziomo, plecy proste.\n'
+        '2. Dynamicznie przyciągnij sztangę do dolnej części klatki.\n'
+        '3. Po każdym powtórzeniu odłóż ją na podłogę i ustaw pozycję.',
+      'machine_row':
+        '1. Usiądź klatką przy oparciu i chwyć uchwyty.\n'
+        '2. Przyciągnij uchwyty do ciała, łokcie blisko, łopatki razem.\n'
+        '3. Powoli wróć do wyprostowanych rąk.',
+      'chest_supported_row':
+        '1. Połóż się na brzuchu na ławce ustawionej na 30–45°, hantle zwisają.\n'
+        '2. Przyciągnij je do boków, ściągając łopatki.\n'
+        '3. Powoli opuść do pełnego rozciągnięcia.',
+      'close_grip_lat_pulldown':
+        '1. Usiądź przy wyciągu z wąskim uchwytem lub V, uda pod wałkami.\n'
+        '2. Ściągnij uchwyt do górnej części klatki, łokcie w dół i do tyłu.\n'
+        '3. Powoli puść go w górę do wyprostowanych rąk.',
+      'straight_arm_pulldown':
+        '1. Stań przodem do górnego wyciągu, ręce prawie proste, lekki skłon.\n'
+        '2. Ściągnij drążek łukiem do ud, pracując mięśniami najszerszymi.\n'
+        '3. Powoli wróć, łokcie prawie proste.',
+      'band_assisted_pull_up':
+        '1. Przełóż gumę oporową przez drążek i oprzyj w niej stopę lub kolano.\n'
+        '2. Podciągnij się, aż broda znajdzie się nad drążkiem.\n'
+        '3. Opuść się kontrolowanie do zwisu. Cieńsza guma = mniejsza pomoc.',
+      'inverted_row':
+        '1. Zawiśnij pod niskim drążkiem lub na kółkach, ciało proste, pięty na podłodze.\n'
+        '2. Przyciągnij klatkę do drążka, ściągając łopatki.\n'
+        '3. Opuść się kontrolowanie. Im bardziej pionowo, tym łatwiej.',
+      'neutral_grip_pull_up':
+        '1. Zawiśnij na równoległych uchwytach, dłonie do siebie.\n'
+        '2. Podciągnij się, aż broda znajdzie się nad uchwytami.\n'
+        '3. Opuść się kontrolowanie do pełnego zwisu.',
+      'rack_pull':
+        '1. Połóż sztangę na zabezpieczeniach tuż pod lub nad kolanami.\n'
+        '2. Chwyć ją, napnij brzuch i wstań, pchając biodra do przodu.\n'
+        '3. Odłóż ją na zabezpieczenia z prostymi plecami.',
+      'trap_bar_deadlift':
+        '1. Stań w środku trap bara, stopy na szerokość bioder, chwyć uchwyty.\n'
+        '2. Napnij się, odepchnij podłogę i wyprostuj się.\n'
+        '3. Opuść sztangę z prostymi plecami.',
+      'single_arm_cable_row':
+        '1. Chwyć pojedynczy uchwyt na wyciągu na wysokości pasa, ręka prosta.\n'
+        '2. Przyciągnij go do boku, łokieć blisko ciała.\n'
+        '3. Powoli wróć, pozwalając barkowi lekko wysunąć się do przodu.',
+      'dumbbell_pullover':
+        '1. Połóż się na ławce i trzymaj jeden hantel oburącz nad klatką.\n'
+        '2. Opuść go łukiem za głowę, łokcie lekko ugięte.\n'
+        '3. Przenieś go z powrotem nad klatkę.',
+      'renegade_row':
+        '1. Przyjmij pozycję pompki na dwóch hantlach, stopy szeroko.\n'
+        '2. Przyciągnij jeden hantel do biodra, nie skręcając bioder.\n'
+        '3. Odłóż go i powtórz drugą ręką.',
+      'arnold_press':
+        '1. Usiądź, hantle przed barkami, dłonie skierowane do siebie.\n'
+        '2. Wyciskaj w górę, obracając dłonie do przodu.\n'
+        '3. Opuszczaj, wracając do pozycji wyjściowej.',
+      'shoulder_press_machine':
+        '1. Ustaw siedzisko tak, by uchwyty zaczynały się na wysokości barków.\n'
+        '2. Wyciskaj do prawie prostych rąk.\n'
+        '3. Powoli wróć do wysokości barków.',
+      'push_press':
+        '1. Sztanga z przodu na barkach, stopy na szerokość bioder.\n'
+        '2. Lekko ugnij kolana i siłą nóg wypchnij sztangę nad głowę.\n'
+        '3. Kontrolowanie opuść ją na barki.',
+      'cable_lateral_raise':
+        '1. Stań bokiem do dolnego wyciągu, uchwyt w dalszej ręce.\n'
+        '2. Unieś rękę w bok do wysokości barku.\n'
+        '3. Powoli opuść, utrzymując napięcie linki.',
+      'machine_lateral_raise':
+        '1. Usiądź, poduszki przylegają do zewnętrznej strony ramion.\n'
+        '2. Unieś ręce do wysokości barków.\n'
+        '3. Powoli opuść, nie odkładając ciężaru.',
+      'front_raise':
+        '1. Stań z hantlami przed udami.\n'
+        '2. Unieś je przed siebie do wysokości barków, ręce prawie proste.\n'
+        '3. Powoli opuść bez bujania.',
+      'upright_row':
+        '1. Trzymaj sztangę przed udami, chwyt mniej więcej na szerokość barków.\n'
+        '2. Ciągnij ją wzdłuż ciała do wysokości klatki, prowadzą łokcie.\n'
+        '3. Powoli opuść. Jeśli barki bolą, nie ciągnij tak wysoko.',
+      'reverse_pec_deck':
+        '1. Usiądź przodem do maszyny, klatka na oparciu, chwyć uchwyty.\n'
+        '2. Rozłóż ręce łukiem do tyłu do linii ciała.\n'
+        '3. Powoli wróć.',
+      'band_pull_apart':
+        '1. Trzymaj gumę przed sobą na wysokości barków, ręce proste.\n'
+        '2. Rozciągnij ją do klatki, ściągając łopatki.\n'
+        '3. Powoli wróć.',
+      'handstand_push_up':
+        '1. Wejdź w stanie na rękach przy ścianie, dłonie na szerokość barków.\n'
+        '2. Kontrolowanie opuszczaj głowę do podłogi.\n'
+        '3. Wypchnij się do prostych rąk. Połóż matę pod głowę.',
+      'landmine_press':
+        '1. Trzymaj koniec sztangi landmine przy barku, nogi w lekkim wykroku.\n'
+        '2. Wypchnij ją w górę i do przodu do prostej ręki.\n'
+        '3. Kontrolowanie wróć do barku.',
+      'preacher_curl':
+        '1. Usiądź przy modlitewniku, ramiona płasko na oparciu, sztanga łamana w dłoniach.\n'
+        '2. Ugnij ręce, nie odrywając łokci od oparcia.\n'
+        '3. Powoli opuść prawie do wyprostu.',
+      'concentration_curl':
+        '1. Usiądź na ławce, łokieć oparty o wewnętrzną stronę uda.\n'
+        '2. Unieś hantel do barku.\n'
+        '3. Powoli opuść do pełnego rozciągnięcia.',
+      'incline_dumbbell_curl':
+        '1. Oprzyj się o ławkę ustawioną na 45–60°, ręce zwisają w dół.\n'
+        '2. Unieś hantle, ramiona się nie ruszają.\n'
+        '3. Powoli opuść do pełnego rozciągnięcia.',
+      'ez_bar_curl':
+        '1. Stań i trzymaj sztangę łamaną za wygięte miejsca, ręce proste.\n'
+        '2. Unieś ją bez bujania ciałem.\n'
+        '3. Powoli opuść do prostych rąk.',
+      'rope_hammer_curl':
+        '1. Przypnij linę do dolnego wyciągu, dłonie do siebie.\n'
+        '2. Unieś linę, łokcie przy bokach.\n'
+        '3. Powoli opuść, utrzymując napięcie.',
+      'machine_biceps_curl':
+        '1. Usiądź, oprzyj ramiona o poduszkę i chwyć uchwyty.\n'
+        '2. Unieś uchwyty do barków.\n'
+        '3. Powoli opuść prawie do wyprostu.',
+      'band_curl':
+        '1. Stań na środku gumy, końce trzymaj w dłoniach.\n'
+        '2. Unieś dłonie do barków, łokcie przy bokach.\n'
+        '3. Powoli opuść.',
+      'rope_pushdown':
+        '1. Chwyć linę na górnym wyciągu, łokcie przy bokach.\n'
+        '2. Ściągnij linę w dół i na dole rozciągnij końce na boki.\n'
+        '3. Powoli puść ją w górę do ok. 90° w łokciu.',
+      'overhead_cable_extension':
+        '1. Stań tyłem do wyciągu, lina za głową, łokcie w górze.\n'
+        '2. Wyprostuj ręce do przodu i w górę.\n'
+        '3. Powoli ugnij łokcie z powrotem za głowę.',
+      'triceps_kickback':
+        '1. Pochyl się, ramię równolegle do tułowia, łokieć ugięty.\n'
+        '2. Wyprostuj rękę do tyłu.\n'
+        '3. Powoli ugnij z powrotem, ramię się nie rusza.',
+      'bench_dips':
+        '1. Oprzyj dłonie o krawędź ławki za sobą, nogi wyprostowane do przodu.\n'
+        '2. Ugnij łokcie do ok. 90° i opuść się.\n'
+        '3. Wypchnij się do prostych rąk.',
+      'machine_triceps_dip':
+        '1. Usiądź w maszynie i chwyć boczne uchwyty.\n'
+        '2. Wypchnij uchwyty w dół do prostych rąk.\n'
+        '3. Powoli puść je w górę do ok. 90° w łokciu.',
+      'single_arm_pushdown':
+        '1. Chwyć pojedynczy uchwyt na górnym wyciągu, łokieć przy boku.\n'
+        '2. Wypchnij go w dół do prostej ręki.\n'
+        '3. Powoli puść w górę, łokieć zostaje w miejscu.',
+      'diamond_push_up':
+        '1. Pozycja pompki, dłonie razem pod klatką, palce tworzą romb.\n'
+        '2. Opuść klatkę do dłoni, łokcie blisko ciała.\n'
+        '3. Wypchnij się z prostym ciałem.',
+      'reverse_wrist_curl':
+        '1. Usiądź, przedramiona na udach dłońmi w dół, nadgarstki za kolanami.\n'
+        '2. Unieś grzbiety dłoni jak najwyżej.\n'
+        '3. Powoli opuść.',
+      'hack_squat':
+        '1. Stań na platformie, plecy na oparciu, barki pod poduszkami.\n'
+        '2. Zejdź, aż uda będą co najmniej równoległe do platformy.\n'
+        '3. Wypchnij się całą stopą.',
+      'smith_squat':
+        '1. Sztanga na górnej części pleców, stopy lekko przed sztangą.\n'
+        '2. Zejdź z prostymi plecami co najmniej do równoległości ud.\n'
+        '3. Wstań i na końcu zaczep sztangę.',
+      'walking_lunge':
+        '1. Trzymaj hantle wzdłuż ciała i zrób długi krok do przodu.\n'
+        '2. Opuść tylne kolano prawie do podłogi.\n'
+        '3. Odepchnij się przednią nogą i od razu przejdź do kolejnego wykroku.',
+      'reverse_lunge':
+        '1. Stań prosto z hantlami wzdłuż ciała.\n'
+        '2. Zrób krok w tył i opuść tylne kolano prawie do podłogi.\n'
+        '3. Wróć, odpychając się przednią nogą. Zmieniaj nogi.',
+      'step_up':
+        '1. Stań przed ławką lub skrzynią z hantlami w dłoniach.\n'
+        '2. Postaw jedną stopę na górze i wejdź, pchając tą nogą.\n'
+        '3. Powoli zejdź. Zmieniaj nogi lub ćwicz jedną stronę po drugiej.',
+      'split_squat':
+        '1. Ustaw się w długim wykroku z hantlami w dłoniach.\n'
+        '2. Opuszczaj się pionowo, aż tylne kolano prawie dotknie podłogi.\n'
+        '3. Wypchnij się. Skończ powtórzenia i zmień nogę.',
+      'sumo_squat':
+        '1. Szeroki rozkrok, palce na zewnątrz, jeden hantel między nogami.\n'
+        '2. Zejdź z wyprostowanym tułowiem, kolana w kierunku palców.\n'
+        '3. Wstań i napnij pośladki.',
+      'pistol_squat':
+        '1. Stań na jednej nodze, drugą wyprostuj przed sobą.\n'
+        '2. Kontrolowanie zejdź jak najniżej, ręce z przodu dla równowagi.\n'
+        '3. Wstań. Na początku możesz się czegoś przytrzymać.',
+      'single_leg_press':
+        '1. Usiądź na suwnicy, jedną stopę postaw na środku platformy.\n'
+        '2. Opuszczaj platformę, aż kolano będzie ugięte ok. 90°.\n'
+        '3. Wypchnij bez blokowania kolana. Zmień nogę.',
+      'hip_adduction_machine':
+        '1. Usiądź w maszynie, poduszki po wewnętrznej stronie kolan.\n'
+        '2. Ściśnij nogi do siebie.\n'
+        '3. Powoli je rozsuń.',
+      'wall_sit':
+        '1. Oprzyj się plecami o ścianę i zsuń się w dół.\n'
+        '2. Zatrzymaj się, gdy kolana są ugięte ok. 90°, stopy pod kolanami.\n'
+        '3. Wytrzymaj zadany czas, plecy przy ścianie.',
+      'jump_squat':
+        '1. Stań, stopy na szerokość barków.\n'
+        '2. Zrób przysiad i dynamicznie wyskocz.\n'
+        '3. Wyląduj miękko i od razu przejdź do kolejnego przysiadu.',
+      'box_jump':
+        '1. Stań przed stabilną skrzynią.\n'
+        '2. Machnij rękami i wskocz na skrzynię, lądując miękko.\n'
+        '3. Wyprostuj się i zejdź.',
+      'seated_leg_curl':
+        '1. Usiądź w maszynie, wałek nad piętami, uda zablokowane.\n'
+        '2. Przyciągnij pięty jak najdalej w dół i do tyłu.\n'
+        '3. Powoli wróć.',
+      'nordic_curl':
+        '1. Uklęknij z piętami zablokowanymi pod czymś stabilnym.\n'
+        '2. Jak najwolniej opadaj tułowiem do przodu, biodra wyprostowane.\n'
+        '3. Złap się rękami i podciągnij z powrotem mięśniami dwugłowymi.',
+      'single_leg_rdl':
+        '1. Stań na jednej nodze z hantlem, kolano lekko ugięte.\n'
+        '2. Pochyl się, a wolną nogę wyprostuj do tyłu, plecy proste.\n'
+        '3. Wyprostuj się, pchając biodra do przodu.',
+      'dumbbell_romanian_deadlift':
+        '1. Stań z hantlami przed udami, kolana miękkie.\n'
+        '2. Cofnij biodra i prowadź hantle wzdłuż nóg w dół.\n'
+        '3. Zatrzymaj się przy rozciągnięciu tyłu ud i wyprostuj.',
+      'stiff_leg_deadlift':
+        '1. Stań ze sztangą w dłoniach, nogi prawie proste.\n'
+        '2. Pochyl się z prostymi plecami, prowadząc sztangę wzdłuż nóg.\n'
+        '3. Wyprostuj się, napinając tył ud i pośladki.',
+      'stability_ball_leg_curl':
+        '1. Połóż się na plecach, pięty na piłce, biodra uniesione.\n'
+        '2. Ugnij kolana i przyciągnij piłkę do siebie.\n'
+        '3. Powoli odtocz ją z powrotem, biodra zostają w górze.',
+      'sumo_deadlift':
+        '1. Szeroki rozkrok, palce na zewnątrz, chwyć sztangę między nogami.\n'
+        '2. Napnij się, wypchnij kolana na zewnątrz i wstań ze sztangą blisko ciała.\n'
+        '3. Opuść ją z prostymi plecami.',
+      'cable_glute_kickback':
+        '1. Przypnij mankiet do kostki na dolnym wyciągu i przytrzymaj się maszyny.\n'
+        '2. Napinając pośladek, wyprostuj nogę w tył i w górę.\n'
+        '3. Powoli wróć, nie wyginając odcinka lędźwiowego.',
+      'hip_abduction_machine':
+        '1. Usiądź w maszynie, poduszki po zewnętrznej stronie kolan.\n'
+        '2. Rozsuń nogi jak najszerzej.\n'
+        '3. Powoli złącz je z powrotem.',
+      'machine_hip_thrust':
+        '1. Oprzyj górną część pleców o oparcie, pas na biodrach.\n'
+        '2. Wypchnij biodra w górę, aż ciało będzie proste od kolan do barków.\n'
+        '3. Napnij pośladki na górze i powoli opuść.',
+      'single_leg_glute_bridge':
+        '1. Połóż się na plecach, jedna stopa na podłodze, druga noga wyprostowana w górę.\n'
+        '2. Unieś biodra, pchając piętą opartej nogi.\n'
+        '3. Powoli opuść. Skończ powtórzenia i zmień nogę.',
+      'donkey_kick':
+        '1. Uklęknij w podporze, dłonie pod barkami.\n'
+        '2. Unieś ugiętą nogę do tyłu, podeszwa w stronę sufitu.\n'
+        '3. Powoli opuść, nie wyginając pleców.',
+      'fire_hydrant':
+        '1. Uklęknij w podporze, plecy proste.\n'
+        '2. Unieś ugiętą nogę w bok do wysokości biodra.\n'
+        '3. Powoli opuść, biodra pozostają poziomo.',
+      'banded_lateral_walk':
+        '1. Załóż mini gumę nad kolana lub na kostki i lekko ugnij kolana.\n'
+        '2. Idź w bok, utrzymując napięcie gumy.\n'
+        '3. Policz kroki w jedną stronę i wróć.',
+      'cable_pull_through':
+        '1. Stań tyłem do dolnego wyciągu, lina między nogami.\n'
+        '2. Pochyl się z prostymi plecami, pozwalając linie odjechać do tyłu.\n'
+        '3. Wyprostuj się, pchając biodra do przodu, i napnij pośladki.',
+      'seated_calf_raise':
+        '1. Usiądź, poduszka na udach, przednia część stóp na podeście.\n'
+        '2. Unieś pięty jak najwyżej.\n'
+        '3. Powoli opuść do pełnego rozciągnięcia.',
+      'single_leg_calf_raise':
+        '1. Stań jedną stopą na krawędzi stopnia i przytrzymaj się.\n'
+        '2. Wspnij się na palce jak najwyżej.\n'
+        '3. Opuść piętę poniżej stopnia do pełnego rozciągnięcia.',
+      'leg_press_calf_raise':
+        '1. Usiądź na suwnicy, przednia część stóp na dolnej krawędzi platformy.\n'
+        '2. Odepchnij platformę, prostując stopy.\n'
+        '3. Powoli pozwól jej wrócić do rozciągnięcia. Kolana proste.',
+      'sit_up':
+        '1. Połóż się na plecach, kolana ugięte, stopy na podłodze.\n'
+        '2. Unieś się aż do siadu.\n'
+        '3. Powoli wróć do leżenia.',
+      'decline_sit_up':
+        '1. Zablokuj stopy na ławce skośnej ujemnej i połóż się.\n'
+        '2. Unieś się, aż tułów będzie pionowo.\n'
+        '3. Powoli wróć. Dla większego obciążenia trzymaj talerz.',
+      'bicycle_crunch':
+        '1. Połóż się na plecach, dłonie przy głowie, nogi uniesione.\n'
+        '2. Przyciągnij łokieć do przeciwnego kolana, drugą nogę wyprostuj.\n'
+        '3. Zmieniaj strony jak przy pedałowaniu.',
+      'reverse_crunch':
+        '1. Połóż się na plecach, kolana ugięte pod kątem prostym, ręce na podłodze.\n'
+        '2. Unieś biodra i przyciągnij kolana do klatki.\n'
+        '3. Powoli opuść bez bujania.',
+      'lying_leg_raise':
+        '1. Połóż się na plecach, nogi proste, lędźwie przyciśnięte do podłogi.\n'
+        '2. Unieś nogi, aż będą skierowane w sufit.\n'
+        '3. Powoli opuść, lędźwie się nie odrywają.',
+      'captains_chair_knee_raise':
+        '1. Oprzyj przedramiona na poduszkach, plecy o oparcie.\n'
+        '2. Przyciągnij kolana do klatki.\n'
+        '3. Powoli opuść bez bujania.',
+      'ab_wheel_rollout':
+        '1. Uklęknij i trzymaj kółko pod barkami.\n'
+        '2. Wyjedź do przodu jak najdalej, lędźwie nie opadają.\n'
+        '3. Wróć, pracując mięśniami brzucha.',
+      'russian_twist':
+        '1. Usiądź z lekkim odchyleniem, stopy uniesione lub na podłodze.\n'
+        '2. Skręć tułów i dotknij podłogi obok biodra.\n'
+        '3. Skręć w drugą stronę. Dla większego obciążenia trzymaj ciężarek.',
+      'v_up':
+        '1. Połóż się na plecach, ręce za głową, nogi proste.\n'
+        '2. Jednocześnie unieś ręce i nogi i dotknij palców stóp.\n'
+        '3. Powoli wróć do leżenia.',
+      'hollow_hold':
+        '1. Połóż się na plecach i przyciśnij lędźwie do podłogi.\n'
+        '2. Unieś barki i proste nogi nieco nad podłogę.\n'
+        '3. Wytrzymaj zadany czas, lędźwie się nie odrywają.',
+      'pallof_press':
+        '1. Stań bokiem do wyciągu na wysokości klatki, uchwyt przy klatce.\n'
+        '2. Wypchnij uchwyt prosto przed siebie, nie pozwalając ciału się obrócić.\n'
+        '3. Wróć do klatki. Ćwicz obie strony.',
+      'cable_woodchopper':
+        '1. Stań bokiem do górnego wyciągu, uchwyt trzymaj oburącz.\n'
+        '2. Ciągnij go skośnie w dół przez ciało, skręcając tułów.\n'
+        '3. Powoli wróć. Ćwicz obie strony.',
+      'plank_shoulder_tap':
+        '1. Przyjmij pozycję wysokiej deski, stopy lekko rozstawione.\n'
+        '2. Dotknij jedną ręką przeciwnego barku, biodra się nie kołyszą.\n'
+        '3. Zmień rękę.',
+      'bird_dog':
+        '1. Uklęknij w podporze, plecy proste.\n'
+        '2. Wyprostuj jedną rękę do przodu i przeciwną nogę do tyłu.\n'
+        '3. Chwilę wytrzymaj, wróć i zmień strony.',
+      'power_clean':
+        '1. Stań nad sztangą, chwyt tuż na zewnątrz kolan, plecy proste.\n'
+        '2. Dynamicznie ciągnij sztangę wzdłuż ciała i przyjmij ją z przodu na barkach.\n'
+        '3. Wyprostuj się i odłóż sztangę. Technikę ćwicz z lekką sztangą.',
+      'thruster':
+        '1. Trzymaj sztangę z przodu na barkach.\n'
+        '2. Zrób przysiad i przy wstawaniu jednym ruchem wypchnij ją nad głowę.\n'
+        '3. Opuść sztangę na barki i od razu przejdź do kolejnego przysiadu.',
+      'turkish_get_up':
+        '1. Połóż się na plecach, trzymając kettlebell w jednej ręce nad sobą.\n'
+        '2. Krok po kroku wstań, patrząc na kettlebell, ręka prosta.\n'
+        '3. Tą samą drogą wróć do leżenia. Ćwicz obie strony.',
+      'bear_crawl':
+        '1. Oprzyj się na dłoniach i stopach, kolana tuż nad podłogą, plecy proste.\n'
+        '2. Idź do przodu, przesuwając jednocześnie przeciwną rękę i nogę.\n'
+        '3. Trzymaj biodra nisko przez zadany czas.',
+      'high_knees':
+        '1. Biegnij w miejscu, unosząc kolana do wysokości bioder.\n'
+        '2. Pracuj rękami i zostań na przedniej części stóp.\n'
+        '3. Utrzymuj szybkie tempo przez zadany czas.',
+      'jump_rope':
+        '1. Trzymaj rączki na wysokości bioder, łokcie blisko ciała.\n'
+        '2. Kręć skakanką nadgarstkami i skacz tylko tak wysoko, by przeszła.\n'
+        '3. Ląduj miękko na przedniej części stóp przez zadany czas.',
+      'rowing_machine':
+        '1. Zapnij stopy i chwyć uchwyt prostymi rękami.\n'
+        '2. Odepchnij się nogami, lekko odchyl się i przyciągnij uchwyt do dolnych żeber.\n'
+        '3. Wracaj w odwrotnej kolejności: ręce, tułów, nogi. Utrzymuj równe tempo.',
+      'stationary_bike':
+        '1. Ustaw siodełko tak, by kolano w dolnym położeniu pedału było lekko ugięte.\n'
+        '2. Pedałuj równym tempem z prostymi plecami.\n'
+        '3. Ustaw opór według celu i jedź przez zadany czas.',
+      'treadmill_run':
+        '1. Zacznij od marszu i stopniowo zwiększaj prędkość.\n'
+        '2. Biegnij wyprostowany z luźnymi barkami, lądując pod biodrami.\n'
+        '3. Przed zejściem zwolnij do marszu.',
+      'elliptical':
+        '1. Stań na pedałach i chwyć ruchome uchwyty.\n'
+        '2. Poruszaj się płynnie, pracując też rękami.\n'
+        '3. Utrzymuj równe tempo przez zadany czas.',
+      'stair_climber':
+        '1. Wejdź na schody i wybierz prędkość, którą utrzymasz.\n'
+        '2. Wchodź wyprostowany, poręczy używaj tylko lekko dla równowagi.\n'
+        '3. Kontynuuj przez zadany czas.',
+      'air_bike':
+        '1. Usiądź na rowerze i chwyć ruchome uchwyty.\n'
+        '2. Pedałuj, jednocześnie pchając i ciągnąc uchwyty.\n'
+        '3. Im mocniej jedziesz, tym bardziej hamuje wiatrak. Jedź przez zadany czas.',
     },
     routineNames: {
       'home_upper': 'Góra ciała w 5 minut',
@@ -1321,6 +3621,121 @@ const seedTranslations = <String, SeedTranslation>{
       'kettlebell_swing': 'Swing com kettlebell',
       'weighted_pull_up': 'Barra fixa com carga',
       'weighted_dips': 'Paralelas com carga',
+      'barbell_shrug': 'Encolhimento com barra',
+      'dumbbell_shrug': 'Encolhimento com halteres',
+      'wrist_curl': 'Rosca de punho',
+      'reverse_curl': 'Rosca inversa',
+      'dead_hang': 'Suspensão na barra',
+      'back_extension': 'Hiperextensão lombar',
+      'good_morning': 'Good morning com barra',
+      'superman': 'Super-homem',
+      'decline_bench_press': 'Supino declinado',
+      'smith_bench_press': 'Supino no Smith',
+      'dumbbell_fly': 'Crucifixo com halteres',
+      'incline_dumbbell_fly': 'Crucifixo inclinado com halteres',
+      'low_to_high_cable_fly': 'Crucifixo no cabo de baixo para cima',
+      'incline_chest_press_machine': 'Supino inclinado na máquina',
+      'chest_dips': 'Paralelas para peito',
+      'incline_push_up': 'Flexão inclinada',
+      'decline_push_up': 'Flexão declinada',
+      'dumbbell_floor_press': 'Supino no chão com halteres',
+      't_bar_row': 'Remada cavalinho (T-bar)',
+      'pendlay_row': 'Remada Pendlay',
+      'machine_row': 'Remada sentada na máquina',
+      'chest_supported_row': 'Remada com halteres apoiada no banco inclinado',
+      'close_grip_lat_pulldown': 'Puxada com pegada fechada',
+      'straight_arm_pulldown': 'Pulldown com braços estendidos',
+      'band_assisted_pull_up': 'Barra fixa com elástico',
+      'inverted_row': 'Remada invertida',
+      'neutral_grip_pull_up': 'Barra fixa pegada neutra',
+      'rack_pull': 'Rack pull',
+      'trap_bar_deadlift': 'Levantamento terra com trap bar',
+      'single_arm_cable_row': 'Remada unilateral no cabo',
+      'dumbbell_pullover': 'Pullover com halter',
+      'renegade_row': 'Remada renegada',
+      'arnold_press': 'Desenvolvimento Arnold',
+      'shoulder_press_machine': 'Desenvolvimento na máquina',
+      'push_press': 'Push press',
+      'cable_lateral_raise': 'Elevação lateral no cabo',
+      'machine_lateral_raise': 'Elevação lateral na máquina',
+      'front_raise': 'Elevação frontal com halteres',
+      'upright_row': 'Remada alta',
+      'reverse_pec_deck': 'Crucifixo inverso na máquina',
+      'band_pull_apart': 'Abertura com elástico',
+      'handstand_push_up': 'Flexão em parada de mão',
+      'landmine_press': 'Desenvolvimento landmine',
+      'preacher_curl': 'Rosca Scott',
+      'concentration_curl': 'Rosca concentrada',
+      'incline_dumbbell_curl': 'Rosca inclinada com halteres',
+      'ez_bar_curl': 'Rosca com barra W',
+      'rope_hammer_curl': 'Rosca martelo na corda',
+      'machine_biceps_curl': 'Rosca bíceps na máquina',
+      'band_curl': 'Rosca com elástico',
+      'rope_pushdown': 'Tríceps na corda',
+      'overhead_cable_extension': 'Tríceps francês no cabo',
+      'triceps_kickback': 'Tríceps coice',
+      'bench_dips': 'Mergulho no banco',
+      'machine_triceps_dip': 'Mergulho na máquina',
+      'single_arm_pushdown': 'Tríceps unilateral no cabo',
+      'diamond_push_up': 'Flexão diamante',
+      'reverse_wrist_curl': 'Rosca de punho inversa',
+      'hack_squat': 'Agachamento hack',
+      'smith_squat': 'Agachamento no Smith',
+      'walking_lunge': 'Afundo caminhando',
+      'reverse_lunge': 'Afundo para trás',
+      'step_up': 'Subida no banco',
+      'split_squat': 'Agachamento afundo',
+      'sumo_squat': 'Agachamento sumô com halter',
+      'pistol_squat': 'Agachamento pistol',
+      'single_leg_press': 'Leg press unilateral',
+      'hip_adduction_machine': 'Cadeira adutora',
+      'wall_sit': 'Cadeirinha na parede',
+      'jump_squat': 'Agachamento com salto',
+      'box_jump': 'Salto na caixa',
+      'seated_leg_curl': 'Cadeira flexora',
+      'nordic_curl': 'Flexão nórdica',
+      'single_leg_rdl': 'Stiff unilateral',
+      'dumbbell_romanian_deadlift': 'Levantamento terra romeno com halteres',
+      'stiff_leg_deadlift': 'Stiff com barra',
+      'stability_ball_leg_curl': 'Flexão de pernas na bola suíça',
+      'sumo_deadlift': 'Levantamento terra sumô',
+      'cable_glute_kickback': 'Glúteo no cabo (coice)',
+      'hip_abduction_machine': 'Cadeira abdutora',
+      'machine_hip_thrust': 'Elevação pélvica na máquina',
+      'single_leg_glute_bridge': 'Ponte de glúteo unilateral',
+      'donkey_kick': 'Coice de glúteo no solo',
+      'fire_hydrant': 'Abdução de quadril em quatro apoios',
+      'banded_lateral_walk': 'Caminhada lateral com elástico',
+      'cable_pull_through': 'Pull-through no cabo',
+      'seated_calf_raise': 'Panturrilha sentado',
+      'single_leg_calf_raise': 'Panturrilha unilateral',
+      'leg_press_calf_raise': 'Panturrilha no leg press',
+      'sit_up': 'Abdominal completo',
+      'decline_sit_up': 'Abdominal no banco declinado',
+      'bicycle_crunch': 'Abdominal bicicleta',
+      'reverse_crunch': 'Abdominal invertido',
+      'lying_leg_raise': 'Elevação de pernas deitado',
+      'captains_chair_knee_raise': 'Elevação de joelhos na cadeira romana',
+      'ab_wheel_rollout': 'Roda abdominal',
+      'russian_twist': 'Giro russo',
+      'v_up': 'Abdominal canivete (V-up)',
+      'hollow_hold': 'Hollow hold',
+      'pallof_press': 'Pallof press',
+      'cable_woodchopper': 'Lenhador no cabo',
+      'plank_shoulder_tap': 'Prancha com toque no ombro',
+      'bird_dog': 'Bird dog',
+      'power_clean': 'Power clean (arremesso ao peito)',
+      'thruster': 'Thruster',
+      'turkish_get_up': 'Levantamento turco',
+      'bear_crawl': 'Caminhada do urso',
+      'high_knees': 'Corrida com joelhos altos',
+      'jump_rope': 'Pular corda',
+      'rowing_machine': 'Remo ergômetro',
+      'stationary_bike': 'Bicicleta ergométrica',
+      'treadmill_run': 'Corrida na esteira',
+      'elliptical': 'Elíptico',
+      'stair_climber': 'Simulador de escada',
+      'air_bike': 'Air bike',
     },
     exerciseInstructions: {
       'bench_press':
@@ -1549,6 +3964,466 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Apoie-se nas barras com os braços estendidos.\n'
         '3. Desça até os braços ficarem mais ou menos paralelos ao chão.\n'
         '4. Empurre de volta, sem deixar os ombros caírem para a frente. Registre só a carga adicional.',
+      'barbell_shrug':
+        '1. Em pé, segure a barra com os braços estendidos, pegada na largura dos ombros.\n'
+        '2. Suba os ombros na vertical em direção às orelhas, braços retos.\n'
+        '3. Pause em cima e desça devagar. Não gire os ombros.',
+      'dumbbell_shrug':
+        '1. Em pé, um halter em cada mão ao lado do corpo, palmas para dentro.\n'
+        '2. Suba os ombros na vertical o mais alto possível.\n'
+        '3. Segure um instante e desça com controle.',
+      'wrist_curl':
+        '1. Sente-se com os antebraços nas coxas ou num banco, palmas para cima, punhos para fora da borda.\n'
+        '2. Deixe os halteres rolarem até a ponta dos dedos.\n'
+        '3. Flexione os punhos o mais alto possível, antebraços parados.',
+      'reverse_curl':
+        '1. Em pé, segure a barra com pegada pronada na largura dos ombros.\n'
+        '2. Suba a barra com os cotovelos junto ao corpo e punhos retos.\n'
+        '3. Desça devagar até estender os braços.',
+      'dead_hang':
+        '1. Segure a barra com pegada pronada na largura dos ombros.\n'
+        '2. Fique pendurado com os braços estendidos, pés fora do chão, corpo parado.\n'
+        '3. Segure pelo tempo definido com os ombros levemente ativos.',
+      'back_extension':
+        '1. Ajuste o apoio logo abaixo do quadril e prenda os calcanhares.\n'
+        '2. Desça o tronco com a coluna reta até sentir o alongamento dos posteriores.\n'
+        '3. Suba até alinhar com as pernas, sem arquear demais. Segure uma anilha para mais carga.',
+      'good_morning':
+        '1. Barra na parte alta das costas como no agachamento, pés na largura do quadril, joelhos levemente flexionados.\n'
+        '2. Leve o quadril para trás e incline o tronco com a coluna reta até ficar quase paralelo ao chão.\n'
+        '3. Empurre o quadril para a frente para subir. Comece com pouco peso.',
+      'superman':
+        '1. Deite de bruços com os braços estendidos acima da cabeça.\n'
+        '2. Tire braços, peito e pernas do chão ao mesmo tempo.\n'
+        '3. Segure um segundo em cima e desça devagar.',
+      'decline_bench_press':
+        '1. Prenda as pernas no banco declinado, pegada um pouco mais larga que os ombros.\n'
+        '2. Desça a barra com controle até a parte baixa do peito.\n'
+        '3. Empurre até estender os braços, escápulas juntas.',
+      'smith_bench_press':
+        '1. Posicione o banco para que a barra fique sobre o meio do peito.\n'
+        '2. Destrave a barra e desça com controle até o peito.\n'
+        '3. Empurre sem travar os cotovelos de forma brusca e trave a barra no final.',
+      'dumbbell_fly':
+        '1. Deite em um banco reto, halteres sobre o peito, cotovelos levemente flexionados.\n'
+        '2. Abra os braços em um arco amplo até sentir o peito alongar.\n'
+        '3. Junte os halteres de novo sem mudar o ângulo dos cotovelos.',
+      'incline_dumbbell_fly':
+        '1. Banco a 30°, halteres sobre o peito, cotovelos soltos.\n'
+        '2. Desça em arco amplo até sentir a parte alta do peito alongar.\n'
+        '3. Junte-os de novo sobre o peito.',
+      'low_to_high_cable_fly':
+        '1. Coloque as polias embaixo e fique entre elas, levemente inclinado.\n'
+        '2. Leve as alças para cima e juntas na frente da parte alta do peito.\n'
+        '3. Volte devagar ao alongamento, cotovelos levemente flexionados.',
+      'incline_chest_press_machine':
+        '1. Ajuste o banco para que as alças fiquem na altura da parte alta do peito.\n'
+        '2. Empurre para frente e para cima até quase estender os braços.\n'
+        '3. Volte devagar até sentir o peito alongar.',
+      'chest_dips':
+        '1. Apoie-se nas barras e incline o tronco para frente.\n'
+        '2. Desça com os cotovelos um pouco abertos até sentir o peito alongar.\n'
+        '3. Suba mantendo a inclinação.',
+      'incline_push_up':
+        '1. Mãos em um banco ou caixa, corpo alinhado.\n'
+        '2. Desça o peito até a borda, cotovelos a cerca de 45° do corpo.\n'
+        '3. Suba de novo. Quanto mais alto o apoio, mais fácil.',
+      'decline_push_up':
+        '1. Pés em um banco, mãos no chão abaixo dos ombros.\n'
+        '2. Desça o peito até o chão com o abdômen firme.\n'
+        '3. Suba sem deixar o quadril cair.',
+      'dumbbell_floor_press':
+        '1. Deite no chão, joelhos dobrados, halteres sobre o peito.\n'
+        '2. Desça até os braços tocarem o chão e faça uma pausa.\n'
+        '3. Empurre até estender os braços.',
+      't_bar_row':
+        '1. Fique sobre a barra, incline com a coluna reta e segure a alça.\n'
+        '2. Puxe o peso até o peito juntando as escápulas.\n'
+        '3. Desça com controle sem arredondar as costas.',
+      'pendlay_row':
+        '1. Barra no chão, tronco quase paralelo ao chão, coluna reta.\n'
+        '2. Puxe a barra de forma explosiva até a parte baixa do peito.\n'
+        '3. Apoie no chão a cada repetição e reposicione.',
+      'machine_row':
+        '1. Sente com o peito no apoio e segure as alças.\n'
+        '2. Puxe até o corpo, cotovelos próximos, escápulas juntas.\n'
+        '3. Volte devagar até estender os braços.',
+      'chest_supported_row':
+        '1. Deite de bruços em um banco a 30–45°, halteres pendurados.\n'
+        '2. Puxe-os até as laterais juntando as escápulas.\n'
+        '3. Desça devagar até o alongamento completo.',
+      'close_grip_lat_pulldown':
+        '1. Sente no pulley com pegada fechada ou triângulo, coxas presas.\n'
+        '2. Puxe até a parte alta do peito, cotovelos para baixo e para trás.\n'
+        '3. Deixe subir devagar até estender os braços.',
+      'straight_arm_pulldown':
+        '1. Em pé de frente para a polia alta, braços quase retos, leve inclinação.\n'
+        '2. Leve a barra em arco até as coxas usando as costas.\n'
+        '3. Volte devagar, cotovelos quase retos.',
+      'band_assisted_pull_up':
+        '1. Passe um elástico na barra e apoie um pé ou joelho nele.\n'
+        '2. Suba até o queixo passar a barra.\n'
+        '3. Desça com controle até ficar pendurado. Elástico mais fino = menos ajuda.',
+      'inverted_row':
+        '1. Pendure-se sob uma barra baixa ou argolas, corpo reto, calcanhares no chão.\n'
+        '2. Puxe o peito até a barra juntando as escápulas.\n'
+        '3. Desça com controle. Quanto mais em pé, mais fácil.',
+      'neutral_grip_pull_up':
+        '1. Pendure-se em pegadores paralelos, palmas voltadas uma para a outra.\n'
+        '2. Suba até o queixo passar os pegadores.\n'
+        '3. Desça com controle até ficar totalmente pendurado.',
+      'rack_pull':
+        '1. Coloque a barra nos apoios logo abaixo ou acima dos joelhos.\n'
+        '2. Segure, contraia o abdômen e suba empurrando o quadril para frente.\n'
+        '3. Devolva aos apoios com a coluna reta.',
+      'trap_bar_deadlift':
+        '1. Fique dentro da trap bar, pés na largura do quadril, segure as alças.\n'
+        '2. Contraia, empurre o chão e fique em pé.\n'
+        '3. Desça a barra com a coluna reta.',
+      'single_arm_cable_row':
+        '1. Segure uma alça na polia à altura da cintura, braço estendido.\n'
+        '2. Puxe até a lateral, cotovelo perto do corpo.\n'
+        '3. Volte devagar deixando o ombro ir um pouco à frente.',
+      'dumbbell_pullover':
+        '1. Deite em um banco segurando um halter com as duas mãos sobre o peito.\n'
+        '2. Leve-o em arco para trás da cabeça, cotovelos levemente flexionados.\n'
+        '3. Traga-o de volta sobre o peito.',
+      'renegade_row':
+        '1. Em posição de flexão sobre dois halteres, pés afastados.\n'
+        '2. Puxe um halter até o quadril sem girar o quadril.\n'
+        '3. Apoie e repita com o outro braço.',
+      'arnold_press':
+        '1. Sentado, halteres na frente dos ombros, palmas para você.\n'
+        '2. Empurre para cima girando as palmas para frente.\n'
+        '3. Desça girando de volta à posição inicial.',
+      'shoulder_press_machine':
+        '1. Ajuste o banco para que as alças comecem na altura dos ombros.\n'
+        '2. Empurre até quase estender os braços.\n'
+        '3. Desça devagar até a altura dos ombros.',
+      'push_press':
+        '1. Barra na frente dos ombros, pés na largura do quadril.\n'
+        '2. Flexione um pouco os joelhos e use o impulso das pernas para levar a barra acima da cabeça.\n'
+        '3. Volte a barra aos ombros com controle.',
+      'cable_lateral_raise':
+        '1. De lado para a polia baixa, alça na mão mais distante.\n'
+        '2. Eleve o braço para o lado até a altura do ombro.\n'
+        '3. Desça devagar mantendo a tensão.',
+      'machine_lateral_raise':
+        '1. Sente com os apoios na parte de fora dos braços.\n'
+        '2. Eleve os braços até a altura dos ombros.\n'
+        '3. Desça devagar sem apoiar o peso.',
+      'front_raise':
+        '1. Em pé, halteres na frente das coxas.\n'
+        '2. Eleve-os à frente até a altura dos ombros, braços quase retos.\n'
+        '3. Desça devagar sem balançar.',
+      'upright_row':
+        '1. Segure a barra na frente das coxas, pegada na largura dos ombros.\n'
+        '2. Puxe-a junto ao corpo até a altura do peito, cotovelos à frente.\n'
+        '3. Desça devagar. Se os ombros incomodarem, não suba tanto.',
+      'reverse_pec_deck':
+        '1. Sente de frente para a máquina, peito no apoio, segure as alças.\n'
+        '2. Abra os braços para trás em arco até alinhar com o corpo.\n'
+        '3. Volte devagar.',
+      'band_pull_apart':
+        '1. Segure um elástico à frente na altura dos ombros, braços retos.\n'
+        '2. Abra-o até o peito juntando as escápulas.\n'
+        '3. Volte devagar.',
+      'handstand_push_up':
+        '1. Suba em parada de mão na parede, mãos na largura dos ombros.\n'
+        '2. Desça a cabeça em direção ao chão com controle.\n'
+        '3. Empurre até estender os braços. Use um colchonete sob a cabeça.',
+      'landmine_press':
+        '1. Segure a ponta da barra landmine junto ao ombro, pés afastados um à frente.\n'
+        '2. Empurre para cima e para frente até estender o braço.\n'
+        '3. Volte ao ombro com controle.',
+      'preacher_curl':
+        '1. Sente no banco Scott, braços apoiados, barra W nas mãos.\n'
+        '2. Suba a barra sem tirar os cotovelos do apoio.\n'
+        '3. Desça devagar quase até estender.',
+      'concentration_curl':
+        '1. Sentado em um banco, cotovelo apoiado na parte interna da coxa.\n'
+        '2. Suba o halter em direção ao ombro.\n'
+        '3. Desça devagar até o alongamento completo.',
+      'incline_dumbbell_curl':
+        '1. Recoste em um banco a 45–60°, braços pendendo para baixo.\n'
+        '2. Suba os halteres sem mexer os braços.\n'
+        '3. Desça devagar até o alongamento completo.',
+      'ez_bar_curl':
+        '1. Em pé, segure a barra W nas partes curvas, braços estendidos.\n'
+        '2. Suba sem balançar o corpo.\n'
+        '3. Desça devagar até estender os braços.',
+      'rope_hammer_curl':
+        '1. Prenda uma corda na polia baixa, palmas voltadas uma para a outra.\n'
+        '2. Suba a corda, cotovelos junto ao corpo.\n'
+        '3. Desça devagar mantendo a tensão.',
+      'machine_biceps_curl':
+        '1. Sente com os braços no apoio e segure as alças.\n'
+        '2. Suba as alças até os ombros.\n'
+        '3. Desça devagar quase até estender.',
+      'band_curl':
+        '1. Pise no meio do elástico, pontas nas mãos.\n'
+        '2. Suba as mãos até os ombros, cotovelos junto ao corpo.\n'
+        '3. Desça devagar.',
+      'rope_pushdown':
+        '1. Segure a corda na polia alta, cotovelos junto ao corpo.\n'
+        '2. Empurre para baixo e abra as pontas no final.\n'
+        '3. Deixe subir devagar até cerca de 90° no cotovelo.',
+      'overhead_cable_extension':
+        '1. De costas para a polia, corda atrás da cabeça, cotovelos para cima.\n'
+        '2. Estenda os braços para frente e para cima.\n'
+        '3. Dobre os cotovelos devagar de volta atrás da cabeça.',
+      'triceps_kickback':
+        '1. Incline o tronco, braço paralelo ao corpo, cotovelo dobrado.\n'
+        '2. Estenda o braço para trás por completo.\n'
+        '3. Dobre devagar sem mover o braço.',
+      'bench_dips':
+        '1. Mãos na borda de um banco atrás de você, pernas à frente.\n'
+        '2. Desça dobrando os cotovelos até cerca de 90°.\n'
+        '3. Suba até estender os braços.',
+      'machine_triceps_dip':
+        '1. Sente na máquina e segure as alças laterais.\n'
+        '2. Empurre para baixo até estender os braços.\n'
+        '3. Deixe subir devagar até cerca de 90° no cotovelo.',
+      'single_arm_pushdown':
+        '1. Segure uma alça na polia alta, cotovelo junto ao corpo.\n'
+        '2. Empurre para baixo até estender o braço.\n'
+        '3. Deixe subir devagar, o cotovelo fica no lugar.',
+      'diamond_push_up':
+        '1. Posição de flexão com as mãos juntas sob o peito formando um losango.\n'
+        '2. Desça o peito até as mãos, cotovelos junto ao corpo.\n'
+        '3. Suba com o corpo reto.',
+      'reverse_wrist_curl':
+        '1. Sentado, antebraços nas coxas, palmas para baixo, punhos para fora dos joelhos.\n'
+        '2. Levante o dorso das mãos o mais alto possível.\n'
+        '3. Desça devagar.',
+      'hack_squat':
+        '1. Suba na plataforma, costas no encosto, ombros sob as almofadas.\n'
+        '2. Desça até as coxas ficarem ao menos paralelas à plataforma.\n'
+        '3. Suba empurrando com o pé inteiro.',
+      'smith_squat':
+        '1. Barra na parte alta das costas, pés um pouco à frente da barra.\n'
+        '2. Desça com a coluna reta pelo menos até as coxas ficarem paralelas.\n'
+        '3. Suba e trave a barra no final.',
+      'walking_lunge':
+        '1. Segure halteres ao lado do corpo e dê um passo longo à frente.\n'
+        '2. Desça o joelho de trás quase até o chão.\n'
+        '3. Empurre com o pé da frente e siga direto para o próximo afundo.',
+      'reverse_lunge':
+        '1. Em pé, halteres ao lado do corpo.\n'
+        '2. Dê um passo para trás e desça o joelho de trás quase até o chão.\n'
+        '3. Empurre com o pé da frente para voltar. Alterne as pernas.',
+      'step_up':
+        '1. Fique de frente para um banco ou caixa com halteres.\n'
+        '2. Coloque um pé em cima e suba empurrando com essa perna.\n'
+        '3. Desça devagar. Alterne ou faça um lado de cada vez.',
+      'split_squat':
+        '1. Fique em passada longa com halteres nas mãos.\n'
+        '2. Desça na vertical até o joelho de trás quase tocar o chão.\n'
+        '3. Suba. Termine as repetições e troque de perna.',
+      'sumo_squat':
+        '1. Pés afastados, pontas para fora, um halter entre as pernas.\n'
+        '2. Desça com o tronco ereto, joelhos na direção dos pés.\n'
+        '3. Suba e contraia os glúteos.',
+      'pistol_squat':
+        '1. Em pé em uma perna, a outra estendida à frente.\n'
+        '2. Desça com controle o mais fundo possível, braços à frente para equilibrar.\n'
+        '3. Suba. No início pode se apoiar em algo.',
+      'single_leg_press':
+        '1. Sente no leg press com um pé no centro da plataforma.\n'
+        '2. Desça até o joelho ficar a cerca de 90°.\n'
+        '3. Empurre sem travar o joelho. Troque de perna.',
+      'hip_adduction_machine':
+        '1. Sente com as almofadas na parte de dentro dos joelhos.\n'
+        '2. Feche as pernas.\n'
+        '3. Abra devagar de novo.',
+      'wall_sit':
+        '1. Encoste as costas na parede e deslize para baixo.\n'
+        '2. Pare com os joelhos a cerca de 90°, pés abaixo dos joelhos.\n'
+        '3. Segure pelo tempo definido, costas coladas na parede.',
+      'jump_squat':
+        '1. Em pé, pés na largura dos ombros.\n'
+        '2. Agache e salte de forma explosiva.\n'
+        '3. Aterrisse suave e emende o próximo agachamento.',
+      'box_jump':
+        '1. Fique de frente para uma caixa estável.\n'
+        '2. Balance os braços e salte na caixa, aterrissando suave.\n'
+        '3. Fique totalmente em pé e desça caminhando.',
+      'seated_leg_curl':
+        '1. Sente na máquina, almofada acima dos calcanhares, coxas presas.\n'
+        '2. Leve os calcanhares para baixo e para trás o máximo possível.\n'
+        '3. Volte devagar.',
+      'nordic_curl':
+        '1. Ajoelhe com os calcanhares presos sob algo firme.\n'
+        '2. Deixe o corpo cair para frente o mais devagar possível, quadril estendido.\n'
+        '3. Apare com as mãos e volte puxando com os posteriores.',
+      'single_leg_rdl':
+        '1. Em pé em uma perna com um halter, joelho levemente flexionado.\n'
+        '2. Incline à frente enquanto a perna livre vai para trás, coluna reta.\n'
+        '3. Volte empurrando o quadril para frente.',
+      'dumbbell_romanian_deadlift':
+        '1. Em pé com halteres na frente das coxas, joelhos soltos.\n'
+        '2. Leve o quadril para trás e deslize os halteres pelas pernas.\n'
+        '3. Pare ao sentir os posteriores alongarem e suba.',
+      'stiff_leg_deadlift':
+        '1. Em pé com a barra, pernas quase estendidas.\n'
+        '2. Incline com a coluna reta descendo a barra junto às pernas.\n'
+        '3. Suba contraindo posteriores e glúteos.',
+      'stability_ball_leg_curl':
+        '1. Deite de costas, calcanhares na bola, quadril elevado.\n'
+        '2. Traga a bola para perto dobrando os joelhos.\n'
+        '3. Role de volta devagar, quadril sempre elevado.',
+      'sumo_deadlift':
+        '1. Pés bem afastados, pontas para fora, segure a barra entre as pernas.\n'
+        '2. Contraia, empurre os joelhos para fora e suba com a barra junto ao corpo.\n'
+        '3. Desça com a coluna reta.',
+      'cable_glute_kickback':
+        '1. Prenda uma tornozeleira na polia baixa e segure na máquina.\n'
+        '2. Leve a perna para trás e para cima contraindo o glúteo.\n'
+        '3. Volte devagar sem arquear a lombar.',
+      'hip_abduction_machine':
+        '1. Sente com as almofadas na parte de fora dos joelhos.\n'
+        '2. Abra as pernas o máximo possível.\n'
+        '3. Feche devagar.',
+      'machine_hip_thrust':
+        '1. Apoie a parte alta das costas no encosto e o cinto sobre o quadril.\n'
+        '2. Suba o quadril até alinhar joelhos e ombros.\n'
+        '3. Contraia os glúteos em cima e desça devagar.',
+      'single_leg_glute_bridge':
+        '1. Deite de costas, um pé no chão e a outra perna estendida para cima.\n'
+        '2. Suba o quadril empurrando com o calcanhar apoiado.\n'
+        '3. Desça devagar. Termine e troque de perna.',
+      'donkey_kick':
+        '1. Fique de quatro, mãos abaixo dos ombros.\n'
+        '2. Eleve uma perna dobrada para trás, sola do pé para o teto.\n'
+        '3. Desça devagar sem arquear as costas.',
+      'fire_hydrant':
+        '1. Fique de quatro, coluna reta.\n'
+        '2. Eleve uma perna dobrada para o lado até a altura do quadril.\n'
+        '3. Desça devagar, quadril nivelado.',
+      'banded_lateral_walk':
+        '1. Coloque uma miniband acima dos joelhos ou nos tornozelos e flexione levemente os joelhos.\n'
+        '2. Caminhe de lado mantendo o elástico tenso.\n'
+        '3. Conte os passos para um lado e volte.',
+      'cable_pull_through':
+        '1. De costas para a polia baixa, corda entre as pernas.\n'
+        '2. Incline com a coluna reta deixando a corda ir para trás.\n'
+        '3. Empurre o quadril para frente para subir e contraia os glúteos.',
+      'seated_calf_raise':
+        '1. Sente com a almofada nas coxas, ponta dos pés no degrau.\n'
+        '2. Suba os calcanhares o máximo possível.\n'
+        '3. Desça devagar até o alongamento completo.',
+      'single_leg_calf_raise':
+        '1. Fique com um pé na borda de um degrau e segure-se.\n'
+        '2. Suba na ponta do pé o mais alto possível.\n'
+        '3. Desça o calcanhar abaixo do degrau para alongar.',
+      'leg_press_calf_raise':
+        '1. Sente no leg press com a ponta dos pés na borda de baixo da plataforma.\n'
+        '2. Empurre a plataforma estendendo os pés.\n'
+        '3. Deixe voltar devagar para alongar. Joelhos estendidos.',
+      'sit_up':
+        '1. Deite de costas, joelhos dobrados, pés no chão.\n'
+        '2. Suba até ficar sentado.\n'
+        '3. Desça devagar.',
+      'decline_sit_up':
+        '1. Prenda os pés no banco declinado e deite.\n'
+        '2. Suba até o tronco ficar na vertical.\n'
+        '3. Desça devagar. Segure uma anilha para mais carga.',
+      'bicycle_crunch':
+        '1. Deite de costas, mãos perto da cabeça, pernas elevadas.\n'
+        '2. Leve um cotovelo ao joelho oposto enquanto estende a outra perna.\n'
+        '3. Alterne os lados como se pedalasse.',
+      'reverse_crunch':
+        '1. Deite de costas, joelhos a 90°, braços no chão.\n'
+        '2. Tire o quadril do chão e traga os joelhos ao peito.\n'
+        '3. Desça devagar sem balançar.',
+      'lying_leg_raise':
+        '1. Deite de costas, pernas estendidas, lombar colada ao chão.\n'
+        '2. Suba as pernas até apontarem para o teto.\n'
+        '3. Desça devagar sem arquear a lombar.',
+      'captains_chair_knee_raise':
+        '1. Apoie os antebraços nas almofadas e as costas no encosto.\n'
+        '2. Traga os joelhos ao peito.\n'
+        '3. Desça devagar sem balançar.',
+      'ab_wheel_rollout':
+        '1. Ajoelhe e segure a roda abaixo dos ombros.\n'
+        '2. Role para frente o máximo possível sem deixar a lombar cair.\n'
+        '3. Volte puxando com o abdômen.',
+      'russian_twist':
+        '1. Sente levemente inclinado para trás, pés elevados ou no chão.\n'
+        '2. Gire o tronco e toque o chão ao lado do quadril.\n'
+        '3. Gire para o outro lado. Segure um peso para mais carga.',
+      'v_up':
+        '1. Deite de costas, braços acima da cabeça, pernas estendidas.\n'
+        '2. Suba braços e pernas ao mesmo tempo e toque os pés.\n'
+        '3. Desça devagar.',
+      'hollow_hold':
+        '1. Deite de costas e pressione a lombar no chão.\n'
+        '2. Tire um pouco do chão os ombros e as pernas estendidas.\n'
+        '3. Segure pelo tempo definido sem arquear a lombar.',
+      'pallof_press':
+        '1. De lado para um cabo na altura do peito, alça junto ao peito.\n'
+        '2. Empurre a alça reto para frente sem deixar o corpo girar.\n'
+        '3. Volte ao peito. Faça os dois lados.',
+      'cable_woodchopper':
+        '1. De lado para a polia alta, segure a alça com as duas mãos.\n'
+        '2. Puxe na diagonal para baixo cruzando o corpo e girando o tronco.\n'
+        '3. Volte devagar. Faça os dois lados.',
+      'plank_shoulder_tap':
+        '1. Fique em prancha alta, pés levemente afastados.\n'
+        '2. Toque o ombro oposto com uma mão sem mexer o quadril.\n'
+        '3. Troque de mão.',
+      'bird_dog':
+        '1. Fique de quatro, coluna reta.\n'
+        '2. Estenda um braço à frente e a perna oposta para trás.\n'
+        '3. Segure um instante, volte e troque de lado.',
+      'power_clean':
+        '1. Fique sobre a barra, pegada logo por fora dos joelhos, coluna reta.\n'
+        '2. Puxe a barra de forma explosiva junto ao corpo e receba na frente dos ombros.\n'
+        '3. Fique em pé e desça a barra. Aprenda a técnica com pouco peso.',
+      'thruster':
+        '1. Segure a barra na frente dos ombros.\n'
+        '2. Agache e, ao subir, empurre a barra acima da cabeça em um só movimento.\n'
+        '3. Volte a barra aos ombros e emende o próximo agachamento.',
+      'turkish_get_up':
+        '1. Deite de costas segurando um kettlebell para cima com um braço.\n'
+        '2. Levante passo a passo olhando para o kettlebell, braço estendido.\n'
+        '3. Volte ao chão pelo mesmo caminho. Faça os dois lados.',
+      'bear_crawl':
+        '1. Apoie mãos e pés, joelhos logo acima do chão, coluna reta.\n'
+        '2. Avance movendo ao mesmo tempo mão e pé opostos.\n'
+        '3. Mantenha o quadril baixo pelo tempo definido.',
+      'high_knees':
+        '1. Corra no lugar levando os joelhos à altura do quadril.\n'
+        '2. Use os braços e fique na ponta dos pés.\n'
+        '3. Mantenha ritmo rápido pelo tempo definido.',
+      'jump_rope':
+        '1. Segure os cabos na altura do quadril, cotovelos perto do corpo.\n'
+        '2. Gire a corda com os punhos e pule só o necessário.\n'
+        '3. Aterrisse suave na ponta dos pés pelo tempo definido.',
+      'rowing_machine':
+        '1. Prenda os pés e segure o puxador com os braços estendidos.\n'
+        '2. Empurre com as pernas, incline um pouco para trás e puxe até as costelas baixas.\n'
+        '3. Volte na ordem inversa: braços, tronco, pernas. Ritmo constante.',
+      'stationary_bike':
+        '1. Ajuste o banco para o joelho ficar levemente dobrado embaixo.\n'
+        '2. Pedale em ritmo constante com a coluna reta.\n'
+        '3. Ajuste a resistência ao seu objetivo pelo tempo definido.',
+      'treadmill_run':
+        '1. Comece caminhando e aumente a velocidade aos poucos.\n'
+        '2. Corra ereto com os ombros soltos, pisando sob o quadril.\n'
+        '3. Reduza para caminhada antes de descer.',
+      'elliptical':
+        '1. Suba nos pedais e segure as alças móveis.\n'
+        '2. Movimente-se de forma fluida empurrando e puxando também com os braços.\n'
+        '3. Mantenha ritmo constante pelo tempo definido.',
+      'stair_climber':
+        '1. Suba e escolha uma velocidade que consiga manter.\n'
+        '2. Suba ereto, use o corrimão só para equilíbrio.\n'
+        '3. Continue pelo tempo definido.',
+      'air_bike':
+        '1. Sente e segure as alças móveis.\n'
+        '2. Pedale empurrando e puxando as alças ao mesmo tempo.\n'
+        '3. Quanto mais forte, mais o ventilador freia. Pelo tempo definido.',
     },
     routineNames: {
       'home_upper': 'Membros superiores em 5 minutos',
@@ -1634,6 +4509,121 @@ const seedTranslations = <String, SeedTranslation>{
       'kettlebell_swing': 'Swing con kettlebell',
       'weighted_pull_up': 'Trazioni zavorrate',
       'weighted_dips': 'Dip alle parallele zavorrati',
+      'barbell_shrug': 'Scrollate con bilanciere',
+      'dumbbell_shrug': 'Scrollate con manubri',
+      'wrist_curl': 'Curl per i polsi',
+      'reverse_curl': 'Curl inverso',
+      'dead_hang': 'Sospensione alla sbarra',
+      'back_extension': 'Iperestensioni',
+      'good_morning': 'Good morning',
+      'superman': 'Superman',
+      'decline_bench_press': 'Panca declinata',
+      'smith_bench_press': 'Panca piana al multipower',
+      'dumbbell_fly': 'Croci con manubri',
+      'incline_dumbbell_fly': 'Croci su panca inclinata',
+      'low_to_high_cable_fly': 'Croci ai cavi dal basso verso l’alto',
+      'incline_chest_press_machine': 'Chest press inclinata',
+      'chest_dips': 'Dip per il petto',
+      'incline_push_up': 'Piegamenti inclinati',
+      'decline_push_up': 'Piegamenti declinati',
+      'dumbbell_floor_press': 'Floor press con manubri',
+      't_bar_row': 'Rematore T-bar',
+      'pendlay_row': 'Rematore Pendlay',
+      'machine_row': 'Rematore alla macchina',
+      'chest_supported_row': 'Rematore con manubri su panca inclinata',
+      'close_grip_lat_pulldown': 'Lat machine presa stretta',
+      'straight_arm_pulldown': 'Pulldown a braccia tese',
+      'band_assisted_pull_up': 'Trazioni assistite con elastico',
+      'inverted_row': 'Rematore inverso',
+      'neutral_grip_pull_up': 'Trazioni presa neutra',
+      'rack_pull': 'Rack pull',
+      'trap_bar_deadlift': 'Stacco con trap bar',
+      'single_arm_cable_row': 'Rematore al cavo a un braccio',
+      'dumbbell_pullover': 'Pullover con manubrio',
+      'renegade_row': 'Renegade row',
+      'arnold_press': 'Arnold press',
+      'shoulder_press_machine': 'Shoulder press alla macchina',
+      'push_press': 'Push press',
+      'cable_lateral_raise': 'Alzate laterali al cavo',
+      'machine_lateral_raise': 'Alzate laterali alla macchina',
+      'front_raise': 'Alzate frontali con manubri',
+      'upright_row': 'Tirate al mento',
+      'reverse_pec_deck': 'Pec deck inversa',
+      'band_pull_apart': 'Band pull-apart',
+      'handstand_push_up': 'Piegamenti in verticale',
+      'landmine_press': 'Landmine press',
+      'preacher_curl': 'Curl alla panca Scott',
+      'concentration_curl': 'Curl di concentrazione',
+      'incline_dumbbell_curl': 'Curl su panca inclinata',
+      'ez_bar_curl': 'Curl con bilanciere EZ',
+      'rope_hammer_curl': 'Hammer curl alla corda',
+      'machine_biceps_curl': 'Curl bicipiti alla macchina',
+      'band_curl': 'Curl con elastico',
+      'rope_pushdown': 'Pushdown alla corda',
+      'overhead_cable_extension': 'Estensioni tricipiti sopra la testa al cavo',
+      'triceps_kickback': 'Kickback per tricipiti',
+      'bench_dips': 'Dip su panca',
+      'machine_triceps_dip': 'Dip alla macchina',
+      'single_arm_pushdown': 'Pushdown al cavo a un braccio',
+      'diamond_push_up': 'Piegamenti a diamante',
+      'reverse_wrist_curl': 'Curl inverso per i polsi',
+      'hack_squat': 'Hack squat',
+      'smith_squat': 'Squat al multipower',
+      'walking_lunge': 'Affondi camminati',
+      'reverse_lunge': 'Affondi all’indietro',
+      'step_up': 'Step-up',
+      'split_squat': 'Split squat',
+      'sumo_squat': 'Squat sumo con manubrio',
+      'pistol_squat': 'Pistol squat',
+      'single_leg_press': 'Leg press a una gamba',
+      'hip_adduction_machine': 'Macchina adduttori',
+      'wall_sit': 'Sedia al muro',
+      'jump_squat': 'Squat jump',
+      'box_jump': 'Box jump',
+      'seated_leg_curl': 'Leg curl da seduto',
+      'nordic_curl': 'Nordic curl',
+      'single_leg_rdl': 'Stacco rumeno a una gamba',
+      'dumbbell_romanian_deadlift': 'Stacco rumeno con manubri',
+      'stiff_leg_deadlift': 'Stacco a gambe tese',
+      'stability_ball_leg_curl': 'Leg curl con fitball',
+      'sumo_deadlift': 'Stacco sumo',
+      'cable_glute_kickback': 'Kickback glutei al cavo',
+      'hip_abduction_machine': 'Macchina abduttori',
+      'machine_hip_thrust': 'Hip thrust alla macchina',
+      'single_leg_glute_bridge': 'Ponte glutei a una gamba',
+      'donkey_kick': 'Donkey kick',
+      'fire_hydrant': 'Fire hydrant',
+      'banded_lateral_walk': 'Passi laterali con elastico',
+      'cable_pull_through': 'Pull-through al cavo',
+      'seated_calf_raise': 'Calf raise da seduto',
+      'single_leg_calf_raise': 'Calf raise a una gamba',
+      'leg_press_calf_raise': 'Calf raise alla leg press',
+      'sit_up': 'Sit-up',
+      'decline_sit_up': 'Sit-up su panca declinata',
+      'bicycle_crunch': 'Crunch bicicletta',
+      'reverse_crunch': 'Crunch inverso',
+      'lying_leg_raise': 'Sollevamento gambe da sdraiato',
+      'captains_chair_knee_raise': 'Knee raise alla sedia romana',
+      'ab_wheel_rollout': 'Ruota per addominali',
+      'russian_twist': 'Russian twist',
+      'v_up': 'V-up',
+      'hollow_hold': 'Hollow hold',
+      'pallof_press': 'Pallof press',
+      'cable_woodchopper': 'Woodchopper al cavo',
+      'plank_shoulder_tap': 'Plank con tocco delle spalle',
+      'bird_dog': 'Bird dog',
+      'power_clean': 'Girata al petto (power clean)',
+      'thruster': 'Thruster',
+      'turkish_get_up': 'Turkish get-up',
+      'bear_crawl': 'Camminata dell’orso',
+      'high_knees': 'Skip a ginocchia alte',
+      'jump_rope': 'Salto con la corda',
+      'rowing_machine': 'Vogatore',
+      'stationary_bike': 'Cyclette',
+      'treadmill_run': 'Corsa sul tapis roulant',
+      'elliptical': 'Ellittica',
+      'stair_climber': 'Stepper a gradini',
+      'air_bike': 'Air bike',
     },
     exerciseInstructions: {
       'bench_press':
@@ -1862,6 +4852,466 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Sostieniti sulle parallele a braccia tese.\n'
         '3. Scendi finché le braccia sono circa parallele al pavimento.\n'
         '4. Risali spingendo, senza far cadere le spalle in avanti. Registra solo il peso aggiunto.',
+      'barbell_shrug':
+        '1. In piedi, tieni il bilanciere a braccia tese, presa alla larghezza delle spalle.\n'
+        '2. Solleva le spalle in verticale verso le orecchie, braccia tese.\n'
+        '3. Fermati in alto e scendi lentamente. Non ruotare le spalle.',
+      'dumbbell_shrug':
+        '1. In piedi, un manubrio per mano lungo i fianchi, palmi verso il corpo.\n'
+        '2. Solleva le spalle in verticale il più in alto possibile.\n'
+        '3. Tieni un attimo e scendi con controllo.',
+      'wrist_curl':
+        '1. Siediti con gli avambracci sulle cosce o su una panca, palmi in su, polsi oltre il bordo.\n'
+        '2. Lascia rotolare i manubri verso la punta delle dita.\n'
+        '3. Fletti i polsi il più in alto possibile, avambracci fermi.',
+      'reverse_curl':
+        '1. In piedi, impugna il bilanciere in presa prona alla larghezza delle spalle.\n'
+        '2. Fletti verso l’alto con i gomiti lungo i fianchi e i polsi dritti.\n'
+        '3. Scendi lentamente fino a braccia tese.',
+      'dead_hang':
+        '1. Afferra la sbarra in presa prona alla larghezza delle spalle.\n'
+        '2. Resta appeso a braccia tese, piedi sollevati, corpo fermo.\n'
+        '3. Tieni per il tempo previsto con le spalle leggermente attive.',
+      'back_extension':
+        '1. Regola il cuscino appena sotto le anche e blocca i talloni.\n'
+        '2. Scendi con il busto a schiena dritta finché senti l’allungamento dei femorali.\n'
+        '3. Risali fino all’allineamento con le gambe, senza inarcarti. Tieni un disco per più carico.',
+      'good_morning':
+        '1. Bilanciere sulla parte alta della schiena come nello squat, piedi alla larghezza delle anche, ginocchia morbide.\n'
+        '2. Porta le anche indietro e piegati a schiena dritta finché il busto è quasi orizzontale.\n'
+        '3. Spingi le anche in avanti per tornare su. Inizia con poco peso.',
+      'superman':
+        '1. Sdraiati a pancia in giù con le braccia tese oltre la testa.\n'
+        '2. Solleva insieme braccia, petto e gambe da terra.\n'
+        '3. Tieni un secondo in alto e scendi lentamente.',
+      'decline_bench_press':
+        '1. Blocca le gambe sulla panca declinata, presa poco più larga delle spalle.\n'
+        '2. Scendi con il bilanciere in controllo verso la parte bassa del petto.\n'
+        '3. Spingi fino a braccia tese, scapole addotte.',
+      'smith_bench_press':
+        '1. Posiziona la panca in modo che il bilanciere arrivi a metà petto.\n'
+        '2. Sgancia il bilanciere e scendi in controllo al petto.\n'
+        '3. Spingi senza bloccare di colpo i gomiti e alla fine riaggancia.',
+      'dumbbell_fly':
+        '1. Sdraiati su una panca piana, manubri sopra il petto, gomiti leggermente piegati.\n'
+        '2. Apri le braccia in un ampio arco fino a sentire l’allungamento del petto.\n'
+        '3. Richiudi i manubri senza cambiare l’angolo dei gomiti.',
+      'incline_dumbbell_fly':
+        '1. Panca a 30°, manubri sopra il petto, gomiti morbidi.\n'
+        '2. Scendi con un ampio arco fino a sentire l’allungamento del petto alto.\n'
+        '3. Richiudili sopra il petto.',
+      'low_to_high_cable_fly':
+        '1. Imposta i cavi in basso e mettiti in mezzo, leggermente inclinato.\n'
+        '2. Porta le maniglie in alto e unite davanti al petto alto.\n'
+        '3. Torna lentamente in allungamento, gomiti leggermente piegati.',
+      'incline_chest_press_machine':
+        '1. Regola il sedile in modo che le maniglie siano all’altezza del petto alto.\n'
+        '2. Spingi in avanti e in alto fino a braccia quasi tese.\n'
+        '3. Torna lentamente fino a sentire l’allungamento.',
+      'chest_dips':
+        '1. In appoggio sulle parallele, inclina il busto in avanti.\n'
+        '2. Scendi con i gomiti leggermente aperti fino a sentire l’allungamento del petto.\n'
+        '3. Risali mantenendo l’inclinazione.',
+      'incline_push_up':
+        '1. Mani su una panca o un box, corpo in linea.\n'
+        '2. Porta il petto verso il bordo, gomiti a circa 45° dal corpo.\n'
+        '3. Risali. Più alto è l’appoggio, più è facile.',
+      'decline_push_up':
+        '1. Piedi su una panca, mani a terra sotto le spalle.\n'
+        '2. Scendi con il petto verso terra, addome contratto.\n'
+        '3. Risali senza far cedere il bacino.',
+      'dumbbell_floor_press':
+        '1. Sdraiati a terra, ginocchia piegate, manubri sopra il petto.\n'
+        '2. Scendi finché le braccia toccano terra, breve pausa.\n'
+        '3. Spingi fino a braccia tese.',
+      't_bar_row':
+        '1. Mettiti sopra il bilanciere, piegati a schiena dritta e afferra la maniglia.\n'
+        '2. Tira il peso al petto stringendo le scapole.\n'
+        '3. Scendi in controllo senza curvare la schiena.',
+      'pendlay_row':
+        '1. Bilanciere a terra, busto quasi orizzontale, schiena dritta.\n'
+        '2. Tira il bilanciere in modo esplosivo verso il petto basso.\n'
+        '3. Appoggialo a terra a ogni ripetizione e ritrova la posizione.',
+      'machine_row':
+        '1. Siediti con il petto contro il cuscino e afferra le maniglie.\n'
+        '2. Tira verso il corpo, gomiti stretti, scapole addotte.\n'
+        '3. Torna lentamente a braccia tese.',
+      'chest_supported_row':
+        '1. Sdraiati a pancia in giù su una panca a 30–45°, manubri in basso.\n'
+        '2. Tirali verso i fianchi stringendo le scapole.\n'
+        '3. Scendi lentamente fino al pieno allungamento.',
+      'close_grip_lat_pulldown':
+        '1. Siediti alla lat machine con presa stretta o a V, cosce bloccate.\n'
+        '2. Tira la maniglia al petto alto, gomiti in basso e indietro.\n'
+        '3. Lasciala risalire lentamente fino a braccia tese.',
+      'straight_arm_pulldown':
+        '1. In piedi davanti al cavo alto, braccia quasi tese, leggera inclinazione.\n'
+        '2. Porta la barra in arco fino alle cosce usando i dorsali.\n'
+        '3. Risali lentamente, gomiti quasi tesi.',
+      'band_assisted_pull_up':
+        '1. Aggancia un elastico alla sbarra e appoggia un piede o un ginocchio.\n'
+        '2. Sali finché il mento supera la sbarra.\n'
+        '3. Scendi in controllo fino alla sospensione. Elastico più sottile = meno aiuto.',
+      'inverted_row':
+        '1. Appenditi sotto una sbarra bassa o agli anelli, corpo dritto, talloni a terra.\n'
+        '2. Porta il petto alla sbarra stringendo le scapole.\n'
+        '3. Scendi in controllo. Più sei verticale, più è facile.',
+      'neutral_grip_pull_up':
+        '1. Appenditi a maniglie parallele, palmi uno verso l’altro.\n'
+        '2. Sali finché il mento supera le maniglie.\n'
+        '3. Scendi in controllo fino alla sospensione completa.',
+      'rack_pull':
+        '1. Appoggia il bilanciere sui fermi appena sotto o sopra le ginocchia.\n'
+        '2. Afferralo, contrai il core e sali spingendo le anche in avanti.\n'
+        '3. Riportalo sui fermi a schiena dritta.',
+      'trap_bar_deadlift':
+        '1. Mettiti dentro la trap bar, piedi alla larghezza delle anche, afferra le maniglie.\n'
+        '2. Contrai, spingi il pavimento e alzati dritto.\n'
+        '3. Riporta giù la barra a schiena dritta.',
+      'single_arm_cable_row':
+        '1. Afferra una maniglia al cavo a metà altezza, braccio teso.\n'
+        '2. Tirala verso il fianco, gomito vicino al corpo.\n'
+        '3. Torna lentamente lasciando avanzare un po’ la spalla.',
+      'dumbbell_pullover':
+        '1. Sdraiati su una panca con un manubrio sopra il petto, tenuto a due mani.\n'
+        '2. Portalo ad arco dietro la testa, gomiti leggermente piegati.\n'
+        '3. Riportalo sopra il petto.',
+      'renegade_row':
+        '1. In posizione di piegamento su due manubri, piedi larghi.\n'
+        '2. Tira un manubrio al fianco senza ruotare il bacino.\n'
+        '3. Appoggialo e ripeti con l’altro braccio.',
+      'arnold_press':
+        '1. Seduto, manubri davanti alle spalle, palmi verso di te.\n'
+        '2. Spingi in alto ruotando i palmi in avanti.\n'
+        '3. Scendi ruotando di nuovo alla posizione iniziale.',
+      'shoulder_press_machine':
+        '1. Regola il sedile in modo che le maniglie partano all’altezza delle spalle.\n'
+        '2. Spingi fino a braccia quasi tese.\n'
+        '3. Scendi lentamente all’altezza delle spalle.',
+      'push_press':
+        '1. Bilanciere sulla parte anteriore delle spalle, piedi alla larghezza delle anche.\n'
+        '2. Piega leggermente le ginocchia e con la spinta delle gambe porta il bilanciere sopra la testa.\n'
+        '3. Riportalo sulle spalle in controllo.',
+      'cable_lateral_raise':
+        '1. Di fianco al cavo basso, maniglia nella mano più lontana.\n'
+        '2. Alza il braccio lateralmente fino all’altezza della spalla.\n'
+        '3. Scendi lentamente mantenendo la tensione.',
+      'machine_lateral_raise':
+        '1. Siediti con i cuscini all’esterno delle braccia.\n'
+        '2. Alza le braccia fino all’altezza delle spalle.\n'
+        '3. Scendi lentamente senza appoggiare il peso.',
+      'front_raise':
+        '1. In piedi, manubri davanti alle cosce.\n'
+        '2. Alzali davanti fino all’altezza delle spalle, braccia quasi tese.\n'
+        '3. Scendi lentamente senza slancio.',
+      'upright_row':
+        '1. Tieni il bilanciere davanti alle cosce, presa circa alla larghezza delle spalle.\n'
+        '2. Tiralo lungo il corpo fino al petto, guidano i gomiti.\n'
+        '3. Scendi lentamente. Se le spalle danno fastidio, sali meno.',
+      'reverse_pec_deck':
+        '1. Siediti rivolto alla macchina, petto sul cuscino, afferra le maniglie.\n'
+        '2. Apri le braccia indietro ad arco fino a essere in linea con il corpo.\n'
+        '3. Torna lentamente.',
+      'band_pull_apart':
+        '1. Tieni un elastico davanti a te all’altezza delle spalle, braccia tese.\n'
+        '2. Allargalo fino al petto stringendo le scapole.\n'
+        '3. Torna lentamente.',
+      'handstand_push_up':
+        '1. Sali in verticale contro il muro, mani alla larghezza delle spalle.\n'
+        '2. Scendi con la testa verso terra in controllo.\n'
+        '3. Spingi fino a braccia tese. Metti un tappetino sotto la testa.',
+      'landmine_press':
+        '1. Tieni l’estremità del bilanciere landmine alla spalla, piedi sfalsati.\n'
+        '2. Spingi in alto e in avanti fino a braccio teso.\n'
+        '3. Riportalo alla spalla in controllo.',
+      'preacher_curl':
+        '1. Siediti alla panca Scott, braccia appoggiate, bilanciere EZ in mano.\n'
+        '2. Solleva il bilanciere senza staccare i gomiti.\n'
+        '3. Scendi lentamente quasi a braccia tese.',
+      'concentration_curl':
+        '1. Seduto su una panca, gomito appoggiato all’interno della coscia.\n'
+        '2. Porta il manubrio verso la spalla.\n'
+        '3. Scendi lentamente fino al pieno allungamento.',
+      'incline_dumbbell_curl':
+        '1. Appoggiati a una panca a 45–60°, braccia distese verso il basso.\n'
+        '2. Solleva i manubri senza muovere le braccia.\n'
+        '3. Scendi lentamente fino al pieno allungamento.',
+      'ez_bar_curl':
+        '1. In piedi, impugna il bilanciere EZ nei punti angolati, braccia tese.\n'
+        '2. Sollevalo senza dondolare il corpo.\n'
+        '3. Scendi lentamente a braccia tese.',
+      'rope_hammer_curl':
+        '1. Aggancia una corda al cavo basso, palmi uno verso l’altro.\n'
+        '2. Solleva la corda, gomiti lungo i fianchi.\n'
+        '3. Scendi lentamente mantenendo la tensione.',
+      'machine_biceps_curl':
+        '1. Siediti con le braccia sul cuscino e afferra le maniglie.\n'
+        '2. Porta le maniglie verso le spalle.\n'
+        '3. Scendi lentamente quasi a braccia tese.',
+      'band_curl':
+        '1. In piedi al centro dell’elastico, estremità in mano.\n'
+        '2. Porta le mani alle spalle, gomiti lungo i fianchi.\n'
+        '3. Scendi lentamente.',
+      'rope_pushdown':
+        '1. Afferra la corda al cavo alto, gomiti lungo i fianchi.\n'
+        '2. Spingi in basso e apri le estremità alla fine.\n'
+        '3. Lascia risalire lentamente fino a circa 90° al gomito.',
+      'overhead_cable_extension':
+        '1. Di spalle al cavo, corda dietro la testa, gomiti in alto.\n'
+        '2. Distendi le braccia in avanti e in alto.\n'
+        '3. Piega lentamente i gomiti dietro la testa.',
+      'triceps_kickback':
+        '1. Busto inclinato, braccio parallelo al corpo, gomito piegato.\n'
+        '2. Distendi completamente il braccio all’indietro.\n'
+        '3. Piega lentamente senza muovere il braccio.',
+      'bench_dips':
+        '1. Mani sul bordo di una panca dietro di te, gambe in avanti.\n'
+        '2. Scendi piegando i gomiti a circa 90°.\n'
+        '3. Risali fino a braccia tese.',
+      'machine_triceps_dip':
+        '1. Siediti nella macchina e afferra le maniglie laterali.\n'
+        '2. Spingi in basso fino a braccia tese.\n'
+        '3. Lascia risalire lentamente fino a circa 90° al gomito.',
+      'single_arm_pushdown':
+        '1. Afferra una maniglia al cavo alto, gomito lungo il fianco.\n'
+        '2. Spingi in basso fino a braccio teso.\n'
+        '3. Lascia risalire lentamente, il gomito resta fermo.',
+      'diamond_push_up':
+        '1. Posizione di piegamento con le mani unite sotto il petto a formare un rombo.\n'
+        '2. Porta il petto alle mani, gomiti stretti.\n'
+        '3. Risali con il corpo dritto.',
+      'reverse_wrist_curl':
+        '1. Seduto, avambracci sulle cosce, palmi in giù, polsi oltre le ginocchia.\n'
+        '2. Solleva il dorso delle mani il più in alto possibile.\n'
+        '3. Scendi lentamente.',
+      'hack_squat':
+        '1. Sali sulla pedana, schiena sullo schienale, spalle sotto i cuscini.\n'
+        '2. Scendi finché le cosce sono almeno parallele alla pedana.\n'
+        '3. Risali spingendo con tutto il piede.',
+      'smith_squat':
+        '1. Bilanciere sulla parte alta della schiena, piedi un po’ avanti rispetto al bilanciere.\n'
+        '2. Scendi a schiena dritta almeno fino al parallelo.\n'
+        '3. Risali e alla fine riaggancia il bilanciere.',
+      'walking_lunge':
+        '1. Manubri lungo i fianchi, fai un passo lungo in avanti.\n'
+        '2. Porta il ginocchio posteriore quasi a terra.\n'
+        '3. Spingi con il piede anteriore e prosegui con l’affondo successivo.',
+      'reverse_lunge':
+        '1. In piedi, manubri lungo i fianchi.\n'
+        '2. Fai un passo indietro e porta il ginocchio posteriore quasi a terra.\n'
+        '3. Spingi con il piede anteriore per tornare. Alterna le gambe.',
+      'step_up':
+        '1. Mettiti davanti a una panca o un box con i manubri.\n'
+        '2. Appoggia un piede sopra e sali spingendo con quella gamba.\n'
+        '3. Scendi lentamente. Alterna o fai un lato alla volta.',
+      'split_squat':
+        '1. Mettiti in affondo lungo con i manubri in mano.\n'
+        '2. Scendi in verticale finché il ginocchio posteriore quasi tocca terra.\n'
+        '3. Risali. Finisci le ripetizioni e cambia gamba.',
+      'sumo_squat':
+        '1. Piedi larghi, punte in fuori, un manubrio tra le gambe.\n'
+        '2. Scendi con il busto eretto, ginocchia nella direzione delle punte.\n'
+        '3. Risali e contrai i glutei.',
+      'pistol_squat':
+        '1. In piedi su una gamba, l’altra tesa in avanti.\n'
+        '2. Scendi in controllo il più in basso possibile, braccia avanti per l’equilibrio.\n'
+        '3. Risali. All’inizio puoi tenerti a qualcosa.',
+      'single_leg_press':
+        '1. Siediti alla leg press con un piede al centro della pedana.\n'
+        '2. Scendi finché il ginocchio è a circa 90°.\n'
+        '3. Spingi senza bloccare il ginocchio. Cambia gamba.',
+      'hip_adduction_machine':
+        '1. Siediti con i cuscini all’interno delle ginocchia.\n'
+        '2. Chiudi le gambe.\n'
+        '3. Riaprile lentamente.',
+      'wall_sit':
+        '1. Appoggia la schiena al muro e scivola in basso.\n'
+        '2. Fermati con le ginocchia a circa 90°, piedi sotto le ginocchia.\n'
+        '3. Tieni per il tempo previsto, schiena aderente al muro.',
+      'jump_squat':
+        '1. In piedi, piedi alla larghezza delle spalle.\n'
+        '2. Scendi in squat e salta in modo esplosivo.\n'
+        '3. Atterra morbido e passa subito allo squat successivo.',
+      'box_jump':
+        '1. Mettiti davanti a un box stabile.\n'
+        '2. Slancia le braccia e salta sul box atterrando morbido.\n'
+        '3. Distenditi completamente e scendi camminando.',
+      'seated_leg_curl':
+        '1. Siediti nella macchina, cuscino sopra i talloni, cosce bloccate.\n'
+        '2. Porta i talloni in basso e indietro il più possibile.\n'
+        '3. Torna lentamente.',
+      'nordic_curl':
+        '1. In ginocchio con i talloni bloccati sotto qualcosa di stabile.\n'
+        '2. Lascia cadere il busto in avanti il più lentamente possibile, anche distese.\n'
+        '3. Frena con le mani e risali con i femorali.',
+      'single_leg_rdl':
+        '1. In piedi su una gamba con un manubrio, ginocchio leggermente piegato.\n'
+        '2. Piegati in avanti mentre la gamba libera va indietro, schiena dritta.\n'
+        '3. Torna su spingendo le anche in avanti.',
+      'dumbbell_romanian_deadlift':
+        '1. In piedi con i manubri davanti alle cosce, ginocchia morbide.\n'
+        '2. Porta le anche indietro e fai scorrere i manubri lungo le gambe.\n'
+        '3. Fermati all’allungamento dei femorali e risali.',
+      'stiff_leg_deadlift':
+        '1. In piedi con il bilanciere, gambe quasi tese.\n'
+        '2. Piegati a schiena dritta facendo scendere il bilanciere lungo le gambe.\n'
+        '3. Risali contraendo femorali e glutei.',
+      'stability_ball_leg_curl':
+        '1. Supino, talloni sulla fitball, bacino sollevato.\n'
+        '2. Avvicina la palla piegando le ginocchia.\n'
+        '3. Allontanala lentamente, il bacino resta su.',
+      'sumo_deadlift':
+        '1. Piedi molto larghi, punte in fuori, afferra il bilanciere tra le gambe.\n'
+        '2. Contrai, spingi le ginocchia in fuori e sali con il bilanciere vicino al corpo.\n'
+        '3. Riportalo a terra a schiena dritta.',
+      'cable_glute_kickback':
+        '1. Aggancia una cavigliera al cavo basso e tieniti alla macchina.\n'
+        '2. Spingi la gamba indietro e in alto contraendo il gluteo.\n'
+        '3. Torna lentamente senza inarcare la zona lombare.',
+      'hip_abduction_machine':
+        '1. Siediti con i cuscini all’esterno delle ginocchia.\n'
+        '2. Apri le gambe il più possibile.\n'
+        '3. Richiudile lentamente.',
+      'machine_hip_thrust':
+        '1. Appoggia la parte alta della schiena allo schienale e la cintura sulle anche.\n'
+        '2. Spingi in alto il bacino fino all’allineamento ginocchia-spalle.\n'
+        '3. Contrai i glutei in alto e scendi lentamente.',
+      'single_leg_glute_bridge':
+        '1. Supino, un piede a terra e l’altra gamba tesa verso l’alto.\n'
+        '2. Solleva il bacino spingendo con il tallone a terra.\n'
+        '3. Scendi lentamente. Finisci e cambia gamba.',
+      'donkey_kick':
+        '1. In quadrupedia, mani sotto le spalle.\n'
+        '2. Solleva indietro una gamba piegata, pianta del piede verso il soffitto.\n'
+        '3. Scendi lentamente senza inarcare la schiena.',
+      'fire_hydrant':
+        '1. In quadrupedia, schiena piatta.\n'
+        '2. Solleva lateralmente una gamba piegata fino all’altezza dell’anca.\n'
+        '3. Scendi lentamente, bacino fermo.',
+      'banded_lateral_walk':
+        '1. Metti una mini band sopra le ginocchia o alle caviglie e piega leggermente le ginocchia.\n'
+        '2. Cammina di lato mantenendo l’elastico teso.\n'
+        '3. Conta i passi da un lato e poi torna indietro.',
+      'cable_pull_through':
+        '1. Di spalle al cavo basso, corda tra le gambe.\n'
+        '2. Piegati a schiena dritta lasciando andare indietro la corda.\n'
+        '3. Spingi le anche in avanti per tornare su e contrai i glutei.',
+      'seated_calf_raise':
+        '1. Seduto, cuscino sulle cosce, avampiedi sul gradino.\n'
+        '2. Solleva i talloni il più in alto possibile.\n'
+        '3. Scendi lentamente fino al pieno allungamento.',
+      'single_leg_calf_raise':
+        '1. Un piede sul bordo di un gradino, tieniti.\n'
+        '2. Sali sulla punta il più in alto possibile.\n'
+        '3. Scendi con il tallone sotto il gradino per allungare.',
+      'leg_press_calf_raise':
+        '1. Siediti alla leg press con gli avampiedi sul bordo basso della pedana.\n'
+        '2. Spingi la pedana distendendo i piedi.\n'
+        '3. Lasciala tornare lentamente in allungamento. Ginocchia tese.',
+      'sit_up':
+        '1. Supino, ginocchia piegate, piedi a terra.\n'
+        '2. Arrotolati fino alla posizione seduta.\n'
+        '3. Scendi lentamente.',
+      'decline_sit_up':
+        '1. Blocca i piedi sulla panca declinata e sdraiati.\n'
+        '2. Sali finché il busto è verticale.\n'
+        '3. Scendi lentamente. Tieni un disco per più carico.',
+      'bicycle_crunch':
+        '1. Supino, mani vicino alla testa, gambe sollevate.\n'
+        '2. Porta un gomito verso il ginocchio opposto mentre distendi l’altra gamba.\n'
+        '3. Alterna i lati come se pedalassi.',
+      'reverse_crunch':
+        '1. Supino, ginocchia a 90°, braccia a terra.\n'
+        '2. Solleva il bacino e porta le ginocchia al petto.\n'
+        '3. Scendi lentamente senza slancio.',
+      'lying_leg_raise':
+        '1. Supino, gambe tese, zona lombare a terra.\n'
+        '2. Solleva le gambe finché puntano al soffitto.\n'
+        '3. Scendi lentamente senza inarcare la schiena.',
+      'captains_chair_knee_raise':
+        '1. Appoggia gli avambracci ai cuscini e la schiena allo schienale.\n'
+        '2. Porta le ginocchia verso il petto.\n'
+        '3. Scendi lentamente senza dondolare.',
+      'ab_wheel_rollout':
+        '1. In ginocchio, tieni la ruota sotto le spalle.\n'
+        '2. Rotola in avanti il più possibile senza far cedere la zona lombare.\n'
+        '3. Torna indietro tirando con gli addominali.',
+      'russian_twist':
+        '1. Seduto leggermente inclinato indietro, piedi sollevati o a terra.\n'
+        '2. Ruota il busto e tocca terra accanto al fianco.\n'
+        '3. Ruota dall’altra parte. Tieni un peso per più carico.',
+      'v_up':
+        '1. Supino, braccia sopra la testa, gambe tese.\n'
+        '2. Solleva insieme braccia e gambe e tocca i piedi.\n'
+        '3. Scendi lentamente.',
+      'hollow_hold':
+        '1. Supino, premi la zona lombare a terra.\n'
+        '2. Solleva leggermente spalle e gambe tese.\n'
+        '3. Tieni per il tempo previsto senza inarcare la schiena.',
+      'pallof_press':
+        '1. Di fianco a un cavo all’altezza del petto, maniglia al petto.\n'
+        '2. Spingi la maniglia dritta davanti senza far ruotare il corpo.\n'
+        '3. Riportala al petto. Lavora entrambi i lati.',
+      'cable_woodchopper':
+        '1. Di fianco al cavo alto, maniglia con entrambe le mani.\n'
+        '2. Tira in diagonale verso il basso attraverso il corpo ruotando il busto.\n'
+        '3. Torna lentamente. Lavora entrambi i lati.',
+      'plank_shoulder_tap':
+        '1. In plank alto, piedi leggermente divaricati.\n'
+        '2. Tocca la spalla opposta con una mano senza muovere il bacino.\n'
+        '3. Cambia mano.',
+      'bird_dog':
+        '1. In quadrupedia, schiena piatta.\n'
+        '2. Distendi un braccio in avanti e la gamba opposta indietro.\n'
+        '3. Tieni un attimo, torna e cambia lato.',
+      'power_clean':
+        '1. Sopra il bilanciere, presa appena fuori dalle ginocchia, schiena dritta.\n'
+        '2. Tira il bilanciere in modo esplosivo lungo il corpo e ricevilo sulla parte anteriore delle spalle.\n'
+        '3. Distenditi e riappoggia il bilanciere. Impara la tecnica con poco peso.',
+      'thruster':
+        '1. Tieni il bilanciere sulla parte anteriore delle spalle.\n'
+        '2. Scendi in squat e risalendo spingi il bilanciere sopra la testa in un solo movimento.\n'
+        '3. Riportalo sulle spalle e passa subito allo squat successivo.',
+      'turkish_get_up':
+        '1. Supino, tieni un kettlebell in alto con un braccio teso.\n'
+        '2. Alzati passo dopo passo guardando il kettlebell, braccio teso.\n'
+        '3. Torna a terra con gli stessi passaggi. Lavora entrambi i lati.',
+      'bear_crawl':
+        '1. In appoggio su mani e piedi, ginocchia appena sollevate, schiena piatta.\n'
+        '2. Avanza muovendo insieme mano e piede opposti.\n'
+        '3. Tieni il bacino basso per il tempo previsto.',
+      'high_knees':
+        '1. Corri sul posto portando le ginocchia all’altezza delle anche.\n'
+        '2. Usa le braccia e resta sugli avampiedi.\n'
+        '3. Mantieni un ritmo veloce per il tempo previsto.',
+      'jump_rope':
+        '1. Tieni le maniglie all’altezza dei fianchi, gomiti vicini al corpo.\n'
+        '2. Fai girare la corda con i polsi e salta quanto basta.\n'
+        '3. Atterra morbido sugli avampiedi per il tempo previsto.',
+      'rowing_machine':
+        '1. Fissa i piedi e afferra la maniglia a braccia tese.\n'
+        '2. Spingi con le gambe, inclinati un po’ indietro e tira la maniglia verso le costole basse.\n'
+        '3. Torna in ordine inverso: braccia, busto, gambe. Ritmo costante.',
+      'stationary_bike':
+        '1. Regola la sella in modo che il ginocchio resti leggermente piegato in basso.\n'
+        '2. Pedala a ritmo costante con la schiena dritta.\n'
+        '3. Regola la resistenza in base all’obiettivo per il tempo previsto.',
+      'treadmill_run':
+        '1. Inizia camminando e aumenta la velocità gradualmente.\n'
+        '2. Corri eretto con le spalle rilassate, appoggio sotto le anche.\n'
+        '3. Rallenta camminando prima di scendere.',
+      'elliptical':
+        '1. Sali sui pedali e afferra le maniglie mobili.\n'
+        '2. Muoviti in modo fluido spingendo e tirando anche con le braccia.\n'
+        '3. Mantieni un ritmo costante per il tempo previsto.',
+      'stair_climber':
+        '1. Sali e scegli una velocità che riesci a mantenere.\n'
+        '2. Sali eretto, usa i corrimano solo per l’equilibrio.\n'
+        '3. Continua per il tempo previsto.',
+      'air_bike':
+        '1. Siediti e afferra le maniglie mobili.\n'
+        '2. Pedala spingendo e tirando le maniglie insieme.\n'
+        '3. Più spingi, più la ventola frena. Per il tempo previsto.',
     },
     routineNames: {
       'home_upper': 'Parte superiore in 5 minuti',
@@ -1947,6 +5397,121 @@ const seedTranslations = <String, SeedTranslation>{
       'kettlebell_swing': 'Švihy s kettlebellom',
       'weighted_pull_up': 'Zhyby so záťažou',
       'weighted_dips': 'Dipy so záťažou',
+      'barbell_shrug': 'Krčenie ramien s veľkou činkou',
+      'dumbbell_shrug': 'Krčenie ramien s jednoručkami',
+      'wrist_curl': 'Zápästné zdvihy',
+      'reverse_curl': 'Bicepsový zdvih nadhmatom',
+      'dead_hang': 'Vis na hrazde',
+      'back_extension': 'Hyperextenzie',
+      'good_morning': 'Predklony s osou (good morning)',
+      'superman': 'Superman',
+      'decline_bench_press': 'Bench press na negatívnej lavici',
+      'smith_bench_press': 'Bench press na Smithovom stroji',
+      'dumbbell_fly': 'Rozpažovanie s jednoručkami',
+      'incline_dumbbell_fly': 'Rozpažovanie s jednoručkami na šikmej lavici',
+      'low_to_high_cable_fly': 'Rozpažovanie na kladke zdola nahor',
+      'incline_chest_press_machine': 'Tlaky na šikmom hrudnom stroji',
+      'chest_dips': 'Kliky na bradlách na hrudník',
+      'incline_push_up': 'Klik s rukami na vyvýšení',
+      'decline_push_up': 'Klik s nohami na vyvýšení',
+      'dumbbell_floor_press': 'Tlaky s jednoručkami v ľahu na zemi',
+      't_bar_row': 'Príťahy T-osi',
+      'pendlay_row': 'Pendlay príťahy',
+      'machine_row': 'Príťahy na stroji v sede',
+      'chest_supported_row': 'Príťahy jednoručiek v ľahu na šikmej lavici',
+      'close_grip_lat_pulldown': 'Sťahovanie hornej kladky úzkym úchopom',
+      'straight_arm_pulldown': 'Sťahovanie kladky s natiahnutými pažami',
+      'band_assisted_pull_up': 'Zhyby s gumou',
+      'inverted_row': 'Austrálske zhyby',
+      'neutral_grip_pull_up': 'Zhyby neutrálnym úchopom',
+      'rack_pull': 'Mŕtvy ťah zo stojana',
+      'trap_bar_deadlift': 'Mŕtvy ťah s trap bar',
+      'single_arm_cable_row': 'Príťahy kladky jednorúč',
+      'dumbbell_pullover': 'Preťahovanie jednoručky v ľahu',
+      'renegade_row': 'Príťahy v planku',
+      'arnold_press': 'Arnoldove tlaky',
+      'shoulder_press_machine': 'Tlaky na ramená na stroji',
+      'push_press': 'Push press',
+      'cable_lateral_raise': 'Upažovanie na kladke',
+      'machine_lateral_raise': 'Upažovanie na stroji',
+      'front_raise': 'Predpažovanie s jednoručkami',
+      'upright_row': 'Príťahy k brade',
+      'reverse_pec_deck': 'Zapažovanie na stroji (reverse butterfly)',
+      'band_pull_apart': 'Rozťahovanie gumy',
+      'handstand_push_up': 'Klik v stojke',
+      'landmine_press': 'Landmine tlak',
+      'preacher_curl': 'Bicepsový zdvih na Scottovej lavici',
+      'concentration_curl': 'Koncentrovaný bicepsový zdvih',
+      'incline_dumbbell_curl': 'Bicepsový zdvih v ľahu na šikmej lavici',
+      'ez_bar_curl': 'Bicepsový zdvih s EZ osou',
+      'rope_hammer_curl': 'Kladivový zdvih na kladke s lanom',
+      'machine_biceps_curl': 'Bicepsový zdvih na stroji',
+      'band_curl': 'Bicepsový zdvih s gumou',
+      'rope_pushdown': 'Sťahovanie lana na triceps',
+      'overhead_cable_extension': 'Tricepsové tlaky za hlavou na kladke',
+      'triceps_kickback': 'Zanožovanie predlaktia s jednoručkou (kickback)',
+      'bench_dips': 'Kliky vzad o lavicu',
+      'machine_triceps_dip': 'Tricepsové tlaky na stroji (dipy)',
+      'single_arm_pushdown': 'Sťahovanie kladky jednorúč',
+      'diamond_push_up': 'Diamantový klik',
+      'reverse_wrist_curl': 'Zápästné zdvihy nadhmatom',
+      'hack_squat': 'Hack drep na stroji',
+      'smith_squat': 'Drep na Smithovom stroji',
+      'walking_lunge': 'Výpady v chôdzi',
+      'reverse_lunge': 'Výpady vzad',
+      'step_up': 'Výstupy na lavicu',
+      'split_squat': 'Drep vo výpade',
+      'sumo_squat': 'Sumo drep s jednoručkou',
+      'pistol_squat': 'Drep na jednej nohe (pistol)',
+      'single_leg_press': 'Legpress jednonož',
+      'hip_adduction_machine': 'Prinožovanie na stroji',
+      'wall_sit': 'Sed pri stene',
+      'jump_squat': 'Drep s výskokom',
+      'box_jump': 'Výskoky na debnu',
+      'seated_leg_curl': 'Zakopávanie v sede na stroji',
+      'nordic_curl': 'Nórske zakopávanie',
+      'single_leg_rdl': 'Rumunský mŕtvy ťah na jednej nohe',
+      'dumbbell_romanian_deadlift': 'Rumunský mŕtvy ťah s jednoručkami',
+      'stiff_leg_deadlift': 'Mŕtvy ťah s natiahnutými nohami',
+      'stability_ball_leg_curl': 'Zakopávanie na gymnastickej lopte',
+      'sumo_deadlift': 'Mŕtvy ťah sumo',
+      'cable_glute_kickback': 'Zanožovanie na kladke',
+      'hip_abduction_machine': 'Unožovanie na stroji',
+      'machine_hip_thrust': 'Hip thrust na stroji',
+      'single_leg_glute_bridge': 'Gluteálny mostík na jednej nohe',
+      'donkey_kick': 'Zanožovanie v kľaku',
+      'fire_hydrant': 'Unožovanie v kľaku',
+      'banded_lateral_walk': 'Chôdza do strany s gumou',
+      'cable_pull_through': 'Priťahovanie kladky pomedzi nohy (pull-through)',
+      'seated_calf_raise': 'Výpony na lýtka v sede',
+      'single_leg_calf_raise': 'Výpony na jednej nohe',
+      'leg_press_calf_raise': 'Výpony na legpresse',
+      'sit_up': 'Sed-ľahy',
+      'decline_sit_up': 'Sed-ľahy na šikmej lavici',
+      'bicycle_crunch': 'Bicyklové skracovačky',
+      'reverse_crunch': 'Spätné skracovačky',
+      'lying_leg_raise': 'Dvíhanie nôh v ľahu',
+      'captains_chair_knee_raise': 'Priťahovanie kolien v opore na bradlách',
+      'ab_wheel_rollout': 'Koliesko na brucho',
+      'russian_twist': 'Ruský twist',
+      'v_up': 'Loďka (V-up)',
+      'hollow_hold': 'Hollow hold (výdrž v loďke)',
+      'pallof_press': 'Pallof press',
+      'cable_woodchopper': 'Drevorubač na kladke',
+      'plank_shoulder_tap': 'Plank s dotykom ramien',
+      'bird_dog': 'Bird dog (dvíhanie ruky a nohy v kľaku)',
+      'power_clean': 'Prinášanie (power clean)',
+      'thruster': 'Thruster (drep s tlakom nad hlavu)',
+      'turkish_get_up': 'Turecký vztyk',
+      'bear_crawl': 'Medvedia chôdza',
+      'high_knees': 'Skipovanie (vysoké kolená)',
+      'jump_rope': 'Švihadlo',
+      'rowing_machine': 'Veslársky trenažér',
+      'stationary_bike': 'Rotoped',
+      'treadmill_run': 'Beh na páse',
+      'elliptical': 'Eliptický trenažér',
+      'stair_climber': 'Schodový trenažér',
+      'air_bike': 'Vzduchový rotoped (air bike)',
     },
     exerciseInstructions: {
       'bench_press':
@@ -2175,6 +5740,466 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Opri sa na bradlách vo vystretých rukách.\n'
         '3. Spúšťaj sa, až sú ramená zhruba vodorovne.\n'
         '4. Vytlač späť, ramená nepadajú dopredu. Zapisuj len pridanú záťaž.',
+      'barbell_shrug':
+        '1. Stoj vzpriamene, os drž v natiahnutých pažiach, úchop na šírku ramien.\n'
+        '2. Vytiahni ramená kolmo hore k ušiam, paže zostávajú natiahnuté.\n'
+        '3. Hore krátko vydrž a pomaly spusti. Ramenami nekrúž.',
+      'dumbbell_shrug':
+        '1. Stoj s jednoručkami pozdĺž tela, dlane smerujú k telu.\n'
+        '2. Vytiahni ramená kolmo hore čo najvyššie.\n'
+        '3. Krátko vydrž a kontrolovane spusti.',
+      'wrist_curl':
+        '1. Sadni si, predlaktia opri o stehná alebo lavicu dlaňami hore, zápästia presahujú okraj.\n'
+        '2. Nechaj jednoručky skĺznuť ku končekom prstov.\n'
+        '3. Zápästím ich vytoč čo najvyššie, predlaktia sa nehýbu.',
+      'reverse_curl':
+        '1. Stoj a drž os nadhmatom na šírku ramien.\n'
+        '2. Zdvihni os k ramenám, lakte pri tele, zápästia rovné.\n'
+        '3. Pomaly spusti do natiahnutých paží.',
+      'dead_hang':
+        '1. Chyť hrazdu nadhmatom na šírku ramien.\n'
+        '2. Vis v natiahnutých pažiach, nohy nad zemou, telo v pokoji.\n'
+        '3. Vydrž stanovený čas, ramená mierne aktívne.',
+      'back_extension':
+        '1. Podložku nastav tesne pod bedrá a zaprí päty.\n'
+        '2. S rovným chrbtom spusti trup, kým necítiš natiahnutie zadných stehien.\n'
+        '3. Zdvihni sa do roviny s nohami, nezakláňaj sa. Pre väčšiu záťaž drž kotúč.',
+      'good_morning':
+        '1. Os polož na hornú časť chrbta ako pri drepe, chodidlá na šírku panvy, kolená mierne pokrčené.\n'
+        '2. Posuň panvu dozadu a s rovným chrbtom sa predkloň, kým nie je trup takmer vodorovne.\n'
+        '3. Tlakom panvy dopredu sa vzpriam. Začni s menšou váhou.',
+      'superman':
+        '1. Ľahni si na brucho, paže natiahnuté pred hlavou.\n'
+        '2. Súčasne zdvihni paže, hrudník a nohy nad zem.\n'
+        '3. Hore sekundu vydrž a pomaly spusti.',
+      'decline_bench_press':
+        '1. Zaprí nohy na negatívnej lavici, úchop o niečo širší ako ramená.\n'
+        '2. Kontrolovane spusti os k spodnej časti hrudníka.\n'
+        '3. Vytlač do natiahnutých paží, lopatky drž stiahnuté.',
+      'smith_bench_press':
+        '1. Lavicu postav tak, aby os mierila na stred hrudníka.\n'
+        '2. Odisti os a kontrolovane ju spusti k hrudníku.\n'
+        '3. Vytlač hore bez prudkého zamknutia lakťov, na konci os zaisti.',
+      'dumbbell_fly':
+        '1. Ľahni si na rovnú lavicu, jednoručky nad hrudníkom, lakte mierne pokrčené.\n'
+        '2. Rozpaž širokým oblúkom, kým necítiš natiahnutie hrudníka.\n'
+        '3. Vráť jednoručky k sebe, uhol v lakťoch nemeň.',
+      'incline_dumbbell_fly':
+        '1. Lavicu nastav na 30°, jednoručky nad hrudníkom, lakte povolené.\n'
+        '2. Spúšťaj ich širokým oblúkom, kým necítiš natiahnutie hornej časti hrudníka.\n'
+        '3. Stiahni ich späť k sebe nad hrudník.',
+      'low_to_high_cable_fly':
+        '1. Obe kladky nastav dole, postav sa medzi ne v miernom predklone.\n'
+        '2. Veď rukoväte hore a k sebe pred hornú časť hrudníka.\n'
+        '3. Pomaly sa vráť do natiahnutia, lakte mierne pokrčené.',
+      'incline_chest_press_machine':
+        '1. Sedadlo nastav tak, aby rukoväte boli vo výške hornej časti hrudníka.\n'
+        '2. Tlač rukoväte dopredu a hore do takmer natiahnutých paží.\n'
+        '3. Pomaly sa vráť, kým necítiš natiahnutie hrudníka.',
+      'chest_dips':
+        '1. Opri sa na bradlách a nakloň trup dopredu.\n'
+        '2. Spúšťaj sa s lakťami mierne od tela, kým necítiš natiahnutie hrudníka.\n'
+        '3. Vytlač späť hore, predklon udrž.',
+      'incline_push_up':
+        '1. Opri ruky o lavicu alebo debnu, telo v jednej línii.\n'
+        '2. Spusti hrudník k hrane, lakte asi 45° od tela.\n'
+        '3. Vytlač sa späť. Čím vyššia opora, tým ľahší klik.',
+      'decline_push_up':
+        '1. Nohy opri o lavicu, dlane na zemi pod ramenami.\n'
+        '2. So spevneným stredom spusti hrudník k zemi.\n'
+        '3. Vytlač sa späť, panva nepadá.',
+      'dumbbell_floor_press':
+        '1. Ľahni si na zem, kolená pokrčené, jednoručky nad hrudníkom.\n'
+        '2. Spúšťaj, kým sa paže nedotknú zeme, krátko vydrž.\n'
+        '3. Vytlač späť do natiahnutých paží.',
+      't_bar_row':
+        '1. Postav sa nad os, s rovným chrbtom sa predkloň a chyť rukoväť.\n'
+        '2. Pritiahni záťaž k hrudníku a stiahni lopatky.\n'
+        '3. Kontrolovane spusti, chrbát nehrb.',
+      'pendlay_row':
+        '1. Os na zemi, trup takmer vodorovne, chrbát rovný.\n'
+        '2. Výbušne pritiahni os k spodnej časti hrudníka.\n'
+        '3. Po každom opakovaní ju polož na zem a uprav polohu.',
+      'machine_row':
+        '1. Sadni si hrudníkom k opierke a chyť rukoväte.\n'
+        '2. Pritiahni rukoväte k telu, lakte pri tele, lopatky k sebe.\n'
+        '3. Pomaly sa vráť do natiahnutých paží.',
+      'chest_supported_row':
+        '1. Ľahni si na brucho na lavicu nastavenú na 30–45°, jednoručky visia dole.\n'
+        '2. Pritiahni ich k bokom a stiahni lopatky.\n'
+        '3. Pomaly spusti do plného natiahnutia.',
+      'close_grip_lat_pulldown':
+        '1. Sadni si ku kladke s úzkou alebo V rukoväťou, stehná pod opierkami.\n'
+        '2. Stiahni rukoväť k hornej časti hrudníka, lakte dole a dozadu.\n'
+        '3. Pomaly ju pusti hore do natiahnutých paží.',
+      'straight_arm_pulldown':
+        '1. Stoj čelom k hornej kladke, paže takmer natiahnuté, mierny predklon.\n'
+        '2. Chrbtom stiahni os oblúkom až k stehnám.\n'
+        '3. Pomaly ju pusti späť, lakte zostávajú takmer natiahnuté.',
+      'band_assisted_pull_up':
+        '1. Prehoď odporovú gumu cez hrazdu a opri do nej chodidlo alebo koleno.\n'
+        '2. Pritiahni sa, kým nie je brada nad hrazdou.\n'
+        '3. Kontrolovane sa spusti do visu. Tenšia guma = menšia dopomoc.',
+      'inverted_row':
+        '1. Zaves sa pod nízku hrazdu alebo kruhy, telo rovné, päty na zemi.\n'
+        '2. Pritiahni hrudník k hrazde a stiahni lopatky.\n'
+        '3. Kontrolovane sa spusti. Čím viac v stoji, tým ľahšie.',
+      'neutral_grip_pull_up':
+        '1. Zaves sa na rovnobežné madlá, dlane oproti sebe.\n'
+        '2. Pritiahni sa, kým nie je brada nad madlami.\n'
+        '3. Kontrolovane sa spusti do plného visu.',
+      'rack_pull':
+        '1. Os polož na zarážky stojana tesne pod alebo nad kolená.\n'
+        '2. Chyť ju, spevni stred a vstaň tlakom panvy dopredu.\n'
+        '3. S rovným chrbtom ju vráť na zarážky.',
+      'trap_bar_deadlift':
+        '1. Postav sa dovnútra trap bar, chodidlá na šírku panvy, chyť madlá.\n'
+        '2. Spevni sa, odtlač podlahu a vstaň do vzpriamenej polohy.\n'
+        '3. S rovným chrbtom os vráť na zem.',
+      'single_arm_cable_row':
+        '1. Chyť jednu rukoväť na kladke vo výške pása, paža natiahnutá.\n'
+        '2. Pritiahni ju k boku, lakeť pri tele.\n'
+        '3. Pomaly sa vráť a nechaj rameno mierne vysunúť dopredu.',
+      'dumbbell_pullover':
+        '1. Ľahni si na lavicu a drž jednu jednoručku oboma rukami nad hrudníkom.\n'
+        '2. Oblúkom ju spusti za hlavu, lakte mierne pokrčené.\n'
+        '3. Pretiahni ju späť nad hrudník.',
+      'renegade_row':
+        '1. Zaujmi pozíciu kliku s rukami na jednoručkách, nohy široko.\n'
+        '2. Pritiahni jednu jednoručku k boku, panvu nevytáčaj.\n'
+        '3. Polož ju a opakuj druhou rukou.',
+      'arnold_press':
+        '1. Sadni si, jednoručky drž pred ramenami dlaňami k sebe.\n'
+        '2. Tlač hore a cestou otáčaj dlane dopredu.\n'
+        '3. Spúšťaj a vracaj dlane do východiskovej polohy.',
+      'shoulder_press_machine':
+        '1. Sedadlo nastav tak, aby rukoväte začínali vo výške ramien.\n'
+        '2. Tlač hore do takmer natiahnutých paží.\n'
+        '3. Pomaly sa vráť do výšky ramien.',
+      'push_press':
+        '1. Os vpredu na ramenách, chodidlá na šírku panvy.\n'
+        '2. Mierne podrepni a švihom nôh vytlač os nad hlavu.\n'
+        '3. Kontrolovane ju vráť na ramená.',
+      'cable_lateral_raise':
+        '1. Stoj bokom k spodnej kladke, rukoväť drž vzdialenejšou rukou.\n'
+        '2. Upaž do výšky ramien.\n'
+        '3. Pomaly spusti, kladku nenechaj povoliť.',
+      'machine_lateral_raise':
+        '1. Sadni si, opierky ti ležia z vonkajšej strany paží.\n'
+        '2. Upaž do výšky ramien.\n'
+        '3. Pomaly spusti, záťaž neodkladaj.',
+      'front_raise':
+        '1. Stoj s jednoručkami pred stehnami.\n'
+        '2. Predpaž do výšky ramien, paže takmer natiahnuté.\n'
+        '3. Pomaly spusti, nešvihaj.',
+      'upright_row':
+        '1. Drž os pred stehnami, úchop zhruba na šírku ramien.\n'
+        '2. Ťahaj ju pozdĺž tela do výšky hrudníka, vedú lakte.\n'
+        '3. Pomaly spusti. Keď tlačia ramená, nechoď tak vysoko.',
+      'reverse_pec_deck':
+        '1. Sadni si čelom k stroju, hrudník na opierke, chyť rukoväte.\n'
+        '2. Oblúkom rozpaž dozadu do roviny s telom.\n'
+        '3. Pomaly sa vráť.',
+      'band_pull_apart':
+        '1. Drž gumu pred sebou vo výške ramien v natiahnutých pažiach.\n'
+        '2. Roztiahni ju až k hrudníku a stiahni lopatky.\n'
+        '3. Pomaly sa vráť.',
+      'handstand_push_up':
+        '1. Vyšvihni sa do stojky pri stene, ruky na šírku ramien.\n'
+        '2. Kontrolovane spúšťaj hlavu k zemi.\n'
+        '3. Vytlač sa do natiahnutých paží. Pod hlavu daj podložku.',
+      'landmine_press':
+        '1. Drž koniec landmine osi pri ramene, nohy v miernom výkroku.\n'
+        '2. Tlač ju hore a dopredu do natiahnutej paže.\n'
+        '3. Kontrolovane ju vráť k ramenu.',
+      'preacher_curl':
+        '1. Sadni si k Scottovej lavici, paže celou plochou na opierke, EZ os v rukách.\n'
+        '2. Zdvihni os, lakte z opierky nedvíhaj.\n'
+        '3. Pomaly spusti takmer do natiahnutia.',
+      'concentration_curl':
+        '1. Sadni si na lavicu, lakeť opri o vnútornú stranu stehna.\n'
+        '2. Zdvihni jednoručku k ramenu.\n'
+        '3. Pomaly spusti do plného natiahnutia.',
+      'incline_dumbbell_curl':
+        '1. Opri sa o lavicu nastavenú na 45–60°, paže visia dole.\n'
+        '2. Zdvihni jednoručky, ramená sa nehýbu.\n'
+        '3. Pomaly spusti do plného natiahnutia.',
+      'ez_bar_curl':
+        '1. Stoj a drž EZ os za zalomené miesta, paže natiahnuté.\n'
+        '2. Zdvihni ju bez švihu telom.\n'
+        '3. Pomaly spusti do natiahnutých paží.',
+      'rope_hammer_curl':
+        '1. Na spodnú kladku pripni lano, dlane oproti sebe.\n'
+        '2. Zdvihni lano, lakte pri tele.\n'
+        '3. Pomaly spusti, kladku nenechaj povoliť.',
+      'machine_biceps_curl':
+        '1. Sadni si, paže opri o opierku a chyť rukoväte.\n'
+        '2. Zdvihni rukoväte k ramenám.\n'
+        '3. Pomaly spusti takmer do natiahnutia.',
+      'band_curl':
+        '1. Postav sa na stred gumy, konce drž v rukách.\n'
+        '2. Zdvihni ruky k ramenám, lakte pri tele.\n'
+        '3. Pomaly spusti.',
+      'rope_pushdown':
+        '1. Chyť lano na hornej kladke, lakte pri tele.\n'
+        '2. Stiahni lano dole a dole roztiahni konce od seba.\n'
+        '3. Pomaly ho pusti hore zhruba do pravého uhla v lakti.',
+      'overhead_cable_extension':
+        '1. Stoj chrbtom ku kladke, lano za hlavou, lakte hore.\n'
+        '2. Natiahni paže dopredu a hore.\n'
+        '3. Pomaly pokrč lakte späť za hlavu.',
+      'triceps_kickback':
+        '1. Predkloň sa, rameno rovnobežne s telom, lakeť pokrčený.\n'
+        '2. Natiahni pažu dozadu.\n'
+        '3. Pomaly ju pokrč späť, rameno sa nehýbe.',
+      'bench_dips':
+        '1. Opri dlane o hranu lavice za sebou, nohy natiahnuté vpred.\n'
+        '2. Pokrčením lakťov do pravého uhla sa spusti.\n'
+        '3. Vytlač sa späť do natiahnutých paží.',
+      'machine_triceps_dip':
+        '1. Sadni si do stroja a chyť rukoväte po stranách.\n'
+        '2. Stlač rukoväte dole do natiahnutých paží.\n'
+        '3. Pomaly ich pusti hore zhruba do pravého uhla v lakti.',
+      'single_arm_pushdown':
+        '1. Chyť jednu rukoväť na hornej kladke, lakeť pri tele.\n'
+        '2. Stlač ju dole do natiahnutej paže.\n'
+        '3. Pomaly ju pusti hore, lakeť zostáva na mieste.',
+      'diamond_push_up':
+        '1. Pozícia kliku, dlane pri sebe pod hrudníkom, prsty tvoria kosoštvorec.\n'
+        '2. Spusti hrudník k dlaniam, lakte pri tele.\n'
+        '3. Vytlač sa späť, telo rovné.',
+      'reverse_wrist_curl':
+        '1. Sadni si, predlaktia opri o stehná dlaňami dole, zápästia presahujú kolená.\n'
+        '2. Zdvihni chrbty rúk čo najvyššie.\n'
+        '3. Pomaly spusti.',
+      'hack_squat':
+        '1. Postav sa na plošinu, chrbát na opierke, ramená pod vankúšmi.\n'
+        '2. Drepni, kým nie sú stehná aspoň rovnobežne s plošinou.\n'
+        '3. Vytlač sa späť celým chodidlom.',
+      'smith_squat':
+        '1. Os na hornej časti chrbta, chodidlá mierne pred osou.\n'
+        '2. S rovným chrbtom drepni aspoň do vodorovnej polohy stehien.\n'
+        '3. Vstaň a na konci os zaisti.',
+      'walking_lunge':
+        '1. Drž jednoručky pozdĺž tela a urob dlhý krok vpred.\n'
+        '2. Spusti zadné koleno takmer k zemi.\n'
+        '3. Odraz sa prednou nohou a hneď pokračuj ďalším výpadom.',
+      'reverse_lunge':
+        '1. Stoj vzpriamene s jednoručkami pozdĺž tela.\n'
+        '2. Ukroč dozadu a spusti zadné koleno takmer k zemi.\n'
+        '3. Tlakom prednej nohy sa vráť. Striedaj nohy.',
+      'step_up':
+        '1. Postav sa pred lavicu alebo debnu s jednoručkami v rukách.\n'
+        '2. Polož jednu nohu hore a vystúp tlakom tejto nohy.\n'
+        '3. Pomaly zostúp. Striedaj nohy alebo cvič jednu stranu po druhej.',
+      'split_squat':
+        '1. Postav sa do dlhého výkroku s jednoručkami v rukách.\n'
+        '2. Spúšťaj sa zvislo dole, kým sa zadné koleno takmer nedotkne zeme.\n'
+        '3. Vytlač sa späť. Dokonči opakovania a vymeň nohy.',
+      'sumo_squat':
+        '1. Široký postoj, špičky von, jednu jednoručku drž medzi nohami.\n'
+        '2. Drepni so vzpriameným trupom, kolená mieria v smere špičiek.\n'
+        '3. Vstaň a zatni zadok.',
+      'pistol_squat':
+        '1. Postav sa na jednu nohu, druhú natiahni pred seba.\n'
+        '2. Kontrolovane drepni čo najhlbšie, ruky vpredu pre rovnováhu.\n'
+        '3. Vstaň. Na začiatku sa môžeš niečoho pridržať.',
+      'single_leg_press':
+        '1. Sadni si do legpressu, jednu nohu daj doprostred plošiny.\n'
+        '2. Spúšťaj plošinu, kým nie je koleno zhruba v pravom uhle.\n'
+        '3. Vytlač späť bez zamknutia kolena. Vymeň nohy.',
+      'hip_adduction_machine':
+        '1. Sadni si do stroja, vankúše máš z vnútornej strany kolien.\n'
+        '2. Stiahni nohy k sebe.\n'
+        '3. Pomaly ich roztiahni späť.',
+      'wall_sit':
+        '1. Opri sa chrbtom o stenu a zíď dole.\n'
+        '2. Zastav, keď sú kolená zhruba v pravom uhle, chodidlá pod kolenami.\n'
+        '3. Vydrž stanovený čas, chrbát celou plochou pri stene.',
+      'jump_squat':
+        '1. Postav sa, chodidlá na šírku ramien.\n'
+        '2. Drepni a výbušne vyskoč.\n'
+        '3. Mäkko dopadni a hneď pokračuj ďalším drepom.',
+      'box_jump':
+        '1. Postav sa pred stabilnú debnu.\n'
+        '2. Švihni pažami a vyskoč na debnu, dopadni mäkko.\n'
+        '3. Vzpriam sa a zostúp dole.',
+      'seated_leg_curl':
+        '1. Sadni si do stroja, vankúš nad pätami, stehná zaistené zhora.\n'
+        '2. Pritiahni päty čo najviac dole a dozadu.\n'
+        '3. Pomaly sa vráť.',
+      'nordic_curl':
+        '1. Kľakni si a zaprí päty pod niečo pevné.\n'
+        '2. Čo najpomalšie padaj trupom dopredu, bedrá rovné.\n'
+        '3. Zachyť sa rukami a zadnými stehnami sa pritiahni späť.',
+      'single_leg_rdl':
+        '1. Stoj na jednej nohe s jednoručkou v ruke, koleno mierne pokrčené.\n'
+        '2. Predkloň sa a voľnú nohu natiahni dozadu, chrbát rovný.\n'
+        '3. Tlakom panvy dopredu sa vzpriam.',
+      'dumbbell_romanian_deadlift':
+        '1. Stoj s jednoručkami pred stehnami, kolená povolené.\n'
+        '2. Posuň panvu dozadu a jednoručky veď pozdĺž nôh dole.\n'
+        '3. Pri natiahnutí zadných stehien sa zastav a vzpriam sa.',
+      'stiff_leg_deadlift':
+        '1. Stoj s osou v rukách, nohy takmer natiahnuté.\n'
+        '2. S rovným chrbtom sa predkloň a spúšťaj os pozdĺž nôh.\n'
+        '3. Zatnutím zadných stehien a zadku sa vzpriam.',
+      'stability_ball_leg_curl':
+        '1. Ľahni si na chrbát, päty na gymnastickej lopte, panva zdvihnutá.\n'
+        '2. Pokrčením kolien pritiahni loptu k sebe.\n'
+        '3. Pomaly ju odkotúľaj späť, panva zostáva hore.',
+      'sumo_deadlift':
+        '1. Široký postoj, špičky von, os chyť medzi nohami.\n'
+        '2. Spevni sa, tlač kolená von a vstaň s osou tesne pri tele.\n'
+        '3. S rovným chrbtom ju vráť na zem.',
+      'cable_glute_kickback':
+        '1. Na spodnú kladku pripni manžetu na členok a pridrž sa stroja.\n'
+        '2. Zatnutím zadku zanož nohu dozadu a hore.\n'
+        '3. Pomaly sa vráť, v krížoch sa neprehýbaj.',
+      'hip_abduction_machine':
+        '1. Sadni si do stroja, vankúše máš z vonkajšej strany kolien.\n'
+        '2. Roztiahni nohy od seba čo najviac.\n'
+        '3. Pomaly ich vráť k sebe.',
+      'machine_hip_thrust':
+        '1. Opri hornú časť chrbta o opierku a pás si daj cez panvu.\n'
+        '2. Vytlač panvu hore do roviny od kolien k ramenám.\n'
+        '3. Hore zatni zadok a pomaly spusti.',
+      'single_leg_glute_bridge':
+        '1. Ľahni si na chrbát, jedno chodidlo na zemi, druhú nohu natiahni hore.\n'
+        '2. Tlakom päty opretej nohy zdvihni panvu.\n'
+        '3. Pomaly spusti. Dokonči opakovania a vymeň nohy.',
+      'donkey_kick':
+        '1. Kľakni si na všetky štyri, dlane pod ramenami.\n'
+        '2. Pokrčenú nohu zdvihni dozadu, chodidlo mieri k stropu.\n'
+        '3. Pomaly spusti, v chrbte sa neprehýbaj.',
+      'fire_hydrant':
+        '1. Kľakni si na všetky štyri, chrbát rovný.\n'
+        '2. Pokrčenú nohu zdvihni do strany do výšky panvy.\n'
+        '3. Pomaly spusti, panva zostáva rovno.',
+      'banded_lateral_walk':
+        '1. Natiahni si mini gumu nad kolená alebo členky a mierne pokrč kolená.\n'
+        '2. Kráčaj do strany, guma zostáva napnutá.\n'
+        '3. Počítaj kroky jedným smerom a potom sa vráť.',
+      'cable_pull_through':
+        '1. Stoj chrbtom k spodnej kladke, lano medzi nohami.\n'
+        '2. S rovným chrbtom sa predkloň a nechaj lano odísť dozadu.\n'
+        '3. Tlakom panvy dopredu sa vzpriam a zatni zadok.',
+      'seated_calf_raise':
+        '1. Sadni si, vankúš na stehnách, predná časť chodidiel na nášľapnej ploche.\n'
+        '2. Zdvihni päty čo najvyššie.\n'
+        '3. Pomaly spusti do plného natiahnutia.',
+      'single_leg_calf_raise':
+        '1. Postav sa jednou nohou na hranu schodu a pridrž sa.\n'
+        '2. Vytiahni sa na špičku čo najvyššie.\n'
+        '3. Spusti pätu pod úroveň schodu do plného natiahnutia.',
+      'leg_press_calf_raise':
+        '1. Sadni si do legpressu, predná časť chodidiel na spodnej hrane plošiny.\n'
+        '2. Natiahnutím špičiek odtlač plošinu.\n'
+        '3. Pomaly ju pusti späť do natiahnutia. Kolená drž natiahnuté.',
+      'sit_up':
+        '1. Ľahni si na chrbát, kolená pokrčené, chodidlá na zemi.\n'
+        '2. Postupne sa zdvihni až do sedu.\n'
+        '3. Pomaly sa vráť do ľahu.',
+      'decline_sit_up':
+        '1. Zaprí nohy na negatívnej lavici a ľahni si.\n'
+        '2. Zdvihni sa, kým nie je trup zvislo.\n'
+        '3. Pomaly sa vráť. Pre väčšiu záťaž drž kotúč.',
+      'bicycle_crunch':
+        '1. Ľahni si na chrbát, ruky pri hlave, nohy zdvihnuté.\n'
+        '2. Pritiahni lakeť k opačnému kolenu, druhú nohu natiahni.\n'
+        '3. Striedaj strany ako pri šliapaní na bicykli.',
+      'reverse_crunch':
+        '1. Ľahni si na chrbát, kolená v pravom uhle, ruky na zemi.\n'
+        '2. Zdvihni panvu a pritiahni kolená k hrudníku.\n'
+        '3. Pomaly spusti, nešvihaj.',
+      'lying_leg_raise':
+        '1. Ľahni si na chrbát, nohy natiahnuté, kríže pritlačené k zemi.\n'
+        '2. Zdvihni nohy, kým nemieria k stropu.\n'
+        '3. Pomaly spusti, kríže sa neprehýbajú.',
+      'captains_chair_knee_raise':
+        '1. Opri sa predlaktiami o opierky, chrbát o operadlo.\n'
+        '2. Pritiahni kolená k hrudníku.\n'
+        '3. Pomaly spusti, nešvihaj.',
+      'ab_wheel_rollout':
+        '1. Kľakni si a drž koliesko pod ramenami.\n'
+        '2. Vyjdi dopredu čo najďalej, kríže sa neprehýbajú.\n'
+        '3. Bruchom sa pritiahni späť.',
+      'russian_twist':
+        '1. Sadni si s miernym záklonom, nohy zdvihnuté alebo na zemi.\n'
+        '2. Otoč trup a dotkni sa zeme vedľa boku.\n'
+        '3. Otoč sa na druhú stranu. Pre väčšiu záťaž drž závažie.',
+      'v_up':
+        '1. Ľahni si na chrbát, paže za hlavou, nohy natiahnuté.\n'
+        '2. Súčasne zdvihni paže aj nohy a dotkni sa špičiek.\n'
+        '3. Pomaly sa vráť do ľahu.',
+      'hollow_hold':
+        '1. Ľahni si na chrbát a pritlač kríže k zemi.\n'
+        '2. Zdvihni ramená a natiahnuté nohy kúsok nad zem.\n'
+        '3. Vydrž stanovený čas, kríže sa neprehýbajú.',
+      'pallof_press':
+        '1. Stoj bokom ku kladke vo výške hrudníka, rukoväť pri hrudníku.\n'
+        '2. Vytlač rukoväť rovno pred seba a nedovoľ telu sa otočiť.\n'
+        '3. Vráť ju k hrudníku. Cvič obe strany.',
+      'cable_woodchopper':
+        '1. Stoj bokom k hornej kladke, rukoväť drž oboma rukami.\n'
+        '2. Ťahaj ju šikmo dole cez telo a otáčaj trup.\n'
+        '3. Pomaly sa vráť. Cvič obe strany.',
+      'plank_shoulder_tap':
+        '1. Zaujmi pozíciu vysokého planku, nohy mierne od seba.\n'
+        '2. Jednou rukou sa dotkni opačného ramena, panva sa nehojdá.\n'
+        '3. Vymeň ruky.',
+      'bird_dog':
+        '1. Kľakni si na všetky štyri, chrbát rovný.\n'
+        '2. Natiahni jednu ruku dopredu a opačnú nohu dozadu.\n'
+        '3. Chvíľu vydrž, vráť sa a vymeň strany.',
+      'power_clean':
+        '1. Stoj nad osou, úchop tesne zvonka kolien, chrbát rovný.\n'
+        '2. Výbušne ťahaj os pozdĺž tela hore a zachyť ju vpredu na ramenách.\n'
+        '3. Vzpriam sa a os spusti. Techniku sa uč s ľahkou osou.',
+      'thruster':
+        '1. Os drž vpredu na ramenách.\n'
+        '2. Drepni a pri vstávaní ju jedným pohybom vytlač nad hlavu.\n'
+        '3. Vráť os na ramená a hneď pokračuj ďalším drepom.',
+      'turkish_get_up':
+        '1. Ľahni si na chrbát a drž kettlebell v jednej ruke nad sebou.\n'
+        '2. Krok za krokom sa postav, kettlebell sleduj očami a pažu drž natiahnutú.\n'
+        '3. Rovnakou cestou sa vráť do ľahu. Cvič obe strany.',
+      'bear_crawl':
+        '1. Opri sa o ruky a chodidlá, kolená kúsok nad zemou, chrbát rovný.\n'
+        '2. Lez dopredu, súčasne posúvaj opačnú ruku a nohu.\n'
+        '3. Panvu drž nízko stanovený čas.',
+      'high_knees':
+        '1. Bež na mieste a dvíhaj kolená do výšky panvy.\n'
+        '2. Pracuj pažami a zostaň na prednej časti chodidiel.\n'
+        '3. Drž rýchle tempo stanovený čas.',
+      'jump_rope':
+        '1. Drž rukoväte pri bokoch, lakte blízko tela.\n'
+        '2. Toč švihadlom zápästím a skáč len tak vysoko, aby prešlo.\n'
+        '3. Mäkko dopadaj na prednú časť chodidiel stanovený čas.',
+      'rowing_machine':
+        '1. Pripni si nohy a chyť madlo v natiahnutých pažiach.\n'
+        '2. Odraz sa nohami, mierne sa zakloň a pritiahni madlo k spodným rebrám.\n'
+        '3. Vracaj sa v opačnom poradí: paže, trup, nohy. Drž stále tempo.',
+      'stationary_bike':
+        '1. Sedlo nastav tak, aby bolo koleno v spodnej polohe pedálu mierne pokrčené.\n'
+        '2. Šliapaj stálym tempom s rovným chrbtom.\n'
+        '3. Odpor nastav podľa cieľa a jazdi stanovený čas.',
+      'treadmill_run':
+        '1. Začni chôdzou a postupne zvyšuj rýchlosť.\n'
+        '2. Bež vzpriamene s uvoľnenými ramenami, dopadaj pod panvu.\n'
+        '3. Pred zostúpením spomaľ do chôdze.',
+      'elliptical':
+        '1. Postav sa na pedále a chyť pohyblivé madlá.\n'
+        '2. Pohybuj sa plynulo a zapoj aj paže tlakom a ťahom.\n'
+        '3. Drž stále tempo stanovený čas.',
+      'stair_climber':
+        '1. Postav sa na schody a zvoľ rýchlosť, ktorú udržíš.\n'
+        '2. Stúpaj vzpriamene, zábradlie používaj len zľahka na rovnováhu.\n'
+        '3. Pokračuj stanovený čas.',
+      'air_bike':
+        '1. Sadni si na bicykel a chyť pohyblivé madlá.\n'
+        '2. Šliapaj a zároveň tlač a ťahaj madlá.\n'
+        '3. Čím viac pridáš, tým viac ventilátor brzdí. Jazdi stanovený čas.',
     },
     routineNames: {
       'home_upper': 'Horná polovica tela za 5 minút',
@@ -2259,6 +6284,121 @@ const seedTranslations = <String, SeedTranslation>{
       'kettlebell_swing': 'Kettlebell swing',
       'weighted_pull_up': 'Optrekken met extra gewicht',
       'weighted_dips': 'Dips met extra gewicht',
+      'barbell_shrug': 'Barbell shrugs',
+      'dumbbell_shrug': 'Dumbbell shrugs',
+      'wrist_curl': 'Polscurls',
+      'reverse_curl': 'Reverse curls',
+      'dead_hang': 'Hangen aan de stang',
+      'back_extension': 'Rugextensies (hyperextensions)',
+      'good_morning': 'Good mornings',
+      'superman': 'Superman',
+      'decline_bench_press': 'Decline bench press',
+      'smith_bench_press': 'Bench press in de Smith machine',
+      'dumbbell_fly': 'Dumbbell flyes',
+      'incline_dumbbell_fly': 'Incline dumbbell flyes',
+      'low_to_high_cable_fly': 'Cable flyes van laag naar hoog',
+      'incline_chest_press_machine': 'Incline chest press machine',
+      'chest_dips': 'Dips voor de borst',
+      'incline_push_up': 'Incline push-ups',
+      'decline_push_up': 'Decline push-ups',
+      'dumbbell_floor_press': 'Floor press met dumbbells',
+      't_bar_row': 'T-bar row',
+      'pendlay_row': 'Pendlay row',
+      'machine_row': 'Roeien op de machine',
+      'chest_supported_row': 'Dumbbell row op de incline bank',
+      'close_grip_lat_pulldown': 'Lat pulldown met smalle greep',
+      'straight_arm_pulldown': 'Straight-arm pulldown',
+      'band_assisted_pull_up': 'Pull-ups met weerstandsband',
+      'inverted_row': 'Inverted row',
+      'neutral_grip_pull_up': 'Pull-ups met neutrale greep',
+      'rack_pull': 'Rack pull',
+      'trap_bar_deadlift': 'Trap bar deadlift',
+      'single_arm_cable_row': 'Eenarmig kabelroeien',
+      'dumbbell_pullover': 'Dumbbell pullover',
+      'renegade_row': 'Renegade row',
+      'arnold_press': 'Arnold press',
+      'shoulder_press_machine': 'Shoulder press machine',
+      'push_press': 'Push press',
+      'cable_lateral_raise': 'Lateral raise aan de kabel',
+      'machine_lateral_raise': 'Lateral raise op de machine',
+      'front_raise': 'Front raise met dumbbells',
+      'upright_row': 'Upright row',
+      'reverse_pec_deck': 'Reverse pec deck',
+      'band_pull_apart': 'Band pull-aparts',
+      'handstand_push_up': 'Handstand push-ups',
+      'landmine_press': 'Landmine press',
+      'preacher_curl': 'Preacher curl',
+      'concentration_curl': 'Concentratiecurl',
+      'incline_dumbbell_curl': 'Incline dumbbell curl',
+      'ez_bar_curl': 'EZ-bar curl',
+      'rope_hammer_curl': 'Hammer curl met touw',
+      'machine_biceps_curl': 'Bicepscurl op de machine',
+      'band_curl': 'Bicepscurl met band',
+      'rope_pushdown': 'Triceps pushdown met touw',
+      'overhead_cable_extension': 'Overhead triceps extensie aan de kabel',
+      'triceps_kickback': 'Triceps kickback',
+      'bench_dips': 'Bench dips',
+      'machine_triceps_dip': 'Dipmachine',
+      'single_arm_pushdown': 'Eenarmige triceps pushdown',
+      'diamond_push_up': 'Diamond push-ups',
+      'reverse_wrist_curl': 'Reverse polscurls',
+      'hack_squat': 'Hack squat',
+      'smith_squat': 'Squat in de Smith machine',
+      'walking_lunge': 'Walking lunges',
+      'reverse_lunge': 'Reverse lunges',
+      'step_up': 'Step-ups',
+      'split_squat': 'Split squat',
+      'sumo_squat': 'Sumo squat met dumbbell',
+      'pistol_squat': 'Pistol squat',
+      'single_leg_press': 'Eenbenige leg press',
+      'hip_adduction_machine': 'Adductormachine',
+      'wall_sit': 'Wall sit',
+      'jump_squat': 'Jump squats',
+      'box_jump': 'Box jumps',
+      'seated_leg_curl': 'Zittende leg curl',
+      'nordic_curl': 'Nordic hamstring curl',
+      'single_leg_rdl': 'Eenbenige Roemeense deadlift',
+      'dumbbell_romanian_deadlift': 'Roemeense deadlift met dumbbells',
+      'stiff_leg_deadlift': 'Stiff-leg deadlift',
+      'stability_ball_leg_curl': 'Leg curl op de fitnessbal',
+      'sumo_deadlift': 'Sumo deadlift',
+      'cable_glute_kickback': 'Glute kickback aan de kabel',
+      'hip_abduction_machine': 'Abductormachine',
+      'machine_hip_thrust': 'Hip thrust machine',
+      'single_leg_glute_bridge': 'Eenbenige glute bridge',
+      'donkey_kick': 'Donkey kicks',
+      'fire_hydrant': 'Fire hydrants',
+      'banded_lateral_walk': 'Zijwaarts lopen met band',
+      'cable_pull_through': 'Cable pull-through',
+      'seated_calf_raise': 'Zittende kuitheffing',
+      'single_leg_calf_raise': 'Eenbenige kuitheffing',
+      'leg_press_calf_raise': 'Kuitheffing in de leg press',
+      'sit_up': 'Sit-ups',
+      'decline_sit_up': 'Sit-ups op de declinebank',
+      'bicycle_crunch': 'Bicycle crunches',
+      'reverse_crunch': 'Reverse crunches',
+      'lying_leg_raise': 'Liggend benen heffen',
+      'captains_chair_knee_raise': 'Knieheffen in de captain’s chair',
+      'ab_wheel_rollout': 'Ab wheel rollout',
+      'russian_twist': 'Russian twist',
+      'v_up': 'V-ups',
+      'hollow_hold': 'Hollow body hold',
+      'pallof_press': 'Pallof press',
+      'cable_woodchopper': 'Woodchopper aan de kabel',
+      'plank_shoulder_tap': 'Plank met schoudertik',
+      'bird_dog': 'Bird dog',
+      'power_clean': 'Power clean',
+      'thruster': 'Thruster',
+      'turkish_get_up': 'Turkish get-up',
+      'bear_crawl': 'Bear crawl',
+      'high_knees': 'High knees',
+      'jump_rope': 'Touwtjespringen',
+      'rowing_machine': 'Roeimachine',
+      'stationary_bike': 'Hometrainer',
+      'treadmill_run': 'Hardlopen op de loopband',
+      'elliptical': 'Crosstrainer',
+      'stair_climber': 'Traploper',
+      'air_bike': 'Air bike',
     },
     exerciseInstructions: {
       'bench_press':
@@ -2487,6 +6627,466 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Steun op de leggers met gestrekte armen.\n'
         '3. Zak tot je bovenarmen ongeveer parallel aan de grond zijn.\n'
         '4. Duw jezelf weer omhoog en laat je schouders niet naar voren vallen. Noteer alleen het extra gewicht.',
+      'barbell_shrug':
+        '1. Sta rechtop met de stang in gestrekte armen, greep op schouderbreedte.\n'
+        '2. Trek je schouders recht omhoog richting je oren, armen blijven gestrekt.\n'
+        '3. Houd even vast bovenin en laat langzaam zakken. Rol niet met je schouders.',
+      'dumbbell_shrug':
+        '1. Sta met een dumbbell in elke hand langs je lichaam, handpalmen naar binnen.\n'
+        '2. Trek je schouders zo hoog mogelijk recht omhoog.\n'
+        '3. Houd even vast en laat gecontroleerd zakken.',
+      'wrist_curl':
+        '1. Zit met je onderarmen op je dijen of een bank, handpalmen omhoog, polsen over de rand.\n'
+        '2. Laat de dumbbells naar je vingertoppen rollen.\n'
+        '3. Krul je polsen zo hoog mogelijk op, onderarmen blijven stil.',
+      'reverse_curl':
+        '1. Sta rechtop en houd de stang in bovenhandse greep op schouderbreedte.\n'
+        '2. Krul de stang omhoog, ellebogen langs je zij, polsen recht.\n'
+        '3. Laat langzaam zakken tot gestrekte armen.',
+      'dead_hang':
+        '1. Pak de stang in bovenhandse greep op schouderbreedte.\n'
+        '2. Hang met gestrekte armen, voeten van de grond, lichaam stil.\n'
+        '3. Houd de ingestelde tijd vol met licht actieve schouders.',
+      'back_extension':
+        '1. Zet het kussen net onder je heupen en zet je hielen vast.\n'
+        '2. Laat je bovenlichaam met rechte rug zakken tot je je hamstrings voelt rekken.\n'
+        '3. Kom omhoog tot je in lijn bent met je benen, niet overstrekken. Houd een schijf vast voor extra gewicht.',
+      'good_morning':
+        '1. Stang op je bovenrug zoals bij de squat, voeten op heupbreedte, knieën licht gebogen.\n'
+        '2. Duw je heupen naar achteren en buig met rechte rug voorover tot je romp bijna horizontaal is.\n'
+        '3. Duw je heupen naar voren om rechtop te komen. Begin licht.',
+      'superman':
+        '1. Ga op je buik liggen met je armen gestrekt boven je hoofd.\n'
+        '2. Til armen, borst en benen tegelijk van de grond.\n'
+        '3. Houd een seconde vast en laat langzaam zakken.',
+      'decline_bench_press':
+        '1. Zet je benen vast op de declinebank, greep iets breder dan je schouders.\n'
+        '2. Laat de stang gecontroleerd zakken naar je onderste borst.\n'
+        '3. Druk omhoog tot gestrekte armen, schouderbladen blijven samen.',
+      'smith_bench_press':
+        '1. Zet de bank zo dat de stang boven het midden van je borst komt.\n'
+        '2. Haal de stang los en laat hem gecontroleerd naar je borst zakken.\n'
+        '3. Druk omhoog zonder je ellebogen hard op slot te zetten en haak de stang aan het eind weer in.',
+      'dumbbell_fly':
+        '1. Lig op een vlakke bank, dumbbells boven je borst, ellebogen licht gebogen.\n'
+        '2. Open je armen in een brede boog tot je je borst voelt rekken.\n'
+        '3. Breng de dumbbells weer samen zonder de hoek in je ellebogen te veranderen.',
+      'incline_dumbbell_fly':
+        '1. Zet de bank op 30°, dumbbells boven je borst, ellebogen soepel.\n'
+        '2. Laat ze in een brede boog zakken tot je je bovenste borst voelt rekken.\n'
+        '3. Breng ze weer samen boven je borst.',
+      'low_to_high_cable_fly':
+        '1. Zet beide kabels laag en sta ertussen met een lichte voorover buiging.\n'
+        '2. Breng de handvatten omhoog en samen voor je bovenste borst.\n'
+        '3. Ga langzaam terug naar de rek, ellebogen licht gebogen.',
+      'incline_chest_press_machine':
+        '1. Stel de zitting zo in dat de handvatten op hoogte van je bovenste borst zitten.\n'
+        '2. Duw naar voren en omhoog tot je armen bijna gestrekt zijn.\n'
+        '3. Ga langzaam terug tot je je borst voelt rekken.',
+      'chest_dips':
+        '1. Steun op de brug en buig je bovenlichaam naar voren.\n'
+        '2. Zak met je ellebogen iets naar buiten tot je je borst voelt rekken.\n'
+        '3. Duw je weer omhoog en houd de voorover buiging vast.',
+      'incline_push_up':
+        '1. Zet je handen op een bank of box, lichaam in één lijn.\n'
+        '2. Laat je borst naar de rand zakken, ellebogen ongeveer 45° van je lichaam.\n'
+        '3. Duw je weer omhoog. Hoe hoger de steun, hoe makkelijker.',
+      'decline_push_up':
+        '1. Voeten op een bank, handen op de grond onder je schouders.\n'
+        '2. Laat je borst met een strakke romp naar de grond zakken.\n'
+        '3. Duw je omhoog zonder dat je heupen doorzakken.',
+      'dumbbell_floor_press':
+        '1. Lig op de grond, knieën gebogen, dumbbells boven je borst.\n'
+        '2. Laat zakken tot je bovenarmen de grond raken en pauzeer kort.\n'
+        '3. Druk weer omhoog tot gestrekte armen.',
+      't_bar_row':
+        '1. Ga boven de stang staan, buig voorover met een rechte rug en pak het handvat.\n'
+        '2. Trek het gewicht naar je borst en knijp je schouderbladen samen.\n'
+        '3. Laat gecontroleerd zakken zonder je rug bol te maken.',
+      'pendlay_row':
+        '1. Stang op de grond, bovenlichaam bijna horizontaal, rug recht.\n'
+        '2. Trek de stang explosief naar je onderste borst.\n'
+        '3. Leg hem na elke herhaling neer en zet je opnieuw klaar.',
+      'machine_row':
+        '1. Ga zitten met je borst tegen het kussen en pak de handvatten.\n'
+        '2. Trek naar je lichaam, ellebogen dicht bij je, schouderbladen samen.\n'
+        '3. Ga langzaam terug tot je armen gestrekt zijn.',
+      'chest_supported_row':
+        '1. Lig op je buik op een bank van 30–45°, dumbbells hangen omlaag.\n'
+        '2. Trek ze naar je zij en knijp je schouderbladen samen.\n'
+        '3. Laat langzaam zakken tot volledige rek.',
+      'close_grip_lat_pulldown':
+        '1. Ga aan de lat pulldown zitten met een smalle of V-greep, dijen onder de kussens.\n'
+        '2. Trek de greep naar je bovenste borst, ellebogen omlaag en naar achteren.\n'
+        '3. Laat hem langzaam omhoog tot je armen gestrekt zijn.',
+      'straight_arm_pulldown':
+        '1. Sta voor de hoge kabel, armen bijna gestrekt, licht voorover.\n'
+        '2. Duw de stang met je lats in een boog naar je dijen.\n'
+        '3. Laat langzaam terugkomen, ellebogen bijna gestrekt.',
+      'band_assisted_pull_up':
+        '1. Hang een weerstandsband over de stang en zet een voet of knie erin.\n'
+        '2. Trek je op tot je kin boven de stang is.\n'
+        '3. Laat je gecontroleerd zakken tot je volledig hangt. Dunnere band = minder hulp.',
+      'inverted_row':
+        '1. Hang onder een lage stang of ringen, lichaam recht, hielen op de grond.\n'
+        '2. Trek je borst naar de stang en knijp je schouderbladen samen.\n'
+        '3. Laat gecontroleerd zakken. Hoe rechter je staat, hoe makkelijker.',
+      'neutral_grip_pull_up':
+        '1. Hang aan parallelle handvatten, handpalmen naar elkaar toe.\n'
+        '2. Trek je op tot je kin boven de handvatten is.\n'
+        '3. Laat je gecontroleerd zakken tot je volledig hangt.',
+      'rack_pull':
+        '1. Leg de stang op de steunen net onder of boven je knieën.\n'
+        '2. Pak hem vast, span je romp aan en kom omhoog door je heupen naar voren te duwen.\n'
+        '3. Laat hem met een rechte rug terug op de steunen zakken.',
+      'trap_bar_deadlift':
+        '1. Ga in de trap bar staan, voeten op heupbreedte, pak de handvatten.\n'
+        '2. Span aan, duw de vloer weg en kom rechtop.\n'
+        '3. Laat de stang met een rechte rug weer zakken.',
+      'single_arm_cable_row':
+        '1. Pak een enkel handvat aan de kabel op heuphoogte, arm gestrekt.\n'
+        '2. Trek het naar je zij, elleboog dicht bij je lichaam.\n'
+        '3. Ga langzaam terug en laat je schouder iets naar voren komen.',
+      'dumbbell_pullover':
+        '1. Lig op een bank en houd één dumbbell met twee handen boven je borst.\n'
+        '2. Laat hem in een boog achter je hoofd zakken, ellebogen licht gebogen.\n'
+        '3. Trek hem terug boven je borst.',
+      'renegade_row':
+        '1. Ga in push-uppositie op twee dumbbells staan, voeten breed.\n'
+        '2. Trek één dumbbell naar je heup zonder je heupen te draaien.\n'
+        '3. Zet hem neer en herhaal met de andere arm.',
+      'arnold_press':
+        '1. Zit met de dumbbells voor je schouders, handpalmen naar je toe.\n'
+        '2. Druk omhoog en draai je handpalmen onderweg naar voren.\n'
+        '3. Laat zakken en draai terug naar de beginhouding.',
+      'shoulder_press_machine':
+        '1. Stel de zitting zo in dat de handvatten op schouderhoogte beginnen.\n'
+        '2. Druk omhoog tot je armen bijna gestrekt zijn.\n'
+        '3. Laat langzaam terug zakken naar schouderhoogte.',
+      'push_press':
+        '1. Stang voor op je schouders, voeten op heupbreedte.\n'
+        '2. Zak kort door je knieën en druk de stang met beenkracht boven je hoofd.\n'
+        '3. Laat hem gecontroleerd terug op je schouders zakken.',
+      'cable_lateral_raise':
+        '1. Sta zijwaarts naast de lage kabel, handvat in de verste hand.\n'
+        '2. Breng je arm zijwaarts omhoog tot schouderhoogte.\n'
+        '3. Laat langzaam zakken en houd spanning op de kabel.',
+      'machine_lateral_raise':
+        '1. Ga zitten met de kussens tegen de buitenkant van je armen.\n'
+        '2. Breng je armen omhoog tot schouderhoogte.\n'
+        '3. Laat langzaam zakken zonder het gewicht neer te zetten.',
+      'front_raise':
+        '1. Sta met dumbbells voor je dijen.\n'
+        '2. Breng ze naar voren omhoog tot schouderhoogte, armen bijna gestrekt.\n'
+        '3. Laat langzaam zakken zonder te zwaaien.',
+      'upright_row':
+        '1. Houd de stang voor je dijen, greep ongeveer op schouderbreedte.\n'
+        '2. Trek hem langs je lichaam omhoog tot borsthoogte, ellebogen gaan voorop.\n'
+        '3. Laat langzaam zakken. Ga minder hoog als je schouders knellen.',
+      'reverse_pec_deck':
+        '1. Ga met je gezicht naar de machine zitten, borst tegen het kussen, pak de handvatten.\n'
+        '2. Open je armen in een boog naar achteren tot ze in lijn met je lichaam zijn.\n'
+        '3. Ga langzaam terug.',
+      'band_pull_apart':
+        '1. Houd een band voor je op schouderhoogte, armen gestrekt.\n'
+        '2. Trek hem uit elkaar tot je borst en knijp je schouderbladen samen.\n'
+        '3. Ga langzaam terug.',
+      'handstand_push_up':
+        '1. Zwaai op in een handstand tegen de muur, handen op schouderbreedte.\n'
+        '2. Laat je hoofd gecontroleerd naar de grond zakken.\n'
+        '3. Druk je omhoog tot gestrekte armen. Leg een mat onder je hoofd.',
+      'landmine_press':
+        '1. Houd het uiteinde van een landmine-stang bij je schouder, voeten in spreidstand.\n'
+        '2. Druk hem omhoog en naar voren tot je arm gestrekt is.\n'
+        '3. Laat hem gecontroleerd terug naar je schouder komen.',
+      'preacher_curl':
+        '1. Zit aan de preacherbank, bovenarmen plat op het kussen, EZ-stang in je handen.\n'
+        '2. Krul de stang omhoog zonder je ellebogen op te tillen.\n'
+        '3. Laat langzaam zakken tot bijna gestrekt.',
+      'concentration_curl':
+        '1. Zit op een bank, elleboog tegen de binnenkant van je dij.\n'
+        '2. Krul de dumbbell naar je schouder.\n'
+        '3. Laat langzaam zakken tot volledige rek.',
+      'incline_dumbbell_curl':
+        '1. Leun tegen een bank van 45–60°, armen hangen recht omlaag.\n'
+        '2. Krul de dumbbells omhoog, je bovenarmen blijven stil.\n'
+        '3. Laat langzaam zakken tot volledige rek.',
+      'ez_bar_curl':
+        '1. Sta met de EZ-stang aan de gebogen delen, armen gestrekt.\n'
+        '2. Krul hem omhoog zonder met je lichaam te zwaaien.\n'
+        '3. Laat langzaam zakken tot gestrekte armen.',
+      'rope_hammer_curl':
+        '1. Bevestig een touw aan de lage kabel, handpalmen naar elkaar toe.\n'
+        '2. Krul het touw omhoog, ellebogen langs je zij.\n'
+        '3. Laat langzaam zakken en houd spanning.',
+      'machine_biceps_curl':
+        '1. Ga zitten met je bovenarmen op het kussen en pak de handvatten.\n'
+        '2. Krul de handvatten naar je schouders.\n'
+        '3. Laat langzaam zakken tot bijna gestrekt.',
+      'band_curl':
+        '1. Sta op het midden van de band, uiteinden in je handen.\n'
+        '2. Krul je handen naar je schouders, ellebogen langs je zij.\n'
+        '3. Laat langzaam zakken.',
+      'rope_pushdown':
+        '1. Pak het touw aan de hoge kabel, ellebogen langs je zij.\n'
+        '2. Duw het touw omlaag en trek onderaan de uiteinden uit elkaar.\n'
+        '3. Laat het langzaam omhoog tot ongeveer 90° in je elleboog.',
+      'overhead_cable_extension':
+        '1. Sta met je rug naar de kabel, touw achter je hoofd, ellebogen omhoog.\n'
+        '2. Strek je armen naar voren en omhoog.\n'
+        '3. Buig je ellebogen langzaam terug achter je hoofd.',
+      'triceps_kickback':
+        '1. Buig voorover, bovenarm parallel aan je lichaam, elleboog gebogen.\n'
+        '2. Strek je arm volledig naar achteren.\n'
+        '3. Buig langzaam terug, je bovenarm blijft stil.',
+      'bench_dips':
+        '1. Zet je handen achter je op de rand van een bank, benen naar voren.\n'
+        '2. Laat je zakken door je ellebogen tot ongeveer 90° te buigen.\n'
+        '3. Duw je weer omhoog tot gestrekte armen.',
+      'machine_triceps_dip':
+        '1. Ga in de machine zitten en pak de handvatten aan de zijkant.\n'
+        '2. Duw de handvatten omlaag tot je armen gestrekt zijn.\n'
+        '3. Laat ze langzaam omhoog tot ongeveer 90° in je elleboog.',
+      'single_arm_pushdown':
+        '1. Pak een enkel handvat aan de hoge kabel, elleboog langs je zij.\n'
+        '2. Duw het omlaag tot je arm gestrekt is.\n'
+        '3. Laat het langzaam omhoog, je elleboog blijft op zijn plek.',
+      'diamond_push_up':
+        '1. Push-uppositie met je handen samen onder je borst, vingers vormen een ruit.\n'
+        '2. Laat je borst naar je handen zakken, ellebogen dicht bij je lichaam.\n'
+        '3. Duw je omhoog met een recht lichaam.',
+      'reverse_wrist_curl':
+        '1. Zit met je onderarmen op je dijen, handpalmen omlaag, polsen voorbij je knieën.\n'
+        '2. Til de rug van je handen zo hoog mogelijk op.\n'
+        '3. Laat langzaam zakken.',
+      'hack_squat':
+        '1. Sta op het platform met je rug tegen het kussen, schouders onder de kussens.\n'
+        '2. Zak tot je dijen minstens parallel aan het platform zijn.\n'
+        '3. Duw je omhoog via je hele voet.',
+      'smith_squat':
+        '1. Stang op je bovenrug, voeten iets voor de stang.\n'
+        '2. Zak met een rechte rug minstens tot parallel.\n'
+        '3. Kom omhoog en haak de stang aan het eind weer in.',
+      'walking_lunge':
+        '1. Houd dumbbells langs je zij en zet een lange stap naar voren.\n'
+        '2. Laat je achterste knie bijna tot de grond zakken.\n'
+        '3. Duw af met je voorste voet en ga direct door met de volgende lunge.',
+      'reverse_lunge':
+        '1. Sta rechtop met dumbbells langs je zij.\n'
+        '2. Stap naar achteren en laat je achterste knie bijna tot de grond zakken.\n'
+        '3. Duw via je voorste voet terug. Wissel van been.',
+      'step_up':
+        '1. Sta voor een bank of box met dumbbells in je handen.\n'
+        '2. Zet één voet erop en stap op door met dat been te duwen.\n'
+        '3. Stap langzaam af. Wissel of doe eerst één kant.',
+      'split_squat':
+        '1. Ga in een lange spreidstand staan met dumbbells in je handen.\n'
+        '2. Zak recht omlaag tot je achterste knie bijna de grond raakt.\n'
+        '3. Duw je omhoog. Maak alle herhalingen en wissel dan van been.',
+      'sumo_squat':
+        '1. Brede stand, tenen naar buiten, één dumbbell tussen je benen.\n'
+        '2. Zak met een rechtop bovenlichaam, knieën in de richting van je tenen.\n'
+        '3. Kom omhoog en span je billen aan.',
+      'pistol_squat':
+        '1. Sta op één been, het andere gestrekt voor je.\n'
+        '2. Zak gecontroleerd zo diep mogelijk, armen naar voren voor balans.\n'
+        '3. Kom weer omhoog. In het begin mag je je ergens aan vasthouden.',
+      'single_leg_press':
+        '1. Ga in de leg press zitten met één voet midden op het platform.\n'
+        '2. Laat het platform zakken tot je knie ongeveer 90° gebogen is.\n'
+        '3. Duw terug zonder je knie op slot te zetten. Wissel van been.',
+      'hip_adduction_machine':
+        '1. Ga zitten met de kussens tegen de binnenkant van je knieën.\n'
+        '2. Knijp je benen samen.\n'
+        '3. Open ze langzaam weer.',
+      'wall_sit':
+        '1. Leun met je rug tegen een muur en glijd omlaag.\n'
+        '2. Stop als je knieën ongeveer 90° gebogen zijn, voeten onder je knieën.\n'
+        '3. Houd de ingestelde tijd vol, rug plat tegen de muur.',
+      'jump_squat':
+        '1. Sta met je voeten op schouderbreedte.\n'
+        '2. Zak in een squat en spring explosief omhoog.\n'
+        '3. Land zacht en ga direct door met de volgende squat.',
+      'box_jump':
+        '1. Ga voor een stevige box staan.\n'
+        '2. Zwaai je armen en spring op de box, land zacht.\n'
+        '3. Kom helemaal rechtop en stap dan af.',
+      'seated_leg_curl':
+        '1. Ga in de machine zitten, kussen boven je hielen, dijen vast.\n'
+        '2. Trek je hielen zo ver mogelijk omlaag en naar achteren.\n'
+        '3. Ga langzaam terug.',
+      'nordic_curl':
+        '1. Kniel met je hielen vast onder iets stevigs.\n'
+        '2. Laat je lichaam zo langzaam mogelijk naar voren zakken, heupen gestrekt.\n'
+        '3. Vang je op met je handen en trek je met je hamstrings terug.',
+      'single_leg_rdl':
+        '1. Sta op één been met een dumbbell, knie licht gebogen.\n'
+        '2. Buig voorover terwijl je vrije been naar achteren gaat, rug recht.\n'
+        '3. Kom omhoog door je heupen naar voren te duwen.',
+      'dumbbell_romanian_deadlift':
+        '1. Sta met dumbbells voor je dijen, knieën soepel.\n'
+        '2. Duw je heupen naar achteren en laat de dumbbells langs je benen zakken.\n'
+        '3. Stop als je je hamstrings voelt rekken en kom omhoog.',
+      'stiff_leg_deadlift':
+        '1. Sta met de stang in je handen, benen bijna gestrekt.\n'
+        '2. Buig met een rechte rug voorover en laat de stang langs je benen zakken.\n'
+        '3. Kom omhoog door je hamstrings en billen aan te spannen.',
+      'stability_ball_leg_curl':
+        '1. Lig op je rug, hielen op de bal, heupen omhoog.\n'
+        '2. Rol de bal naar je toe door je knieën te buigen.\n'
+        '3. Rol hem langzaam terug, je heupen blijven omhoog.',
+      'sumo_deadlift':
+        '1. Brede stand, tenen naar buiten, pak de stang tussen je benen.\n'
+        '2. Span aan, duw je knieën naar buiten en kom omhoog met de stang dicht bij je lichaam.\n'
+        '3. Laat hem met een rechte rug weer zakken.',
+      'cable_glute_kickback':
+        '1. Bevestig een enkelband aan de lage kabel en houd je vast aan de machine.\n'
+        '2. Schop je been naar achteren en omhoog door je bil aan te spannen.\n'
+        '3. Ga langzaam terug zonder je onderrug hol te maken.',
+      'hip_abduction_machine':
+        '1. Ga zitten met de kussens tegen de buitenkant van je knieën.\n'
+        '2. Duw je benen zo ver mogelijk uit elkaar.\n'
+        '3. Breng ze langzaam weer samen.',
+      'machine_hip_thrust':
+        '1. Leg je bovenrug tegen het kussen en de riem over je heupen.\n'
+        '2. Duw je heupen omhoog tot je lichaam recht is van knieën tot schouders.\n'
+        '3. Span bovenin je billen aan en laat langzaam zakken.',
+      'single_leg_glute_bridge':
+        '1. Lig op je rug, één voet op de grond, het andere been recht omhoog.\n'
+        '2. Duw je heupen omhoog via de hiel van het standbeen.\n'
+        '3. Laat langzaam zakken. Maak alle herhalingen en wissel dan.',
+      'donkey_kick':
+        '1. Ga op handen en knieën zitten, handen onder je schouders.\n'
+        '2. Til één gebogen been naar achteren op, voetzool naar het plafond.\n'
+        '3. Laat langzaam zakken zonder je rug hol te maken.',
+      'fire_hydrant':
+        '1. Ga op handen en knieën zitten, rug recht.\n'
+        '2. Til één gebogen been zijwaarts op tot heuphoogte.\n'
+        '3. Laat langzaam zakken, je heupen blijven recht.',
+      'banded_lateral_walk':
+        '1. Doe een miniband boven je knieën of om je enkels en buig je knieën licht.\n'
+        '2. Stap zijwaarts en houd de band op spanning.\n'
+        '3. Tel je stappen naar één kant en loop dan terug.',
+      'cable_pull_through':
+        '1. Sta met je rug naar de lage kabel, touw tussen je benen.\n'
+        '2. Buig met een rechte rug voorover en laat het touw naar achteren gaan.\n'
+        '3. Duw je heupen naar voren om rechtop te komen en span je billen aan.',
+      'seated_calf_raise':
+        '1. Ga zitten met het kussen op je dijen, voorvoeten op de trede.\n'
+        '2. Til je hielen zo hoog mogelijk op.\n'
+        '3. Laat langzaam zakken tot volledige rek.',
+      'single_leg_calf_raise':
+        '1. Sta met één voet op de rand van een trede en houd je vast.\n'
+        '2. Kom zo hoog mogelijk op je tenen.\n'
+        '3. Laat je hiel onder de trede zakken voor een volledige rek.',
+      'leg_press_calf_raise':
+        '1. Ga in de leg press zitten, voorvoeten op de onderrand van het platform.\n'
+        '2. Duw het platform weg door je voeten te strekken.\n'
+        '3. Laat het langzaam terugkomen voor een volledige rek. Houd je knieën gestrekt.',
+      'sit_up':
+        '1. Lig op je rug, knieën gebogen, voeten op de grond.\n'
+        '2. Rol helemaal op tot zit.\n'
+        '3. Laat je langzaam terug zakken.',
+      'decline_sit_up':
+        '1. Zet je voeten vast op de declinebank en ga liggen.\n'
+        '2. Kom omhoog tot je bovenlichaam rechtop is.\n'
+        '3. Ga langzaam terug. Houd een schijf vast voor extra gewicht.',
+      'bicycle_crunch':
+        '1. Lig op je rug, handen bij je hoofd, benen opgetild.\n'
+        '2. Breng een elleboog naar de tegenovergestelde knie terwijl je het andere been strekt.\n'
+        '3. Wissel van kant alsof je fietst.',
+      'reverse_crunch':
+        '1. Lig op je rug, knieën 90° gebogen, armen op de grond.\n'
+        '2. Til je heupen op en breng je knieën naar je borst.\n'
+        '3. Laat langzaam zakken zonder te zwaaien.',
+      'lying_leg_raise':
+        '1. Lig op je rug, benen gestrekt, onderrug tegen de grond.\n'
+        '2. Til je benen op tot ze naar het plafond wijzen.\n'
+        '3. Laat langzaam zakken zonder je rug hol te maken.',
+      'captains_chair_knee_raise':
+        '1. Steun met je onderarmen op de kussens, rug tegen de leuning.\n'
+        '2. Trek je knieën naar je borst.\n'
+        '3. Laat langzaam zakken zonder te zwaaien.',
+      'ab_wheel_rollout':
+        '1. Kniel en houd het buikwiel onder je schouders.\n'
+        '2. Rol zo ver mogelijk naar voren zonder dat je onderrug doorzakt.\n'
+        '3. Trek je met je buikspieren terug.',
+      'russian_twist':
+        '1. Zit licht achterover geleund, voeten opgetild of op de grond.\n'
+        '2. Draai je bovenlichaam en tik de grond naast je heup aan.\n'
+        '3. Draai naar de andere kant. Houd een gewicht vast voor extra belasting.',
+      'v_up':
+        '1. Lig op je rug, armen boven je hoofd, benen gestrekt.\n'
+        '2. Til tegelijk je armen en benen op en raak je tenen aan.\n'
+        '3. Laat je langzaam terug zakken.',
+      'hollow_hold':
+        '1. Lig op je rug en druk je onderrug in de grond.\n'
+        '2. Til je schouders en gestrekte benen een stukje van de grond.\n'
+        '3. Houd de ingestelde tijd vol zonder je rug hol te maken.',
+      'pallof_press':
+        '1. Sta zijwaarts naast een kabel op borsthoogte, handvat bij je borst.\n'
+        '2. Duw het handvat recht naar voren zonder dat je lichaam draait.\n'
+        '3. Breng het terug naar je borst. Train beide kanten.',
+      'cable_woodchopper':
+        '1. Sta zijwaarts naast de hoge kabel, handvat met twee handen.\n'
+        '2. Trek het diagonaal omlaag over je lichaam en draai je bovenlichaam mee.\n'
+        '3. Ga langzaam terug. Train beide kanten.',
+      'plank_shoulder_tap':
+        '1. Ga in een hoge plank, voeten iets uit elkaar.\n'
+        '2. Tik met één hand de tegenovergestelde schouder aan zonder je heupen te bewegen.\n'
+        '3. Wissel van hand.',
+      'bird_dog':
+        '1. Ga op handen en knieën zitten, rug recht.\n'
+        '2. Strek één arm naar voren en het tegenovergestelde been naar achteren.\n'
+        '3. Houd even vast, ga terug en wissel van kant.',
+      'power_clean':
+        '1. Sta boven de stang, greep net buiten je knieën, rug recht.\n'
+        '2. Trek de stang explosief langs je lichaam omhoog en vang hem voor op je schouders.\n'
+        '3. Kom rechtop en laat de stang zakken. Leer de techniek met een lichte stang.',
+      'thruster':
+        '1. Houd de stang voor op je schouders.\n'
+        '2. Zak in een squat en druk de stang bij het opstaan in één beweging boven je hoofd.\n'
+        '3. Breng hem terug naar je schouders en ga direct door met de volgende squat.',
+      'turkish_get_up':
+        '1. Lig op je rug en houd een kettlebell met één hand recht omhoog.\n'
+        '2. Kom stap voor stap overeind, blik op de kettlebell, arm gestrekt.\n'
+        '3. Ga via dezelfde stappen terug naar liggen. Train beide kanten.',
+      'bear_crawl':
+        '1. Steun op handen en voeten, knieën net boven de grond, rug recht.\n'
+        '2. Kruip naar voren en beweeg tegelijk tegenovergestelde hand en voet.\n'
+        '3. Houd je heupen laag gedurende de ingestelde tijd.',
+      'high_knees':
+        '1. Ren op de plaats en breng je knieën tot heuphoogte.\n'
+        '2. Gebruik je armen en blijf op je voorvoeten.\n'
+        '3. Houd een hoog tempo vol gedurende de ingestelde tijd.',
+      'jump_rope':
+        '1. Houd de handvatten op heuphoogte, ellebogen dicht bij je lichaam.\n'
+        '2. Draai het touw vanuit je polsen en spring net hoog genoeg.\n'
+        '3. Land zacht op je voorvoeten gedurende de ingestelde tijd.',
+      'rowing_machine':
+        '1. Zet je voeten vast en pak de handgreep met gestrekte armen.\n'
+        '2. Duw af met je benen, leun iets achterover en trek de greep naar je onderste ribben.\n'
+        '3. Ga in omgekeerde volgorde terug: armen, romp, benen. Houd een gelijkmatig tempo.',
+      'stationary_bike':
+        '1. Stel het zadel zo in dat je knie onderaan licht gebogen is.\n'
+        '2. Fiets in een gelijkmatig tempo met een rechte rug.\n'
+        '3. Stel de weerstand af op je doel gedurende de ingestelde tijd.',
+      'treadmill_run':
+        '1. Begin met wandelen en verhoog de snelheid geleidelijk.\n'
+        '2. Loop rechtop met ontspannen schouders, landen onder je heupen.\n'
+        '3. Vertraag naar wandelen voordat je eraf stapt.',
+      'elliptical':
+        '1. Stap op de pedalen en pak de bewegende handgrepen.\n'
+        '2. Beweeg soepel en duw en trek ook met je armen.\n'
+        '3. Houd een gelijkmatig tempo gedurende de ingestelde tijd.',
+      'stair_climber':
+        '1. Stap op en kies een tempo dat je kunt volhouden.\n'
+        '2. Klim rechtop en gebruik de leuningen alleen licht voor balans.\n'
+        '3. Ga door gedurende de ingestelde tijd.',
+      'air_bike':
+        '1. Ga zitten en pak de bewegende handgrepen.\n'
+        '2. Trap en duw en trek tegelijk aan de handgrepen.\n'
+        '3. Hoe harder je gaat, hoe meer de ventilator remt. Gedurende de ingestelde tijd.',
     },
     routineNames: {
       'home_upper': 'Bovenlichaam in 5 minuten',

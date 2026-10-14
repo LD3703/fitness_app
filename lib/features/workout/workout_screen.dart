@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math' as math;
-import 'dart:ui' show FontFeature;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +17,7 @@ import '../../modules/wear/wear_protocol.dart';
 import '../../modules/wear/wear_snapshot.dart';
 import '../../providers.dart';
 import '../../services/notification_service.dart';
+import '../../ui/body_map.dart';
 import '../../ui/coach_messages.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/format.dart';
@@ -48,7 +48,7 @@ part 'workout_screen_wear.dart';
 /// Druh série se ukazuje celým slovem (štítek [SetKindChip]), ne zkratkou.
 enum _MenuAction { discard }
 
-enum _BlockAction { linkNext, unlink }
+enum _BlockAction { linkNext, unlink, note }
 
 class WorkoutScreen extends ConsumerStatefulWidget {
   const WorkoutScreen({super.key, required this.sessionId});
@@ -60,14 +60,28 @@ class WorkoutScreen extends ConsumerStatefulWidget {
 }
 
 class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
+  /// Pauza, která běžela, když uživatel z obrazovky tréninku odešel
+  /// (podle ID tréninku). Trénink zůstává rozpracovaný; po návratu do něj
+  /// pauza pokračuje a mezitím na její konec upozorní notifikace.
+  static final _restOnLeave = <int, ({DateTime endsAt, int totalSeconds})>{};
+
   final _timer = RestTimer();
   final _blocks = <_Block>[];
 
   /// Navržená další série (supersérie, drop série) – zvýrazní se.
   _SetRow? _suggested;
   WorkoutSetup? _setup;
+
+  /// Zaměření tréninku (síla / svaly / kondice) – určuje automatické
+  /// pauzy. Dá se změnit během tréninku.
+  TrainingFocus _focus = TrainingFocus.muscle;
   Object? _loadError;
   bool _busy = false;
+  bool _addingExercise = false;
+
+  /// Texty pro notifikaci naplánovanou v dispose (tam už context nejde
+  /// použít).
+  late AppLocalizations _l10n;
 
   late final AppLifecycleListener _lifecycle;
 
@@ -82,6 +96,22 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
     _lifecycle = AppLifecycleListener(onHide: _onHide, onShow: _onShow);
     _load();
     _wear.attach();
+    _restoreRest();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _l10n = AppLocalizations.of(context);
+  }
+
+  /// Návrat do tréninku během pauzy, která běžela při odchodu z obrazovky:
+  /// pauza pokračuje tady, notifikace už není potřeba.
+  void _restoreRest() {
+    final pending = _restOnLeave.remove(widget.sessionId);
+    if (pending == null || !pending.endsAt.isAfter(DateTime.now())) return;
+    _timer.resume(pending.endsAt, pending.totalSeconds);
+    NotificationService.instance.cancelRestEnd();
   }
 
   /// Když uživatel během pauzy odejde z aplikace (nebo zamkne telefon),
@@ -99,7 +129,17 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
   void dispose() {
     _wear.detach();
     _lifecycle.dispose();
-    NotificationService.instance.cancelRestEnd();
+    final restEnd = _timer.endsAt;
+    if (restEnd != null && _timer.remaining > Duration.zero) {
+      // Odchod z obrazovky (zpět) trénink neukončí – pauza běží dál.
+      // Notifikaci na její konec proto nerušíme, ale naplánujeme (v
+      // aplikaci ji onHide nenaplánoval) a po návratu pauza pokračuje.
+      _restOnLeave[widget.sessionId] =
+          (endsAt: restEnd, totalSeconds: _timer.totalSeconds);
+      NotificationService.instance.scheduleRestEnd(_timer.remaining, _l10n);
+    } else {
+      NotificationService.instance.cancelRestEnd();
+    }
     _timer.dispose();
     for (final b in _blocks) {
       b.dispose();
@@ -113,6 +153,7 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
       if (!mounted) return;
       setState(() {
         _setup = setup;
+        _focus = setup.focus;
         _blocks.addAll(setup.blocks.map(_Block.fromData));
         // Supersérie musí jít po sobě (např. když cvik mezi nimi zmizel).
         _applyGroups(normalizeSupersetGroups(_groups));
@@ -142,10 +183,16 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
 
   Future<void> _toggleSet(_Block block, int index) async {
     final row = block.rows[index];
+    // Zápis téhle série už probíhá (dvojité klepnutí, příkaz z hodinek
+    // současně s klepnutím) – druhý zápis by vložil sérii dvakrát.
+    if (row.saving) return;
     final savedId = row.savedId;
 
     if (savedId != null) {
-      await _db.deleteSet(savedId);
+      row.saving = true;
+      await _db.deleteSet(savedId).whenComplete(() {
+        row.saving = false;
+      });
       if (mounted) setState(() => row.savedId = null);
       return;
     }
@@ -155,22 +202,34 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
       _showMessage(AppLocalizations.of(context).workoutSetInvalid);
       return;
     }
-    final id = await _db.insertSet(
-      sessionId: widget.sessionId,
-      exerciseId: block.data.exercise.id,
-      position: index,
-      weightKg: values.weightKg,
-      reps: block.isDuration ? null : values.value,
-      durationSeconds: block.isDuration ? values.value : null,
-      isWarmup: row.isWarmup,
-      isDrop: row.isDrop && !row.isWarmup,
-      supersetGroup: block.group,
-    );
+    row.saving = true;
+    final id = await _db
+        .insertSet(
+          sessionId: widget.sessionId,
+          exerciseId: block.data.exercise.id,
+          // Pozice v rámci slotu bloku (stejný cvik může být v tréninku
+          // víckrát, viz blockPositionStride).
+          position: setPositionFor(block.slot, index),
+          weightKg: values.weightKg,
+          reps: block.isDuration ? null : values.value,
+          durationSeconds: block.isDuration ? values.value : null,
+          isWarmup: row.isWarmup,
+          isDrop: row.isDrop && !row.isWarmup,
+          supersetGroup: block.group,
+        )
+        .whenComplete(() {
+      row.saving = false;
+    });
     if (!mounted) return;
     HapticFeedback.lightImpact();
     // Index se mohl během zápisu změnit (přidaná drop série) – hledáme znovu.
     final blockIndex = _blocks.indexOf(block);
     final rowIndex = block.rows.indexOf(row);
+    if (rowIndex >= 0 && rowIndex != index) {
+      // Řádek se během zápisu posunul (_syncPositions ho ještě neznal) –
+      // pozici v databázi srovnáme s jeho skutečným místem.
+      _db.updateSetPosition(id, setPositionFor(block.slot, rowIndex));
+    }
     setState(() {
       row.savedId = id;
       if (blockIndex < 0 || rowIndex < 0) return;
@@ -179,20 +238,33 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
       final r = step.row;
       _suggested = b == null || r == null ? null : _blocks[b].rows[r];
       final rest = step.restSeconds;
-      if (rest != null) {
+      if (rest != null && rest > 0) {
         _timer.start(rest);
       } else {
-        // Další série navazuje bez pauzy (supersérie, drop série).
+        // Další série navazuje bez pauzy (supersérie, drop série, pauza
+        // 0 s) – případná předchozí pauza se zastaví.
         _timer.skip();
       }
     });
+  }
+
+  /// Pauza po sérii cviku (ruční z plánu, nebo automatická).
+  int _restOf(_Block b) => b.data.restSecondsFor(_focus, _setup?.sex);
+
+  /// Změna zaměření: automatické pauzy se přepočítají (běžící pauza
+  /// doběhne beze změny) a volba se zapamatuje pro další trénink.
+  void _setFocus(TrainingFocus focus) {
+    if (focus == _focus) return;
+    HapticFeedback.selectionClick();
+    setState(() => _focus = focus);
+    unawaited(_db.setSessionFocus(widget.sessionId, focus));
   }
 
   List<FlowBlock> _flowBlocks() => [
         for (final b in _blocks)
           (
             group: b.group,
-            restSeconds: b.data.restSeconds,
+            restSeconds: _restOf(b),
             rows: [
               for (final r in b.rows)
                 (isDone: r.isDone, isWarmup: r.isWarmup, isDrop: r.isDrop),
@@ -219,7 +291,8 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
   /// (Drop série nemůže být první.)
   void _cycleKind(_Block block, int index) {
     final row = block.rows[index];
-    if (row.isDone) return;
+    // Během zápisu by se druh v databázi a v řádku rozešel.
+    if (row.isDone || row.saving) return;
     setState(() {
       if (row.isWarmup) {
         row.isWarmup = false;
@@ -235,6 +308,7 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
   /// Přidá drop sérii za poslední odškrtnutou pracovní sérii (a její
   /// případné drop série): stejná opakování, váha o 20 % nižší.
   void _addDrop(_Block block) {
+    if (!block.canAddRow) return;
     final anchor = block.rows.lastIndexWhere((r) => r.isDone && !r.isWarmup);
     if (anchor < 0) return;
     var insertAt = anchor + 1;
@@ -260,11 +334,13 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
   }
 
   /// Po vložení řádku doprostřed přepíše pořadí uložených sérií, aby po
-  /// návratu do tréninku zůstaly na svých řádcích.
+  /// návratu do tréninku zůstaly na svých řádcích (v rámci slotu bloku).
   void _syncPositions(_Block block) {
     for (var i = 0; i < block.rows.length; i++) {
       final id = block.rows[i].savedId;
-      if (id != null) _db.updateSetPosition(id, i);
+      if (id != null) {
+        _db.updateSetPosition(id, setPositionFor(block.slot, i));
+      }
     }
   }
 
@@ -275,19 +351,19 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
   List<int?> get _groups => [for (final b in _blocks) b.group];
 
   /// Nastaví skupiny cviků a u cviků s uloženými sériemi je zapíše
-  /// do databáze. Volat uvnitř setState.
+  /// do databáze – jen k sériím daného bloku (stejný cvik může být
+  /// v tréninku víckrát a každý výskyt má vlastní skupinu). Volat uvnitř
+  /// setState.
   void _applyGroups(List<int?> groups) {
     for (var i = 0; i < _blocks.length; i++) {
       final block = _blocks[i];
       if (block.group == groups[i]) continue;
       block.group = groups[i];
-      if (block.rows.any((r) => r.isDone)) {
-        _db.setSessionSupersetGroup(
-          widget.sessionId,
-          block.data.exercise.id,
-          groups[i],
-        );
-      }
+      final ids = [
+        for (final r in block.rows)
+          if (r.savedId != null) r.savedId!,
+      ];
+      if (ids.isNotEmpty) _db.setSetsSupersetGroup(ids, groups[i]);
     }
   }
 
@@ -302,14 +378,52 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
         setState(() => _applyGroups(groups));
       case _BlockAction.unlink:
         setState(() => _applyGroups(unlinkSuperset(_groups, index)));
+      case _BlockAction.note:
+        _editNote(_blocks[index]);
     }
   }
 
-  void _addSet(_Block block) =>
-      setState(() => block.rows.add(block.copyLastRow()));
+  /// Moje poznámka ke cviku (platí pro cvik ve všech trénincích).
+  Future<void> _editNote(_Block block) async {
+    final l10n = AppLocalizations.of(context);
+    final text = await showNoteDialog(
+      context,
+      title: l10n.exerciseNoteMine,
+      initialValue: block.myNote ?? '',
+      hintText: l10n.exerciseNoteMineHint,
+      maxLength: exerciseNoteMax,
+    );
+    if (text == null || !mounted) return;
+    final exerciseId = block.data.exercise.id;
+    try {
+      await _db.setExerciseNote(exerciseId, text);
+    } catch (e) {
+      if (mounted) _showMessage(l10n.errorGeneric);
+      return;
+    }
+    if (!mounted) return;
+    setState(() {
+      for (final b in _blocks) {
+        if (b.data.exercise.id == exerciseId) {
+          b.myNote = text.isEmpty ? null : clipNote(text);
+        }
+      }
+    });
+  }
+
+  void _addSet(_Block block) {
+    if (!block.canAddRow) return;
+    setState(() => block.rows.add(block.copyLastRow()));
+  }
 
   void _removeLastSet(_Block block) {
-    if (block.rows.length <= 1 || block.rows.last.isDone) return;
+    // Řádek, jehož série se právě zapisuje, nejde odebrat (série by
+    // v databázi zůstala bez řádku).
+    if (block.rows.length <= 1 ||
+        block.rows.last.isDone ||
+        block.rows.last.saving) {
+      return;
+    }
     setState(() {
       final removed = block.rows.removeLast();
       if (identical(_suggested, removed)) _suggested = null;
@@ -317,12 +431,33 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
     });
   }
 
+  /// Přidá cvik na konec tréninku. Cvik, který už v tréninku je, dostane
+  /// další volný slot – jeho série se ukládají na vlastní pozice a po
+  /// návratu do tréninku se nesmíchají s prvním výskytem
+  /// (viz blockPositionStride v workout_service.dart).
   Future<void> _addExercise() async {
-    final exercise = await showExercisePicker(context);
-    if (exercise == null) return;
-    final data = await loadExtraBlock(_db, widget.sessionId, exercise);
-    if (mounted) setState(() => _blocks.add(_Block.fromData(data)));
+    // Dvě souběžná přidání stejného cviku by dostala stejný slot.
+    if (_addingExercise) return;
+    _addingExercise = true;
+    try {
+      final exercise = await showExercisePicker(context);
+      if (exercise == null || !mounted) return;
+      final data = await loadExtraBlock(
+        _db,
+        widget.sessionId,
+        exercise,
+        slot: _nextSlotOf(exercise.id),
+      );
+      if (mounted) setState(() => _blocks.add(_Block.fromData(data)));
+    } finally {
+      _addingExercise = false;
+    }
   }
+
+  /// První volný slot cviku (o jedna víc než nejvyšší použitý).
+  int _nextSlotOf(int exerciseId) => _blocks
+      .where((b) => b.data.exercise.id == exerciseId)
+      .fold<int>(0, (next, b) => math.max(next, b.slot + 1));
 
   // -------------------------------------------------------------------
   // Ukončení
@@ -354,10 +489,13 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
         confirmLabel: l10n.workoutDiscard,
         destructive: true,
       );
-      if (discard) {
-        await _db.discardSession(widget.sessionId);
-        if (mounted) _close();
-      }
+      if (!discard || !mounted) return;
+      // Pauza může běžet i bez odškrtnuté série (série odškrtnutá a zase
+      // zrušená) – bez zastavení by dispose naplánoval upozornění na konec
+      // pauzy už zahozeného tréninku.
+      _timer.skip();
+      await _db.discardSession(widget.sessionId);
+      if (mounted) _close();
       return;
     }
 
@@ -417,11 +555,12 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
       final block = _blocks[i];
       return _BlockCard(
         block: block,
+        restSeconds: _restOf(block),
         supersetLabel: labels[i],
         suggested: _suggested,
         canLinkNext: canLinkSupersetWithNext(groups, i),
         injured: injured.isNotEmpty &&
-            (injured.contains(block.data.exercise.muscleGroup) ||
+            (injured.any((g) => g.overlaps(block.data.exercise.muscleGroup)) ||
                 block.data.exercise.muscleGroup == MuscleGroup.fullBody),
         onToggle: (r) => _toggleSet(block, r),
         onEdited: (row) => _onRowEdited(block, row),
@@ -430,6 +569,7 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
         onRemoveSet: () => _removeLastSet(block),
         onCycleKind: (r) => _cycleKind(block, r),
         onAction: (a) => _onBlockAction(i, a),
+        trainerName: _setup?.planTrainer,
       );
     }
 
@@ -483,6 +623,23 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
     );
     final injured = ref.watch(injuredGroupsProvider);
 
+    // Zpět jde vždy (bez dialogu): trénink zůstane rozpracovaný a dá se
+    // v něm pokračovat z obrazovky Dnes; odškrtnuté série jsou uložené
+    // a běžící pauza pokračuje (viz dispose). Jen během ukončování
+    // tréninku se odejít nedá, aby se neztratil souhrn.
+    return PopScope(
+      canPop: !_busy,
+      child: _buildScaffold(context, l10n, setup, wellbeing, injured),
+    );
+  }
+
+  Widget _buildScaffold(
+    BuildContext context,
+    AppLocalizations l10n,
+    WorkoutSetup setup,
+    String? wellbeing,
+    Set<MuscleGroup> injured,
+  ) {
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -521,6 +678,7 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
                 title: Text(wellbeing),
               ),
             ),
+          _FocusSelector(focus: _focus, onChanged: _setFocus),
           ..._buildBlocks(context, injured),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
@@ -579,6 +737,9 @@ class _SetRow {
   final TextEditingController value;
   int? savedId;
 
+  /// Zápis / smazání série v databázi právě probíhá.
+  bool saving = false;
+
   bool get isDone => savedId != null;
 
   _Kind get kind => _kindOf(isWarmup: isWarmup, isDrop: isDrop);
@@ -590,52 +751,78 @@ class _SetRow {
 }
 
 class _Block {
-  _Block(this.data, this.rows, this.group);
+  _Block(this.data, this.rows, this.group) : myNote = data.exercise.note;
 
   factory _Block.fromData(WorkoutBlockData data) {
     final isDuration = data.exercise.type == ExerciseType.duration;
-    // Uložené série se řadí podle pozice, takže po návratu do tréninku
-    // zůstanou na svých řádcích, i když byla některá série přeskočena.
-    final savedByPosition = {for (final s in data.saved) s.position: s};
-    final maxPosition = savedByPosition.keys.fold(-1, math.max);
-    final count = math.max(data.targets.length, maxPosition + 1);
-    final rows = <_SetRow>[];
-    for (var i = 0; i < count; i++) {
-      final s = savedByPosition[i];
-      if (s != null) {
-        rows.add(_SetRow(
+    // Uložené série se řadí podle pozice (v rámci slotu bloku, viz
+    // blockPositionStride), takže po návratu do tréninku zůstanou na svých
+    // řádcích, i když byla některá série přeskočena.
+    final savedByRow = <int, SetEntry>{};
+    // Série se stejnou pozicí (starší data z doby, kdy se výskyty
+    // stejného cviku srážely) se nezahodí – přidají se za ostatní řádky.
+    final leftovers = <SetEntry>[];
+    for (final s in data.saved) {
+      final row = blockRowOf(s.position);
+      if (savedByRow.containsKey(row)) {
+        leftovers.add(s);
+      } else {
+        savedByRow[row] = s;
+      }
+    }
+    final maxRow = savedByRow.keys.fold(-1, math.max);
+
+    _SetRow savedRow(SetEntry s) => _SetRow(
           weight: weightInputText(s.weightKg),
           value: '${(isDuration ? s.durationSeconds : s.reps) ?? ''}',
           savedId: s.id,
           isWarmup: s.isWarmup,
           isDrop: s.isDrop && !s.isWarmup,
-        ));
-      } else {
-        // Cíl z plánu má přednost; chybějící váhu doplníme z minula
-        // (ze série stejného druhu – drop série z drop série apod.).
-        final target = _targetFor(data, i);
-        final kind = target == null
-            ? _Kind.working
-            : _kindOf(isWarmup: target.isWarmup, isDrop: target.isDrop);
-        final ordinal = rows.where((r) => r.kind == kind).length;
-        final prev = _previousOfKind(data.previous, kind, ordinal) ??
-            _lastOfKind(data.previous, kind);
-        var weightKg = target?.weightKg ?? prev?.weightKg;
-        if (weightKg == null && kind == _Kind.drop && rows.isNotEmpty) {
-          // Drop série bez cíle a bez historie: o 20 % méně než předchozí.
-          final before = parseWeightInput(rows.last.weight.text);
-          if (before != null) {
-            weightKg = dropSetWeight(before, step: weightStepKg);
-          }
-        }
-        rows.add(_SetRow(
-          weight: weightInputText(weightKg),
-          value: '${target?.reps ?? (isDuration ? prev?.durationSeconds : prev?.reps) ?? 10}',
-          isWarmup: kind == _Kind.warmup,
-          isDrop: kind == _Kind.drop,
-        ));
+        );
+
+    // Řádky se párují s cíli plánu postupně: uložená drop série, která
+    // v plánu není (vložená tlačítkem „Drop série“), cíl nespotřebuje,
+    // takže po návratu do tréninku nezmizí žádná plánovaná série
+    // (dřív se počet řádků bral jako max(cíle, poslední pozice + 1)).
+    final targets = data.targets;
+    var t = 0;
+    final rows = <_SetRow>[];
+    for (var i = 0; i <= maxRow || t < targets.length; i++) {
+      final s = savedByRow[i];
+      if (s != null) {
+        rows.add(savedRow(s));
+        final insertedDrop = s.isDrop &&
+            !s.isWarmup &&
+            (t >= targets.length || !targets[t].isDrop);
+        if (!insertedDrop) t++;
+        continue;
       }
+      // Cíl z plánu má přednost; chybějící váhu doplníme z minula
+      // (ze série stejného druhu – drop série z drop série apod.).
+      final target = t < targets.length ? targets[t] : _targetFor(data, t);
+      t++;
+      final kind = target == null
+          ? _Kind.working
+          : _kindOf(isWarmup: target.isWarmup, isDrop: target.isDrop);
+      final ordinal = rows.where((r) => r.kind == kind).length;
+      final prev = _previousOfKind(data.previous, kind, ordinal) ??
+          _lastOfKind(data.previous, kind);
+      var weightKg = target?.weightKg ?? prev?.weightKg;
+      if (weightKg == null && kind == _Kind.drop && rows.isNotEmpty) {
+        // Drop série bez cíle a bez historie: o 20 % méně než předchozí.
+        final before = parseWeightInput(rows.last.weight.text);
+        if (before != null) {
+          weightKg = dropSetWeight(before, step: weightStepKg);
+        }
+      }
+      rows.add(_SetRow(
+        weight: weightInputText(weightKg),
+        value: '${target?.reps ?? (isDuration ? prev?.durationSeconds : prev?.reps) ?? 10}',
+        isWarmup: kind == _Kind.warmup,
+        isDrop: kind == _Kind.drop,
+      ));
     }
+    rows.addAll(leftovers.map(savedRow));
     return _Block(data, rows, data.supersetGroup);
   }
 
@@ -644,6 +831,15 @@ class _Block {
 
   /// Supersérie (null = samostatný cvik). Mění se propojením v tréninku.
   int? group;
+
+  /// Moje poznámka ke cviku (dá se upravit během tréninku).
+  String? myNote;
+
+  /// Pořadí výskytu cviku v tréninku (viz blockPositionStride).
+  int get slot => data.slot;
+
+  /// Další řádek se ještě vejde do rozsahu pozic slotu.
+  bool get canAddRow => rows.length < blockPositionStride;
 
   bool get isDuration => data.exercise.type == ExerciseType.duration;
 
@@ -744,6 +940,54 @@ class _Block {
 // ---------------------------------------------------------------------
 
 /// Rámeček kolem cviků jedné supersérie („Supersérie A“).
+/// Volba zaměření tréninku nahoře na obrazovce: síla / svaly / kondice.
+/// Podle ní se počítají automatické pauzy mezi sériemi.
+class _FocusSelector extends StatelessWidget {
+  const _FocusSelector({required this.focus, required this.onChanged});
+
+  final TrainingFocus focus;
+  final ValueChanged<TrainingFocus> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SegmentedButton<TrainingFocus>(
+            showSelectedIcon: false,
+            segments: [
+              for (final f in TrainingFocus.values)
+                ButtonSegment(
+                  value: f,
+                  label: Text(
+                    l10n.trainingFocus(f),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+            ],
+            selected: {focus},
+            onSelectionChanged: (v) => onChanged(v.first),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 6),
+            child: Text(
+              l10n.trainingFocusHint(focus),
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodySmall
+                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _SupersetFrame extends StatelessWidget {
   const _SupersetFrame({required this.letter, required this.children});
 
@@ -796,6 +1040,7 @@ class _SupersetFrame extends StatelessWidget {
 class _BlockCard extends StatelessWidget {
   const _BlockCard({
     required this.block,
+    required this.restSeconds,
     this.supersetLabel,
     this.suggested,
     this.canLinkNext = false,
@@ -807,9 +1052,16 @@ class _BlockCard extends StatelessWidget {
     required this.onRemoveSet,
     required this.onCycleKind,
     required this.onAction,
+    this.trainerName,
   });
 
   final _Block block;
+
+  /// Plán je od trenéra – poznámka v plánu je jeho.
+  final String? trainerName;
+
+  /// Pauza po sérii (ruční z plánu, nebo automatická).
+  final int restSeconds;
 
   /// „A1“, „A2“… u cviku v supersérii.
   final String? supersetLabel;
@@ -850,6 +1102,8 @@ class _BlockCard extends StatelessWidget {
                   _SupersetBadge(label: label),
                   const SizedBox(width: 8),
                 ],
+                ExerciseMuscleIcon(exercise: block.data.exercise, size: 36),
+                const SizedBox(width: 10),
                 Expanded(
                   child: InkWell(
                     onTap: () =>
@@ -873,9 +1127,22 @@ class _BlockCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(
-                  l10n.workoutRestLabel(block.data.restSeconds),
-                  style: muted,
+                Tooltip(
+                  message: block.data.restIsAuto
+                      ? l10n.restAutoHint
+                      : l10n.restManualHint,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (block.data.restIsAuto) ...[
+                        Icon(Icons.auto_awesome,
+                            size: 12,
+                            color: theme.colorScheme.onSurfaceVariant),
+                        const SizedBox(width: 2),
+                      ],
+                      Text(l10n.workoutRestLabel(restSeconds), style: muted),
+                    ],
+                  ),
                 ),
                 PopupMenuButton<_BlockAction>(
                   tooltip: l10n.supersetMenu,
@@ -889,6 +1156,14 @@ class _BlockCard extends StatelessWidget {
                         contentPadding: EdgeInsets.zero,
                         leading: const Icon(Icons.link),
                         title: Text(l10n.supersetLinkNext),
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: _BlockAction.note,
+                      child: ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: const Icon(Icons.edit_note),
+                        title: Text(l10n.exerciseNoteMenu),
                       ),
                     ),
                     if (label != null)
@@ -921,6 +1196,22 @@ class _BlockCard extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+            if (block.data.planNote case final note?)
+              _NoteLine(
+                icon: trainerName == null
+                    ? Icons.sticky_note_2_outlined
+                    : Icons.sports,
+                label: trainerName == null
+                    ? null
+                    : l10n.workoutNoteFromTrainer(trainerName!),
+                text: note,
+              ),
+            if (block.myNote case final note?)
+              _NoteLine(
+                icon: Icons.edit_note,
+                text: note,
+                onTap: () => onAction(_BlockAction.note),
               ),
             if (block.data.record != null)
               Padding(
@@ -1009,6 +1300,51 @@ class _BlockCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+/// Poznámka u cviku v tréninku (z plánu / od trenéra, nebo moje).
+class _NoteLine extends StatelessWidget {
+  const _NoteLine({
+    required this.icon,
+    required this.text,
+    this.label,
+    this.onTap,
+  });
+
+  final IconData icon;
+  final String text;
+  final String? label;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final style = theme.textTheme.bodySmall;
+    final line = Padding(
+      padding: const EdgeInsets.only(top: 4, right: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: 16, color: theme.colorScheme.primary),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text.rich(
+              TextSpan(children: [
+                if (label != null)
+                  TextSpan(
+                    text: '$label: ',
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                TextSpan(text: text),
+              ]),
+              style: style,
+            ),
+          ),
+        ],
+      ),
+    );
+    return onTap == null ? line : InkWell(onTap: onTap, child: line);
   }
 }
 
@@ -1166,26 +1502,45 @@ class _SetRowView extends StatelessWidget {
               child: _NumberField(
                 controller: row.weight,
                 decimal: true,
+                semanticLabel: l10n.workoutWeightField(weightUnit),
                 onChanged: onEdited,
               ),
             ),
-            const SizedBox(width: 20, child: Text('×', textAlign: TextAlign.center)),
+            const SizedBox(
+              width: 20,
+              child: ExcludeSemantics(
+                child: Text('×', textAlign: TextAlign.center),
+              ),
+            ),
           ],
           SizedBox(
             width: 60,
             child: _NumberField(
               controller: row.value,
               decimal: false,
+              semanticLabel: isDuration
+                  ? l10n.workoutDurationField
+                  : l10n.workoutColReps,
               onChanged: onEdited,
             ),
           ),
           SizedBox(
             width: 48,
-            child: IconButton(
-              onPressed: onToggle,
-              icon: Icon(
-                done ? Icons.check_circle : Icons.check_circle_outline,
-                color: done ? scheme.primary : null,
+            // Čtečka obrazovky hlásí stav série (zaškrtnuto / nezaškrtnuto)
+            // a co klepnutí udělá.
+            child: MergeSemantics(
+              child: Semantics(
+                checked: done,
+                child: IconButton(
+                  tooltip: done
+                      ? l10n.workoutMarkSetNotDone
+                      : l10n.workoutMarkSetDone,
+                  onPressed: onToggle,
+                  icon: Icon(
+                    done ? Icons.check_circle : Icons.check_circle_outline,
+                    color: done ? scheme.primary : null,
+                  ),
+                ),
               ),
             ),
           ),
@@ -1199,35 +1554,49 @@ class _NumberField extends StatelessWidget {
   const _NumberField({
     required this.controller,
     required this.decimal,
+    required this.semanticLabel,
     required this.onChanged,
   });
 
   final TextEditingController controller;
   final bool decimal;
+
+  /// Popisek pole pro čtečku obrazovky (viditelný je jen v záhlaví
+  /// sloupce, pole samo popisek nemá).
+  final String semanticLabel;
   final VoidCallback onChanged;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-      child: TextField(
-        controller: controller,
-        textAlign: TextAlign.center,
-        keyboardType: TextInputType.numberWithOptions(decimal: decimal),
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(
-            RegExp(decimal ? r'[0-9.,]' : r'[0-9]'),
+      child: MergeSemantics(
+        child: Semantics(
+          label: semanticLabel,
+          child: TextField(
+            controller: controller,
+            textAlign: TextAlign.center,
+            keyboardType: TextInputType.numberWithOptions(decimal: decimal),
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(
+                RegExp(decimal ? r'[0-9.,]' : r'[0-9]'),
+              ),
+            ],
+            decoration: const InputDecoration(
+              isDense: true,
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+            ),
+            onChanged: (_) => onChanged(),
           ),
-        ],
-        decoration: const InputDecoration(
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 10),
         ),
-        onChanged: (_) => onChanged(),
       ),
     );
   }
 }
+
+/// O kolik sekund tlačítka v liště pauzy zkrátí / prodlouží pauzu.
+const _restAdjustSeconds = 15;
 
 class _RestBar extends StatelessWidget {
   const _RestBar({required this.timer});
@@ -1247,31 +1616,63 @@ class _RestBar extends StatelessWidget {
           children: [
             LinearProgressIndicator(value: timer.progress),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
-              child: Row(
+              padding: const EdgeInsets.fromLTRB(16, 4, 8, 4),
+              // Dvě skupiny ve Wrap: na úzkém displeji (320 dp, němčina,
+              // velké písmo) se tlačítka zalomí na druhý řádek místo
+              // přetečení; v každé skupině se dlouhý text zkrátí „…“.
+              child: Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 8,
                 children: [
-                  const Icon(Icons.timer_outlined),
-                  const SizedBox(width: 8),
-                  Text(l10n.workoutRest, style: theme.textTheme.titleSmall),
-                  const SizedBox(width: 8),
-                  Text(
-                    formatDuration(timer.remaining + const Duration(milliseconds: 999)),
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontFeatures: const [FontFeature.tabularFigures()],
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.timer_outlined),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          l10n.workoutRest,
+                          style: theme.textTheme.titleSmall,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        formatDuration(
+                            timer.remaining + const Duration(milliseconds: 999)),
+                        maxLines: 1,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          fontFeatures: const [FontFeature.tabularFigures()],
+                        ),
+                      ),
+                    ],
                   ),
-                  const Spacer(),
-                  TextButton(
-                    onPressed: () => timer.adjust(-15),
-                    child: const Text('−15'),
-                  ),
-                  TextButton(
-                    onPressed: () => timer.adjust(15),
-                    child: const Text('+15'),
-                  ),
-                  TextButton(
-                    onPressed: timer.skip,
-                    child: Text(l10n.workoutSkipRest),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        tooltip: l10n.workoutRestShorten(_restAdjustSeconds),
+                        onPressed: () => timer.adjust(-_restAdjustSeconds),
+                        icon: const Icon(Icons.remove_circle_outline),
+                      ),
+                      IconButton(
+                        tooltip: l10n.workoutRestExtend(_restAdjustSeconds),
+                        onPressed: () => timer.adjust(_restAdjustSeconds),
+                        icon: const Icon(Icons.add_circle_outline),
+                      ),
+                      Flexible(
+                        child: TextButton(
+                          onPressed: timer.skip,
+                          child: Text(
+                            l10n.workoutSkipRest,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -1365,6 +1766,19 @@ Future<void> showWorkoutSummaryDialog(
               if (showCalories && summary.estimatedKcal != null)
                 line(l10n.workoutSummaryKcal,
                     '≈ ${formatInt(context, summary.estimatedKcal!)} kcal'),
+              if (summary.muscles.primary.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                Text(l10n.workoutSummaryMuscles,
+                    style: theme.textTheme.titleMedium),
+                const SizedBox(height: 8),
+                TrainedBodyMap(
+                  sets: summary.muscles,
+                  primaryLabel: l10n.bodyMapPrimary,
+                  secondaryLabel: l10n.bodyMapSecondary,
+                  groupName: l10n.muscleGroup,
+                  height: 160,
+                ),
+              ],
               if (summary.records.isNotEmpty) ...[
                 const SizedBox(height: 16),
                 Text(l10n.workoutSummaryRecords,
@@ -1377,8 +1791,11 @@ Future<void> showWorkoutSummaryDialog(
                         color: theme.colorScheme.tertiary),
                     title: Text(r.exercise.localizedName(context)),
                     subtitle: Text(l10n.dataRecordChangeLine(
-                      formatWeightWithUnit(context, r.newOneRepMax),
-                      formatWeightWithUnit(context, r.previousOneRepMax),
+                      l10n.statsSetWeightReps(
+                          formatWeightWithUnit(context, r.weightKg), r.reps),
+                      l10n.statsSetWeightReps(
+                          formatWeightWithUnit(context, r.previousWeightKg),
+                          r.previousReps),
                     )),
                   ),
               ],

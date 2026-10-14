@@ -28,7 +28,19 @@ const _healthPermissions = [
 const _rationaleAction = 'androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE';
 const _healthConnectPackage = 'com.google.android.apps.healthdata';
 
+/// Popisy oprávnění anglicky (aplikace je pro celý svět, texty čte
+/// i kontrola Applu) – viz _plistKeys v tool/setup_platforms.dart.
 const _plistKeys = {
+  'NSHealthShareUsageDescription':
+      'The app reads your body weight from Apple Health to show it in your '
+          'progress overview.',
+  'NSHealthUpdateUsageDescription':
+      'The app saves your workouts and body weight to Apple Health.',
+};
+
+/// Dřívější české výchozí texty – nahradí se anglickými, vlastní text
+/// (cokoli jiného) zůstane.
+const _legacyPlistValues = {
   'NSHealthShareUsageDescription':
       'Aplikace čte tvou tělesnou váhu z Apple Zdraví, aby ji měla i v přehledu pokroku.',
   'NSHealthUpdateUsageDescription':
@@ -233,22 +245,34 @@ bool _infoPlist() {
     return true;
   }
   var s = file.readAsStringSync();
+  final original = s;
+  // Dřívější české výchozí texty → anglické.
+  _legacyPlistValues.forEach((k, old) {
+    final m = RegExp('(<key>$k</key>\\s*<string>)([^<]*)(</string>)')
+        .firstMatch(s);
+    if (m != null && m.group(2)!.trim() == old) {
+      s = s.replaceRange(
+          m.start, m.end, '${m.group(1)}${_plistKeys[k]}${m.group(3)}');
+    }
+  });
   final add = StringBuffer();
   _plistKeys.forEach((k, v) {
     if (!s.contains('<key>$k</key>')) {
       add.write('\t<key>$k</key>\n\t<string>$v</string>\n');
     }
   });
-  if (add.isEmpty) {
+  if (add.isNotEmpty) {
+    final i = s.lastIndexOf('</dict>');
+    if (i < 0) {
+      stderr.writeln('✗ ${file.path}: značka </dict> nenalezena.');
+      return false;
+    }
+    s = s.replaceRange(i, i, add.toString());
+  }
+  if (s == original) {
     stdout.writeln('• ${file.path}: popisy Apple Zdraví už jsou.');
     return true;
   }
-  final i = s.lastIndexOf('</dict>');
-  if (i < 0) {
-    stderr.writeln('✗ ${file.path}: značka </dict> nenalezena.');
-    return false;
-  }
-  s = s.replaceRange(i, i, add.toString());
   file.writeAsStringSync(s);
   stdout.writeln('✓ ${file.path}: popisy oprávnění Apple Zdraví.');
   return true;

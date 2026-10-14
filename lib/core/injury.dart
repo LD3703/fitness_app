@@ -34,8 +34,9 @@ bool periodAppliesTo(
 ) {
   if (type != PeriodType.injury || injured.isEmpty) return true;
   if (exerciseGroup == null) return false;
+  // Zranění „nohou“ platí i pro stehna, hamstringy a lýtka a naopak.
   return exerciseGroup == MuscleGroup.fullBody ||
-      injured.contains(exerciseGroup);
+      injured.any((g) => g.overlaps(exerciseGroup));
 }
 
 /// Partie, které jsou k datu [now] zraněné (z probíhajících zranění).

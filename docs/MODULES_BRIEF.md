@@ -33,7 +33,7 @@ Specifikace je shrnutá v tomto souboru; drž se jí.
   (hook po tréninku), sync (hook po změně dat, dostane `Ref` a `UserProfile`).
 - Odkazy do aplikace: `lib/modules/links/deep_links.dart` – handler pod značku
   `// [links:<modul>]` (+ import pod `// [links-imports:<modul>]`). Konstanty
-  `kAppLinkScheme` (`fitnessapp`), `kWebBaseUrl`, `kPlayStoreUrl`, `kAppStoreUrl`,
+  `kAppLinkScheme` (`gymbar`), `kWebBaseUrl`, `kPlayStoreUrl`, `kAppStoreUrl`,
   pomocná funkce `isAppLink(uri, 'challenge')`.
 - Dotazy do DB: `lib/modules/<modul>/<modul>_queries.dart` jako
   `extension <Modul>Queries on AppDatabase { ... }` (uvnitř můžeš používat `select`,
@@ -72,7 +72,7 @@ Specifikace je shrnutá v tomto souboru; drž se jí.
   `lib/ui/labels.dart` (`l10n.muscleGroup(g)`, `l10n.periodType(t)`, `exercise.localizedName(context)`),
   `lib/ui/dialogs.dart`, `lib/ui/number_input_dialog.dart`, `lib/ui/charts.dart`
   (TimeSeriesChart, WeeklyBarChart, ChartSeries, ChartBand), `lib/core/formulas.dart`
-  (estimateOneRepMax Epley, movingAverage, weeklyCounts), `lib/core/wellbeing.dart`,
+  (recordValue – nejtěžší série, estimateOneRepMax jen interně pro návrh vah, movingAverage, weeklyCounts), `lib/core/wellbeing.dart`,
   `lib/core/injury.dart`, `lib/core/date_utils.dart` (startOfDay).
 - `lib/features/workout/workout_service.dart`: `WorkoutSummary` (sessionId, startedAt,
   duration, setCount, volumeKg, estimatedKcal, records: List<PersonalRecord(exercise,
@@ -89,7 +89,7 @@ Specifikace je shrnutá v tomto souboru; drž se jí.
   calendarSyncEnabled, isPremium).
 - WorkoutSession: `healthExportedAt` (DateTime?).
 - Tabulka `Challenges` (třída `Challenge`): id, kind (ChallengeKind.beatRecord /
-  workoutsInMonth / weeklyWater), exerciseSlug?, exerciseId?, targetValue (kg odhadu 1RM /
+  workoutsInMonth / weeklyWater), exerciseSlug?, exerciseId?, targetValue (recordValue nejtěžší série v kg /
   počet tréninků / ml za týden), fromName?, createdAt, deadline?, completedAt?,
   dismissedAt?, remoteId? (unikátní; výzvy od přátel ze serveru).
 
@@ -97,7 +97,7 @@ Specifikace je shrnutá v tomto souboru; drž se jí.
 - PlanExercise: `supersetGroup` (int?, stejné číslo u po sobě jdoucích cviků =
   supersérie; logika v `lib/core/superset.dart`).
 - PlanSet / SetEntry: `isDrop` (bool, výchozí false). Drop série se počítají do
-  objemu, NE do rekordů / odhadu 1RM / žebříčku / výzev – v dotazech na rekordy
+  objemu, NE do rekordů / žebříčku / výzev – v dotazech na rekordy
   filtruj `is_drop = 0` stejně jako `is_warmup = 0`.
 - SetEntry: `supersetGroup` (int?) – seskupení cviků v tréninku (i bez plánu).
 - WorkoutSession: `feeling` (WorkoutFeeling? – easy / ok / hard).
@@ -127,7 +127,7 @@ Specifikace je shrnutá v tomto souboru; drž se jí.
   záloha bez tabulky → odznaky se po synchronizaci znovu doplní).
 - Progresivní přetížení: čistá logika `lib/core/progressive_overload.dart`
   (ISO týdny, jen hlavní partie cviku, celé tělo se nehodnotí; objem bez
-  rozcvičky, drop série plným objemem; 1RM bez rozcvičky a drop sérií;
+  rozcvičky, drop série plným objemem; rekordy (nejtěžší série) bez rozcvičky a drop sérií;
   okna 2 + 2 týdny, vynechané týdny s nemocí / pauzou / zraněním partie, dieta
   mění pokles na „drží“). UI a dotazy `lib/features/overload/`, karta pod
   značkou `// [overload:progress]`, háčky `[overload:finished]` a
@@ -142,7 +142,7 @@ Specifikace je shrnutá v tomto souboru; drž se jí.
 - Druh série v UI: místo jednopísmenných zkratek štítek `SetKindChip`
   (lib/ui/set_kind_chip.dart) s klíči `setKindWarmup` / `setKindDrop`;
   klíče `setWarmupShort` a `dropSetShort` jsou zrušené. Žádné jednopísmenné
-  ani tečkové zkratky v textech (výjimka: jednotky kg, lb, ml, oz, min, s, 1RM
+  ani tečkové zkratky v textech (výjimka: jednotky kg, lb, ml, oz, min, s
   a názvy dnů z DateFormat).
 
 ## Schéma v10 (automatická progrese)

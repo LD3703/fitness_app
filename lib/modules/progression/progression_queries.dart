@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 
 import '../../core/auto_progression.dart';
 import '../../data/database.dart';
+import '../../features/workout/workout_service.dart' show blockSlotOf;
 
 /// Návrh pro jeden cvik plánu po tréninku (pro souhrn).
 typedef ProgressionEntry = ({
@@ -55,7 +56,10 @@ extension ProgressionQueries on AppDatabase {
     final items = await getPlanItems(planId);
     final sessionSets = await getSessionSets(sessionId);
     final byExercise = <int, List<SetEntry>>{};
+    // Jen první výskyt cviku (slot 0) – další výskyty mají pozice od
+    // 1000 (workout_service.dart, „sloty“) a hodnotí se jen první.
     for (final s in sessionSets) {
+      if (blockSlotOf(s.position) != 0) continue;
       byExercise.putIfAbsent(s.exerciseId, () => []).add(s);
     }
     for (final list in byExercise.values) {
@@ -66,14 +70,17 @@ extension ProgressionQueries on AppDatabase {
     final result = <ProgressionEntry>[];
     final seen = <int>{};
     for (final it in items) {
-      // Cvik zařazený v plánu dvakrát: série z tréninku nejdou rozlišit,
-      // hodnotí se jen první výskyt.
+      // Cvik zařazený v plánu dvakrát: hodnotí se jen první výskyt
+      // (série dalších výskytů se výše vynechaly podle slotu).
       if (!seen.add(it.exercise.id)) continue;
       if (!it.item.autoProgression) continue;
       final performed = byExercise[it.exercise.id];
       if (performed == null || performed.isEmpty) continue;
-      final previous =
-          await previousSetsFor(it.exercise.id, excludeSessionId: sessionId);
+      final previous = [
+        for (final s in await previousSetsFor(it.exercise.id,
+            excludeSessionId: sessionId))
+          if (blockSlotOf(s.position) == 0) s,
+      ];
       final proposal = proposeProgression(
         ProgressionInput(
           type: it.exercise.type,

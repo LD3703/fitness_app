@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -73,15 +74,23 @@ class _PlanBScreenState extends ConsumerState<PlanBScreen> {
       var upper = 0, lower = 0;
       for (final it in items) {
         switch (it.exercise.muscleGroup) {
-          case MuscleGroup.legs || MuscleGroup.glutes:
+          case MuscleGroup.legs ||
+                MuscleGroup.glutes ||
+                MuscleGroup.quads ||
+                MuscleGroup.hamstrings ||
+                MuscleGroup.calves:
             lower++;
           case MuscleGroup.chest ||
                 MuscleGroup.back ||
                 MuscleGroup.shoulders ||
                 MuscleGroup.biceps ||
-                MuscleGroup.triceps:
+                MuscleGroup.triceps ||
+                MuscleGroup.forearms ||
+                MuscleGroup.traps:
             upper++;
-          case MuscleGroup.core || MuscleGroup.fullBody:
+          case MuscleGroup.core ||
+                MuscleGroup.fullBody ||
+                MuscleGroup.lowerBack:
             break;
         }
       }
@@ -399,68 +408,101 @@ class _PlanBScreenState extends ConsumerState<PlanBScreen> {
         .firstOrNull;
     final color = isWork ? theme.colorScheme.primary : theme.colorScheme.tertiary;
 
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        children: [
-          Text(
-            isWork
-                ? l10n.planBExerciseOf(workNumber, workSteps.length)
-                : l10n.planBRestNext,
-            style: theme.textTheme.titleMedium?.copyWith(color: color),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            step.exercise.localizedName(context),
-            style: theme.textTheme.headlineMedium,
-            textAlign: TextAlign.center,
-          ),
-          const Spacer(),
-          SizedBox(
-            width: 220,
-            height: 220,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                CircularProgressIndicator(
-                  value: progress.clamp(0.0, 1.0),
-                  strokeWidth: 10,
-                  color: color,
-                  backgroundColor: color.withValues(alpha: 0.15),
-                ),
-                Center(
-                  child: Text(
-                    formatDuration(_remaining + const Duration(milliseconds: 999)),
-                    style: theme.textTheme.displayMedium,
+    // Na šířku (nízká obrazovka) se kruh zmenší a obsah se dá posouvat,
+    // místo aby sloupec přetekl. Na výšku zůstává rozložení se Spacery.
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const padding = 24.0;
+        final dial = math.min(
+          220.0,
+          math.max(120.0, constraints.maxHeight * 0.45),
+        );
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(padding),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: math.max(0.0, constraints.maxHeight - 2 * padding),
+            ),
+            child: IntrinsicHeight(
+              child: Column(
+                children: [
+                  Text(
+                    isWork
+                        ? l10n.planBExerciseOf(workNumber, workSteps.length)
+                        : l10n.planBRestNext,
+                    style: theme.textTheme.titleMedium?.copyWith(color: color),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  Text(
+                    step.exercise.localizedName(context),
+                    style: theme.textTheme.headlineMedium,
+                    textAlign: TextAlign.center,
+                  ),
+                  const Spacer(),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    width: dial,
+                    height: dial,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        CircularProgressIndicator(
+                          value: progress.clamp(0.0, 1.0),
+                          strokeWidth: 10,
+                          color: color,
+                          backgroundColor: color.withValues(alpha: 0.15),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              formatDuration(_remaining +
+                                  const Duration(milliseconds: 999)),
+                              style: theme.textTheme.displayMedium,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const Spacer(),
+                  if (isWork && nextWork != null)
+                    Text(
+                      l10n.planBNext(nextWork.exercise.localizedName(context)),
+                      textAlign: TextAlign.center,
+                    ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton.filledTonal(
+                        iconSize: 32,
+                        tooltip: _pausedRemaining == null
+                            ? l10n.planBPause
+                            : l10n.planBResume,
+                        onPressed: _togglePause,
+                        icon: Icon(_pausedRemaining == null
+                            ? Icons.pause
+                            : Icons.play_arrow),
+                      ),
+                      const SizedBox(width: 24),
+                      IconButton.filledTonal(
+                        iconSize: 32,
+                        tooltip: l10n.workoutSkipRest,
+                        onPressed: () => _completeStep(skipped: true),
+                        icon: const Icon(Icons.skip_next),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-          const Spacer(),
-          if (isWork && nextWork != null)
-            Text(l10n.planBNext(nextWork.exercise.localizedName(context))),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton.filledTonal(
-                iconSize: 32,
-                tooltip: _pausedRemaining == null ? l10n.planBPause : l10n.planBResume,
-                onPressed: _togglePause,
-                icon: Icon(_pausedRemaining == null ? Icons.pause : Icons.play_arrow),
-              ),
-              const SizedBox(width: 24),
-              IconButton.filledTonal(
-                iconSize: 32,
-                tooltip: l10n.workoutSkipRest,
-                onPressed: () => _completeStep(skipped: true),
-                icon: const Icon(Icons.skip_next),
-              ),
-            ],
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

@@ -88,6 +88,14 @@ class UserProfiles extends Table {
   /// není spuštěné) a po spuštění plateb se dodrží. Viz premium_gift.dart.
   DateTimeColumn get premiumGiftUntil => dateTime().nullable()();
 
+  /// Pohlaví (verze schématu 14, volitelné): 0 = muž, 1 = žena,
+  /// null = neuvedeno. Jen pro výchozí délku pauz (core/rest_time.dart).
+  IntColumn get sex => integer().nullable()();
+
+  /// Naposledy zvolené zaměření tréninku (verze schématu 14):
+  /// index TrainingFocus, výchozí 1 = svaly.
+  IntColumn get trainingFocus => integer().withDefault(const Constant(1))();
+
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -110,6 +118,10 @@ class Exercises extends Table {
 
   /// MET hodnota pro odhad kalorií.
   RealColumn get met => real().withDefault(const Constant(5.0))();
+
+  /// Moje poznámka ke cviku (verze schématu 17), např. nastavení stroje.
+  /// Ukazuje se u cviku v každém tréninku; nikam se neposílá.
+  TextColumn get note => text().nullable()();
 }
 
 @DataClassName('WorkoutPlan')
@@ -124,6 +136,16 @@ class WorkoutPlans extends Table {
   /// Plánovaný čas tréninku v minutách od půlnoci.
   IntColumn get plannedTimeMinutes => integer().nullable()();
   BoolColumn get isBuiltIn => boolean().withDefault(const Constant(false))();
+
+  /// Plán od trenéra nebo ze sdíleného odkazu (verze schématu 16,
+  /// docs/coach.md): „coach:<id>“ / „shared:<id>“, jinak null.
+  TextColumn get remoteId => text().nullable()();
+
+  /// Verze plánu od trenéra – při vyšší verzi se plán přepíše.
+  IntColumn get remoteVersion => integer().nullable()();
+
+  /// Kdo plán poslal (jméno trenéra / autora odkazu).
+  TextColumn get remoteFrom => text().nullable()();
 }
 
 @DataClassName('PlanExercise')
@@ -143,7 +165,12 @@ class PlanExercises extends Table {
 
   /// Od verze schématu 2 se nepoužívá – viz [PlanSets].
   IntColumn get targetReps => integer().withDefault(const Constant(10))();
+  /// Pauza nastavená ručně; platí, jen když [restAuto] je false.
   IntColumn get restSeconds => integer().withDefault(const Constant(90))();
+
+  /// Pauza automaticky podle cviku, zaměření tréninku a pohlaví
+  /// (verze schématu 14, core/rest_time.dart).
+  BoolColumn get restAuto => boolean().withDefault(const Constant(true))();
 
   /// Supersérie (verze schématu 8): po sobě jdoucí cviky se stejnou
   /// hodnotou tvoří jednu supersérii (A1, A2…). null = samostatný cvik.
@@ -162,6 +189,10 @@ class PlanExercises extends Table {
   /// Navrhovat po tréninku nové cíle tohoto cviku.
   BoolColumn get autoProgression =>
       boolean().withDefault(const Constant(true))();
+
+  /// Poznámka ke cviku v tomto plánu (verze schématu 17): technika, tempo,
+  /// úchop… U plánu od trenéra ji píše trenér (docs/coach.md).
+  TextColumn get note => text().nullable()();
 }
 
 /// Cílová série cviku v plánu (verze schématu 2).
@@ -206,6 +237,10 @@ class WorkoutSessions extends Table {
 
   /// Pocit po tréninku (v8, volitelný): lehké / akorát / náročné.
   IntColumn get feeling => intEnum<WorkoutFeeling>().nullable()();
+
+  /// Zaměření tréninku (v14): síla / svaly / kondice. Podle něj se
+  /// počítají automatické pauzy. null = podle profilu.
+  IntColumn get focus => intEnum<TrainingFocus>().nullable()();
 }
 
 @DataClassName('SetEntry')
@@ -223,7 +258,7 @@ class SetEntries extends Table {
   IntColumn get durationSeconds => integer().nullable()();
   BoolColumn get isWarmup => boolean().withDefault(const Constant(false))();
 
-  /// Drop série (v8) – počítá se do objemu, ne do rekordů ani odhadu 1RM.
+  /// Drop série (v8) – počítá se do objemu, ne do rekordů.
   BoolColumn get isDrop => boolean().withDefault(const Constant(false))();
 
   /// Supersérie v tréninku (v8): série cviků se stejnou hodnotou v jednom
@@ -323,7 +358,7 @@ class Challenges extends Table {
       integer().nullable()
       .customConstraint('NULL REFERENCES exercises(id) ON DELETE SET NULL')();
 
-  /// Cíl: odhad 1RM v kg / počet tréninků / ml vody za týden.
+  /// Cíl: nejtěžší série (recordValue, kg) / počet tréninků / ml vody za týden.
   RealColumn get targetValue => real()();
 
   /// Kdo výzvu poslal (jméno z odkazu nebo přítel).

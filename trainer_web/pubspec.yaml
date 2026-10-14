@@ -1,0 +1,30 @@
+name: gymbar_trainer
+description: Web GymBar pro trenéry (gymbar.app/trener) – klienti, grafy, plány.
+publish_to: 'none'
+version: 0.3.10
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+  firebase_core: ^4.15.0
+  firebase_auth: ^6.7.0
+  cloud_firestore: ^6.10.0
+  # Společná logika s aplikací (plány, tréninky, statistiky, kódy).
+  gymbar_coach:
+    path: ../packages/gymbar_coach
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/exercises.json

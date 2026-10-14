@@ -9,12 +9,12 @@ typedef TemplateSet = ({
   bool isDrop,
 });
 
+/// Pauza se u cviků z programu počítá automaticky (core/rest_time.dart).
 class TemplateItem {
-  const TemplateItem(this.slug, this.sets, {this.restSeconds = 90});
+  const TemplateItem(this.slug, this.sets);
 
   final String slug;
   final List<TemplateSet> sets;
-  final int restSeconds;
 }
 
 class TemplatePlan {
@@ -66,18 +66,18 @@ final templatePrograms = <TemplateProgram>[
         '3× týdně, střídání tréninků A a B. Ideální na první měsíce.',
     plans: [
       TemplatePlan('Full body A', 'Celé tělo A', _mon | _fri, [
-        TemplateItem('back_squat', _sets(3, 8, warmup: true), restSeconds: 120),
-        TemplateItem('bench_press', _sets(3, 8, warmup: true), restSeconds: 120),
+        TemplateItem('back_squat', _sets(3, 8, warmup: true)),
+        TemplateItem('bench_press', _sets(3, 8, warmup: true)),
         TemplateItem('barbell_row', _sets(3, 8)),
         TemplateItem('overhead_press', _sets(2, 10)),
-        TemplateItem('plank', _sets(3, 30), restSeconds: 45),
+        TemplateItem('plank', _sets(3, 30)),
       ]),
       TemplatePlan('Full body B', 'Celé tělo B', _wed, [
-        TemplateItem('deadlift', _sets(3, 5, warmup: true), restSeconds: 150),
+        TemplateItem('deadlift', _sets(3, 5, warmup: true)),
         TemplateItem('incline_dumbbell_press', _sets(3, 10)),
         TemplateItem('lat_pulldown', _sets(3, 10)),
         TemplateItem('lunge', _sets(2, 10)),
-        TemplateItem('cable_crunch', _sets(3, 12), restSeconds: 60),
+        TemplateItem('cable_crunch', _sets(3, 12)),
       ]),
     ],
   ),
@@ -89,20 +89,20 @@ final templatePrograms = <TemplateProgram>[
     descriptionCs: '4× týdně: horní polovina Po + Čt, dolní Út + Pá.',
     plans: [
       TemplatePlan('Upper body', 'Horní polovina', _mon | _thu, [
-        TemplateItem('bench_press', _sets(4, 6, warmup: true), restSeconds: 150),
-        TemplateItem('barbell_row', _sets(4, 6), restSeconds: 120),
+        TemplateItem('bench_press', _sets(4, 6, warmup: true)),
+        TemplateItem('barbell_row', _sets(4, 6)),
         TemplateItem('dumbbell_shoulder_press', _sets(3, 10)),
         TemplateItem('lat_pulldown', _sets(3, 10)),
-        TemplateItem('dumbbell_curl', _sets(2, 12), restSeconds: 60),
-        TemplateItem('triceps_pushdown', _sets(2, 12), restSeconds: 60),
+        TemplateItem('dumbbell_curl', _sets(2, 12)),
+        TemplateItem('triceps_pushdown', _sets(2, 12)),
       ]),
       TemplatePlan('Lower body', 'Dolní polovina', _tue | _fri, [
-        TemplateItem('back_squat', _sets(4, 6, warmup: true), restSeconds: 150),
-        TemplateItem('romanian_deadlift', _sets(3, 8), restSeconds: 120),
+        TemplateItem('back_squat', _sets(4, 6, warmup: true)),
+        TemplateItem('romanian_deadlift', _sets(3, 8)),
         TemplateItem('leg_press', _sets(3, 10)),
-        TemplateItem('leg_curl', _sets(3, 12), restSeconds: 60),
-        TemplateItem('calf_raise', _sets(3, 15), restSeconds: 60),
-        TemplateItem('hanging_leg_raise', _sets(3, 10), restSeconds: 60),
+        TemplateItem('leg_curl', _sets(3, 12)),
+        TemplateItem('calf_raise', _sets(3, 15)),
+        TemplateItem('hanging_leg_raise', _sets(3, 10)),
       ]),
     ],
   ),
@@ -114,25 +114,25 @@ final templatePrograms = <TemplateProgram>[
     descriptionCs: '3× týdně: tlaky Po, přítahy St, nohy Pá.',
     plans: [
       TemplatePlan('Push', 'Push (tlaky)', _mon, [
-        TemplateItem('bench_press', _sets(4, 8, warmup: true), restSeconds: 120),
+        TemplateItem('bench_press', _sets(4, 8, warmup: true)),
         TemplateItem('dumbbell_shoulder_press', _sets(3, 10)),
         TemplateItem('incline_dumbbell_press', _sets(3, 10)),
-        TemplateItem('lateral_raise', _sets(3, 12), restSeconds: 60),
-        TemplateItem('triceps_pushdown', _sets(3, 12), restSeconds: 60),
+        TemplateItem('lateral_raise', _sets(3, 12)),
+        TemplateItem('triceps_pushdown', _sets(3, 12)),
       ]),
       TemplatePlan('Pull', 'Pull (přítahy)', _wed, [
-        TemplateItem('deadlift', _sets(3, 5, warmup: true), restSeconds: 150),
-        TemplateItem('pull_up', _sets(3, 8), restSeconds: 120),
+        TemplateItem('deadlift', _sets(3, 5, warmup: true)),
+        TemplateItem('pull_up', _sets(3, 8)),
         TemplateItem('seated_cable_row', _sets(3, 10)),
-        TemplateItem('face_pull', _sets(3, 15), restSeconds: 60),
-        TemplateItem('barbell_curl', _sets(3, 10), restSeconds: 60),
+        TemplateItem('face_pull', _sets(3, 15)),
+        TemplateItem('barbell_curl', _sets(3, 10)),
       ]),
       TemplatePlan('Legs', 'Nohy', _fri, [
-        TemplateItem('back_squat', _sets(4, 8, warmup: true), restSeconds: 150),
-        TemplateItem('romanian_deadlift', _sets(3, 10), restSeconds: 120),
-        TemplateItem('leg_extension', _sets(3, 12), restSeconds: 60),
-        TemplateItem('leg_curl', _sets(3, 12), restSeconds: 60),
-        TemplateItem('calf_raise', _sets(4, 15), restSeconds: 60),
+        TemplateItem('back_squat', _sets(4, 8, warmup: true)),
+        TemplateItem('romanian_deadlift', _sets(3, 10)),
+        TemplateItem('leg_extension', _sets(3, 12)),
+        TemplateItem('leg_curl', _sets(3, 12)),
+        TemplateItem('calf_raise', _sets(4, 15)),
       ]),
     ],
   ),

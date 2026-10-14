@@ -111,7 +111,7 @@ String formatWeight(BuildContext context, double kg, {int maxDecimals = 2}) =>
     formatDecimal(context, kgToDisplay(kg), maxDecimals: maxDecimals);
 
 /// Váha s jednotkou: „82,5 kg“ / „181,88 lb“.
-/// [rounded] zaokrouhlí na 0,5 kg / 1 lb (odhady 1RM).
+/// [rounded] zaokrouhlí na 0,5 kg / 1 lb.
 String formatWeightWithUnit(
   BuildContext context,
   double kg, {

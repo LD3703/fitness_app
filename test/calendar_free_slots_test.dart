@@ -124,6 +124,42 @@ void main() {
       final windows = <TimeWindow>[(start: at(10, 5), end: at(11, 5))];
       expect(suggestStarts(day: day, windows: windows), isEmpty);
     });
+
+    // Dny změny času v Evropě (29. 3. a 25. 10. 2026) a v USA (8. 3.
+    // a 1. 11. 2026). Chybu odhalí test spuštěný v časovém pásmu se
+    // změnou času (např. TZ=Europe/Prague); jinde musí projít také.
+    test('v den změny času navrhne čas podle hodin', () {
+      for (final d in [
+        DateTime(2026, 3, 29),
+        DateTime(2026, 10, 25),
+        DateTime(2026, 3, 8),
+        DateTime(2026, 11, 1),
+      ]) {
+        DateTime t(int h) => DateTime(d.year, d.month, d.day, h);
+        // Jediné volné okno 18:00–19:00 → trénink přesně v 18:00.
+        final s = suggestStarts(
+          day: d,
+          windows: [(start: t(18), end: t(19))],
+        );
+        expect(s, hasLength(1), reason: '$d');
+        expect(s.first.start, t(18), reason: '$d');
+        expect(s.first.distance, 0, reason: '$d');
+
+        // Celý volný den: preferovaných 17:00, ne 16:00 / 18:00.
+        final w = freeWindows(day: d, entries: const []);
+        expect(suggestStarts(day: d, windows: w).first.start, t(17),
+            reason: '$d');
+      }
+    });
+
+    test('konec okna o půlnoci se počítá jako 24:00', () {
+      final windows = <TimeWindow>[
+        (start: at(22, 30), end: DateTime(2026, 10, 6)),
+      ];
+      final s = suggestStarts(day: day, windows: windows);
+      expect(s, hasLength(1));
+      expect(s.first.start, at(22, 30));
+    });
   });
 
   group('collisionsWith', () {

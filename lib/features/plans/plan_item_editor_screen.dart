@@ -1,9 +1,11 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/formulas.dart';
+import '../../core/rest_time.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../modules/progression/progression_plan_widgets.dart';
@@ -14,6 +16,7 @@ import '../../ui/format.dart';
 import '../../ui/labels.dart';
 import '../../ui/set_format.dart';
 import '../../ui/set_kind_chip.dart';
+import '../workout/workout_service.dart' show autoRestSeconds;
 
 /// Úprava jednoho cviku v plánu: série (opakování, cílová váha, rozcvička,
 /// drop série),
@@ -63,6 +66,13 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
   bool _dirty = false;
   final _rows = <_EditRow>[];
   final _rest = TextEditingController();
+  final _note = TextEditingController();
+
+  /// Plán je od trenéra (poznámku v plánu píše trenér).
+  bool _fromTrainer = false;
+
+  /// Pauza automaticky podle cviku, zaměření tréninku a pohlaví.
+  bool _restAuto = true;
   String? _error;
 
   /// Nastavení automatické progrese (rozsah, přírůstek, přepínač).
@@ -87,12 +97,14 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
       r.dispose();
     }
     _rest.dispose();
+    _note.dispose();
     _progression?.dispose();
     super.dispose();
   }
 
   Future<void> _load() async {
     final items = await _db.getPlanItems(widget.planId);
+    final plan = await _db.watchPlan(widget.planId).first;
     final item =
         items.where((i) => i.item.id == widget.planExerciseId).firstOrNull;
     if (!mounted) return;
@@ -102,7 +114,10 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
     }
     setState(() {
       _item = item;
+      _restAuto = item.item.restAuto;
       _rest.text = '${item.item.restSeconds}';
+      _note.text = item.item.note ?? '';
+      _fromTrainer = plan?.remoteId?.startsWith('coach:') ?? false;
       _progression = ProgressionItemSettings.fromItem(item.item);
       _rows.addAll(item.sets.map((s) => _EditRow(
             reps: '${s.reps}',
@@ -243,8 +258,11 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
         continue;
       }
       final reps = int.tryParse(r.reps.text) ?? 10;
-      final w =
-          suggestWorkingWeight(record.oneRepMax, reps, step: weightStepKg);
+      // Návrh z nejtěžší série přepočtený na jiný počet opakování
+      // (Epley jen interně, odhad maxima se nikde neukazuje).
+      final estimatedMax =
+          estimateOneRepMax(record.weightKg, record.reps) ?? record.weightKg;
+      final w = suggestWorkingWeight(estimatedMax, reps, step: weightStepKg);
       firstWorking ??= w;
       previous = w;
       r.weight.text = weightInputText(w);
@@ -282,10 +300,54 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
     return result;
   }
 
+  /// Pauza: automaticky (s přehledem pro síla / svaly / kondice), nebo
+  /// ručně zadaná hodnota.
+  Widget _restSection(BuildContext context, Exercise exercise) {
+    final l10n = AppLocalizations.of(context);
+    final sex = sexOf(ref.watch(profileProvider).valueOrNull?.sex);
+    int auto(TrainingFocus f) => autoRestSeconds(exercise, f, sex);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SwitchListTile(
+          secondary: const Icon(Icons.auto_awesome),
+          title: Text(l10n.planRestAuto),
+          subtitle: Text(l10n.planRestAutoValues(
+            auto(TrainingFocus.strength),
+            auto(TrainingFocus.muscle),
+            auto(TrainingFocus.conditioning),
+          )),
+          value: _restAuto,
+          onChanged: (v) {
+            setState(() {
+              _restAuto = v;
+              // Ruční pauza začne od automatické hodnoty (svaly).
+              if (!v) _rest.text = '${auto(TrainingFocus.muscle)}';
+            });
+            _markDirty();
+          },
+        ),
+        if (!_restAuto)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            child: TextField(
+              controller: _rest,
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              decoration: InputDecoration(labelText: l10n.planTargetRest),
+              onChanged: (_) => _markDirty(),
+            ),
+          ),
+      ],
+    );
+  }
+
   Future<void> _save() async {
     final l10n = AppLocalizations.of(context);
     final sets = _collect();
-    final rest = int.tryParse(_rest.text.trim());
+    final rest = _restAuto
+        ? _item?.item.restSeconds ?? 90
+        : int.tryParse(_rest.text.trim());
     if (sets == null || rest == null || rest < 0 || rest > 600) {
       setState(() => _error = l10n.dataPlanSetsInvalid(
             formatWeightWithUnit(context, 1000, maxDecimals: 0),
@@ -301,6 +363,8 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
       widget.planExerciseId,
       sets: sets,
       restSeconds: rest,
+      restAuto: _restAuto,
+      note: Value(_note.text.trim().isEmpty ? null : clipNote(_note.text)),
     );
     if (progression != null) {
       await _db.saveProgressionSettings(widget.planExerciseId, progression);
@@ -431,13 +495,25 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
                 ],
               ),
             ),
+            _restSection(context, item.exercise),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
               child: TextField(
-                controller: _rest,
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration: InputDecoration(labelText: l10n.planTargetRest),
+                controller: _note,
+                minLines: 1,
+                maxLines: 5,
+                maxLength: exerciseNoteMax,
+                textCapitalization: TextCapitalization.sentences,
+                decoration: InputDecoration(
+                  labelText: l10n.planItemNote,
+                  helperText: _fromTrainer
+                      ? l10n.planItemNoteFromTrainer
+                      : l10n.planItemNoteHint,
+                  helperMaxLines: 3,
+                  prefixIcon: Icon(_fromTrainer
+                      ? Icons.sports
+                      : Icons.sticky_note_2_outlined),
+                ),
                 onChanged: (_) => _markDirty(),
               ),
             ),

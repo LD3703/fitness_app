@@ -122,7 +122,12 @@ class _ChartCard extends StatelessWidget {
                 Expanded(
                   child: Text(title, style: theme.textTheme.titleMedium),
                 ),
-                if (trailing != null) trailing!,
+                // Pravý prvek (výběr cviku) dostane polovinu šířky a dlouhý
+                // název zkrátí „…“, místo aby řádek přetekl.
+                if (trailing != null) ...[
+                  const SizedBox(width: 8),
+                  Expanded(child: trailing!),
+                ],
               ],
             ),
             if (subtitle != null)
@@ -249,7 +254,7 @@ class _StrengthChartCard extends ConsumerWidget {
         ref.watch(premiumProvider).isPremium(PremiumFeature.fullHistory);
     final allPoints = exercise == null
         ? const <SeriesPoint>[]
-        : ref.watch(oneRepMaxSeriesProvider(exercise.id)).valueOrNull ??
+        : ref.watch(topWeightSeriesProvider(exercise.id)).valueOrNull ??
             const <SeriesPoint>[];
     final points = pointsSince(
       allPoints,
@@ -264,12 +269,17 @@ class _StrengthChartCard extends ConsumerWidget {
           ? null
           : DropdownButton<int>(
               value: exercise?.id,
+              isExpanded: true,
               underline: const SizedBox.shrink(),
               items: [
                 for (final e in exercises)
                   DropdownMenuItem(
                     value: e.id,
-                    child: Text(e.localizedName(context)),
+                    child: Text(
+                      e.localizedName(context),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
               ],
               onChanged: (id) =>

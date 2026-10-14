@@ -1,0 +1,1 @@
+gimnasio,entrenamiento,diario,pesas,fuerza,progresion,records,press banca,sentadilla,plan

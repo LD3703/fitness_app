@@ -1,0 +1,7 @@
+node_modules/
+cache/
+out/
+state/
+# Klíč servisního účtu Firebase – NIKDY do gitu.
+*-firebase-adminsdk-*.json
+service-account*.json

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/formulas.dart';
 import '../../../data/database.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers.dart';
@@ -16,7 +17,9 @@ import '../social_publisher.dart';
 import '../social_queries.dart';
 import '../social_service.dart';
 import 'friends_screen.dart' show SocialSignInView;
+import 'gym_print.dart';
 import 'gym_widgets.dart';
+import 'moderation_ui.dart';
 import 'social_ui.dart';
 
 /// Ověří Firebase a přihlášení; jinak ukáže zprávu / přihlášení.
@@ -144,7 +147,7 @@ class _NoGymView extends StatelessWidget {
 // Žebříček
 // ---------------------------------------------------------------------------
 
-enum _MenuAction { profile, leave }
+enum _MenuAction { profile, print, leave, report }
 
 const _medalColors = [
   Color(0xFFFFC107), // zlato
@@ -200,6 +203,7 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
         nickname: m.nickname ?? SocialPublisher.displayName(profile),
         gender: m.gender,
         show: m.show,
+        printable: m.printable,
         birthYear: profile.birthYear,
       ),
       title: l10n.socialGymMyProfile,
@@ -283,7 +287,9 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
         await db.socialInsertChallenge(
           remoteId: remoteId,
           kind: ChallengeKind.beatRecord,
-          targetValue: value,
+          // Žebříček zná jen váhu: překonat = zvednout víc (stejná váha
+          // s jakýmkoli počtem opakování nestačí).
+          targetValue: recordValue(value, 999) ?? value,
           fromName: e.nickname,
           deadline: DateTime(now.year, now.month, now.day + 30, 23, 59),
           exerciseSlug: slug,
@@ -312,7 +318,7 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
           ? l10n.socialGymHintWorkoutsMonth
           : l10n.socialGymHintWorkoutsAllTime;
     }
-    final hint = l10n.socialGymHintLift(gymMaxReps);
+    final hint = l10n.socialGymHintLift;
     final note = gymCategoryNote(l10n, _category);
     return note == null ? hint : '$hint $note';
   }
@@ -342,17 +348,32 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
           PopupMenuButton<_MenuAction>(
             onSelected: (a) => switch (a) {
               _MenuAction.profile => _editProfile(),
+              _MenuAction.print =>
+                gym == null ? Future<void>.value() : printGymBoard(context, gym),
               _MenuAction.leave => _leave(gym),
+              _MenuAction.report =>
+                gym == null ? Future<void>.value() : reportGymFlow(context, gym),
             },
             itemBuilder: (context) => [
               PopupMenuItem(
                 value: _MenuAction.profile,
                 child: Text(l10n.socialGymMyProfile),
               ),
+              if (gym != null)
+                PopupMenuItem(
+                  value: _MenuAction.print,
+                  child: Text(l10n.socialGymPrint),
+                ),
               PopupMenuItem(
                 value: _MenuAction.leave,
                 child: Text(l10n.socialGymLeave),
               ),
+              // Vlastní posilovnu nahlásit nejde (odmítnou to i pravidla).
+              if (gym != null && gym.createdBy != SocialService.instance.uid)
+                PopupMenuItem(
+                  value: _MenuAction.report,
+                  child: Text(l10n.moderationReportGym),
+                ),
             ],
           ),
         ],

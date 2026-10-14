@@ -207,8 +207,8 @@
     }
   },
   "statsInsightRecordsBest": {
-    "en": "Best: {exercise}, 1RM ~{kg} kg ({gain} %)",
-    "cs": "Nejlepší: {exercise}, 1RM ~{kg} kg ({gain} %)",
+    "en": "Best: {exercise}, {kg} ({gain} %)",
+    "cs": "Nejlepší: {exercise}, {kg} ({gain} %)",
     "placeholders": {
       "exercise": {
         "type": "String"
@@ -333,10 +333,6 @@
       }
     }
   },
-  "statsE1rmLabel": {
-    "en": "est. 1RM",
-    "cs": "odhad 1RM"
-  },
   "statsSetWeightReps": {
     "en": "{weight} kg × {reps}",
     "cs": "{weight} kg × {reps}",
@@ -375,8 +371,8 @@
     "cs": "Tvůj pokrok"
   },
   "statsExerciseChartSubtitle": {
-    "en": "Estimated 1RM – the best set of each workout",
-    "cs": "Odhad 1RM – nejlepší série každého tréninku"
+    "en": "Heaviest set of each workout",
+    "cs": "Nejtěžší série z každého tréninku"
   },
   "statsExerciseRecent": {
     "en": "Last workouts",

@@ -1,0 +1,1 @@
+Registra una serie en segundos. La app te sugiere el peso para la próxima vez, controla la sobrecarga progresiva y muestra quién es el más fuerte de tu gimnasio.

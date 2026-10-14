@@ -60,20 +60,20 @@ void main() {
       expect(r.reasons.single.percent, closeTo(8, 0.01));
     });
 
-    test('1RM cviku +4 % při stejném objemu → progres (důvod 1RM)', () {
+    test('nejtěžší váha cviku +4 % při stejném objemu → progres', () {
       final r = _chest([
         for (final d in [_w0, _w1]) ...[_set(d, 100, 10), _set(d, 100, 10)],
         for (final d in [_w2, _w3]) ...[_set(d, 104, 10), _set(d, 96, 10)],
       ]);
       expect(r.status, OverloadStatus.progressing);
       expect(r.reasons, hasLength(1));
-      expect(r.reasons.single.kind, OverloadReasonKind.oneRepMax);
+      expect(r.reasons.single.kind, OverloadReasonKind.topWeight);
       expect(r.reasons.single.exerciseId, 1);
       expect(r.reasons.single.percent, closeTo(4, 0.01));
       expect(r.volumeChangePercent, closeTo(0, 0.001));
     });
 
-    test('nový cvik s vyšším 1RM se nepočítá jako zlepšení (skladba cviků)',
+    test('nový cvik s vyšší vahou se nepočítá jako zlepšení (skladba cviků)',
         () {
       final r = _chest([
         for (final d in [_w0, _w1]) ...[_set(d, 100, 10), _set(d, 100, 10)],
@@ -87,7 +87,7 @@ void main() {
       expect(r.tip, isNull);
     });
 
-    test('objem −20 % bez zlepšení 1RM → pokles', () {
+    test('objem −20 % bez zlepšení váhy → pokles', () {
       final r = _chest([
         for (final d in [_w0, _w1]) ...[_set(d, 100, 10), _set(d, 100, 10)],
         for (final d in [_w2, _w3]) ...[_set(d, 100, 10), _set(d, 60, 10)],
@@ -113,6 +113,18 @@ void main() {
       final r = _chest([_set(_w2, 100, 10), _set(_w3, 100, 10)]);
       expect(r.status, OverloadStatus.insufficientData);
       expect(r.excused, isFalse);
+    });
+
+    test('prázdné týdny před začátkem partie se nepočítají jako nulový objem',
+        () {
+      // Partie poprvé v předposledním okně (jen 3 týdny dat): předchozí
+      // okno by jinak bylo „1 týden + prázdný týden“ → falešný pokrok.
+      final r = _chest([
+        _set(_w1, 100, 10),
+        _set(_w2, 100, 10),
+        _set(_w3, 100, 10),
+      ]);
+      expect(r.status, OverloadStatus.insufficientData);
     });
 
     test('rozcvička se nepočítá, drop série jen do objemu', () {

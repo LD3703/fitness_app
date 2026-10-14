@@ -20,7 +20,7 @@ void main() {
       expect(checkGymValue(category: GymCategory.workouts, value: 62), isNull);
     });
 
-    test('hranice všech cviků (kg odhadu 1RM)', () {
+    test('hranice všech cviků (kg)', () {
       const limits = {
         'bench_press': 350.0,
         'back_squat': 500.0,
@@ -212,7 +212,7 @@ void main() {
   });
 
   group('gym_logic', () {
-    test('1RM se zaokrouhlí na 0,5 kg', () {
+    test('váha se zaokrouhlí na 0,5 kg', () {
       expect(roundGymLift(102.3), 102.5);
     });
 
@@ -258,11 +258,11 @@ void main() {
     });
 
     test('parseGymCode', () {
-      expect(parseGymCode('fitnessapp://gym?code=abc234'), 'ABC234');
-      expect(parseGymCode('https://example.com/gym?code=ABC234'), 'ABC234');
+      expect(parseGymCode('gymbar://gym?code=abc234'), 'ABC234');
+      expect(parseGymCode('https://gymbar.app/gym?code=ABC234'), 'ABC234');
       expect(parseGymCode(' abc-234 '), 'ABC234');
       // Kód přítele (8 znaků) ani odkaz na přítele nejsou kód posilovny.
-      expect(parseGymCode('fitnessapp://friend?code=ABC234'), isNull);
+      expect(parseGymCode('gymbar://friend?code=ABC234'), isNull);
       expect(parseGymCode('ABCD2345'), isNull);
       expect(parseGymCode('ABC10O'), isNull);
     });

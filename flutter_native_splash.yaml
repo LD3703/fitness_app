@@ -1,0 +1,11 @@
+# Úvodní obrazovka při spuštění: teal pozadí a činka z loga.
+# Spuštění:  dart run flutter_native_splash:create
+flutter_native_splash:
+  color: "#2E7D6B"
+  image: assets/branding/splash.png
+  android_12:
+    # Android 12+ ukazuje ikonu v kruhu (obrázek 1152 × 1152, kruh 768).
+    image: assets/branding/splash_android12.png
+    color: "#2E7D6B"
+    icon_background_color: "#2E7D6B"
+  web: false

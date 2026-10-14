@@ -36,7 +36,7 @@ class _Metrics {
   Future<double?> best(int exerciseId) async {
     if (_best.containsKey(exerciseId)) return _best[exerciseId];
     final r = await db.exerciseRecord(exerciseId);
-    return _best[exerciseId] = r?.oneRepMax;
+    return _best[exerciseId] = r?.value;
   }
 
   Future<int> workouts() async => _workouts ??=
@@ -70,7 +70,7 @@ Future<ChallengeView> _view(
     ChallengeKind.beatRecord => challengeProgress(
         c.kind,
         c.targetValue,
-        bestOneRepMax: exercise == null ? null : await m.best(exercise.id),
+        bestTopWeight: exercise == null ? null : await m.best(exercise.id),
       ),
     ChallengeKind.workoutsInMonth => challengeProgress(
         c.kind,

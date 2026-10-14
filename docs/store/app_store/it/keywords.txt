@@ -1,0 +1,1 @@
+palestra,allenamento,diario,pesi,manubri,forza,progressione,record,panca piana,squat,scheda

@@ -1,0 +1,213 @@
+<!doctype html>
+<!--
+  Žádost o smazání účtu. Google Play vyžaduje webovou adresu, kde jde
+  o smazání účtu požádat i bez aplikace (Play Console → Obsah aplikace →
+  Smazání účtu). Nahrát na web jako /delete-account.
+  TODO před zveřejněním: doplnit údaje v hranatých závorkách [ ].
+-->
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smazání účtu / Delete account</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1b1f1e;
+      --muted: #59625f;
+      --accent: #2e7d6b;
+      --line: #dde3e1;
+      --head: #f2f6f5;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121615;
+        --text: #e8eeec;
+        --muted: #a5b0ad;
+        --accent: #7cc9b5;
+        --line: #2c3533;
+        --head: #1b2120;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    main { max-width: 820px; margin: 0 auto; padding: 24px 16px 64px; }
+    h1 { font-size: 1.8rem; line-height: 1.25; margin: 8px 0 4px; }
+    h2 { font-size: 1.2rem; margin: 32px 0 8px; color: var(--accent); }
+    p, li { margin: 8px 0; }
+    a { color: var(--accent); }
+    .meta { color: var(--muted); margin-bottom: 16px; }
+    .lead { font-size: 1.05rem; }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; color: var(--text); text-decoration: none; letter-spacing: -0.01em; }
+    .brand img { width: 32px; height: 32px; }
+    .brand .wm span { color: var(--accent); }
+    .lang { display: flex; gap: 8px; justify-content: flex-end; }
+    .lang button {
+      font: inherit; padding: 4px 12px; border-radius: 16px; cursor: pointer;
+      border: 1px solid var(--line); background: transparent; color: var(--text);
+    }
+    .lang button[aria-pressed="true"] {
+      background: var(--accent); border-color: var(--accent); color: var(--bg);
+    }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+    th, td {
+      border: 1px solid var(--line); padding: 8px; text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--head); }
+    [data-lang] { display: none; }
+    body.cs [data-lang="cs"], body.en [data-lang="en"] { display: block; }
+  </style>
+</head>
+<body class="cs">
+<main>
+  <div class="top">
+    <a class="brand" href="/"><img src="/favicon.svg" alt=""><span class="wm">Gym<span>Bar</span></span></a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-set="cs">Čeština</button>
+      <button type="button" data-set="en">English</button>
+    </div>
+  </div>
+
+  <!-- ====================================================== ČEŠTINA -->
+  <article data-lang="cs" lang="cs">
+    <h1>Smazání účtu – GymBar</h1>
+    <p class="meta">Vývojář: [Jméno a příjmení]</p>
+    <p class="lead">Účet je potřeba jen pro přátele, žebříček posilovny
+      a zálohu do cloudu. Smazat ho můžete v aplikaci, nebo e-mailem
+      i bez ní.</p>
+
+    <h2>V aplikaci (okamžitě)</h2>
+    <ol>
+      <li>Otevřete aplikaci a přejděte na <strong>Přátelé</strong>.</li>
+      <li>Klepněte na <strong>Smazat účet pro přátele</strong>.</li>
+      <li>Potvrďte smazání. Pokud jste se dlouho nepřihlašovali, aplikace
+        vás požádá o krátké znovupřihlášení.</li>
+    </ol>
+
+    <h2>Bez aplikace (e-mailem)</h2>
+    <p>Napište na <strong><a href="mailto:info@gymbar.app">info@gymbar.app</a></strong> s předmětem
+      „Smazání účtu“ z e-mailu, kterým se přihlašujete přes Google nebo
+      Apple. Účet smažeme do 30 dnů a pošleme potvrzení. Pokud se
+      přihlašujete přes Apple se skrytým e-mailem, uveďte přezdívku nebo
+      jméno, které vidí přátelé.</p>
+
+    <h2>Co se smaže</h2>
+    <ul>
+      <li>účet (přihlášení přes Google nebo Apple),</li>
+      <li>profil pro přátele, seznam přátel, novinky, pozvánky
+        a výzvy,</li>
+      <li>záznamy a nahlášení v žebříčku posilovny a členství
+        v posilovně,</li>
+      <li>nahlášení obsahu, která jste podali, a seznam zablokovaných,</li>
+      <li>tokeny pro upozornění,</li>
+      <li>propojení s trenérem včetně tréninků, váhy, plánů a komentářů
+        sdílených s trenérem; status trenéra s knihovnou plánů; plány
+        sdílené odkazem,</li>
+      <li>zálohy v cloudu.</li>
+    </ul>
+
+    <h2>Co zůstane</h2>
+    <ul>
+      <li>Posilovna, kterou jste založili, zůstane v seznamu pro ostatní
+        členy (název, město, adresa), už bez vazby na váš účet.</li>
+      <li>Počet nahlášení u cizích záznamů zůstane, ale už bez informace,
+        kdo je nahlásil.</li>
+      <li>Hlášení o pádech aplikace neobsahují účet a mažou se samy po
+        90 dnech.</li>
+    </ul>
+
+    <h2>Data v telefonu</h2>
+    <p>Tréninky, váha, pitný režim a další údaje jsou jen ve vašem
+      telefonu a smazáním účtu nezmizí. Smažete je v aplikaci v Profilu →
+      <strong>Smazat všechna data</strong>, nebo odinstalováním aplikace.</p>
+    <p>Víc v <a href="privacy">zásadách ochrany soukromí</a>.</p>
+  </article>
+
+  <!-- ====================================================== ENGLISH -->
+  <article data-lang="en" lang="en">
+    <h1>Delete your account – GymBar</h1>
+    <p class="meta">Developer: [Full name]</p>
+    <p class="lead">An account is only needed for friends, the gym
+      leaderboard and cloud backup. You can delete it in the app, or by
+      email without the app.</p>
+
+    <h2>In the app (immediately)</h2>
+    <ol>
+      <li>Open the app and go to <strong>Friends</strong>.</li>
+      <li>Tap <strong>Delete friends account</strong>.</li>
+      <li>Confirm. If you haven’t signed in for a while, the app asks you to
+        sign in again briefly.</li>
+    </ol>
+
+    <h2>Without the app (by email)</h2>
+    <p>Email <strong><a href="mailto:info@gymbar.app">info@gymbar.app</a></strong> with the subject “Delete
+      account” from the address you use to sign in with Google or Apple.
+      We delete the account within 30 days and send you a confirmation.
+      If you use Apple’s Hide My Email, include the nickname or name your
+      friends see.</p>
+
+    <h2>What is deleted</h2>
+    <ul>
+      <li>your account (Google or Apple sign-in),</li>
+      <li>your profile for friends, friend list, feed, invitations and
+        challenges,</li>
+      <li>your gym leaderboard entries, reports and gym membership,</li>
+      <li>content reports you made and your block list,</li>
+      <li>notification tokens,</li>
+      <li>your coach connection including workouts, weight, plans and
+        comments shared with the coach; your coach status with your plan
+        library; plans shared by link,</li>
+      <li>cloud backups.</li>
+    </ul>
+
+    <h2>What stays</h2>
+    <ul>
+      <li>A gym you created stays listed for other members (name, city,
+        address), no longer linked to your account.</li>
+      <li>The report count on other people’s entries stays, without the
+        information about who reported them.</li>
+      <li>Crash reports contain no account information and are deleted
+        automatically after 90 days.</li>
+    </ul>
+
+    <h2>Data on your phone</h2>
+    <p>Workouts, body weight, water intake and other data are only on your
+      phone and are not removed by deleting the account. Delete them in
+      the app under Profile → <strong>Delete all data</strong>, or by
+      uninstalling the app.</p>
+    <p>More in the <a href="privacy">privacy policy</a>.</p>
+  </article>
+</main>
+<script>
+  (function () {
+    var buttons = document.querySelectorAll('[data-set]');
+    function show(lang) {
+      document.body.className = lang;
+      document.documentElement.lang = lang;
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].setAttribute('aria-pressed',
+          String(buttons[i].getAttribute('data-set') === lang));
+      }
+    }
+    var param = new URLSearchParams(location.search).get('lang');
+    var nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    show(param === 'cs' || param === 'en' ? param
+      : (nav === 'cs' || nav === 'sk') ? 'cs' : 'en');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function () {
+        show(this.getAttribute('data-set'));
+      });
+    }
+  })();
+</script>
+</body>
+</html>

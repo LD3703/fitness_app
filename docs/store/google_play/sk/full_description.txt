@@ -1,0 +1,36 @@
+Denník do posilňovne, ktorý za teba stráži progres.
+
+Zapíš sériu dvoma ťuknutiami, nechaj aplikáciu navrhnúť váhu nabudúce a sleduj, ako silnieš. Funguje bez účtu aj bez internetu a tvoje údaje zostávajú v telefóne.
+
+TRÉNING
+• Vlastné plány aj hotové programy, dni tréningu si upravíš hneď pri výbere
+• Série, rozcvička, supersérie a dropsety
+• Odpočítavanie prestávky aj na zamknutej obrazovke
+• Knižnica cvikov s návodmi a ukážkami
+• Plán B: krátka domáca rutina, keď sa do posilňovne nedostaneš
+
+PROGRES
+• Automatická progresia: po tréningu návrh váhy alebo opakovaní nabudúce
+• Kontrola progresívneho preťaženia po partiách a odznaky za pravidelnosť
+• Osobné rekordy (najťažšia séria), objem a frekvencia partií
+• Únava svalov: ktoré partie ešte potrebujú odpočinok
+• Choroba, zranenie alebo diéta? Zapíš si obdobie a grafy s ním počítajú
+
+POSILŇOVŇA A PRIATELIA
+• Rebríček tvojej posilňovne: pripoj sa cez QR kód na recepcii alebo zo zoznamu
+• Kategórie muži a ženy a vekové skupiny 40+, 50+ a 60+
+• Výzvy „prekonaj môj rekord“, pozvánky na spoločný tréning a série s priateľmi
+
+ĎALŠIE FUNKCIE
+• Tón trénera: priateľský, alebo prísny až sarkastický
+• Pitný režim, zápis váhy a pripomienky
+• Widget na plochu
+• Kalendár: nájde voľný čas na tréning a zapíše ho
+• Health Connect
+• Hodinky s Wear OS: zápis sérií priamo zo zápästia
+• Tmavý režim, kilogramy aj libry, 10 jazykov
+
+SÚKROMIE
+Tréningy, váha aj údaje o chorobe a zranení zostávajú v telefóne. Na server ide len to, čo sám zapneš: priatelia, rebríček posilňovne alebo záloha do cloudu. Aplikácia nemá reklamy.
+
+GymBar nie je zdravotnícka pomôcka. Pred začatím tréningu, najmä pri zdravotných problémoch, sa poraď s lekárom.

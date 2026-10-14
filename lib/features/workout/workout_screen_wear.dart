@@ -199,8 +199,10 @@ class _WorkoutWearLink implements WearWorkoutHandler {
     final block = _s._blocks[b];
     if (c.setIndex < 0 || c.setIndex >= block.rows.length) return _notFound;
     final row = block.rows[c.setIndex];
-    // Opakovaně doručený příkaz – série už je zapsaná.
-    if (row.isDone) return _ok;
+    // Opakovaně doručený příkaz – série už je zapsaná, nebo se právě
+    // zapisuje (klepnutí v telefonu / předchozí příkaz); druhý zápis by
+    // vložil stejnou sérii dvakrát.
+    if (row.isDone || row.saving) return _ok;
 
     if (!block.isDuration) {
       final kg = c.weightKg;

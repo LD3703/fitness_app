@@ -1,0 +1,17 @@
+{
+  "name": "gymbar-gyms-import",
+  "private": true,
+  "description": "Import posiloven z OpenStreetMap do Firestore (docs/gyms_import.md).",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test lib.test.mjs",
+    "dry-run": "node import_gyms.mjs --dry-run",
+    "import": "node import_gyms.mjs"
+  },
+  "dependencies": {
+    "firebase-admin": "^14.5.0"
+  }
+}

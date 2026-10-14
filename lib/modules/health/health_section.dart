@@ -80,7 +80,7 @@ class _HealthProfileSectionState extends ConsumerState<HealthProfileSection> {
     if (!enable) {
       // Co už v Health je, tam zůstane; jen se přestane synchronizovat.
       await db.updateProfile(
-        UserProfilesCompanion(healthSyncEnabled: Value(false)),
+        const UserProfilesCompanion(healthSyncEnabled: Value(false)),
       );
       return;
     }
@@ -92,7 +92,7 @@ class _HealthProfileSectionState extends ConsumerState<HealthProfileSection> {
       switch (result) {
         case HealthAccessResult.granted:
           await db.updateProfile(
-            UserProfilesCompanion(healthSyncEnabled: Value(true)),
+            const UserProfilesCompanion(healthSyncEnabled: Value(true)),
           );
         case HealthAccessResult.needsInstall:
           final install = await showConfirmDialog(

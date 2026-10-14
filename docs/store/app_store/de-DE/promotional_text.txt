@@ -1,0 +1,1 @@
+Trag einen Satz in Sekunden ein. Die App schlägt das Gewicht fürs nächste Mal vor, prüft die progressive Überlastung und zeigt, wer in deinem Studio am stärksten ist.

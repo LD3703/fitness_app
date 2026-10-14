@@ -37,13 +37,13 @@ extension AchievementQueries on AppDatabase {
       });
 }
 
-/// Nejlepší odhad 1RM v každém tréninku podle cviku.
-Map<int, List<StatPoint>> oneRepMaxPointsByExercise(
+/// Nejtěžší série v každém tréninku podle cviku.
+Map<int, List<StatPoint>> topWeightPointsByExercise(
   Iterable<SessionBest> bests,
 ) {
   final result = <int, List<StatPoint>>{};
   for (final b in bests) {
-    (result[b.exerciseId] ??= []).add((x: b.date, y: b.oneRepMax));
+    (result[b.exerciseId] ??= []).add((x: b.date, y: b.value));
   }
   return result;
 }
@@ -60,7 +60,7 @@ Future<BadgeProgress> loadBadgeProgress(
   final plans = await db.watchPlans().first;
   return computeBadgeProgress(
     overload: history,
-    oneRepMaxByExercise: oneRepMaxPointsByExercise(bests),
+    topWeightByExercise: topWeightPointsByExercise(bests),
     sessionDates: dates,
     weeklyGoal: requiredSessionsPerWeek([for (final p in plans) p.weekdaysMask]),
     now: now,
@@ -89,15 +89,15 @@ final newBadgesProvider =
 /// Postup ke všem odznakům (pro galerii; null, dokud se data načítají).
 final badgeProgressProvider = Provider<BadgeProgress?>((ref) {
   final history = ref.watch(overloadHistoryProvider);
-  final e1rm = ref.watch(statsOneRepMaxByExerciseProvider);
+  final topWeights = ref.watch(statsTopWeightByExerciseProvider);
   final dates = ref.watch(statsWorkoutDatesProvider).valueOrNull;
   final plans = ref.watch(plansProvider).valueOrNull;
-  if (history == null || e1rm == null || dates == null || plans == null) {
+  if (history == null || topWeights == null || dates == null || plans == null) {
     return null;
   }
   return computeBadgeProgress(
     overload: history,
-    oneRepMaxByExercise: e1rm,
+    topWeightByExercise: topWeights,
     sessionDates: dates,
     weeklyGoal: requiredSessionsPerWeek([for (final p in plans) p.weekdaysMask]),
     now: DateTime.now(),

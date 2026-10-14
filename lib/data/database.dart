@@ -16,6 +16,16 @@ export 'enums.dart';
 
 part 'database.g.dart';
 
+/// Max. délka poznámky ke cviku (moje i v plánu). Stejná hodnota je ve
+/// sdíleném balíčku jako coachExerciseNoteMax (plán od trenéra).
+const exerciseNoteMax = 300;
+
+/// Poznámka oříznutá na [exerciseNoteMax] znaků.
+String clipNote(String text) {
+  final t = text.trim();
+  return t.length > exerciseNoteMax ? t.substring(0, exerciseNoteMax) : t;
+}
+
 /// Zraněné partie období (prázdné u ostatních typů nebo když nejsou zadané).
 extension PeriodInjuryX on Period {
   Set<MuscleGroup> get injuredGroups => decodeMuscleGroups(muscleGroups);
@@ -33,9 +43,10 @@ typedef PlanSetDraft = ({
   bool isDrop,
 });
 
-/// Osobní rekord cviku: nejlepší odhad 1RM a série, ze které pochází.
+/// Osobní rekord cviku: nejtěžší série ([value] z [recordValue] – váha,
+/// při shodě víc opakování) a údaje o ní.
 typedef ExerciseRecord = ({
-  double oneRepMax,
+  double value,
   double weightKg,
   int reps,
   DateTime date,
@@ -92,7 +103,7 @@ class AppDatabase extends _$AppDatabase {
   static const _profileId = 1;
 
   @override
-  int get schemaVersion => 11;
+  int get schemaVersion => 17;
 
   /// Výchozí série pro nově přidaný cvik: 3 × 10.
   static const defaultPlanSets = <PlanSetDraft>[
@@ -204,6 +215,44 @@ class AppDatabase extends _$AppDatabase {
             // Verze 11: Premium na půl roku zdarma pro první uživatele.
             await m.addColumn(userProfiles, userProfiles.premiumGiftUntil);
           }
+          if (from < 12) {
+            // Verze 12: přesnější partie (stehna, hamstringy, lýtka,
+            // předloktí, trapézy, spodní záda). Vestavěné cviky dostanou
+            // přesnou partii, odznak „mistr nohou“ se převede na stehna.
+            await remapBuiltInMuscleGroups();
+          }
+          if (from < 13) {
+            // Verze 13: cviky na trapézy, předloktí a spodní záda
+            // (krčení ramen, zápěstní zdvihy, vis, hyperextenze…).
+            await _syncSeedExercises();
+          }
+          if (from < 14) {
+            // Verze 14: automatické pauzy podle cviku a zaměření tréninku
+            // (síla / svaly / kondice), volitelné pohlaví v profilu.
+            await m.addColumn(userProfiles, userProfiles.sex);
+            await m.addColumn(userProfiles, userProfiles.trainingFocus);
+            await m.addColumn(planExercises, planExercises.restAuto);
+            await m.addColumn(workoutSessions, workoutSessions.focus);
+            await markCustomPlanRests();
+          }
+          if (from < 15) {
+            // Verze 15: knihovna rozšířená na 170 cviků (stroje, varianty,
+            // kladky, kardio stroje, střed těla).
+            await _syncSeedExercises();
+          }
+          if (from < 16) {
+            // Verze 16: plány od trenéra a ze sdíleného odkazu
+            // (modul coach, docs/coach.md).
+            await m.addColumn(workoutPlans, workoutPlans.remoteId);
+            await m.addColumn(workoutPlans, workoutPlans.remoteVersion);
+            await m.addColumn(workoutPlans, workoutPlans.remoteFrom);
+          }
+          if (from < 17) {
+            // Verze 17: poznámky ke cvikům (moje u cviku, v plánu
+            // i od trenéra).
+            await m.addColumn(exercises, exercises.note);
+            await m.addColumn(planExercises, planExercises.note);
+          }
         },
         beforeOpen: (details) async {
           await customStatement('PRAGMA foreign_keys = ON');
@@ -238,6 +287,72 @@ class AppDatabase extends _$AppDatabase {
       }
     }
   }
+
+  /// Vestavěným cvikům se souhrnnou partií „nohy“ nastaví přesnou partii
+  /// podle seed_data.dart (verze schématu 12) a převede odznak mistra nohou.
+  /// Volá se i po obnovení starší zálohy. Partie, kterou uživatel u cviku
+  /// změnil na jinou, zůstane.
+  Future<void> remapBuiltInMuscleGroups() async {
+    for (final e in seedExercises) {
+      if (e.muscleGroup == MuscleGroup.legs) continue;
+      await (update(exercises)
+            ..where((x) =>
+                x.slug.equals(e.slug) &
+                x.muscleGroup.equalsValue(MuscleGroup.legs)))
+          .write(ExercisesCompanion(muscleGroup: Value(e.muscleGroup)));
+    }
+    // Odznak „mistr partie: nohy“ → „stehna“ (nohy se už nehodnotí).
+    await customStatement(
+      "UPDATE achievements SET code = 'mastery_quads' "
+      "WHERE code = 'mastery_legs' AND NOT EXISTS "
+      "(SELECT 1 FROM achievements WHERE code = 'mastery_quads')",
+    );
+  }
+
+  /// Pauzy z hotových programů do verze 14 (slug → hodnoty). Pauza, která
+  /// se od nich i od výchozích 90 s liší, je uživatelova vlastní.
+  static const _legacyTemplateRests = <String, Set<int>>{
+    'back_squat': {120, 150},
+    'bench_press': {120, 150},
+    'deadlift': {150},
+    'romanian_deadlift': {120},
+    'barbell_row': {120},
+    'pull_up': {120},
+    'barbell_curl': {60},
+    'dumbbell_curl': {60},
+    'triceps_pushdown': {60},
+    'lateral_raise': {60},
+    'face_pull': {60},
+    'leg_curl': {60},
+    'leg_extension': {60},
+    'calf_raise': {60},
+    'cable_crunch': {60},
+    'hanging_leg_raise': {60},
+    'plank': {45},
+  };
+
+  /// Přechod na automatické pauzy (verze 14, i po obnovení starší
+  /// zálohy): pauzy, které uživatel sám nezměnil (výchozích 90 s nebo
+  /// hodnota z hotového programu), se počítají automaticky; vlastní
+  /// pauzy zůstanou ruční.
+  Future<void> markCustomPlanRests() async {
+    final rows = await customSelect(
+      'SELECT pe.id AS id, pe.rest_seconds AS rest, e.slug AS slug '
+      'FROM plan_exercises pe JOIN exercises e ON e.id = pe.exercise_id',
+    ).get();
+    for (final r in rows) {
+      final rest = r.read<int>('rest');
+      final slug = r.readNullable<String>('slug');
+      final untouched =
+          rest == 90 || (_legacyTemplateRests[slug]?.contains(rest) ?? false);
+      await (update(planExercises)..where((x) => x.id.equals(r.read<int>('id'))))
+          .write(PlanExercisesCompanion(restAuto: Value(untouched)));
+    }
+  }
+
+  /// Doplní vestavěné cviky, které v databázi chybí (např. po obnovení
+  /// zálohy ze starší verze aplikace).
+  Future<void> syncBuiltInExercises() => _syncSeedExercises();
 
   /// Doplní chybějící vestavěné cviky a aktualizuje jejich názvy a návody.
   /// Je idempotentní – lze volat opakovaně. Vrací ID cviků podle slugu.
@@ -307,7 +422,10 @@ class AppDatabase extends _$AppDatabase {
     MuscleGroup? group,
   }) {
     final q = select(exercises);
-    if (group != null) q.where((e) => e.muscleGroup.equalsValue(group));
+    // Filtr „nohy“ ukáže i stehna, hamstringy a lýtka.
+    if (group != null) {
+      q.where((e) => e.muscleGroup.isInValues({group, ...group.specific}));
+    }
     // Hledá se v Dartu, aby šlo najít cvik podle názvu v kterémkoli
     // jazyce aplikace a bez ohledu na diakritiku.
     if (query.trim().isEmpty) return q.watch();
@@ -556,7 +674,10 @@ class AppDatabase extends _$AppDatabase {
       innerJoin(exercises, exercises.id.equalsExp(planExercises.exerciseId)),
     ])
           ..where(planExercises.planId.equals(planId))
-          ..orderBy([OrderingTerm.asc(planExercises.position)]))
+          ..orderBy([
+            OrderingTerm.asc(planExercises.position),
+            OrderingTerm.asc(planExercises.id),
+          ]))
         .get();
     final result = <PlanItem>[];
     for (final r in rows) {
@@ -577,15 +698,20 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> addExerciseToPlan(int planId, int exerciseId) =>
       transaction(() async {
-        final count = await (select(planExercises)
+        // Za poslední položku (po smazání položek můžou v pořadí být
+        // mezery, počet položek by mohl dát stejné pořadí dvakrát).
+        final positions = await (select(planExercises)
               ..where((pe) => pe.planId.equals(planId)))
-            .get()
-            .then((l) => l.length);
+            .map((pe) => pe.position)
+            .get();
+        final next = positions.isEmpty
+            ? 0
+            : positions.reduce((a, b) => a > b ? a : b) + 1;
         final id = await into(planExercises).insert(
           PlanExercisesCompanion.insert(
             planId: planId,
             exerciseId: exerciseId,
-            position: count,
+            position: next,
           ),
         );
         await _insertPlanSets(id, defaultPlanSets);
@@ -596,6 +722,8 @@ class AppDatabase extends _$AppDatabase {
     int planExerciseId, {
     required List<PlanSetDraft> sets,
     required int restSeconds,
+    bool restAuto = false,
+    Value<String?> note = const Value.absent(),
   }) =>
       transaction(() async {
         await (delete(planSets)
@@ -606,9 +734,18 @@ class AppDatabase extends _$AppDatabase {
               ..where((pe) => pe.id.equals(planExerciseId)))
             .write(PlanExercisesCompanion(
           restSeconds: Value(restSeconds),
+          restAuto: Value(restAuto),
           targetSets: Value(sets.length),
+          note: note,
         ));
       });
+
+  /// Moje poznámka ke cviku (prázdná = smazat).
+  Future<void> setExerciseNote(int exerciseId, String? note) {
+    final t = note?.trim() ?? '';
+    return (update(exercises)..where((e) => e.id.equals(exerciseId))).write(
+        ExercisesCompanion(note: Value(t.isEmpty ? null : clipNote(t))));
+  }
 
   Future<void> _insertPlanSets(int planExerciseId, List<PlanSetDraft> sets) async {
     for (var i = 0; i < sets.length; i++) {
@@ -734,14 +871,26 @@ class AppDatabase extends _$AppDatabase {
     int? planId,
     SessionKind kind = SessionKind.full,
     DateTime? startedAt,
+    TrainingFocus? focus,
   }) =>
       into(workoutSessions).insert(
         WorkoutSessionsCompanion.insert(
           startedAt: startedAt ?? DateTime.now(),
           planId: Value(planId),
           kind: Value(kind),
+          focus: Value(focus),
         ),
       );
+
+  /// Změna zaměření tréninku (síla / svaly / kondice). Uloží se i do
+  /// profilu jako výchozí pro další trénink.
+  Future<void> setSessionFocus(int sessionId, TrainingFocus focus) =>
+      transaction(() async {
+        await (update(workoutSessions)..where((s) => s.id.equals(sessionId)))
+            .write(WorkoutSessionsCompanion(focus: Value(focus)));
+        await updateProfile(
+            UserProfilesCompanion(trainingFocus: Value(focus.index)));
+      });
 
   Future<void> finishSession(int id, {double? estimatedKcal}) =>
       (update(workoutSessions)..where((s) => s.id.equals(id))).write(
@@ -855,7 +1004,7 @@ class AppDatabase extends _$AppDatabase {
         .get();
   }
 
-  /// Osobní rekord cviku (nejvyšší odhad 1RM) ze všech dokončených
+  /// Osobní rekord cviku (nejtěžší série) ze všech dokončených
   /// tréninků kromě [excludeSessionId]. Rozcvičkové ani drop série se
   /// nepočítají.
   /// Null, pokud cvik ještě nebyl zapsán s vahou.
@@ -883,10 +1032,10 @@ class AppDatabase extends _$AppDatabase {
     ExerciseRecord? best;
     for (final r in rows) {
       final s = r.readTable(setEntries);
-      final e1rm = estimateOneRepMax(s.weightKg!, s.reps!);
-      if (e1rm != null && (best == null || e1rm > best.oneRepMax)) {
+      final value = recordValue(s.weightKg, s.reps);
+      if (value != null && (best == null || value > best.value)) {
         best = (
-          oneRepMax: e1rm,
+          value: value,
           weightKg: s.weightKg!,
           reps: s.reps!,
           date: r.readTable(workoutSessions).startedAt,
@@ -975,7 +1124,6 @@ class AppDatabase extends _$AppDatabase {
                 planId: planId,
                 exerciseId: exerciseId,
                 position: position++,
-                restSeconds: Value(item.restSeconds),
                 targetSets: Value(item.sets.length),
               ),
             );
@@ -1141,8 +1289,8 @@ class AppDatabase extends _$AppDatabase {
         ]);
   }
 
-  /// Nejlepší odhad 1RM cviku v každém dokončeném tréninku.
-  Stream<List<SeriesPoint>> watchOneRepMaxSeries(int exerciseId) {
+  /// Nejtěžší série cviku ([recordValue]) v každém dokončeném tréninku.
+  Stream<List<SeriesPoint>> watchTopWeightSeries(int exerciseId) {
     final query = select(setEntries).join([
       innerJoin(
         workoutSessions,
@@ -1160,12 +1308,12 @@ class AppDatabase extends _$AppDatabase {
       final bestBySession = <int, SeriesPoint>{};
       for (final r in rows) {
         final s = r.readTable(setEntries);
-        final e1rm = estimateOneRepMax(s.weightKg!, s.reps!);
-        if (e1rm == null) continue;
+        final value = recordValue(s.weightKg, s.reps);
+        if (value == null) continue;
         final current = bestBySession[s.sessionId];
-        if (current == null || e1rm > current.y) {
+        if (current == null || value > current.y) {
           bestBySession[s.sessionId] =
-              (x: r.readTable(workoutSessions).startedAt, y: e1rm);
+              (x: r.readTable(workoutSessions).startedAt, y: value);
         }
       }
       return bestBySession.values.toList()..sort((a, b) => a.x.compareTo(b.x));
@@ -1188,6 +1336,11 @@ class AppDatabase extends _$AppDatabase {
   /// Smaže všechna data uživatele a vrátí profil do výchozího stavu.
   /// Knihovna vestavěných cviků a domácí rutiny zůstávají.
   Future<void> deleteAllUserData() => transaction(() async {
+        // Předplatné a dárek Premium patří k uživateli, ne k datům –
+        // smazání dat je nesmí zrušit (po spuštění plateb by o ně přišel).
+        final previous = await (select(userProfiles)
+              ..where((u) => u.id.equals(_profileId)))
+            .getSingleOrNull();
         await delete(setEntries).go();
         await delete(workoutSessions).go();
         await delete(scheduledWorkouts).go();
@@ -1203,7 +1356,10 @@ class AppDatabase extends _$AppDatabase {
         await delete(achievements).go();
         await (delete(exercises)..where((e) => e.isCustom.equals(true))).go();
         await delete(userProfiles).go();
-        await into(userProfiles)
-            .insert(const UserProfilesCompanion(id: Value(_profileId)));
+        await into(userProfiles).insert(UserProfilesCompanion(
+          id: const Value(_profileId),
+          isPremium: Value(previous?.isPremium ?? false),
+          premiumGiftUntil: Value(previous?.premiumGiftUntil),
+        ));
       });
 }

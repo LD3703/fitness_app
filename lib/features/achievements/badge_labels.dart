@@ -55,20 +55,21 @@ class BadgeAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Získaný odznak má žlutou z loga (tertiary), stejně jako rekordy.
     final scheme = Theme.of(context).colorScheme;
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: earned ? scheme.primaryContainer : scheme.surfaceContainerHighest,
-        border: earned ? Border.all(color: scheme.primary, width: 2) : null,
+        color: earned ? scheme.tertiaryContainer : scheme.surfaceContainerHighest,
+        border: earned ? Border.all(color: scheme.tertiary, width: 2) : null,
       ),
       child: Icon(
         badgeIcon(badge),
         size: size * 0.55,
         color: earned
-            ? scheme.onPrimaryContainer
+            ? scheme.onTertiaryContainer
             : scheme.onSurfaceVariant.withValues(alpha: 0.6),
       ),
     );

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:drift/drift.dart' show Value;
 import 'package:path_provider/path_provider.dart';
 
 import '../../data/database.dart';
@@ -124,12 +125,24 @@ class BackupService {
   static Future<BackupInfo> inspect(AppDatabase db, File file) =>
       _withAttached(db, file, () => _validate(db));
 
-  /// Nahradí všechna data v aplikaci obsahem zálohy.
+  /// Nahradí všechna data v aplikaci obsahem zálohy. Výjimky: odkazy na
+  /// události v kalendáři telefonu se vymažou (nepřebírají se) a stav
+  /// Premium (isPremium, premiumGiftUntil) zůstane podle tohoto zařízení.
+  /// Stejnou cestou jde i obnovení z cloudu (CloudBackupService.restore).
   static Future<void> restore(AppDatabase db, File file) async {
+    var backupVersion = db.schemaVersion;
     await _withAttached(db, file, () async {
-      await _validate(db);
+      backupVersion = (await _validate(db)).schemaVersion;
       await _copyAll(db);
     });
+    // Záloha z doby před automatickými pauzami (verze 14): vlastní pauzy
+    // zůstanou ruční, ostatní se budou počítat automaticky.
+    if (backupVersion < 14) await db.markCustomPlanRests();
+    // Záloha ze starší verze: doplní vestavěné cviky, které v ní ještě
+    // nebyly, a cviky s partií „nohy“ dostanou přesnou partii
+    // (stehna / hamstringy / lýtka).
+    await db.syncBuiltInExercises();
+    await db.remapBuiltInMuscleGroups();
     // Změny přes customStatement drift sám nehlásí – oznámíme je ručně,
     // aby se všechny obrazovky načetly znovu.
     db.markTablesUpdated(db.allTables);
@@ -210,14 +223,31 @@ class BackupService {
     return [for (final r in rows) r.read<String>('name')];
   }
 
+  /// Tabulky, které patří k tomuto telefonu a ze zálohy se nikdy
+  /// nepřebírají (po obnovení zůstanou prázdné).
+  ///
+  /// CalendarLinks: ID událostí v kalendáři telefonu, na kterém záloha
+  /// vznikla. Na jiném telefonu (nebo po přeinstalaci) můžou stejná ID
+  /// patřit cizím událostem a další synchronizace kalendáře by je smazala
+  /// (CalendarService.removeFuture). Po obnovení vytvoří SyncController
+  /// události znovu a odkazy uloží nové.
+  static Set<String> _deviceOnlyTables(AppDatabase db) =>
+      {db.calendarLinks.actualTableName};
+
   static Future<void> _copyAll(AppDatabase db) async {
     final backupTables = await _tables(db);
     final tables = db.allTables.toList();
     final exercisesName = db.exercises.actualTableName;
+    final deviceOnly = _deviceOnlyTables(db);
 
     await db.transaction(() async {
       // Cizí klíče se zkontrolují až při potvrzení transakce.
       await db.customStatement('PRAGMA defer_foreign_keys = ON');
+
+      // Premium (dárek i uložený stav předplatného) patří k tomuto
+      // zařízení – záloha (i cizí nebo upravená) ho nesmí změnit.
+      final device = await (db.select(db.userProfiles)..limit(1))
+          .getSingleOrNull();
 
       // Vestavěné cviky, které záloha ze starší verze ještě nemá,
       // si ponecháme (doplní se na konci).
@@ -227,13 +257,15 @@ class BackupService {
         'SELECT * FROM main."$exercisesName" WHERE slug IS NOT NULL',
       );
 
-      // Mazání od závislých tabulek k nadřazeným.
+      // Mazání od závislých tabulek k nadřazeným. Smažou se i tabulky
+      // z [_deviceOnlyTables] (odkazy na události v kalendáři).
       for (final t in tables.reversed) {
         await db.customStatement('DELETE FROM main."${t.actualTableName}"');
       }
 
       for (final t in tables) {
         final name = t.actualTableName;
+        if (deviceOnly.contains(name)) continue;
         if (!backupTables.contains(name)) continue;
         final mainCols = await _columns(db, 'main', name);
         final bkCols = (await _columns(db, _alias, name)).toSet();
@@ -262,6 +294,13 @@ class BackupService {
         'WHERE slug IS NOT NULL)',
       );
       await db.customStatement('DROP TABLE temp._restore_seed');
+
+      // Bez profilu v telefonu (nemělo by nastat) platí výchozí hodnoty –
+      // ani tehdy se Premium ze zálohy nepřebírá.
+      await db.updateProfile(UserProfilesCompanion(
+        isPremium: Value(device?.isPremium ?? false),
+        premiumGiftUntil: Value(device?.premiumGiftUntil),
+      ));
     });
   }
 }

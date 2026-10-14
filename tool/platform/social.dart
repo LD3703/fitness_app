@@ -21,6 +21,9 @@ const _minSdk = 23;
 const _entitlementsPath = 'ios/Runner/Runner.entitlements';
 const _entitlementsSetting = 'CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;';
 
+const _cameraText = 'The camera is used to scan QR codes to add friends.';
+const _legacyCameraText = 'Fotoaparát slouží ke skenování QR kódu přítele.';
+
 // ---------------------------------------------------------------- Android
 
 bool _androidMinSdk() {
@@ -144,7 +147,7 @@ bool _iosInfoPlist() {
       }
     }
     if (!s.contains('<string>$reversed</string>')) {
-      // Pole CFBundleURLTypes už může obsahovat schéma fitnessapp
+      // Pole CFBundleURLTypes už může obsahovat schéma gymbar
       // (tool/platform/links.dart) – přidáme další <dict>.
       final dict = '\t\t<dict>\n'
           '\t\t\t<key>CFBundleTypeRole</key>\n'
@@ -165,7 +168,16 @@ bool _iosInfoPlist() {
     }
   }
 
-  // Skenování QR kódu přítele.
+  // Skenování QR kódu přítele. Popis anglicky (aplikace je pro celý svět,
+  // text čte i kontrola Applu); dřívější český výchozí text se nahradí,
+  // vlastní text zůstane.
+  final camera = RegExp(
+    r'(<key>NSCameraUsageDescription</key>\s*<string>)([^<]*)(</string>)',
+  ).firstMatch(s);
+  if (camera != null && camera.group(2)!.trim() == _legacyCameraText) {
+    s = s.replaceRange(camera.start, camera.end,
+        '${camera.group(1)}$_cameraText${camera.group(3)}');
+  }
   if (!s.contains('<key>NSCameraUsageDescription</key>')) {
     final i = s.lastIndexOf('</dict>');
     if (i >= 0) {
@@ -173,7 +185,7 @@ bool _iosInfoPlist() {
           i,
           i,
           '\t<key>NSCameraUsageDescription</key>\n'
-          '\t<string>Fotoaparát slouží ke skenování QR kódu přítele.</string>\n');
+          '\t<string>$_cameraText</string>\n');
     }
   }
 

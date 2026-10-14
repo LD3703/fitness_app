@@ -1,0 +1,7 @@
+name: gymbar_coach
+description: Společná logika trenér–klient pro aplikaci GymBar i web pro trenéry (plány, tréninky, statistiky, kódy). Čistý Dart bez Flutteru a Firebase.
+publish_to: 'none'
+version: 1.0.0
+
+environment:
+  sdk: ^3.6.0

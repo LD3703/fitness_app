@@ -59,28 +59,12 @@ class RecordsScreen extends ConsumerWidget {
                 final Exercise e = rows[i].exercise;
                 return ListTile(
                   title: Text(names[e.id]!),
-                  subtitle: Text(
-                    '${l10n.statsSetWeightReps(formatWeightWithUnit(context, r.weightKg), r.reps)}'
-                    ' · ${dateFmt.format(r.date)}',
-                  ),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        l10n.statsKg(formatWeightWithUnit(
-                          context,
-                          (r.oneRepMax * 10).round() / 10,
-                        )),
-                        style: theme.textTheme.titleMedium,
-                      ),
-                      Text(
-                        l10n.statsE1rmLabel,
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
+                  subtitle: Text(dateFmt.format(r.date)),
+                  // Rekord = nejtěžší série (při shodě víc opakování).
+                  trailing: Text(
+                    l10n.statsSetWeightReps(
+                        formatWeightWithUnit(context, r.weightKg), r.reps),
+                    style: theme.textTheme.titleMedium,
                   ),
                   onTap: () => context.push('/exercises/${e.id}'),
                 );
@@ -107,7 +91,7 @@ class StatsRecordsEntryCard extends ConsumerWidget {
     return Card(
       child: ListTile(
         leading: Icon(Icons.emoji_events_outlined,
-            color: theme.colorScheme.primary),
+            color: theme.colorScheme.tertiary),
         title: Text(l10n.statsRecordsTitle),
         subtitle: Text(count == 0
             ? l10n.statsRecordsEmptyShort

@@ -13,7 +13,7 @@ import '../../data/units.dart';
 import '../stats_providers.dart';
 import '../stats_queries.dart';
 
-/// Sekce v detailu cviku: graf odhadu 1RM a posledních 5 tréninků.
+/// Sekce v detailu cviku: graf nejtěžší série a posledních 5 tréninků.
 /// Když uživatel cvik ještě nedělal, nic nezobrazí.
 class ExerciseStatsSection extends ConsumerWidget {
   const ExerciseStatsSection({super.key, required this.exercise});
@@ -33,7 +33,7 @@ class ExerciseStatsSection extends ConsumerWidget {
     final access = ref.watch(premiumProvider);
     final fullHistory = access.isPremium(PremiumFeature.fullHistory);
     final allPoints =
-        ref.watch(oneRepMaxSeriesProvider(exercise.id)).valueOrNull ??
+        ref.watch(topWeightSeriesProvider(exercise.id)).valueOrNull ??
             const <SeriesPoint>[];
     final points = pointsSince(
       allPoints,

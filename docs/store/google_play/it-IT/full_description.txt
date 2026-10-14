@@ -1,0 +1,36 @@
+Un diario di palestra che tiene traccia dei tuoi progressi al posto tuo.
+
+Registra una serie con due tocchi, lascia che l’app ti suggerisca il carico per la prossima volta e guarda come diventi più forte. Funziona senza account e offline, e i tuoi dati restano sul telefono.
+
+ALLENAMENTO
+• Le tue schede e programmi pronti; scegli subito i giorni di allenamento
+• Serie, riscaldamento, superserie e drop set
+• Timer di recupero, anche sulla schermata di blocco
+• Libreria di esercizi con istruzioni e dimostrazioni
+• Piano B: una breve routine a casa quando non riesci ad andare in palestra
+
+PROGRESSI
+• Progressione automatica: dopo l’allenamento, il carico o le ripetizioni per la prossima volta
+• Controllo del sovraccarico progressivo per gruppo muscolare e badge per la costanza
+• Record personali (la tua serie più pesante), volume e frequenza per gruppo muscolare
+• Affaticamento muscolare: quali gruppi muscolari hanno ancora bisogno di riposo
+• Malato, infortunato o a dieta? Registra il periodo e i grafici ne tengono conto
+
+LA TUA PALESTRA E GLI AMICI
+• Classifica della tua palestra: entra con il QR code alla reception o dall’elenco
+• Categorie uomini e donne e fasce d’età 40+, 50+ e 60+
+• Sfide «batti il mio record», inviti ad allenarsi insieme e serie con gli amici
+
+ALTRO
+• Tono del coach: amichevole oppure severo fino al sarcasmo
+• Idratazione, peso corporeo e promemoria
+• Widget per la schermata Home
+• Calendario: trova il tempo libero per allenarti e lo segna
+• Health Connect
+• Orologio Wear OS: registra le serie dal polso
+• Modalità scura, chili e libbre, 10 lingue
+
+PRIVACY
+Allenamenti, peso e dati su malattie o infortuni restano sul tuo telefono. Sui nostri server arriva solo ciò che attivi tu: amici, classifica della palestra o backup nel cloud. Niente pubblicità.
+
+GymBar non è un dispositivo medico. Consulta un medico prima di iniziare ad allenarti, soprattutto se hai problemi di salute.

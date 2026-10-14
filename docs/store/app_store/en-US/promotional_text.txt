@@ -1,0 +1,1 @@
+Log a set in seconds. The app suggests next time's weight, tracks progressive overload for each muscle group and shows who's strongest at your gym.

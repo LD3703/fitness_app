@@ -19,7 +19,7 @@ typedef GroupSession = ({DateTime day, MuscleGroup group});
 /// Hranice „příliš rychlého“ hubnutí v % tělesné váhy za týden.
 const fastWeightLossPercentPerWeek = 1.0;
 
-/// Po nemoci je síla „zpátky“, když odhad 1RM dosáhne 97 % formy před ní.
+/// Po nemoci je síla „zpátky“, když nejtěžší váha dosáhne 97 % formy před ní.
 const recoveredRatio = 0.97;
 
 /// Vstupní data pro výpočet postřehů.
@@ -30,7 +30,7 @@ class InsightInput {
     this.trackPeriods = true,
     this.periods = const [],
     this.weights = const [],
-    this.oneRepMaxByExercise = const {},
+    this.topWeightByExercise = const {},
     this.groupSessions = const [],
     this.sessionDates = const [],
     this.weekdayMasks = const [],
@@ -49,8 +49,8 @@ class InsightInput {
   /// Tělesná váha po dnech (kg).
   final List<StatPoint> weights;
 
-  /// Nejlepší odhad 1RM cviku v každém tréninku, podle ID cviku.
-  final Map<int, List<StatPoint>> oneRepMaxByExercise;
+  /// Nejtěžší série cviku ([recordValue]) v každém tréninku, podle ID cviku.
+  final Map<int, List<StatPoint>> topWeightByExercise;
 
   /// Tréninky podle partií (jeden záznam na trénink a partii).
   final List<GroupSession> groupSessions;
@@ -86,7 +86,7 @@ final class WeightDropInsight extends Insight {
 typedef LiftRecovery = ({
   int exerciseId,
 
-  /// Za kolik dní po konci nemoci se 1RM vrátil na ≥ 97 % (null = ještě ne).
+  /// Za kolik dní po konci nemoci se nejtěžší váha vrátila na ≥ 97 % (null = ještě ne).
   int? daysToRecover,
 
   /// O kolik % je nejlepší výkon po nemoci pod formou před ní (když ještě
@@ -119,7 +119,7 @@ final class CutSummaryInsight extends Insight {
   /// Změna 7denního průměru váhy (záporná = úbytek), null bez dat.
   final double? weightChangeKg;
 
-  /// Nejlepší 1RM za poslední 2 týdny vůči formě před dietou (100 = beze
+  /// Nejtěžší váha za poslední 2 týdny vůči formě před dietou (100 = beze
   /// ztráty), průměr přes hlavní cviky.
   final double? strengthKeptPercent;
 
@@ -150,14 +150,14 @@ final class MonthRecordsInsight extends Insight {
   const MonthRecordsInsight({
     required this.count,
     required this.bestExerciseId,
-    required this.bestOneRepMax,
+    required this.bestTopWeight,
     required this.bestGainPercent,
   });
 
   /// Počet cviků s novým rekordem.
   final int count;
   final int bestExerciseId;
-  final double bestOneRepMax;
+  final double bestTopWeight;
 
   /// O kolik % byl předchozí rekord překonán.
   final double bestGainPercent;
@@ -280,8 +280,8 @@ List<Insight>? _illnessRecovery(InsightInput input) {
   final start = startOfDay(last.start);
 
   final lifts = <LiftRecovery>[];
-  for (final id in mainLifts(input.oneRepMaxByExercise, input.now)) {
-    final pts = input.oneRepMaxByExercise[id]!;
+  for (final id in mainLifts(input.topWeightByExercise, input.now)) {
+    final pts = input.topWeightByExercise[id]!;
     final before = bestBetween(pts, addDays(start, -60), start);
     if (before == null || before <= 0) continue;
     final after = [
@@ -339,8 +339,8 @@ List<Insight>? _dietSummary(InsightInput input, PeriodType type) {
   }
 
   final ratios = <double>[];
-  for (final id in mainLifts(input.oneRepMaxByExercise, input.now)) {
-    final pts = input.oneRepMaxByExercise[id]!;
+  for (final id in mainLifts(input.topWeightByExercise, input.now)) {
+    final pts = input.topWeightByExercise[id]!;
     final before = bestBetween(pts, addDays(start, -56), start);
     final recent = bestBetween(pts, addDays(end, -13), addDays(end, 1));
     if (before == null || before <= 0 || recent == null) continue;
@@ -375,7 +375,7 @@ List<Insight>? _monthRecords(InsightInput input) {
   var bestGain = 0.0;
   final tomorrow = addDays(startOfDay(input.now), 1);
   for (final MapEntry(key: id, value: pts)
-      in input.oneRepMaxByExercise.entries) {
+      in input.topWeightByExercise.entries) {
     final before = bestBetween(pts, DateTime(1970), monthStart);
     final thisMonth = bestBetween(pts, monthStart, tomorrow);
     if (before == null || before <= 0 || thisMonth == null) continue;
@@ -394,7 +394,7 @@ List<Insight>? _monthRecords(InsightInput input) {
     MonthRecordsInsight(
       count: count,
       bestExerciseId: id,
-      bestOneRepMax: bestValue,
+      bestTopWeight: bestValue,
       bestGainPercent: bestGain,
     ),
   ];
@@ -434,7 +434,7 @@ List<Insight> _neglectedGroups(InsightInput input) {
       if (e.value >= 3 &&
           e.key != MuscleGroup.fullBody &&
           !recentGroups.contains(e.key) &&
-          !input.injuredGroups.contains(e.key))
+          !input.injuredGroups.any((g) => g.overlaps(e.key)))
         e,
   ]..sort((a, b) => b.value.compareTo(a.value));
   return [

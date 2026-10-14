@@ -10,7 +10,8 @@ typedef SessionBest = ({
   DateTime date,
   double weightKg,
   int reps,
-  double oneRepMax,
+  /// [recordValue] nejtěžší série (váha, při shodě víc opakování).
+  double value,
 });
 
 /// Objem a počet tréninků jedné partie za období.
@@ -30,15 +31,16 @@ MuscleGroup? _group(int index) =>
 
 /// Dotazy modulu statistik.
 extension StatsQueries on AppDatabase {
-  /// Pro každý cvik a dokončený trénink série s nejvyšším odhadem 1RM
-  /// (Epley, bez rozcvičky a bez drop sérií). SQLite u MAX() vrací ostatní sloupce z řádku
-  /// s maximem; samotný odhad se pak počítá v Dartu přes estimateOneRepMax.
+  /// Pro každý cvik a dokončený trénink nejtěžší série (při stejné váze
+  /// víc opakování; bez rozcvičky a bez drop sérií). SQLite u MAX() vrací
+  /// ostatní sloupce z řádku s maximem; hodnota se pak počítá v Dartu
+  /// přes [recordValue] (stejný vzorec jako v SQL).
   Stream<List<SessionBest>> watchSessionBests() {
     return customSelect(
       'SELECT e.exercise_id, s.id AS session_id, s.started_at, '
       'e.weight_kg, e.reps, '
-      'MAX(CASE WHEN e.reps = 1 THEN e.weight_kg '
-      'ELSE e.weight_kg * (1 + e.reps / 30.0) END) AS e1rm '
+      'MAX(ROUND(e.weight_kg * 100) / 100.0 '
+      '+ MIN(e.reps, 999) / 100000.0) AS best '
       'FROM set_entries e '
       'INNER JOIN workout_sessions s ON s.id = e.session_id '
       'WHERE s.ended_at IS NOT NULL AND e.is_warmup = 0 AND e.is_drop = 0 '
@@ -51,15 +53,15 @@ extension StatsQueries on AppDatabase {
       for (final r in rows) {
         final weight = r.read<double>('weight_kg');
         final reps = r.read<int>('reps');
-        final e1rm = estimateOneRepMax(weight, reps);
-        if (e1rm == null) continue;
+        final value = recordValue(weight, reps);
+        if (value == null) continue;
         result.add((
           exerciseId: r.read<int>('exercise_id'),
           sessionId: r.read<int>('session_id'),
           date: r.read<DateTime>('started_at'),
           weightKg: weight,
           reps: reps,
-          oneRepMax: e1rm,
+          value: value,
         ));
       }
       return result;

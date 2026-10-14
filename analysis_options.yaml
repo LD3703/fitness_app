@@ -4,9 +4,15 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "lib/l10n/app_localizations*.dart"
-    - build/**
-    - android/**
-    - ios/**
+    - "build/**"
+    # Hodinky jsou samostatný projekt s vlastními balíčky – kontroluj je
+    # ve složce wear/ (cd wear; flutter analyze).
+    - "wear/**"
+    # Web pro trenéry má vlastní balíčky (cd trainer_web; flutter analyze).
+    - "trainer_web/**"
+    # Pojistka proti staré kopii projektu rozbalené do podsložky.
+    - "fitness_app/**"
+    - "functions/**"
 
 linter:
   rules:

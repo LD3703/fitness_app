@@ -3,7 +3,7 @@
 // tělesná váha se v žebříčku nepoužívá).
 
 /**
- * Absolutní hranice kategorií: kg odhadu 1RM u cviků (klíč = slug
+ * Absolutní hranice kategorií: nejtěžší váha v kg u cviků (klíč = slug
  * vestavěného cviku; jednoručky na jednu jednoručku, shyby a dipy jen
  * přidaná zátěž), počet tréninků za měsíc u „workouts“.
  * Stejně jako GymCategory v gym_logic.dart a categoryLimits() ve firestore.rules.
@@ -47,7 +47,7 @@ const EPSILON = 1e-9;
 
 export type ImplausibleReason = "absolute" | "jump";
 
-/** Odhad 1RM v kg (všechno kromě počtu tréninků). */
+/** Nejtěžší váha v kg (všechno kromě počtu tréninků). */
 export function isLift(c: GymCategory): boolean {
   return c !== "workouts";
 }

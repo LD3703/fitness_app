@@ -4,22 +4,50 @@
 //    → push notifikace na telefony příjemce (FCM).
 // 2) cleanupDeletedUser – po smazání účtu ve Firebase Auth smaže všechna
 //    data uživatele (aplikace to dělá sama, tohle je pojistka), včetně
-//    záloh v Cloud Storage (users/{uid}/backups/, modul cloud).
+//    záloh v Cloud Storage (users/{uid}/backups/, modul cloud), jeho
+//    položek v novinkách přátel a stavu moderace jeho záznamů v žebříčku.
 // 3) onGymEntryWritten – žebříček posilovny: kontrola nereálných výkonů
-//    (skryje záznam) a novinka „předběhl tě“ pro dosavadního lídra.
+//    (skryje záznam), znovu použije stav moderace u znovu vytvořeného
+//    záznamu a novinka „předběhl tě“ pro dosavadního lídra (nejvýš 1× za
+//    24 h pro stejnou posilovnu, kategorii a lídra).
 // 4) onGymReportCreated – spočítá nahlášení záznamu, od 5 ho skryje.
+// 5) onGymMemberDeleted – po odchodu z posilovny smaže nahlášení, která
+//    člen podal (i u záznamů, které vlastník mezitím smazal).
+//    onGymMemberCreated – posilovnu skrytou jako neexistující / duplicitní
+//    po vstupu člena znovu ukáže.
+// 6) onContentReportCreated – nahlášení posilovny nebo přítele
+//    (contentReports): zapíše do logu pro vývojáře; posilovnu od 5
+//    nahlášení za obsah skryje trvale, prázdnou posilovnu od 5 nahlášení
+//    „neexistuje / duplicita“ vratně (gymDirectory.ts).
+// 7) purgeOldContentReports – jednou denně smaže nahlášení starší než rok.
+//
+// Stav moderace záznamu žebříčku (počet nahlášení, skrytí za nahlášení,
+// ověřená hodnota) je v gyms/{gymId}/moderation/{entryId} – jen server.
+// Zůstává i po smazání záznamu vlastníkem, maže ho jen smazání účtu.
 //
 // Aplikace funguje i bez nasazených funkcí: novinky jsou vidět v aplikaci,
 // jen nechodí push; žebříček posilovny skrývá nahlášené záznamy sám
 // a nereálné hodnoty vůbec nezveřejní.
 import { initializeApp } from "firebase-admin/app";
-import { DocumentData, FieldValue, getFirestore, Timestamp } from "firebase-admin/firestore";
+import { getAuth } from "firebase-admin/auth";
+import {
+  DocumentData,
+  DocumentReference,
+  FieldValue,
+  getFirestore,
+  Timestamp,
+} from "firebase-admin/firestore";
 import { getMessaging } from "firebase-admin/messaging";
 import { getStorage } from "firebase-admin/storage";
 import * as logger from "firebase-functions/logger";
 import { setGlobalOptions } from "firebase-functions/v2";
-import { onDocumentCreated, onDocumentWritten } from "firebase-functions/v2/firestore";
+import {
+  onDocumentCreated,
+  onDocumentDeleted,
+  onDocumentWritten,
+} from "firebase-functions/v2/firestore";
 import { onUserDeleted } from "firebase-functions/v2/identity";
+import { onSchedule } from "firebase-functions/v2/scheduler";
 import {
   checkGymValue,
   GYM_CATEGORIES,
@@ -28,6 +56,16 @@ import {
   isGymCategory,
   isLift,
 } from "./plausibility.js";
+import {
+  clientCountUpdate,
+  trainerExpiryCutoff,
+} from "./coach.js";
+import {
+  CLOSED_REASONS,
+  CONTENT_REASONS,
+  gymHideDecision,
+  shouldUnhideOnJoin,
+} from "./gymDirectory.js";
 
 // Region funkcí. Musí odpovídat umístění databáze Firestore
 // (eur3 → europe-west1, viz docs/social.md).
@@ -53,6 +91,23 @@ function num(v: unknown): string {
   if (typeof v !== "number") return "";
   return Number.isInteger(v) ? String(v) : v.toFixed(1);
 }
+
+// Číslo (počet), jinak 0.
+function count(v: unknown): number {
+  return typeof v === "number" && Number.isFinite(v) ? v : 0;
+}
+
+// Zkrátí text na [max] znaků (jména a názvy píšou uživatelé; FCM i systém
+// mají limity délky notifikace).
+function clip(s: string, max: number): string {
+  const chars = Array.from(s);
+  return chars.length <= max ? s : `${chars.slice(0, max - 1).join("")}…`;
+}
+
+// Délky textu notifikace: pole od uživatelů, titulek, text.
+const PUSH_FIELD_MAX = 60;
+const PUSH_TITLE_MAX = 80;
+const PUSH_BODY_MAX = 200;
 
 // Názvy kategorií žebříčku posilovny pro text notifikace [cs, en]
 // (stejně jako názvy vestavěných cviků v seed_data.dart).
@@ -98,12 +153,17 @@ function gymValueText(categoryKey: string, value: unknown, lang: Lang): string {
 }
 
 // Text notifikace podle typu položky a jazyka příjemce.
+// Pole od uživatelů jsou zkrácená (PUSH_FIELD_MAX), celek zkrátí volající.
 function pushText(item: FeedDoc, lang: Lang): { title: string; body: string } | null {
-  const name = str(item.fromName) || "?";
+  const name = clip(str(item.fromName) || "?", PUSH_FIELD_MAX);
   const d = item.data ?? {};
-  const exercise = lang === "cs"
-    ? str(d.exerciseNameCs) || str(d.exerciseNameEn) || str(d.exerciseSlug)
-    : str(d.exerciseNameEn) || str(d.exerciseSlug);
+  const exercise = clip(
+    lang === "cs"
+      ? str(d.exerciseNameCs) || str(d.exerciseNameEn) || str(d.exerciseSlug)
+      : str(d.exerciseNameEn) || str(d.exerciseSlug),
+    PUSH_FIELD_MAX,
+  );
+  const planName = clip(str(d.planName), PUSH_FIELD_MAX);
   const cs = lang === "cs";
   switch (item.type) {
     case "friend":
@@ -116,13 +176,13 @@ function pushText(item: FeedDoc, lang: Lang): { title: string; body: string } | 
         : { title: "New record", body: `${name} set a new ${exercise} record: ${num(d.value)} kg` };
     case "invite":
       return cs
-        ? { title: "Pozvánka na trénink", body: `${name} tě zve na trénink: ${str(d.planName)}` }
-        : { title: "Workout invitation", body: `${name} invites you to a workout: ${str(d.planName)}` };
+        ? { title: "Pozvánka na trénink", body: `${name} tě zve na trénink: ${planName}` }
+        : { title: "Workout invitation", body: `${name} invites you to a workout: ${planName}` };
     case "inviteReply":
       if (d.accepted === true) {
         return cs
-          ? { title: "Pozvánka přijata", body: `${name} jde s tebou na trénink: ${str(d.planName)}` }
-          : { title: "Invitation accepted", body: `${name} is joining your workout: ${str(d.planName)}` };
+          ? { title: "Pozvánka přijata", body: `${name} jde s tebou na trénink: ${planName}` }
+          : { title: "Invitation accepted", body: `${name} is joining your workout: ${planName}` };
       }
       return cs
         ? { title: "Pozvánka odmítnuta", body: `${name} tentokrát nemůže.` }
@@ -141,7 +201,7 @@ function pushText(item: FeedDoc, lang: Lang): { title: string; body: string } | 
         ? { title: "Výzva splněna", body: `${name} splnil(a) vaši výzvu!` }
         : { title: "Challenge completed", body: `${name} completed your challenge!` };
     case "gymOvertaken": {
-      const gym = str(d.gymName);
+      const gym = clip(str(d.gymName), PUSH_FIELD_MAX);
       const what = gymValueText(str(d.category), d.value, lang);
       return cs
         ? { title: "Přišel(a) jsi o 1. místo", body: `${name} tě v posilovně ${gym} předběhl(a): ${what}` }
@@ -151,6 +211,12 @@ function pushText(item: FeedDoc, lang: Lang): { title: string; body: string } | 
       return null;
   }
 }
+
+// Chyby FCM, po kterých token už nikdy fungovat nebude.
+const DEAD_TOKEN_CODES = new Set([
+  "messaging/registration-token-not-registered",
+  "messaging/invalid-registration-token",
+]);
 
 export const sendFeedPush = onDocumentCreated("users/{uid}/feed/{itemId}", async (event) => {
   const snap = event.data;
@@ -171,23 +237,20 @@ export const sendFeedPush = onDocumentCreated("users/{uid}/feed/{itemId}", async
 
   const response = await getMessaging().sendEachForMulticast({
     tokens,
-    notification: text,
+    notification: {
+      title: clip(text.title, PUSH_TITLE_MAX),
+      body: clip(text.body, PUSH_BODY_MAX),
+    },
     data: { type: str(item.type), feedId: event.params.itemId },
     android: { notification: { channelId: "friends" } },
     apns: { payload: { aps: { sound: "default" } } },
   });
 
-  // Neplatné tokeny (odinstalovaná aplikace) odebrat.
+  // Neplatné tokeny (odinstalovaná aplikace) odebrat. Jiné chyby (např.
+  // messaging/invalid-argument kvůli obsahu zprávy) token nemažou.
   const invalid: string[] = [];
   response.responses.forEach((r, i) => {
-    const code = r.error?.code ?? "";
-    if (
-      code === "messaging/registration-token-not-registered" ||
-      code === "messaging/invalid-registration-token" ||
-      code === "messaging/invalid-argument"
-    ) {
-      invalid.push(tokens[i]);
-    }
+    if (DEAD_TOKEN_CODES.has(r.error?.code ?? "")) invalid.push(tokens[i]);
   });
   if (invalid.length > 0) {
     await privateRef.set({ fcmTokens: tokens.filter((t) => !invalid.includes(t)) }, { merge: true });
@@ -217,10 +280,40 @@ async function deleteUserData(uid: string): Promise<void> {
   const challenges = await db.collection("challenges").where("members", "array-contains", uid).get();
   challenges.docs.forEach((d) => writer.delete(d.ref));
 
-  // Posilovna: členství a záznamy v žebříčku (nahlášení smaže
-  // onGymEntryWritten při smazání záznamu).
-  const gymId = (await db.doc(`users/${uid}/private/gym`).get()).get("gymId");
-  if (typeof gymId === "string" && gymId.length > 0) {
+  // Moje položky v novinkách přátel (pr, pozvánky, výzvy, gymOvertaken –
+  // všude fromUid = já). Index feed.fromUid v firestore.indexes.json.
+  const myFeedItems = await db.collectionGroup("feed").where("fromUid", "==", uid).get();
+  myFeedItems.docs.forEach((d) => writer.delete(d.ref));
+
+  // Posilovny: členství, záznamy v žebříčku (i s jejich nahlášeními)
+  // a stav moderace. Posilovna z private/gym; pojistkou je hledání podle
+  // uid (collection group members / entries / moderation), kdyby
+  // private/gym chybělo nebo ukazovalo jinam.
+  const gymIds = new Set<string>();
+  const privateGymId = (await db.doc(`users/${uid}/private/gym`).get()).get("gymId");
+  if (typeof privateGymId === "string" && privateGymId.length > 0) gymIds.add(privateGymId);
+  const memberships = await db.collectionGroup("members").where("uid", "==", uid).get();
+  for (const m of memberships.docs) {
+    const gymId = gymIdOf(m.ref);
+    if (gymId) gymIds.add(gymId);
+  }
+
+  // Cesty mých záznamů – smažou se i s podkolekcí reports (až po
+  // writer.close, recursiveDelete).
+  const entryPaths = new Set<string>();
+  const moderation = await db.collectionGroup("moderation").where("uid", "==", uid).get();
+  for (const m of moderation.docs) {
+    const gymId = gymIdOf(m.ref);
+    if (!gymId) continue;
+    entryPaths.add(`gyms/${gymId}/entries/${m.id}`);
+    writer.delete(m.ref);
+  }
+  const anyEntries = await db.collectionGroup("entries").where("uid", "==", uid).get();
+  for (const e of anyEntries.docs) {
+    if (gymIdOf(e.ref)) entryPaths.add(e.ref.path);
+  }
+
+  for (const gymId of gymIds) {
     const memberRef = db.doc(`gyms/${gymId}/members/${uid}`);
     if ((await memberRef.get()).exists) {
       writer.delete(memberRef);
@@ -228,14 +321,55 @@ async function deleteUserData(uid: string): Promise<void> {
     }
     // Všechny záznamy s mým uid (i zrušených kategorií z dřívějších verzí).
     const entries = await db.collection(`gyms/${gymId}/entries`).where("uid", "==", uid).get();
-    const paths = new Set(entries.docs.map((d) => d.ref.path));
-    for (const c of GYM_CATEGORIES) paths.add(`gyms/${gymId}/entries/${uid}_${c}`);
-    paths.forEach((p) => writer.delete(db.doc(p)));
+    entries.docs.forEach((d) => entryPaths.add(d.ref.path));
+    for (const c of GYM_CATEGORIES) entryPaths.add(`gyms/${gymId}/entries/${uid}_${c}`);
   }
 
+  // Moje nahlášení cizích záznamů v těchto posilovnách (v dřívějších
+  // posilovnách je smazal už onGymMemberDeleted při odchodu).
+  for (const gymId of gymIds) {
+    (await gymReportsBy(gymId, uid)).forEach((r) => writer.delete(r));
+  }
+
+  // Nahlášení obsahu, která jsem podal, a nahlášení mě jako uživatele.
+  const myReports = await db.collection("contentReports").where("reporterUid", "==", uid).get();
+  myReports.docs.forEach((d) => writer.delete(d.ref));
+  const aboutMe = await db.collection("contentReports")
+    .where("kind", "==", "user").where("targetId", "==", uid).get();
+  aboutMe.docs.forEach((d) => writer.delete(d.ref));
+  // U ostatních: záznam „zablokoval jsem <mě>“ (jméno a uid).
+  const blockedMe = await db.collectionGroup("blocked").where("uid", "==", uid).get();
+  blockedMe.docs.forEach((d) => writer.delete(d.ref));
+
+  // (Až po writer.close – stejný dokument mění i memberCount výše.)
   await writer.close();
+  // Moje záznamy v žebříčcích i s nahlášeními (podkolekce reports zůstává
+  // po smazání záznamu vlastníkem, viz onGymEntryWritten). Stav moderace
+  // je smazaný výš, smazaný účet ho už znovu nevytvoří (keepLegacyModeration).
+  await Promise.all([...entryPaths].map((p) => db.recursiveDelete(db.doc(p))));
+  // Posilovny, které jsem založil, zůstávají v adresáři pro ostatní
+  // členy – jen se odstraní vazba na můj účet.
+  const founded = await db.collection("gyms").where("createdBy", "==", uid).get();
+  await Promise.all(founded.docs.map((d) => d.ref.update({ createdBy: FieldValue.delete() })));
+
   // Dokument uživatele i s podkolekcemi (friends, feed, private).
   await db.recursiveDelete(userRef);
+
+  // Trenér a klient (docs/coach.md): moje propojení jako klient i jako
+  // trenér (i s tréninky, plány a komentáři), status trenéra s kódem
+  // a knihovnou plánů a plány sdílené odkazem.
+  await deleteCoachData(uid);
+}
+
+async function deleteCoachData(uid: string): Promise<void> {
+  await db.recursiveDelete(db.doc(`coachLinks/${uid}`));
+  const asTrainer = await db.collection("coachLinks").where("trainerUid", "==", uid).get();
+  await Promise.all(asTrainer.docs.map((d) => db.recursiveDelete(d.ref)));
+  const codes = await db.collection("trainerCodes").where("uid", "==", uid).get();
+  await Promise.all(codes.docs.map((d) => d.ref.delete()));
+  await db.recursiveDelete(db.doc(`trainers/${uid}`));
+  const shared = await db.collection("sharedPlans").where("authorUid", "==", uid).get();
+  await Promise.all(shared.docs.map((d) => d.ref.delete()));
 }
 
 // Smaže zálohy uživatele v Cloud Storage (automatická záloha, modul cloud).
@@ -261,24 +395,183 @@ export const cleanupDeletedUser = onUserDeleted(async (event) => {
 // Žebříček posilovny (docs/social.md, „Žebříček posilovny“)
 // ---------------------------------------------------------------------------
 
-function readVerified(v: unknown): { value: number; at: Date } | null {
+// ID posilovny z cesty gyms/{gymId}/<kolekce>/{id}, jinak null (stejně
+// pojmenovaná podkolekce může být i jinde).
+function gymIdOf(ref: DocumentReference): string | null {
+  const gym = ref.parent.parent;
+  return gym && gym.parent.id === "gyms" ? gym.id : null;
+}
+
+// Existující nahlášení uživatele [uid] u cizích záznamů posilovny (id
+// dokumentu = uid nahlašujícího) – i u záznamů, které vlastník mezitím
+// smazal (zůstal po nich jen dokument moderace, aplikace je nevidí).
+// Počet nahlášení (reportCount) v dokumentu moderace zůstává.
+async function gymReportsBy(gymId: string, uid: string): Promise<DocumentReference[]> {
+  const [entries, moderation] = await Promise.all([
+    db.collection(`gyms/${gymId}/entries`).select().get(),
+    db.collection(`gyms/${gymId}/moderation`).select().get(),
+  ]);
+  const ids = new Set<string>();
+  entries.docs.forEach((d) => ids.add(d.id));
+  moderation.docs.forEach((d) => ids.add(d.id));
+  // Vlastní záznamy (`<uid>_<kategorie>`) nahlásit nejde.
+  const refs = [...ids]
+    .filter((id) => !id.startsWith(`${uid}_`))
+    .map((id) => db.doc(`gyms/${gymId}/entries/${id}/reports/${uid}`));
+  // Číst je levnější než mazat neexistující dokumenty.
+  const found: DocumentReference[] = [];
+  for (let i = 0; i < refs.length; i += 100) {
+    const snaps = await db.getAll(...refs.slice(i, i + 100));
+    snaps.forEach((s) => {
+      if (s.exists) found.push(s.ref);
+    });
+  }
+  return found;
+}
+
+// Odchod z posilovny (i smazání účtu): smaže moje nahlášení cizích záznamů
+// v posilovně. Aplikace maže sama jen nahlášení u existujících záznamů.
+// Vstup do posilovny skryté jako neexistující / duplicitní (5 nahlášení,
+// bez členů): zjevně existuje → znovu ukázat v adresáři a nahlášení
+// „neexistuje / duplicita“ počítat od teď (closedReportsResetAt).
+export const onGymMemberCreated = onDocumentCreated("gyms/{gymId}/members/{uid}", async (event) => {
+  const { gymId } = event.params;
+  const gymRef = db.doc(`gyms/${gymId}`);
+  const gym = await gymRef.get();
+  if (!gym.exists || !shouldUnhideOnJoin(gym.data() ?? {})) return;
+  await gymRef.update({
+    hidden: false,
+    hiddenReason: FieldValue.delete(),
+    closedReportsResetAt: FieldValue.serverTimestamp(),
+  });
+  logger.info(`Gym ${gymId} shown again – a member joined after closed/duplicate reports`);
+});
+
+export const onGymMemberDeleted = onDocumentDeleted("gyms/{gymId}/members/{uid}", async (event) => {
+  const { gymId, uid } = event.params;
+  // Mezitím se vrátil → nahlášení nechat.
+  if ((await db.doc(`gyms/${gymId}/members/${uid}`).get()).exists) return;
+  const refs = await gymReportsBy(gymId, uid);
+  if (refs.length === 0) return;
+  const writer = db.bulkWriter();
+  refs.forEach((r) => writer.delete(r));
+  await writer.close();
+  logger.info(`Gym ${gymId}: deleted ${refs.length} report(s) of a former member`);
+});
+
+type Verified = { value: number; at: Date };
+
+function readVerified(v: unknown): Verified | null {
   if (!v || typeof v !== "object") return null;
   const o = v as Record<string, unknown>;
   if (typeof o.value !== "number" || !(o.at instanceof Timestamp)) return null;
   return { value: o.value, at: o.at.toDate() };
 }
 
+function sameVerified(a: Verified | null, b: Verified | null): boolean {
+  if (!a || !b) return a === b;
+  return a.value === b.value && a.at.getTime() === b.at.getTime();
+}
+
 function isEntryHidden(d: DocumentData): boolean {
-  const reports = typeof d.reportCount === "number" ? d.reportCount : 0;
-  return d.hidden === true || reports >= GYM_REPORT_HIDE_THRESHOLD;
+  return d.hidden === true || count(d.reportCount) >= GYM_REPORT_HIDE_THRESHOLD;
 }
 
-function hiddenForPlausibility(d: DocumentData): boolean {
-  return d.hidden === true && str(d.hiddenReason).startsWith("implausible");
+// Stav moderace záznamu – gyms/{gymId}/moderation/{entryId}, jen server
+// (pravidla klientům čtení i zápis zakazují). Zůstává i po smazání záznamu
+// vlastníkem (vypnutí „Ukázat mě“, odchod z posilovny), maže ho jen
+// smazání účtu. Trvalé je skrytí za nahlášení ("reports") i ruční skrytí
+// vývojářem (jiný důvod, např. "manual"); skrytí za nereálnou hodnotu
+// ("implausible:…") se počítá při každé změně hodnoty znovu (proti
+// `verified`). Pole: uid, category, reportCount, hiddenReason (trvalé
+// skrytí), verified {value, at}, overtakenNotifiedAt (omezení novinky
+// „předběhl tě“), updatedAt.
+interface Moderation {
+  reportCount: number;
+  // Důvod trvalého skrytí ("reports", "manual"…), jinak null.
+  hiddenReason: string | null;
+  verified: Verified | null;
 }
 
-// Kontrola reálnosti + novinka „předběhl tě“. Zápisy serveru (hidden,
-// verified, reportCount) best/bestMonth nemění, takže se funkce nezacyklí.
+function moderationRef(gymId: string, entryId: string): DocumentReference {
+  return db.doc(`gyms/${gymId}/moderation/${entryId}`);
+}
+
+// Důvod trvalého skrytí – cokoli kromě nereálné hodnoty.
+function stickyReason(reason: unknown): string | null {
+  const r = str(reason);
+  return r && !r.startsWith("implausible") ? r : null;
+}
+
+// Trvalé skrytí na samotném záznamu (záznamy z doby před dokumenty
+// moderace, ruční `hidden: true` bez důvodu = "manual").
+function entryStickyReason(e: DocumentData): string | null {
+  if (e.hidden !== true) return null;
+  const r = str(e.hiddenReason);
+  return r ? stickyReason(r) : "manual";
+}
+
+// Stav z dokumentu moderace a ze záznamu (záznamy z doby před dokumenty
+// moderace mají stav jen na sobě) – bere se silnější z obou.
+function readModeration(mod: DocumentData | undefined, entry: DocumentData | null): Moderation {
+  const m = mod ?? {};
+  const e = entry ?? {};
+  const reportCount = Math.max(count(m.reportCount), count(e.reportCount));
+  const hiddenReason =
+    reportCount >= GYM_REPORT_HIDE_THRESHOLD
+      ? "reports"
+      : (stickyReason(m.hiddenReason) ?? entryStickyReason(e));
+  const vm = readVerified(m.verified);
+  const ve = readVerified(e.verified);
+  const verified = vm && ve ? (ve.value > vm.value ? ve : vm) : (vm ?? ve);
+  return { reportCount, hiddenReason, verified };
+}
+
+function sameModeration(a: Moderation, b: Moderation): boolean {
+  return (
+    a.reportCount === b.reportCount &&
+    a.hiddenReason === b.hiddenReason &&
+    sameVerified(a.verified, b.verified)
+  );
+}
+
+function moderationData(uid: string, category: string, m: Moderation): Record<string, unknown> {
+  const data: Record<string, unknown> = {
+    uid,
+    category,
+    reportCount: m.reportCount,
+    updatedAt: FieldValue.serverTimestamp(),
+  };
+  if (m.hiddenReason) data.hiddenReason = m.hiddenReason;
+  if (m.verified) data.verified = { value: m.verified.value, at: Timestamp.fromDate(m.verified.at) };
+  return data;
+}
+
+// Smazaný záznam: když nese stav, který v dokumentu moderace ještě není
+// (záznam z doby před dokumenty moderace), přenese ho tam – znovu
+// vytvořený záznam tak o skrytí nepřijde. Po smazání účtu (uživatel už
+// v Auth není) se nic neukládá.
+async function keepLegacyModeration(gymId: string, entryId: string, before: DocumentData): Promise<void> {
+  const uid = str(before.uid);
+  if (!uid) return;
+  const ref = moderationRef(gymId, entryId);
+  const mod = (await ref.get()).data();
+  const current = readModeration(mod, null);
+  const merged = readModeration(mod, before);
+  if (sameModeration(current, merged)) return;
+  try {
+    await getAuth().getUser(uid);
+  } catch {
+    return;
+  }
+  await ref.set(moderationData(uid, str(before.category), merged), { merge: true });
+}
+
+// Kontrola reálnosti + novinka „předběhl tě“. Stav moderace se bere
+// z dokumentu moderace, takže znovu vytvořený záznam je hned zase skrytý
+// (nahlášení) a skok se kontroluje proti dřívější ověřené hodnotě. Zápisy
+// serveru (hidden, hiddenReason, reportCount, verified) best, bestMonth
+// ani monthKey nemění, takže se funkce nezacyklí.
 export const onGymEntryWritten = onDocumentWritten("gyms/{gymId}/entries/{entryId}", async (event) => {
   const change = event.data;
   if (!change) return;
@@ -287,8 +580,9 @@ export const onGymEntryWritten = onDocumentWritten("gyms/{gymId}/entries/{entryI
   const after = change.after.exists ? (change.after.data() ?? null) : null;
 
   if (!after) {
-    // Záznam smazán (odchod z posilovny) → uklidit nahlášení.
-    await db.recursiveDelete(db.collection(`gyms/${gymId}/entries/${entryId}/reports`));
+    // Záznam smazán (vypnutí „Ukázat mě“, odchod z posilovny): nahlášení
+    // i stav moderace zůstávají – maže je až smazání účtu.
+    if (before) await keepLegacyModeration(gymId, entryId, before);
     return;
   }
   if (
@@ -303,7 +597,9 @@ export const onGymEntryWritten = onDocumentWritten("gyms/{gymId}/entries/{entryI
   if (!isGymCategory(category) || typeof after.best !== "number") return;
   const value: number = after.best;
   const now = new Date();
-  const verified = readVerified(after.verified);
+  const modRef = moderationRef(gymId, entryId);
+  const mod = readModeration((await modRef.get()).data(), after);
+  const verified = mod.verified;
 
   const reason =
     checkGymValue({
@@ -317,32 +613,47 @@ export const onGymEntryWritten = onDocumentWritten("gyms/{gymId}/entries/{entryI
       ? checkGymValue({ category, value: after.bestMonth })
       : null);
 
-  const ref = change.after.ref;
-  if (reason) {
-    await ref.update({ hidden: true, hiddenReason: `implausible:${reason}` });
-    logger.info(`Gym entry ${gymId}/${entryId} hidden: ${reason} (${value})`);
-    return;
-  }
+  // Ověřená hodnota roste jen s reálnou hodnotou.
+  const nextVerified: Verified | null =
+    !reason && (!verified || value > verified.value) ? { value, at: now } : verified;
+  const hiddenReason = mod.hiddenReason ?? (reason ? `implausible:${reason}` : null);
+  const hidden = hiddenReason !== null;
 
+  await modRef.set(
+    moderationData(str(after.uid), category, { ...mod, verified: nextVerified }),
+    { merge: true },
+  );
+
+  // Stav i na záznam (aplikace ho čte odtud) – jen co se liší.
   const update: Record<string, unknown> = {};
-  if (!verified || value > verified.value) {
-    update.verified = { value, at: Timestamp.fromDate(now) };
+  if ((after.hidden === true) !== hidden) update.hidden = hidden;
+  if ((str(after.hiddenReason) || null) !== hiddenReason) {
+    update.hiddenReason = hiddenReason ?? FieldValue.delete();
   }
-  if (hiddenForPlausibility(after)) {
-    update.hidden = false;
-    update.hiddenReason = FieldValue.delete();
+  if (count(after.reportCount) !== mod.reportCount) update.reportCount = mod.reportCount;
+  if (nextVerified && !sameVerified(readVerified(after.verified), nextVerified)) {
+    update.verified = { value: nextVerified.value, at: Timestamp.fromDate(nextVerified.at) };
   }
-  if (Object.keys(update).length > 0) await ref.update(update);
+  if (Object.keys(update).length > 0) await change.after.ref.update(update);
 
-  const reports = typeof after.reportCount === "number" ? after.reportCount : 0;
-  if (reports >= GYM_REPORT_HIDE_THRESHOLD || (after.hidden === true && !hiddenForPlausibility(after))) {
+  if (hidden) {
+    if (reason) logger.info(`Gym entry ${gymId}/${entryId} hidden: ${reason} (${value})`);
     return;
   }
-  const beforeValue =
-    before && !isEntryHidden(before) && typeof before.best === "number" ? before.best : 0;
+  // Předchozí hodnota. Nově vytvořený záznam (po vypnutí a zapnutí
+  // „Ukázat mě“ nebo po návratu do posilovny) bere dřívější ověřenou
+  // hodnotu, aby se stejný výkon nehlásil jako nové předběhnutí.
+  const beforeValue = before
+    ? (!isEntryHidden(before) && typeof before.best === "number" ? before.best : 0)
+    : (verified?.value ?? 0);
   if (value <= beforeValue) return;
-  await notifyOvertaken(gymId, category, after, value, beforeValue);
+  await notifyOvertaken(gymId, category, after, value, beforeValue, now);
 });
+
+// Novinka „předběhl tě“ nejvýš jednou za 24 h pro stejnou posilovnu,
+// kategorii a dosavadního lídra (čas overtakenNotifiedAt je v dokumentu
+// moderace lídrova záznamu – jen server).
+const OVERTAKEN_MIN_INTERVAL_MS = 24 * 3600 * 1000;
 
 // Dosavadní lídr (nejlepší z ostatních, celkový žebříček) dostane novinku,
 // když ho tahle hodnota předběhla a předtím byl první (i dělené 1. místo).
@@ -352,6 +663,7 @@ async function notifyOvertaken(
   entry: DocumentData,
   value: number,
   beforeValue: number,
+  now: Date,
 ): Promise<void> {
   const uid = str(entry.uid);
   const top = await db
@@ -360,51 +672,204 @@ async function notifyOvertaken(
     .orderBy("best", "desc")
     .limit(20)
     .get();
-  const others = top.docs
-    .map((d) => d.data())
-    .filter((d) => str(d.uid) !== uid && !isEntryHidden(d) && typeof d.best === "number");
+  const others = top.docs.filter((d) => {
+    const x = d.data();
+    return str(x.uid) !== uid && !isEntryHidden(x) && typeof x.best === "number";
+  });
   if (others.length === 0) return;
-  const leaderValue = others[0].best as number;
+  const leaderValue = others[0].get("best") as number;
   if (!(leaderValue >= beforeValue && value > leaderValue)) return;
 
   const gym = (await db.doc(`gyms/${gymId}`).get()).data() ?? {};
-  const leaders = others.filter((d) => d.best === leaderValue);
-  const batch = db.batch();
+  const leaders = others.filter((d) => d.get("best") === leaderValue);
+  let sent = 0;
   for (const leader of leaders) {
-    batch.set(db.collection(`users/${str(leader.uid)}/feed`).doc(), {
-      type: "gymOvertaken",
-      fromUid: uid,
-      fromName: str(entry.nickname) || "?",
-      createdAt: FieldValue.serverTimestamp(),
-      read: false,
-      data: {
-        gymId,
-        gymName: str(gym.name),
-        category,
-        value,
-        previousValue: leaderValue,
-        lift: isLift(category),
-      },
+    const leaderUid = str(leader.get("uid"));
+    if (!leaderUid) continue;
+    const modRef = moderationRef(gymId, leader.id);
+    const feedRef = db.collection(`users/${leaderUid}/feed`).doc();
+    const notified = await db.runTransaction(async (tx) => {
+      const last = (await tx.get(modRef)).get("overtakenNotifiedAt");
+      if (last instanceof Timestamp && now.getTime() - last.toMillis() < OVERTAKEN_MIN_INTERVAL_MS) {
+        return false;
+      }
+      tx.set(
+        modRef,
+        { uid: leaderUid, category, overtakenNotifiedAt: Timestamp.fromDate(now) },
+        { merge: true },
+      );
+      tx.set(feedRef, {
+        type: "gymOvertaken",
+        fromUid: uid,
+        fromName: str(entry.nickname) || "?",
+        createdAt: FieldValue.serverTimestamp(),
+        read: false,
+        data: {
+          gymId,
+          gymName: str(gym.name),
+          category,
+          value,
+          previousValue: leaderValue,
+          lift: isLift(category),
+        },
+      });
+      return true;
     });
+    if (notified) sent++;
   }
-  await batch.commit();
-  logger.info(`Gym ${gymId}: ${uid} overtook ${leaders.length} leader(s) in ${category}`);
+  logger.info(`Gym ${gymId}: ${uid} overtook ${leaders.length} leader(s) in ${category}, notified ${sent}`);
 }
 
 // Nahlášení: spočítá je a od GYM_REPORT_HIDE_THRESHOLD záznam skryje.
+// Počet a skrytí se ukládají do dokumentu moderace (přežijí smazání
+// a nové vytvoření záznamu) a kopírují se na záznam.
 export const onGymReportCreated = onDocumentCreated(
   "gyms/{gymId}/entries/{entryId}/reports/{reporterUid}",
   async (event) => {
     const { gymId, entryId } = event.params;
     const entryRef = db.doc(`gyms/${gymId}/entries/${entryId}`);
-    const entry = await entryRef.get();
-    if (!entry.exists) return;
-    const count = (await entryRef.collection("reports").count().get()).data().count;
-    const update: Record<string, unknown> = { reportCount: count };
-    if (count >= GYM_REPORT_HIDE_THRESHOLD) {
+    const modRef = moderationRef(gymId, entryId);
+    const [entrySnap, modSnap] = await Promise.all([entryRef.get(), modRef.get()]);
+    const entry = entrySnap.exists ? (entrySnap.data() ?? null) : null;
+    if (!entry && !modSnap.exists) return;
+    const reports = (await entryRef.collection("reports").count().get()).data().count;
+    const state = readModeration(modSnap.data(), entry);
+    // Nahlášení smazaná autorem (odchod z posilovny, smazání účtu) počet
+    // nesnižují.
+    state.reportCount = Math.max(state.reportCount, reports);
+    if (state.reportCount >= GYM_REPORT_HIDE_THRESHOLD) state.hiddenReason = "reports";
+    const uid = str(entry?.uid) || str(modSnap.get("uid"));
+    const category = str(entry?.category) || str(modSnap.get("category"));
+    await modRef.set(moderationData(uid, category, state), { merge: true });
+    if (!entry) return;
+    const update: Record<string, unknown> = { reportCount: state.reportCount };
+    if (state.hiddenReason) {
       update.hidden = true;
-      update.hiddenReason = "reports";
+      update.hiddenReason = state.hiddenReason;
     }
     await entryRef.update(update);
   },
 );
+
+// ---------------------------------------------------------------------------
+// Nahlášení nevhodného obsahu (docs/social.md, „Nahlášení a blokování“)
+// ---------------------------------------------------------------------------
+
+const CONTENT_REPORT_MAX_AGE_DAYS = 365;
+
+export const onContentReportCreated = onDocumentCreated(
+  "contentReports/{reportId}",
+  async (event) => {
+    const d = event.data?.data();
+    if (!d) return;
+    const kind = str(d.kind);
+    const targetId = str(d.targetId);
+    if (!targetId) return;
+    const reports = db.collection("contentReports")
+      .where("kind", "==", kind).where("targetId", "==", targetId);
+    const total = (await reports.count().get()).data().count;
+    // Pro vývojáře: Firebase konzole → Functions → Logs (a kolekce
+    // contentReports ve Firestore).
+    logger.warn(`Content report: ${kind} ${targetId} "${str(d.targetName)}" ` +
+      `reason=${str(d.reason)} total=${total}`);
+    if (kind !== "gym") return;
+
+    const gymRef = db.doc(`gyms/${targetId}`);
+    const gym = await gymRef.get();
+    if (!gym.exists) return;
+    // Nahlášení „neexistuje / duplicita“ jen od posledního vstupu člena
+    // do skryté posilovny (onGymMemberCreated) – starší se nepočítají.
+    const resetAt = gym.get("closedReportsResetAt");
+    let closedQuery = reports.where("reason", "in", CLOSED_REASONS);
+    if (resetAt instanceof Timestamp) closedQuery = closedQuery.where("createdAt", ">", resetAt);
+    const [contentReports, closedReports] = await Promise.all([
+      reports.where("reason", "in", CONTENT_REASONS).count().get(),
+      closedQuery.count().get(),
+    ]);
+    const decision = gymHideDecision({
+      contentReports: contentReports.data().count,
+      closedReports: closedReports.data().count,
+      memberCount: Number(gym.get("memberCount") ?? 0),
+      hidden: gym.get("hidden") === true,
+      hiddenReason: str(gym.get("hiddenReason")) || null,
+    });
+    if (!decision) return;
+    await gymRef.update({ hidden: true, hiddenReason: decision });
+    logger.warn(`Gym ${targetId} hidden from the directory (${decision}), ` +
+      `content=${contentReports.data().count} closed=${closedReports.data().count}`);
+  },
+);
+
+export const purgeOldContentReports = onSchedule("every 24 hours", async () => {
+  const cutoff = Timestamp.fromMillis(Date.now() - CONTENT_REPORT_MAX_AGE_DAYS * 24 * 3600 * 1000);
+  const old = await db.collection("contentReports").where("createdAt", "<", cutoff).limit(500).get();
+  const writer = db.bulkWriter();
+  old.docs.forEach((d) => writer.delete(d.ref));
+  await writer.close();
+  if (!old.empty) logger.info(`Purged ${old.size} old content reports`);
+});
+
+// ---------------------------------------------------------------------------
+// Trenér a klient (docs/coach.md)
+// ---------------------------------------------------------------------------
+
+// Přepočítá klienty trenéra (clientCount) a odpočet do ztráty statusu
+// (zeroSince = od kdy nemá žádného klienta). Počítá se z propojení, takže
+// je to odolné proti dvojímu spuštění.
+async function recountClients(trainerUid: string): Promise<void> {
+  const ref = db.doc(`trainers/${trainerUid}`);
+  const agg = await db.collection("coachLinks").where("trainerUid", "==", trainerUid).count().get();
+  const count = agg.data().count;
+  await db.runTransaction(async (tx) => {
+    const t = await tx.get(ref);
+    if (!t.exists) return;
+    const u = clientCountUpdate(count, t.get("zeroSince") != null);
+    const data: Record<string, unknown> = { clientCount: u.clientCount };
+    if (u.zeroSince === "now") data.zeroSince = FieldValue.serverTimestamp();
+    if (u.zeroSince === "delete") data.zeroSince = FieldValue.delete();
+    tx.update(ref, data);
+  });
+}
+
+// Nový trenér: clientCount 0 a začne odpočet 60 dní (pokud už nemá klienty).
+export const onTrainerCreated = onDocumentCreated("trainers/{uid}", async (event) => {
+  await recountClients(event.params.uid);
+});
+
+// Zrušený status (trenér sám, vypršení, smazání účtu): propojení s klienty
+// se zruší i s jejich podkolekcemi, smaže se kód a knihovna plánů.
+export const onTrainerDeleted = onDocumentDeleted("trainers/{uid}", async (event) => {
+  const uid = event.params.uid;
+  const links = await db.collection("coachLinks").where("trainerUid", "==", uid).get();
+  await Promise.all(links.docs.map((d) => db.recursiveDelete(d.ref)));
+  const codes = await db.collection("trainerCodes").where("uid", "==", uid).get();
+  await Promise.all(codes.docs.map((d) => d.ref.delete()));
+  await db.recursiveDelete(db.doc(`trainers/${uid}`));
+  logger.info(`Trainer ${uid} removed (${links.size} links)`);
+});
+
+export const onCoachLinkCreated = onDocumentCreated("coachLinks/{clientUid}", async (event) => {
+  const trainerUid = event.data?.get("trainerUid");
+  if (typeof trainerUid === "string") await recountClients(trainerUid);
+});
+
+// Zrušené propojení: smaže tréninky, váhu, plány a komentáře klienta
+// (trenér k nim už nesmí mít přístup) a přepočítá klienty trenéra.
+export const onCoachLinkDeleted = onDocumentDeleted("coachLinks/{clientUid}", async (event) => {
+  await db.recursiveDelete(db.doc(`coachLinks/${event.params.clientUid}`));
+  const trainerUid = event.data?.get("trainerUid");
+  if (typeof trainerUid === "string") await recountClients(trainerUid);
+});
+
+// Trenér, který 60 dní nemá žádného klienta, přijde o status
+// (index trainers: clientCount + zeroSince ve firestore.indexes.json).
+export const expireTrainers = onSchedule("every 24 hours", async () => {
+  const cutoff = Timestamp.fromMillis(trainerExpiryCutoff(Date.now()));
+  const old = await db.collection("trainers")
+    .where("clientCount", "==", 0)
+    .where("zeroSince", "<", cutoff)
+    .limit(200)
+    .get();
+  await Promise.all(old.docs.map((d) => d.ref.delete()));
+  if (!old.empty) logger.info(`Expired ${old.size} trainers without clients`);
+});

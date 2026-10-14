@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,12 +13,27 @@ import 'ui/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Písmo Archivo (OFL) v seznamu licencí v okně O aplikaci.
+  LicenseRegistry.addLicense(() async* {
+    final text = await rootBundle.loadString('assets/fonts/OFL.txt');
+    yield LicenseEntryWithLineBreaks(const ['Archivo'], text);
+  });
+  // Adresář posiloven z OpenStreetMap (docs/gyms_import.md).
+  LicenseRegistry.addLicense(() async* {
+    yield const LicenseEntryWithLineBreaks(
+      ['OpenStreetMap'],
+      'Gym directory data © OpenStreetMap contributors.\n\n'
+      'The data is available under the Open Database License (ODbL) 1.0: '
+      'https://opendatacommons.org/licenses/odbl/1-0/\n\n'
+      'https://www.openstreetmap.org/copyright',
+    );
+  });
   await initModules();
-  runApp(const ProviderScope(child: FitnessApp()));
+  runApp(const ProviderScope(child: GymBarApp()));
 }
 
-class FitnessApp extends ConsumerWidget {
-  const FitnessApp({super.key});
+class GymBarApp extends ConsumerWidget {
+  const GymBarApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

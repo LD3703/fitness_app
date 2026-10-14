@@ -8,6 +8,7 @@ import '../../modules/data/unit_dialogs.dart';
 import '../../modules/data/units.dart';
 import '../../modules/module_hub.dart';
 import '../../providers.dart';
+import '../../ui/body_map.dart';
 import '../../ui/format.dart';
 import '../../ui/labels.dart';
 import '../../core/coach_tone.dart';
@@ -163,6 +164,7 @@ class _WorkoutCard extends ConsumerWidget {
           ];
           children.add(ListTile(
             contentPadding: EdgeInsets.zero,
+            leading: PlanBodyMapThumb(planId: plan.id),
             title: Text(plan.name),
             subtitle: details.isEmpty ? null : Text(details.join(' · ')),
             trailing: done

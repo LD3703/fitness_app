@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/fatigue.dart';
+import '../../core/rest_time.dart';
 import '../../core/superset.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
@@ -10,6 +11,7 @@ import '../../modules/data/units.dart';
 import '../../modules/module_hub.dart';
 import '../../modules/progression/progression_plan_widgets.dart';
 import '../../providers.dart';
+import '../../ui/body_map.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/labels.dart';
 import '../../ui/set_format.dart';
@@ -18,6 +20,7 @@ import '../exercises/exercise_picker.dart';
 import '../fatigue/fatigue_card.dart';
 import '../fatigue/fatigue_providers.dart';
 import '../workout/start_workout.dart';
+import '../workout/workout_service.dart' show autoRestSeconds;
 
 enum _LinkAction { linkNext, unlink }
 
@@ -150,6 +153,22 @@ class _PlanEditor extends ConsumerWidget {
                 ),
         ),
         const Divider(),
+        if (items.isNotEmpty) ...[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: Text(l10n.planMusclesTitle,
+                style: Theme.of(context).textTheme.titleSmall),
+          ),
+          TrainedBodyMap(
+            sets: muscleSetsOf(items.map((i) => i.exercise)),
+            primaryLabel: l10n.bodyMapPrimary,
+            secondaryLabel: l10n.bodyMapSecondary,
+            groupName: l10n.muscleGroup,
+            height: 170,
+          ),
+          const SizedBox(height: 8),
+          const Divider(),
+        ],
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
           child: Text(l10n.planExercises,
@@ -199,8 +218,8 @@ class _PlanEditor extends ConsumerWidget {
         footer: footer,
         buildDefaultDragHandles: false,
         itemCount: items.length,
-        onReorder: (oldIndex, newIndex) {
-          if (newIndex > oldIndex) newIndex -= 1;
+        // onReorderItem už newIndex upravuje sám (bez „− 1“ při posunu dolů).
+        onReorderItem: (oldIndex, newIndex) {
           final ids = [for (final it in items) it.item.id];
           final moved = ids.removeAt(oldIndex);
           ids.insert(newIndex, moved);
@@ -217,7 +236,7 @@ class _PlanEditor extends ConsumerWidget {
             canLinkNext: canLinkSupersetWithNext(groups, i),
             fatiguePercent: fatigue == null || fatigue.sessions == 0
                 ? null
-                : fatigue.percent[g],
+                : fatiguePercentOf(fatigue, g),
             onTap: () => context.go('/plans/${plan.id}/item/${it.item.id}'),
             onLinkAction: (action) async {
               if (action == _LinkAction.linkNext) {
@@ -278,6 +297,15 @@ class _PlanItemTile extends ConsumerWidget {
     final record =
         ref.watch(exerciseStatsProvider(item.exercise.id)).valueOrNull?.record;
     ref.watch(unitSystemProvider); // překreslit po změně kg / lb
+    final profile = ref.watch(profileProvider).valueOrNull;
+    // Automatická pauza podle naposledy zvoleného zaměření tréninku.
+    final restText = item.item.restAuto
+        ? l10n.planRestAutoLabel(autoRestSeconds(
+            item.exercise,
+            trainingFocusOf(profile?.trainingFocus),
+            sexOf(profile?.sex),
+          ))
+        : l10n.workoutRestLabel(item.item.restSeconds);
     final setsText = describePlanSets(
       context,
       item.sets.map((s) => (
@@ -292,9 +320,11 @@ class _PlanItemTile extends ConsumerWidget {
     final fatigue = fatiguePercent;
     final fatigueState = fatigue == null ? null : fatigueStatus(fatigue);
     final tile = ListTile(
-      leading: label == null
-          ? null
-          : Container(
+      leading: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (label != null) ...[
+            Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
                 color: theme.colorScheme.primary,
@@ -308,12 +338,36 @@ class _PlanItemTile extends ConsumerWidget {
                 ),
               ),
             ),
+            const SizedBox(width: 8),
+          ],
+          ExerciseMuscleIcon(exercise: item.exercise, size: 40),
+        ],
+      ),
       title: Text(item.exercise.localizedName(context)),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(setsText),
-          Text(l10n.workoutRestLabel(item.item.restSeconds)),
+          Text(restText),
+          if (item.item.note case final note?)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 2, right: 4),
+                  child: Icon(Icons.sticky_note_2_outlined,
+                      size: 14, color: theme.colorScheme.primary),
+                ),
+                Flexible(
+                  child: Text(
+                    note,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+              ],
+            ),
           // Nepoužitý návrh automatické progrese („↑ +2,5 kg příště“).
           // Premium (autoProgression): bez předplatného se štítek skryje
           // sám (ProgressionPlanBadge).

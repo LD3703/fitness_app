@@ -1,9 +1,24 @@
-/// Odhad maxima na 1 opakování (1RM) podle Epleyho vzorce:
-/// 1RM = w × (1 + r / 30).
+/// Hodnota série pro osobní rekordy, výzvy, žebříčky a grafy síly:
+/// **nejtěžší váha**, při stejné váze rozhodují opakování.
 ///
+/// Váha se zaokrouhlí na setiny kg a opakování přidají nejvýš 0,00999 kg,
+/// takže platí 100 × 6 > 100 × 5 > 97,5 × 12 a číslo jde zobrazit přímo
+/// jako váhu. Null pro série bez váhy nebo opakování.
+double? recordValue(double? weightKg, int? reps) {
+  if (weightKg == null || reps == null || weightKg <= 0 || reps < 1) {
+    return null;
+  }
+  return (weightKg * 100).round() / 100 + (reps > 999 ? 999 : reps) / 100000;
+}
+
+/// Váha z [recordValue] bez příspěvku opakování (na setiny kg).
+double recordWeightOf(double value) => (value * 100).floor() / 100;
+
+/// Odhad maxima na 1 opakování podle Epleyho vzorce: w × (1 + r / 30).
+///
+/// V aplikaci se **nezobrazuje** – slouží jen k výpočtu navrhované
+/// pracovní váhy pro jiný počet opakování ([suggestWorkingWeight]).
 /// Vrací null pro neplatné vstupy. Pro 1 opakování vrací přímo váhu.
-/// Nad 12 opakování je odhad výrazně nepřesný – volající může
-/// takové série ze statistik vynechat.
 double? estimateOneRepMax(double weightKg, int reps) {
   if (weightKg <= 0 || reps <= 0) return null;
   if (reps == 1) return weightKg;
@@ -22,8 +37,8 @@ double estimateKcal({
   return met * bodyWeightKg * duration.inSeconds / 3600;
 }
 
-/// Maximální váha pro daný počet opakování z odhadu 1RM
-/// (obrácený Epleyho vzorec): w = 1RM / (1 + r / 30).
+/// Maximální váha pro daný počet opakování z odhadu maxima
+/// (obrácený Epleyho vzorec): w = max / (1 + r / 30).
 double weightForReps(double oneRepMax, int reps) {
   if (oneRepMax <= 0 || reps <= 0) return 0;
   if (reps == 1) return oneRepMax;

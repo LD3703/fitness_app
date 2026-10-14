@@ -7,8 +7,8 @@ import 'package:intl/intl.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers.dart';
-import '../../ui/format.dart';
 import '../../ui/labels.dart';
+import '../../ui/set_format.dart';
 import 'challenge_link.dart';
 import 'challenge_progress.dart';
 import 'challenge_service.dart';
@@ -20,12 +20,28 @@ const kChallengeRoute = '/challenge';
 GoRoute challengeRoute() => GoRoute(
       path: kChallengeRoute,
       builder: (context, state) => ChallengeScreen(
-        link: ChallengeLink.fromQuery(state.uri.queryParameters),
+        link: _linkFromUri(state.uri),
       ),
     );
 
+/// Parametry výzvy z adresy. Neplatné kódování (např. „%FF“) vyhodí
+/// výjimku až při čtení parametrů – pak je to neplatný odkaz (obrazovka
+/// to oznámí), ne chybová stránka navigace. Builder routy nesmí spadnout
+/// na žádné chybě dekódování (FormatException i ArgumentError).
+ChallengeLink? _linkFromUri(Uri uri) {
+  try {
+    return ChallengeLink.fromQuery(uri.queryParameters);
+  } catch (_) {
+    return null;
+  }
+}
+
 /// Co jsme o výzvě zjistili z databáze.
-typedef _Resolved = ({Exercise? exercise, double? best, bool duplicate});
+typedef _Resolved = ({
+  Exercise? exercise,
+  ExerciseRecord? record,
+  bool duplicate,
+});
 
 /// Obrazovka „Kamarád tě vyzývá“: přijmout / odmítnout.
 class ChallengeScreen extends ConsumerStatefulWidget {
@@ -66,16 +82,16 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
         exercise = await db.exerciseById(id);
       }
     }
-    final best =
-        exercise == null ? null : (await db.exerciseRecord(exercise.id))?.oneRepMax;
+    final record =
+        exercise == null ? null : await db.exerciseRecord(exercise.id);
     final duplicate = exercise != null &&
         await db.hasOpenRecordChallenge(
           exerciseId: exercise.id,
           exerciseSlug: exercise.slug,
-          targetValue: link.value,
+          targetValue: link.target,
           fromName: link.fromName,
         );
-    return (exercise: exercise, best: best, duplicate: duplicate);
+    return (exercise: exercise, record: record, duplicate: duplicate);
   }
 
   void _close() {
@@ -96,7 +112,7 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
         kind: ChallengeKind.beatRecord,
         exerciseSlug: Value(exercise.slug),
         exerciseId: Value(exercise.id),
-        targetValue: link.value,
+        targetValue: link.target,
         fromName: Value(link.fromName),
         createdAt: DateTime.now(),
         deadline: Value(link.deadline),
@@ -160,11 +176,11 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
     final expired = deadline != null &&
         challengeState(deadline: deadline, now: DateTime.now()) ==
             ChallengeState.expired;
-    final best = data.best;
+    final best = data.record;
     final progress = challengeProgress(
       ChallengeKind.beatRecord,
-      link.value,
-      bestOneRepMax: best,
+      link.target,
+      bestTopWeight: best?.value,
     );
 
     final notices = <String>[
@@ -176,6 +192,9 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
     ];
     final canAccept =
         exercise != null && !expired && !data.duplicate && !_busy;
+    // Lokální proměnná s typem bez null – funguje stejně ve všech verzích
+    // Dartu (povýšení typu přes canAccept některé verze neumí).
+    final acceptable = canAccept ? exercise : null;
 
     return ListView(
       padding: const EdgeInsets.all(24),
@@ -200,7 +219,8 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                 Text(exerciseName, style: theme.textTheme.titleLarge),
                 const SizedBox(height: 8),
                 Text(
-                  l10n.shareChallengeGoal(formatWeightWithUnit(context, link.value)),
+                  l10n.shareChallengeGoal(
+                      describeTopSet(context, link.value, link.reps)),
                   style: theme.textTheme.titleMedium
                       ?.copyWith(color: theme.colorScheme.primary),
                 ),
@@ -209,7 +229,7 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                   Text(best == null
                       ? l10n.shareChallengeNoRecord
                       : l10n.shareChallengeYourBest(
-                          formatWeightWithUnit(context, best))),
+                          describeTopSet(context, best.weightKg, best.reps))),
                   const SizedBox(height: 8),
                   LinearProgressIndicator(
                     value: progress.fraction,
@@ -241,9 +261,8 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
         ],
         const SizedBox(height: 24),
         FilledButton.icon(
-          onPressed: canAccept && exercise != null
-              ? () => _accept(link, exercise)
-              : null,
+          onPressed:
+              acceptable == null ? null : () => _accept(link, acceptable),
           icon: const Icon(Icons.check),
           label: Text(l10n.shareChallengeAccept),
         ),

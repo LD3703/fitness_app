@@ -309,10 +309,21 @@ class _WeeklyBarChartState extends State<WeeklyBarChart> {
   int? _selected;
 
   @override
+  void didUpdateWidget(covariant WeeklyBarChart oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Jiný počet sloupců (např. kratší období): vybraný index by mohl
+    // ukazovat mimo data nebo na jiný týden – výběr zrušíme.
+    if (widget.values.length != oldWidget.values.length) _selected = null;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final maxV = math.max(1, widget.values.fold<int>(0, math.max));
-    final sel = _selected;
+    // Pojistka: index mimo rozsah se nezobrazí.
+    final sel = _selected != null && _selected! < widget.values.length
+        ? _selected
+        : null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

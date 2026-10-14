@@ -1,4 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart' show FieldValue;
+import 'package:cloud_firestore/cloud_firestore.dart'
+    show FieldValue, FirebaseException;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -134,7 +135,7 @@ abstract final class SocialPublisher {
         }
       }
 
-      // Úklid: relativní síla (1RM ÷ tělesná váha) z dřívějších verzí
+      // Úklid: relativní síla (síla ÷ tělesná váha) z dřívějších verzí
       // se už nepočítá ani nesdílí – staré pole smažeme.
       fields['relStrength'] = FieldValue.delete();
 
@@ -179,7 +180,10 @@ abstract final class SocialPublisher {
           'exerciseSlug': slug,
           'exerciseNameEn': r.exercise.nameEn,
           'exerciseNameCs': r.exercise.nameCs,
-          'value': roundRecord(r.newOneRepMax),
+          // recordValue nejtěžší série (váha + nepatrný díl za opakování,
+          // aby výzva „překonej“ znamenala víc kg nebo víc opakování).
+          'value': r.newBest,
+          'reps': r.reps,
         });
       } catch (e) {
         debugPrint('Social: publish record failed: $e');
@@ -218,45 +222,66 @@ abstract final class SocialPublisher {
       final myName = displayName(profile);
 
       for (final c in locals) {
-        final remoteId = c.remoteId!;
         if (c.dismissedAt != null) continue;
         final deadline = c.deadline;
         if (deadline != null &&
             now.isAfter(deadline.add(const Duration(days: 7)))) {
           continue;
         }
-
-        final progress = await _progress(db, c);
-        if (progress != null && _reportedProgress[remoteId] != progress) {
-          await SocialService.instance
-              .reportChallenge(remoteId, progress: progress);
-          _reportedProgress[remoteId] = progress;
-        }
-
-        final done = c.completedAt;
-        if (done != null && !_reportedDone.contains(remoteId)) {
-          final remote = await SocialService.instance.getChallenge(remoteId);
-          final me = SocialService.instance.uid;
-          if (remote != null && me != null && remote.completed[me] == null) {
-            await SocialService.instance
-                .reportChallenge(remoteId, completedAt: done);
-            await SocialService.instance.fanOut(
-              FeedType.challengeDone,
-              myName,
-              {
-                'challengeId': remoteId,
-                'kind': remote.kind,
-                if (remote.exerciseSlug != null)
-                  'exerciseSlug': remote.exerciseSlug,
-              },
-              to: [remote.otherMember(me)],
-            );
-          }
-          _reportedDone.add(remoteId);
-        }
+        await _syncChallenge(db, c, myName);
       }
     } catch (e) {
       debugPrint('Social: challenge sync failed: $e');
+    }
+  }
+
+  /// Jedna výzva. Chyba (výzvu mezitím smazal přítel…) nezastaví ostatní;
+  /// když výzva na serveru už není, lokální výzva zapomene remoteId.
+  static Future<void> _syncChallenge(
+    AppDatabase db,
+    Challenge c,
+    String myName,
+  ) async {
+    final remoteId = c.remoteId!;
+    try {
+      final progress = await _progress(db, c);
+      if (progress != null && _reportedProgress[remoteId] != progress) {
+        await SocialService.instance
+            .reportChallenge(remoteId, progress: progress);
+        _reportedProgress[remoteId] = progress;
+      }
+
+      final done = c.completedAt;
+      if (done != null && !_reportedDone.contains(remoteId)) {
+        final remote = await SocialService.instance.getChallenge(remoteId);
+        final me = SocialService.instance.uid;
+        if (remote != null && me != null && remote.completed[me] == null) {
+          await SocialService.instance
+              .reportChallenge(remoteId, completedAt: done);
+          await SocialService.instance.fanOut(
+            FeedType.challengeDone,
+            myName,
+            {
+              'challengeId': remoteId,
+              'kind': remote.kind,
+              if (remote.exerciseSlug != null)
+                'exerciseSlug': remote.exerciseSlug,
+            },
+            to: [remote.otherMember(me)],
+          );
+        }
+        _reportedDone.add(remoteId);
+      }
+    } catch (e) {
+      debugPrint('Social: challenge $remoteId sync failed: $e');
+      if (e is FirebaseException && isGoneRemoteChallengeError(e.code)) {
+        try {
+          await db.socialForgetRemoteId(remoteId);
+          _reportedProgress.remove(remoteId);
+        } catch (e2) {
+          debugPrint('Social: forgetting challenge $remoteId failed: $e2');
+        }
+      }
     }
   }
 
@@ -281,8 +306,13 @@ abstract final class SocialPublisher {
   // -------------------------------------------------------------------
 
   /// Přijatá pozvánka (odpověď přítele) → trénink i do mého kalendáře.
+  /// Položku novinek píše přítel, proto rozhoduje pozvánka na serveru:
+  /// musí být moje, poslaná tomu, kdo odpověděl, a přijatá; název, čas
+  /// a délka se berou z ní.
   static Future<void> processInbox(List<FeedItem> items) async {
     if (!_ready) return;
+    final me = SocialService.instance.uid;
+    if (me == null) return;
     for (final item in items) {
       if (item.type != FeedType.inviteReply ||
           item.handled ||
@@ -291,15 +321,24 @@ abstract final class SocialPublisher {
       }
       _handledFeed.add(item.id);
       try {
-        final start = item.date('startAt');
-        if (item.data['accepted'] == true &&
-            start != null &&
-            start.isAfter(DateTime.now())) {
+        final id = item.str('invitationId');
+        final inv = item.data['accepted'] == true && isValidDocId(id)
+            ? await SocialService.instance.getInvitation(id!)
+            : null;
+        if (inv != null &&
+            isAcceptedReplyTo(
+              me: me,
+              replierUid: item.fromUid,
+              invitationFromUid: inv.fromUid,
+              invitationToUid: inv.toUid,
+              invitationStatus: inv.status,
+            ) &&
+            inv.startAt.isAfter(DateTime.now())) {
           await addSocialWorkoutToCalendar(
-            planName: item.str('planName') ?? '',
+            planName: inv.planName,
             friendName: item.fromName,
-            start: start,
-            durationMinutes: item.number('durationMinutes')?.round() ?? 60,
+            start: inv.startAt,
+            durationMinutes: inv.durationMinutes,
             askPermission: false,
           );
         }

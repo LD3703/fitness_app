@@ -22,14 +22,14 @@ final statsSessionBestsProvider = StreamProvider<List<SessionBest>>(
   (ref) => ref.watch(databaseProvider).watchSessionBests(),
 );
 
-/// Odhad 1RM po trénincích, podle ID cviku (seřazené podle data).
-final statsOneRepMaxByExerciseProvider =
+/// Nejtěžší série po trénincích, podle ID cviku (seřazené podle data).
+final statsTopWeightByExerciseProvider =
     Provider<Map<int, List<StatPoint>>?>((ref) {
   final bests = ref.watch(statsSessionBestsProvider).valueOrNull;
   if (bests == null) return null;
   final result = <int, List<StatPoint>>{};
   for (final b in bests) {
-    (result[b.exerciseId] ??= []).add((x: b.date, y: b.oneRepMax));
+    (result[b.exerciseId] ??= []).add((x: b.date, y: b.value));
   }
   for (final list in result.values) {
     list.sort((a, b) => a.x.compareTo(b.x));
@@ -37,14 +37,14 @@ final statsOneRepMaxByExerciseProvider =
   return result;
 });
 
-/// Osobní rekord každého cviku (nejvyšší odhad 1RM a série, ze které je).
+/// Osobní rekord každého cviku (nejtěžší série).
 final statsRecordsProvider = Provider<List<SessionBest>?>((ref) {
   final bests = ref.watch(statsSessionBestsProvider).valueOrNull;
   if (bests == null) return null;
   final best = <int, SessionBest>{};
   for (final b in bests) {
     final current = best[b.exerciseId];
-    if (current == null || b.oneRepMax > current.oneRepMax) {
+    if (current == null || b.value > current.value) {
       best[b.exerciseId] = b;
     }
   }
@@ -91,10 +91,10 @@ List<StatPoint> _weightPoints(List<BodyWeightEntry> entries) =>
 /// Automatické postřehy (null, dokud se data načítají).
 final statsInsightsProvider = Provider<List<Insight>?>((ref) {
   final profile = ref.watch(profileProvider).valueOrNull;
-  final e1rm = ref.watch(statsOneRepMaxByExerciseProvider);
+  final topWeights = ref.watch(statsTopWeightByExerciseProvider);
   final dates = ref.watch(statsWorkoutDatesProvider).valueOrNull;
   final groups = ref.watch(statsGroupSessionsProvider).valueOrNull;
-  if (profile == null || e1rm == null || dates == null || groups == null) {
+  if (profile == null || topWeights == null || dates == null || groups == null) {
     return null;
   }
   final weights = profile.trackWeight
@@ -113,7 +113,7 @@ final statsInsightsProvider = Provider<List<Insight>?>((ref) {
         (type: p.type, start: p.startDate, end: p.endDate),
     ],
     weights: _weightPoints(weights),
-    oneRepMaxByExercise: e1rm,
+    topWeightByExercise: topWeights,
     groupSessions: groups,
     sessionDates: dates,
     weekdayMasks: [for (final p in plans) p.weekdaysMask],

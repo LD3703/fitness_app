@@ -1,7 +1,7 @@
 name: fitness_app
 description: Gym tracker s obdobími (nemoc, cut, bulk), pitným režimem a plánem B.
 publish_to: 'none'
-version: 0.1.0+1
+version: 0.3.10+17
 
 environment:
   sdk: ^3.6.0
@@ -57,7 +57,15 @@ dependencies:
   sign_in_with_apple: ^8.1.0
   crypto: ^3.0.7
   qr_flutter: ^4.1.0
+  # Trenér a klient – společná logika s webem pro trenéry (docs/coach.md).
+  gymbar_coach:
+    path: packages/gymbar_coach
+  # Vytištěný žebříček posilovny (A4 PDF → systémový tisk), gym_print.dart.
+  pdf: ^3.11.3
+  printing: ^5.14.2
   mobile_scanner: ^7.4.2
+  # Posilovny v okolí (poloha jen v telefonu, viz docs/gyms_import.md)
+  geolocator: ^14.1.1
   #
   # [deps:cloud]
   # Automatická záloha do Firebase Cloud Storage (docs/social.md, „Automatická záloha“)
@@ -69,6 +77,9 @@ dependencies:
   # [deps:wear]
   # Hodinky s Wear OS (Wearable Data Layer); stejný balíček používá wear/
   watch_connectivity: ^0.2.10
+  # [deps:crash]
+  # Hlášení o pádech (jen release, s Firebase, lze vypnout v Profilu)
+  firebase_crashlytics: ^5.0.0
   # [deps:premium]
   # Předplatné Premium přes RevenueCat (aktivní až s kPremiumLaunched = true)
   purchases_flutter: ^10.14.0
@@ -81,6 +92,10 @@ dev_dependencies:
   # Generování kódu pro databázi
   drift_dev: ^2.26.0
   build_runner: ^2.4.15
+  # Ikona aplikace (flutter_launcher_icons.yaml)
+  flutter_launcher_icons: ^0.14.4
+  # Úvodní obrazovka (flutter_native_splash.yaml)
+  flutter_native_splash: ^2.4.0
 
 flutter:
   uses-material-design: true
@@ -88,3 +103,13 @@ flutter:
   assets:
     # Obrázky cviků z wger.de (tool/wger_import.dart)
     - assets/exercises/
+    # Licence písma Archivo (zobrazí se v O aplikaci → Licence)
+    - assets/fonts/OFL.txt
+  fonts:
+    # Písmo z loga GymBar – jen nadpisy (lib/ui/theme.dart)
+    - family: Archivo
+      fonts:
+        - asset: assets/fonts/Archivo-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Archivo-ExtraBold.ttf
+          weight: 800

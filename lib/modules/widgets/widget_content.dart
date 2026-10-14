@@ -2,12 +2,12 @@
 
 import 'package:intl/intl.dart';
 
-/// Schéma odkazů z widgetu. Záměrně jiné než kAppLinkScheme (fitnessapp),
+/// Schéma odkazů z widgetu. Záměrně jiné než kAppLinkScheme (gymbar),
 /// aby odkaz z widgetu nezpracoval i posluchač app_links (deep_links.dart)
 /// a voda se nepřičetla dvakrát.
 const kWidgetUriScheme = 'homewidget';
 
-/// Hosty odkazů: homewidget://open, homewidget://water?ml=250&n=<nonce>
+/// Hosty odkazů: homewidget://open, `homewidget://water?ml=250&n=<nonce>`
 const kWidgetHostOpen = 'open';
 const kWidgetHostWater = 'water';
 

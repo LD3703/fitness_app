@@ -17,6 +17,12 @@ extension LabelsX on AppLocalizations {
         MuscleGroup.glutes => muscleGlutes,
         MuscleGroup.core => muscleCore,
         MuscleGroup.fullBody => muscleFullBody,
+        MuscleGroup.quads => muscleQuads,
+        MuscleGroup.hamstrings => muscleHamstrings,
+        MuscleGroup.calves => muscleCalves,
+        MuscleGroup.forearms => muscleForearms,
+        MuscleGroup.traps => muscleTraps,
+        MuscleGroup.lowerBack => muscleLowerBack,
       };
 
   String equipment(Equipment e) => switch (e) {
@@ -27,6 +33,25 @@ extension LabelsX on AppLocalizations {
         Equipment.bodyweight => equipmentBodyweight,
         Equipment.kettlebell => equipmentKettlebell,
         Equipment.band => equipmentBand,
+      };
+
+  String trainingFocus(TrainingFocus f) => switch (f) {
+        TrainingFocus.strength => focusStrength,
+        TrainingFocus.muscle => focusMuscle,
+        TrainingFocus.conditioning => focusConditioning,
+      };
+
+  String trainingFocusHint(TrainingFocus f) => switch (f) {
+        TrainingFocus.strength => focusStrengthHint,
+        TrainingFocus.muscle => focusMuscleHint,
+        TrainingFocus.conditioning => focusConditioningHint,
+      };
+
+  /// Pohlaví z profilu; null = neuvedeno.
+  String sex(Sex? s) => switch (s) {
+        Sex.male => sexMale,
+        Sex.female => sexFemale,
+        null => sexUnspecified,
       };
 
   String periodType(PeriodType p) => switch (p) {

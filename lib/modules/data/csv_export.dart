@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 import '../../data/database.dart';
+import '../../features/workout/workout_service.dart' show blockRowOf;
 import 'csv.dart';
 import 'data_queries.dart';
 
@@ -41,9 +42,7 @@ Future<List<File>> writeCsvExport(AppDatabase db) async {
               w.session.endedAt,
               w.session.kind.name,
               w.planName,
-              w.session.estimatedKcal == null
-                  ? null
-                  : w.session.estimatedKcal!.roundToDouble(),
+              w.session.estimatedKcal?.roundToDouble(),
               w.session.feeling?.name,
             ],
         ],
@@ -72,7 +71,8 @@ Future<List<File>> writeCsvExport(AppDatabase db) async {
               csvDate(s.session.startedAt),
               s.exercise.nameEn,
               s.exercise.slug,
-              s.set.position + 1,
+              // Číslo série v bloku (další výskyt cviku má pozice od 1000).
+              blockRowOf(s.set.position) + 1,
               s.set.isWarmup,
               s.set.isDrop,
               s.set.supersetGroup,

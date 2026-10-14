@@ -34,9 +34,21 @@ void main() {
 
   test('strop 100 %', () {
     final r = computeFatigue([
-      session(now, List.filled(30, workSet(MuscleGroup.legs))),
+      session(now, List.filled(30, workSet(MuscleGroup.quads))),
     ], now);
-    expect(r.percent[MuscleGroup.legs], 100);
+    expect(r.percent[MuscleGroup.quads], 100);
+  });
+
+  test('souhrnné nohy se rozloží do stehen, hamstringů a lýtek', () {
+    final r = computeFatigue([
+      session(now, List.filled(12, workSet(MuscleGroup.legs))),
+    ], now);
+    expect(r.percent[MuscleGroup.quads], closeTo(100, 0.001));
+    expect(r.percent[MuscleGroup.hamstrings], closeTo(100, 0.001));
+    expect(r.percent[MuscleGroup.calves], closeTo(50, 0.001));
+    expect(r.percent.containsKey(MuscleGroup.legs), isFalse);
+    expect(fatiguePercentOf(r, MuscleGroup.legs), closeTo(100, 0.001));
+    expect(mostFatiguedOf(r, {MuscleGroup.legs})?.key, MuscleGroup.quads);
   });
 
   test('vedlejší partie 0,5, rozcvička 0, drop 0,7', () {

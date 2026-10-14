@@ -10,8 +10,81 @@
     {
       "source": "functions",
       "codebase": "default",
-      "ignore": ["node_modules", ".git", "firebase-debug.log", "firebase-debug.*.log", "*.local"],
-      "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run build"]
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
     }
-  ]
+  ],
+  "hosting": {
+    "public": "docs/web",
+    "ignore": [
+      "firebase.json",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "rewrites": [
+      {
+        "source": "/friend",
+        "destination": "/join.html"
+      },
+      {
+        "source": "/gym",
+        "destination": "/join.html"
+      },
+      {
+        "source": "/coach",
+        "destination": "/join.html"
+      },
+      {
+        "source": "/plan",
+        "destination": "/join.html"
+      },
+      {
+        "source": "/trener",
+        "destination": "/trener/index.html"
+      },
+      {
+        "source": "/trener/**",
+        "destination": "/trener/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(png|svg)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=604800"
+          }
+        ]
+      },
+      {
+        "source": "/.well-known/apple-app-site-association",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      {
+        "source": "/trener/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      }
+    ],
+    "appAssociation": "NONE"
+  }
 }

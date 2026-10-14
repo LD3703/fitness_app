@@ -40,9 +40,15 @@ const kPreferredToMinutes = 18 * 60;
 DateTime _at(DateTime day, int minutes) =>
     DateTime(day.year, day.month, day.day, minutes ~/ 60, minutes % 60);
 
+/// Minuty od půlnoci dne [day] podle času na hodinách (17:00 = 1020).
+/// Ne podle uplynulé doby: v den změny času (letní ↔ zimní) by 17:00
+/// bylo 16 nebo 18 hodin od půlnoci a návrh by se posunul o hodinu.
+/// Čas v dalším dni (např. konec okna o půlnoci) dostane +24 h.
 int _minutesOf(DateTime day, DateTime t) {
-  final midnight = DateTime(day.year, day.month, day.day);
-  return t.difference(midnight).inMinutes;
+  final days = DateTime.utc(t.year, t.month, t.day)
+      .difference(DateTime.utc(day.year, day.month, day.day))
+      .inDays;
+  return days * 24 * 60 + t.hour * 60 + t.minute;
 }
 
 /// Události, které trénink [start, end) překrývají (celodenní se ignorují).

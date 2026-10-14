@@ -27,21 +27,6 @@
     "en": "Your record",
     "cs": "Tvůj rekord"
   },
-  "shareRecordValue": {
-    "en": "{weight} kg × {reps} · est. 1RM {oneRm} kg",
-    "cs": "{weight} kg × {reps} · odhad 1RM {oneRm} kg",
-    "placeholders": {
-      "weight": {
-        "type": "String"
-      },
-      "reps": {
-        "type": "int"
-      },
-      "oneRm": {
-        "type": "String"
-      }
-    }
-  },
   "shareChallengeButton": {
     "en": "Challenge a friend",
     "cs": "Vyzvat kamaráda"
@@ -53,15 +38,6 @@
   "shareCardWorkoutLabel": {
     "en": "Workout done",
     "cs": "Trénink hotový"
-  },
-  "shareCardOneRepMax": {
-    "en": "Est. 1RM {value} kg",
-    "cs": "Odhad 1RM {value} kg",
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
   },
   "shareCardDuration": {
     "en": "Time",
@@ -94,8 +70,8 @@
     }
   },
   "shareRecordText": {
-    "en": "New personal record! {exercise}: {weight} kg × {reps} (est. 1RM {oneRm} kg) 💪 {link}",
-    "cs": "Nový osobní rekord! {exercise}: {weight} kg × {reps} (odhad 1RM {oneRm} kg) 💪 {link}",
+    "en": "New personal record! {exercise}: {weight} × {reps} 💪 {link}",
+    "cs": "Nový osobní rekord! {exercise}: {weight} × {reps} 💪 {link}",
     "placeholders": {
       "exercise": {
         "type": "String"
@@ -105,9 +81,6 @@
       },
       "reps": {
         "type": "int"
-      },
-      "oneRm": {
-        "type": "String"
       },
       "link": {
         "type": "String"
@@ -133,8 +106,8 @@
     }
   },
   "shareChallengeText": {
-    "en": "I did {weight} kg × {reps} on {exercise} (est. 1RM {oneRm} kg). Can you beat me by {deadline}? {link}",
-    "cs": "Dal jsem {weight} kg × {reps} na {exercise} (odhad 1RM {oneRm} kg). Překonáš mě do {deadline}? {link}",
+    "en": "I did {weight} × {reps} on {exercise}. Can you beat me by {deadline}? {link}",
+    "cs": "Dal jsem {weight} × {reps} na {exercise}. Překonáš mě do {deadline}? {link}",
     "placeholders": {
       "exercise": {
         "type": "String"
@@ -144,9 +117,6 @@
       },
       "reps": {
         "type": "int"
-      },
-      "oneRm": {
-        "type": "String"
       },
       "deadline": {
         "type": "String"
@@ -174,8 +144,8 @@
     "cs": "Kamarád tě vyzývá!"
   },
   "shareChallengeGoal": {
-    "en": "Beat an estimated 1RM of {value} kg",
-    "cs": "Překonej odhad 1RM {value} kg",
+    "en": "Beat {value} – more weight, or more reps at the same weight",
+    "cs": "Překonej {value} – víc kg, nebo stejná váha na víc opakování",
     "placeholders": {
       "value": {
         "type": "String"
@@ -184,7 +154,7 @@
   },
   "shareChallengeYourBest": {
     "en": "Your best: {value} kg",
-    "cs": "Tvoje maximum: {value} kg",
+    "cs": "Tvůj rekord: {value} kg",
     "placeholders": {
       "value": {
         "type": "String"
@@ -331,8 +301,8 @@
     "cs": "Výzva splněna! 🎉"
   },
   "shareCompletedRecord": {
-    "en": "Challenge completed: {exercise} with est. 1RM {value} kg! 🎉 {link}",
-    "cs": "Výzva splněna: {exercise} s odhadem 1RM {value} kg! 🎉 {link}",
+    "en": "Challenge completed: {exercise} – {value}! 🎉 {link}",
+    "cs": "Výzva splněna: {exercise} – {value}! 🎉 {link}",
     "placeholders": {
       "exercise": {
         "type": "String"
@@ -346,8 +316,8 @@
     }
   },
   "shareCompletedRecordFrom": {
-    "en": "I beat {name}'s challenge: {exercise} with est. 1RM {value} kg! 🎉 {link}",
-    "cs": "Překonal jsem výzvu od {name}: {exercise} s odhadem 1RM {value} kg! 🎉 {link}",
+    "en": "I beat {name}'s challenge: {exercise} – {value}! 🎉 {link}",
+    "cs": "Překonal jsem výzvu od {name}: {exercise} – {value}! 🎉 {link}",
     "placeholders": {
       "name": {
         "type": "String"

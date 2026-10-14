@@ -84,13 +84,13 @@ class ChallengeProgress {
 /// Průběh výzvy podle naměřených hodnot. Hodnoty, které se druhu
 /// výzvy netýkají, se ignorují.
 ///
-/// - beatRecord: nejlepší odhad 1RM v cviku (null = bez rekordu → 0),
+/// - beatRecord: nejtěžší série v cviku jako recordValue (null = bez rekordu → 0),
 /// - workoutsInMonth: dokončené tréninky v aktuálním měsíci,
 /// - weeklyWater: ml vody v aktuálním týdnu (po–ne).
 ChallengeProgress challengeProgress(
   ChallengeKind kind,
   double target, {
-  double? bestOneRepMax,
+  double? bestTopWeight,
   int workoutsThisMonth = 0,
   int waterMlThisWeek = 0,
 }) =>
@@ -98,7 +98,7 @@ ChallengeProgress challengeProgress(
       kind: kind,
       target: target,
       current: switch (kind) {
-        ChallengeKind.beatRecord => bestOneRepMax ?? 0,
+        ChallengeKind.beatRecord => bestTopWeight ?? 0,
         ChallengeKind.workoutsInMonth => workoutsThisMonth.toDouble(),
         ChallengeKind.weeklyWater => waterMlThisWeek.toDouble(),
       },

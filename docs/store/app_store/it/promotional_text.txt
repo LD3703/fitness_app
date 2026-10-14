@@ -1,0 +1,1 @@
+Registra una serie in pochi secondi. L’app propone il carico per la prossima volta, controlla il sovraccarico progressivo e mostra chi è il più forte in palestra.

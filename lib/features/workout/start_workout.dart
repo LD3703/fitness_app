@@ -1,12 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/coach_tone.dart';
 import '../../core/fatigue.dart';
+import '../../core/rest_time.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers.dart';
+import '../../services/notification_service.dart';
 import '../../ui/coach_messages.dart';
 import '../../ui/labels.dart';
 import '../fatigue/fatigue_providers.dart';
@@ -15,9 +19,27 @@ enum _ActiveChoice { resume, discardAndStart }
 
 enum _FatigueChoice { trainAnyway, planB, postpone }
 
+/// Právě běží [startWorkout] – dvojité klepnutí na „Začít“ by jinak
+/// vytvořilo dva tréninky.
+bool _starting = false;
+
 /// Spustí nový trénink (volitelně podle plánu) a otevře jeho obrazovku.
 /// Pokud už nějaký trénink probíhá, nabídne pokračování nebo jeho zahození.
 Future<void> startWorkout(
+  BuildContext context,
+  WidgetRef ref, {
+  int? planId,
+}) async {
+  if (_starting) return;
+  _starting = true;
+  try {
+    await _startWorkout(context, ref, planId: planId);
+  } finally {
+    _starting = false;
+  }
+}
+
+Future<void> _startWorkout(
   BuildContext context,
   WidgetRef ref, {
   int? planId,
@@ -55,16 +77,30 @@ Future<void> startWorkout(
       context.push('/workout/${active.id}');
       return;
     }
-    await db.discardSession(active.id);
-    if (!context.mounted) return;
   }
 
+  // Únava se ověří ještě před zahozením rozpracovaného tréninku – když
+  // uživatel zvolí plán B nebo odklad, starý trénink zůstane.
   if (planId != null) {
     final proceed = await _checkFatigue(context, ref, planId);
     if (!proceed || !context.mounted) return;
   }
 
-  final id = await db.startSession(planId: planId);
+  if (active != null) {
+    await db.discardSession(active.id);
+    // Upozornění na konec pauzy zahozeného tréninku (pauza běží dál i po
+    // odchodu z jeho obrazovky) by v novém tréninku jen mátlo.
+    unawaited(NotificationService.instance.cancelRestEnd());
+    if (!context.mounted) return;
+  }
+
+  // Zaměření (síla / svaly / kondice) podle posledního tréninku; dá se
+  // změnit nahoře na obrazovce tréninku.
+  final profile = await db.watchProfile().first;
+  final id = await db.startSession(
+    planId: planId,
+    focus: trainingFocusOf(profile.trainingFocus),
+  );
   if (!context.mounted) return;
   context.push('/workout/$id');
 }
@@ -87,7 +123,7 @@ Future<bool> _checkFatigue(
     final groups = {
       for (final it in items)
         if (it.exercise.muscleGroup != MuscleGroup.fullBody &&
-            !injured.contains(it.exercise.muscleGroup))
+            !injured.any((g) => g.overlaps(it.exercise.muscleGroup)))
           it.exercise.muscleGroup,
     };
     if (groups.isEmpty) return true;

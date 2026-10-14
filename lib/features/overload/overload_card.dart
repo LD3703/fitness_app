@@ -50,7 +50,7 @@ String formatSignedPercent(BuildContext context, double percent) {
   return rounded > 0 ? '+$text' : '−$text';
 }
 
-/// „Bench press: 1RM +3 %“ / „Objem +8 %“.
+/// „Bench press: nejtěžší váha +3 %“ / „Objem +8 %“.
 String overloadReasonText(
   BuildContext context,
   OverloadReason reason,
@@ -59,9 +59,9 @@ String overloadReasonText(
   final l10n = AppLocalizations.of(context);
   final change = formatSignedPercent(context, reason.percent);
   switch (reason.kind) {
-    case OverloadReasonKind.oneRepMax:
+    case OverloadReasonKind.topWeight:
       final exercise = exercises[reason.exerciseId];
-      return l10n.overloadReasonOneRepMax(
+      return l10n.overloadReasonTopWeight(
         exercise?.localizedName(context) ?? l10n.statsUnknownExercise,
         change,
       );

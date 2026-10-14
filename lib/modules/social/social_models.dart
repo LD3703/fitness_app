@@ -257,7 +257,7 @@ class RemoteChallenge {
   final List<String> members;
   final String kind;
 
-  /// beatRecord: kg (odhad 1RM), workoutsInMonth: počet,
+  /// beatRecord: kg nejtěžší série (recordValue), workoutsInMonth: počet,
   /// weeklyWater: 100 (%) – množství vody se nikdy neposílá.
   final double target;
   final DateTime deadline;

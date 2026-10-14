@@ -12,11 +12,21 @@ bool isPlausibleWeightKg(double kg) => kg >= 20 && kg <= 400;
 /// Zaokrouhlení na 0,1 kg (stejná přesnost jako ruční zápis v aplikaci).
 double roundWeightKg(double kg) => (kg * 10).round() / 10;
 
+/// Stejná váha po zaokrouhlení na 0,1 kg (Health může vrátit 80.0000001).
+bool sameWeightKg(double a, double b) => (a * 10).round() == (b * 10).round();
+
 /// Váhy z Health, které chybí v aplikaci: pro každý den bez záznamu
 /// v aplikaci poslední měření toho dne. Klíč = půlnoc dne.
+///
+/// [ownExports] = co do Health zapsala sama aplikace (den → kg). Když je
+/// poslední měření dne právě tahle hodnota, pochází z aplikace – a když
+/// v aplikaci ten den záznam chybí, uživatel ho smazal. Takové měření se
+/// zpátky nenačte (jinak by se smazaná váha při další synchronizaci
+/// vrátila). Jiná hodnota (např. z chytré váhy) se načte normálně.
 Map<DateTime, double> weightsToImport({
   required Iterable<WeightSample> health,
   required Set<DateTime> appDays,
+  Map<DateTime, double> ownExports = const {},
 }) {
   final latest = <DateTime, WeightSample>{};
   for (final s in health) {
@@ -27,9 +37,14 @@ Map<DateTime, double> weightsToImport({
     if (prev == null || s.at.isAfter(prev.at)) latest[day] = s;
   }
   return {
-    for (final e in latest.entries) e.key: roundWeightKg(e.value.kg),
+    for (final e in latest.entries)
+      if (!_isOwnExport(ownExports[e.key], e.value.kg))
+        e.key: roundWeightKg(e.value.kg),
   };
 }
+
+bool _isOwnExport(double? exported, double kg) =>
+    exported != null && sameWeightKg(exported, kg);
 
 /// Záznamy váhy z aplikace, které v Health pro daný den ještě nejsou.
 /// [alreadyExported] = co už aplikace zapsala dřív (den → kg); brání

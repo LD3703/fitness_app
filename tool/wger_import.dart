@@ -8,7 +8,10 @@
 //     (podle anglického názvu). Má-li cvik animovaný GIF / WebP, stáhne
 //     ho (přednost); jinak stáhne až 2 obrázky (výchozí a koncová
 //     poloha – v aplikaci se střídají jako jednoduchá animace).
-//  2. Obrázky uloží do assets/exercises/<slug>_<n>.<přípona>.
+//  2. Obrázky stáhne do dočasné složky .dart_tool/wger_import/ a až na
+//     konci je přesune do assets/exercises/<slug>_<n>.<přípona>. Když
+//     stažení cviku selže (výpadek sítě), cvik si ponechá předchozí
+//     obrázky. Staré nepoužívané soubory se smažou až po zápisu manifestu.
 //  3. Zapíše tool/media/wger_media.json a vygeneruje
 //     lib/data/seed/exercise_media.dart s cestami a autory (licence
 //     CC BY-SA vyžaduje uvést autora – aplikace ho zobrazuje). Koupené
@@ -93,6 +96,121 @@ const _searchTerms = <String, List<String>>{
   'kettlebell_swing': ['Kettlebell Swing', 'Kettlebell Swings'],
   'weighted_pull_up': ['Weighted Pull-Up', 'Weighted Pull Up', 'Pull-Up'],
   'weighted_dips': ['Weighted Dips', 'Weighted Dip', 'Dips'],
+  'barbell_shrug': ['Barbell Shrug', 'Shrugs, Barbells', 'Shrug'],
+  'dumbbell_shrug': ['Dumbbell Shrug', 'Shrugs, Dumbbells', 'Shrug'],
+  'wrist_curl': ['Wrist Curl', 'Dumbbell Wrist Curl', 'Wrist Curls'],
+  'reverse_curl': ['Reverse Curl', 'Reverse Barbell Curl', 'Reverse Grip Curl'],
+  'dead_hang': ['Dead Hang', 'Hang', 'Bar Hang'],
+  'back_extension': ['Back Extension', 'Hyperextensions', 'Hyperextension'],
+  'good_morning': ['Good Morning', 'Good Mornings', 'Barbell Good Morning'],
+  'superman': ['Superman', 'Supermans', 'Prone Back Extension'],
+  'decline_bench_press': ['Decline Bench Press', 'Decline Barbell Bench Press'],
+  'smith_bench_press': ['Smith Machine Bench Press', 'Bench Press Smith Machine'],
+  'dumbbell_fly': ['Dumbbell Fly', 'Flys With Dumbbells', 'Dumbbell Flyes'],
+  'incline_dumbbell_fly': ['Incline Dumbbell Fly', 'Incline Dumbbell Flyes', 'Fly With Dumbbells, Incline'],
+  'low_to_high_cable_fly': ['Low to High Cable Fly', 'Cable Fly Low', 'Cable Crossover Low'],
+  'incline_chest_press_machine': ['Incline Chest Press Machine', 'Incline Machine Press'],
+  'chest_dips': ['Chest Dips', 'Dips Chest', 'Dips'],
+  'incline_push_up': ['Incline Push-up', 'Incline Push Up', 'Incline Pushups'],
+  'decline_push_up': ['Decline Push-up', 'Decline Push Up', 'Decline Pushups'],
+  'dumbbell_floor_press': ['Dumbbell Floor Press', 'Floor Press'],
+  't_bar_row': ['T-Bar Row', 'T Bar Row', 'Landmine Row'],
+  'pendlay_row': ['Pendlay Row', 'Pendlay Rows'],
+  'machine_row': ['Machine Row', 'Seated Row Machine', 'Row Machine'],
+  'chest_supported_row': ['Chest Supported Dumbbell Row', 'Incline Dumbbell Row', 'Chest Supported Row'],
+  'close_grip_lat_pulldown': ['Close Grip Lat Pulldown', 'Lat Pulldown Close Grip', 'V-Bar Pulldown'],
+  'straight_arm_pulldown': ['Straight Arm Pulldown', 'Straight-Arm Pull Down', 'Lat Pushdown'],
+  'band_assisted_pull_up': ['Band Assisted Pull-up', 'Assisted Pull-Up', 'Pull-Up Assisted'],
+  'inverted_row': ['Inverted Row', 'Australian Pull-Up', 'Bodyweight Row'],
+  'neutral_grip_pull_up': ['Neutral Grip Pull-up', 'Hammer Grip Pull-Up', 'Parallel Grip Pull-Up'],
+  'rack_pull': ['Rack Pull', 'Rack Pulls', 'Partial Deadlift'],
+  'trap_bar_deadlift': ['Trap Bar Deadlift', 'Hex Bar Deadlift'],
+  'single_arm_cable_row': ['Single Arm Cable Row', 'One Arm Cable Row'],
+  'dumbbell_pullover': ['Dumbbell Pullover', 'Pullover', 'Pullover Dumbbell'],
+  'renegade_row': ['Renegade Row', 'Plank Row'],
+  'arnold_press': ['Arnold Press', 'Arnold Shoulder Press'],
+  'shoulder_press_machine': ['Shoulder Press Machine', 'Machine Shoulder Press'],
+  'push_press': ['Push Press', 'Barbell Push Press'],
+  'cable_lateral_raise': ['Cable Lateral Raise', 'Lateral Raises on Cable', 'Single Arm Cable Lateral Raise'],
+  'machine_lateral_raise': ['Machine Lateral Raise', 'Lateral Raise Machine'],
+  'front_raise': ['Front Raise', 'Front Raises', 'Dumbbell Front Raise'],
+  'upright_row': ['Upright Row', 'Upright Row, Barbell'],
+  'reverse_pec_deck': ['Reverse Pec Deck', 'Reverse Machine Fly', 'Rear Delt Machine'],
+  'band_pull_apart': ['Band Pull Apart', 'Band Pull-Aparts'],
+  'handstand_push_up': ['Handstand Push-up', 'Handstand Push Up'],
+  'landmine_press': ['Landmine Press', 'Single Arm Landmine Press'],
+  'preacher_curl': ['Preacher Curl', 'Preacher Curls', 'Biceps Curl on Preacher Bench'],
+  'concentration_curl': ['Concentration Curl', 'Concentration Curls'],
+  'incline_dumbbell_curl': ['Incline Dumbbell Curl', 'Incline Curl'],
+  'ez_bar_curl': ['EZ Bar Curl', 'Biceps Curl With EZ-Bar', 'EZ-Bar Curl'],
+  'rope_hammer_curl': ['Rope Hammer Curl', 'Cable Hammer Curl'],
+  'machine_biceps_curl': ['Machine Biceps Curl', 'Biceps Curl Machine'],
+  'band_curl': ['Band Curl', 'Resistance Band Curl'],
+  'rope_pushdown': ['Rope Pushdown', 'Triceps Pushdown Rope', 'Rope Triceps Extension'],
+  'overhead_cable_extension': ['Overhead Cable Triceps Extension', 'Cable Overhead Extension', 'Overhead Rope Extension'],
+  'triceps_kickback': ['Triceps Kickback', 'Dumbbell Kickback', 'Kickbacks'],
+  'bench_dips': ['Bench Dips', 'Bench Dip', 'Dips Between Two Benches'],
+  'machine_triceps_dip': ['Machine Triceps Dip', 'Seated Dip Machine', 'Dip Machine'],
+  'single_arm_pushdown': ['Single Arm Pushdown', 'One Arm Triceps Pushdown'],
+  'diamond_push_up': ['Diamond Push-up', 'Diamond Push Up', 'Close Grip Push-Up'],
+  'reverse_wrist_curl': ['Reverse Wrist Curl', 'Wrist Extension'],
+  'hack_squat': ['Hack Squat', 'Machine Hack Squat'],
+  'smith_squat': ['Smith Machine Squat', 'Squats on Smith Machine'],
+  'walking_lunge': ['Walking Lunge', 'Walking Lunges', 'Dumbbell Walking Lunge'],
+  'reverse_lunge': ['Reverse Lunge', 'Reverse Lunges', 'Dumbbell Reverse Lunge'],
+  'step_up': ['Step-up', 'Step Up', 'Dumbbell Step-Up'],
+  'split_squat': ['Split Squat', 'Dumbbell Split Squat'],
+  'sumo_squat': ['Sumo Squat', 'Dumbbell Sumo Squat', 'Plie Squat'],
+  'pistol_squat': ['Pistol Squat', 'Single Leg Squat', 'One Legged Squat'],
+  'single_leg_press': ['Single Leg Press', 'One Leg Press'],
+  'hip_adduction_machine': ['Hip Adduction Machine', 'Adductor Machine', 'Hip Adduction'],
+  'wall_sit': ['Wall Sit', 'Wall Squat'],
+  'jump_squat': ['Jump Squat', 'Squat Jumps', 'Jump Squats'],
+  'box_jump': ['Box Jump', 'Box Jumps'],
+  'seated_leg_curl': ['Seated Leg Curl', 'Leg Curls (sitting)', 'Seated Hamstring Curl'],
+  'nordic_curl': ['Nordic Hamstring Curl', 'Nordic Curl'],
+  'single_leg_rdl': ['Single Leg Romanian Deadlift', 'Single Leg Deadlift', 'One Leg RDL'],
+  'dumbbell_romanian_deadlift': ['Dumbbell Romanian Deadlift', 'Romanian Deadlift Dumbbell', 'Dumbbell RDL'],
+  'stiff_leg_deadlift': ['Stiff-Leg Deadlift', 'Stiff Legged Deadlift', 'Straight Leg Deadlift'],
+  'stability_ball_leg_curl': ['Stability Ball Leg Curl', 'Swiss Ball Leg Curl', 'Ball Leg Curl'],
+  'sumo_deadlift': ['Sumo Deadlift', 'Deadlift Sumo'],
+  'cable_glute_kickback': ['Cable Glute Kickback', 'Cable Kickback', 'Glute Kickback'],
+  'hip_abduction_machine': ['Hip Abduction Machine', 'Abductor Machine', 'Hip Abduction'],
+  'machine_hip_thrust': ['Hip Thrust Machine', 'Machine Hip Thrust', 'Glute Drive'],
+  'single_leg_glute_bridge': ['Single Leg Glute Bridge', 'One Leg Glute Bridge'],
+  'donkey_kick': ['Donkey Kick', 'Donkey Kicks', 'Quadruped Hip Extension'],
+  'fire_hydrant': ['Fire Hydrant', 'Fire Hydrants'],
+  'banded_lateral_walk': ['Banded Lateral Walk', 'Lateral Band Walk', 'Monster Walk'],
+  'cable_pull_through': ['Cable Pull Through', 'Pull-Through'],
+  'seated_calf_raise': ['Seated Calf Raise', 'Calf Raises, Seated'],
+  'single_leg_calf_raise': ['Single Leg Calf Raise', 'One Leg Calf Raise'],
+  'leg_press_calf_raise': ['Leg Press Calf Raise', 'Calf Press', 'Calf Press on Leg Press'],
+  'sit_up': ['Sit-up', 'Sit Up', 'Sit-ups'],
+  'decline_sit_up': ['Decline Sit-up', 'Decline Sit Up', 'Sit-ups on Decline Bench'],
+  'bicycle_crunch': ['Bicycle Crunch', 'Bicycle Crunches'],
+  'reverse_crunch': ['Reverse Crunch', 'Reverse Crunches'],
+  'lying_leg_raise': ['Lying Leg Raise', 'Leg Raises, Lying', 'Leg Raise'],
+  'captains_chair_knee_raise': ['Captains Chair Knee Raise', 'Knee Raise', 'Vertical Knee Raise'],
+  'ab_wheel_rollout': ['Ab Wheel Rollout', 'Ab Roller', 'Ab Wheel'],
+  'russian_twist': ['Russian Twist', 'Russian Twists'],
+  'v_up': ['V-up', 'V Up', 'V-ups'],
+  'hollow_hold': ['Hollow Body Hold', 'Hollow Hold'],
+  'pallof_press': ['Pallof Press', 'Pallof'],
+  'cable_woodchopper': ['Cable Woodchopper', 'Woodchopper', 'Cable Wood Chop'],
+  'plank_shoulder_tap': ['Plank Shoulder Tap', 'Shoulder Taps'],
+  'bird_dog': ['Bird Dog', 'Bird Dogs', 'Quadruped Arm Leg Raise'],
+  'power_clean': ['Power Clean', 'Clean', 'Barbell Power Clean'],
+  'thruster': ['Thruster', 'Barbell Thruster', 'Thrusters'],
+  'turkish_get_up': ['Turkish Get-up', 'Turkish Get Up'],
+  'bear_crawl': ['Bear Crawl', 'Bear Crawls'],
+  'high_knees': ['High Knees', 'High Knee Run'],
+  'jump_rope': ['Jump Rope', 'Skipping Rope', 'Rope Jumping'],
+  'rowing_machine': ['Rowing Machine', 'Rowing', 'Rower'],
+  'stationary_bike': ['Stationary Bike', 'Exercise Bike', 'Cycling'],
+  'treadmill_run': ['Treadmill Run', 'Treadmill', 'Running'],
+  'elliptical': ['Elliptical Trainer', 'Elliptical', 'Cross Trainer'],
+  'stair_climber': ['Stair Climber', 'Stairmaster', 'Stair Machine'],
+  'air_bike': ['Air Bike', 'Assault Bike', 'Fan Bike'],
 };
 
 final _client = HttpClient()..userAgent = 'fitness_app-seed-import/1.0';
@@ -106,9 +224,30 @@ Future<void> main() async {
   }
   assetsDir.createSync(recursive: true);
 
-  final entries = <String, _Chosen>{};
+  // Obrázky se stahují nejdřív do dočasné složky (.dart_tool je
+  // v .gitignore). Do assets/exercises/ se přesunou až na konci, staré se
+  // smažou až po zápisu manifestu – přerušený běh nic nerozbije.
+  final staging = Directory('.dart_tool/wger_import');
+  if (staging.existsSync()) staging.deleteSync(recursive: true);
+  staging.createSync(recursive: true);
+
+  // Dosavadní položky: cvik, jehož stažení selže, si je ponechá.
+  final previous = _previousEntries();
+  final entries = <String, MediaEntry>{};
+  final staged = <String, String>{}; // dočasný soubor → cíl v assets
+  var kept = 0;
   final report = StringBuffer(
       'slug,wger_id,wger_name,score,images,animated,ai_generated,alternatives\n');
+
+  /// Ponechá předchozí obrázky cviku (jsou-li všechny soubory na místě).
+  bool keepPrevious(String slug) {
+    final old = previous[slug];
+    if (old == null || old.images.isEmpty) return false;
+    if (!old.images.every((i) => File(i.asset).existsSync())) return false;
+    entries[slug] = old;
+    kept++;
+    return true;
+  }
 
   for (final slug in _searchTerms.keys) {
     stdout.write('${slug.padRight(28)} ');
@@ -119,50 +258,112 @@ Future<void> main() async {
         report.writeln('$slug,,,0,0,,,');
         continue;
       }
-      final (:images, :animated) = await _download(slug, chosen, assetsDir);
-      if (images.isEmpty) {
-        stdout.writeln('– ${chosen.name} (#${chosen.id}) bez obrázků');
+      final d = await _download(slug, chosen, staging);
+      if (!d.complete && keepPrevious(slug)) {
+        stdout.writeln('! ${chosen.name} (#${chosen.id}): stažení selhalo, '
+            'ponechány předchozí obrázky');
+      } else if (d.images.isEmpty) {
+        stdout.writeln(d.complete
+            ? '– ${chosen.name} (#${chosen.id}) bez obrázků'
+            : '✗ ${chosen.name} (#${chosen.id}): obrázky se nepodařilo stáhnout');
       } else {
         stdout.writeln('✓ ${chosen.name} (#${chosen.id}), '
-            '${animated ? 'animace' : '${images.length} obr.'}');
-        entries[slug] = chosen.copyWith(images: images, animated: animated);
+            '${d.animated ? 'animace' : '${d.images.length} obr.'}');
+        entries[slug] = MediaEntry(
+          wgerId: chosen.id,
+          animated: d.animated,
+          images: d.images,
+        );
+        staged.addAll(d.staged);
       }
       report.writeln([
         slug,
         chosen.id,
         _csv(chosen.name),
         chosen.score,
-        images.length,
-        animated ? 'yes' : '',
-        images.any((i) => i.aiGenerated) ? 'yes' : '',
+        d.images.length,
+        d.animated ? 'yes' : '',
+        d.images.any((i) => i.aiGenerated) ? 'yes' : '',
         _csv(chosen.alternatives.join(' | ')),
       ].join(','));
     } catch (e) {
-      stdout.writeln('✗ chyba: $e');
+      stdout.writeln(keepPrevious(slug)
+          ? '✗ chyba: $e – ponechány předchozí obrázky'
+          : '✗ chyba: $e');
       report.writeln('$slug,,,0,0,,,');
     }
     // Ohleduplnost k serveru projektu wger.
     await Future<void>.delayed(const Duration(milliseconds: 300));
   }
-
-  File('tool/wger_report.csv').writeAsStringSync(report.toString());
-  writeManifest(wgerManifestPath, {
-    for (final e in entries.entries)
-      e.key: MediaEntry(
-        wgerId: e.value.id,
-        animated: e.value.animated,
-        images: e.value.images,
-      ),
-  });
-  final merged = regenerateMediaDart();
   _client.close();
+
+  // Výměna až po dokončení všech stažení: nové soubory do assets,
+  // manifest a exercise_media.dart, nakonec smazat nepoužívané staré.
+  staged.forEach((tmp, target) => _moveFile(File(tmp), target));
+  File('tool/wger_report.csv').writeAsStringSync(report.toString());
+  writeManifest(wgerManifestPath, entries);
+  final merged = regenerateMediaDart();
+  _removeUnused(assetsDir);
+  try {
+    staging.deleteSync(recursive: true);
+  } on FileSystemException {
+    // Nevadí – smaže se při dalším spuštění.
+  }
 
   final purchased = readManifest(purchasedManifestPath);
   stdout.writeln('\nHotovo: ${entries.length} z ${_searchTerms.length} cviků '
       'má obrázky z wger.de'
+      '${kept == 0 ? '' : ' ($kept s předchozími obrázky – stažení selhalo)'}'
       '${purchased.isEmpty ? '' : ', ${purchased.length} koupených animací má přednost'}'
       ' (celkem ${merged.length}).');
   stdout.writeln('Zkontroluj tool/wger_report.csv. Pak spusť flutter run.');
+}
+
+/// Položky wger.de z minulého běhu: z manifestu, u starší verze skriptu
+/// (bez manifestu) z vygenerovaného exercise_media.dart.
+Map<String, MediaEntry> _previousEntries() {
+  if (File(wgerManifestPath).existsSync()) {
+    return readManifest(wgerManifestPath);
+  }
+  final dart = File(mediaDartPath);
+  if (!dart.existsSync()) return {};
+  return {
+    for (final e in parseGeneratedMediaDart(dart.readAsStringSync()).entries)
+      if (e.value.wgerId != null) e.key: e.value,
+  };
+}
+
+/// Smaže obrázky z wger.de (`<slug>_<n>.<přípona>`), na které už neodkazuje
+/// žádný manifest – např. po opravě přiřazení. Koupené animace
+/// (`<slug>.gif`) mají jiný název a zůstanou.
+void _removeUnused(Directory dir) {
+  final used = <String>{
+    for (final m in [
+      readManifest(wgerManifestPath),
+      readManifest(purchasedManifestPath),
+    ])
+      for (final entry in m.values)
+        for (final img in entry.images) img.asset,
+  };
+  final own = RegExp(r'^([a-z0-9_]+)_\d+\.(png|jpe?g|gif|webp)$');
+  for (final f in dir.listSync().whereType<File>()) {
+    final name = f.uri.pathSegments.last;
+    final m = own.firstMatch(name);
+    if (m == null || !_searchTerms.containsKey(m.group(1))) continue;
+    if (used.contains('$exerciseAssetsDir/$name')) continue;
+    f.deleteSync();
+  }
+}
+
+/// Přesune [from] na [to] (existující soubor přepíše).
+void _moveFile(File from, String to) {
+  try {
+    from.renameSync(to);
+  } on FileSystemException {
+    // Záloha, když přejmenování nejde (jiný disk, Windows): kopie a smazání.
+    from.copySync(to);
+    from.deleteSync();
+  }
 }
 
 class _Chosen {
@@ -172,8 +373,6 @@ class _Chosen {
     required this.score,
     required this.rawImages,
     required this.alternatives,
-    this.images = const [],
-    this.animated = false,
   });
 
   final int id;
@@ -181,22 +380,6 @@ class _Chosen {
   final int score;
   final List<Map<String, dynamic>> rawImages;
   final List<String> alternatives;
-  final List<MediaImage> images;
-  final bool animated;
-
-  _Chosen copyWith({
-    required List<MediaImage> images,
-    required bool animated,
-  }) =>
-      _Chosen(
-        id: id,
-        name: name,
-        score: score,
-        rawImages: rawImages,
-        alternatives: alternatives,
-        images: images,
-        animated: animated,
-      );
 }
 
 Future<Map<String, dynamic>> _getJson(String url) async {
@@ -346,17 +529,24 @@ MediaImage _imageFrom(Map<String, dynamic> raw, String asset) {
   );
 }
 
-Future<({List<MediaImage> images, bool animated})> _download(
+/// Výsledek stažení jednoho cviku. [complete] = false, když se některý
+/// soubor nepodařilo stáhnout; [staged] = dočasný soubor → cíl v assets.
+typedef _Download = ({
+  List<MediaImage> images,
+  bool animated,
+  bool complete,
+  Map<String, String> staged,
+});
+
+/// Stáhne obrázky cviku do dočasné složky [staging]. MediaImage.asset už
+/// obsahuje konečnou cestu v assets/exercises/ (přesun dělá main).
+Future<_Download> _download(
   String slug,
   _Chosen chosen,
-  Directory dir,
+  Directory staging,
 ) async {
-  // Staré obrázky z wger.de (<slug>_<n>.<přípona>) smažeme, ať po opravě
-  // přiřazení nezůstanou. Koupené animace (<slug>.gif) zůstanou.
-  final own = RegExp('^${RegExp.escape(slug)}_\\d+\\.');
-  for (final f in dir.listSync().whereType<File>()) {
-    if (own.hasMatch(f.uri.pathSegments.last)) f.deleteSync();
-  }
+  final staged = <String, String>{};
+  var complete = true;
 
   // 1) Animovaný GIF / WebP má přednost (ověří se podle obsahu souboru).
   final candidates = chosen.rawImages.where((raw) {
@@ -366,25 +556,45 @@ Future<({List<MediaImage> images, bool animated})> _download(
   for (final raw in candidates) {
     final url = _absoluteUrl(raw);
     final bytes = await _fetch(url);
-    if (bytes == null || !isAnimatedImage(bytes)) continue;
-    final ext = url.split('.').last.toLowerCase();
-    final asset = '$exerciseAssetsDir/${slug}_1.$ext';
-    File(asset).writeAsBytesSync(bytes);
-    return (images: [_imageFrom(raw, asset)], animated: true);
+    if (bytes == null) {
+      complete = false;
+      continue;
+    }
+    if (!isAnimatedImage(bytes)) continue;
+    final name = '${slug}_1.${url.split('.').last.toLowerCase()}';
+    final tmp = '${staging.path}/$name';
+    File(tmp).writeAsBytesSync(bytes);
+    staged[tmp] = '$exerciseAssetsDir/$name';
+    return (
+      images: [_imageFrom(raw, '$exerciseAssetsDir/$name')],
+      animated: true,
+      complete: true,
+      staged: staged,
+    );
   }
 
   // 2) Jinak až 2 statické obrázky (výchozí a koncová poloha).
   final result = <MediaImage>[];
   for (final raw in chosen.rawImages.take(_maxImagesPerExercise)) {
     final url = _absoluteUrl(raw);
-    final ext = url.split('.').last.toLowerCase();
-    final asset = '$exerciseAssetsDir/${slug}_${result.length + 1}.$ext';
     final bytes = await _fetch(url);
-    if (bytes == null) continue;
-    File(asset).writeAsBytesSync(bytes);
-    result.add(_imageFrom(raw, asset));
+    if (bytes == null) {
+      complete = false;
+      continue;
+    }
+    final name =
+        '${slug}_${result.length + 1}.${url.split('.').last.toLowerCase()}';
+    final tmp = '${staging.path}/$name';
+    File(tmp).writeAsBytesSync(bytes);
+    staged[tmp] = '$exerciseAssetsDir/$name';
+    result.add(_imageFrom(raw, '$exerciseAssetsDir/$name'));
   }
-  return (images: result, animated: false);
+  return (
+    images: result,
+    animated: false,
+    complete: complete,
+    staged: staged,
+  );
 }
 
 String _csv(String s) =>

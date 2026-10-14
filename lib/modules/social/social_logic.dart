@@ -167,3 +167,35 @@ int completionPercent(double current, double target) {
 
 /// Zaokrouhlení rekordu na 0,5 kg pro zobrazení přátelům.
 double roundRecord(double kg) => (kg * 2).round() / 2;
+
+/// Chyba zápisu do výzvy, která na serveru už není (smazal ji přítel, nebo
+/// se zrušilo přátelství): pravidla u neexistujícího dokumentu vrátí
+/// permission-denied, případně not-found. Lokální výzva pak zapomene
+/// remoteId a přestane se hlásit.
+bool isGoneRemoteChallengeError(String code) =>
+    code == 'not-found' || code == 'permission-denied';
+
+// ---------------------------------------------------------------------------
+// Pozvánky
+// ---------------------------------------------------------------------------
+
+/// Odpověď na pozvánku (položka inviteReply) smí zapsat trénink do mého
+/// kalendáře, jen když pozvánka na serveru je moje, byla poslaná tomu, kdo
+/// odpověděl, a je přijatá ('accepted' = InviteStatus.accepted). Údajům
+/// v položce novinek (píše je přítel) se nevěří.
+bool isAcceptedReplyTo({
+  required String me,
+  required String replierUid,
+  required String invitationFromUid,
+  required String invitationToUid,
+  required String invitationStatus,
+}) =>
+    me.isNotEmpty &&
+    replierUid.isNotEmpty &&
+    invitationFromUid == me &&
+    invitationToUid == replierUid &&
+    invitationStatus == 'accepted';
+
+/// ID dokumentu z položky novinek (píše ho přítel): neprázdné, bez lomítka.
+bool isValidDocId(String? id) =>
+    id != null && id.isNotEmpty && id.length <= 1500 && !id.contains('/');

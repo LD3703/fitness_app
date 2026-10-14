@@ -242,7 +242,9 @@ class _CreateChallengeScreenState extends ConsumerState<CreateChallengeScreen> {
             friendUid: widget.friendUid,
             myName: myName,
             kind: RemoteChallengeKind.beatRecord,
-            target: roundRecord(record!),
+            // Hodnota rekordu bez zaokrouhlení: přítel musí zvednout víc,
+            // nebo stejnou váhu na víc opakování (recordValue).
+            target: record!,
             deadline: _recordDeadline,
             creatorAccepted: false,
             notify: 'invite',
@@ -393,7 +395,7 @@ class _CreateChallengeScreenState extends ConsumerState<CreateChallengeScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text(l10n.socialChallengeYourRecord(
-                          socialKg(context, roundRecord(record.oneRepMax)))),
+                          '${socialKg(context, record.weightKg)} × ${record.reps}')),
                     ),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
@@ -458,7 +460,7 @@ class _CreateChallengeScreenState extends ConsumerState<CreateChallengeScreen> {
           const SizedBox(height: 24),
           FilledButton.icon(
             onPressed: canSend
-                ? () => _send(exercise: exercise, record: record?.oneRepMax)
+                ? () => _send(exercise: exercise, record: record?.value)
                 : null,
             icon: const Icon(Icons.flag_outlined),
             label: Text(l10n.socialSend),

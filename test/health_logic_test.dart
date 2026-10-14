@@ -15,6 +15,34 @@ void main() {
       );
       expect(result, {DateTime(2026, 9, 1): 81.3});
     });
+
+    test('váha zapsaná aplikací a v aplikaci smazaná se nevrátí', () {
+      final result = weightsToImport(
+        health: [
+          // Zapsala aplikace (8:00), uživatel ji pak v aplikaci smazal.
+          (at: DateTime(2026, 9, 1, 8), kg: 80.00000001),
+          // Zapsala aplikace, ale později přibylo jiné měření (chytrá váha).
+          (at: DateTime(2026, 9, 2, 8), kg: 79.5),
+          (at: DateTime(2026, 9, 2, 20), kg: 79.9),
+          // Jiný den, jiný zdroj.
+          (at: DateTime(2026, 9, 3, 7), kg: 79.2),
+        ],
+        appDays: const {},
+        ownExports: {
+          DateTime(2026, 9, 1): 80.0,
+          DateTime(2026, 9, 2): 79.5,
+        },
+      );
+      expect(result, {
+        DateTime(2026, 9, 2): 79.9,
+        DateTime(2026, 9, 3): 79.2,
+      });
+    });
+
+    test('stejná váha po zaokrouhlení', () {
+      expect(sameWeightKg(80.0, 80.04), isTrue);
+      expect(sameWeightKg(80.0, 80.1), isFalse);
+    });
   });
 
   group('weightsToExport', () {
