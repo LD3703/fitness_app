@@ -33,10 +33,12 @@ flutter gen-l10n
 flutter analyze --no-fatal-infos
 flutter test
 (cd trainer_web && flutter pub get && flutter analyze --no-fatal-infos && flutter test)
+(cd wear && flutter pub get && flutter analyze --no-fatal-infos)
 (cd functions && npm ci && npm test)
 ```
 
-Totéž běží v GitHub Actions (`.github/workflows/ci.yml`) – po pushi zkontroluj
+Totéž běží v GitHub Actions (`.github/workflows/ci.yml`), navíc sestavení
+Android APK telefonu i hodinek – po pushi zkontroluj
 výsledek a chyby oprav.
 
 ## Zásady
