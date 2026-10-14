@@ -4,135 +4,29 @@
   o smazání účtu požádat i bez aplikace (Play Console → Obsah aplikace →
   Smazání účtu). Nahrát na web jako /delete-account.
   TODO před zveřejněním: doplnit údaje v hranatých závorkách [ ].
+  Texty jsou v EN, CS, DE, ES a FR; při úpravě změň všechny jazyky.
 -->
-<html lang="cs">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Smazání účtu / Delete account</title>
+  <title>Delete your account – GymBar</title>
+  <meta name="title-en" content="Delete your account – GymBar">
+  <meta name="title-cs" content="Smazání účtu – GymBar">
+  <meta name="title-de" content="Konto löschen – GymBar">
+  <meta name="title-es" content="Eliminar tu cuenta – GymBar">
+  <meta name="title-fr" content="Supprimer votre compte – GymBar">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <style>
-    :root {
-      --bg: #ffffff;
-      --text: #1b1f1e;
-      --muted: #59625f;
-      --accent: #2e7d6b;
-      --line: #dde3e1;
-      --head: #f2f6f5;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #121615;
-        --text: #e8eeec;
-        --muted: #a5b0ad;
-        --accent: #7cc9b5;
-        --line: #2c3533;
-        --head: #1b2120;
-      }
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    }
-    main { max-width: 820px; margin: 0 auto; padding: 24px 16px 64px; }
-    h1 { font-size: 1.8rem; line-height: 1.25; margin: 8px 0 4px; }
-    h2 { font-size: 1.2rem; margin: 32px 0 8px; color: var(--accent); }
-    p, li { margin: 8px 0; }
-    a { color: var(--accent); }
-    .meta { color: var(--muted); margin-bottom: 16px; }
-    .lead { font-size: 1.05rem; }
-    .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; color: var(--text); text-decoration: none; letter-spacing: -0.01em; }
-    .brand img { width: 32px; height: 32px; }
-    .brand .wm span { color: var(--accent); }
-    .lang { display: flex; gap: 8px; justify-content: flex-end; }
-    .lang button {
-      font: inherit; padding: 4px 12px; border-radius: 16px; cursor: pointer;
-      border: 1px solid var(--line); background: transparent; color: var(--text);
-    }
-    .lang button[aria-pressed="true"] {
-      background: var(--accent); border-color: var(--accent); color: var(--bg);
-    }
-    .table-wrap { overflow-x: auto; }
-    table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
-    th, td {
-      border: 1px solid var(--line); padding: 8px; text-align: left;
-      vertical-align: top;
-    }
-    th { background: var(--head); }
-    [data-lang] { display: none; }
-    body.cs [data-lang="cs"], body.en [data-lang="en"] { display: block; }
-  </style>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="/legal.css">
 </head>
-<body class="cs">
+<body class="en">
 <main>
   <div class="top">
     <a class="brand" href="/"><img src="/favicon.svg" alt=""><span class="wm">Gym<span>Bar</span></span></a>
-    <div class="lang" role="group" aria-label="Language">
-      <button type="button" data-set="cs">Čeština</button>
-      <button type="button" data-set="en">English</button>
-    </div>
+    <div class="lang"></div>
   </div>
 
-  <!-- ====================================================== ČEŠTINA -->
-  <article data-lang="cs" lang="cs">
-    <h1>Smazání účtu – GymBar</h1>
-    <p class="meta">Vývojář: [Jméno a příjmení]</p>
-    <p class="lead">Účet je potřeba jen pro přátele, žebříček posilovny
-      a zálohu do cloudu. Smazat ho můžete v aplikaci, nebo e-mailem
-      i bez ní.</p>
-
-    <h2>V aplikaci (okamžitě)</h2>
-    <ol>
-      <li>Otevřete aplikaci a přejděte na <strong>Přátelé</strong>.</li>
-      <li>Klepněte na <strong>Smazat účet pro přátele</strong>.</li>
-      <li>Potvrďte smazání. Pokud jste se dlouho nepřihlašovali, aplikace
-        vás požádá o krátké znovupřihlášení.</li>
-    </ol>
-
-    <h2>Bez aplikace (e-mailem)</h2>
-    <p>Napište na <strong><a href="mailto:info@gymbar.app">info@gymbar.app</a></strong> s předmětem
-      „Smazání účtu“ z e-mailu, kterým se přihlašujete přes Google nebo
-      Apple. Účet smažeme do 30 dnů a pošleme potvrzení. Pokud se
-      přihlašujete přes Apple se skrytým e-mailem, uveďte přezdívku nebo
-      jméno, které vidí přátelé.</p>
-
-    <h2>Co se smaže</h2>
-    <ul>
-      <li>účet (přihlášení přes Google nebo Apple),</li>
-      <li>profil pro přátele, seznam přátel, novinky, pozvánky
-        a výzvy,</li>
-      <li>záznamy a nahlášení v žebříčku posilovny a členství
-        v posilovně,</li>
-      <li>nahlášení obsahu, která jste podali, a seznam zablokovaných,</li>
-      <li>tokeny pro upozornění,</li>
-      <li>propojení s trenérem včetně tréninků, váhy, plánů a komentářů
-        sdílených s trenérem; status trenéra s knihovnou plánů; plány
-        sdílené odkazem,</li>
-      <li>zálohy v cloudu.</li>
-    </ul>
-
-    <h2>Co zůstane</h2>
-    <ul>
-      <li>Posilovna, kterou jste založili, zůstane v seznamu pro ostatní
-        členy (název, město, adresa), už bez vazby na váš účet.</li>
-      <li>Počet nahlášení u cizích záznamů zůstane, ale už bez informace,
-        kdo je nahlásil.</li>
-      <li>Hlášení o pádech aplikace neobsahují účet a mažou se samy po
-        90 dnech.</li>
-    </ul>
-
-    <h2>Data v telefonu</h2>
-    <p>Tréninky, váha, pitný režim a další údaje jsou jen ve vašem
-      telefonu a smazáním účtu nezmizí. Smažete je v aplikaci v Profilu →
-      <strong>Smazat všechna data</strong>, nebo odinstalováním aplikace.</p>
-    <p>Víc v <a href="privacy">zásadách ochrany soukromí</a>.</p>
-  </article>
-
-  <!-- ====================================================== ENGLISH -->
   <article data-lang="en" lang="en">
     <h1>Delete your account – GymBar</h1>
     <p class="meta">Developer: [Full name]</p>
@@ -186,28 +80,232 @@
       uninstalling the app.</p>
     <p>More in the <a href="privacy">privacy policy</a>.</p>
   </article>
+  <article data-lang="cs" lang="cs">
+    <h1>Smazání účtu – GymBar</h1>
+    <p class="meta">Vývojář: [Jméno a příjmení]</p>
+    <p class="lead">Účet je potřeba jen pro přátele, žebříček posilovny
+      a zálohu do cloudu. Smazat ho můžete v aplikaci, nebo e-mailem
+      i bez ní.</p>
+
+    <h2>V aplikaci (okamžitě)</h2>
+    <ol>
+      <li>Otevřete aplikaci a přejděte na <strong>Přátelé</strong>.</li>
+      <li>Klepněte na <strong>Smazat účet pro přátele</strong>.</li>
+      <li>Potvrďte smazání. Pokud jste se dlouho nepřihlašovali, aplikace
+        vás požádá o krátké znovupřihlášení.</li>
+    </ol>
+
+    <h2>Bez aplikace (e-mailem)</h2>
+    <p>Napište na <strong><a href="mailto:info@gymbar.app">info@gymbar.app</a></strong> s předmětem
+      „Smazání účtu“ z e-mailu, kterým se přihlašujete přes Google nebo
+      Apple. Účet smažeme do 30 dnů a pošleme potvrzení. Pokud se
+      přihlašujete přes Apple se skrytým e-mailem, uveďte přezdívku nebo
+      jméno, které vidí přátelé.</p>
+
+    <h2>Co se smaže</h2>
+    <ul>
+      <li>účet (přihlášení přes Google nebo Apple),</li>
+      <li>profil pro přátele, seznam přátel, novinky, pozvánky
+        a výzvy,</li>
+      <li>záznamy a nahlášení v žebříčku posilovny a členství
+        v posilovně,</li>
+      <li>nahlášení obsahu, která jste podali, a seznam zablokovaných,</li>
+      <li>tokeny pro upozornění,</li>
+      <li>propojení s trenérem včetně tréninků, váhy, plánů a komentářů
+        sdílených s trenérem; status trenéra s knihovnou plánů; plány
+        sdílené odkazem,</li>
+      <li>zálohy v cloudu.</li>
+    </ul>
+
+    <h2>Co zůstane</h2>
+    <ul>
+      <li>Posilovna, kterou jste založili, zůstane v seznamu pro ostatní
+        členy (název, město, adresa), už bez vazby na váš účet.</li>
+      <li>Počet nahlášení u cizích záznamů zůstane, ale už bez informace,
+        kdo je nahlásil.</li>
+      <li>Hlášení o pádech aplikace neobsahují účet a mažou se samy po
+        90 dnech.</li>
+    </ul>
+
+    <h2>Data v telefonu</h2>
+    <p>Tréninky, váha, pitný režim a další údaje jsou jen ve vašem
+      telefonu a smazáním účtu nezmizí. Smažete je v aplikaci v Profilu →
+      <strong>Smazat všechna data</strong>, nebo odinstalováním aplikace.</p>
+    <p>Víc v <a href="privacy">zásadách ochrany soukromí</a>.</p>
+  </article>
+  <article data-lang="de" lang="de">
+    <h1>Konto löschen – GymBar</h1>
+    <p class="meta">Entwickler: [Vor- und Nachname]</p>
+    <p class="lead">Ein Konto brauchen Sie nur für Freunde, die
+      Gym-Rangliste und das Cloud-Backup. Sie können es in der App löschen
+      oder per E-Mail auch ohne App.</p>
+
+    <h2>In der App (sofort)</h2>
+    <ol>
+      <li>Öffnen Sie die App und gehen Sie zu <strong>Freunde</strong>.</li>
+      <li>Tippen Sie auf <strong>Freunde-Konto löschen</strong>.</li>
+      <li>Bestätigen Sie. Wenn Sie sich länger nicht angemeldet haben, bittet
+        die App Sie kurz um eine erneute Anmeldung.</li>
+    </ol>
+
+    <h2>Ohne App (per E-Mail)</h2>
+    <p>Schreiben Sie an <strong><a href="mailto:info@gymbar.app">info@gymbar.app</a></strong>
+      mit dem Betreff „Konto löschen“ von der Adresse, mit der Sie sich über
+      Google oder Apple anmelden. Wir löschen das Konto innerhalb von
+      30 Tagen und schicken Ihnen eine Bestätigung. Wenn Sie Apples „E-Mail
+      verbergen“ nutzen, nennen Sie bitte den Spitznamen oder Namen, den
+      Ihre Freunde sehen.</p>
+
+    <h2>Was gelöscht wird</h2>
+    <ul>
+      <li>Ihr Konto (Anmeldung mit Google oder Apple),</li>
+      <li>Ihr Profil für Freunde, Freundesliste, Neuigkeiten, Einladungen
+        und Challenges,</li>
+      <li>Ihre Einträge und Meldungen in der Gym-Rangliste und Ihre
+        Gym-Mitgliedschaft,</li>
+      <li>von Ihnen eingereichte Inhaltsmeldungen und Ihre Blockierliste,</li>
+      <li>Ihre Verbindung mit einem Coach einschließlich der mit ihm geteilten Trainings, des Gewichts, der Pläne und Kommentare; Ihr Coach-Status mit Ihrer Planbibliothek; per Link geteilte Pläne,</li>
+      <li>Tokens für Benachrichtigungen,</li>
+      <li>Backups in der Cloud.</li>
+    </ul>
+
+    <h2>Was bleibt</h2>
+    <ul>
+      <li>Ein von Ihnen angelegtes Gym bleibt für andere Mitglieder in der
+        Liste (Name, Stadt, Adresse), ohne Verbindung zu Ihrem Konto.</li>
+      <li>Die Anzahl der Meldungen bei Einträgen anderer bleibt erhalten,
+        jedoch ohne die Information, wer gemeldet hat.</li>
+      <li>Absturzberichte enthalten keine Kontodaten und werden nach
+        90 Tagen automatisch gelöscht.</li>
+    </ul>
+
+    <h2>Daten auf Ihrem Handy</h2>
+    <p>Trainings, Körpergewicht, Trinkmenge und andere Daten sind nur auf
+      Ihrem Handy gespeichert und werden durch das Löschen des Kontos nicht
+      entfernt. Löschen Sie sie in der App unter Profil → <strong>Alle Daten
+      löschen</strong> oder indem Sie die App deinstallieren.</p>
+    <p>Mehr in der <a href="/privacy">Datenschutzerklärung</a>.</p>
+  </article>
+  <article data-lang="es" lang="es">
+    <h1>Eliminar tu cuenta – GymBar</h1>
+    <p class="meta">Desarrollador: [Nombre y apellidos]</p>
+    <p class="lead">Solo necesitas una cuenta para Amigos, la
+      clasificación del gimnasio y la copia en la nube. Puedes eliminarla
+      en la app o por correo, incluso sin la app.</p>
+
+    <h2>En la app (al instante)</h2>
+    <ol>
+      <li>Abre la app y ve a <strong>Amigos</strong>.</li>
+      <li>Toca <strong>Eliminar cuenta de amigos</strong>.</li>
+      <li>Confirma. Si hace tiempo que no inicias sesión, la app te pedirá
+        que vuelvas a iniciarla un momento.</li>
+    </ol>
+
+    <h2>Sin la app (por correo)</h2>
+    <p>Escribe a <strong><a href="mailto:info@gymbar.app">info@gymbar.app</a></strong>
+      con el asunto «Eliminar cuenta» desde la dirección con la que inicias
+      sesión en Google o Apple. Eliminaremos la cuenta en un plazo de
+      30 días y te enviaremos una confirmación. Si usas «Ocultar mi correo»
+      de Apple, indica el apodo o nombre que ven tus amigos.</p>
+
+    <h2>Qué se elimina</h2>
+    <ul>
+      <li>tu cuenta (inicio de sesión con Google o Apple),</li>
+      <li>tu perfil para amigos, la lista de amigos, las novedades, las
+        invitaciones y los retos,</li>
+      <li>tus marcas y reportes en la clasificación del gimnasio y tu
+        pertenencia al gimnasio,</li>
+      <li>los reportes de contenido que hayas enviado y tu lista de
+        bloqueados,</li>
+      <li>tu conexión con un entrenador, incluidos los entrenamientos, el peso, los planes y los comentarios compartidos con él; tu estado de entrenador con tu biblioteca de planes; los planes compartidos por enlace,</li>
+      <li>los tokens de notificaciones,</li>
+      <li>las copias en la nube.</li>
+    </ul>
+
+    <h2>Qué se conserva</h2>
+    <ul>
+      <li>Un gimnasio que hayas creado sigue en la lista para otros miembros
+        (nombre, ciudad, dirección), ya sin vínculo con tu cuenta.</li>
+      <li>El número de reportes en marcas de otras personas se mantiene,
+        pero sin información sobre quién reportó.</li>
+      <li>Los informes de errores no contienen datos de la cuenta y se
+        eliminan automáticamente a los 90 días.</li>
+    </ul>
+
+    <h2>Datos en tu teléfono</h2>
+    <p>Los entrenamientos, el peso corporal, la hidratación y otros datos
+      solo están en tu teléfono y no se borran al eliminar la cuenta.
+      Bórralos en la app en Perfil → <strong>Borrar todos los
+      datos</strong>, o desinstalando la app.</p>
+    <p>Más información en la <a href="/privacy">política de privacidad</a>.</p>
+  </article>
+  <article data-lang="fr" lang="fr">
+    <h1>Supprimer votre compte – GymBar</h1>
+    <p class="meta">Développeur : [Prénom et nom]</p>
+    <p class="lead">Un compte n’est nécessaire que pour Amis, le
+      classement de la salle et la sauvegarde dans le cloud. Vous pouvez le
+      supprimer dans l’app, ou par e-mail même sans l’app.</p>
+
+    <h2>Dans l’app (immédiatement)</h2>
+    <ol>
+      <li>Ouvrez l’app et allez dans <strong>Amis</strong>.</li>
+      <li>Touchez <strong>Supprimer le compte Amis</strong>.</li>
+      <li>Confirmez. Si vous ne vous êtes pas connecté depuis longtemps,
+        l’app vous demande de vous reconnecter brièvement.</li>
+    </ol>
+
+    <h2>Sans l’app (par e-mail)</h2>
+    <p>Écrivez à <strong><a href="mailto:info@gymbar.app">info@gymbar.app</a></strong>
+      avec l’objet « Supprimer le compte » depuis l’adresse que vous
+      utilisez pour vous connecter avec Google ou Apple. Nous supprimons le
+      compte sous 30 jours et vous envoyons une confirmation. Si vous
+      utilisez « Masquer mon adresse e-mail » d’Apple, indiquez le pseudo
+      ou le nom que voient vos amis.</p>
+
+    <h2>Ce qui est supprimé</h2>
+    <ul>
+      <li>votre compte (connexion Google ou Apple),</li>
+      <li>votre profil pour les amis, la liste d’amis, le fil d’actualité,
+        les invitations et les défis,</li>
+      <li>vos entrées et signalements dans le classement de la salle et
+        votre adhésion à la salle,</li>
+      <li>les signalements de contenu que vous avez faits et votre liste de
+        blocage,</li>
+      <li>votre connexion avec un coach, y compris les séances, le poids, les plans et les commentaires partagés avec lui ; votre statut de coach avec votre bibliothèque de plans ; les plans partagés par lien,</li>
+      <li>les jetons de notification,</li>
+      <li>les sauvegardes dans le cloud.</li>
+    </ul>
+
+    <h2>Ce qui reste</h2>
+    <ul>
+      <li>Une salle que vous avez créée reste dans la liste pour les autres
+        membres (nom, ville, adresse), sans lien avec votre compte.</li>
+      <li>Le nombre de signalements sur les entrées d’autres personnes
+        reste, sans l’information sur qui les a signalées.</li>
+      <li>Les rapports de plantage ne contiennent aucune donnée de compte et
+        sont supprimés automatiquement après 90 jours.</li>
+    </ul>
+
+    <h2>Données sur votre téléphone</h2>
+    <p>Les séances, le poids, l’hydratation et les autres données sont
+      uniquement sur votre téléphone et ne sont pas supprimés avec le
+      compte. Supprimez-les dans l’app via Profil → <strong>Supprimer toutes
+      les données</strong>, ou en désinstallant l’app.</p>
+    <p>Plus d’informations dans la
+      <a href="/privacy">politique de confidentialité</a>.</p>
+  </article>
 </main>
-<script>
-  (function () {
-    var buttons = document.querySelectorAll('[data-set]');
-    function show(lang) {
-      document.body.className = lang;
-      document.documentElement.lang = lang;
-      for (var i = 0; i < buttons.length; i++) {
-        buttons[i].setAttribute('aria-pressed',
-          String(buttons[i].getAttribute('data-set') === lang));
-      }
-    }
-    var param = new URLSearchParams(location.search).get('lang');
-    var nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
-    show(param === 'cs' || param === 'en' ? param
-      : (nav === 'cs' || nav === 'sk') ? 'cs' : 'en');
-    for (var i = 0; i < buttons.length; i++) {
-      buttons[i].addEventListener('click', function () {
-        show(this.getAttribute('data-set'));
-      });
-    }
-  })();
-</script>
+<footer class="site-footer">
+  <a href="/"><span data-lang="en">Home</span><span data-lang="cs">Úvod</span><span data-lang="de">Start</span><span data-lang="es">Inicio</span><span data-lang="fr">Accueil</span></a>
+  <a href="/privacy"><span data-lang="en">Privacy policy</span><span data-lang="cs">Zásady ochrany soukromí</span><span data-lang="de">Datenschutzerklärung</span><span data-lang="es">Política de privacidad</span><span data-lang="fr">Politique de confidentialité</span></a>
+  <a href="/terms"><span data-lang="en">Terms of use</span><span data-lang="cs">Podmínky použití</span><span data-lang="de">Nutzungsbedingungen</span><span data-lang="es">Condiciones de uso</span><span data-lang="fr">Conditions d’utilisation</span></a>
+  <a href="/support"><span data-lang="en">Support</span><span data-lang="cs">Podpora</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span></a>
+  <a href="/delete-account"><span data-lang="en">Delete account</span><span data-lang="cs">Smazání účtu</span><span data-lang="de">Konto löschen</span><span data-lang="es">Eliminar cuenta</span><span data-lang="fr">Supprimer le compte</span></a>
+  <a href="mailto:info@gymbar.app">info@gymbar.app</a>
+  <a href="https://www.openstreetmap.org/copyright"><span data-lang="en">Gym data © OpenStreetMap contributors</span><span data-lang="cs">Data posiloven © přispěvatelé OpenStreetMap</span><span data-lang="de">Studiodaten © OpenStreetMap-Mitwirkende</span><span data-lang="es">Datos de gimnasios © colaboradores de OpenStreetMap</span><span data-lang="fr">Données des salles © contributeurs OpenStreetMap</span></a>
+</footer>
+<script src="/config.js"></script>
+<script src="/site.js"></script>
+<script>GYMBAR.initPage();</script>
 </body>
 </html>

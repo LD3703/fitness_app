@@ -69,6 +69,7 @@
     a.secondary { border: 1px solid rgba(255, 255, 255, 0.6); color: var(--text); }
     .stores { display: flex; gap: 12px; }
     .stores a { flex: 1; }
+    .stores a.soon { border-style: dashed; color: var(--muted); cursor: default; font-weight: 600; font-size: 14px; }
     .hint { color: var(--muted); font-size: 13px; text-align: center; margin-top: 12px; }
   </style>
 </head>
@@ -89,14 +90,15 @@
   <div class="buttons">
     <a class="btn primary" id="openApp" href="#"></a>
     <div class="stores">
-      <a class="btn secondary" id="playStore" href="#">Google Play</a>
-      <a class="btn secondary" id="appStore" href="#">App Store</a>
+      <a class="btn secondary" id="playStore" data-store="play" href="#">Google Play</a>
+      <a class="btn secondary" id="appStore" data-store="apple" href="#">App Store</a>
     </div>
     <p class="hint" id="hint"></p>
   </div>
 </main>
 
 <script src="/config.js"></script>
+<script src="/site.js"></script>
 <script>
 (function () {
   // friend = pozvánka mezi přátele, gym = žebříček posilovny,
@@ -221,8 +223,8 @@
     : (kind === 'friend' || kind === 'gym' || kind === 'coach') && /^[A-Z0-9]{4,12}$/.test(code);
 
   text('hint', t.hint);
-  document.getElementById('playStore').href = window.GYMBAR.playStore;
-  document.getElementById('appStore').href = window.GYMBAR.appStore;
+  // Odkazy do obchodů, nebo „již brzy“ podle config.js.
+  window.GYMBAR.storeButtons(lang);
 
   if (!valid) {
     text('title', t.invalid);
