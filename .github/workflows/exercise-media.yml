@@ -1,0 +1,42 @@
+# Obrázky cviků z wger.de (tool/wger_import.dart) – JEN RUČNĚ:
+# Actions → „Obrázky cviků (wger.de)“ → Run workflow → vybrat větev (ne main).
+#
+# Stáhne obrázky do assets/exercises/, zapíše tool/media/wger_media.json
+# (autoři kvůli licenci CC BY-SA), lib/data/seed/exercise_media.dart
+# a tool/wger_report.csv a výsledek commitne do vybrané větve. Do main
+# nezapisuje – změna jde do main přes pull request (zkontroluj report).
+name: Obrázky cviků (wger.de)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    name: Import z wger.de
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Jen mimo main
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "::error::Spusť na jiné větvi než main – výsledek jde do main přes pull request."
+          exit 1
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart run tool/wger_import.dart
+      - name: Commit výsledku
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898099+github-actions[bot]@users.noreply.github.com"
+          git add -A assets/exercises tool/media lib/data/seed/exercise_media.dart tool/wger_report.csv
+          if git diff --cached --quiet; then
+            echo "Žádné změny."
+            exit 0
+          fi
+          git commit -m "Obrázky cviků z wger.de (tool/wger_import.dart)"
+          git push
