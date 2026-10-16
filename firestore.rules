@@ -647,6 +647,23 @@ service cloud.firestore {
         && d.updatedAt == request.time;
     }
 
+    // Pozvánka trenéra na trénink (gymbar_coach: CoachSession) – termín,
+    // délka, počet týdnů opakování, název, poznámka, plán a stav.
+    function validSession(d) {
+      return d.keys().hasOnly(['startAtMs', 'durationMin', 'weeks', 'title',
+          'note', 'planId', 'trainerName', 'status', 'createdAt', 'updatedAt'])
+        && d.startAtMs is int
+        && d.durationMin is int && d.durationMin >= 15 && d.durationMin <= 480
+        && d.weeks is int && d.weeks >= 1 && d.weeks <= 26
+        && d.title is string && d.title.size() >= 1 && d.title.size() <= 60
+        && (optional(d, 'note') || (d.note is string && d.note.size() <= 300))
+        && (optional(d, 'planId') || (d.planId is string && d.planId.size() <= 40))
+        && validName(d.trainerName)
+        && d.status in ['pending', 'accepted', 'declined', 'cancelled']
+        && d.createdAt is timestamp
+        && d.updatedAt == request.time;
+    }
+
     // Propojení klient → trenér (jeden trenér na klienta). Vytvoří ho jen
     // klient (souhlas); zrušit ho smí klient i trenér – podkolekce pak
     // smaže Cloud Function onCoachLinkDeleted.
@@ -710,6 +727,29 @@ service cloud.firestore {
           && request.resource.data.version is int
           && validName(request.resource.data.trainerName)
           && request.resource.data.updatedAt == request.time;
+        allow delete: if isMe(clientUid) || isTrainerOf(clientUid);
+      }
+
+      // Pozvánky na trénink: posílá trenér, klient přijme / odmítne.
+      match /sessions/{sessionId} {
+        allow read: if isMe(clientUid) || isTrainerOf(clientUid);
+        allow create: if isTrainerOf(clientUid)
+          && validSession(request.resource.data)
+          && request.resource.data.status == 'pending'
+          && request.resource.data.createdAt == request.time;
+        // Trenér termín upraví (klient ho znovu potvrdí – stav „pending“)
+        // nebo zruší. Klient jen přijme / odmítne (i si to rozmyslí),
+        // zrušený termín už ne.
+        allow update: if (isTrainerOf(clientUid)
+            && validSession(request.resource.data)
+            && request.resource.data.createdAt == resource.data.createdAt
+            && request.resource.data.status in ['pending', 'cancelled'])
+          || (isMe(clientUid)
+            && request.resource.data.diff(resource.data).affectedKeys()
+                 .hasOnly(['status', 'updatedAt'])
+            && request.resource.data.status in ['accepted', 'declined']
+            && resource.data.status != 'cancelled'
+            && request.resource.data.updatedAt == request.time);
         allow delete: if isMe(clientUid) || isTrainerOf(clientUid);
       }
 
