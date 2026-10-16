@@ -20,6 +20,8 @@
 //    nahlášení za obsah skryje trvale, prázdnou posilovnu od 5 nahlášení
 //    „neexistuje / duplicita“ vratně (gymDirectory.ts).
 // 7) purgeOldContentReports – jednou denně smaže nahlášení starší než rok.
+// 8) onCoachSessionWritten – pozvánka trenéra na trénink: push klientovi
+//    (nová, změněná, zrušená) nebo trenérovi (přijatá, odmítnutá).
 //
 // Stav moderace záznamu žebříčku (počet nahlášení, skrytí za nahlášení,
 // ověřená hodnota) je v gyms/{gymId}/moderation/{entryId} – jen server.
@@ -58,6 +60,9 @@ import {
 } from "./plausibility.js";
 import {
   clientCountUpdate,
+  sessionChange,
+  SessionData,
+  sessionPushText,
   trainerExpiryCutoff,
 } from "./coach.js";
 import {
@@ -218,12 +223,13 @@ const DEAD_TOKEN_CODES = new Set([
   "messaging/invalid-registration-token",
 ]);
 
-export const sendFeedPush = onDocumentCreated("users/{uid}/feed/{itemId}", async (event) => {
-  const snap = event.data;
-  if (!snap) return;
-  const uid = event.params.uid;
-  const item = snap.data() as FeedDoc;
-
+// Pošle push na telefony uživatele [uid] (tokeny v users/{uid}/private/
+// messaging). [text] dostane jazyk příjemce; null = nic neposílat.
+async function pushToUser(
+  uid: string,
+  text: (lang: Lang) => { title: string; body: string } | null,
+  data: Record<string, string>,
+): Promise<void> {
   const privateRef = db.doc(`users/${uid}/private/messaging`);
   const priv = (await privateRef.get()).data() ?? {};
   const tokens = Array.isArray(priv.fcmTokens)
@@ -232,16 +238,16 @@ export const sendFeedPush = onDocumentCreated("users/{uid}/feed/{itemId}", async
   if (tokens.length === 0) return;
 
   const lang: Lang = str(priv.lang).startsWith("cs") ? "cs" : "en";
-  const text = pushText(item, lang);
-  if (!text) return;
+  const t = text(lang);
+  if (!t) return;
 
   const response = await getMessaging().sendEachForMulticast({
     tokens,
     notification: {
-      title: clip(text.title, PUSH_TITLE_MAX),
-      body: clip(text.body, PUSH_BODY_MAX),
+      title: clip(t.title, PUSH_TITLE_MAX),
+      body: clip(t.body, PUSH_BODY_MAX),
     },
-    data: { type: str(item.type), feedId: event.params.itemId },
+    data,
     android: { notification: { channelId: "friends" } },
     apns: { payload: { aps: { sound: "default" } } },
   });
@@ -253,10 +259,51 @@ export const sendFeedPush = onDocumentCreated("users/{uid}/feed/{itemId}", async
     if (DEAD_TOKEN_CODES.has(r.error?.code ?? "")) invalid.push(tokens[i]);
   });
   if (invalid.length > 0) {
-    await privateRef.set({ fcmTokens: tokens.filter((t) => !invalid.includes(t)) }, { merge: true });
+    await privateRef.set({ fcmTokens: tokens.filter((tk) => !invalid.includes(tk)) }, { merge: true });
   }
   logger.info(`Push to ${uid}: ${response.successCount} ok, ${response.failureCount} failed`);
+}
+
+export const sendFeedPush = onDocumentCreated("users/{uid}/feed/{itemId}", async (event) => {
+  const snap = event.data;
+  if (!snap) return;
+  const item = snap.data() as FeedDoc;
+  await pushToUser(
+    event.params.uid,
+    (lang) => pushText(item, lang),
+    { type: str(item.type), feedId: event.params.itemId },
+  );
 });
+
+// Pozvánka trenéra na trénink: nová / změněná / zrušená → klient,
+// přijatá / odmítnutá → trenér (jména z propojení coachLinks/{klient}).
+export const onCoachSessionWritten = onDocumentWritten(
+  "coachLinks/{clientUid}/sessions/{sessionId}",
+  async (event) => {
+    const before = event.data?.before.data() as SessionData | undefined;
+    const after = event.data?.after.data() as SessionData | undefined;
+    const change = sessionChange(before, after);
+    if (!change || !after) return;
+    const clientUid = event.params.clientUid;
+    const link = (await db.doc(`coachLinks/${clientUid}`).get()).data();
+    if (!link) return;
+    const trainerUid = str(link.trainerUid);
+    const toTrainer = change === "accepted" || change === "declined";
+    const target = toTrainer ? trainerUid : clientUid;
+    if (!target) return;
+    const params = {
+      trainerName: clip(str(link.trainerName) || "?", PUSH_FIELD_MAX),
+      clientName: clip(str(link.clientName) || "?", PUSH_FIELD_MAX),
+      title: clip(str(after.title) || "?", PUSH_FIELD_MAX),
+      weekly: typeof after.weeks === "number" && after.weeks > 1,
+    };
+    await pushToUser(
+      target,
+      (lang) => sessionPushText(change, lang, params),
+      { type: `coachSession.${change}`, sessionId: event.params.sessionId },
+    );
+  },
+);
 
 // Smaže všechna data uživatele [uid] (stejný rozsah jako aplikace).
 async function deleteUserData(uid: string): Promise<void> {
