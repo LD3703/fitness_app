@@ -6,6 +6,7 @@ library;
 export 'src/codes.dart';
 export 'src/json.dart' show CoachFormatException;
 export 'src/plan.dart';
+export 'src/session.dart';
 export 'src/stats.dart';
 export 'src/text_filter.dart';
 export 'src/workout.dart';

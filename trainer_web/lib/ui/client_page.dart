@@ -6,6 +6,7 @@ import '../strings.dart';
 import 'charts.dart';
 import 'common.dart';
 import 'plans_page.dart';
+import 'sessions.dart';
 
 /// Detail klienta: souhrn, grafy, rekordy, plány, historie s komentáři.
 class ClientPage extends StatefulWidget {
@@ -204,6 +205,7 @@ class _ClientPageState extends State<ClientPage> {
             ),
           ],
         ],
+        ClientSessions(trainer: widget.trainer, client: widget.client),
         _ClientPlans(trainer: widget.trainer, client: widget.client),
         SectionTitle(s('history')),
         if (newestFirst.isEmpty)

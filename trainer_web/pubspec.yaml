@@ -1,7 +1,7 @@
 name: gymbar_trainer
 description: Web GymBar pro trenéry (gymbar.app/trener) – klienti, grafy, plány.
 publish_to: 'none'
-version: 0.3.10
+version: 0.3.12
 
 environment:
   sdk: ^3.6.0
@@ -15,6 +15,8 @@ dependencies:
   firebase_core: ^4.15.0
   firebase_auth: ^6.7.0
   cloud_firestore: ^6.10.0
+  # Stažení souboru .ics (pozvánka na trénink do kalendáře).
+  web: ^1.1.0
   # Společná logika s aplikací (plány, tréninky, statistiky, kódy).
   gymbar_coach:
     path: ../packages/gymbar_coach

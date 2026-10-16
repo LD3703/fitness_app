@@ -298,6 +298,59 @@ class Backend {
       .timeout(_timeout);
 
   // ---------------------------------------------------------------------
+  // Pozvánky na trénink (coachLinks/{klient}/sessions)
+  // ---------------------------------------------------------------------
+
+  CollectionReference<Map<String, dynamic>> _sessions(String clientUid) =>
+      _link(clientUid).collection('sessions');
+
+  /// Pozvánky klienta podle prvního termínu (nejnovější první).
+  Stream<List<CoachSession>> watchSessions(String clientUid) =>
+      _sessions(clientUid).snapshots().map((s) {
+        final list = <CoachSession>[];
+        for (final d in s.docs) {
+          try {
+            list.add(CoachSession.fromJson(d.id, d.data(),
+                updatedAtMs: _date(d.data()['updatedAt'])?.millisecondsSinceEpoch));
+          } on CoachFormatException {
+            // poškozenou pozvánku přeskočit
+          }
+        }
+        list.sort((a, b) => b.startAt.compareTo(a.startAt));
+        return list;
+      });
+
+  /// Nová pozvánka, nebo úprava [id] – klient ji pak potvrzuje znovu.
+  Future<void> saveSession(String clientUid, CoachSession session, {String? id}) async {
+    final data = session.toJson();
+    if (id == null) {
+      await _sessions(clientUid).add({
+        ...data,
+        'status': CoachSessionStatus.pending.name,
+        'createdAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      }).timeout(_timeout);
+      return;
+    }
+    await _sessions(clientUid).doc(id).update({
+      ...data,
+      if (!data.containsKey('note')) 'note': FieldValue.delete(),
+      if (!data.containsKey('planId')) 'planId': FieldValue.delete(),
+      'status': CoachSessionStatus.pending.name,
+      'updatedAt': FieldValue.serverTimestamp(),
+    }).timeout(_timeout);
+  }
+
+  Future<void> cancelSession(String clientUid, String id) =>
+      _sessions(clientUid).doc(id).update({
+        'status': CoachSessionStatus.cancelled.name,
+        'updatedAt': FieldValue.serverTimestamp(),
+      }).timeout(_timeout);
+
+  Future<void> deleteSession(String clientUid, String id) =>
+      _sessions(clientUid).doc(id).delete().timeout(_timeout);
+
+  // ---------------------------------------------------------------------
   // Komentáře
   // ---------------------------------------------------------------------
 

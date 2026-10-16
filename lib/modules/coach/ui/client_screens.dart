@@ -13,6 +13,7 @@ import '../../social/ui/social_ui.dart' show showSocialSnack;
 import '../coach_queries.dart';
 import '../coach_service.dart';
 import 'coach_widgets.dart';
+import 'session_widgets.dart';
 
 /// /coach/clients – klienti trenéra.
 class ClientsScreen extends ConsumerWidget {
@@ -205,6 +206,7 @@ class ClientDetailScreen extends ConsumerWidget {
             error: (e, _) => Center(child: Text(l10n.socialOffline)),
             data: (list) => _ClientBody(
               clientUid: clientUid,
+              clientName: clientName,
               workouts: list,
             ),
           ),
@@ -215,9 +217,14 @@ class ClientDetailScreen extends ConsumerWidget {
 }
 
 class _ClientBody extends ConsumerWidget {
-  const _ClientBody({required this.clientUid, required this.workouts});
+  const _ClientBody({
+    required this.clientUid,
+    required this.clientName,
+    required this.workouts,
+  });
 
   final String clientUid;
+  final String clientName;
   final List<CoachWorkout> workouts;
 
   @override
@@ -237,6 +244,7 @@ class _ClientBody extends ConsumerWidget {
           title: Text(lastWorkoutText(l10n, summary, now)),
           subtitle: Text(l10n.coachThisWeek(summary.thisWeek)),
         ),
+        TrainerSessionsSection(clientUid: clientUid, clientName: clientName),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
           child: Text(l10n.coachWorkoutsPerWeek, style: theme.textTheme.titleSmall),

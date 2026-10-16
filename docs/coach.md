@@ -45,7 +45,7 @@ tréninku a při synchronizaci tréninky za posledních 14 dní (`CoachSync`).
 | `trainer_web/` | web pro trenéry (Flutter web): přihlášení, klienti, grafy, historie s komentáři, knihovna plánů, editor plánů, posílání plánů |
 | `tool/trainer_catalog.dart` | katalog cviků pro editor na webu (`trainer_web/assets/exercises.json`) z `seed_data.dart` |
 | `firestore.rules` | sekce „trenéři“ |
-| `functions/src/index.ts`, `coach.ts` | počet klientů, zánik statusu, úklid |
+| `functions/src/index.ts`, `coach.ts` | počet klientů, zánik statusu, úklid, push k pozvánkám na trénink |
 | `docs/web/join.html` | stránka pro odkazy `/coach` a `/plan`, když aplikace není nainstalovaná |
 
 ## Datový model (Firestore)
@@ -60,6 +60,7 @@ tréninku a při synchronizaci tréninky za posledních 14 dní (`CoachSync`).
 | `coachLinks/{klient}/meta/weight` | klient, trenér | klient, jen se `shareWeight` | `points` [{`d`, `kg`}] (max. 400) |
 | `coachLinks/{klient}/plans/{id}` | klient, trenér | trenér; klient smí smazat | `plan`, `version`, `trainerName`, `updatedAt` |
 | `coachLinks/{klient}/notes/{id}` | klient, trenér | trenér; smazat smí oba | `workoutId`, `text` (max. 500), `trainerName`, `createdAt` |
+| `coachLinks/{klient}/sessions/{id}` | klient, trenér | trenér (nová, úprava → znovu `pending`, zrušení); klient jen `status` přijato / odmítnuto | CoachSession: `startAtMs`, `durationMin` (15–480), `weeks` (1–26), `title`, `note`, `planId`, `trainerName`, `status`, `createdAt`, `updatedAt` |
 | `sharedPlans/{id}` | kdokoli (jen get) | autor | `plan`, `authorUid`, `authorName`, `createdAt` |
 
 Plán (`CoachPlan.toJson`): `name`, `desc`, `days` (bit 0 = pondělí),
@@ -80,6 +81,19 @@ Nová verze plánu: trenér zapíše stejné ID s `version + 1`, aplikace ji př
 synchronizaci (nejvýš co 10 minut) stáhne a plán v telefonu přepíše. Plán
 z aplikace trenéra má ID `app<id>`, z knihovny na webu ID plánu
 v knihovně – opakované poslání tedy klientovi plán aktualizuje.
+
+**Pozvánky na trénink** (od 0.3.12): trenér pozve klienta na trénink
+(web: stránka klienta → „Pozvat na trénink“, aplikace: detail klienta) –
+datum, čas, délka, jednorázově nebo každý týden až 26 týdnů, volitelně
+plán a poznámka. Klient dostane push (Cloud Function
+`onCoachSessionWritten`) a kartu na obrazovce Dnes, pozvánku přijme nebo
+odmítne; trenér dostane push s odpovědí. Přijaté termíny zapíše aplikace
+klientovi i trenérovi do kalendáře telefonu (`coach_calendar.dart`,
+tabulka `CoachCalendarEvents` – databáze v19): každý zbývající termín jako
+událost s názvem podle Profilu („Fitko – Nohy s Tomem“). Úprava termínu
+(klient potvrdí znovu), zrušení, odmítnutí nebo zrušení propojení události
+smaže, případně vytvoří znovu. Web nabízí ke každému termínu i soubor .ics
+(RRULE pro opakování) do vlastního kalendáře trenéra.
 
 ## Nasazení (Windows)
 

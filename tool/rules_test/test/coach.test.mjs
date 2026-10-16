@@ -234,6 +234,69 @@ describe('plány a komentáře od trenéra', () => {
   });
 });
 
+describe('pozvánky na trénink', () => {
+  const ref = (f, id = 'x1') => doc(f, 'coachLinks', CLIENT, 'sessions', id);
+  const sessionDoc = (extra = {}) => ({
+    startAtMs: Date.UTC(2026, 9, 20, 16),
+    durationMin: 60,
+    weeks: 4,
+    title: 'Nohy',
+    note: 'Vem si švihadlo',
+    trainerName: 'Trenér Tom',
+    status: 'pending',
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+    ...extra,
+  });
+  const seedSession = (extra = {}) => seed((f) => setDoc(ref(f), {
+    ...sessionDoc(extra), createdAt: Timestamp.now(), updatedAt: Timestamp.now(),
+  }));
+
+  test('posílá jen trenér klienta, jen jako nevyřízenou', async () => {
+    await seedLinked();
+    await assertFails(setDoc(ref(db(STRANGER)), sessionDoc()));
+    await assertFails(setDoc(ref(db(CLIENT)), sessionDoc()));
+    await assertFails(setDoc(ref(db(TRAINER)), sessionDoc({ status: 'accepted' })));
+    await assertFails(setDoc(ref(db(TRAINER)), sessionDoc({ weeks: 27 })));
+    await assertFails(setDoc(ref(db(TRAINER)), sessionDoc({ durationMin: 5 })));
+    await assertFails(setDoc(ref(db(TRAINER)), sessionDoc({ extra: 1 })));
+    await assertSucceeds(setDoc(ref(db(TRAINER)), sessionDoc()));
+    await assertSucceeds(getDoc(ref(db(CLIENT))));
+    await assertFails(getDoc(ref(db(STRANGER))));
+  });
+
+  test('klient přijme nebo odmítne, nic jiného nezmění', async () => {
+    await seedLinked();
+    await seedSession();
+    const f = db(CLIENT);
+    await assertFails(updateDoc(ref(f), { status: 'cancelled', updatedAt: serverTimestamp() }));
+    await assertFails(updateDoc(ref(f), { status: 'accepted', weeks: 1, updatedAt: serverTimestamp() }));
+    await assertSucceeds(updateDoc(ref(f), { status: 'accepted', updatedAt: serverTimestamp() }));
+    await assertSucceeds(updateDoc(ref(f), { status: 'declined', updatedAt: serverTimestamp() }));
+  });
+
+  test('trenér upraví (znovu k potvrzení) nebo zruší, nepřijme za klienta', async () => {
+    await seedLinked();
+    await seedSession({ status: 'accepted' });
+    const f = db(TRAINER);
+    await assertFails(updateDoc(ref(f), { status: 'accepted', updatedAt: serverTimestamp() }));
+    await assertSucceeds(updateDoc(ref(f), {
+      startAtMs: Date.UTC(2026, 9, 21, 16), status: 'pending', updatedAt: serverTimestamp(),
+    }));
+    await assertSucceeds(updateDoc(ref(f), { status: 'cancelled', updatedAt: serverTimestamp() }));
+    // Zrušený termín klient už nepřijme.
+    await assertFails(updateDoc(ref(db(CLIENT)), { status: 'accepted', updatedAt: serverTimestamp() }));
+  });
+
+  test('po zrušení propojení trenér pozvánky nevidí ani neposílá', async () => {
+    await seedLinked();
+    await seedSession();
+    await deleteDoc(doc(db(CLIENT), 'coachLinks', CLIENT));
+    await assertFails(getDoc(ref(db(TRAINER))));
+    await assertFails(setDoc(ref(db(TRAINER), 'x2'), sessionDoc()));
+  });
+});
+
 describe('plán sdílený odkazem', () => {
   const shared = (authorUid) => ({
     plan: { name: 'Push', exercises: [] },

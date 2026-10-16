@@ -16,6 +16,7 @@ import '../../social/ui/social_ui.dart' show showSocialSnack;
 import '../coach_links.dart';
 import '../coach_service.dart';
 import '../coach_sync.dart';
+import 'session_widgets.dart';
 
 /// /coach – můj trenér (klient) a status trenéra (docs/coach.md).
 class CoachScreen extends ConsumerWidget {
@@ -155,6 +156,7 @@ class _MyTrainerSection extends ConsumerWidget {
             value: link.shareWeight,
             onChanged: (v) => _setShareWeight(context, ref, v),
           ),
+          const ClientSessionsSection(),
           const _AssignedPlansList(),
           _NotesList(clientUid: link.clientUid),
           Padding(
