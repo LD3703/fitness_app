@@ -1,0 +1,42 @@
+# Konfigurace Firebase pro firebase_options.dart (náhrada `flutterfire
+# configure`) – JEN RUČNĚ: Actions → „Konfigurace Firebase aplikací“ → Run.
+#
+# Vypíše do logu aplikace registrované v projektu fitness-app-dc5e4 a jejich
+# SDK konfiguraci (apiKey, appId…). Ta není tajná – je v každé vydané
+# aplikaci i na webu. Když webová aplikace chybí, založí ji („GymBar web“).
+# Používá stejný secret FIREBASE_SERVICE_ACCOUNT jako nasazení (docs/deploy.md).
+name: Konfigurace Firebase aplikací
+
+on:
+  workflow_dispatch:
+
+jobs:
+  config:
+    name: Výpis konfigurace
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    env:
+      PROJECT: fitness-app-dc5e4
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - name: Aplikace a jejich konfigurace
+        run: |
+          fb() { npx --yes firebase-tools@14 --project "$PROJECT" --non-interactive "$@"; }
+          fb apps:list --json > apps.json
+          if ! node -e "process.exit(require('./apps.json').result.some(a => a.platform === 'WEB') ? 0 : 1)"; then
+            echo "Webová aplikace chybí – zakládám ji."
+            fb apps:create WEB "GymBar web"
+            fb apps:list --json > apps.json
+          fi
+          node -e "for (const a of require('./apps.json').result) console.log(a.platform, a.appId, a.displayName || '')" > ids.txt
+          cat ids.txt
+          while read -r platform id _; do
+            echo "===== $platform $id ====="
+            fb apps:sdkconfig "$platform" "$id"
+          done < ids.txt

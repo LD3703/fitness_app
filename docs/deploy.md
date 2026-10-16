@@ -22,9 +22,10 @@ index, který v projektu už není, skončí chybou – smaž je ručně z PC.
 1. [Google Cloud Console](https://console.cloud.google.com/iam-admin/serviceaccounts?project=fitness-app-dc5e4)
    → **IAM & Admin → Service Accounts → Create service account**, název
    např. `github-deploy`.
-2. Role: **Firebase Admin**, **Service Account User** a **Cloud Functions
-   Admin**. Když nasazení později ohlásí chybějící oprávnění, přidej roli,
-   kterou chyba jmenuje.
+2. Role: **Firebase Admin**, **Service Account User**, **Cloud Functions
+   Admin** a **Cloud Scheduler Admin** (plánované funkce `expireTrainers`
+   a `purgeOldContentReports`). Když nasazení později ohlásí chybějící
+   oprávnění, přidej roli, kterou chyba jmenuje.
 3. U účtu **Keys → Add key → Create new key → JSON** – stáhne se soubor.
    Klíč nikam neposílej a nedávej do projektu (`.gitignore` hlídá
    `*service-account*.json`).
