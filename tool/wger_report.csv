@@ -1,54 +1,171 @@
-slug,wger_id,wger_name,score,images,ai_generated,alternatives
-bench_press,73,Bench Press,130,2,,#539 Incline Bench Press - MP | #76 Bench Press Narrow Grip | #185 Decline Bench Press Barbell
-incline_dumbbell_press,537,Incline Bench Press - Dumbbell,70,2,,#925 Smith Machine Slight Incline Press | #1353 Dumbbell Hex Press | #538 Incline Bench Press - Barbell
-cable_fly,237,Fly With Cable,124,2,,#1922 Seated Cable chest fly | #1473 Reverse Cable Flye | #1270 Low Pulley Cable Fly
-push_up,1551,Push-Up,130,1,,#1554 Clap Push-UP | #1112 Push-Ups | Decline | #1964 Wide Push-Up
-deadlift,184,Deadlifts,125,1,,#484 Rack Deadlift | #630 Sumo Deadlift | #507 Romanian Deadlift
-barbell_row,83,Bent Over Rowing,124,2,,#84 Bent Over Rowing Reverse | #1698 Barbell Row (Overhand) | #1699 Barbell Row (Underhand)
-lat_pulldown,158,Close-grip Lat Pull Down,86,2,,#1971 Mentzer Pulldown | #1635 Modified pulldown | #1138 Incline bench pulldown
-pull_up,475,Pull-ups,125,1,,#979 Leg raises pull up bar | #1545 Archer Pull Up | #1741 L-Sit Pull-ups
-overhead_press,566,"Shoulder Press, Barbell",127,2,,#687 Overhead Press | #1893 Overhead Barbell Press | #2537 Overhead Press Isometric
-lateral_raise,348,Lateral Raises,127,2,,#1654 Machine Lateral Raise | #2658 Dumbbell Lateral Raise | #2538 Lateral Raise Isometric
-pike_push_up,454,Pike Push Ups,125,1,yes,#1551 Push-Up | #1554 Clap Push-UP | #1964 Wide Push-Up
-dumbbell_curl,92,Biceps Curls With Dumbbell,127,2,,#1931 Dumbbell Curl | #1192 Alternating Biceps Curls With Dumbbell | #1225 Dumbbell wide bicep curls
-triceps_pushdown,1185,Triceps Pushdown,130,1,,#1900 Tricep Rope Pushdowns | #805 Tricep Pushdown on Cable | #1485 Rocking Triceps Pushdown
-dips,194,Dips,130,1,,#1000 Floor dips | #197 Dips Between Two Benches | #1269 TRX dips
-back_squat,977,Box squat,96,1,yes,#615 Squats | #1963 Slow Squat | #1801 Barbell Full Squat
-leg_press,371,Leg Press,130,1,,#373 Leg Presses (narrow) | #375 Leg Press on Hackenschmidt Machine | #146 Calf Press Using Leg Press Machine
-romanian_deadlift,507,Romanian Deadlift,130,1,yes,#1652 Dumbbell Romanian Deadlift | #1700 Barbell Romanian Deadlift (RDL) | #484 Rack Deadlift
-bodyweight_squat,615,Squats,94,0,,#257 Front Squats | #1312 Bodyweight Squat HD | #632 Sumo Squats
-lunge,984,Lunges,127,1,,#1651 Dumbbell Rear Lunge | #1604 Sliding Lateral Lunge | #1874 Runners Lunge Stretch
-hip_thrust,294,Hip Thrust,100,0,,#1642 Dumbbell Hip Thrust | #1913 Unilateral Hip Thrust | #1234 Dumbbell Single-leg Hip Thrust
-glute_bridge,265,Glute Bridge,130,1,,#1906 Hip Bridge | #1740 Single Leg Glute Bridge | #1263 Back bridge
-plank,458,Plank,130,2,,#1307 Front Plank | #1091 Plank Shoulder Taps | #1911 Cat Plank
-crunch,167,Crunches,127,2,,#576 Side Crunch | #1648 Weighted Crunch | #1772 Reverse crunch
-mountain_climber,996,Mountain climbers,97,0,,
-jumping_jack,320,Jumping Jacks,127,2,yes,#1314 Jumping Jack HD | #1962 Step Jack
-dumbbell_bench_press,537,Incline Bench Press - Dumbbell,70,2,,#161 Cross-Bench Dumbbell Pullovers | #1353 Dumbbell Hex Press | #185 Decline Bench Press Barbell
-incline_bench_press,539,Incline Bench Press - MP,97,2,,#538 Incline Bench Press - Barbell | #537 Incline Bench Press - Dumbbell | #1773 Legend Incline Bench Press
-chest_press_machine,129,Chest Press,124,2,yes,#2627 Machine Chest Press | #1831 Hammerstrength Decline Chest Press | #379 Leverage Machine Chest Press
-pec_deck,135,Butterfly,127,2,,#1904 Pec Deck | #1476 Butterfly Sit Up | #139 Butterfly Reverse
-seated_cable_row,1117,Seated Cable Row,130,2,,#1725 Seated Row (Machine) | #1621 Unilateral Cable row | #1922 Seated Cable chest fly
-one_arm_dumbbell_row,1637,Single arm row,124,1,,#2642 One-Arm Dumbbell Row | #81 Bent Over Dumbbell Rows (Single Arm) | #1283 Incline Chest-Supported Dumbbell Row
-chin_up,152,Chin Up,130,2,,#1737 Assisted chin-ups | #1006 Chin tuck
-dumbbell_shoulder_press,567,"Shoulder Press, Dumbbells",127,2,,"#1968 Single-arm dumbbell shoulder press | #566 Shoulder Press, Barbell | #543 Shoulder Press, on Machine"
-rear_delt_fly,822,Cable Rear Delt Fly,94,2,,#82 Bent-over Lateral Raises | #828 Incline Bench Reverse Fly | #1775 Pec deck rear delt fly
-face_pull,1639,Dumbbell Bent Over Face Pull,81,1,,#1732 Face pulls with yellow/green band | #475 Pull-ups | #289 High Pull
-barbell_curl,91,Biceps Curls With Barbell,127,2,,#1290 Reverse Grip Barbell Curls | #51 Barbell Wrist Curl | #1638 Barbell Clean and press
-hammer_curl,272,Hammer Curls,125,2,,#275 Hammercurls on Cable | #1567 Alternating dumbbell hammer curl | #1260 TRX hammer curl
-cable_curl,1531,Cable Curls,95,0,,#912 Straight Bar Cable Curls | #95 Biceps Curl With Cable | #1109 Cable Concentration Curl
-skull_crusher,246,Skullcrusher SZ-bar,90,2,,#1468 Floor Skull Crusher | #245 Skullcrusher Dumbbells | #73 Bench Press
-overhead_triceps_extension,1519,Overhead Triceps Extension,130,1,,#50 Barbell Triceps Extension | #659 Triceps Extensions on Cable | #2660 Bent-Over Dumbbell Triceps Extension
-close_grip_bench_press,76,Bench Press Narrow Grip,124,2,,#1228 Dumbbell close grip bench press | #1086 Close-grip Press-ups | #598 Smith Machine Close-grip Bench Press
-front_squat,257,Front Squats,127,2,,#1640 Dumbbell Front Squat | #1361 Double Kettlebell Front Squat | #977 Box squat
-goblet_squat,203,Dumbbell Goblet Squat,91,2,,#977 Box squat | #1963 Slow Squat | #456 Pistol Squat
-bulgarian_split_squat,988,Bulgarian split squats left,94,1,,#1593 Smith Machine Split Squat | #989 Bulgarian split squats right | #991 Split squats left
-leg_extension,369,Leg Extension,130,2,,#71 Single Leg Extension | #2535 Leg Extension Isometric | #1131 Cable glute extension
-leg_curl,364,Leg Curl,130,1,,#365 Leg Curls (laying) | #366 Leg Curls (sitting) | #367 Leg Curls (standing)
-calf_raise,622,Standing Calf Raises,127,2,,#1243 Double Leg Calf Raise | #1620 Seated Dumbbell Calf Raise | #2661 Dumbbell Calf Raise
-hanging_leg_raise,283,Hanging Leg Raises,97,0,,"#1889 Decline Bench Leg Raise | #1243 Double Leg Calf Raise | #377 Leg Raises, Lying"
-cable_crunch,576,Side Crunch,50,2,,#323 Cable Cross-over | #1648 Weighted Crunch | #990 Kneeling kickbacks
-dead_bug,178,Deadbug,97,0,,#182 Deadhang
-side_plank,580,Side Plank,100,0,,#1019 Side plank right | #1288 Dynamic side plank | #1091 Plank Shoulder Taps
-burpee,132,Burpees,97,0,,#997 4-count burpees | #998 No push-up burpees
-kettlebell_swing,960,Kettlebell Swing,130,1,,#331 Kettlebell Swings | #9 2 Handed Kettlebell Swing | #1612 kettlebell sumo deadlift
+slug,wger_id,wger_name,score,images,animated,ai_generated,alternatives
+bench_press,73,Bench Press,130,2,,,#539 Incline Bench Press - MP | #76 Bench Press Narrow Grip | #185 Decline Bench Press Barbell
+incline_dumbbell_press,537,Incline Bench Press - Dumbbell,70,2,,,#925 Smith Machine Slight Incline Press | #1353 Dumbbell Hex Press | #538 Incline Bench Press - Barbell
+cable_fly,237,Fly With Cable,124,2,,,#1922 Seated Cable chest fly | #1473 Reverse Cable Flye | #1270 Low Pulley Cable Fly
+push_up,1551,Push-Up,130,1,,,#1554 Clap Push-UP | #1112 Push-Ups | Decline | #1964 Wide Push-Up
+deadlift,184,Deadlifts,125,1,,,#484 Rack Deadlift | #630 Sumo Deadlift | #507 Romanian Deadlift
+barbell_row,83,Bent Over Rowing,124,2,,,#84 Bent Over Rowing Reverse | #1698 Barbell Row (Overhand) | #1699 Barbell Row (Underhand)
+lat_pulldown,158,Close-grip Lat Pull Down,86,1,yes,,#1971 Mentzer Pulldown | #1635 Modified pulldown | #1138 Incline bench pulldown
+pull_up,475,Pull-ups,125,1,,,#979 Leg raises pull up bar | #1545 Archer Pull Up | #1741 L-Sit Pull-ups
+overhead_press,566,"Shoulder Press, Barbell",127,2,,,#687 Overhead Press | #1893 Overhead Barbell Press | #2537 Overhead Press Isometric
+lateral_raise,348,Lateral Raises,127,2,,,#1654 Machine Lateral Raise | #2658 Dumbbell Lateral Raise | #2538 Lateral Raise Isometric
+pike_push_up,454,Pike Push Ups,125,1,,yes,#1551 Push-Up | #1554 Clap Push-UP | #1964 Wide Push-Up
+dumbbell_curl,92,Biceps Curls With Dumbbell,127,2,,,#1931 Dumbbell Curl | #1192 Alternating Biceps Curls With Dumbbell | #1225 Dumbbell wide bicep curls
+triceps_pushdown,1185,Triceps Pushdown,130,1,,,#1900 Tricep Rope Pushdowns | #805 Tricep Pushdown on Cable | #1485 Rocking Triceps Pushdown
+dips,194,Dips,130,1,,,#1000 Floor dips | #197 Dips Between Two Benches | #1269 TRX dips
+back_squat,977,Box squat,96,1,,yes,#615 Squats | #1963 Slow Squat | #1801 Barbell Full Squat
+leg_press,371,Leg Press,130,1,yes,,#373 Leg Presses (narrow) | #375 Leg Press on Hackenschmidt Machine | #146 Calf Press Using Leg Press Machine
+romanian_deadlift,507,Romanian Deadlift,130,1,,yes,#1652 Dumbbell Romanian Deadlift | #1700 Barbell Romanian Deadlift (RDL) | #484 Rack Deadlift
+bodyweight_squat,615,Squats,94,0,,,#257 Front Squats | #1312 Bodyweight Squat HD | #632 Sumo Squats
+lunge,984,Lunges,127,1,,,#1651 Dumbbell Rear Lunge | #1604 Sliding Lateral Lunge | #1874 Runners Lunge Stretch
+hip_thrust,294,Hip Thrust,100,0,,,#1642 Dumbbell Hip Thrust | #1913 Unilateral Hip Thrust | #1234 Dumbbell Single-leg Hip Thrust
+glute_bridge,265,Glute Bridge,130,1,,,#1906 Hip Bridge | #1740 Single Leg Glute Bridge | #1263 Back bridge
+plank,458,Plank,130,2,,,#1307 Front Plank | #1091 Plank Shoulder Taps | #1911 Cat Plank
+crunch,167,Crunches,127,2,,,#576 Side Crunch | #1648 Weighted Crunch | #1772 Reverse crunch
+mountain_climber,996,Mountain climbers,97,0,,,
+jumping_jack,320,Jumping Jacks,127,2,,yes,#1314 Jumping Jack HD | #1962 Step Jack
+dumbbell_bench_press,537,Incline Bench Press - Dumbbell,70,2,,,#161 Cross-Bench Dumbbell Pullovers | #1353 Dumbbell Hex Press | #185 Decline Bench Press Barbell
+incline_bench_press,539,Incline Bench Press - MP,97,2,,,#538 Incline Bench Press - Barbell | #537 Incline Bench Press - Dumbbell | #1773 Legend Incline Bench Press
+chest_press_machine,129,Chest Press,124,2,,yes,#2627 Machine Chest Press | #1831 Hammerstrength Decline Chest Press | #379 Leverage Machine Chest Press
+pec_deck,135,Butterfly,127,2,,,#1904 Pec Deck | #1476 Butterfly Sit Up | #139 Butterfly Reverse
+seated_cable_row,1117,Seated Cable Row,130,2,,,#1725 Seated Row (Machine) | #1621 Unilateral Cable row | #1922 Seated Cable chest fly
+one_arm_dumbbell_row,1637,Single arm row,124,1,,,#2642 One-Arm Dumbbell Row | #81 Bent Over Dumbbell Rows (Single Arm) | #1283 Incline Chest-Supported Dumbbell Row
+chin_up,152,Chin Up,130,2,,,#1737 Assisted chin-ups | #1006 Chin tuck
+dumbbell_shoulder_press,567,"Shoulder Press, Dumbbells",127,2,,,"#1968 Single-arm dumbbell shoulder press | #566 Shoulder Press, Barbell | #543 Shoulder Press, on Machine"
+rear_delt_fly,822,Cable Rear Delt Fly,94,2,,,#82 Bent-over Lateral Raises | #828 Incline Bench Reverse Fly | #1775 Pec deck rear delt fly
+face_pull,1639,Dumbbell Bent Over Face Pull,81,1,,,#1732 Face pulls with yellow/green band | #475 Pull-ups | #289 High Pull
+barbell_curl,91,Biceps Curls With Barbell,127,2,,,#1290 Reverse Grip Barbell Curls | #51 Barbell Wrist Curl | #1638 Barbell Clean and press
+hammer_curl,272,Hammer Curls,125,2,,,#275 Hammercurls on Cable | #1567 Alternating dumbbell hammer curl | #1260 TRX hammer curl
+cable_curl,1531,Cable Curls,95,0,,,#912 Straight Bar Cable Curls | #95 Biceps Curl With Cable | #1109 Cable Concentration Curl
+skull_crusher,246,Skullcrusher SZ-bar,90,2,,,#1468 Floor Skull Crusher | #245 Skullcrusher Dumbbells | #73 Bench Press
+overhead_triceps_extension,1519,Overhead Triceps Extension,130,1,yes,,#50 Barbell Triceps Extension | #659 Triceps Extensions on Cable | #2660 Bent-Over Dumbbell Triceps Extension
+close_grip_bench_press,76,Bench Press Narrow Grip,124,2,,,#1228 Dumbbell close grip bench press | #1086 Close-grip Press-ups | #598 Smith Machine Close-grip Bench Press
+front_squat,257,Front Squats,127,2,,,#1640 Dumbbell Front Squat | #1361 Double Kettlebell Front Squat | #977 Box squat
+goblet_squat,203,Dumbbell Goblet Squat,91,1,yes,,#977 Box squat | #1963 Slow Squat | #456 Pistol Squat
+bulgarian_split_squat,988,Bulgarian split squats left,94,1,,,#1593 Smith Machine Split Squat | #989 Bulgarian split squats right | #991 Split squats left
+leg_extension,369,Leg Extension,130,1,yes,,#71 Single Leg Extension | #2535 Leg Extension Isometric | #1131 Cable glute extension
+leg_curl,364,Leg Curl,130,1,,,#365 Leg Curls (laying) | #366 Leg Curls (sitting) | #367 Leg Curls (standing)
+calf_raise,622,Standing Calf Raises,127,2,,,#1243 Double Leg Calf Raise | #1620 Seated Dumbbell Calf Raise | #2661 Dumbbell Calf Raise
+hanging_leg_raise,283,Hanging Leg Raises,97,0,,,"#1889 Decline Bench Leg Raise | #1243 Double Leg Calf Raise | #377 Leg Raises, Lying"
+cable_crunch,576,Side Crunch,50,2,,,#323 Cable Cross-over | #1648 Weighted Crunch | #990 Kneeling kickbacks
+dead_bug,178,Deadbug,97,0,,,#182 Deadhang
+side_plank,580,Side Plank,100,0,,,#1019 Side plank right | #1288 Dynamic side plank | #1091 Plank Shoulder Taps
+burpee,132,Burpees,97,0,,,#997 4-count burpees | #998 No push-up burpees
+kettlebell_swing,960,Kettlebell Swing,130,1,,,#331 Kettlebell Swings | #9 2 Handed Kettlebell Swing | #1612 kettlebell sumo deadlift
+weighted_pull_up,475,Pull-ups,119,1,,,#979 Leg raises pull up bar | #1545 Archer Pull Up | #1741 L-Sit Pull-ups
+weighted_dips,194,Dips,124,1,,,#1000 Floor dips | #197 Dips Between Two Benches | #1269 TRX dips
+barbell_shrug,571,"Shrugs, Barbells",127,2,,,"#1830 Barbell Step Back Lunge | #1801 Barbell Full Squat | #566 Shoulder Press, Barbell"
+dumbbell_shrug,572,"Shrugs, Dumbbells",127,2,,,#1968 Single-arm dumbbell shoulder press | #1947 dumbbell snatch | #1650 Dumbbell Side Bend
+wrist_curl,51,Barbell Wrist Curl,92,1,yes,,"#1771 Wrist curl, cable | #1205 Wrist curl, dumbbells | #48 Barbell Reverse Wrist Curl"
+reverse_curl,495,Reverse Curl,100,0,,,#909 Reverse Nordic Curl | #1290 Reverse Grip Barbell Curls | #51 Barbell Wrist Curl
+dead_hang,804,Sloper hanging,87,1,,yes,#1087 Dumbbell Hang Power Cleans | #182 Deadhang | #2533 Arch Hang
+back_extension,301,Hyperextensions,127,2,,yes,#1348 Lower Back Extensions | #1809 Reverse Hyperextension | #1143 Back extensión
+good_morning,1392,Good Morning,130,2,,,#1845 Seated Pancake Good Morning | #1397 Standing Pancake Good Morning
+superman,636,Superman,100,0,,,#1455 Towel Superman | #1910 Kneeling Superman | #1908 Butterfly Superman
+decline_bench_press,185,Decline Bench Press Barbell,92,2,,,#186 Decline Bench Press Dumbbell | #537 Incline Bench Press - Dumbbell | #539 Incline Bench Press - MP
+smith_bench_press,925,Smith Machine Slight Incline Press,60,1,,yes,#539 Incline Bench Press - MP | #1747 Smith machine squat | #1593 Smith Machine Split Squat
+dumbbell_fly,308,Incline Dumbbell Fly,62,0,,,#238 Fly With Dumbbells | #1084 Dumbbell Floor Press | #1640 Dumbbell Front Squat
+incline_dumbbell_fly,308,Incline Dumbbell Fly,100,0,,,#537 Incline Bench Press - Dumbbell | #1283 Incline Chest-Supported Dumbbell Row | #238 Fly With Dumbbells
+low_to_high_cable_fly,1691,Cable Fly Lower Chest,59,0,,,#237 Fly With Cable | #822 Cable Rear Delt Fly | #1296 Low-Cable Cross-Over - NB
+incline_chest_press_machine,925,Smith Machine Slight Incline Press,67,1,,yes,"#146 Calf Press Using Leg Press Machine | #543 Shoulder Press, on Machine | #539 Incline Bench Press - MP"
+chest_dips,194,Dips,124,1,,,#1000 Floor dips | #197 Dips Between Two Benches | #1269 TRX dips
+incline_push_up,1551,Push-Up,57,1,,,#1554 Clap Push-UP | #1138 Incline bench pulldown | #1080 Hindu Pushups
+decline_push_up,1112,Push-Ups | Decline,57,1,,,#1551 Push-Up | #1554 Clap Push-UP | #1080 Hindu Pushups
+dumbbell_floor_press,1084,Dumbbell Floor Press,130,1,,,"#537 Incline Bench Press - Dumbbell | #1353 Dumbbell Hex Press | #567 Shoulder Press, Dumbbells"
+t_bar_row,919,T-Bar row,100,0,,,"#513 Rowing, T-bar | #693 Upright Row, SZ-bar | #1580 Perpendicular Unilateral Landmine Row"
+pendlay_row,,,0,0,,,
+machine_row,1725,Seated Row (Machine),127,1,,,#926 Machine chest fly | #1654 Machine Lateral Raise | #380 Leverage Machine Iso Row
+chest_supported_row,310,Incline Dumbbell Row,97,0,,,#1283 Incline Chest-Supported Dumbbell Row | #2678 Incline Row - Rings | #537 Incline Bench Press - Dumbbell
+close_grip_lat_pulldown,695,V-Bar Pulldown,94,0,,,#1127 Close-grip supinated lat pulldown | #158 Close-grip Lat Pull Down | #1971 Mentzer Pulldown
+straight_arm_pulldown,1726,Straight-Arm Pulldown (Cable),94,1,,,#1727 Side Straight-Arm Pulldown (Cable) | #628 Straight-arm Pull Down (bar Attachment) | #629 Straight-arm Pull Down (rope Attachment)
+band_assisted_pull_up,1929,Assisted Pull-Up,97,0,,,#475 Pull-ups | #1545 Archer Pull Up | #1380 Band pull-aparts
+inverted_row,1198,Inverted Rows,125,1,,,#1927 Inverted Lat Pull Down | #508 Row
+neutral_grip_pull_up,1738,Neutral-grip pull-ups or TRX rows,87,1,,,#1136 Neutral-grip chest pulldown | #475 Pull-ups | #279 Hand Grip
+rack_pull,475,Pull-ups,50,1,,,#484 Rack Deadlift | #630 Sumo Deadlift | #507 Romanian Deadlift
+trap_bar_deadlift,484,Rack Deadlift,43,2,,,#630 Sumo Deadlift | #507 Romanian Deadlift | #1088 Dumbbell sumo deadlift
+single_arm_cable_row,1637,Single arm row,60,1,,,#1022 Single Arm Plank to Row | #1378 Cable Lateral Raises (Single Arm) | #1186 One Arm Bent Row
+dumbbell_pullover,1273,Pullover,97,0,,,#1634 Rope Pullover/row | #161 Cross-Bench Dumbbell Pullovers | #1137 High-pulley pullover
+renegade_row,490,Renegade Row,100,0,,,#1022 Single Arm Plank to Row | #458 Plank | #1307 Front Plank
+arnold_press,20,Arnold Shoulder Press,97,0,,,"#566 Shoulder Press, Barbell | #567 Shoulder Press, Dumbbells | #543 Shoulder Press, on Machine"
+shoulder_press_machine,543,"Shoulder Press, on Machine",70,2,,,"#566 Shoulder Press, Barbell | #567 Shoulder Press, Dumbbells | #1968 Single-arm dumbbell shoulder press"
+push_press,478,Push Press,130,1,,,#371 Leg Press | #1581 Trap press | #73 Bench Press
+cable_lateral_raise,1378,Cable Lateral Raises (Single Arm),88,1,,,#1882 High-Cable Lateral Raise | #2624 Lean-Away Cable Lateral Raise | #1654 Machine Lateral Raise
+machine_lateral_raise,1654,Machine Lateral Raise,130,1,,,#1744 Machine Side Lateral Raises | #2658 Dumbbell Lateral Raise | #2538 Lateral Raise Isometric
+front_raise,256,Front Raises,127,1,,,#1745 Cable Front Raise with a small bar | #1731 Front Raise (Cable) | #2622 Banded Front Raise
+upright_row,693,"Upright Row, SZ-bar",93,1,,,"#694 Upright Row w/ Dumbbells | #691 Upright Row, on Multi Press | #41 Barbell Ab Rollout"
+reverse_pec_deck,828,Incline Bench Reverse Fly,54,2,,,#926 Machine chest fly | #487 Rear Delt Raises | #822 Cable Rear Delt Fly
+band_pull_apart,1380,Band pull-aparts,97,0,,,#1826 Band pull-apart with external rotation
+handstand_push_up,2621,Box Handstand Push-up,66,0,,,#1551 Push-Up | #1554 Clap Push-UP | #282 Handstand Pushup
+landmine_press,346,Landmine press,100,0,,,#1968 Single-arm dumbbell shoulder press | #371 Leg Press | #1022 Single Arm Plank to Row
+preacher_curl,465,Preacher Curls,127,2,,,#2633 Preacher Curl Machine | #2539 Preacher Curl Isometric | #584 Single-arm Preacher Curl
+concentration_curl,1109,Cable Concentration Curl,94,1,,,#202 Dumbbell Concentration Curl
+incline_dumbbell_curl,204,Dumbbell Incline Curl,58,0,,,#537 Incline Bench Press - Dumbbell | #1283 Incline Chest-Supported Dumbbell Row | #171 Incline Crunches
+ez_bar_curl,95,Biceps Curl With Cable,51,2,,,#94 Biceps Curls With SZ-bar | #51 Barbell Wrist Curl | #364 Leg Curl
+rope_hammer_curl,1567,Alternating dumbbell hammer curl,57,1,,,#95 Biceps Curl With Cable | #1109 Cable Concentration Curl | #272 Hammer Curls
+machine_biceps_curl,1424,Biceps Curl Machine,97,0,,,#95 Biceps Curl With Cable | #94 Biceps Curls With SZ-bar | #91 Biceps Curls With Barbell
+band_curl,364,Leg Curl,50,1,,,#51 Barbell Wrist Curl | #493 Reverse Bar Curl | #1493 Bayesian Curl
+rope_pushdown,1900,Tricep Rope Pushdowns,92,1,,,#1185 Triceps Pushdown | #50 Barbell Triceps Extension | #1519 Overhead Triceps Extension
+overhead_cable_extension,1519,Overhead Triceps Extension,60,1,yes,,#1131 Cable glute extension | #659 Triceps Extensions on Cable | #50 Barbell Triceps Extension
+triceps_kickback,990,Kneeling kickbacks,85,1,,yes,#1490 Lying Triceps Kickback | #655 Tricep Dumbbell Kickback | #1185 Triceps Pushdown
+bench_dips,197,Dips Between Two Benches,124,2,,,#1320 Bench Dips On Floor HD | #161 Cross-Bench Dumbbell Pullovers | #73 Bench Press
+machine_triceps_dip,1725,Seated Row (Machine),54,1,,,#1747 Smith machine squat | #926 Machine chest fly | #1748 Machine Hip Abduction
+single_arm_pushdown,1022,Single Arm Plank to Row,57,2,,,#1637 Single arm row | #1185 Triceps Pushdown | #805 Tricep Pushdown on Cable
+diamond_push_up,386,Diamond push ups,95,0,,,#1551 Push-Up | #1554 Clap Push-UP | #1086 Close-grip Press-ups
+reverse_wrist_curl,1881,DB Wrist Extension,64,0,,,#48 Barbell Reverse Wrist Curl | #2636 FlexBar Wrist Extension | #51 Barbell Wrist Curl
+hack_squat,1414,Hack Squats,95,0,,,#1464 Pause Hack Squats | #43 Barbell Hack Squats | #1747 Smith machine squat
+smith_squat,1747,Smith machine squat,130,1,,,#1593 Smith Machine Split Squat | #925 Smith Machine Slight Incline Press | #1725 Seated Row (Machine)
+walking_lunge,206,Dumbbell Lunges Walking,67,2,,,#1651 Dumbbell Rear Lunge | #984 Lunges | #802 Barbell Lunges Walking
+reverse_lunge,999,Reverse lunges,97,0,,,#1651 Dumbbell Rear Lunge | #2620 Reverse V-Squat | #206 Dumbbell Lunges Walking
+step_up,981,Step-ups,125,1,,yes,#722 Weighted Step-ups | #1962 Step Jack | #1830 Barbell Step Back Lunge
+split_squat,1366,Dumbbell Split Squat,97,0,,,#1593 Smith Machine Split Squat | #988 Bulgarian split squats left | #991 Split squats left
+sumo_squat,632,Sumo Squats,95,0,,,#1088 Dumbbell sumo deadlift | #1653 Dumbbell Side Squat | #1640 Dumbbell Front Squat
+pistol_squat,456,Pistol Squat,130,2,,,#1020 Pistol squats right | #977 Box squat | #1963 Slow Squat
+single_leg_press,2677,Single leg press,100,0,,,#1735 Single-leg side glute press | #146 Calf Press Using Leg Press Machine | #2619 Single-Leg Soft-Landing Holds
+hip_adduction_machine,12,Seated Hip Adduction,87,1,yes,,#1748 Machine Hip Abduction | #1526 Ski Machine | #2614 Adductor Rock Backs
+wall_sit,1408,Wall-sit,100,0,,,#718 Wall Squat | #1100 Wall balls | #1801 Barbell Full Squat
+jump_squat,614,Squat Jumps,97,0,,,#977 Box squat | #1963 Slow Squat | #456 Pistol Squat
+box_jump,1373,box jumps,97,0,,,#285 High Knee Jumps | #993 Jump rope: basic jumps | #614 Squat Jumps
+seated_leg_curl,366,Leg Curls (sitting),127,2,,,#2626 Machine Seated Leg Curl | #1448 Seated W Curl | #364 Leg Curl
+nordic_curl,910,Nordic Curl,97,0,,,#909 Reverse Nordic Curl | #364 Leg Curl | #1387 Hamstring Kicks
+single_leg_rdl,1736,Single-Leg Deadlift with Dumbbell,83,1,,,#2619 Single-Leg Soft-Landing Holds | #1735 Single-leg side glute press | #507 Romanian Deadlift
+dumbbell_romanian_deadlift,1652,Dumbbell Romanian Deadlift,130,1,,,#507 Romanian Deadlift | #1088 Dumbbell sumo deadlift | #1736 Single-Leg Deadlift with Dumbbell
+stiff_leg_deadlift,627,Stiff-legged Deadlifts,92,0,,,#1736 Single-Leg Deadlift with Dumbbell | #1641 Kettlebell One Legged Deadlift | #630 Sumo Deadlift
+stability_ball_leg_curl,364,Leg Curl,51,1,,,#367 Leg Curls (standing) | #366 Leg Curls (sitting) | #365 Leg Curls (laying)
+sumo_deadlift,630,Sumo Deadlift,130,1,yes,,#1088 Dumbbell sumo deadlift | #1612 kettlebell sumo deadlift | #484 Rack Deadlift
+cable_glute_kickback,1613,rubber band glute kickback,82,1,,,#1131 Cable glute extension | #1723 Glute Kickback (Machine) | #1509 Cable Tricep Kickback
+hip_abduction_machine,1748,Machine Hip Abduction,86,1,,,#1886 Supine Hip Abduction | #1672 Seated Hip Abduction | #1915 Quadruped Hip Abduction
+machine_hip_thrust,1528,Glute Drive,94,0,,,#1748 Machine Hip Abduction | #1642 Dumbbell Hip Thrust | #265 Glute Bridge
+single_leg_glute_bridge,1740,Single Leg Glute Bridge,100,0,,,#1735 Single-leg side glute press | #265 Glute Bridge | #1686 Glute Bridge Single-Arm Press
+donkey_kick,1616,Dumbbell donkey kick,91,1,,,#369 Leg Extension | #1915 Quadruped Hip Abduction | #1717 Neck extension
+fire_hydrant,1956,Fire Hydrant Circles,62,0,,,
+banded_lateral_walk,2665,Banded Monster Walk,57,0,,,#348 Lateral Raises | #1514 Lateral Walk
+cable_pull_through,1751,Cable pull through,100,0,,,#1687 Bear crawl pull through | #1755 Shoulder Y-pull cable | #289 High Pull
+seated_calf_raise,1620,Seated Dumbbell Calf Raise,70,1,,,#2628 Machine Seated Calf Raise | #1243 Double Leg Calf Raise | #622 Standing Calf Raises
+single_leg_calf_raise,1243,Double Leg Calf Raise,60,1,,,#1620 Seated Dumbbell Calf Raise | #1378 Cable Lateral Raises (Single Arm) | #1388 Single Leg RDL
+leg_press_calf_raise,146,Calf Press Using Leg Press Machine,73,1,,,#1243 Double Leg Calf Raise | #375 Leg Press on Hackenschmidt Machine | #371 Leg Press
+sit_up,591,Sit-ups,95,0,,,#1479 Sit Up Elbow Thrust | #1476 Butterfly Sit Up | #607 Splinter Sit-ups
+decline_sit_up,1112,Push-Ups | Decline,43,1,,,#1889 Decline Bench Leg Raise | #185 Decline Bench Press Barbell | #591 Sit-ups
+bicycle_crunch,1412,bicycle crunches,97,0,,,#576 Side Crunch | #167 Crunches | #171 Incline Crunches
+reverse_crunch,1772,Reverse crunch,100,0,,,#828 Incline Bench Reverse Fly | #167 Crunches | #171 Incline Crunches
+lying_leg_raise,377,"Leg Raises, Lying",127,2,,,#376 Leg Raise | #979 Leg raises pull up bar | #1889 Decline Bench Leg Raise
+captains_chair_knee_raise,978,Knee Raises,122,1,,yes,#1474 W-Raise | #376 Leg Raise | #1834 Trap-3 Raise
+ab_wheel_rollout,1573,Ab wheel,124,2,,,#41 Barbell Ab Rollout | #1856 Foam Roller Anterior tibialis | #1854 Calves foam roller
+russian_twist,1193,Russian Twist,130,1,,,#2530 Russian Push Ups | #1377 Torso Twist
+v_up,2689,V-Up - Mark Lauren,58,0,,,#152 Chin Up | #1551 Push-Up | #1554 Clap Push-UP
+hollow_hold,297,Hollow Hold,127,1,,yes,#382 L Hold
+pallof_press,1194,Pallof Press,130,2,,yes,#371 Leg Press | #478 Push Press | #1581 Trap press
+cable_woodchopper,145,Cable Woodchoppers,95,0,,,#237 Fly With Cable | #516 Front Wood Chop | #1690 Cable Fly Upper Chest
+plank_shoulder_tap,1091,Plank Shoulder Taps,125,1,,,"#566 Shoulder Press, Barbell | #570 Shoulder Shrug | #458 Plank"
+bird_dog,1572,Bird Dog,130,1,,,
+power_clean,683,Power Clean,100,0,,,#1438 Clean | #1901 Clean and Press | #1087 Dumbbell Hang Power Cleans
+thruster,650,Thruster,100,0,,,#1684 Dumbbell Thruster | #1830 Barbell Step Back Lunge | #1479 Sit Up Elbow Thrust
+turkish_get_up,675,Turkish Get-Up,100,0,,,
+bear_crawl,1687,Bear crawl pull through,57,0,,,
+high_knees,983,High knees,130,1,,,#1965 Marching High Knees | #285 High Knee Jumps | #1318 High Knee Skips HD
+jump_rope,993,Jump rope: basic jumps,58,0,,,#320 Jumping Jacks | #595 Skipping - Standard | #1314 Jumping Jack HD
+rowing_machine,1093,Rowing Machine,100,0,,,"#513 Rowing, T-bar | #83 Bent Over Rowing | #84 Bent Over Rowing Reverse"
+stationary_bike,624,Stationary Bike,100,0,,,#177 Cycling | #1618 Stationary bike cardio | #1204 Cycling cardio session
+treadmill_run,1615,Treadmill Cardio,90,1,,,#530 Run - Treadmill | #908 Zone 2 Running | #2549 Retro Treadmill Walking
+elliptical,962,Elliptical,97,0,,,#323 Cable Cross-over
+stair_climber,1747,Smith machine squat,44,1,,,#1593 Smith Machine Split Squat | #1744 Machine Side Lateral Raises | #925 Smith Machine Slight Incline Press
+air_bike,,,0,0,,,

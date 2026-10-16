@@ -1,0 +1,1375 @@
+{
+  "ab_wheel_rollout": {
+    "wgerId": 1573,
+    "images": [
+      {
+        "asset": "assets/exercises/ab_wheel_rollout_1.jpg",
+        "author": "wger.de",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/ab_wheel_rollout_2.jpg",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "back_extension": {
+    "wgerId": 301,
+    "images": [
+      {
+        "asset": "assets/exercises/back_extension_1.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      },
+      {
+        "asset": "assets/exercises/back_extension_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "back_squat": {
+    "wgerId": 977,
+    "images": [
+      {
+        "asset": "assets/exercises/back_squat_1.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      }
+    ]
+  },
+  "band_curl": {
+    "wgerId": 364,
+    "images": [
+      {
+        "asset": "assets/exercises/band_curl_1.png",
+        "author": "Franpol",
+        "license": ""
+      }
+    ]
+  },
+  "barbell_curl": {
+    "wgerId": 91,
+    "images": [
+      {
+        "asset": "assets/exercises/barbell_curl_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/barbell_curl_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "barbell_row": {
+    "wgerId": 83,
+    "images": [
+      {
+        "asset": "assets/exercises/barbell_row_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/barbell_row_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "barbell_shrug": {
+    "wgerId": 571,
+    "images": [
+      {
+        "asset": "assets/exercises/barbell_shrug_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/barbell_shrug_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "bench_dips": {
+    "wgerId": 197,
+    "images": [
+      {
+        "asset": "assets/exercises/bench_dips_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/bench_dips_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "bench_press": {
+    "wgerId": 73,
+    "images": [
+      {
+        "asset": "assets/exercises/bench_press_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/bench_press_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "bird_dog": {
+    "wgerId": 1572,
+    "images": [
+      {
+        "asset": "assets/exercises/bird_dog_1.png",
+        "author": "Settebello",
+        "license": "Bird Dog"
+      }
+    ]
+  },
+  "bulgarian_split_squat": {
+    "wgerId": 988,
+    "images": [
+      {
+        "asset": "assets/exercises/bulgarian_split_squat_1.png",
+        "author": "Franpol",
+        "license": ""
+      }
+    ]
+  },
+  "cable_crunch": {
+    "wgerId": 576,
+    "images": [
+      {
+        "asset": "assets/exercises/cable_crunch_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/cable_crunch_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "cable_fly": {
+    "wgerId": 237,
+    "images": [
+      {
+        "asset": "assets/exercises/cable_fly_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/cable_fly_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "cable_glute_kickback": {
+    "wgerId": 1613,
+    "images": [
+      {
+        "asset": "assets/exercises/cable_glute_kickback_1.jpg",
+        "author": "wger.de",
+        "license": "Patada de glúteo con banda elastica"
+      }
+    ]
+  },
+  "cable_lateral_raise": {
+    "wgerId": 1378,
+    "images": [
+      {
+        "asset": "assets/exercises/cable_lateral_raise_1.jpg",
+        "author": "carlos3c",
+        "authorUrl": "https://www.flickr.com/photos/ptpioneer/48317524901/",
+        "license": "Girl doing one arm shoulder raise"
+      }
+    ]
+  },
+  "calf_raise": {
+    "wgerId": 622,
+    "images": [
+      {
+        "asset": "assets/exercises/calf_raise_1.jpeg",
+        "author": "clafal",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/calf_raise_2.jpeg",
+        "author": "clafal",
+        "license": ""
+      }
+    ]
+  },
+  "captains_chair_knee_raise": {
+    "wgerId": 978,
+    "images": [
+      {
+        "asset": "assets/exercises/captains_chair_knee_raise_1.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      }
+    ]
+  },
+  "chest_dips": {
+    "wgerId": 194,
+    "images": [
+      {
+        "asset": "assets/exercises/chest_dips_1.png",
+        "author": "cshep442",
+        "license": ""
+      }
+    ]
+  },
+  "chest_press_machine": {
+    "wgerId": 129,
+    "images": [
+      {
+        "asset": "assets/exercises/chest_press_machine_1.webp",
+        "author": "roneydya",
+        "authorUrl": "https://fitnessvolt.com/wp-content/uploads/2020/01/machine-chest-press-exercise.jpg.webp",
+        "license": "machine chess press"
+      },
+      {
+        "asset": "assets/exercises/chest_press_machine_2.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      }
+    ]
+  },
+  "chin_up": {
+    "wgerId": 152,
+    "images": [
+      {
+        "asset": "assets/exercises/chin_up_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/chin_up_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "close_grip_bench_press": {
+    "wgerId": 76,
+    "images": [
+      {
+        "asset": "assets/exercises/close_grip_bench_press_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/close_grip_bench_press_2.png",
+        "author": "nishant0712",
+        "license": ""
+      }
+    ]
+  },
+  "concentration_curl": {
+    "wgerId": 1109,
+    "images": [
+      {
+        "asset": "assets/exercises/concentration_curl_1.png",
+        "author": "Franpol",
+        "license": ""
+      }
+    ]
+  },
+  "crunch": {
+    "wgerId": 167,
+    "images": [
+      {
+        "asset": "assets/exercises/crunch_1.png",
+        "author": "wger.de",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/crunch_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "dead_hang": {
+    "wgerId": 804,
+    "images": [
+      {
+        "asset": "assets/exercises/dead_hang_1.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      }
+    ]
+  },
+  "deadlift": {
+    "wgerId": 184,
+    "images": [
+      {
+        "asset": "assets/exercises/deadlift_1.jpeg",
+        "author": "philip",
+        "license": ""
+      }
+    ]
+  },
+  "decline_bench_press": {
+    "wgerId": 185,
+    "images": [
+      {
+        "asset": "assets/exercises/decline_bench_press_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/decline_bench_press_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "decline_push_up": {
+    "wgerId": 1112,
+    "images": [
+      {
+        "asset": "assets/exercises/decline_push_up_1.png",
+        "author": "anon1337",
+        "license": ""
+      }
+    ]
+  },
+  "decline_sit_up": {
+    "wgerId": 1112,
+    "images": [
+      {
+        "asset": "assets/exercises/decline_sit_up_1.png",
+        "author": "anon1337",
+        "license": ""
+      }
+    ]
+  },
+  "dips": {
+    "wgerId": 194,
+    "images": [
+      {
+        "asset": "assets/exercises/dips_1.png",
+        "author": "cshep442",
+        "license": ""
+      }
+    ]
+  },
+  "donkey_kick": {
+    "wgerId": 1616,
+    "images": [
+      {
+        "asset": "assets/exercises/donkey_kick_1.jpg",
+        "author": "wger.de",
+        "license": "Patada de burro con mancuerna"
+      }
+    ]
+  },
+  "dumbbell_bench_press": {
+    "wgerId": 537,
+    "images": [
+      {
+        "asset": "assets/exercises/dumbbell_bench_press_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/dumbbell_bench_press_2.jpg",
+        "author": "erikocobra",
+        "license": "Incline Dumbbell Press"
+      }
+    ]
+  },
+  "dumbbell_curl": {
+    "wgerId": 92,
+    "images": [
+      {
+        "asset": "assets/exercises/dumbbell_curl_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/dumbbell_curl_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "dumbbell_floor_press": {
+    "wgerId": 1084,
+    "images": [
+      {
+        "asset": "assets/exercises/dumbbell_floor_press_1.jpg",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "dumbbell_romanian_deadlift": {
+    "wgerId": 1652,
+    "images": [
+      {
+        "asset": "assets/exercises/dumbbell_romanian_deadlift_1.webp",
+        "author": "AlucardEvil40",
+        "license": ""
+      }
+    ]
+  },
+  "dumbbell_shoulder_press": {
+    "wgerId": 567,
+    "images": [
+      {
+        "asset": "assets/exercises/dumbbell_shoulder_press_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/dumbbell_shoulder_press_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "dumbbell_shrug": {
+    "wgerId": 572,
+    "images": [
+      {
+        "asset": "assets/exercises/dumbbell_shrug_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/dumbbell_shrug_2.webp",
+        "author": "AlucardEvil40",
+        "license": ""
+      }
+    ]
+  },
+  "ez_bar_curl": {
+    "wgerId": 95,
+    "images": [
+      {
+        "asset": "assets/exercises/ez_bar_curl_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/ez_bar_curl_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "face_pull": {
+    "wgerId": 1639,
+    "images": [
+      {
+        "asset": "assets/exercises/face_pull_1.webp",
+        "author": "AlucardEvil40",
+        "license": ""
+      }
+    ]
+  },
+  "front_raise": {
+    "wgerId": 256,
+    "images": [
+      {
+        "asset": "assets/exercises/front_raise_1.png",
+        "author": "philip",
+        "license": ""
+      }
+    ]
+  },
+  "front_squat": {
+    "wgerId": 257,
+    "images": [
+      {
+        "asset": "assets/exercises/front_squat_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/front_squat_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "glute_bridge": {
+    "wgerId": 265,
+    "images": [
+      {
+        "asset": "assets/exercises/glute_bridge_1.png",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "goblet_squat": {
+    "wgerId": 203,
+    "animated": true,
+    "images": [
+      {
+        "asset": "assets/exercises/goblet_squat_1.gif",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "good_morning": {
+    "wgerId": 1392,
+    "images": [
+      {
+        "asset": "assets/exercises/good_morning_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/good_morning_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "hammer_curl": {
+    "wgerId": 272,
+    "images": [
+      {
+        "asset": "assets/exercises/hammer_curl_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/hammer_curl_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "high_knees": {
+    "wgerId": 983,
+    "images": [
+      {
+        "asset": "assets/exercises/high_knees_1.png",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "hip_abduction_machine": {
+    "wgerId": 1748,
+    "images": [
+      {
+        "asset": "assets/exercises/hip_abduction_machine_1.jpg",
+        "author": "wger.de",
+        "license": "Abduccion en maquina"
+      }
+    ]
+  },
+  "hip_adduction_machine": {
+    "wgerId": 12,
+    "animated": true,
+    "images": [
+      {
+        "asset": "assets/exercises/hip_adduction_machine_1.webp",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "hollow_hold": {
+    "wgerId": 297,
+    "images": [
+      {
+        "asset": "assets/exercises/hollow_hold_1.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      }
+    ]
+  },
+  "incline_bench_press": {
+    "wgerId": 539,
+    "images": [
+      {
+        "asset": "assets/exercises/incline_bench_press_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/incline_bench_press_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "incline_chest_press_machine": {
+    "wgerId": 925,
+    "images": [
+      {
+        "asset": "assets/exercises/incline_chest_press_machine_1.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      }
+    ]
+  },
+  "incline_dumbbell_press": {
+    "wgerId": 537,
+    "images": [
+      {
+        "asset": "assets/exercises/incline_dumbbell_press_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/incline_dumbbell_press_2.jpg",
+        "author": "erikocobra",
+        "license": "Incline Dumbbell Press"
+      }
+    ]
+  },
+  "incline_push_up": {
+    "wgerId": 1551,
+    "images": [
+      {
+        "asset": "assets/exercises/incline_push_up_1.png",
+        "author": "Settebello",
+        "license": "Push-Up"
+      }
+    ]
+  },
+  "inverted_row": {
+    "wgerId": 1198,
+    "images": [
+      {
+        "asset": "assets/exercises/inverted_row_1.jpg",
+        "author": "Gavru",
+        "license": ""
+      }
+    ]
+  },
+  "jumping_jack": {
+    "wgerId": 320,
+    "images": [
+      {
+        "asset": "assets/exercises/jumping_jack_1.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      },
+      {
+        "asset": "assets/exercises/jumping_jack_2.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      }
+    ]
+  },
+  "kettlebell_swing": {
+    "wgerId": 960,
+    "images": [
+      {
+        "asset": "assets/exercises/kettlebell_swing_1.png",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "lat_pulldown": {
+    "wgerId": 158,
+    "animated": true,
+    "images": [
+      {
+        "asset": "assets/exercises/lat_pulldown_1.webp",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "lateral_raise": {
+    "wgerId": 348,
+    "images": [
+      {
+        "asset": "assets/exercises/lateral_raise_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/lateral_raise_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "leg_curl": {
+    "wgerId": 364,
+    "images": [
+      {
+        "asset": "assets/exercises/leg_curl_1.png",
+        "author": "Franpol",
+        "license": ""
+      }
+    ]
+  },
+  "leg_extension": {
+    "wgerId": 369,
+    "animated": true,
+    "images": [
+      {
+        "asset": "assets/exercises/leg_extension_1.webp",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "leg_press": {
+    "wgerId": 371,
+    "animated": true,
+    "images": [
+      {
+        "asset": "assets/exercises/leg_press_1.webp",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "leg_press_calf_raise": {
+    "wgerId": 146,
+    "images": [
+      {
+        "asset": "assets/exercises/leg_press_calf_raise_1.png",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "lunge": {
+    "wgerId": 984,
+    "images": [
+      {
+        "asset": "assets/exercises/lunge_1.png",
+        "author": "Franpol",
+        "license": ""
+      }
+    ]
+  },
+  "lying_leg_raise": {
+    "wgerId": 377,
+    "images": [
+      {
+        "asset": "assets/exercises/lying_leg_raise_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/lying_leg_raise_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "machine_lateral_raise": {
+    "wgerId": 1654,
+    "images": [
+      {
+        "asset": "assets/exercises/machine_lateral_raise_1.jpg",
+        "author": "roneydya",
+        "authorUrl": "https://fitnessvolt.com/wp-content/uploads/2022/11/Machine-Lateral-Raise-Exercise-Target-Muscle-750x500.jpg",
+        "license": "Lateral wise"
+      }
+    ]
+  },
+  "machine_row": {
+    "wgerId": 1725,
+    "images": [
+      {
+        "asset": "assets/exercises/machine_row_1.png",
+        "author": "barry",
+        "license": ""
+      }
+    ]
+  },
+  "machine_triceps_dip": {
+    "wgerId": 1725,
+    "images": [
+      {
+        "asset": "assets/exercises/machine_triceps_dip_1.png",
+        "author": "barry",
+        "license": ""
+      }
+    ]
+  },
+  "neutral_grip_pull_up": {
+    "wgerId": 1738,
+    "images": [
+      {
+        "asset": "assets/exercises/neutral_grip_pull_up_1.jpg",
+        "author": "54str",
+        "license": ""
+      }
+    ]
+  },
+  "one_arm_dumbbell_row": {
+    "wgerId": 1637,
+    "images": [
+      {
+        "asset": "assets/exercises/one_arm_dumbbell_row_1.png",
+        "author": "Rottekongen",
+        "license": "single arm row"
+      }
+    ]
+  },
+  "overhead_cable_extension": {
+    "wgerId": 1519,
+    "animated": true,
+    "images": [
+      {
+        "asset": "assets/exercises/overhead_cable_extension_1.gif",
+        "author": "benjamin.yildiz@proton.me",
+        "license": ""
+      }
+    ]
+  },
+  "overhead_press": {
+    "wgerId": 566,
+    "images": [
+      {
+        "asset": "assets/exercises/overhead_press_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/overhead_press_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "overhead_triceps_extension": {
+    "wgerId": 1519,
+    "animated": true,
+    "images": [
+      {
+        "asset": "assets/exercises/overhead_triceps_extension_1.gif",
+        "author": "benjamin.yildiz@proton.me",
+        "license": ""
+      }
+    ]
+  },
+  "pallof_press": {
+    "wgerId": 1194,
+    "images": [
+      {
+        "asset": "assets/exercises/pallof_press_1.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      },
+      {
+        "asset": "assets/exercises/pallof_press_2.png",
+        "author": "prevail90",
+        "license": ""
+      }
+    ]
+  },
+  "pec_deck": {
+    "wgerId": 135,
+    "images": [
+      {
+        "asset": "assets/exercises/pec_deck_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/pec_deck_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "pike_push_up": {
+    "wgerId": 454,
+    "images": [
+      {
+        "asset": "assets/exercises/pike_push_up_1.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      }
+    ]
+  },
+  "pistol_squat": {
+    "wgerId": 456,
+    "images": [
+      {
+        "asset": "assets/exercises/pistol_squat_1.jpg",
+        "author": "wakanda90",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/pistol_squat_2.jpg",
+        "author": "wakanda90",
+        "license": ""
+      }
+    ]
+  },
+  "plank": {
+    "wgerId": 458,
+    "images": [
+      {
+        "asset": "assets/exercises/plank_1.png",
+        "author": "utkb",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/plank_2.png",
+        "author": "utkb",
+        "license": ""
+      }
+    ]
+  },
+  "plank_shoulder_tap": {
+    "wgerId": 1091,
+    "images": [
+      {
+        "asset": "assets/exercises/plank_shoulder_tap_1.jpg",
+        "author": "clafal",
+        "license": ""
+      }
+    ]
+  },
+  "preacher_curl": {
+    "wgerId": 465,
+    "images": [
+      {
+        "asset": "assets/exercises/preacher_curl_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/preacher_curl_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "pull_up": {
+    "wgerId": 475,
+    "images": [
+      {
+        "asset": "assets/exercises/pull_up_1.jpg",
+        "author": "Imobard",
+        "license": ""
+      }
+    ]
+  },
+  "push_press": {
+    "wgerId": 478,
+    "images": [
+      {
+        "asset": "assets/exercises/push_press_1.jpg",
+        "author": "philip",
+        "license": ""
+      }
+    ]
+  },
+  "push_up": {
+    "wgerId": 1551,
+    "images": [
+      {
+        "asset": "assets/exercises/push_up_1.png",
+        "author": "Settebello",
+        "license": "Push-Up"
+      }
+    ]
+  },
+  "rack_pull": {
+    "wgerId": 475,
+    "images": [
+      {
+        "asset": "assets/exercises/rack_pull_1.jpg",
+        "author": "Imobard",
+        "license": ""
+      }
+    ]
+  },
+  "rear_delt_fly": {
+    "wgerId": 822,
+    "images": [
+      {
+        "asset": "assets/exercises/rear_delt_fly_1.png",
+        "author": "cshep442",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/rear_delt_fly_2.png",
+        "author": "cshep442",
+        "license": ""
+      }
+    ]
+  },
+  "reverse_pec_deck": {
+    "wgerId": 828,
+    "images": [
+      {
+        "asset": "assets/exercises/reverse_pec_deck_1.png",
+        "author": "cshep442",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/reverse_pec_deck_2.png",
+        "author": "cshep442",
+        "license": ""
+      }
+    ]
+  },
+  "romanian_deadlift": {
+    "wgerId": 507,
+    "images": [
+      {
+        "asset": "assets/exercises/romanian_deadlift_1.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      }
+    ]
+  },
+  "rope_hammer_curl": {
+    "wgerId": 1567,
+    "images": [
+      {
+        "asset": "assets/exercises/rope_hammer_curl_1.png",
+        "author": "Mariano_O",
+        "authorUrl": "https://www.simplyfitness.com/es/pages/hammer-curl",
+        "license": ""
+      }
+    ]
+  },
+  "rope_pushdown": {
+    "wgerId": 1900,
+    "images": [
+      {
+        "asset": "assets/exercises/rope_pushdown_1.png",
+        "author": "nishant0712",
+        "license": ""
+      }
+    ]
+  },
+  "russian_twist": {
+    "wgerId": 1193,
+    "images": [
+      {
+        "asset": "assets/exercises/russian_twist_1.png",
+        "author": "lion",
+        "license": ""
+      }
+    ]
+  },
+  "seated_cable_row": {
+    "wgerId": 1117,
+    "images": [
+      {
+        "asset": "assets/exercises/seated_cable_row_1.png",
+        "author": "Franpol",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/seated_cable_row_2.png",
+        "author": "Franpol",
+        "license": ""
+      }
+    ]
+  },
+  "seated_calf_raise": {
+    "wgerId": 1620,
+    "images": [
+      {
+        "asset": "assets/exercises/seated_calf_raise_1.jpeg",
+        "author": "AlucardEvil40",
+        "license": "seated-dumbbell-calf-raise"
+      }
+    ]
+  },
+  "seated_leg_curl": {
+    "wgerId": 366,
+    "images": [
+      {
+        "asset": "assets/exercises/seated_leg_curl_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/seated_leg_curl_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "shoulder_press_machine": {
+    "wgerId": 543,
+    "images": [
+      {
+        "asset": "assets/exercises/shoulder_press_machine_1.png",
+        "author": "wger.de",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/shoulder_press_machine_2.png",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "single_arm_cable_row": {
+    "wgerId": 1637,
+    "images": [
+      {
+        "asset": "assets/exercises/single_arm_cable_row_1.png",
+        "author": "Rottekongen",
+        "license": "single arm row"
+      }
+    ]
+  },
+  "single_arm_pushdown": {
+    "wgerId": 1022,
+    "images": [
+      {
+        "asset": "assets/exercises/single_arm_pushdown_1.jpg",
+        "author": "wger.de",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/single_arm_pushdown_2.jpg",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "single_leg_calf_raise": {
+    "wgerId": 1243,
+    "images": [
+      {
+        "asset": "assets/exercises/single_leg_calf_raise_1.png",
+        "author": "erikocobra",
+        "license": "Double Leg Calf Raise"
+      }
+    ]
+  },
+  "single_leg_rdl": {
+    "wgerId": 1736,
+    "images": [
+      {
+        "asset": "assets/exercises/single_leg_rdl_1.png",
+        "author": "Tierrasverdes",
+        "license": "Peso muerto a una pierna con mancuerna"
+      }
+    ]
+  },
+  "skull_crusher": {
+    "wgerId": 246,
+    "images": [
+      {
+        "asset": "assets/exercises/skull_crusher_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/skull_crusher_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "smith_bench_press": {
+    "wgerId": 925,
+    "images": [
+      {
+        "asset": "assets/exercises/smith_bench_press_1.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      }
+    ]
+  },
+  "smith_squat": {
+    "wgerId": 1747,
+    "images": [
+      {
+        "asset": "assets/exercises/smith_squat_1.jpg",
+        "author": "wger.de",
+        "license": "Sentadilla multipower"
+      }
+    ]
+  },
+  "stability_ball_leg_curl": {
+    "wgerId": 364,
+    "images": [
+      {
+        "asset": "assets/exercises/stability_ball_leg_curl_1.png",
+        "author": "Franpol",
+        "license": ""
+      }
+    ]
+  },
+  "stair_climber": {
+    "wgerId": 1747,
+    "images": [
+      {
+        "asset": "assets/exercises/stair_climber_1.jpg",
+        "author": "wger.de",
+        "license": "Sentadilla multipower"
+      }
+    ]
+  },
+  "step_up": {
+    "wgerId": 981,
+    "images": [
+      {
+        "asset": "assets/exercises/step_up_1.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      }
+    ]
+  },
+  "straight_arm_pulldown": {
+    "wgerId": 1726,
+    "images": [
+      {
+        "asset": "assets/exercises/straight_arm_pulldown_1.png",
+        "author": "barry",
+        "license": ""
+      }
+    ]
+  },
+  "sumo_deadlift": {
+    "wgerId": 630,
+    "animated": true,
+    "images": [
+      {
+        "asset": "assets/exercises/sumo_deadlift_1.webp",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "trap_bar_deadlift": {
+    "wgerId": 484,
+    "images": [
+      {
+        "asset": "assets/exercises/trap_bar_deadlift_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/trap_bar_deadlift_2.png",
+        "author": "Everkinetic",
+        "license": ""
+      }
+    ]
+  },
+  "treadmill_run": {
+    "wgerId": 1615,
+    "images": [
+      {
+        "asset": "assets/exercises/treadmill_run_1.jpg",
+        "author": "wger.de",
+        "license": "Treadmill"
+      }
+    ]
+  },
+  "triceps_kickback": {
+    "wgerId": 990,
+    "images": [
+      {
+        "asset": "assets/exercises/triceps_kickback_1.png",
+        "author": "wger.de",
+        "license": "",
+        "aiGenerated": true
+      }
+    ]
+  },
+  "triceps_pushdown": {
+    "wgerId": 1185,
+    "images": [
+      {
+        "asset": "assets/exercises/triceps_pushdown_1.jpg",
+        "author": "anto.kreegyr",
+        "license": ""
+      }
+    ]
+  },
+  "upright_row": {
+    "wgerId": 693,
+    "images": [
+      {
+        "asset": "assets/exercises/upright_row_1.png",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  },
+  "walking_lunge": {
+    "wgerId": 206,
+    "images": [
+      {
+        "asset": "assets/exercises/walking_lunge_1.png",
+        "author": "Everkinetic",
+        "license": ""
+      },
+      {
+        "asset": "assets/exercises/walking_lunge_2.png",
+        "author": "nishant0712",
+        "license": ""
+      }
+    ]
+  },
+  "weighted_dips": {
+    "wgerId": 194,
+    "images": [
+      {
+        "asset": "assets/exercises/weighted_dips_1.png",
+        "author": "cshep442",
+        "license": ""
+      }
+    ]
+  },
+  "weighted_pull_up": {
+    "wgerId": 475,
+    "images": [
+      {
+        "asset": "assets/exercises/weighted_pull_up_1.jpg",
+        "author": "Imobard",
+        "license": ""
+      }
+    ]
+  },
+  "wrist_curl": {
+    "wgerId": 51,
+    "animated": true,
+    "images": [
+      {
+        "asset": "assets/exercises/wrist_curl_1.webp",
+        "author": "wger.de",
+        "license": ""
+      }
+    ]
+  }
+}
