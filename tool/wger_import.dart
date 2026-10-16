@@ -107,7 +107,7 @@ const _searchTerms = <String, List<String>>{
   'dumbbell_shrug': ['Dumbbell Shrug', 'Shrugs, Dumbbells', 'Shrug'],
   'wrist_curl': ['Wrist Curl', 'Dumbbell Wrist Curl', 'Wrist Curls'],
   'reverse_curl': ['Reverse Curl', 'Reverse Barbell Curl', 'Reverse Grip Curl'],
-  'dead_hang': ['Dead Hang', 'Hang', 'Bar Hang'],
+  'dead_hang': ['Dead Hang', 'Bar Hang'],
   'back_extension': ['Back Extension', 'Hyperextensions', 'Hyperextension'],
   'good_morning': ['Good Morning', 'Good Mornings', 'Barbell Good Morning'],
   'superman': ['Superman', 'Supermans', 'Prone Back Extension'],
@@ -566,14 +566,13 @@ String _absoluteUrl(Map<String, dynamic> raw) {
 MediaImage _imageFrom(Map<String, dynamic> raw, String asset) {
   final author = '${raw['license_author'] ?? ''}'.trim();
   final authorUrl = '${raw['license_author_url'] ?? ''}'.trim();
-  // wger.de u části obrázků vrací prázdný název licence; výchozí licence
-  // obrázků na wger.de je CC BY-SA 4.0.
-  final license = '${raw['license_title'] ?? ''}'.trim();
   return MediaImage(
     asset: asset,
     author: author.isEmpty ? 'wger.de' : author,
     authorUrl: authorUrl.isEmpty ? null : authorUrl,
-    license: license.isEmpty ? 'CC BY-SA 4.0' : license,
+    // Obrázky na wger.de jsou pod CC BY-SA 4.0. Pole license_title je
+    // název díla (např. „Bird Dog“), ne název licence.
+    license: 'CC BY-SA 4.0',
     aiGenerated: raw['is_ai_generated'] == true,
   );
 }

@@ -118,7 +118,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/bird_dog_1.png',
         author: 'Settebello',
-        license: 'Bird Dog',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -154,7 +154,7 @@ const exerciseMedia = <String, ExerciseMedia>{
         asset: 'assets/exercises/cable_lateral_raise_1.jpg',
         author: 'carlos3c',
         authorUrl: 'https://www.flickr.com/photos/ptpioneer/48317524901/',
-        license: 'Girl doing one arm shoulder raise',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -201,7 +201,7 @@ const exerciseMedia = <String, ExerciseMedia>{
         asset: 'assets/exercises/chest_press_machine_1.webp',
         author: 'roneydya',
         authorUrl: 'https://fitnessvolt.com/wp-content/uploads/2020/01/machine-chest-press-exercise.jpg.webp',
-        license: 'machine chess press',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/chest_press_machine_2.png',
@@ -473,7 +473,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/hip_abduction_machine_1.jpg',
         author: 'wger.de',
-        license: 'Abduccion en maquina',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -514,7 +514,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/incline_dumbbell_press_2.jpg',
         author: 'erikocobra',
-        license: 'Incline Dumbbell Press',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -561,7 +561,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/lat_pulldown_1.jpg',
         author: 'Athlean-X',
-        license: 'Mentzer pull down',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -644,7 +644,7 @@ const exerciseMedia = <String, ExerciseMedia>{
         asset: 'assets/exercises/machine_lateral_raise_1.jpg',
         author: 'roneydya',
         authorUrl: 'https://fitnessvolt.com/wp-content/uploads/2022/11/Machine-Lateral-Raise-Exercise-Target-Muscle-750x500.jpg',
-        license: 'Lateral wise',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -664,7 +664,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/one_arm_dumbbell_row_1.png',
         author: 'Rottekongen',
-        license: 'single arm row',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -817,7 +817,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/push_up_1.png',
         author: 'Settebello',
-        license: 'Push-Up',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -918,7 +918,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/smith_squat_1.jpg',
         author: 'wger.de',
-        license: 'Sentadilla multipower',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -960,7 +960,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/treadmill_run_1.jpg',
         author: 'wger.de',
-        license: 'Treadmill',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
