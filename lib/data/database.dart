@@ -91,6 +91,7 @@ typedef SessionSummary = ({
     HomeRoutines,
     HomeRoutineExercises,
     CalendarLinks,
+    CoachCalendarEvents,
     Challenges,
     Achievements,
     ProgressionEvents,
@@ -103,7 +104,7 @@ class AppDatabase extends _$AppDatabase {
   static const _profileId = 1;
 
   @override
-  int get schemaVersion => 18;
+  int get schemaVersion => 19;
 
   /// Výchozí série pro nově přidaný cvik: 3 × 10.
   static const defaultPlanSets = <PlanSetDraft>[
@@ -256,6 +257,10 @@ class AppDatabase extends _$AppDatabase {
           if (from < 18) {
             // Verze 18: vlastní název události v kalendáři.
             await m.addColumn(userProfiles, userProfiles.calendarTitle);
+          }
+          if (from < 19) {
+            // Verze 19: události v kalendáři pro tréninky s trenérem.
+            await m.createTable(coachCalendarEvents);
           }
         },
         beforeOpen: (details) async {
@@ -1264,6 +1269,25 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> deleteCalendarLink(int id) =>
       (delete(calendarLinks)..where((c) => c.id.equals(id))).go();
+
+  Future<List<CoachCalendarEvent>> allCoachCalendarEvents() =>
+      select(coachCalendarEvents).get();
+
+  Future<void> addCoachCalendarEvent(
+    String sessionKey,
+    String eventId,
+    int version,
+  ) =>
+      into(coachCalendarEvents).insert(CoachCalendarEventsCompanion.insert(
+        sessionKey: sessionKey,
+        eventId: eventId,
+        version: Value(version),
+      ));
+
+  Future<void> deleteCoachCalendarEvents(String sessionKey) =>
+      (delete(coachCalendarEvents)
+            ..where((e) => e.sessionKey.equals(sessionKey)))
+          .go();
 
   // ---------------------------------------------------------------------
   // Data pro grafy

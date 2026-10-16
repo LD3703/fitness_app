@@ -8,9 +8,11 @@ import 'ui/client_screens.dart';
 import 'ui/coach_screen.dart';
 import 'ui/shared_plan_screen.dart';
 
+export 'coach_calendar.dart' show coachAppProvider;
 export 'coach_links.dart';
 export 'coach_sync.dart' show CoachSync;
 export 'ui/coach_widgets.dart' show CoachPlanSection, CoachProfileSection;
+export 'ui/session_widgets.dart' show CoachSessionsTodayCard;
 
 /// [coach:routes]
 List<RouteBase> coachRoutes() => [

@@ -349,6 +349,18 @@ class CalendarLinks extends Table {
   DateTimeColumn get day => dateTime()();
 }
 
+/// Události v kalendáři telefonu pro tréninky s trenérem (verze 19,
+/// modul coach). [sessionKey] = „`c:<id>`“ (jsem klient) nebo
+/// „`t:<klient>/<id>`“ (jsem trenér), [version] = updatedAt pozvánky v ms –
+/// při změně termínu se události vytvoří znovu.
+@DataClassName('CoachCalendarEvent')
+class CoachCalendarEvents extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get sessionKey => text()();
+  TextColumn get eventId => text()();
+  IntColumn get version => integer().withDefault(const Constant(0))();
+}
+
 /// Výzva: překonat rekord, počet tréninků za měsíc, týdenní pitný režim.
 /// Vzniká z odkazu od kamaráda nebo od přátel v aplikaci (v6).
 @DataClassName('Challenge')

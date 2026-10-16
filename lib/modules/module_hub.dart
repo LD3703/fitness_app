@@ -130,6 +130,10 @@ List<ProviderListenable<Object?>> moduleAppProviders() => [
       // [social:app]
       socialAppProvider,
       //
+      // [coach:app]
+      // Tréninky s trenérem v kalendáři telefonu (přijaté pozvánky).
+      coachAppProvider,
+      //
       // [cloud:app]
       cloudAppProvider,
       // [wear:app]
@@ -197,6 +201,10 @@ List<Widget> moduleTodayCards() => [
       // [data:today]
       //
       // [social:today]
+      //
+      // [coach:today]
+      // Pozvánky od trenéra na trénink (přijmout / odmítnout).
+      const CoachSessionsTodayCard(),
       //
       // [fatigue:today]
       const FatigueTodayCard(),

@@ -6,10 +6,13 @@
 //    meta/weight                       tělesná váha (jen se souhlasem)
 //    plans/{id}                        plány od trenéra (CoachPlan)
 //    notes/{id}                        komentáře trenéra
+//    sessions/{id}                     pozvánky na trénink (CoachSession)
 //  sharedPlans/{id}                    plán sdílený odkazem
+import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gymbar_coach/gymbar_coach.dart';
 
@@ -382,9 +385,130 @@ class CoachService {
     }
   }
 
+  /// Plány, které jsem poslal klientovi [clientUid] (jsem trenér).
+  Future<List<AssignedPlan>> clientPlans(String clientUid) async {
+    final s = await _link(clientUid).collection('plans').get().timeout(_timeout);
+    return [
+      for (final d in s.docs)
+        if (_tryAssigned(d.id, d.data()) case final p?) p,
+    ];
+  }
+
   /// Plán od trenéra už nechci (smaže se u trenéra i se nepřenese znovu).
   Future<void> dismissAssignedPlan(String planId) =>
       _link(_me).collection('plans').doc(planId).delete().timeout(_timeout);
+
+  // -------------------------------------------------------------------
+  // Pozvánky na trénink (coachLinks/{klient}/sessions)
+  // -------------------------------------------------------------------
+
+  CollectionReference<Map<String, dynamic>> _sessions(String clientUid) =>
+      _link(clientUid).collection('sessions');
+
+  static List<CoachSession> _readSessions(
+    QuerySnapshot<Map<String, dynamic>> s,
+  ) {
+    final list = <CoachSession>[];
+    for (final d in s.docs) {
+      try {
+        list.add(CoachSession.fromJson(
+          d.id,
+          d.data(),
+          updatedAtMs: readDate(d.data()['updatedAt'])?.millisecondsSinceEpoch,
+        ));
+      } on CoachFormatException {
+        // poškozenou pozvánku přeskočit
+      }
+    }
+    list.sort((a, b) => a.startAt.compareTo(b.startAt));
+    return list;
+  }
+
+  /// Pozvánky od mého trenéra (jsem klient).
+  Stream<List<CoachSession>> watchMySessions() =>
+      _sessions(_me).snapshots().map(_readSessions);
+
+  /// Přijmu / odmítnu pozvánku (i když jsem si to rozmyslel).
+  Future<void> respondSession(String sessionId, {required bool accept}) =>
+      _sessions(_me).doc(sessionId).update({
+        'status': (accept
+                ? CoachSessionStatus.accepted
+                : CoachSessionStatus.declined)
+            .name,
+        'updatedAt': FieldValue.serverTimestamp(),
+      }).timeout(_timeout);
+
+  /// Pozvánky klienta [clientUid] (jsem jeho trenér).
+  Stream<List<CoachSession>> watchClientSessions(String clientUid) =>
+      _sessions(clientUid).snapshots().map(_readSessions);
+
+  /// Pozvánky všech mých klientů: klient → pozvánky. Chyba u jednoho
+  /// klienta (např. právě zrušené propojení) ostatní nezastaví.
+  Stream<Map<String, List<CoachSession>>> watchSessionsOf(
+    List<String> clientUids,
+  ) {
+    final latest = <String, List<CoachSession>>{};
+    final subs = <StreamSubscription<List<CoachSession>>>[];
+    late final StreamController<Map<String, List<CoachSession>>> c;
+    c = StreamController(
+      onListen: () {
+        if (clientUids.isEmpty) c.add(const {});
+        for (final uid in clientUids) {
+          subs.add(watchClientSessions(uid).listen(
+            (list) {
+              latest[uid] = list;
+              if (latest.length == clientUids.length) c.add(Map.of(latest));
+            },
+            onError: (Object e) {
+              debugPrint('Coach: sessions of $uid failed: $e');
+              latest[uid] = const [];
+              if (latest.length == clientUids.length) c.add(Map.of(latest));
+            },
+          ));
+        }
+      },
+      onCancel: () async {
+        for (final s in subs) {
+          await s.cancel();
+        }
+      },
+    );
+    return c.stream;
+  }
+
+  /// Nová pozvánka, nebo úprava [id] – klient ji pak potvrzuje znovu.
+  Future<void> saveSession(
+    String clientUid,
+    CoachSession session, {
+    String? id,
+  }) async {
+    final data = session.toJson();
+    if (id == null) {
+      await _sessions(clientUid).add({
+        ...data,
+        'status': CoachSessionStatus.pending.name,
+        'createdAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      }).timeout(_timeout);
+      return;
+    }
+    await _sessions(clientUid).doc(id).update({
+      ...data,
+      if (!data.containsKey('note')) 'note': FieldValue.delete(),
+      if (!data.containsKey('planId')) 'planId': FieldValue.delete(),
+      'status': CoachSessionStatus.pending.name,
+      'updatedAt': FieldValue.serverTimestamp(),
+    }).timeout(_timeout);
+  }
+
+  Future<void> cancelSession(String clientUid, String id) =>
+      _sessions(clientUid).doc(id).update({
+        'status': CoachSessionStatus.cancelled.name,
+        'updatedAt': FieldValue.serverTimestamp(),
+      }).timeout(_timeout);
+
+  Future<void> deleteSession(String clientUid, String id) =>
+      _sessions(clientUid).doc(id).delete().timeout(_timeout);
 
   // -------------------------------------------------------------------
   // Plán sdílený odkazem
@@ -456,4 +580,29 @@ final myAssignedPlansProvider =
     StreamProvider.autoDispose<List<AssignedPlan>>((ref) {
   if (!_signedIn(ref)) return Stream.value(const []);
   return CoachService.instance.watchMyAssignedPlans();
+});
+
+/// Pozvánky na trénink od mého trenéra (jsem klient).
+final mySessionsProvider = StreamProvider<List<CoachSession>>((ref) {
+  if (!_signedIn(ref) || ref.watch(myCoachLinkProvider).valueOrNull == null) {
+    return Stream.value(const []);
+  }
+  return CoachService.instance.watchMySessions();
+});
+
+final clientSessionsProvider =
+    StreamProvider.autoDispose.family<List<CoachSession>, String>(
+  (ref, clientUid) => CoachService.instance.watchClientSessions(clientUid),
+);
+
+/// Pozvánky všech mých klientů (jsem trenér): klient → pozvánky.
+final trainerSessionsProvider =
+    StreamProvider<Map<String, List<CoachSession>>>((ref) {
+  if (!_signedIn(ref) || ref.watch(myTrainerProvider).valueOrNull == null) {
+    return Stream.value(const {});
+  }
+  final clients = ref.watch(myClientsProvider).valueOrNull;
+  if (clients == null) return const Stream.empty();
+  return CoachService.instance
+      .watchSessionsOf([for (final c in clients) c.clientUid]);
 });

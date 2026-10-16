@@ -231,8 +231,11 @@ class BackupService {
   /// patřit cizím událostem a další synchronizace kalendáře by je smazala
   /// (CalendarService.removeFuture). Po obnovení vytvoří SyncController
   /// události znovu a odkazy uloží nové.
-  static Set<String> _deviceOnlyTables(AppDatabase db) =>
-      {db.calendarLinks.actualTableName};
+  static Set<String> _deviceOnlyTables(AppDatabase db) => {
+        db.calendarLinks.actualTableName,
+        // Totéž pro tréninky s trenérem (modul coach).
+        db.coachCalendarEvents.actualTableName,
+      };
 
   static Future<void> _copyAll(AppDatabase db) async {
     final backupTables = await _tables(db);

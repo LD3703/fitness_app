@@ -3242,5 +3242,157 @@
         "type": "String"
       }
     }
+  },
+  "coachSessions": "Workouts with your coach",
+  "@coachSessions": {
+    "description": "Coach screen (client): section with workout invitations from the coach."
+  },
+  "coachSessionsWithClient": "Workouts with the client",
+  "@coachSessionsWithClient": {
+    "description": "Trainer's client detail: section with scheduled workouts."
+  },
+  "coachSessionsNone": "No workouts scheduled yet.",
+  "@coachSessionsNone": {
+    "description": "Empty list of scheduled workouts with the coach / client."
+  },
+  "coachSessionInvite": "Invite to a workout",
+  "@coachSessionInvite": {
+    "description": "Trainer: button and dialog title to invite a client to a workout at a given time."
+  },
+  "coachSessionEdit": "Change the time",
+  "@coachSessionEdit": {
+    "description": "Trainer: change the date/time of a scheduled workout."
+  },
+  "coachSessionEditHint": "The client will confirm the changed time again.",
+  "@coachSessionEditHint": {
+    "description": "Hint in the edit dialog."
+  },
+  "coachSessionDuration": "Duration",
+  "@coachSessionDuration": {
+    "description": "Workout invitation form: duration."
+  },
+  "coachSessionRepeat": "Repeat",
+  "@coachSessionRepeat": {
+    "description": "Workout invitation form: repetition."
+  },
+  "coachSessionOnce": "Once",
+  "@coachSessionOnce": {
+    "description": "Repetition option: only once."
+  },
+  "coachSessionWeeks": "Every week, {n, plural, =1{1 week} other{{n} weeks}}",
+  "@coachSessionWeeks": {
+    "description": "Repetition option: every week, n occurrences in total.",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "coachSessionWeeklyUntil": "every week until {date}",
+  "@coachSessionWeeklyUntil": {
+    "description": "Summary of a weekly workout; date of the last occurrence.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "coachSessionPlan": "Plan",
+  "@coachSessionPlan": {
+    "description": "Workout invitation form: plan assigned to the client."
+  },
+  "coachSessionNoPlan": "No plan",
+  "@coachSessionNoPlan": {
+    "description": "Workout invitation form: no plan."
+  },
+  "coachSessionTitle": "Title",
+  "@coachSessionTitle": {
+    "description": "Workout invitation form: title."
+  },
+  "coachSessionTitleHint": "E.g. Legs (otherwise the plan name)",
+  "@coachSessionTitleHint": {
+    "description": "Workout invitation form: hint for the title."
+  },
+  "coachSessionTitleDefault": "Workout",
+  "@coachSessionTitleDefault": {
+    "description": "Default title of a workout invitation."
+  },
+  "coachSessionNote": "Note for the client",
+  "@coachSessionNote": {
+    "description": "Workout invitation form: note for the client."
+  },
+  "coachSessionSend": "Send invitation",
+  "@coachSessionSend": {
+    "description": "Workout invitation form: send button."
+  },
+  "coachSessionSent": "Invitation sent.",
+  "@coachSessionSent": {
+    "description": "Snackbar after the invitation was sent."
+  },
+  "coachSessionInPast": "This time is in the past.",
+  "@coachSessionInPast": {
+    "description": "Warning when the chosen time is in the past."
+  },
+  "coachSessionPending": "Waiting for confirmation",
+  "@coachSessionPending": {
+    "description": "Status: waiting for the client to confirm."
+  },
+  "coachSessionAccepted": "Confirmed",
+  "@coachSessionAccepted": {
+    "description": "Status: confirmed by the client."
+  },
+  "coachSessionDeclined": "Declined",
+  "@coachSessionDeclined": {
+    "description": "Status: declined by the client."
+  },
+  "coachSessionCancelled": "Cancelled",
+  "@coachSessionCancelled": {
+    "description": "Status: cancelled by the coach."
+  },
+  "coachSessionAccept": "Accept",
+  "@coachSessionAccept": {
+    "description": "Client: accept a workout invitation."
+  },
+  "coachSessionDecline": "Decline",
+  "@coachSessionDecline": {
+    "description": "Client: decline a workout invitation."
+  },
+  "coachSessionCancel": "Cancel workout",
+  "@coachSessionCancel": {
+    "description": "Trainer: cancel a scheduled workout."
+  },
+  "coachSessionCancelTitle": "Cancel the workout?",
+  "@coachSessionCancelTitle": {
+    "description": "Trainer: confirmation dialog title."
+  },
+  "coachSessionCancelMessage": "{name} will be notified and the workout disappears from their calendar.",
+  "@coachSessionCancelMessage": {
+    "description": "Trainer: confirmation dialog text; name = client.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "coachSessionInviteFrom": "{name} invites you to a workout",
+  "@coachSessionInviteFrom": {
+    "description": "Today screen card title; name = coach.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "coachSessionCalendarDescription": "Workout with your coach – added by the GymBar app.",
+  "@coachSessionCalendarDescription": {
+    "description": "Description of the workout event in the phone calendar."
+  },
+  "coachSessionAcceptedCalendar": "Workout confirmed. It's in your calendar.",
+  "@coachSessionAcceptedCalendar": {
+    "description": "Snackbar after accepting, events added to the calendar."
+  },
+  "coachSessionAcceptedNoCalendar": "Workout confirmed. Without calendar access it won't be added to your calendar.",
+  "@coachSessionAcceptedNoCalendar": {
+    "description": "Snackbar after accepting without calendar permission."
   }
 }
