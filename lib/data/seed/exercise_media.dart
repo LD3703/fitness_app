@@ -12,12 +12,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/ab_wheel_rollout_1.jpg',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/ab_wheel_rollout_2.jpg',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -27,34 +27,13 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/back_extension_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
         aiGenerated: true,
       ),
       ExerciseImage(
         asset: 'assets/exercises/back_extension_2.png',
         author: 'Everkinetic',
-        license: '',
-      ),
-    ],
-  ),
-  'back_squat': ExerciseMedia(
-    wgerId: 977,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/back_squat_1.png',
-        author: 'wger.de',
-        license: '',
-        aiGenerated: true,
-      ),
-    ],
-  ),
-  'band_curl': ExerciseMedia(
-    wgerId: 364,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/band_curl_1.png',
-        author: 'Franpol',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -64,12 +43,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/barbell_curl_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/barbell_curl_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -79,12 +58,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/barbell_row_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/barbell_row_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -94,12 +73,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/barbell_shrug_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/barbell_shrug_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -109,12 +88,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/bench_dips_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/bench_dips_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -124,12 +103,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/bench_press_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/bench_press_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -149,22 +128,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/bulgarian_split_squat_1.png',
         author: 'Franpol',
-        license: '',
-      ),
-    ],
-  ),
-  'cable_crunch': ExerciseMedia(
-    wgerId: 576,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/cable_crunch_1.png',
-        author: 'Everkinetic',
-        license: '',
-      ),
-      ExerciseImage(
-        asset: 'assets/exercises/cable_crunch_2.png',
-        author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -174,22 +138,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/cable_fly_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/cable_fly_2.png',
         author: 'Everkinetic',
-        license: '',
-      ),
-    ],
-  ),
-  'cable_glute_kickback': ExerciseMedia(
-    wgerId: 1613,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/cable_glute_kickback_1.jpg',
-        author: 'wger.de',
-        license: 'Patada de glúteo con banda elastica',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -210,12 +164,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/calf_raise_1.jpeg',
         author: 'clafal',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/calf_raise_2.jpeg',
         author: 'clafal',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -225,7 +179,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/captains_chair_knee_raise_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
         aiGenerated: true,
       ),
     ],
@@ -236,7 +190,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/chest_dips_1.png',
         author: 'cshep442',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -252,7 +206,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/chest_press_machine_2.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
         aiGenerated: true,
       ),
     ],
@@ -263,12 +217,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/chin_up_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/chin_up_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -278,22 +232,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/close_grip_bench_press_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/close_grip_bench_press_2.png',
         author: 'nishant0712',
-        license: '',
-      ),
-    ],
-  ),
-  'concentration_curl': ExerciseMedia(
-    wgerId: 1109,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/concentration_curl_1.png',
-        author: 'Franpol',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -303,23 +247,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/crunch_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/crunch_2.png',
         author: 'Everkinetic',
-        license: '',
-      ),
-    ],
-  ),
-  'dead_hang': ExerciseMedia(
-    wgerId: 804,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/dead_hang_1.png',
-        author: 'wger.de',
-        license: '',
-        aiGenerated: true,
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -329,7 +262,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/deadlift_1.jpeg',
         author: 'philip',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -339,12 +272,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/decline_bench_press_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/decline_bench_press_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -354,17 +287,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/decline_push_up_1.png',
         author: 'anon1337',
-        license: '',
-      ),
-    ],
-  ),
-  'decline_sit_up': ExerciseMedia(
-    wgerId: 1112,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/decline_sit_up_1.png',
-        author: 'anon1337',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -374,32 +297,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/dips_1.png',
         author: 'cshep442',
-        license: '',
-      ),
-    ],
-  ),
-  'donkey_kick': ExerciseMedia(
-    wgerId: 1616,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/donkey_kick_1.jpg',
-        author: 'wger.de',
-        license: 'Patada de burro con mancuerna',
-      ),
-    ],
-  ),
-  'dumbbell_bench_press': ExerciseMedia(
-    wgerId: 537,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/dumbbell_bench_press_1.png',
-        author: 'Everkinetic',
-        license: '',
-      ),
-      ExerciseImage(
-        asset: 'assets/exercises/dumbbell_bench_press_2.jpg',
-        author: 'erikocobra',
-        license: 'Incline Dumbbell Press',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -409,12 +307,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/dumbbell_curl_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/dumbbell_curl_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -424,7 +322,22 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/dumbbell_floor_press_1.jpg',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
+      ),
+    ],
+  ),
+  'dumbbell_fly': ExerciseMedia(
+    wgerId: 238,
+    images: [
+      ExerciseImage(
+        asset: 'assets/exercises/dumbbell_fly_1.png',
+        author: 'cshep442',
+        license: 'CC BY-SA 4.0',
+      ),
+      ExerciseImage(
+        asset: 'assets/exercises/dumbbell_fly_2.png',
+        author: 'cshep442',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -434,7 +347,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/dumbbell_romanian_deadlift_1.webp',
         author: 'AlucardEvil40',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -444,12 +357,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/dumbbell_shoulder_press_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/dumbbell_shoulder_press_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -459,37 +372,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/dumbbell_shrug_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/dumbbell_shrug_2.webp',
         author: 'AlucardEvil40',
-        license: '',
-      ),
-    ],
-  ),
-  'ez_bar_curl': ExerciseMedia(
-    wgerId: 95,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/ez_bar_curl_1.png',
-        author: 'Everkinetic',
-        license: '',
-      ),
-      ExerciseImage(
-        asset: 'assets/exercises/ez_bar_curl_2.png',
-        author: 'Everkinetic',
-        license: '',
-      ),
-    ],
-  ),
-  'face_pull': ExerciseMedia(
-    wgerId: 1639,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/face_pull_1.webp',
-        author: 'AlucardEvil40',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -499,7 +387,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/front_raise_1.png',
         author: 'philip',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -509,12 +397,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/front_squat_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/front_squat_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -524,7 +412,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/glute_bridge_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -535,7 +423,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/goblet_squat_1.gif',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -545,12 +433,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/good_morning_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/good_morning_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -560,12 +448,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/hammer_curl_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/hammer_curl_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -575,7 +463,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/high_knees_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -589,24 +477,13 @@ const exerciseMedia = <String, ExerciseMedia>{
       ),
     ],
   ),
-  'hip_adduction_machine': ExerciseMedia(
-    wgerId: 12,
-    animated: true,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/hip_adduction_machine_1.webp',
-        author: 'wger.de',
-        license: '',
-      ),
-    ],
-  ),
   'hollow_hold': ExerciseMedia(
     wgerId: 297,
     images: [
       ExerciseImage(
         asset: 'assets/exercises/hollow_hold_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
         aiGenerated: true,
       ),
     ],
@@ -617,23 +494,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/incline_bench_press_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/incline_bench_press_2.png',
         author: 'Everkinetic',
-        license: '',
-      ),
-    ],
-  ),
-  'incline_chest_press_machine': ExerciseMedia(
-    wgerId: 925,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/incline_chest_press_machine_1.png',
-        author: 'wger.de',
-        license: '',
-        aiGenerated: true,
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -643,22 +509,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/incline_dumbbell_press_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/incline_dumbbell_press_2.jpg',
         author: 'erikocobra',
         license: 'Incline Dumbbell Press',
-      ),
-    ],
-  ),
-  'incline_push_up': ExerciseMedia(
-    wgerId: 1551,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/incline_push_up_1.png',
-        author: 'Settebello',
-        license: 'Push-Up',
       ),
     ],
   ),
@@ -668,7 +524,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/inverted_row_1.jpg',
         author: 'Gavru',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -678,13 +534,13 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/jumping_jack_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
         aiGenerated: true,
       ),
       ExerciseImage(
         asset: 'assets/exercises/jumping_jack_2.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
         aiGenerated: true,
       ),
     ],
@@ -695,18 +551,17 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/kettlebell_swing_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
   'lat_pulldown': ExerciseMedia(
-    wgerId: 158,
-    animated: true,
+    wgerId: 1971,
     images: [
       ExerciseImage(
-        asset: 'assets/exercises/lat_pulldown_1.webp',
-        author: 'wger.de',
-        license: '',
+        asset: 'assets/exercises/lat_pulldown_1.jpg',
+        author: 'Athlean-X',
+        license: 'Mentzer pull down',
       ),
     ],
   ),
@@ -716,12 +571,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/lateral_raise_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/lateral_raise_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -731,7 +586,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/leg_curl_1.png',
         author: 'Franpol',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -742,7 +597,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/leg_extension_1.webp',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -753,17 +608,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/leg_press_1.webp',
         author: 'wger.de',
-        license: '',
-      ),
-    ],
-  ),
-  'leg_press_calf_raise': ExerciseMedia(
-    wgerId: 146,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/leg_press_calf_raise_1.png',
-        author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -773,7 +618,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/lunge_1.png',
         author: 'Franpol',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -783,12 +628,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/lying_leg_raise_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/lying_leg_raise_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -809,27 +654,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/machine_row_1.png',
         author: 'barry',
-        license: '',
-      ),
-    ],
-  ),
-  'machine_triceps_dip': ExerciseMedia(
-    wgerId: 1725,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/machine_triceps_dip_1.png',
-        author: 'barry',
-        license: '',
-      ),
-    ],
-  ),
-  'neutral_grip_pull_up': ExerciseMedia(
-    wgerId: 1738,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/neutral_grip_pull_up_1.jpg',
-        author: '54str',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -843,29 +668,18 @@ const exerciseMedia = <String, ExerciseMedia>{
       ),
     ],
   ),
-  'overhead_cable_extension': ExerciseMedia(
-    wgerId: 1519,
-    animated: true,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/overhead_cable_extension_1.gif',
-        author: 'benjamin.yildiz@proton.me',
-        license: '',
-      ),
-    ],
-  ),
   'overhead_press': ExerciseMedia(
     wgerId: 566,
     images: [
       ExerciseImage(
         asset: 'assets/exercises/overhead_press_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/overhead_press_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -876,7 +690,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/overhead_triceps_extension_1.gif',
         author: 'benjamin.yildiz@proton.me',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -886,13 +700,13 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/pallof_press_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
         aiGenerated: true,
       ),
       ExerciseImage(
         asset: 'assets/exercises/pallof_press_2.png',
         author: 'prevail90',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -902,12 +716,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/pec_deck_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/pec_deck_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -917,7 +731,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/pike_push_up_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
         aiGenerated: true,
       ),
     ],
@@ -928,12 +742,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/pistol_squat_1.jpg',
         author: 'wakanda90',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/pistol_squat_2.jpg',
         author: 'wakanda90',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -943,12 +757,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/plank_1.png',
         author: 'utkb',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/plank_2.png',
         author: 'utkb',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -958,7 +772,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/plank_shoulder_tap_1.jpg',
         author: 'clafal',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -968,12 +782,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/preacher_curl_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/preacher_curl_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -983,7 +797,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/pull_up_1.jpg',
         author: 'Imobard',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -993,7 +807,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/push_press_1.jpg',
         author: 'philip',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1007,65 +821,14 @@ const exerciseMedia = <String, ExerciseMedia>{
       ),
     ],
   ),
-  'rack_pull': ExerciseMedia(
-    wgerId: 475,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/rack_pull_1.jpg',
-        author: 'Imobard',
-        license: '',
-      ),
-    ],
-  ),
-  'rear_delt_fly': ExerciseMedia(
-    wgerId: 822,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/rear_delt_fly_1.png',
-        author: 'cshep442',
-        license: '',
-      ),
-      ExerciseImage(
-        asset: 'assets/exercises/rear_delt_fly_2.png',
-        author: 'cshep442',
-        license: '',
-      ),
-    ],
-  ),
-  'reverse_pec_deck': ExerciseMedia(
-    wgerId: 828,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/reverse_pec_deck_1.png',
-        author: 'cshep442',
-        license: '',
-      ),
-      ExerciseImage(
-        asset: 'assets/exercises/reverse_pec_deck_2.png',
-        author: 'cshep442',
-        license: '',
-      ),
-    ],
-  ),
   'romanian_deadlift': ExerciseMedia(
     wgerId: 507,
     images: [
       ExerciseImage(
         asset: 'assets/exercises/romanian_deadlift_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
         aiGenerated: true,
-      ),
-    ],
-  ),
-  'rope_hammer_curl': ExerciseMedia(
-    wgerId: 1567,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/rope_hammer_curl_1.png',
-        author: 'Mariano_O',
-        authorUrl: 'https://www.simplyfitness.com/es/pages/hammer-curl',
-        license: '',
       ),
     ],
   ),
@@ -1075,7 +838,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/rope_pushdown_1.png',
         author: 'nishant0712',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1085,7 +848,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/russian_twist_1.png',
         author: 'lion',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1095,22 +858,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/seated_cable_row_1.png',
         author: 'Franpol',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/seated_cable_row_2.png',
         author: 'Franpol',
-        license: '',
-      ),
-    ],
-  ),
-  'seated_calf_raise': ExerciseMedia(
-    wgerId: 1620,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/seated_calf_raise_1.jpeg',
-        author: 'AlucardEvil40',
-        license: 'seated-dumbbell-calf-raise',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1120,12 +873,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/seated_leg_curl_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/seated_leg_curl_2.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1135,57 +888,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/shoulder_press_machine_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/shoulder_press_machine_2.png',
         author: 'wger.de',
-        license: '',
-      ),
-    ],
-  ),
-  'single_arm_cable_row': ExerciseMedia(
-    wgerId: 1637,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/single_arm_cable_row_1.png',
-        author: 'Rottekongen',
-        license: 'single arm row',
-      ),
-    ],
-  ),
-  'single_arm_pushdown': ExerciseMedia(
-    wgerId: 1022,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/single_arm_pushdown_1.jpg',
-        author: 'wger.de',
-        license: '',
-      ),
-      ExerciseImage(
-        asset: 'assets/exercises/single_arm_pushdown_2.jpg',
-        author: 'wger.de',
-        license: '',
-      ),
-    ],
-  ),
-  'single_leg_calf_raise': ExerciseMedia(
-    wgerId: 1243,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/single_leg_calf_raise_1.png',
-        author: 'erikocobra',
-        license: 'Double Leg Calf Raise',
-      ),
-    ],
-  ),
-  'single_leg_rdl': ExerciseMedia(
-    wgerId: 1736,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/single_leg_rdl_1.png',
-        author: 'Tierrasverdes',
-        license: 'Peso muerto a una pierna con mancuerna',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1195,23 +903,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/skull_crusher_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/skull_crusher_2.png',
         author: 'Everkinetic',
-        license: '',
-      ),
-    ],
-  ),
-  'smith_bench_press': ExerciseMedia(
-    wgerId: 925,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/smith_bench_press_1.png',
-        author: 'wger.de',
-        license: '',
-        aiGenerated: true,
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1225,33 +922,13 @@ const exerciseMedia = <String, ExerciseMedia>{
       ),
     ],
   ),
-  'stability_ball_leg_curl': ExerciseMedia(
-    wgerId: 364,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/stability_ball_leg_curl_1.png',
-        author: 'Franpol',
-        license: '',
-      ),
-    ],
-  ),
-  'stair_climber': ExerciseMedia(
-    wgerId: 1747,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/stair_climber_1.jpg',
-        author: 'wger.de',
-        license: 'Sentadilla multipower',
-      ),
-    ],
-  ),
   'step_up': ExerciseMedia(
     wgerId: 981,
     images: [
       ExerciseImage(
         asset: 'assets/exercises/step_up_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
         aiGenerated: true,
       ),
     ],
@@ -1262,7 +939,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/straight_arm_pulldown_1.png',
         author: 'barry',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1273,22 +950,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/sumo_deadlift_1.webp',
         author: 'wger.de',
-        license: '',
-      ),
-    ],
-  ),
-  'trap_bar_deadlift': ExerciseMedia(
-    wgerId: 484,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/trap_bar_deadlift_1.png',
-        author: 'Everkinetic',
-        license: '',
-      ),
-      ExerciseImage(
-        asset: 'assets/exercises/trap_bar_deadlift_2.png',
-        author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1302,24 +964,13 @@ const exerciseMedia = <String, ExerciseMedia>{
       ),
     ],
   ),
-  'triceps_kickback': ExerciseMedia(
-    wgerId: 990,
-    images: [
-      ExerciseImage(
-        asset: 'assets/exercises/triceps_kickback_1.png',
-        author: 'wger.de',
-        license: '',
-        aiGenerated: true,
-      ),
-    ],
-  ),
   'triceps_pushdown': ExerciseMedia(
     wgerId: 1185,
     images: [
       ExerciseImage(
         asset: 'assets/exercises/triceps_pushdown_1.jpg',
         author: 'anto.kreegyr',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1329,7 +980,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/upright_row_1.png',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1339,12 +990,12 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/walking_lunge_1.png',
         author: 'Everkinetic',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
       ExerciseImage(
         asset: 'assets/exercises/walking_lunge_2.png',
         author: 'nishant0712',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1354,7 +1005,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/weighted_dips_1.png',
         author: 'cshep442',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1364,7 +1015,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/weighted_pull_up_1.jpg',
         author: 'Imobard',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
@@ -1375,7 +1026,7 @@ const exerciseMedia = <String, ExerciseMedia>{
       ExerciseImage(
         asset: 'assets/exercises/wrist_curl_1.webp',
         author: 'wger.de',
-        license: '',
+        license: 'CC BY-SA 4.0',
       ),
     ],
   ),
