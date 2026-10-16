@@ -1,0 +1,83 @@
+# Import posiloven z OpenStreetMap do Firestore (tool/gyms_import,
+# docs/gyms_import.md) – JEN RUČNĚ:
+# Actions → „Import posiloven (OSM)“ → Run workflow → země.
+#
+# Stejný skript jako na PC, jen běží na GitHubu se stejným klíčem jako
+# nasazení (secret FIREBASE_SERVICE_ACCOUNT; účet potřebuje zápis do
+# Firestore, např. roli Cloud Datastore User). Stav importu si skript
+# načte z Firestore, takže už importované posilovny nezaloží znovu
+# a nový běh pokračuje, kde předchozí skončil. Stažená data z Overpass
+# se drží v cache GitHubu (25 dní), výsledek (out/*.json, licence ODbL)
+# je u běhu jako artefakt.
+name: Import posiloven (OSM)
+
+on:
+  workflow_dispatch:
+    inputs:
+      countries:
+        description: Země (ISO 3166-1, oddělené čárkou)
+        required: true
+        default: US,CA,MX,BR,AR,CO,CL,PE,PR
+      dry_run:
+        description: Jen stáhnout a spočítat, nic nezapisovat
+        type: boolean
+        default: false
+
+# Dva importy najednou by si mohly vylosovat stejný kód posilovny.
+concurrency:
+  group: gyms-import
+  cancel-in-progress: false
+
+jobs:
+  import:
+    name: Import (${{ inputs.countries }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    environment: production
+    env:
+      PROJECT: fitness-app-dc5e4
+      COUNTRIES: ${{ inputs.countries }}
+      DRY_RUN: ${{ inputs.dry_run }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Cache odpovědí Overpass
+        uses: actions/cache/restore@v4
+        with:
+          path: tool/gyms_import/cache
+          key: gyms-overpass-${{ github.run_id }}
+          restore-keys: gyms-overpass-
+
+      - working-directory: tool/gyms_import
+        run: npm install --no-audit --no-fund && npm test
+
+      - if: ${{ !inputs.dry_run }}
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Import
+        working-directory: tool/gyms_import
+        run: |
+          set -- --countries "$COUNTRIES" --project "$PROJECT"
+          if [ "$DRY_RUN" = "true" ]; then set -- "$@" --dry-run; fi
+          node import_gyms.mjs "$@"
+
+      # Uložit i po chybě nebo vypršení – další běh nestahuje znovu.
+      - if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: tool/gyms_import/cache
+          key: gyms-overpass-${{ github.run_id }}
+
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gyms-out
+          path: tool/gyms_import/out/*.json
+          if-no-files-found: ignore
+          retention-days: 90

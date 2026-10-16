@@ -78,6 +78,16 @@ Ke každé posilovně patří `gymCodes/{code}` (QR kód na recepci funguje
 i pro importované posilovny). Import nikdy nemění `code`, `memberCount`
 ani `hidden`.
 
+## Spuštění na GitHubu (bez PC)
+
+Actions → **Import posiloven (OSM)** → Run workflow → země (výchozí
+USA, Kanada, Mexiko, Brazílie, Argentina, Kolumbie, Chile, Peru,
+Portoriko), volitelně *jen stáhnout a spočítat*. Používá klíč z nasazení
+(`FIREBASE_SERVICE_ACCOUNT`, účet `github-deploy` potřebuje i roli
+**Cloud Datastore User**). Stav si načte z Firestore – opakovaný běh
+nic nezdvojí a dokončí, co předchozí nestihl. Výsledek (`out/*.json`)
+je u běhu ke stažení jako artefakt `gyms-out`.
+
 ## Spuštění (Windows, PowerShell)
 
 Potřebuješ Node.js 20+ (máš ho kvůli Firebase CLI).
