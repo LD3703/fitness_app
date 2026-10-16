@@ -103,7 +103,9 @@ v knihovně – opakované poslání tedy klientovi plán aktualizuje.
    flutterfire configure --project=fitness-app-dc5e4 --platforms=web
    ```
    Přepíše `trainer_web/lib/firebase_options.dart` (zaregistruje ve
-   Firebase webovou aplikaci).
+   Firebase webovou aplikaci). **Hotovo** – webová aplikace „GymBar web“
+   je zaregistrovaná a soubor je v gitu (workflow „Konfigurace Firebase
+   aplikací“); znovu je to potřeba jen při změně projektu.
 5. **Firebase Console → Authentication → Settings → Authorized domains:**
    přidej `gymbar.app` (jinak přihlášení na webu hlásí „unauthorized-domain“).
 6. **Build a nasazení webu** (pokaždé po změně):
