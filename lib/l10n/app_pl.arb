@@ -1122,5 +1122,8 @@
   "planItemNote": "Notatka w planie",
   "planItemNoteHint": "Np. technika, tempo lub chwyt. Zobaczysz ją podczas treningu według tego planu.",
   "planItemNoteFromTrainer": "Tę notatkę napisał trener – nowa wersja planu może ją zmienić.",
-  "workoutNoteFromTrainer": "Trener {name}"
+  "workoutNoteFromTrainer": "Trener {name}",
+  "calendarTitleDefault": "Siłownia – {plan}",
+  "calendarTitleSetting": "Tytuł wydarzenia w kalendarzu",
+  "calendarTitleHint": "„{token}” zostanie zastąpione nazwą planu."
 }

@@ -1,7 +1,7 @@
 name: fitness_app
 description: Gym tracker s obdobími (nemoc, cut, bulk), pitným režimem a plánem B.
 publish_to: 'none'
-version: 0.3.10+17
+version: 0.3.11+18
 
 environment:
   sdk: ^3.6.0

@@ -1122,5 +1122,8 @@
   "planItemNote": "Poznámka v plánu",
   "planItemNoteHint": "Např. technika, tempo nebo úchop. Uvidíš ji při tréninku podle tohoto plánu.",
   "planItemNoteFromTrainer": "Poznámku napsal trenér – v nové verzi plánu ji může změnit.",
-  "workoutNoteFromTrainer": "Trenér {name}"
+  "workoutNoteFromTrainer": "Trenér {name}",
+  "calendarTitleDefault": "Fitko – {plan}",
+  "calendarTitleSetting": "Název události v kalendáři",
+  "calendarTitleHint": "„{token}“ se nahradí názvem plánu."
 }

@@ -1122,5 +1122,8 @@
   "planItemNote": "Nota en el plan",
   "planItemNoteHint": "P. ej., técnica, ritmo o agarre. La verás al entrenar con este plan.",
   "planItemNoteFromTrainer": "Esta nota es de tu entrenador; una nueva versión del plan puede cambiarla.",
-  "workoutNoteFromTrainer": "Entrenador {name}"
+  "workoutNoteFromTrainer": "Entrenador {name}",
+  "calendarTitleDefault": "Gimnasio – {plan}",
+  "calendarTitleSetting": "Título del evento en el calendario",
+  "calendarTitleHint": "«{token}» se sustituye por el nombre del plan."
 }

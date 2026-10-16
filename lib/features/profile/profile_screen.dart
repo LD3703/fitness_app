@@ -8,6 +8,7 @@ import '../../core/rest_time.dart';
 import '../../core/text_filter.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
+import '../../modules/calendar/calendar_title.dart';
 import '../../modules/data/unit_dialogs.dart';
 import '../../modules/module_hub.dart';
 import '../../providers.dart';
@@ -265,6 +266,20 @@ class ProfileScreen extends ConsumerWidget {
               if (!v) await calendar.removeFuture(db);
             },
           ),
+          if (profile.calendarSyncEnabled)
+            ListTile(
+              leading: const SizedBox(width: 24),
+              title: Text(l10n.calendarTitleSetting),
+              subtitle: Text(
+                '${calendarEventTitle(
+                  template: profile.calendarTitle,
+                  plan: calendarTitleExamplePlan,
+                  defaultTitle: l10n.calendarTitleDefault,
+                )}\n${l10n.calendarTitleHint(calendarTitleToken)}',
+              ),
+              trailing: const Icon(Icons.edit_outlined),
+              onTap: () => _editCalendarTitle(context, db, profile),
+            ),
           if (Theme.of(context).platform == TargetPlatform.android)
             ListTile(
               leading: const Icon(Icons.timer_outlined),
@@ -442,6 +457,27 @@ class ProfileScreen extends ConsumerWidget {
     await save();
   }
 
+
+  /// Vlastní název událostí v kalendáři. Výchozí text (nebo prázdné
+  /// pole) uloží null – název pak sleduje jazyk aplikace.
+  Future<void> _editCalendarTitle(
+    BuildContext context,
+    AppDatabase db,
+    UserProfile profile,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final defaultText = l10n.calendarTitleDefault(calendarTitleToken);
+    final text = await showTextInputDialog(
+      context,
+      title: l10n.calendarTitleSetting,
+      initialValue: profile.calendarTitle ?? defaultText,
+      hintText: defaultText,
+    );
+    if (text == null || !context.mounted) return;
+    await db.updateProfile(UserProfilesCompanion(
+      calendarTitle: Value(text == defaultText ? null : text),
+    ));
+  }
   void _showDenied(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(AppLocalizations.of(context).permissionDenied),

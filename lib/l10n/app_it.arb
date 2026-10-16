@@ -1122,5 +1122,8 @@
   "planItemNote": "Nota nel piano",
   "planItemNoteHint": "Ad es. tecnica, tempo o presa. La vedrai allenandoti con questo piano.",
   "planItemNoteFromTrainer": "Questa nota è del tuo coach: una nuova versione del piano può cambiarla.",
-  "workoutNoteFromTrainer": "Coach {name}"
+  "workoutNoteFromTrainer": "Coach {name}",
+  "calendarTitleDefault": "Palestra – {plan}",
+  "calendarTitleSetting": "Titolo dell’evento nel calendario",
+  "calendarTitleHint": "«{token}» viene sostituito dal nome della scheda."
 }

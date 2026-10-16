@@ -146,7 +146,8 @@ final socialAppProvider = Provider<void>((ref) {
   ref.listen(socialFeedProvider, (_, next) {
     final items = next.valueOrNull;
     if (items != null && items.isNotEmpty) {
-      unawaited(SocialPublisher.processInbox(items));
+      unawaited(
+          SocialPublisher.processInbox(items, ref.read(databaseProvider)));
     }
   });
 });
