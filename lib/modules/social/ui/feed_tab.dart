@@ -108,6 +108,7 @@ class _FeedTabState extends ConsumerState<FeedTab> {
     );
     if (!accept) return null;
     final added = await addSocialWorkoutToCalendar(
+      db: ref.read(databaseProvider),
       planName: inv.planName,
       friendName: inv.fromName,
       start: inv.startAt,

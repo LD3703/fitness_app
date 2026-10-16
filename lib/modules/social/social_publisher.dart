@@ -309,7 +309,10 @@ abstract final class SocialPublisher {
   /// Položku novinek píše přítel, proto rozhoduje pozvánka na serveru:
   /// musí být moje, poslaná tomu, kdo odpověděl, a přijatá; název, čas
   /// a délka se berou z ní.
-  static Future<void> processInbox(List<FeedItem> items) async {
+  static Future<void> processInbox(
+    List<FeedItem> items,
+    AppDatabase db,
+  ) async {
     if (!_ready) return;
     final me = SocialService.instance.uid;
     if (me == null) return;
@@ -335,6 +338,7 @@ abstract final class SocialPublisher {
             ) &&
             inv.startAt.isAfter(DateTime.now())) {
           await addSocialWorkoutToCalendar(
+            db: db,
             planName: inv.planName,
             friendName: item.fromName,
             start: inv.startAt,

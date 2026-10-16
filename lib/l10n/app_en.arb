@@ -3220,5 +3220,27 @@
         "type": "String"
       }
     }
+  },
+  "calendarTitleDefault": "Gym – {plan}",
+  "@calendarTitleDefault": {
+    "description": "Default title of a workout event in the phone calendar; plan is the plan name (e.g. \"Gym – Push\").",
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarTitleSetting": "Calendar event title",
+  "@calendarTitleSetting": {
+    "description": "Profile setting: custom title of workout events in the phone calendar."
+  },
+  "calendarTitleHint": "“{token}” is replaced with the plan name.",
+  "@calendarTitleHint": {
+    "description": "Hint under the calendar title setting; token is the literal placeholder {plan} the user can type.",
+    "placeholders": {
+      "token": {
+        "type": "String"
+      }
+    }
   }
 }

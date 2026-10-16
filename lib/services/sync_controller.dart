@@ -65,7 +65,8 @@ class SyncController {
       );
 
       if (profile.calendarSyncEnabled) {
-        await CalendarService.instance.sync(db, planned, l10n);
+        await CalendarService.instance.sync(db, planned, l10n,
+            titleTemplate: profile.calendarTitle);
       }
 
       for (final hook in moduleSyncHooks()) {

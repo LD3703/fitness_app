@@ -42,6 +42,10 @@ class UserProfiles extends Table {
   BoolColumn get calendarSyncEnabled =>
       boolean().withDefault(const Constant(false))();
 
+  /// Název události v kalendáři (verze schématu 18), „{plan}“ se nahradí
+  /// názvem plánu. null = výchozí podle jazyka („Fitko – {plan}“).
+  TextColumn get calendarTitle => text().nullable()();
+
   // Verze schématu 6 (funkce v2 a v3).
   /// Číst kalendář: volná okna, kolize, návrhy časů.
   BoolColumn get calendarReadEnabled =>

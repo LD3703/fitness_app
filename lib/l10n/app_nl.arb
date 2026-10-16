@@ -1122,5 +1122,8 @@
   "planItemNote": "Notitie in het schema",
   "planItemNoteHint": "Bijv. techniek, tempo of greep. Je ziet hem als je met dit schema traint.",
   "planItemNoteFromTrainer": "Deze notitie is van je coach – een nieuwe versie van het schema kan hem wijzigen.",
-  "workoutNoteFromTrainer": "Coach {name}"
+  "workoutNoteFromTrainer": "Coach {name}",
+  "calendarTitleDefault": "Sportschool – {plan}",
+  "calendarTitleSetting": "Titel van de agenda-afspraak",
+  "calendarTitleHint": "„{token}” wordt vervangen door de naam van het schema."
 }

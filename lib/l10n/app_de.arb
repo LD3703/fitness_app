@@ -1122,5 +1122,8 @@
   "planItemNote": "Notiz im Plan",
   "planItemNoteHint": "Z. B. Technik, Tempo oder Griff. Du siehst sie beim Training nach diesem Plan.",
   "planItemNoteFromTrainer": "Diese Notiz stammt von deinem Coach – eine neue Planversion kann sie ändern.",
-  "workoutNoteFromTrainer": "Coach {name}"
+  "workoutNoteFromTrainer": "Coach {name}",
+  "calendarTitleDefault": "Gym – {plan}",
+  "calendarTitleSetting": "Titel im Kalender",
+  "calendarTitleHint": "„{token}“ wird durch den Plannamen ersetzt."
 }

@@ -48,7 +48,7 @@ void main() {
       dir.deleteSync(recursive: true);
     });
 
-    test('v11 → v17 zachová plány, série i tréninky', () async {
+    test('v11 → aktuální zachová plány, série i tréninky', () async {
       final version = await db
           .customSelect('PRAGMA user_version')
           .map((r) => r.read<int>('user_version'))
@@ -62,6 +62,7 @@ void main() {
       expect(plan.remoteId, isNull);
       expect(plan.remoteVersion, isNull);
       expect(plan.remoteFrom, isNull);
+      expect((await db.watchProfile().first).calendarTitle, isNull);
 
       final items = await db.getPlanItems(plan.id);
       expect(items.map((i) => i.exercise.slug), ['bench_press', null]);

@@ -29,6 +29,18 @@ jobs:
         with:
           sdk: stable
       - run: dart run tool/wger_import.dart
+      # Obrázky z wger.de mají i 8 MB – zmenšit na nejvýš 720 px (stačí
+      # i na tabletu), bez metadat, PNG ztrátově přes pngquant. GIF a WebP
+      # zůstávají (můžou být animované).
+      - name: Zmenšení obrázků
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick pngquant >/dev/null
+          du -sh assets/exercises
+          find assets/exercises -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) \
+            -exec mogrify -resize '720x720>' -strip -quality 85 {} +
+          find assets/exercises -type f -iname '*.png' \
+            -exec pngquant --force --skip-if-larger --ext .png --quality 65-90 {} + || true
+          du -sh assets/exercises
       - name: Commit výsledku
         run: |
           git config user.name "github-actions[bot]"

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import '../core/date_utils.dart';
 import '../data/database.dart';
 import '../l10n/app_localizations.dart';
+import '../modules/calendar/calendar_title.dart';
 import '../modules/calendar/free_slots.dart';
 
 /// Zápis naplánovaných tréninků do kalendáře telefonu.
@@ -51,11 +52,13 @@ class CalendarService {
   }
 
   /// Srovná události v kalendáři s naplánovanými tréninky [planned].
+  /// [titleTemplate] = vlastní název události z Profilu (null = výchozí).
   Future<void> sync(
     AppDatabase db,
     List<PlannedWorkout> planned,
-    AppLocalizations l10n,
-  ) async {
+    AppLocalizations l10n, {
+    String? titleTemplate,
+  }) async {
     if (!supported || !await _hasPermission()) return;
     try {
       await removeFuture(db);
@@ -69,7 +72,11 @@ class CalendarService {
           minutes % 60,
         );
         final eventId = await DeviceCalendar.instance.createEvent(
-          title: w.plan.name,
+          title: calendarEventTitle(
+            template: titleTemplate,
+            plan: w.plan.name,
+            defaultTitle: l10n.calendarTitleDefault,
+          ),
           startDate: start,
           endDate: start.add(const Duration(minutes: _durationMinutes)),
           description: l10n.calendarEventDescription,

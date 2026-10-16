@@ -37,6 +37,13 @@ const _maxAnimatedCandidates = 3;
 /// Ruční přiřazení slug → ID cviku na wger.de (má přednost před hledáním).
 const _overrides = <String, int>{
   // 'bench_press': 192,
+  // Ověřené shody, které by přísný filtr (_acceptable) zahodil kvůli
+  // vybavení v názvu na wger.de.
+  'goblet_squat': 203, // Dumbbell Goblet Squat
+  'skull_crusher': 246, // Skullcrusher SZ-bar
+  'wrist_curl': 51, // Barbell Wrist Curl
+  'straight_arm_pulldown': 1726, // Straight-Arm Pulldown (Cable)
+  'upright_row': 693, // Upright Row, SZ-bar
 };
 
 /// Hledané anglické názvy pro každý vestavěný cvik (první je hlavní).
@@ -100,7 +107,7 @@ const _searchTerms = <String, List<String>>{
   'dumbbell_shrug': ['Dumbbell Shrug', 'Shrugs, Dumbbells', 'Shrug'],
   'wrist_curl': ['Wrist Curl', 'Dumbbell Wrist Curl', 'Wrist Curls'],
   'reverse_curl': ['Reverse Curl', 'Reverse Barbell Curl', 'Reverse Grip Curl'],
-  'dead_hang': ['Dead Hang', 'Hang', 'Bar Hang'],
+  'dead_hang': ['Dead Hang', 'Bar Hang'],
   'back_extension': ['Back Extension', 'Hyperextensions', 'Hyperextension'],
   'good_morning': ['Good Morning', 'Good Mornings', 'Barbell Good Morning'],
   'superman': ['Superman', 'Supermans', 'Prone Back Extension'],
@@ -405,6 +412,44 @@ String _englishName(Map<String, dynamic> info) {
 String _norm(String s) =>
     s.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), ' ').trim();
 
+/// Slova, která mění cvik (jiné vybavení, poloha, varianta). Když je
+/// název na wger.de má navíc oproti hledanému výrazu, je to jiný cvik
+/// (např. „Incline Bench Press“ pro bench press) – obrázek se nepoužije.
+const _modifiers = {
+  'incline', 'decline', 'cable', 'dumbbell', 'barbell', 'machine', 'smith',
+  'seated', 'standing', 'lying', 'single', 'one', 'reverse', 'close', 'wide',
+  'narrow', 'sz', 'ez', 'kettlebell', 'band', 'banded', 'side', 'front',
+  'rear', 'alternating', 'alternate', 'overhead', 'hammer', 'weighted',
+  'assisted', 'box', 'jump', 'jumping', 'clap', 'sumo', 'romanian', 'stiff',
+  'bulgarian', 'split', 'goblet', 'hack', 'landmine', 'trap', 'rack',
+  'deficit', 'low', 'high', 'upper', 'lower', 'plank', 'diamond', 'kneeling',
+  'leg', 'arm', 'row', 'press', 'curl', 'raise', 'extension', 'fly',
+  'pulldown', 'pull', 'push', 'dip', 'crunch', 'squat', 'lunge', 'deadlift',
+  'circle', 'circles', 'monster', 'walk', 'walking', 'mark', 'lauren',
+};
+
+Set<String> _tokens(String s) => {
+      for (final w in _norm(s).split(' '))
+        if (w.isNotEmpty)
+          w.length > 2 && w.endsWith('s') && !w.endsWith('ss')
+              ? w.substring(0, w.length - 1)
+              : w,
+    };
+
+/// Je [name] z wger.de opravdu hledaný cvik? Všechna slova některého
+/// hledaného výrazu musí v názvu být a navíc tam nesmí být slovo, které
+/// cvik mění ([_modifiers]). Ruční přiřazení (_overrides) se nekontroluje.
+bool _acceptable(String name, List<String> terms) {
+  final n = _tokens(name);
+  for (final term in terms) {
+    final t = _tokens(term);
+    if (t.isEmpty || !n.containsAll(t)) continue;
+    if (n.difference(t).any(_modifiers.contains)) continue;
+    return true;
+  }
+  return false;
+}
+
 int _score(String name, List<String> terms, bool hasImages) {
   final n = _norm(name);
   var best = 0;
@@ -453,6 +498,7 @@ Future<_Chosen?> _choose(String slug) async {
       final id = r['id'] as int;
       final name = _englishName(r);
       if (name.isEmpty) continue;
+      if (!_acceptable(name, terms)) continue;
       final images = _images(r);
       final score = _score(name, terms, images.isNotEmpty);
       final prev = candidates[id];
@@ -524,7 +570,9 @@ MediaImage _imageFrom(Map<String, dynamic> raw, String asset) {
     asset: asset,
     author: author.isEmpty ? 'wger.de' : author,
     authorUrl: authorUrl.isEmpty ? null : authorUrl,
-    license: '${raw['license_title'] ?? 'CC BY-SA 4.0'}'.trim(),
+    // Obrázky na wger.de jsou pod CC BY-SA 4.0. Pole license_title je
+    // název díla (např. „Bird Dog“), ne název licence.
+    license: 'CC BY-SA 4.0',
     aiGenerated: raw['is_ai_generated'] == true,
   );
 }

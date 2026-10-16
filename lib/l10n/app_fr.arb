@@ -1122,5 +1122,8 @@
   "planItemNote": "Note dans le plan",
   "planItemNoteHint": "Par ex. technique, tempo ou prise. Tu la verras en t’entraînant avec ce plan.",
   "planItemNoteFromTrainer": "Cette note vient de ton coach – une nouvelle version du plan peut la modifier.",
-  "workoutNoteFromTrainer": "Coach {name}"
+  "workoutNoteFromTrainer": "Coach {name}",
+  "calendarTitleDefault": "Salle – {plan}",
+  "calendarTitleSetting": "Titre de l’événement dans l’agenda",
+  "calendarTitleHint": "« {token} » est remplacé par le nom du programme."
 }

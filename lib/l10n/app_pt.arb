@@ -1122,5 +1122,8 @@
   "planItemNote": "Anotação no plano",
   "planItemNoteHint": "Ex.: técnica, ritmo ou pegada. Você verá ao treinar com este plano.",
   "planItemNoteFromTrainer": "Esta anotação é do seu treinador – uma nova versão do plano pode alterá-la.",
-  "workoutNoteFromTrainer": "Treinador {name}"
+  "workoutNoteFromTrainer": "Treinador {name}",
+  "calendarTitleDefault": "Ginásio – {plan}",
+  "calendarTitleSetting": "Título do evento no calendário",
+  "calendarTitleHint": "«{token}» é substituído pelo nome do plano."
 }
