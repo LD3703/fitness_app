@@ -3,6 +3,8 @@
   Pozvánka mezi přátele a do žebříčku posilovny:
     https://gymbar.app/friend?code=XXXXXXXX
     https://gymbar.app/gym?code=XXXXXX
+  Návod ke cviku ze samolepky na stroji (docs/fitka.md):
+    https://gymbar.app/ex?id=<slug>&gym=<gymId>
   Obě adresy sem přesměruje firebase.json (rewrites). Stránka nabídne otevření
   aplikace (gymbar://friend?code=… / gymbar://gym?code=…) nebo stažení
   z obchodu. Odkazy do obchodů a schéma aplikace jsou v config.js.
@@ -99,12 +101,15 @@
 
 <script src="/config.js"></script>
 <script src="/site.js"></script>
+<script src="/fitka/exercises.js"></script>
 <script>
 (function () {
   // friend = pozvánka mezi přátele, gym = žebříček posilovny,
-  // coach = propojení s trenérem (?code=), plan = sdílený plán (?id=).
+  // coach = propojení s trenérem (?code=), plan = sdílený plán (?id=),
+  // ex = cvik ze samolepky na stroji (?id=<slug>, docs/fitka.md).
   var T = {
     en: {
+      exLabel: 'Exercise guide', exTitle: 'Open this exercise guide in GymBar',
       coachLabel: 'Coach', coachTitle: 'Connect with me in GymBar – I’ll send you training plans',
       planLabel: 'Training plan', planTitle: 'Open this training plan in GymBar',
       friendLabel: 'Friend invite', friendTitle: 'Add me as a friend in GymBar',
@@ -114,6 +119,7 @@
       invalid: "This invite link doesn't work."
     },
     cs: {
+      exLabel: 'Návod ke cviku', exTitle: 'Otevři si návod ke cviku v GymBaru',
       coachLabel: 'Trenér', coachTitle: 'Propoj se se mnou v GymBaru – budu ti posílat plány',
       planLabel: 'Tréninkový plán', planTitle: 'Otevři si tenhle tréninkový plán v GymBaru',
       friendLabel: 'Pozvánka', friendTitle: 'Přidej si mě mezi přátele v GymBaru',
@@ -123,6 +129,7 @@
       invalid: 'Tenhle odkaz na pozvánku nefunguje.'
     },
     sk: {
+      exLabel: 'Návod na cvik', exTitle: 'Otvor si návod na cvik v GymBare',
       coachLabel: 'Tréner', coachTitle: 'Prepoj sa so mnou v GymBare – budem ti posielať plány',
       planLabel: 'Tréningový plán', planTitle: 'Otvor si tento tréningový plán v GymBare',
       friendLabel: 'Pozvánka', friendTitle: 'Pridaj si ma medzi priateľov v GymBare',
@@ -132,6 +139,7 @@
       invalid: 'Tento odkaz na pozvánku nefunguje.'
     },
     de: {
+      exLabel: 'Übungsanleitung', exTitle: 'Öffne diese Übungsanleitung in GymBar',
       coachLabel: 'Coach', coachTitle: 'Verbinde dich mit mir in GymBar – ich schicke dir Trainingspläne',
       planLabel: 'Trainingsplan', planTitle: 'Öffne diesen Trainingsplan in GymBar',
       friendLabel: 'Einladung', friendTitle: 'Füg mich in GymBar als Freund hinzu',
@@ -141,6 +149,7 @@
       invalid: 'Dieser Einladungslink funktioniert nicht.'
     },
     es: {
+      exLabel: 'Guía del ejercicio', exTitle: 'Abre esta guía del ejercicio en GymBar',
       coachLabel: 'Entrenador', coachTitle: 'Conéctate conmigo en GymBar: te enviaré planes de entrenamiento',
       planLabel: 'Plan de entrenamiento', planTitle: 'Abre este plan de entrenamiento en GymBar',
       friendLabel: 'Invitación', friendTitle: 'Agrégame como amigo en GymBar',
@@ -150,6 +159,7 @@
       invalid: 'Este enlace de invitación no funciona.'
     },
     fr: {
+      exLabel: 'Guide de l’exercice', exTitle: 'Ouvre ce guide d’exercice dans GymBar',
       coachLabel: 'Coach', coachTitle: 'Connecte-toi à moi sur GymBar : je t’enverrai des programmes',
       planLabel: 'Programme', planTitle: 'Ouvre ce programme d’entraînement dans GymBar',
       friendLabel: 'Invitation', friendTitle: 'Ajoute-moi en ami sur GymBar',
@@ -159,6 +169,7 @@
       invalid: "Ce lien d'invitation ne fonctionne pas."
     },
     it: {
+      exLabel: 'Guida all’esercizio', exTitle: 'Apri questa guida all’esercizio su GymBar',
       coachLabel: 'Coach', coachTitle: 'Collegati a me su GymBar: ti invierò le schede di allenamento',
       planLabel: 'Scheda di allenamento', planTitle: 'Apri questa scheda di allenamento su GymBar',
       friendLabel: 'Invito', friendTitle: 'Aggiungimi agli amici su GymBar',
@@ -168,6 +179,7 @@
       invalid: "Questo link d'invito non funziona."
     },
     nl: {
+      exLabel: 'Oefeninguitleg', exTitle: 'Open deze oefeninguitleg in GymBar',
       coachLabel: 'Coach', coachTitle: 'Verbind met mij in GymBar – ik stuur je trainingsschema’s',
       planLabel: 'Trainingsschema', planTitle: 'Open dit trainingsschema in GymBar',
       friendLabel: 'Uitnodiging', friendTitle: 'Voeg me toe als vriend in GymBar',
@@ -177,6 +189,7 @@
       invalid: 'Deze uitnodigingslink werkt niet.'
     },
     pl: {
+      exLabel: 'Instrukcja ćwiczenia', exTitle: 'Otwórz tę instrukcję ćwiczenia w GymBar',
       coachLabel: 'Trener', coachTitle: 'Połącz się ze mną w GymBar – będę ci wysyłać plany treningowe',
       planLabel: 'Plan treningowy', planTitle: 'Otwórz ten plan treningowy w GymBar',
       friendLabel: 'Zaproszenie', friendTitle: 'Dodaj mnie do znajomych w GymBar',
@@ -186,6 +199,7 @@
       invalid: 'Ten link z zaproszeniem nie działa.'
     },
     pt: {
+      exLabel: 'Guia do exercício', exTitle: 'Abra este guia do exercício no GymBar',
       coachLabel: 'Treinador', coachTitle: 'Conecte-se comigo no GymBar – vou te enviar planos de treino',
       planLabel: 'Plano de treino', planTitle: 'Abra este plano de treino no GymBar',
       friendLabel: 'Convite', friendTitle: 'Me adicione como amigo no GymBar',
@@ -218,9 +232,12 @@
   var code = (new URLSearchParams(window.location.search).get('code') || '')
     .trim().toUpperCase();
   var planId = (new URLSearchParams(window.location.search).get('id') || '').trim();
+  var exSlug = planId.toLowerCase();
   var valid = kind === 'plan'
     ? /^[A-Za-z0-9]{10,40}$/.test(planId)
-    : (kind === 'friend' || kind === 'gym' || kind === 'coach') && /^[A-Z0-9]{4,12}$/.test(code);
+    : kind === 'ex'
+      ? /^[a-z0-9_]{2,60}$/.test(exSlug)
+      : (kind === 'friend' || kind === 'gym' || kind === 'coach') && /^[A-Z0-9]{4,12}$/.test(code);
 
   text('hint', t.hint);
   // Odkazy do obchodů, nebo „již brzy“ podle config.js.
@@ -237,6 +254,21 @@
   text('title', t[kind + 'Title']);
   document.title = document.getElementById('title').textContent;
   text('openApp', t.open);
+  if (kind === 'ex') {
+    // Název cviku (fitka/exercises.js); neznámý cvik = obecný titulek.
+    var list = window.GYMBAR_EXERCISES || [];
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].s === exSlug) {
+        text('title', (lang === 'cs' || lang === 'sk') ? list[i].cs : list[i].en);
+        document.title = document.getElementById('title').textContent + ' · GymBar';
+        break;
+      }
+    }
+    document.getElementById('card').style.display = 'none';
+    document.getElementById('openApp').href =
+      window.GYMBAR.scheme + '://ex?id=' + encodeURIComponent(exSlug);
+    return;
+  }
   if (kind === 'plan') {
     document.getElementById('card').style.display = 'none';
     document.getElementById('openApp').href =

@@ -9,7 +9,7 @@ const _scheme = 'gymbar';
 const _webHost = 'gymbar.app';
 
 /// Cesty webu, které obsluhuje aplikace (deep_links.dart, firebase.json).
-const _webPaths = ['/challenge', '/friend', '/gym', '/coach', '/plan'];
+const _webPaths = ['/challenge', '/friend', '/gym', '/coach', '/plan', '/ex'];
 
 /// Schéma z doby před názvem GymBar – skript ho v už upravených
 /// souborech přepíše na [_scheme], aby aplikace nezůstala na starém.

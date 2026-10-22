@@ -106,6 +106,10 @@ const csStrings = <String, String>{
       'Nemáš žádného klienta – status trenéra zanikne {date}. Pozvi klienty kódem nebo odkazem.',
   'noClientsTitle': 'Zatím nemáš žádné klienty',
   'inviteMore': 'Pozvat další klienty',
+  'gymKitTitle': 'Materiály pro vaše fitko',
+  'gymKitText': 'Plakát s žebříčkem posilovny a QR samolepky s návody na stroje si majitel fitka vytiskne sám a zdarma. Pošlete mu odkaz.',
+  'gymKitOpen': 'Otevřít',
+  'gymKitCopy': 'Kopírovat odkaz',
   'inviteHow':
       'Klient si nainstaluje GymBar a v Profilu → Trenér zadá tvůj kód, nebo otevře odkaz z pozvánky.',
   'copyCode': 'Kopírovat kód',
@@ -335,6 +339,10 @@ const enStrings = <String, String>{
       'You have no clients – your coach status ends on {date}. Invite clients with your code or link.',
   'noClientsTitle': 'No clients yet',
   'inviteMore': 'Invite more clients',
+  'gymKitTitle': 'Materials for your gym',
+  'gymKitText': 'The gym owner can print a leaderboard poster and QR stickers with machine guides for free. Send them the link.',
+  'gymKitOpen': 'Open',
+  'gymKitCopy': 'Copy link',
   'inviteHow':
       'The client installs GymBar and enters your code in Profile → Coach, or opens the invite link.',
   'copyCode': 'Copy code',

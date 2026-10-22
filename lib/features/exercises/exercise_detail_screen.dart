@@ -10,6 +10,43 @@ import '../../ui/dialogs.dart';
 import '../../ui/exercise_media_view.dart';
 import '../../ui/labels.dart';
 
+/// ID vestavěného cviku podle slugu (null = takový cvik v databázi není).
+final exerciseIdBySlugProvider =
+    FutureProvider.autoDispose.family<int?, String>((ref, slug) async {
+  final db = ref.watch(databaseProvider);
+  final e = await (db.select(db.exercises)..where((x) => x.slug.equals(slug)))
+      .getSingleOrNull();
+  return e?.id;
+});
+
+/// Cvik otevřený odkazem ze samolepky na stroji (`gymbar.app/ex?id=<slug>`,
+/// docs/fitka.md) – najde cvik podle slugu a ukáže jeho detail.
+class ExerciseBySlugScreen extends ConsumerWidget {
+  const ExerciseBySlugScreen({super.key, required this.slug});
+
+  final String slug;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    return ref.watch(exerciseIdBySlugProvider(slug)).when(
+          loading: () => const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          ),
+          error: (e, _) => Scaffold(
+            appBar: AppBar(),
+            body: Center(child: Text(l10n.errorGeneric)),
+          ),
+          data: (id) => id == null
+              ? Scaffold(
+                  appBar: AppBar(),
+                  body: Center(child: Text(l10n.exercisesEmpty)),
+                )
+              : ExerciseDetailScreen(exerciseId: id),
+        );
+  }
+}
+
 class ExerciseDetailScreen extends ConsumerWidget {
   const ExerciseDetailScreen({super.key, required this.exerciseId});
 

@@ -5,6 +5,7 @@ import '../backend.dart';
 import '../strings.dart';
 import 'client_page.dart';
 import 'common.dart';
+import 'download.dart';
 import 'plans_page.dart';
 
 /// Hlavní rozložení: Klienti / Plány / Profil.
@@ -123,6 +124,8 @@ class _ClientsPageState extends State<ClientsPage> {
                 const SizedBox(height: 16),
                 _Invite(trainer: trainer, empty: false),
               ],
+              const SizedBox(height: 16),
+              const GymKitCard(),
             ],
           );
         },
@@ -193,6 +196,60 @@ class _Invite extends StatelessWidget {
                       s('inviteText', {'name': trainer.name, 'link': trainer.inviteLink})),
                   icon: const Icon(Icons.link, size: 18),
                   label: Text(s('copyInvite')),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Odkaz na gymbar.app/fitka – trenér ho pošle majiteli fitka
+/// (plakát a samolepky k vytištění, docs/fitka.md).
+const kGymKitUrl = 'https://gymbar.app/fitka';
+
+class GymKitCard extends StatelessWidget {
+  const GymKitCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final s = S.of(context);
+    final theme = Theme.of(context);
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.storefront_outlined, color: theme.colorScheme.primary),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(s('gymKitTitle'), style: theme.textTheme.titleMedium),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(s('gymKitText')),
+            const SizedBox(height: 12),
+            SelectableText(kGymKitUrl, style: theme.textTheme.bodyLarge),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                FilledButton.tonalIcon(
+                  onPressed: () => openUrl(kGymKitUrl),
+                  icon: const Icon(Icons.open_in_new, size: 18),
+                  label: Text(s('gymKitOpen')),
+                ),
+                OutlinedButton.icon(
+                  onPressed: () => copyText(context, kGymKitUrl),
+                  icon: const Icon(Icons.copy, size: 18),
+                  label: Text(s('gymKitCopy')),
                 ),
               ],
             ),

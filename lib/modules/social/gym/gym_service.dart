@@ -331,6 +331,30 @@ class GymService {
     throw StateError('Could not create a gym code');
   }
 
+  /// „Doporuč GymBar svému fitku“: zaznamená, že člen poslal majiteli
+  /// odkaz (gymReferrals, docs/fitka.md). Odměna zatím není.
+  Future<void> recordReferral(String gymId) async {
+    final me = _me;
+    final ref = _fs.collection('gymReferrals').doc(gymReferralDocId(gymId, me));
+    await _fs.runTransaction((tx) async {
+      final snap = await tx.get(ref);
+      if (snap.exists) {
+        tx.update(ref, {
+          'count': FieldValue.increment(1),
+          'updatedAt': FieldValue.serverTimestamp(),
+        });
+      } else {
+        tx.set(ref, {
+          'gymId': gymId,
+          'uid': me,
+          'count': 1,
+          'createdAt': FieldValue.serverTimestamp(),
+          'updatedAt': FieldValue.serverTimestamp(),
+        });
+      }
+    }).timeout(_writeTimeout);
+  }
+
   /// Vstoupí do posilovny (z jiné nejdřív odejde – člověk je vždy jen
   /// v jedné).
   Future<void> joinGym(String gymId, GymProfileInput profile) async {

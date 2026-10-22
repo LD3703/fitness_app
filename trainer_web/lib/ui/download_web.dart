@@ -17,3 +17,8 @@ void downloadText(String fileName, String text, {String mime = 'text/calendar'})
   a.remove();
   web.URL.revokeObjectURL(url);
 }
+
+/// Otevře odkaz v nové záložce.
+void openUrl(String url) {
+  web.window.open(url, '_blank');
+}

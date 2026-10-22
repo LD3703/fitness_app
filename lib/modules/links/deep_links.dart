@@ -47,6 +47,9 @@ const kAppStoreUrl = 'https://apps.apple.com/app/id0000000000';
 typedef DeepLinkHandler = bool Function(Uri uri, GoRouter router);
 
 List<DeepLinkHandler> deepLinkHandlers() => [
+      // Cvik ze samolepky na stroji (vestavěné cviky, bez modulu).
+      exerciseDeepLink,
+      //
       // [links:sharing]
       handleChallengeLink,
       //
@@ -64,6 +67,15 @@ List<DeepLinkHandler> deepLinkHandlers() => [
       sharedPlanDeepLink,
       //
     ];
+
+/// `gymbar://ex?id=<slug>` nebo `<web>/ex?id=…` – návod ke cviku ze
+/// samolepky na stroji (docs/fitka.md).
+bool exerciseDeepLink(Uri uri, GoRouter router) {
+  if (!isAppLink(uri, 'ex')) return false;
+  final slug = exerciseLinkSlug(uri);
+  router.go(slug == null ? '/exercises' : '/exercises/slug/$slug');
+  return true;
+}
 
 /// Poslouchá příchozí odkazy (i ten, kterým se aplikace spustila)
 /// a předá je modulům. Čeká, až se načte profil, aby odkaz nepřebil

@@ -35,7 +35,7 @@ const _outPath = 'docs/web/.well-known/assetlinks.json';
 /// (stejně jako tool/platform/links.dart a ios_store.dart).
 const _iosBundleId = 'cz.dedina.fitnessApp';
 const _aasaPath = 'docs/web/.well-known/apple-app-site-association';
-const _appPaths = ['/challenge', '/friend', '/gym', '/coach', '/plan'];
+const _appPaths = ['/challenge', '/friend', '/gym', '/coach', '/plan', '/ex'];
 
 final _fingerprint = RegExp(r'^([0-9A-F]{2}:){31}[0-9A-F]{2}$');
 
