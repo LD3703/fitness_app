@@ -546,6 +546,32 @@ service cloud.firestore {
       }
     }
 
+    // Doporučení „Doporuč GymBar svému fitku“ (docs/fitka.md): člen
+    // posilovny sdílí majiteli odkaz na gymbar.app/fitka. ID je
+    // „{gymId}_{uid}“, count = kolikrát sdílel. Každý zapisuje a čte
+    // jen svůj záznam; odměna zatím není (rozhodne se později).
+    match /gymReferrals/{refId} {
+      // Neexistující záznam smí „přečíst“ kdokoli přihlášený (transakce
+      // v aplikaci nejdřív zjistí, jestli záznam už je).
+      allow get: if signedIn() && (resource == null || resource.data.uid == request.auth.uid);
+      allow list: if false;
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['gymId', 'uid', 'count', 'createdAt', 'updatedAt'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.gymId is string
+        && refId == request.resource.data.gymId + '_' + request.auth.uid
+        && exists(memberPath(request.resource.data.gymId, request.auth.uid))
+        && request.resource.data.count == 1
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+      allow update: if signedIn()
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['count', 'updatedAt'])
+        && request.resource.data.count == resource.data.count + 1
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if false;
+    }
+
     // Kód posilovny → ID (QR na recepci). Jen get; vzniká jen spolu
     // s posilovnou a nikdy se nepřepisuje.
     match /gymCodes/{code} {

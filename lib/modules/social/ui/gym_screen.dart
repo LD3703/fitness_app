@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../core/formulas.dart';
 import '../../../data/database.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers.dart';
 import '../../../ui/dialogs.dart';
+import '../../links/deep_links.dart';
 import '../gym/gym_logic.dart';
 import '../gym/gym_models.dart';
 import '../gym/gym_publisher.dart';
@@ -147,7 +149,7 @@ class _NoGymView extends StatelessWidget {
 // Žebříček
 // ---------------------------------------------------------------------------
 
-enum _MenuAction { profile, print, leave, report }
+enum _MenuAction { profile, print, recommend, leave, report }
 
 const _medalColors = [
   Color(0xFFFFC107), // zlato
@@ -265,6 +267,26 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
     }
   }
 
+  /// „Doporuč GymBar svému fitku“: sdílí majiteli odkaz na
+  /// gymbar.app/fitka s předvybranou posilovnou (plakát a samolepky
+  /// k vytištění) a zaznamená doporučení (docs/fitka.md).
+  Future<void> _recommend(Gym gym) async {
+    final l10n = AppLocalizations.of(context);
+    final uid = SocialService.instance.uid;
+    if (uid == null) return;
+    final url = gymReferralUrl(kWebBaseUrl, gym.id, gymReferralRef(uid));
+    try {
+      final result = await SharePlus.instance.share(ShareParams(
+        text: l10n.socialGymRecommendText(url),
+        subject: l10n.socialGymRecommendSubject,
+      ));
+      if (result.status == ShareResultStatus.dismissed) return;
+      await GymService.instance.recordReferral(gym.id);
+    } catch (e) {
+      debugPrint('Gym: recommend failed: $e');
+    }
+  }
+
   /// „Překonej mě“ u lídra → lokální výzva (stejně jako výzvy od přátel).
   Future<void> _beatMe(GymEntry e, double value) async {
     final l10n = AppLocalizations.of(context);
@@ -350,6 +372,8 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
               _MenuAction.profile => _editProfile(),
               _MenuAction.print =>
                 gym == null ? Future<void>.value() : printGymBoard(context, gym),
+              _MenuAction.recommend =>
+                gym == null ? Future<void>.value() : _recommend(gym),
               _MenuAction.leave => _leave(gym),
               _MenuAction.report =>
                 gym == null ? Future<void>.value() : reportGymFlow(context, gym),
@@ -363,6 +387,11 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
                 PopupMenuItem(
                   value: _MenuAction.print,
                   child: Text(l10n.socialGymPrint),
+                ),
+              if (gym != null)
+                PopupMenuItem(
+                  value: _MenuAction.recommend,
+                  child: Text(l10n.socialGymRecommend),
                 ),
               PopupMenuItem(
                 value: _MenuAction.leave,
@@ -530,6 +559,15 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
               ],
               data: (entries) => _rows(context, entries, gym, month),
             ),
+            if (gym != null)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                child: OutlinedButton.icon(
+                  onPressed: () => _recommend(gym),
+                  icon: const Icon(Icons.storefront_outlined),
+                  label: Text(l10n.socialGymRecommend),
+                ),
+              ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: Text(l10n.socialGymPrivacy, style: theme.textTheme.bodySmall),

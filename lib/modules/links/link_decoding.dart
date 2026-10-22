@@ -15,3 +15,13 @@ bool isDecodableLink(Uri uri) {
     return false;
   }
 }
+
+/// Slug cviku z odkazu ze samolepky na stroji (`gymbar://ex?id=bench_press`,
+/// `https://gymbar.app/ex?id=…&gym=…`, docs/fitka.md), jinak null. Že jde
+/// o odkaz /ex, ověří volající (isAppLink). Parametr `gym` je pro budoucí
+/// statistiku skenů, aplikace ho zatím nepoužívá.
+String? exerciseLinkSlug(Uri uri) {
+  final id = uri.queryParameters['id']?.trim().toLowerCase();
+  if (id == null || !RegExp(r'^[a-z0-9_]{2,60}$').hasMatch(id)) return null;
+  return id;
+}

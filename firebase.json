@@ -32,6 +32,13 @@
     "trailingSlash": false,
     "rewrites": [
       {
+        "source": "/api/gyms",
+        "function": {
+          "functionId": "gymDirectory",
+          "region": "europe-west1"
+        }
+      },
+      {
         "source": "/friend",
         "destination": "/join.html"
       },
@@ -48,12 +55,20 @@
         "destination": "/join.html"
       },
       {
+        "source": "/ex",
+        "destination": "/join.html"
+      },
+      {
         "source": "/trener",
         "destination": "/trener/index.html"
       },
       {
         "source": "/trener/**",
         "destination": "/trener/index.html"
+      },
+      {
+        "source": "/fitka",
+        "destination": "/fitka/index.html"
       }
     ],
     "headers": [
@@ -77,6 +92,15 @@
       },
       {
         "source": "/trener/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "/fitka/**",
         "headers": [
           {
             "key": "Cache-Control",

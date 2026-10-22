@@ -1,0 +1,254 @@
+<!doctype html>
+<!--
+  gymbar.app/fitka – samoobslužná sada pro majitele fitek (docs/fitka.md).
+  Majitel najde svou posilovnu (funkce gymDirectory přes /api/gyms, jen
+  veřejná pole) a vytiskne plakát A4/A3 s QR na žebříček posilovny
+  (/gym?code=…) a arch samolepek na stroje s QR na návod ke cviku
+  (/ex?id=<slug>&gym=<id>). Tisk je HTML s tiskovým CSS (window.print),
+  QR se kreslí v prohlížeči (qrcode.js, MIT) – na serveru se nic negeneruje.
+  ?gym=<id> posilovnu předvybere (odkaz „Doporuč GymBar svému fitku“
+  z aplikace, ref=… se zatím nepoužívá).
+-->
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GymBar pro fitka</title>
+  <meta name="description" content="Plakát a samolepky GymBar pro vaše fitko zdarma: žebříček posilovny, návody u strojů a nástroje pro trenéry.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="GymBar">
+  <meta property="og:title" content="GymBar pro fitka · GymBar for gyms">
+  <meta property="og:description" content="Plakát a samolepky pro vaše fitko zdarma. Free poster and stickers for your gym.">
+  <meta property="og:url" content="https://gymbar.app/fitka">
+  <meta property="og:image" content="https://gymbar.app/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    @font-face {
+      font-family: "Archivo"; font-weight: 800; font-display: swap;
+      src: url("/fitka/fonts/Archivo-ExtraBold.ttf") format("truetype");
+    }
+    :root {
+      --ink: #13201d;
+      --teal: #2e7d6b;
+      --amber: #ffc857;
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.78);
+      --card: rgba(255, 255, 255, 0.08);
+      --line: rgba(255, 255, 255, 0.18);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    html { background: var(--ink); }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(160deg, var(--ink) 40%, #1f4a40);
+      background-attachment: fixed;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    main { max-width: 780px; margin: 0 auto; padding: 20px 16px 40px; }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: "Archivo", system-ui, sans-serif; font-weight: 800; font-size: 22px; color: inherit; text-decoration: none; }
+    .brand img { width: 36px; height: 36px; }
+    .brand span { color: var(--amber); }
+    .lang { display: flex; gap: 6px; }
+    .lang button {
+      font: inherit; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 16px; cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.35); background: transparent; color: var(--muted); min-width: 40px;
+    }
+    .lang button[aria-pressed="true"] { background: var(--amber); border-color: var(--amber); color: var(--ink); }
+    .label { color: var(--amber); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; font-size: 13px; }
+    h1 { font-family: "Archivo", system-ui, sans-serif; font-weight: 800; font-size: clamp(30px, 6vw, 44px); line-height: 1.1; margin: 8px 0 14px; letter-spacing: -0.01em; }
+    h2 { font-size: 22px; margin: 0 0 10px; }
+    .lead { font-size: 18px; color: var(--muted); margin: 0 0 26px; max-width: 640px; }
+    .benefits { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 0 0 12px; padding: 0; list-style: none; }
+    .benefits li, .panel { background: var(--card); border-radius: 16px; padding: 18px; }
+    .benefits strong { display: block; color: var(--amber); margin-bottom: 4px; }
+    .free { border: 1px solid var(--amber); border-radius: 16px; padding: 14px 18px; margin: 0 0 32px; }
+    .free strong { color: var(--amber); }
+    .panel { margin-bottom: 16px; }
+    label.field { display: block; font-weight: 600; margin-bottom: 6px; }
+    input[type="search"] {
+      width: 100%; font: inherit; font-size: 17px; padding: 12px 14px; border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(0, 0, 0, 0.25); color: var(--text);
+    }
+    input[type="search"]:focus { outline: 2px solid var(--amber); outline-offset: 1px; }
+    .status { color: var(--muted); font-size: 15px; margin: 10px 0 0; min-height: 1.5em; }
+    .results { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .results button {
+      width: 100%; text-align: left; font: inherit; color: var(--text); cursor: pointer;
+      background: rgba(255, 255, 255, 0.06); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px;
+    }
+    .results button:hover, .results button:focus { border-color: var(--amber); outline: none; }
+    .results .name { font-weight: 700; display: block; }
+    .results .place { color: var(--muted); font-size: 14px; }
+    .hint { color: var(--muted); font-size: 14px; margin: 12px 0 0; }
+    .gymhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+    .gymname { font-size: 24px; font-weight: 800; margin: 2px 0 0; }
+    .members { color: var(--amber); font-weight: 600; margin: 6px 0 0; }
+    .btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    button.btn {
+      font: inherit; font-weight: 700; font-size: 16px; border-radius: 999px; padding: 12px 20px; cursor: pointer;
+      background: var(--amber); color: var(--ink); border: 1px solid var(--amber);
+    }
+    button.btn.ghost { background: transparent; color: var(--text); border-color: rgba(255, 255, 255, 0.55); }
+    button.btn.small { font-size: 14px; padding: 6px 14px; }
+    .picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 4px 14px; margin: 12px 0 0; }
+    .picks label { display: flex; gap: 8px; align-items: flex-start; font-size: 15px; cursor: pointer; padding: 3px 0; }
+    .picks input { margin-top: 4px; accent-color: var(--amber); }
+    .count { color: var(--muted); font-size: 14px; margin: 10px 0 0; }
+    ol.how { margin: 0; padding-left: 20px; }
+    ol.how li { margin: 4px 0; }
+    footer { color: var(--muted); font-size: 14px; display: flex; gap: 8px 18px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 18px; margin-top: 28px; }
+    footer a { color: var(--muted); }
+    [hidden] { display: none !important; }
+
+    /* ---------- tisk ---------- */
+    #print { display: none; }
+    @media print {
+      html, body { background: #fff !important; color: #000; }
+      body > :not(#print) { display: none !important; }
+      #print { display: block; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+    .poster {
+      --k: 1;
+      width: calc(210mm * var(--k)); height: calc(297mm * var(--k));
+      padding: calc(14mm * var(--k)); display: flex; flex-direction: column; align-items: center;
+      color: #13201d; background: #fff; font-family: "Archivo", system-ui, sans-serif; overflow: hidden;
+      page-break-after: always; break-after: page;
+    }
+    .poster.a3 { --k: 1.41421; }
+    .poster .bar {
+      width: 100%; display: flex; align-items: center; gap: calc(4mm * var(--k));
+      background: #13201d; color: #fff; border-radius: calc(5mm * var(--k)); padding: calc(5mm * var(--k)) calc(7mm * var(--k));
+    }
+    .poster .bar img { width: calc(14mm * var(--k)); height: calc(14mm * var(--k)); }
+    .poster .bar b { font-size: calc(11mm * var(--k)); font-weight: 800; letter-spacing: -0.02em; }
+    .poster .bar b span { color: #ffc857; }
+    .poster .bar em { margin-left: auto; font-style: normal; font-size: calc(4.2mm * var(--k)); color: #ffc857; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 800; }
+    .poster h3 { font-size: calc(30mm * var(--k)); line-height: 1; margin: calc(12mm * var(--k)) 0 calc(4mm * var(--k)); font-weight: 800; letter-spacing: -0.02em; text-align: center; }
+    .poster .gym { font-size: calc(8mm * var(--k)); font-weight: 800; text-align: center; margin: 0; color: #2e7d6b; }
+    .poster .plead { font-family: system-ui, sans-serif; font-size: calc(5mm * var(--k)); text-align: center; margin: calc(3mm * var(--k)) calc(8mm * var(--k)) 0; }
+    .poster .qr { width: calc(105mm * var(--k)); height: calc(105mm * var(--k)); margin: calc(9mm * var(--k)) 0 calc(4mm * var(--k)); }
+    .poster .qr svg { width: 100%; height: 100%; display: block; }
+    .poster .scan { font-size: calc(7mm * var(--k)); font-weight: 800; margin: 0; }
+    .poster .code { font-family: system-ui, sans-serif; font-size: calc(4.6mm * var(--k)); margin: calc(2mm * var(--k)) 0 0; color: #444; }
+    .poster .code b { font-family: "Archivo", system-ui, sans-serif; letter-spacing: 0.12em; color: #13201d; }
+    .poster .pfoot { margin-top: auto; width: 100%; text-align: center; border-top: calc(1.2mm * var(--k)) solid #ffc857; padding-top: calc(4mm * var(--k)); font-size: calc(5mm * var(--k)); font-weight: 800; }
+    .sheet {
+      width: 210mm; height: 297mm; padding: 10mm; display: grid;
+      grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr);
+      background: #fff; color: #13201d; page-break-after: always; break-after: page;
+    }
+    .sticker {
+      border: 0.3mm dashed #9a9a9a; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 3mm; text-align: center; font-family: "Archivo", system-ui, sans-serif; overflow: hidden;
+    }
+    .sticker .stop { display: flex; align-items: center; gap: 2mm; margin: 0; font-size: 3.2mm; font-weight: 800; }
+    .sticker .stop img { width: 5mm; height: 5mm; }
+    .sticker .stop span { color: #2e7d6b; text-transform: uppercase; letter-spacing: 0.08em; }
+    .sticker .qr { width: 38mm; height: 38mm; margin: 2mm 0; }
+    .sticker .qr svg { width: 100%; height: 100%; display: block; }
+    .sticker .ex { font-size: 4mm; font-weight: 800; line-height: 1.15; margin: 0; }
+    .sticker .sscan { font-family: system-ui, sans-serif; font-size: 2.6mm; color: #444; margin: 1mm 0 0; }
+  </style>
+  <style id="page-size">@page { size: A4 portrait; margin: 0; }</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <a class="brand" href="/"><img src="/favicon.svg" alt=""><b>Gym<span>Bar</span></b></a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-set="cs" lang="cs" aria-label="Čeština">CS</button>
+      <button type="button" data-set="en" lang="en" aria-label="English">EN</button>
+    </div>
+  </div>
+
+  <div class="label" data-t="heroLabel"></div>
+  <h1 data-t="heroTitle"></h1>
+  <p class="lead" data-t="heroLead"></p>
+  <ul class="benefits">
+    <li><strong data-t="b1Title"></strong><span data-t="b1Text"></span></li>
+    <li><strong data-t="b2Title"></strong><span data-t="b2Text"></span></li>
+    <li><strong data-t="b3Title"></strong><span data-t="b3Text"></span></li>
+  </ul>
+  <p class="free"><strong data-t="freeTitle"></strong> · <span data-t="freeText"></span></p>
+
+  <section class="panel" id="searchPanel">
+    <h2 data-t="searchTitle"></h2>
+    <label class="field" for="q" data-t="searchLabel"></label>
+    <input type="search" id="q" autocomplete="off" spellcheck="false">
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+    <ul class="results" id="results"></ul>
+    <p class="hint" data-t="notListed"></p>
+  </section>
+
+  <div id="kit" hidden>
+    <section class="panel">
+      <div class="gymhead">
+        <div>
+          <div class="label" data-t="selectedLabel"></div>
+          <p class="gymname" id="gymName"></p>
+          <p class="hint" id="gymPlace" style="margin-top:2px"></p>
+        </div>
+        <button type="button" class="btn ghost small" id="change" data-t="change"></button>
+      </div>
+      <p class="members" id="members" hidden></p>
+    </section>
+
+    <section class="panel">
+      <h2 data-t="posterTitle"></h2>
+      <p data-t="posterText" style="margin:0"></p>
+      <div class="btns">
+        <button type="button" class="btn" id="posterA4" data-t="posterA4"></button>
+        <button type="button" class="btn ghost" id="posterA3" data-t="posterA3"></button>
+      </div>
+      <p class="hint" data-t="printHint"></p>
+    </section>
+
+    <section class="panel">
+      <h2 data-t="stickersTitle"></h2>
+      <p data-t="stickersText" style="margin:0"></p>
+      <div class="btns">
+        <button type="button" class="btn ghost small" id="pickDefaults" data-t="selectDefaults"></button>
+        <button type="button" class="btn ghost small" id="pickNone" data-t="selectNone"></button>
+      </div>
+      <div class="picks" id="picks"></div>
+      <p class="count" id="pickCount"></p>
+      <div class="btns">
+        <button type="button" class="btn" id="stickersPrint" data-t="stickersPrint"></button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 data-t="howTitle"></h2>
+      <ol class="how">
+        <li data-t="how1"></li>
+        <li data-t="how2"></li>
+        <li data-t="how3"></li>
+        <li data-t="how4"></li>
+      </ol>
+    </section>
+  </div>
+
+  <footer>
+    <span>© GymBar</span>
+    <a href="/privacy" data-t="privacy"></a>
+    <a href="mailto:info@gymbar.app" data-t="contact"></a>
+    <a href="https://www.openstreetmap.org/copyright" data-t="osm"></a>
+  </footer>
+</main>
+
+<div id="print"></div>
+
+<script src="/config.js"></script>
+<script src="/site.js"></script>
+<script src="/fitka/strings.js"></script>
+<script src="/fitka/exercises.js"></script>
+<script src="/fitka/qrcode.js"></script>
+<script src="/fitka/fitka.js"></script>
+</body>
+</html>

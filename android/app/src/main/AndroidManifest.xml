@@ -68,6 +68,9 @@
                 <data android:path="/challenge" />
                 <data android:path="/friend" />
                 <data android:path="/gym" />
+                <data android:path="/coach" />
+                <data android:path="/plan" />
+                <data android:path="/ex" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

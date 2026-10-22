@@ -111,6 +111,13 @@ final _routes = <RouteBase>[
             path: '/exercises',
             builder: (context, state) => const ExercisesScreen(),
             routes: [
+              // Odkaz ze samolepky na stroji (gymbar.app/ex?id=<slug>).
+              GoRoute(
+                path: 'slug/:slug',
+                builder: (context, state) => ExerciseBySlugScreen(
+                  slug: state.pathParameters['slug']!,
+                ),
+              ),
               GoRoute(
                 path: ':id',
                 builder: (context, state) => ExerciseDetailScreen(

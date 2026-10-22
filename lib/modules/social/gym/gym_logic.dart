@@ -1,6 +1,9 @@
 // Čistá logika žebříčku posilovny (bez Firebase a Flutteru) – testovatelná.
 // Datový model: docs/social.md, sekce „Žebříček posilovny“.
+import 'dart:convert';
 import 'dart:math';
+
+import 'package:crypto/crypto.dart';
 
 import '../../../core/text_filter.dart';
 import '../social_logic.dart';
@@ -372,3 +375,22 @@ String gymChallengeRemoteId({
 /// Je to výzva ze žebříčku posilovny (ne výzva na serveru)?
 bool isGymChallengeRemoteId(String? remoteId) =>
     remoteId != null && remoteId.startsWith('gym:');
+
+// ---------------------------------------------------------------------------
+// „Doporuč GymBar svému fitku“ (docs/fitka.md)
+// ---------------------------------------------------------------------------
+
+/// Krátký kód doporučujícího člena v odkazu (`ref=`): prvních 8 znaků
+/// SHA-256 z uid. Uid se z něj vyčíst nedá; k člověku ho jde přiřadit
+/// jen přes kolekci gymReferrals (ID `{gymId}_{uid}`).
+String gymReferralRef(String uid) =>
+    sha256.convert(utf8.encode(uid)).toString().substring(0, 8);
+
+/// ID záznamu v gymReferrals (pravidla ho kontrolují).
+String gymReferralDocId(String gymId, String uid) => '${gymId}_$uid';
+
+/// Odkaz pro majitele fitka: gymbar.app/fitka s předvybranou posilovnou.
+String gymReferralUrl(String webBase, String gymId, String ref) =>
+    Uri.parse('$webBase/fitka')
+        .replace(queryParameters: {'gym': gymId, 'ref': ref})
+        .toString();

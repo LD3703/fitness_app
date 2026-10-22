@@ -22,6 +22,8 @@
 // 7) purgeOldContentReports – jednou denně smaže nahlášení starší než rok.
 // 8) onCoachSessionWritten – pozvánka trenéra na trénink: push klientovi
 //    (nová, změněná, zrušená) nebo trenérovi (přijatá, odmítnutá).
+// 9) gymDirectory – veřejné hledání posilovny pro gymbar.app/fitka
+//    (/api/gyms, rewrite ve firebase.json, logika ve fitka.ts).
 //
 // Stav moderace záznamu žebříčku (počet nahlášení, skrytí za nahlášení,
 // ověřená hodnota) je v gyms/{gymId}/moderation/{entryId} – jen server.
@@ -48,6 +50,7 @@ import {
   onDocumentDeleted,
   onDocumentWritten,
 } from "firebase-functions/v2/firestore";
+import { onRequest } from "firebase-functions/v2/https";
 import { onUserDeleted } from "firebase-functions/v2/identity";
 import { onSchedule } from "firebase-functions/v2/scheduler";
 import {
@@ -71,6 +74,15 @@ import {
   gymHideDecision,
   shouldUnhideOnJoin,
 } from "./gymDirectory.js";
+import {
+  FITKA_SEARCH_FIELDS,
+  FITKA_SEARCH_LIMIT,
+  fitkaGymId,
+  fitkaQuery,
+  mergeResults,
+  PublicGym,
+  publicGym,
+} from "./fitka.js";
 
 // Region funkcí. Musí odpovídat umístění databáze Firestore
 // (eur3 → europe-west1, viz docs/social.md).
@@ -326,6 +338,10 @@ async function deleteUserData(uid: string): Promise<void> {
 
   const challenges = await db.collection("challenges").where("members", "array-contains", uid).get();
   challenges.docs.forEach((d) => writer.delete(d.ref));
+
+  // Doporučení „Doporuč GymBar svému fitku“ (docs/fitka.md).
+  const referrals = await db.collection("gymReferrals").where("uid", "==", uid).get();
+  referrals.docs.forEach((d) => writer.delete(d.ref));
 
   // Moje položky v novinkách přátel (pr, pozvánky, výzvy, gymOvertaken –
   // všude fromUid = já). Index feed.fromUid v firestore.indexes.json.
@@ -920,3 +936,42 @@ export const expireTrainers = onSchedule("every 24 hours", async () => {
   await Promise.all(old.docs.map((d) => d.ref.delete()));
   if (!old.empty) logger.info(`Expired ${old.size} trainers without clients`);
 });
+
+// gymbar.app/fitka: hledání posilovny (?q=název nebo město) nebo jedna
+// posilovna (?id=…). Volá se přes Hosting (/api/gyms), proto bez CORS.
+// Vrací jen veřejná pole (fitka.ts), odpověď se krátce cachuje na CDN.
+export const gymDirectory = onRequest(
+  { maxInstances: 3, memory: "256MiB", invoker: "public" },
+  async (req, res) => {
+    if (req.method !== "GET") {
+      res.status(405).json({ gyms: [] });
+      return;
+    }
+    const fields = ["name", "city", "address", "code", "memberCount", "hidden", "osmMissing"];
+    const id = fitkaGymId(req.query.id);
+    let gyms: PublicGym[];
+    if (id) {
+      const snap = await db.doc(`gyms/${id}`).get();
+      const g = snap.exists ? publicGym(id, snap.data() ?? {}) : null;
+      gyms = g ? [g] : [];
+    } else {
+      const q = fitkaQuery(req.query.q);
+      if (!q) {
+        res.status(400).json({ gyms: [] });
+        return;
+      }
+      const snaps = await Promise.all(FITKA_SEARCH_FIELDS.map((f) =>
+        db.collection("gyms")
+          .where(f, ">=", q)
+          .where(f, "<", q + "\uf8ff")
+          .select(...fields)
+          .limit(FITKA_SEARCH_LIMIT)
+          .get()));
+      gyms = mergeResults(snaps.map((s) => s.docs
+        .map((d) => publicGym(d.id, d.data()))
+        .filter((g): g is PublicGym => g !== null)));
+    }
+    res.set("Cache-Control", "public, max-age=60, s-maxage=300");
+    res.json({ gyms });
+  },
+);
