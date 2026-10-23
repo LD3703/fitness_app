@@ -46,14 +46,26 @@ void main() {
     expect(changed.add.map((i) => i.key), ['c:a']);
   });
 
-  test('zrušená, odmítnutá, proběhlá nebo zmizelá pozvánka se smaže', () {
+  test('zrušená, odmítnutá nebo zmizelá pozvánka se smaže', () {
     final plan = planCoachCalendar([
       item('a', status: CoachSessionStatus.cancelled),
       item('b', status: CoachSessionStatus.declined),
-      item('c', start: DateTime(2026, 10, 1, 18)),
-    ], {'c:a': 1, 'c:b': 1, 'c:c': 1, 'c:zmizela': 1}, now);
-    expect(plan.remove.toSet(), {'c:a', 'c:b', 'c:c', 'c:zmizela'});
+    ], {'c:a': 1, 'c:b': 1, 'c:zmizela': 1}, now);
+    expect(plan.remove.toSet(), {'c:a', 'c:b', 'c:zmizela'});
     expect(plan.add, isEmpty);
+  });
+
+  test('proběhlá přijatá pozvánka v kalendáři zůstane, znovu se nevytvoří', () {
+    final past = item('c', start: DateTime(2026, 10, 1, 18));
+    final same = planCoachCalendar([past], {'c:c': 1}, now);
+    expect(same.remove, isEmpty);
+    expect(same.add, isEmpty);
+    // Bez dřívějších událostí se proběhlá pozvánka nepřidá.
+    expect(planCoachCalendar([past], {}, now).add, isEmpty);
+    // Změněná proběhlá pozvánka: smazat (jen budoucí termíny), nic nepřidat.
+    final changed = planCoachCalendar([item('c', start: DateTime(2026, 10, 1, 18), version: 2)], {'c:c': 1}, now);
+    expect(changed.remove, ['c:c']);
+    expect(changed.add, isEmpty);
   });
 
   test('opakovaná pozvánka zůstane, dokud má budoucí termín', () {

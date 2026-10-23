@@ -38,7 +38,13 @@ class _ClientSessionsState extends State<ClientSessions> {
 
   Future<void> _edit(BuildContext context, {CoachSession? initial}) async {
     final s = S.of(context);
-    final plans = await _plans.first;
+    final List<ClientPlan> plans;
+    try {
+      plans = await _plans.first;
+    } catch (e) {
+      if (context.mounted) showSnack(context, errorText(s, e));
+      return;
+    }
     if (!context.mounted) return;
     final session = await showDialog<CoachSession>(
       context: context,
@@ -117,6 +123,7 @@ class _ClientSessionsState extends State<ClientSessions> {
         StreamBuilder<List<CoachSession>>(
           stream: _sessions,
           builder: (context, snap) {
+            if (snap.hasError) return const LoadErrorText();
             final all = snap.data;
             if (all == null) return const LinearProgressIndicator();
             // Proběhlé jen posledních pár, ať seznam neroste donekonečna.

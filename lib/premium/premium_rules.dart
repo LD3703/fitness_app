@@ -36,13 +36,16 @@ const kPremiumGiftMonths = 6;
 /// všechno. Potom stačí příznak v profilu (uložený stav posledního
 /// ověření), aktivní nárok „premium“ v RevenueCat nebo platný dárek
 /// pro první uživatele ([giftActive]).
+/// [trainer] = uživatel má status trenéra – trenéři mají Premium zdarma,
+/// dokud status mají (docs/coach.md).
 bool hasPremiumAccess({
   required bool launched,
   required bool profilePremium,
   required bool entitlementActive,
   bool giftActive = false,
+  bool trainer = false,
 }) =>
-    !launched || profilePremium || entitlementActive || giftActive;
+    !launched || profilePremium || entitlementActive || giftActive || trainer;
 
 /// Konec dárku: [kPremiumGiftMonths] měsíců od [start], konec dne.
 /// Den se zkrátí na poslední den měsíce (31. 8. → 28. / 29. 2.).

@@ -16,6 +16,7 @@ import '../../ui/format.dart';
 import '../../ui/labels.dart';
 import '../../ui/set_format.dart';
 import '../../ui/set_kind_chip.dart';
+import '../../ui/skins.dart';
 import '../workout/workout_service.dart' show autoRestSeconds;
 
 /// Úprava jednoho cviku v plánu: série (opakování, cílová váha, rozcvička,
@@ -439,7 +440,11 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
         appBar: AppBar(
           title: Text(item.exercise.localizedName(context)),
           actions: [
-            TextButton(onPressed: _save, child: Text(l10n.save)),
+            TextButton(
+              style: headerTextButtonStyle(context),
+              onPressed: _save,
+              child: Text(l10n.save),
+            ),
           ],
         ),
         body: ListView(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -67,9 +69,13 @@ extension FatigueQueries on AppDatabase {
   }
 }
 
-/// Aktuální únava svalů (přepočítá se po každé změně tréninků).
+/// Aktuální únava svalů (přepočítá se po každé změně tréninků, novém dni
+/// a každou hodinu – únava s časem klesá).
 final fatigueProvider = StreamProvider.autoDispose<FatigueReport>((ref) {
   final db = ref.watch(databaseProvider);
+  ref.watch(currentDayProvider);
+  final refresh = Timer(const Duration(hours: 1), ref.invalidateSelf);
+  ref.onDispose(refresh.cancel);
   return db
       .watchFatigueSessions(DateTime.now().subtract(fatigueWindow))
       .map((sessions) => computeFatigue(sessions, DateTime.now()));

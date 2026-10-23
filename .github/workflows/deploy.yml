@@ -24,6 +24,9 @@ on:
           - hosting
           - all
 
+permissions:
+  contents: read
+
 concurrency:
   group: deploy
   cancel-in-progress: false
@@ -33,6 +36,8 @@ jobs:
     name: Nasazení (${{ inputs.target }})
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # Nasazuje se jen z main – ne z rozpracované větve.
+    if: github.ref == 'refs/heads/main'
     # Prostředí „production“ – v Settings → Environments jde zapnout
     # ruční schválení před nasazením.
     environment: production
@@ -76,6 +81,8 @@ jobs:
           node -e "JSON.parse(require('fs').readFileSync('docs/web/.well-known/assetlinks.json','utf8'))"
           if [ -n "$AASA" ]; then
             printf '%s' "$AASA" > docs/web/.well-known/apple-app-site-association
+          else
+            echo "::warning::Chybí proměnná APPLE_APP_SITE_ASSOCIATION – odkazy gymbar.app se na iPhonu neotevřou v aplikaci (docs/deploy.md)."
           fi
       - if: inputs.target == 'hosting' || inputs.target == 'all'
         uses: subosito/flutter-action@v2

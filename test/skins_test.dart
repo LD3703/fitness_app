@@ -52,6 +52,29 @@ void main() {
     }
   });
 
+  testWidgets('tlačítka a záložky v záhlaví jsou čitelné', (tester) async {
+    for (final skin in AppSkin.values) {
+      final theme = skinTheme(skin);
+      late BuildContext ctx;
+      await tester.pumpWidget(Theme(
+        data: theme,
+        child: Builder(builder: (c) {
+          ctx = c;
+          return const SizedBox();
+        }),
+      ));
+      final header = theme.appBarTheme.backgroundColor ?? theme.colorScheme.surface;
+      final fg = headerTextButtonStyle(ctx)?.foregroundColor?.resolve({}) ??
+          theme.textButtonTheme.style?.foregroundColor?.resolve({}) ??
+          theme.colorScheme.primary;
+      expect(contrast(fg, header), greaterThanOrEqualTo(4.5), reason: '${skin.key} tlačítko v záhlaví');
+      final tab = theme.tabBarTheme.labelColor;
+      if (skinSpec(skin) != null) {
+        expect(contrast(tab!, header), greaterThanOrEqualTo(4.5), reason: '${skin.key} záložka');
+      }
+    }
+  });
+
   testWidgets('výběr motivu vrátí zvolený motiv', (tester) async {
     AppSkin? picked;
     await tester.pumpWidget(MaterialApp(
@@ -80,5 +103,36 @@ void main() {
     await tester.tap(skulls);
     await tester.pumpAndSettle();
     expect(picked, AppSkin.skulls);
+  });
+
+  testWidgets('výběr motivu nepřeteče na úzkém telefonu s větším písmem',
+      (tester) async {
+    tester.view.physicalSize = const Size(360, 740);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(MaterialApp(
+      locale: const Locale('cs'),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context)
+            .copyWith(textScaler: const TextScaler.linear(1.3)),
+        child: child!,
+      ),
+      home: const SkinPickerScreen(current: AppSkin.retro),
+    ));
+    await tester.pumpAndSettle();
+    for (final skin in AppSkin.values) {
+      final tile = find.byWidgetPredicate(
+          (w) => w is SkinPreviewTile && w.skin == skin);
+      await tester.ensureVisible(tile);
+      await tester.pumpAndSettle();
+    }
+    expect(tester.takeException(), isNull);
   });
 }

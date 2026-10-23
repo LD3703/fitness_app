@@ -47,6 +47,9 @@ bool belongsToCalendar(CoachSession s, DateTime now) =>
 int calendarVersion(CoachSession s) => s.updatedAtMs ?? 0;
 
 /// Co smazat a co vytvořit. [existing] = klíč → verze uložených událostí.
+/// Přijatá pozvánka, která už skončila, se nemaže (proběhlé tréninky
+/// v kalendáři zůstanou); znovu se ale nevytváří. Mazání se týká jen
+/// budoucích termínů (CoachCalendar.sync).
 CoachCalendarPlan planCoachCalendar(
   List<CoachCalendarItem> items,
   Map<String, int> existing,
@@ -54,7 +57,10 @@ CoachCalendarPlan planCoachCalendar(
 ) {
   final wanted = {
     for (final i in items)
-      if (belongsToCalendar(i.session, now)) i.key: i,
+      if (belongsToCalendar(i.session, now) ||
+          (i.session.status == CoachSessionStatus.accepted &&
+              existing.containsKey(i.key)))
+        i.key: i,
   };
   final remove = <String>[
     for (final e in existing.entries)
@@ -64,7 +70,9 @@ CoachCalendarPlan planCoachCalendar(
   ];
   final add = <CoachCalendarItem>[
     for (final w in wanted.values)
-      if (!existing.containsKey(w.key) || remove.contains(w.key)) w,
+      if ((!existing.containsKey(w.key) || remove.contains(w.key)) &&
+          belongsToCalendar(w.session, now))
+        w,
   ];
   return (remove: remove, add: add);
 }
@@ -103,6 +111,9 @@ abstract final class CoachCalendar {
       final plan = planCoachCalendar(items, existing, now);
       for (final key in plan.remove) {
         for (final r in rows.where((r) => r.sessionKey == key)) {
+          // Proběhlé termíny v kalendáři zůstanou (trénink se konal).
+          final start = r.startAt;
+          if (start != null && !start.isAfter(now)) continue;
           try {
             await DeviceCalendar.instance.deleteEvent(eventId: r.eventId);
           } catch (_) {
@@ -130,7 +141,12 @@ abstract final class CoachCalendar {
             endDate: s.endOf(start),
             description: s.note ?? l10n.coachSessionCalendarDescription,
           );
-          await db.addCoachCalendarEvent(item.key, eventId, calendarVersion(s));
+          await db.addCoachCalendarEvent(
+            item.key,
+            eventId,
+            calendarVersion(s),
+            startAt: start,
+          );
         }
       }
     } catch (e) {

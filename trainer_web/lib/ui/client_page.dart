@@ -240,6 +240,7 @@ class _WeightChartState extends State<_WeightChart> {
     return StreamBuilder<List<CoachWeightPoint>>(
       stream: _weight,
       builder: (context, w) {
+        if (w.hasError) return const LoadErrorText();
         final points = w.data;
         if (points == null) {
           return const SizedBox(
@@ -472,6 +473,7 @@ class _ClientPlansState extends State<_ClientPlans> {
         StreamBuilder<List<ClientPlan>>(
           stream: _plans,
           builder: (context, snap) {
+            if (snap.hasError) return const LoadErrorText();
             final plans = snap.data;
             if (plans == null) return const LinearProgressIndicator();
             if (plans.isEmpty) {

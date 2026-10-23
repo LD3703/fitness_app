@@ -427,11 +427,35 @@ async function deleteUserData(uid: string): Promise<void> {
 
   // Dokument uživatele i s podkolekcemi (friends, feed, private).
   await db.recursiveDelete(userRef);
+}
 
-  // Trenér a klient (docs/coach.md): moje propojení jako klient i jako
-  // trenér (i s tréninky, plány a komentáři), status trenéra s kódem
-  // a knihovnou plánů a plány sdílené odkazem.
-  await deleteCoachData(uid);
+// Trenér a klient (docs/coach.md): moje propojení jako klient i jako
+// trenér (i s tréninky, plány a komentáři), status trenéra s kódem
+// a knihovnou plánů a plány sdílené odkazem.
+
+/// Smaže pod [ref] (podkolekce do hloubky) všechny dokumenty naposledy
+/// změněné nejpozději v [cutoff] a pak i [ref], pokud je taky starší.
+/// Novější data zůstanou – např. když klient mezitím vytvořil nové
+/// propojení se stejným ID (coachLinks/{klient}) a nahrál do něj tréninky.
+async function deleteStaleTree(ref: DocumentReference, cutoff: Timestamp): Promise<number> {
+  let deleted = 0;
+  for (const col of await ref.listCollections()) {
+    for (const child of await col.listDocuments()) {
+      deleted += await deleteStaleTree(child, cutoff);
+    }
+  }
+  const snap = await ref.get();
+  if (snap.exists && snap.updateTime && snap.updateTime.toMillis() <= cutoff.toMillis()) {
+    await ref.delete();
+    deleted++;
+  }
+  return deleted;
+}
+
+/// Čas události jako Timestamp (hranice pro deleteStaleTree).
+function eventCutoff(time: string): Timestamp {
+  const ms = Date.parse(time);
+  return Timestamp.fromMillis(Number.isFinite(ms) ? ms : Date.now());
 }
 
 async function deleteCoachData(uid: string): Promise<void> {
@@ -455,14 +479,32 @@ async function deleteUserBackups(uid: string): Promise<void> {
   }
 }
 
-// Spouštěč smazání účtu (v2, firebase-functions 7.4+).
-export const cleanupDeletedUser = onUserDeleted(async (event) => {
-  const uid = event.data?.uid;
-  if (!uid) return;
-  await deleteUserBackups(uid);
-  await deleteUserData(uid);
-  logger.info(`Deleted data of ${uid}`);
-});
+// Spouštěč smazání účtu (v2, firebase-functions 7.4+). Kroky běží zvlášť,
+// aby chyba v jednom nezastavila ostatní; při chybě funkce skončí výjimkou
+// a Firebase ji zopakuje (všechny kroky jdou bezpečně pustit znovu).
+export const cleanupDeletedUser = onUserDeleted(
+  { retry: true, timeoutSeconds: 540, memory: "512MiB" },
+  async (event) => {
+    const uid = event.data?.uid;
+    if (!uid) return;
+    const steps: [string, () => Promise<void>][] = [
+      ["coach", () => deleteCoachData(uid)],
+      ["data", () => deleteUserData(uid)],
+      ["backups", () => deleteUserBackups(uid)],
+    ];
+    const failed: string[] = [];
+    for (const [name, run] of steps) {
+      try {
+        await run();
+      } catch (e) {
+        failed.push(name);
+        logger.error(`Cleanup of ${uid}: step ${name} failed`, e);
+      }
+    }
+    if (failed.length > 0) throw new Error(`Cleanup of ${uid} incomplete: ${failed.join(", ")}`);
+    logger.info(`Deleted data of ${uid}`);
+  },
+);
 
 // ---------------------------------------------------------------------------
 // Žebříček posilovny (docs/social.md, „Žebříček posilovny“)
@@ -522,14 +564,18 @@ export const onGymMemberCreated = onDocumentCreated("gyms/{gymId}/members/{uid}"
 
 export const onGymMemberDeleted = onDocumentDeleted("gyms/{gymId}/members/{uid}", async (event) => {
   const { gymId, uid } = event.params;
-  // Mezitím se vrátil → nahlášení nechat.
+  // Mezitím se vrátil → nahlášení i záznamy nechat.
   if ((await db.doc(`gyms/${gymId}/members/${uid}`).get()).exists) return;
   const refs = await gymReportsBy(gymId, uid);
-  if (refs.length === 0) return;
+  // Záznamy bývalého člena v žebříčku (aplikace je maže sama, tohle je
+  // pojistka proti obejití přes SDK – záznam by zůstal viset).
+  const entries = await db.collection(`gyms/${gymId}/entries`).where("uid", "==", uid).get();
+  if (refs.length === 0 && entries.empty) return;
   const writer = db.bulkWriter();
   refs.forEach((r) => writer.delete(r));
   await writer.close();
-  logger.info(`Gym ${gymId}: deleted ${refs.length} report(s) of a former member`);
+  await Promise.all(entries.docs.map((d) => db.recursiveDelete(d.ref)));
+  logger.info(`Gym ${gymId}: former member cleanup – ${refs.length} report(s), ${entries.size} entr(ies)`);
 });
 
 type Verified = { value: number; at: Date };
@@ -911,14 +957,21 @@ export const onTrainerCreated = onDocumentCreated("trainers/{uid}", async (event
 
 // Zrušený status (trenér sám, vypršení, smazání účtu): propojení s klienty
 // se zruší i s jejich podkolekcemi, smaže se kód a knihovna plánů.
+// Konec statusu trenéra. Maže jen data starší než konec statusu: když se
+// mezitím znovu stal trenérem, nový dokument, kód a noví klienti zůstanou.
 export const onTrainerDeleted = onDocumentDeleted("trainers/{uid}", async (event) => {
   const uid = event.params.uid;
-  const links = await db.collection("coachLinks").where("trainerUid", "==", uid).get();
-  await Promise.all(links.docs.map((d) => db.recursiveDelete(d.ref)));
-  const codes = await db.collection("trainerCodes").where("uid", "==", uid).get();
-  await Promise.all(codes.docs.map((d) => d.ref.delete()));
-  await db.recursiveDelete(db.doc(`trainers/${uid}`));
-  logger.info(`Trainer ${uid} removed (${links.size} links)`);
+  const cutoff = eventCutoff(event.time);
+  const old = (d: { createTime?: Timestamp }) =>
+    !d.createTime || d.createTime.toMillis() <= cutoff.toMillis();
+  const links = (await db.collection("coachLinks").where("trainerUid", "==", uid).get())
+    .docs.filter(old);
+  for (const d of links) await deleteStaleTree(d.ref, cutoff);
+  const codes = (await db.collection("trainerCodes").where("uid", "==", uid).get())
+    .docs.filter(old);
+  await Promise.all(codes.map((d) => d.ref.delete()));
+  await deleteStaleTree(db.doc(`trainers/${uid}`), cutoff);
+  logger.info(`Trainer ${uid} removed (${links.length} links)`);
 });
 
 export const onCoachLinkCreated = onDocumentCreated("coachLinks/{clientUid}", async (event) => {
@@ -928,8 +981,11 @@ export const onCoachLinkCreated = onDocumentCreated("coachLinks/{clientUid}", as
 
 // Zrušené propojení: smaže tréninky, váhu, plány a komentáře klienta
 // (trenér k nim už nesmí mít přístup) a přepočítá klienty trenéra.
+// Při přepojení na jiného trenéra aplikace staré propojení smaže a hned
+// vytvoří nové se stejným ID – maže se proto jen to, co je starší než
+// smazání (nové propojení a nově nahrané tréninky zůstanou).
 export const onCoachLinkDeleted = onDocumentDeleted("coachLinks/{clientUid}", async (event) => {
-  await db.recursiveDelete(db.doc(`coachLinks/${event.params.clientUid}`));
+  await deleteStaleTree(db.doc(`coachLinks/${event.params.clientUid}`), eventCutoff(event.time));
   const trainerUid = event.data?.get("trainerUid");
   if (typeof trainerUid === "string") await recountClients(trainerUid);
 });

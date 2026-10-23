@@ -609,7 +609,7 @@ Future<_Download> _download(
       continue;
     }
     if (!isAnimatedImage(bytes)) continue;
-    final name = '${slug}_1.${url.split('.').last.toLowerCase()}';
+    final name = '${slug}_1.${_extensionOf(url)}';
     final tmp = '${staging.path}/$name';
     File(tmp).writeAsBytesSync(bytes);
     staged[tmp] = '$exerciseAssetsDir/$name';
@@ -631,7 +631,7 @@ Future<_Download> _download(
       continue;
     }
     final name =
-        '${slug}_${result.length + 1}.${url.split('.').last.toLowerCase()}';
+        '${slug}_${result.length + 1}.${_extensionOf(url)}';
     final tmp = '${staging.path}/$name';
     File(tmp).writeAsBytesSync(bytes);
     staged[tmp] = '$exerciseAssetsDir/$name';
@@ -647,3 +647,12 @@ Future<_Download> _download(
 
 String _csv(String s) =>
     s.contains(RegExp(r'[",\n]')) ? '"${s.replaceAll('"', '""')}"' : s;
+
+/// Přípona souboru z URL (bez ?dotazu a #kotvy); neznámá → „jpg“.
+String _extensionOf(String url) {
+  final path = Uri.tryParse(url)?.path ?? url;
+  final name = path.split('/').last;
+  final dot = name.lastIndexOf('.');
+  final ext = dot < 0 ? '' : name.substring(dot + 1).toLowerCase();
+  return RegExp(r'^[a-z0-9]{2,5}$').hasMatch(ext) ? ext : 'jpg';
+}

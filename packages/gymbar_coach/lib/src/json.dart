@@ -38,14 +38,16 @@ const maxSafeInt = 9007199254740991;
 const maxTimeMs = 8640000000000000;
 
 int? optInt(Object? v, {int min = 0, int max = maxSafeInt}) {
-  final n = v is int ? v : (v is num ? v.round() : null);
+  // NaN a ±Infinity by v round() hodily výjimku – data od jiného
+  // uživatele (plán, trénink) nesmí shodit načítání.
+  final n = v is int ? v : (v is num && v.isFinite ? v.round() : null);
   if (n == null || n < min || n > max) return null;
   return n;
 }
 
 double? optDouble(Object? v, {double min = 0, double max = 10000}) {
   final n = v is num ? v.toDouble() : null;
-  if (n == null || n.isNaN || n < min || n > max) return null;
+  if (n == null || !n.isFinite || n < min || n > max) return null;
   return n;
 }
 

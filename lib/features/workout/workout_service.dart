@@ -327,6 +327,17 @@ class WorkoutSummary {
   final MuscleSets muscles;
 }
 
+/// Nejdelší započítaný trénink. Zapomenutý trénink ukončený až druhý den
+/// by jinak poslal do Zdraví a statistik desítky hodin a tisíce kcal.
+const kMaxWorkoutDuration = Duration(hours: 4);
+
+/// Délka tréninku k uložení: od začátku do teď, nejvýš [kMaxWorkoutDuration].
+Duration workoutDuration(DateTime startedAt, DateTime now) {
+  final d = now.difference(startedAt);
+  if (d.isNegative) return Duration.zero;
+  return d > kMaxWorkoutDuration ? kMaxWorkoutDuration : d;
+}
+
 /// Ukončí trénink: spočítá souhrn, odhad kalorií a nové osobní rekordy.
 /// Rekord se hlásí jen při překonání předchozího výkonu – první zápis
 /// cviku rekordem není. Drop série se počítají do objemu a počtu sérií,
@@ -341,7 +352,7 @@ Future<WorkoutSummary> finishWorkout(AppDatabase db, int sessionId) async {
       e.id: e,
   };
 
-  final duration = DateTime.now().difference(session.startedAt);
+  final duration = workoutDuration(session.startedAt, DateTime.now());
 
   var volume = 0.0;
   var metSum = 0.0;
@@ -390,7 +401,11 @@ Future<WorkoutSummary> finishWorkout(AppDatabase db, int sessionId) async {
     }
   }
 
-  await db.finishSession(sessionId, estimatedKcal: kcal);
+  await db.finishSession(
+    sessionId,
+    estimatedKcal: kcal,
+    endedAt: session.startedAt.add(duration),
+  );
 
   return WorkoutSummary(
     sessionId: sessionId,

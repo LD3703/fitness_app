@@ -290,6 +290,19 @@ ThemeData skinTheme(AppSkin skin, {Brightness brightness = Brightness.light}) {
 Color _mix(Color top, double alpha, Color under) =>
     Color.alphaBlend(top.withValues(alpha: alpha), under);
 
+/// Styl textového tlačítka v záhlaví (AppBar.actions). Téma TextButton
+/// počítá s pozadím obrazovky; když má motiv záhlaví jiné barvy (Retro),
+/// tlačítko převezme barvu písma záhlaví. Jinak null = výchozí styl.
+ButtonStyle? headerTextButtonStyle(BuildContext context) {
+  final t = Theme.of(context);
+  final header = t.appBarTheme.backgroundColor;
+  final fg = t.appBarTheme.foregroundColor;
+  if (header == null || fg == null || header == t.scaffoldBackgroundColor) {
+    return null;
+  }
+  return TextButton.styleFrom(foregroundColor: fg);
+}
+
 ThemeData buildSkinTheme(SkinSpec s) {
   final cardHigh = _mix(s.text, s.dark ? 0.06 : 0.04, s.card);
   final scheme = ColorScheme.fromSeed(
@@ -382,6 +395,13 @@ ThemeData buildSkinTheme(SkinSpec s) {
         borderRadius: radius,
         side: BorderSide(color: s.border, width: s.borderWidth),
       ),
+    ),
+    // Jediný TabBar v aplikaci je v záhlaví (Přátelé) → barvy záhlaví.
+    tabBarTheme: TabBarThemeData(
+      labelColor: s.onHeader,
+      unselectedLabelColor: s.onHeader.withValues(alpha: 0.72),
+      indicatorColor: s.onHeader,
+      dividerColor: Colors.transparent,
     ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: s.nav,

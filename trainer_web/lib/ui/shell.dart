@@ -288,7 +288,9 @@ class _ClientTileState extends State<_ClientTile> {
               snap.data == null ? null : summarizeClient(snap.data!, now: now);
           final days = summary?.daysSinceLast(now);
           final inactive = summary?.inactive(now) ?? false;
-          final subtitle = summary == null
+          final subtitle = snap.hasError
+              ? s('errorGeneric')
+              : summary == null
               ? '…'
               : [
                   days == null

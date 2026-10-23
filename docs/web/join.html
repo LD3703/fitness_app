@@ -116,6 +116,7 @@
       gymLabel: 'Gym leaderboard', gymTitle: 'Join our gym leaderboard in GymBar',
       code: 'Code', open: 'Open in app',
       hint: "Don't have the app yet? Get it, then open this link again or enter the code in the app.",
+      hintLink: "Don't have the app yet? Get it, then open this link again.",
       invalid: "This invite link doesn't work."
     },
     cs: {
@@ -126,6 +127,7 @@
       gymLabel: 'Žebříček posilovny', gymTitle: 'Přidej se do žebříčku naší posilovny v GymBaru',
       code: 'Kód', open: 'Otevřít v aplikaci',
       hint: 'Aplikaci ještě nemáš? Stáhni si ji a pak otevři tenhle odkaz znovu nebo zadej kód v aplikaci.',
+      hintLink: 'Aplikaci ještě nemáš? Stáhni si ji a pak otevři tenhle odkaz znovu.',
       invalid: 'Tenhle odkaz na pozvánku nefunguje.'
     },
     sk: {
@@ -136,6 +138,7 @@
       gymLabel: 'Rebríček posilňovne', gymTitle: 'Pridaj sa do rebríčka našej posilňovne v GymBare',
       code: 'Kód', open: 'Otvoriť v aplikácii',
       hint: 'Aplikáciu ešte nemáš? Stiahni si ju a potom otvor tento odkaz znova alebo zadaj kód v aplikácii.',
+      hintLink: 'Aplikáciu ešte nemáš? Stiahni si ju a potom otvor tento odkaz znova.',
       invalid: 'Tento odkaz na pozvánku nefunguje.'
     },
     de: {
@@ -146,6 +149,7 @@
       gymLabel: 'Studio-Rangliste', gymTitle: 'Tritt der Rangliste unseres Studios in GymBar bei',
       code: 'Code', open: 'In der App öffnen',
       hint: 'Du hast die App noch nicht? Lade sie herunter und öffne den Link dann erneut oder gib den Code in der App ein.',
+      hintLink: 'Du hast die App noch nicht? Lade sie herunter und öffne den Link dann erneut.',
       invalid: 'Dieser Einladungslink funktioniert nicht.'
     },
     es: {
@@ -156,6 +160,7 @@
       gymLabel: 'Ranking del gimnasio', gymTitle: 'Únete al ranking de nuestro gimnasio en GymBar',
       code: 'Código', open: 'Abrir en la app',
       hint: '¿Aún no tienes la app? Descárgala y vuelve a abrir este enlace o introduce el código en la app.',
+      hintLink: '¿Aún no tienes la app? Descárgala y vuelve a abrir este enlace.',
       invalid: 'Este enlace de invitación no funciona.'
     },
     fr: {
@@ -166,6 +171,7 @@
       gymLabel: 'Classement de la salle', gymTitle: 'Rejoins le classement de notre salle sur GymBar',
       code: 'Code', open: "Ouvrir dans l'app",
       hint: "Tu n'as pas encore l'app ? Télécharge-la puis rouvre ce lien ou saisis le code dans l'app.",
+      hintLink: "Tu n'as pas encore l'app ? Télécharge-la puis rouvre ce lien.",
       invalid: "Ce lien d'invitation ne fonctionne pas."
     },
     it: {
@@ -176,6 +182,7 @@
       gymLabel: 'Classifica della palestra', gymTitle: 'Entra nella classifica della nostra palestra su GymBar',
       code: 'Codice', open: "Apri nell'app",
       hint: "Non hai ancora l'app? Scaricala e poi riapri questo link o inserisci il codice nell'app.",
+      hintLink: "Non hai ancora l'app? Scaricala e poi riapri questo link.",
       invalid: "Questo link d'invito non funziona."
     },
     nl: {
@@ -186,6 +193,7 @@
       gymLabel: 'Ranglijst van de sportschool', gymTitle: 'Doe mee aan de ranglijst van onze sportschool in GymBar',
       code: 'Code', open: 'Openen in de app',
       hint: 'Heb je de app nog niet? Download hem en open deze link daarna opnieuw of voer de code in de app in.',
+      hintLink: 'Heb je de app nog niet? Download hem en open deze link daarna opnieuw.',
       invalid: 'Deze uitnodigingslink werkt niet.'
     },
     pl: {
@@ -196,6 +204,7 @@
       gymLabel: 'Ranking siłowni', gymTitle: 'Dołącz do rankingu naszej siłowni w GymBar',
       code: 'Kod', open: 'Otwórz w aplikacji',
       hint: 'Nie masz jeszcze aplikacji? Pobierz ją, a potem otwórz ten link ponownie lub wpisz kod w aplikacji.',
+      hintLink: 'Nie masz jeszcze aplikacji? Pobierz ją, a potem otwórz ten link ponownie.',
       invalid: 'Ten link z zaproszeniem nie działa.'
     },
     pt: {
@@ -206,21 +215,13 @@
       gymLabel: 'Ranking da academia', gymTitle: 'Entre no ranking da nossa academia no GymBar',
       code: 'Código', open: 'Abrir no app',
       hint: 'Ainda não tem o app? Baixe e depois abra este link de novo ou digite o código no app.',
+      hintLink: 'Ainda não tem o app? Baixe e depois abra este link de novo.',
       invalid: 'Este link de convite não funciona.'
     }
   };
 
-  function pickLang() {
-    var langs = navigator.languages && navigator.languages.length
-      ? navigator.languages : [navigator.language || 'en'];
-    for (var i = 0; i < langs.length; i++) {
-      var c = String(langs[i] || '').toLowerCase().split('-')[0];
-      if (T[c]) return c;
-    }
-    return 'en';
-  }
-
-  var lang = pickLang();
+  // ?lang=, jazyk zvolený na webu, nebo jazyk prohlížeče (site.js).
+  var lang = window.GYMBAR.pickLang(Object.keys(T), false);
   var t = T[lang];
   document.documentElement.lang = lang;
   function text(id, value) { document.getElementById(id).textContent = value; }
@@ -239,7 +240,8 @@
       ? /^[a-z0-9_]{2,60}$/.test(exSlug)
       : (kind === 'friend' || kind === 'gym' || kind === 'coach') && /^[A-Z0-9]{4,12}$/.test(code);
 
-  text('hint', t.hint);
+  // Plán a cvik nemají kód k ručnímu zadání.
+  text('hint', kind === 'plan' || kind === 'ex' ? t.hintLink : t.hint);
   // Odkazy do obchodů, nebo „již brzy“ podle config.js.
   window.GYMBAR.storeButtons(lang);
 

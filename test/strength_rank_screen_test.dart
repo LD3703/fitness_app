@@ -43,7 +43,7 @@ void main() {
             if (docId == liftStatsDocId(kLiftStatsWorld, GymCategory.benchPress))
               'all_all': LiftDistribution.fromMap({
                 'n': 20,
-                'h': [80, 10, 100, 5, 120, 5],
+                'q': [for (var i = 0; i < 19; i++) 60 + 2.5 * i],
               })!
             else
               'all_all': LiftDistribution.fromMap({'n': 3})!,
@@ -51,7 +51,7 @@ void main() {
     ]));
     await tester.pumpAndSettle();
     expect(find.text('Bench press'), findsOneWidget);
-    expect(find.text('lepší než 62 %'), findsOneWidget);
+    expect(find.text('lepší než 85 %'), findsOneWidget); // 100 kg mezi 95 a 97,5
     // „Můj věk a pohlaví“ bez profilu nejde, ukáže se nápověda.
     expect(find.textContaining('rok narození'), findsOneWidget);
   });

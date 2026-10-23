@@ -39,9 +39,13 @@ Statický web v `docs/web/fitka/`, cs/en podle prohlížeče (přepínač nahoř
 4. **Samolepky na stroje**: majitel zaškrtne stroje (výchozí výběr je 12
    nejběžnějších), na arch A4 se vejde 12 samolepek, víc se vytiskne na další
    archy. Každá má QR na `/ex?id=…&gym=…`, název cviku a logo.
-5. **Návod k vyvěšení** (recepce, šatna, u činek; samolepky ne na pohyblivé
+5. **Hecovací samolepky** 10 × 10 cm (žluté, 4 na arch A4) na legpress,
+   bench, klec a mrtvý tah s texty, které schválil Lukas („Tady zvedám
+   nejvíc já.“, „Zvedneš víc? Pochybuju.“, „Tahle klec je moje.“). QR vede
+   do žebříčku fitka (`/gym?code=`). Texty jsou v `strings.js` (`chall`).
+6. **Návod k vyvěšení** (recepce, šatna, u činek; samolepky ne na pohyblivé
    části).
-6. „Už N členů vašeho fitka používá GymBar“, jen když N ≥ 5 (`memberCount`,
+7. „Už N členů vašeho fitka používá GymBar“, jen když N ≥ 5 (`memberCount`,
    udržují ho aplikace a pravidla při vstupu a odchodu).
 
 Tisk je HTML s tiskovým CSS (`@page` A4/A3) a `window.print()`, takže jde

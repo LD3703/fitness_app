@@ -104,7 +104,7 @@ class AppDatabase extends _$AppDatabase {
   static const _profileId = 1;
 
   @override
-  int get schemaVersion => 20;
+  int get schemaVersion => 21;
 
   /// Výchozí série pro nově přidaný cvik: 3 × 10.
   static const defaultPlanSets = <PlanSetDraft>[
@@ -263,8 +263,16 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(coachCalendarEvents);
           }
           if (from < 20) {
-            // Verze 20: motiv vzhledu.
+            // Verze 20: motiv vzhledu. Dosavadní uživatelé zůstanou
+            // u Původního vzhledu (i se svým světlým / tmavým režimem),
+            // Klasik je výchozí jen pro nové instalace (docs/skins.md).
             await m.addColumn(userProfiles, userProfiles.skin);
+            await customStatement("UPDATE user_profiles SET skin = 'original'");
+          }
+          if (from >= 19 && from < 21) {
+            // Verze 21: začátek termínu u událostí tréninků s trenérem
+            // (tabulka vytvořená migrací v19 výše už sloupec má).
+            await m.addColumn(coachCalendarEvents, coachCalendarEvents.startAt);
           }
         },
         beforeOpen: (details) async {
@@ -905,10 +913,14 @@ class AppDatabase extends _$AppDatabase {
             UserProfilesCompanion(trainingFocus: Value(focus.index)));
       });
 
-  Future<void> finishSession(int id, {double? estimatedKcal}) =>
+  Future<void> finishSession(
+    int id, {
+    double? estimatedKcal,
+    DateTime? endedAt,
+  }) =>
       (update(workoutSessions)..where((s) => s.id.equals(id))).write(
         WorkoutSessionsCompanion(
-          endedAt: Value(DateTime.now()),
+          endedAt: Value(endedAt ?? DateTime.now()),
           estimatedKcal: Value(estimatedKcal),
         ),
       );
@@ -1280,12 +1292,14 @@ class AppDatabase extends _$AppDatabase {
   Future<void> addCoachCalendarEvent(
     String sessionKey,
     String eventId,
-    int version,
-  ) =>
+    int version, {
+    DateTime? startAt,
+  }) =>
       into(coachCalendarEvents).insert(CoachCalendarEventsCompanion.insert(
         sessionKey: sessionKey,
         eventId: eventId,
         version: Value(version),
+        startAt: Value(startAt),
       ));
 
   Future<void> deleteCoachCalendarEvents(String sessionKey) =>

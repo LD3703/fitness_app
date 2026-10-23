@@ -144,14 +144,35 @@ String _icsText(String s) => s
     .replaceAll('\r\n', r'\n')
     .replaceAll('\n', r'\n');
 
-/// Řádek .ics zalomený po 74 znacích (RFC 5545, pokračování začíná mezerou).
+/// Délka znaku (Unicode code point) v UTF-8 v bajtech.
+int _utf8Length(int rune) => rune < 0x80
+    ? 1
+    : rune < 0x800
+        ? 2
+        : rune < 0x10000
+            ? 3
+            : 4;
+
+/// Řádek .ics zalomený po nejvýš 75 oktetech UTF-8 (RFC 5545, pokračování
+/// začíná mezerou, která se do 75 počítá). Nikdy nerozdělí znak (diakritika,
+/// emoji).
 String _icsFold(String line) {
-  if (line.length <= 74) return line;
   final parts = <String>[];
-  for (var i = 0; i < line.length; i += 73) {
-    final end = i + 73 > line.length ? line.length : i + 73;
-    parts.add(line.substring(i, end));
+  final buf = StringBuffer();
+  var bytes = 0;
+  var limit = 75;
+  for (final rune in line.runes) {
+    final len = _utf8Length(rune);
+    if (bytes + len > limit) {
+      parts.add(buf.toString());
+      buf.clear();
+      bytes = 0;
+      limit = 74; // + úvodní mezera
+    }
+    buf.writeCharCode(rune);
+    bytes += len;
   }
+  parts.add(buf.toString());
   return parts.join('\r\n ');
 }
 

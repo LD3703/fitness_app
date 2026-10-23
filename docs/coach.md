@@ -15,7 +15,9 @@ Pravidla (rozhodnutí vývojáře):
   trenér nemá žádného klienta). Trenér to vidí jako upozornění s datem.
 - **Pro trenéry je aplikace zdarma**; platit budou klienti (nebo budou mít
   reklamy). Placení zatím není – až bude Premium, trenér bude mít Premium
-  zdarma, dokud má status (`lib/premium/premium.dart`).
+  zdarma, dokud má status (`coachPremiumGrantProvider` v
+  `lib/modules/coach/coach_service.dart`, napojené přes `modulePremiumGrant`
+  v `module_hub.dart`).
 - **Klient se připojí sám** (kód, QR nebo odkaz) a při tom **souhlasí**
   se sdílením tréninků. Tělesná váha jen s **druhým souhlasem** (přepínač).
   Jeden trenér na klienta; připojení k jinému trenérovi staré propojení

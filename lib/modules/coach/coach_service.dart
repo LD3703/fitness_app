@@ -460,9 +460,10 @@ class CoachService {
               if (latest.length == clientUids.length) c.add(Map.of(latest));
             },
             onError: (Object e) {
+              // Chyba (bez sítě, zrušené propojení) se předá dál – prázdný
+              // seznam by kalendáři trenéra smazal události toho klienta.
               debugPrint('Coach: sessions of $uid failed: $e');
-              latest[uid] = const [];
-              if (latest.length == clientUids.length) c.add(Map.of(latest));
+              c.addError(e);
             },
           ));
         }
@@ -554,6 +555,12 @@ final myTrainerProvider = StreamProvider<TrainerProfile?>((ref) {
   final me = CoachService.instance.uid;
   return me == null ? Stream.value(null) : CoachService.instance.watchTrainer(me);
 });
+
+/// [coach:premium] – trenér má Premium zdarma, dokud má status (dokument
+/// trainers/{uid} zmizí po 60 dnech bez klienta, docs/coach.md).
+final coachPremiumGrantProvider = Provider<bool>(
+  (ref) => ref.watch(myTrainerProvider).valueOrNull != null,
+);
 
 /// Moje propojení s trenérem (jako klient).
 final myCoachLinkProvider = StreamProvider<CoachLink?>((ref) {

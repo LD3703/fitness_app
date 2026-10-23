@@ -237,7 +237,9 @@ Funkce používají Node.js 22, `firebase-functions` 7 (API v2) a
   ho už nepovolí.
 - Profil vidí jen přátelé, vyhledávání uživatelů neexistuje. Jediný
   „veřejný“ žebříček je žebříček posilovny – vidí ho jen její členové
-  a je v něm jen přezdívka (viz níže). Přítel se přidává jen kódem (QR / odkaz) – kód funguje jako
+  a je v něm jen přezdívka (viz níže). Členem se ale může stát kdokoli, kdo
+  si posilovnu v aplikaci vybere (kód není podmínkou, jen zkratkou), takže
+  žebříček je fakticky veřejný pro lidi z aplikace – zásady to uvádějí. Přítel se přidává jen kódem (QR / odkaz) – kód funguje jako
   pozvánka. Po odebrání nebo zablokování přítele se můj kód vymění
   (starý QR i odkazy přestanou platit), takže se odebraný přítel se
   starým kódem znovu nepřidá.
@@ -592,15 +594,18 @@ Bez přepočtu na tělesnou váhu.
   Jeden člověk = jedna hodnota na cvik. Do srovnání tedy přispívají jen
   lidé, kteří jsou vidět v žebříčku nějaké posilovny.
 - **Dokument:** `scope`, `category`, `updatedAt`, `groups` {„{pohlaví}_{věk}“:
-  {`n`, `h`}} – pohlaví `all`/`male`/`female`, věk `all`/`u40`/`40`/`50`/`60`,
-  `h` = [váha, počet, …] vzestupně. Skupina s méně než **20** lidmi má jen
-  `n` (z malé skupiny by šlo vyčíst výkon jednotlivce); aplikace u ní ukáže
-  „zatím málo dat“.
+  {`n`, `q`}} – pohlaví `all`/`male`/`female`, věk `all`/`u40`/`40`/`50`/`60`,
+  `q` = 19 kvantilů (5., 10., … 95. percentil, nearest-rank) zaokrouhlených
+  na 2,5 kg. Přesné rozložení (váha → počet) se nezveřejňuje: z rozdílu dvou
+  dnů by šlo vyčíst výkon člověka, který se právě přidal. Skupina s méně než
+  **20** lidmi má jen `n`; aplikace u ní ukáže „zatím málo dat“.
 - **Aplikace** (`lib/modules/social/gym/strength_rank.dart`, obrazovka
   `ui/strength_rank_screen.dart`, trasa `/gym/rank`): vlastní maximálky
   počítá z lokální databáze (`gymBestWeight`, stejně jako žebříček)
   a nikam je kvůli srovnání neposílá; stáhne jen dva dokumenty na cvik
-  (země + svět). Percentil = podíl slabších + polovina stejných.
+  (země + svět). Percentil se dopočítá lineárně mezi kvantily; pod 5.
+  percentilem 2,5 %, nad 95. 97,5 %, při shodě s několika kvantily jejich
+  střed.
 - **Země:** země posilovny, ve které je uživatel; jinak region z jazyka
   telefonu (`cs_CZ` → CZ). Neznámá země = jen svět.
 - **Moje skupina:** pohlaví z profilu žebříčku, jinak z Profilu; věk

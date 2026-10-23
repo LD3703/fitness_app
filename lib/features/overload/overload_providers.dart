@@ -71,6 +71,7 @@ final overloadSetsProvider = StreamProvider<List<OverloadSet>>(
 
 /// Hodnocení partií po týdnech (null, dokud se data načítají).
 final overloadHistoryProvider = Provider<OverloadHistory?>((ref) {
+  ref.watch(currentDayProvider);
   final sets = ref.watch(overloadSetsProvider).valueOrNull;
   final profile = ref.watch(profileProvider).valueOrNull;
   if (sets == null || profile == null) return null;

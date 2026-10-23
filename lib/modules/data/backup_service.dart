@@ -138,6 +138,10 @@ class BackupService {
     // Záloha z doby před automatickými pauzami (verze 14): vlastní pauzy
     // zůstanou ruční, ostatní se budou počítat automaticky.
     if (backupVersion < 14) await db.markCustomPlanRests();
+    // Záloha z doby před motivy (verze 20): vzhled jako předtím.
+    if (backupVersion < 20) {
+      await db.customStatement("UPDATE user_profiles SET skin = 'original'");
+    }
     // Záloha ze starší verze: doplní vestavěné cviky, které v ní ještě
     // nebyly, a cviky s partií „nohy“ dostanou přesnou partii
     // (stehna / hamstringy / lýtka).

@@ -14,6 +14,7 @@ import 'package:go_router/go_router.dart';
 
 import '../data/database.dart';
 import '../l10n/app_localizations.dart';
+import '../modules/module_hub.dart' show modulePremiumGrant;
 import '../providers.dart';
 import 'premium_rules.dart';
 import 'premium_service.dart';
@@ -62,6 +63,7 @@ class PremiumAccess {
     required this.entitlementActive,
     this.giftUntil,
     this.giftActive = false,
+    this.trainer = false,
   });
 
   /// Bylo Premium spuštěno ([kPremiumLaunched])?
@@ -79,12 +81,16 @@ class PremiumAccess {
   /// Platí dárek právě teď?
   final bool giftActive;
 
+  /// Má status trenéra (Premium zdarma, modulePremiumGrant).
+  final bool trainer;
+
   /// Odemčené vše (před spuštěním Premium nebo s předplatným).
   bool get hasPremium => hasPremiumAccess(
         launched: launched,
         profilePremium: profilePremium,
         entitlementActive: entitlementActive,
         giftActive: giftActive,
+        trainer: trainer,
       );
 
   /// Má uživatel funkci [feature]? Všechny funkce patří pod jedno
@@ -104,11 +110,12 @@ class PremiumAccess {
       other.profilePremium == profilePremium &&
       other.entitlementActive == entitlementActive &&
       other.giftUntil == giftUntil &&
-      other.giftActive == giftActive;
+      other.giftActive == giftActive &&
+      other.trainer == trainer;
 
   @override
-  int get hashCode => Object.hash(
-      launched, profilePremium, entitlementActive, giftUntil, giftActive);
+  int get hashCode => Object.hash(launched, profilePremium, entitlementActive,
+      giftUntil, giftActive, trainer);
 }
 
 /// Nárok z RevenueCat (null = neověřeno nebo nákupy vypnuté).
@@ -147,6 +154,8 @@ final premiumProvider = Provider<PremiumAccess>((ref) {
     entitlementActive: entitlement ?? false,
     giftUntil: giftUntil,
     giftActive: giftActive,
+    // Trenéři mají Premium zdarma, dokud mají status (docs/coach.md).
+    trainer: modulePremiumGrant(ref),
   );
 });
 
