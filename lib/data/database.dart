@@ -104,7 +104,7 @@ class AppDatabase extends _$AppDatabase {
   static const _profileId = 1;
 
   @override
-  int get schemaVersion => 21;
+  int get schemaVersion => 22;
 
   /// Výchozí série pro nově přidaný cvik: 3 × 10.
   static const defaultPlanSets = <PlanSetDraft>[
@@ -273,6 +273,16 @@ class AppDatabase extends _$AppDatabase {
             // Verze 21: začátek termínu u událostí tréninků s trenérem
             // (tabulka vytvořená migrací v19 výše už sloupec má).
             await m.addColumn(coachCalendarEvents, coachCalendarEvents.startAt);
+          }
+          if (from < 22) {
+            // Verze 22: půlrok Premium zdarma běží až od spuštění Premium.
+            // Kdo už dostal dárek s datem, je první uživatel (datum slibu
+            // ≈ konec dárku − 183 dní; data jsou v sekundách).
+            await m.addColumn(userProfiles, userProfiles.premiumEarlyAt);
+            await customStatement(
+              'UPDATE user_profiles SET premium_early_at = premium_gift_until - 15811200 '
+              'WHERE premium_gift_until IS NOT NULL',
+            );
           }
         },
         beforeOpen: (details) async {
@@ -1406,6 +1416,7 @@ class AppDatabase extends _$AppDatabase {
           id: const Value(_profileId),
           isPremium: Value(previous?.isPremium ?? false),
           premiumGiftUntil: Value(previous?.premiumGiftUntil),
+          premiumEarlyAt: Value(previous?.premiumEarlyAt),
         ));
       });
 }

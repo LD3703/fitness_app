@@ -1,11 +1,12 @@
 // Premium na půl roku zdarma pro první uživatele.
 //
 // Dokud Premium není spuštěné ([kPremiumLaunched] = false), dostane
-// každý po dokončení úvodního nastavení jednorázovou hlášku „Premium
-// na půl roku zdarma“ a do profilu se uloží, do kdy dárek platí
-// (UserProfiles.premiumGiftUntil). Před spuštěním plateb je stejně
-// všechno zdarma; po spuštění se dárek dodrží (hasPremiumAccess).
-// Stávající uživatelé hlášku uvidí při prvním otevření po aktualizaci.
+// každý po dokončení úvodního nastavení jednorázovou hlášku „Až spustíme
+// Premium, dostaneš ho na půl roku zdarma“ a do profilu se uloží, kdy
+// se stal prvním uživatelem (UserProfiles.premiumEarlyAt). Půlrok běží
+// až od spuštění Premium (kPremiumLaunchDate, hasPremiumAccess). S účtem
+// se slib uloží i na server a vrátí se na novém telefonu
+// (modules/social/premium_early_sync.dart).
 
 import 'dart:async';
 
@@ -43,10 +44,10 @@ class _PremiumGiftWelcomeState extends ConsumerState<PremiumGiftWelcome> {
     final profile = ref.watch(profileProvider).valueOrNull;
     if (!_handled &&
         profile != null &&
-        shouldGrantPremiumGift(
+        shouldMarkPremiumEarlyUser(
           launched: kPremiumLaunched,
           onboardingDone: profile.onboardingDone,
-          giftUntil: profile.premiumGiftUntil,
+          earlyAt: profile.premiumEarlyAt,
         )) {
       _handled = true;
       WidgetsBinding.instance.addPostFrameCallback((_) => _grant());
@@ -55,11 +56,10 @@ class _PremiumGiftWelcomeState extends ConsumerState<PremiumGiftWelcome> {
   }
 
   Future<void> _grant() async {
-    final until = premiumGiftEnd(DateTime.now());
     final db = ref.read(databaseProvider);
     try {
       await db.updateProfile(
-        UserProfilesCompanion(premiumGiftUntil: Value(until)),
+        UserProfilesCompanion(premiumEarlyAt: Value(DateTime.now())),
       );
     } catch (e) {
       debugPrint('Premium gift save failed: $e');
@@ -68,16 +68,14 @@ class _PremiumGiftWelcomeState extends ConsumerState<PremiumGiftWelcome> {
     if (!mounted) return;
     unawaited(showDialog<void>(
       context: context,
-      builder: (context) => PremiumGiftDialog(until: until),
+      builder: (context) => const PremiumGiftDialog(),
     ));
   }
 }
 
-/// Uvítací hláška „Premium na půl roku zdarma“.
+/// Uvítací hláška „Premium na půl roku zdarma“ (od spuštění Premium).
 class PremiumGiftDialog extends StatelessWidget {
-  const PremiumGiftDialog({super.key, required this.until});
-
-  final DateTime until;
+  const PremiumGiftDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -90,10 +88,7 @@ class PremiumGiftDialog extends StatelessWidget {
         color: theme.colorScheme.tertiary,
       ),
       title: Text(l10n.premiumGiftTitle, textAlign: TextAlign.center),
-      content: Text(
-        l10n.premiumGiftBody(formatPremiumGiftDate(context, until)),
-        textAlign: TextAlign.center,
-      ),
+      content: Text(l10n.premiumGiftBody, textAlign: TextAlign.center),
       actions: [
         FilledButton(
           onPressed: () => Navigator.of(context).pop(),
@@ -105,8 +100,9 @@ class PremiumGiftDialog extends StatelessWidget {
   }
 }
 
-/// Řádek v Profilu, dokud dárek platí („Premium zdarma do …“).
-/// Po spuštění Premium ho ukazuje [PremiumProfileSection] sama.
+/// Řádek v Profilu, dokud dárek platí: před spuštěním Premium „půl roku
+/// zdarma od spuštění“, potom „platí do …“. Ukazuje ho
+/// [PremiumProfileSection].
 class PremiumGiftProfileTile extends ConsumerWidget {
   const PremiumGiftProfileTile({super.key, this.onTap});
 
@@ -116,7 +112,7 @@ class PremiumGiftProfileTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final access = ref.watch(premiumProvider);
     final until = access.giftUntil;
-    if (!access.giftActive || until == null) return const SizedBox.shrink();
+    if (!access.giftActive) return const SizedBox.shrink();
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     return ListTile(
@@ -126,7 +122,9 @@ class PremiumGiftProfileTile extends ConsumerWidget {
       ),
       title: Text(l10n.premiumGiftProfileTitle),
       subtitle: Text(
-        l10n.premiumGiftProfileUntil(formatPremiumGiftDate(context, until)),
+        until == null
+            ? l10n.premiumGiftProfilePending
+            : l10n.premiumGiftProfileUntil(formatPremiumGiftDate(context, until)),
       ),
       trailing: onTap == null ? null : const Icon(Icons.chevron_right),
       onTap: onTap,

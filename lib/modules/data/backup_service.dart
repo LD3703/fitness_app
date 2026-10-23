@@ -127,7 +127,9 @@ class BackupService {
 
   /// Nahradí všechna data v aplikaci obsahem zálohy. Výjimky: odkazy na
   /// události v kalendáři telefonu se vymažou (nepřebírají se) a stav
-  /// Premium (isPremium, premiumGiftUntil) zůstane podle tohoto zařízení.
+  /// Premium (isPremium, premiumGiftUntil, premiumEarlyAt) zůstane podle
+  /// tohoto zařízení – dárek prvního uživatele vrací na nový telefon účet
+  /// (users/{uid}/private/premium), ne záloha.
   /// Stejnou cestou jde i obnovení z cloudu (CloudBackupService.restore).
   static Future<void> restore(AppDatabase db, File file) async {
     var backupVersion = db.schemaVersion;
@@ -307,6 +309,7 @@ class BackupService {
       await db.updateProfile(UserProfilesCompanion(
         isPremium: Value(device?.isPremium ?? false),
         premiumGiftUntil: Value(device?.premiumGiftUntil),
+        premiumEarlyAt: Value(device?.premiumEarlyAt),
       ));
     });
   }

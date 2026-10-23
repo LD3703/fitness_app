@@ -91,10 +91,17 @@ class UserProfiles extends Table {
   /// Viz core/auto_progression.dart.
   IntColumn get progressionMode => integer().withDefault(const Constant(1))();
 
-  /// Premium zdarma pro první uživatele (verze schématu 11): do kdy platí.
-  /// Nastaví se při prvním zobrazení uvítací hlášky (jen dokud Premium
-  /// není spuštěné) a po spuštění plateb se dodrží. Viz premium_gift.dart.
+  /// Premium zdarma pro první uživatele (verze schématu 11–21): do kdy
+  /// platí, počítáno od prvního zobrazení hlášky. Od verze 22 se nepoužívá
+  /// (půlrok běží od spuštění Premium) – nahradil ho [premiumEarlyAt].
   DateTimeColumn get premiumGiftUntil => dateTime().nullable()();
+
+  /// První uživatel (verze schématu 22): kdy dostal slib „Premium na půl
+  /// roku zdarma od spuštění Premium“. Nastaví se jen před spuštěním
+  /// Premium; s účtem se ukládá i na server (users/{uid}/private/premium),
+  /// takže přežije nový telefon. Konec dárku = spuštění Premium + 6 měsíců
+  /// (kPremiumLaunchDate). Viz premium_gift.dart.
+  DateTimeColumn get premiumEarlyAt => dateTime().nullable()();
 
   /// Pohlaví (verze schématu 14, volitelné): 0 = muž, 1 = žena,
   /// null = neuvedeno. Jen pro výchozí délku pauz (core/rest_time.dart).

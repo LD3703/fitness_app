@@ -142,6 +142,7 @@ service cloud.firestore {
 
       // Tokeny pro push – jen vlastník (a Cloud Functions přes Admin SDK).
       // private/gym: moje posilovna a nastavení žebříčku (jen vlastník).
+      // private/premium: slib dárku Premium pro první uživatele.
       // private/gym jde smazat, jen když už nejsem členem posilovny, na
       // kterou ukazuje – jinak by úklid po smazání účtu členství nenašel.
       match /private/{docId} {
@@ -157,7 +158,16 @@ service cloud.firestore {
             && (optional(request.resource.data, 'fcmTokens')
                 || (request.resource.data.fcmTokens is list
                     && request.resource.data.fcmTokens.size() <= 10)))
-          || (docId == 'gym' && validGymMembership(uid)));
+          || (docId == 'gym' && validGymMembership(uid))
+          // Slib „Premium půl roku zdarma od spuštění“ pro první uživatele
+          // (lib/modules/social/premium_early_sync.dart): jen založit,
+          // jen s časem serveru a jen před spuštěním Premium – při spuštění
+          // se založí config/premium a od té chvíle ho nikdo nový nezíská.
+          || (docId == 'premium'
+            && resource == null
+            && request.resource.data.keys().hasOnly(['earlyAt'])
+            && request.resource.data.earlyAt == request.time
+            && !exists(/databases/$(database)/documents/config/premium)));
       }
     }
 

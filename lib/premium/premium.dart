@@ -22,7 +22,14 @@ import 'premium_service.dart';
 export 'premium_rules.dart';
 
 /// Hlavní vypínač Premium. false = vše zdarma, žádné nákupy.
+/// Při spuštění: kPremiumLaunched = true, [kPremiumLaunchDate] = den
+/// spuštění a ve Firestore založit dokument config/premium (pak už nikdo
+/// nový nedostane slib „první uživatel“ k účtu – firestore.rules).
 const kPremiumLaunched = false;
+
+/// Den spuštění Premium – od něj běží půlrok zdarma prvních uživatelů
+/// (premiumGiftUntil). null = ještě nespuštěno.
+const DateTime? kPremiumLaunchDate = null;
 
 /// Veřejné API klíče RevenueCat (Project settings → API keys).
 /// Prázdné = nákupy vypnuté (aplikace funguje dál, nic nespadne).
@@ -75,10 +82,11 @@ class PremiumAccess {
   /// Aktivní nárok „premium“ v RevenueCat.
   final bool entitlementActive;
 
-  /// Do kdy platí Premium zdarma pro první uživatele (null = nemá).
+  /// Do kdy platí Premium zdarma pro první uživatele (spuštění Premium
+  /// + 6 měsíců). null = nemá, nebo Premium ještě neběží.
   final DateTime? giftUntil;
 
-  /// Platí dárek právě teď?
+  /// Platí dárek právě teď? (První uživatel před spuštěním Premium vždy.)
   final bool giftActive;
 
   /// Má status trenéra (Premium zdarma, modulePremiumGrant).
@@ -129,12 +137,18 @@ final premiumEntitlementProvider = Provider<bool?>((ref) {
 
 /// Stav Premium pro celou aplikaci: `ref.watch(premiumProvider).isPremium(f)`.
 final premiumProvider = Provider<PremiumAccess>((ref) {
-  final giftUntil = ref.watch(
-    profileProvider.select((p) => p.valueOrNull?.premiumGiftUntil),
+  final earlyAt = ref.watch(
+    profileProvider.select((p) => p.valueOrNull?.premiumEarlyAt),
   );
+  final giftUntil =
+      premiumGiftUntil(earlyAt: earlyAt, launchDate: kPremiumLaunchDate);
   // Konec dárku se přepočítá při další změně profilu nebo startu
   // aplikace (stačí – dárek trvá půl roku).
-  final giftActive = isPremiumGiftActive(giftUntil, DateTime.now());
+  final giftActive = isPremiumGiftActive(
+    earlyAt: earlyAt,
+    launchDate: kPremiumLaunchDate,
+    now: DateTime.now(),
+  );
   if (!kPremiumLaunched) {
     return PremiumAccess(
       launched: false,

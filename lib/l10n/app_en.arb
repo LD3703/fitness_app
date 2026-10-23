@@ -2785,16 +2785,10 @@
     }
   },
   "premiumGiftTitle": "Premium free for 6 months",
-  "premiumGiftBody": "Thanks for being here from the start! You get all Premium features free until {date}. You pay nothing and nothing renews automatically.",
-  "@premiumGiftBody": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
+  "premiumGiftBody": "Thanks for being here from the start! When we launch Premium, you get it free for 6 months. You pay nothing and nothing renews automatically. Sign in and the gift stays with you on a new phone too.",
   "premiumGiftButton": "Thanks, let’s go",
   "premiumGiftProfileTitle": "Premium free",
+  "premiumGiftProfilePending": "Early-user gift – 6 months free from the Premium launch",
   "premiumGiftProfileUntil": "Early-user gift – valid until {date}",
   "@premiumGiftProfileUntil": {
     "placeholders": {
