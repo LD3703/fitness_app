@@ -1685,7 +1685,9 @@
       }
     }
   },
-  "socialGymReportMessage": "Report results that look fake. After 5 reports the result is hidden. You can report each result only once.",
+  "socialGymReportMessage": "Report results that look fake. When several members report a result, it is hidden. You can report each result only once.",
+  "socialGymReportTooNew": "You can report results once you've been a member of this gym for at least 7 days.",
+  "socialGymReportNoEntry": "You can report results once you have your own result on the leaderboard.",
   "socialGymReported": "Thanks, result reported",
   "socialGymReportedAlready": "You've already reported this result",
   "socialGymQr": "Gym QR code",

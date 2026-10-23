@@ -398,8 +398,8 @@ class GymService {
     if (gymId == null) return;
     final memberRef = _member(gymId, me);
     final isMember = (await memberRef.get()).exists;
-    // Moje nahlášení cizích záznamů (dokud jsem člen a smím záznamy číst).
-    if (isMember) await _deleteMyReports(gymId, me);
+    // Moje nahlášení cizích záznamů smaže Cloud Function onGymMemberDeleted
+    // (aplikace skryté záznamy nevidí a celý žebříček kvůli tomu nečte).
     final batch = _fs.batch();
     if (isMember) {
       batch
@@ -438,7 +438,10 @@ class GymService {
     required bool monthly,
     required String month,
   }) {
-    final q = _entries(gymId).where('category', isEqualTo: category.key);
+    // Skryté záznamy pravidla ostatním nevydají – dotaz je musí vyloučit.
+    final q = _entries(gymId)
+        .where('category', isEqualTo: category.key)
+        .where('hidden', isEqualTo: false);
     return (monthly
             ? q
                 .where('monthKey', isEqualTo: month)
@@ -452,8 +455,8 @@ class GymService {
           if (GymEntry.fromMap(d.id, d.data()) case final e?) e,
       ];
 
-  /// Záznamy kategorie seřazené podle hodnoty (celkově nebo za měsíc).
-  /// Filtr pohlaví, věku a skryté záznamy řeší aplikace.
+  /// Záznamy kategorie seřazené podle hodnoty (celkově nebo za měsíc),
+  /// bez skrytých. Filtr pohlaví a věku řeší aplikace.
   Stream<List<GymEntry>> watchBoard(
     String gymId,
     GymCategory category, {
@@ -600,34 +603,35 @@ class GymService {
   Future<bool> hasReported(String gymId, String entryId) async =>
       (await _report(gymId, entryId, _me).get()).exists;
 
-  /// Smaže moje nahlášení v posilovně (při odchodu a smazání účtu).
-  /// Počet nahlášení na záznamech (reportCount) zůstává. Chyba odchod
-  /// nezastaví – pojistkou je Cloud Function onGymMemberDeleted (smaže
-  /// i nahlášení u záznamů, které vlastník mezitím smazal – ty aplikace
-  /// nevidí).
-  Future<void> _deleteMyReports(String gymId, String me) async {
-    try {
-      final entries = await _entries(gymId).get().timeout(_writeTimeout);
-      var batch = _fs.batch();
-      var count = 0;
-      for (final e in entries.docs) {
-        if (e.data()['uid'] == me) continue;
-        batch.delete(_report(gymId, e.id, me));
-        if (++count == 400) {
-          await batch.commit().timeout(_writeTimeout);
-          batch = _fs.batch();
-          count = 0;
-        }
-      }
-      if (count > 0) await batch.commit().timeout(_writeTimeout);
-    } catch (e) {
-      debugPrint('Gym: reports cleanup failed: $e');
-    }
+  /// Smím nahlašovat? Vrátí ID mého záznamu (pro pole myEntry), nebo
+  /// důvod, proč ještě ne (pravidla: člen aspoň 7 dní s vlastním záznamem).
+  Future<({String? myEntry, GymReportBlock? block})> reportEligibility(
+    String gymId,
+  ) async {
+    final me = _me;
+    final member = await _member(gymId, me).get().timeout(_writeTimeout);
+    final joinedAt = member.data()?['joinedAt'];
+    final mine = await _entries(gymId)
+        .where('uid', isEqualTo: me)
+        .limit(1)
+        .get()
+        .timeout(_writeTimeout);
+    final myEntry = mine.docs.isEmpty ? null : mine.docs.first.id;
+    final block = gymReportBlock(
+      joinedAt: joinedAt is Timestamp ? joinedAt.toDate() : null,
+      hasOwnEntry: myEntry != null,
+      now: DateTime.now(),
+    );
+    return (myEntry: block == null ? myEntry : null, block: block);
   }
 
   /// Nahlásí záznam (každý člen jen jednou; počítá Cloud Function).
-  Future<void> report(String gymId, String entryId) => _report(gymId, entryId, _me)
-      .set({'createdAt': FieldValue.serverTimestamp()}).timeout(_writeTimeout);
+  /// [myEntry] = ID mého záznamu v téže posilovně (reportEligibility).
+  Future<void> report(String gymId, String entryId, String myEntry) =>
+      _report(gymId, entryId, _me).set({
+        'createdAt': FieldValue.serverTimestamp(),
+        'myEntry': myEntry,
+      }).timeout(_writeTimeout);
 }
 
 // ---------------------------------------------------------------------------

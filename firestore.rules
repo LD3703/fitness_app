@@ -504,8 +504,17 @@ service cloud.firestore {
       }
 
       // Záznamy žebříčku: gyms/{gymId}/entries/{uid}_{kategorie}.
+      // Skryté záznamy (nahlášení, nereálná hodnota, ruční skrytí) vidí jen
+      // jejich vlastník – ostatní členové je nepřečtou ani přímo z databáze.
+      // Pole hidden doplňuje Cloud Function onGymEntryWritten u každého
+      // záznamu (false / true), dotaz žebříčku proto filtruje hidden == false.
       match /entries/{entryId} {
-        allow read: if isGymMember(gymId);
+        allow get: if isGymMember(gymId)
+          && (resource.data.get('hidden', false) != true
+              || resource.data.uid == request.auth.uid);
+        allow list: if isGymMember(gymId)
+          && (resource.data.hidden == false
+              || resource.data.uid == request.auth.uid);
         allow create: if signedIn()
           && isGymMember(gymId)
           && request.resource.data.keys().hasOnly(entryClientKeys())
@@ -521,14 +530,22 @@ service cloud.firestore {
           || (resource != null && resource.data.uid == request.auth.uid));
 
         // Nahlášení: každý člen jednou, ne sám sebe. Počítá Cloud Function.
+        // Proti zakládání účtů na schovávání soupeřů smí nahlásit jen člen,
+        // který je v posilovně aspoň 7 dní (joinedAt) a má v ní vlastní
+        // záznam (myEntry = ID mého záznamu, kontroluje se, že je můj).
         match /reports/{reporterUid} {
           allow get: if isMe(reporterUid);
           allow list: if false;
           allow create: if isMe(reporterUid)
             && isGymMember(gymId)
+            && get(memberPath(gymId, request.auth.uid)).data.joinedAt
+                 <= request.time - duration.value(7, 'd')
             && get(/databases/$(database)/documents/gyms/$(gymId)/entries/$(entryId)).data.uid != request.auth.uid
-            && request.resource.data.keys().hasOnly(['createdAt'])
-            && request.resource.data.createdAt == request.time;
+            && request.resource.data.keys().hasOnly(['createdAt', 'myEntry'])
+            && request.resource.data.createdAt == request.time
+            && request.resource.data.myEntry is string
+            && isOwnEntryId(request.resource.data.myEntry)
+            && get(/databases/$(database)/documents/gyms/$(gymId)/entries/$(request.resource.data.myEntry)).data.uid == request.auth.uid;
           // Vlastní nahlášení smí autor smazat (odchod z posilovny,
           // smazání účtu); počet reportCount na záznamu se nemění.
           // Nahlášení zůstávají i po smazání záznamu vlastníkem.

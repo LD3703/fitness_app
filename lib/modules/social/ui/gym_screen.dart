@@ -245,6 +245,28 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
 
   Future<void> _report(GymEntry e) async {
     final l10n = AppLocalizations.of(context);
+    final service = GymService.instance;
+    // Nahlašovat smí jen člen aspoň 7 dní s vlastním záznamem (pravidla).
+    final String myEntry;
+    try {
+      final check = await service.reportEligibility(widget.gymId);
+      if (!mounted) return;
+      final block = check.block;
+      if (block != null || check.myEntry == null) {
+        showSocialSnack(
+          context,
+          block == GymReportBlock.noEntry
+              ? l10n.socialGymReportNoEntry
+              : l10n.socialGymReportTooNew,
+        );
+        return;
+      }
+      myEntry = check.myEntry!;
+    } catch (err) {
+      debugPrint('Gym: report check failed: $err');
+      if (mounted) showSocialSnack(context, l10n.socialOffline);
+      return;
+    }
     final ok = await showConfirmDialog(
       context,
       title: l10n.socialGymReportTitle(e.nickname),
@@ -254,12 +276,11 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
     );
     if (!ok || !mounted) return;
     try {
-      final service = GymService.instance;
       if (await service.hasReported(widget.gymId, e.id)) {
         if (mounted) showSocialSnack(context, l10n.socialGymReportedAlready);
         return;
       }
-      await service.report(widget.gymId, e.id);
+      await service.report(widget.gymId, e.id, myEntry);
       if (mounted) showSocialSnack(context, l10n.socialGymReported);
     } catch (err) {
       debugPrint('Gym: report failed: $err');

@@ -42,7 +42,7 @@ Logika: `functions/src/gymDirectory.ts` (testy `functions/test/`,
 
 | Důvody | Práh | Skrytí |
 |---|---|---|
-| Nevhodný obsah (urážlivé, spam, jiné) | 5 nahlášení | trvalé (`hiddenReason: "reports"`), i s členy |
+| Nevhodný obsah (urážlivé, spam, jiné) | 5 nahlášení od účtů starších 7 dní | trvalé (`hiddenReason: "reports"`), i s členy |
 | **Neexistuje nebo je zavřená**, **Duplicita** | 5 nahlášení | jen posilovna **bez členů**, vratné (`hiddenReason: "closed"`) |
 
 Obě skupiny se počítají zvlášť (3 + 3 nahlášení posilovnu neskryjí).
