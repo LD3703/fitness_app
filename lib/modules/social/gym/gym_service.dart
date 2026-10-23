@@ -390,6 +390,49 @@ class GymService {
     await batch.commit().timeout(_writeTimeout);
   }
 
+  /// Zakladatel opraví název, město a adresu (kód a QR zůstávají). Kopie
+  /// názvu u kódu (náhled před připojením) se mění ve stejné dávce.
+  Future<void> updateGymInfo(
+    Gym gym, {
+    required String name,
+    required String city,
+    String? address,
+  }) async {
+    final cleanName = clampText(name, gymNameMaxLength);
+    final cleanCity = clampText(city, gymNameMaxLength);
+    final cleanAddress =
+        address == null ? '' : clampText(address, gymAddressMaxLength);
+    if ([cleanName, cleanCity, cleanAddress].any(containsSevereProfanity)) {
+      throw ArgumentError('Gym name contains a blocked word');
+    }
+    final keys = gymSearchKeys(cleanName, cleanCity);
+    final batch = _fs.batch()
+      ..update(_gym(gym.id), {
+        'name': cleanName,
+        'nameLower': normalizeGymSearch(cleanName),
+        'city': cleanCity,
+        'cityLower': normalizeGymSearch(cleanCity),
+        'nameCity': keys.nameCity,
+        'cityName': keys.cityName,
+        'address': cleanAddress.isEmpty ? FieldValue.delete() : cleanAddress,
+      });
+    if (gym.code.isNotEmpty) {
+      batch.update(_code(gym.code), {'name': cleanName, 'city': cleanCity});
+    }
+    await batch.commit().timeout(_writeTimeout);
+  }
+
+  /// Zakladatel smaže prázdnou posilovnu: nejdřív z ní odejde (i se svými
+  /// záznamy), pak smaže posilovnu i kód. Zbytek (nahlášení, stav
+  /// moderace, doporučení) uklidí Cloud Function onGymDeleted.
+  Future<void> deleteGym(Gym gym) async {
+    if (!gym.canDelete(_me)) throw StateError('Gym has other members');
+    if ((await membership())?.gymId == gym.id) await leaveGym();
+    final batch = _fs.batch()..delete(_gym(gym.id));
+    if (gym.code.isNotEmpty) batch.delete(_code(gym.code));
+    await batch.commit().timeout(_writeTimeout);
+  }
+
   /// Odejde z posilovny a smaže svoje záznamy v žebříčku.
   Future<void> leaveGym() async {
     final me = _me;

@@ -19,6 +19,7 @@ import '../social_publisher.dart';
 import '../social_queries.dart';
 import '../social_service.dart';
 import 'friends_screen.dart' show SocialSignInView;
+import 'gym_edit_screen.dart';
 import 'gym_print.dart';
 import 'gym_widgets.dart';
 import 'moderation_ui.dart';
@@ -149,7 +150,7 @@ class _NoGymView extends StatelessWidget {
 // Žebříček
 // ---------------------------------------------------------------------------
 
-enum _MenuAction { profile, rank, print, recommend, leave, report }
+enum _MenuAction { profile, rank, print, recommend, edit, delete, leave, report }
 
 const _medalColors = [
   Color(0xFFFFC107), // zlato
@@ -239,6 +240,32 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
       messenger.showSnackBar(SnackBar(content: Text(l10n.socialGymLeft)));
     } catch (e) {
       debugPrint('Gym: leave failed: $e');
+      messenger.showSnackBar(SnackBar(content: Text(l10n.socialOffline)));
+    }
+  }
+
+  /// Zakladatel smaže prázdnou posilovnu (s dalšími členy nejde).
+  Future<void> _delete(Gym gym) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    if (!gym.canDelete(SocialService.instance.uid)) {
+      showSocialSnack(context, l10n.socialGymDeleteOthers);
+      return;
+    }
+    final ok = await showConfirmDialog(
+      context,
+      title: l10n.socialGymDeleteTitle(gym.name),
+      message: l10n.socialGymDeleteMessage,
+      confirmLabel: l10n.socialGymDelete,
+      destructive: true,
+    );
+    if (!ok) return;
+    try {
+      await GymService.instance.deleteGym(gym);
+      GymPublisher.rejected.value = const {};
+      messenger.showSnackBar(SnackBar(content: Text(l10n.socialGymDeleted)));
+    } catch (e) {
+      debugPrint('Gym: delete failed: $e');
       messenger.showSnackBar(SnackBar(content: Text(l10n.socialOffline)));
     }
   }
@@ -396,6 +423,9 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
                 gym == null ? Future<void>.value() : printGymBoard(context, gym),
               _MenuAction.recommend =>
                 gym == null ? Future<void>.value() : _recommend(gym),
+              _MenuAction.edit =>
+                gym == null ? Future<void>.value() : showGymEditScreen(context, gym),
+              _MenuAction.delete => gym == null ? Future<void>.value() : _delete(gym),
               _MenuAction.leave => _leave(gym),
               _MenuAction.report =>
                 gym == null ? Future<void>.value() : reportGymFlow(context, gym),
@@ -419,6 +449,17 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
                   value: _MenuAction.recommend,
                   child: Text(l10n.socialGymRecommend),
                 ),
+              // Jen zakladatel posilovny založené v aplikaci.
+              if (gym != null && gym.canEdit(SocialService.instance.uid)) ...[
+                PopupMenuItem(
+                  value: _MenuAction.edit,
+                  child: Text(l10n.socialGymEdit),
+                ),
+                PopupMenuItem(
+                  value: _MenuAction.delete,
+                  child: Text(l10n.socialGymDelete),
+                ),
+              ],
               PopupMenuItem(
                 value: _MenuAction.leave,
                 child: Text(l10n.socialGymLeave),
