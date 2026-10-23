@@ -24,6 +24,9 @@
 //    (nová, změněná, zrušená) nebo trenérovi (přijatá, odmítnutá).
 // 9) gymDirectory – veřejné hledání posilovny pro gymbar.app/fitka
 //    (/api/gyms, rewrite ve firebase.json, logika ve fitka.ts).
+// 10) updateLiftStats – jednou denně anonymní rozložení nejtěžších vah ze
+//    žebříčků posiloven (liftStats/{země|world}_{cvik}) pro srovnání
+//    „Jak si vedu“ v aplikaci (logika v liftStats.ts).
 //
 // Stav moderace záznamu žebříčku (počet nahlášení, skrytí za nahlášení,
 // ověřená hodnota) je v gyms/{gymId}/moderation/{entryId} – jen server.
@@ -83,6 +86,13 @@ import {
   PublicGym,
   publicGym,
 } from "./fitka.js";
+import {
+  buildLiftStats,
+  gymCountry,
+  liftStatsDocId,
+  StatEntry,
+  statValue,
+} from "./liftStats.js";
 
 // Region funkcí. Musí odpovídat umístění databáze Firestore
 // (eur3 → europe-west1, viz docs/social.md).
@@ -973,5 +983,59 @@ export const gymDirectory = onRequest(
     }
     res.set("Cache-Control", "public, max-age=60, s-maxage=300");
     res.json({ gyms });
+  },
+);
+
+// Srovnání „Jak si vedu“: rozložení nejtěžších vah podle země posilovny
+// a pro celý svět (liftStats.ts). Přepíše všechny dokumenty liftStats
+// a smaže ty, pro které už nejsou data.
+export const updateLiftStats = onSchedule(
+  { schedule: "every 24 hours", memory: "512MiB", timeoutSeconds: 540 },
+  async () => {
+    const snap = await db.collectionGroup("entries")
+      .select("uid", "category", "best", "gender", "ageGroup", "hidden")
+      .get();
+    const raw: { gymId: string; d: Record<string, unknown> }[] = [];
+    for (const doc of snap.docs) {
+      const gymId = gymIdOf(doc.ref);
+      if (gymId) raw.push({ gymId, d: doc.data() });
+    }
+    const gymIds = [...new Set(raw.map((r) => r.gymId))];
+    const countries = new Map<string, string | null>();
+    for (let i = 0; i < gymIds.length; i += 300) {
+      const refs = gymIds.slice(i, i + 300).map((id) => db.doc(`gyms/${id}`));
+      const gyms = refs.length ? await db.getAll(...refs, { fieldMask: ["country"] }) : [];
+      for (const g of gyms) countries.set(g.id, gymCountry(g.data()));
+    }
+    const entries: StatEntry[] = [];
+    for (const { gymId, d } of raw) {
+      const value = statValue(d);
+      if (value === null || typeof d.uid !== "string") continue;
+      entries.push({
+        uid: d.uid,
+        category: d.category as string,
+        value,
+        gender: typeof d.gender === "string" ? d.gender : null,
+        ageGroup: typeof d.ageGroup === "string" ? d.ageGroup : null,
+        country: countries.get(gymId) ?? null,
+      });
+    }
+    const docs = buildLiftStats(entries);
+    const writer = db.bulkWriter();
+    const keep = new Set<string>();
+    for (const doc of docs) {
+      const id = liftStatsDocId(doc.scope, doc.category);
+      keep.add(id);
+      writer.set(db.doc(`liftStats/${id}`), {
+        scope: doc.scope,
+        category: doc.category,
+        groups: doc.groups,
+        updatedAt: FieldValue.serverTimestamp(),
+      });
+    }
+    const old = await db.collection("liftStats").select().get();
+    for (const d of old.docs) if (!keep.has(d.id)) writer.delete(d.ref);
+    await writer.close();
+    logger.info(`liftStats: ${entries.length} entries, ${docs.length} docs`);
   },
 );

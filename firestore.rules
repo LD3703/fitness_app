@@ -546,6 +546,14 @@ service cloud.firestore {
       }
     }
 
+    // Srovnání „Jak si vedu“ (docs/social.md): anonymní rozložení
+    // nejtěžších vah podle země a pro svět. Zapisuje jen Cloud Function
+    // updateLiftStats; skupiny pod 20 lidí nemají rozložení, jen počet.
+    match /liftStats/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     // Doporučení „Doporuč GymBar svému fitku“ (docs/fitka.md): člen
     // posilovny sdílí majiteli odkaz na gymbar.app/fitka. ID je
     // „{gymId}_{uid}“, count = kolikrát sdílel. Každý zapisuje a čte

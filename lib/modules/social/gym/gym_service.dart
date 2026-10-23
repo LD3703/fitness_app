@@ -10,6 +10,7 @@ import '../social_service.dart' show socialUserProvider;
 import 'geohash.dart';
 import 'gym_logic.dart';
 import 'gym_models.dart';
+import 'strength_rank.dart';
 
 /// Profil v žebříčku zadaný uživatelem (přezdívka, pohlaví, viditelnost,
 /// souhlas s vytištěným žebříčkem a rok narození). Rok narození se ukládá jen do lokálního profilu
@@ -331,6 +332,18 @@ class GymService {
     throw StateError('Could not create a gym code');
   }
 
+  /// Anonymní rozložení vah pro srovnání „Jak si vedu“ (liftStats,
+  /// docs/social.md). Čte se bez přihlášení; chybějící dokument = žádné
+  /// skupiny.
+  Future<Map<String, LiftDistribution>> liftStats(String docId) async {
+    final snap = await _fs
+        .collection('liftStats')
+        .doc(docId)
+        .get()
+        .timeout(_writeTimeout);
+    return parseLiftStatsGroups(snap.data());
+  }
+
   /// „Doporuč GymBar svému fitku“: zaznamená, že člen poslal majiteli
   /// odkaz (gymReferrals, docs/fitka.md). Odměna zatím není.
   Future<void> recordReferral(String gymId) async {
@@ -648,4 +661,10 @@ final gymBoardProvider =
     monthly: k.monthly,
     month: k.month,
   ),
+);
+
+/// Rozložení vah pro srovnání „Jak si vedu“ podle ID dokumentu liftStats.
+final liftStatsProvider = FutureProvider.autoDispose
+    .family<Map<String, LiftDistribution>, String>(
+  (ref, docId) => GymService.instance.liftStats(docId),
 );

@@ -11,11 +11,13 @@ import 'ui/friends_screen.dart';
 import 'ui/gym_join_screens.dart';
 import 'ui/gym_screen.dart';
 import 'ui/invite_challenge_screens.dart';
+import 'ui/strength_rank_screen.dart';
 
 export 'social_backend.dart' show socialAvailableProvider;
 export 'social_messaging.dart' show socialAppProvider;
 export 'social_publisher.dart' show SocialPublisher;
 export 'ui/gym_screen.dart' show GymProgressCard;
+export 'ui/strength_rank_screen.dart' show StrengthRankProgressCard;
 export 'ui/social_ui.dart' show SocialProfileSection;
 
 /// [social:init]
@@ -79,6 +81,11 @@ List<RouteBase> socialRoutes() => [
             path: 'create',
             builder: (context, state) =>
                 GymCreateScreen(from: state.uri.queryParameters['from']),
+          ),
+          // Srovnání „Jak si vedu“ (země a svět, docs/social.md).
+          GoRoute(
+            path: 'rank',
+            builder: (context, state) => const StrengthRankScreen(),
           ),
         ],
       ),
