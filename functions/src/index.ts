@@ -42,6 +42,7 @@ import {
   DocumentReference,
   FieldValue,
   getFirestore,
+  QueryDocumentSnapshot,
   Timestamp,
 } from "firebase-admin/firestore";
 import { getMessaging } from "firebase-admin/messaging";
@@ -61,6 +62,7 @@ import {
   GYM_CATEGORIES,
   GYM_REPORT_HIDE_THRESHOLD,
   GymCategory,
+  gymReportThreshold,
   isGymCategory,
   isLift,
 } from "./plausibility.js";
@@ -75,6 +77,7 @@ import {
   CLOSED_REASONS,
   CONTENT_REASONS,
   gymHideDecision,
+  isEstablishedReporter,
   shouldUnhideOnJoin,
 } from "./gymDirectory.js";
 import {
@@ -704,19 +707,26 @@ export const onGymEntryWritten = onDocumentWritten("gyms/{gymId}/entries/{entryI
     if (before) await keepLegacyModeration(gymId, entryId, before);
     return;
   }
+  const modRef = moderationRef(gymId, entryId);
+  const category = after.category;
   if (
-    before &&
-    before.best === after.best &&
-    before.bestMonth === after.bestMonth &&
-    before.monthKey === after.monthKey
+    (before &&
+      before.best === after.best &&
+      before.bestMonth === after.bestMonth &&
+      before.monthKey === after.monthKey) ||
+    !isGymCategory(category) ||
+    typeof after.best !== "number"
   ) {
+    // Pole hidden musí mít každý záznam – dotaz žebříčku filtruje
+    // hidden == false a pravidla jiný dotaz nepustí.
+    if (typeof after.hidden !== "boolean") {
+      const m = readModeration((await modRef.get()).data(), after);
+      await change.after.ref.update({ hidden: m.hiddenReason !== null });
+    }
     return;
   }
-  const category = after.category;
-  if (!isGymCategory(category) || typeof after.best !== "number") return;
   const value: number = after.best;
   const now = new Date();
-  const modRef = moderationRef(gymId, entryId);
   const mod = readModeration((await modRef.get()).data(), after);
   const verified = mod.verified;
 
@@ -745,7 +755,7 @@ export const onGymEntryWritten = onDocumentWritten("gyms/{gymId}/entries/{entryI
 
   // Stav i na záznam (aplikace ho čte odtud) – jen co se liší.
   const update: Record<string, unknown> = {};
-  if ((after.hidden === true) !== hidden) update.hidden = hidden;
+  if (after.hidden !== hidden) update.hidden = hidden;
   if ((str(after.hiddenReason) || null) !== hiddenReason) {
     update.hiddenReason = hiddenReason ?? FieldValue.delete();
   }
@@ -839,24 +849,33 @@ async function notifyOvertaken(
   logger.info(`Gym ${gymId}: ${uid} overtook ${leaders.length} leader(s) in ${category}, notified ${sent}`);
 }
 
-// Nahlášení: spočítá je a od GYM_REPORT_HIDE_THRESHOLD záznam skryje.
-// Počet a skrytí se ukládají do dokumentu moderace (přežijí smazání
-// a nové vytvoření záznamu) a kopírují se na záznam.
+// Nahlášení: spočítá je a od gymReportThreshold(počet členů) – třetina
+// členů, 3 až 5 – záznam skryje. Počítají se jen nahlášení s myEntry:
+// pravidla je pustí jen od člena, který je v posilovně aspoň 7 dní a má
+// v ní vlastní záznam (dřívější jsou už v reportCount). Počet a skrytí se
+// ukládají do dokumentu moderace (přežijí smazání a nové vytvoření
+// záznamu) a kopírují se na záznam.
 export const onGymReportCreated = onDocumentCreated(
   "gyms/{gymId}/entries/{entryId}/reports/{reporterUid}",
   async (event) => {
     const { gymId, entryId } = event.params;
     const entryRef = db.doc(`gyms/${gymId}/entries/${entryId}`);
     const modRef = moderationRef(gymId, entryId);
-    const [entrySnap, modSnap] = await Promise.all([entryRef.get(), modRef.get()]);
+    const [entrySnap, modSnap, gymSnap] = await Promise.all([
+      entryRef.get(),
+      modRef.get(),
+      db.doc(`gyms/${gymId}`).get(),
+    ]);
     const entry = entrySnap.exists ? (entrySnap.data() ?? null) : null;
     if (!entry && !modSnap.exists) return;
-    const reports = (await entryRef.collection("reports").count().get()).data().count;
+    const reportDocs = await entryRef.collection("reports").get();
+    const reports = reportDocs.docs.filter((d) => typeof d.get("myEntry") === "string").length;
     const state = readModeration(modSnap.data(), entry);
     // Nahlášení smazaná autorem (odchod z posilovny, smazání účtu) počet
     // nesnižují.
     state.reportCount = Math.max(state.reportCount, reports);
-    if (state.reportCount >= GYM_REPORT_HIDE_THRESHOLD) state.hiddenReason = "reports";
+    const threshold = gymReportThreshold(Number(gymSnap.get("memberCount") ?? 0));
+    if (state.reportCount >= threshold) state.hiddenReason = "reports";
     const uid = str(entry?.uid) || str(modSnap.get("uid"));
     const category = str(entry?.category) || str(modSnap.get("category"));
     await modRef.set(moderationData(uid, category, state), { merge: true });
@@ -901,12 +920,13 @@ export const onContentReportCreated = onDocumentCreated(
     const resetAt = gym.get("closedReportsResetAt");
     let closedQuery = reports.where("reason", "in", CLOSED_REASONS);
     if (resetAt instanceof Timestamp) closedQuery = closedQuery.where("createdAt", ">", resetAt);
-    const [contentReports, closedReports] = await Promise.all([
-      reports.where("reason", "in", CONTENT_REASONS).count().get(),
+    const [contentDocs, closedReports] = await Promise.all([
+      reports.where("reason", "in", CONTENT_REASONS).get(),
       closedQuery.count().get(),
     ]);
+    const contentReports = await countEstablishedReporters(contentDocs.docs);
     const decision = gymHideDecision({
-      contentReports: contentReports.data().count,
+      contentReports,
       closedReports: closedReports.data().count,
       memberCount: Number(gym.get("memberCount") ?? 0),
       hidden: gym.get("hidden") === true,
@@ -915,9 +935,25 @@ export const onContentReportCreated = onDocumentCreated(
     if (!decision) return;
     await gymRef.update({ hidden: true, hiddenReason: decision });
     logger.warn(`Gym ${targetId} hidden from the directory (${decision}), ` +
-      `content=${contentReports.data().count} closed=${closedReports.data().count}`);
+      `content=${contentReports} closed=${closedReports.data().count}`);
   },
 );
+
+// Kolik nahlášení je od účtů, které v době nahlášení existovaly aspoň
+// GYM_REPORTER_MIN_ACCOUNT_DAYS dní (smazané účty se nepočítají).
+async function countEstablishedReporters(docs: QueryDocumentSnapshot[]): Promise<number> {
+  const uids = [...new Set(docs.map((d) => str(d.get("reporterUid"))).filter((u) => u))];
+  const created = new Map<string, number>();
+  for (let i = 0; i < uids.length; i += 100) {
+    const res = await getAuth().getUsers(uids.slice(i, i + 100).map((uid) => ({ uid })));
+    for (const u of res.users) created.set(u.uid, Date.parse(u.metadata.creationTime));
+  }
+  return docs.filter((d) => {
+    const at = d.get("createdAt");
+    const reportedAt = at instanceof Timestamp ? at.toMillis() : Date.now();
+    return isEstablishedReporter(created.get(str(d.get("reporterUid"))) ?? null, reportedAt);
+  }).length;
+}
 
 export const purgeOldContentReports = onSchedule("every 24 hours", async () => {
   const cutoff = Timestamp.fromMillis(Date.now() - CONTENT_REPORT_MAX_AGE_DAYS * 24 * 3600 * 1000);
@@ -1049,8 +1085,19 @@ export const updateLiftStats = onSchedule(
   { schedule: "every 24 hours", memory: "512MiB", timeoutSeconds: 540 },
   async () => {
     const snap = await db.collectionGroup("entries")
-      .select("uid", "category", "best", "gender", "ageGroup", "hidden")
+      .select("uid", "category", "best", "gender", "ageGroup", "hidden", "reportCount")
       .get();
+    // Záznamy z doby před polem hidden doplnit (dotaz žebříčku filtruje
+    // hidden == false). Zápis spustí onGymEntryWritten, který ho jen potvrdí.
+    const missingHidden = snap.docs.filter((d) => typeof d.get("hidden") !== "boolean");
+    if (missingHidden.length > 0) {
+      const backfill = db.bulkWriter();
+      for (const d of missingHidden) {
+        backfill.update(d.ref, { hidden: isEntryHidden(d.data()) }).catch(() => undefined);
+      }
+      await backfill.close();
+      logger.info(`Entries: added hidden to ${missingHidden.length} entr(ies)`);
+    }
     const raw: { gymId: string; d: Record<string, unknown> }[] = [];
     for (const doc of snap.docs) {
       const gymId = gymIdOf(doc.ref);

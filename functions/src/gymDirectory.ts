@@ -15,13 +15,25 @@ export const GYM_DIRECTORY_REPORT_THRESHOLD = 5;
 /// Zrcadlo kGymClosedReportThreshold v moderation_logic.dart.
 export const GYM_CLOSED_REPORT_THRESHOLD = 5;
 
+/// Nahlášení za obsah se počítá jen od účtu, který v době nahlášení
+/// existuje aspoň tolik dní (jinak by stačilo založit 5 účtů a schovat
+/// cizí posilovnu).
+export const GYM_REPORTER_MIN_ACCOUNT_DAYS = 7;
+
+/// Je účet nahlašujícího dost starý? accountCreatedMs null = účet už
+/// neexistuje / neznámý → nepočítá se.
+export function isEstablishedReporter(accountCreatedMs: number | null, reportedAtMs: number): boolean {
+  if (accountCreatedMs === null || !Number.isFinite(accountCreatedMs)) return false;
+  return reportedAtMs - accountCreatedMs >= GYM_REPORTER_MIN_ACCOUNT_DAYS * 24 * 3600 * 1000;
+}
+
 export const CONTENT_REASONS = ["offensive", "spam", "other"];
 export const CLOSED_REASONS = ["closed", "duplicate"];
 
 export type GymHideReason = "reports" | "closed";
 
 export interface GymReportState {
-  /// Nahlášení za nevhodný obsah (všechna).
+  /// Nahlášení za nevhodný obsah (jen od účtů starších 7 dní).
   contentReports: number;
   /// Nahlášení „neexistuje / duplicita“ od posledního vynulování.
   closedReports: number;

@@ -482,9 +482,26 @@ absolutní hranice a skok proti své uložené ověřené hodnotě (`verified`)
 a nereálný záznam skryje (`hidden: true`, `hiddenReason: "implausible:…"`).
 
 Každý člen může cizí záznam **nahlásit** jednou (dlouhé podržení nebo
-menu u řádku). Cloud Function `onGymReportCreated` nahlášení spočítá
-(`reportCount`) a od 5 záznam skryje (`hiddenReason: "reports"`).
-Aplikace skrývá záznamy s `reportCount ≥ 5` i sama.
+menu u řádku) – ale jen když je v posilovně aspoň **7 dní** (`joinedAt`)
+a má v ní **vlastní záznam**. Hlídají to pravidla: nahlášení nese
+`myEntry` = ID mého záznamu a pravidla ověří, že existuje a je můj.
+Aplikace to zjistí předem (`GymService.reportEligibility`) a vysvětlí,
+proč ještě nejde. Pět čerstvých účtů tak poctivého člena neschová.
+Cloud Function `onGymReportCreated` spočítá nahlášení s `myEntry`
+(`reportCount`) a od **třetiny členů, nejméně 3 a nejvýš 5**
+(`gymReportThreshold`, `functions/src/plausibility.ts`, zrcadlo
+v `gym_logic.dart`) záznam skryje (`hiddenReason: "reports"`). Aplikace
+skrývá záznamy s `reportCount ≥ 5` i sama.
+
+**Skryté záznamy ostatní nepřečtou.** Pravidla vydají cizí záznam jen
+s `hidden == false`; dotaz žebříčku proto filtruje `hidden == false`
+(indexy `category + hidden + best` a `category + monthKey + hidden +
+bestMonth`). Pole `hidden` má každý záznam: doplňuje ho
+`onGymEntryWritten` (i u zápisu bez změny hodnoty) a starším záznamům
+`updateLiftStats` při denním průchodu. Vlastník vidí své záznamy
+i skryté (dotaz podle `uid`). Moje nahlášení při odchodu z posilovny
+maže jen `onGymMemberDeleted` – aplikace kvůli tomu celý žebříček
+nečte (skryté záznamy by ani nepřečetla).
 
 **Stav moderace přežije smazání záznamu.** Vlastník svůj záznam smí
 kdykoli smazat (vypnutí „Ukázat mě“, odchod z posilovny) a pak vytvořit
@@ -623,7 +640,9 @@ nevhodný obsah nahlásit a uživatel zablokovat.
 
 - **Posilovna** (název, město, adresa): menu na obrazovce posilovny
   (*Nahlásit posilovnu*, jen cizí) a menu na náhledu před připojením.
-  Od 5 nahlášení za obsah ji Cloud Function `onContentReportCreated`
+  Od 5 nahlášení za obsah (počítají se jen účty, které byly v době
+  nahlášení staré aspoň 7 dní – `isEstablishedReporter`
+  v `functions/src/gymDirectory.ts`) ji Cloud Function `onContentReportCreated`
   skryje z adresáře (`hidden: true`, `hiddenReason: "reports"`); kdo zná
   kód nebo QR, připojí se dál a členové o nic nepřijdou. Důvody
   „Neexistuje / Duplicita“ se počítají zvlášť a skryjí (vratně) jen

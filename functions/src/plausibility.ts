@@ -40,8 +40,20 @@ export function isGymCategory(v: unknown): v is GymCategory {
 export const GYM_MAX_JUMP = 0.15;
 export const GYM_JUMP_WINDOW_MS = 14 * 24 * 60 * 60 * 1000;
 
-/** Od kolika nahlášení se záznam skryje. */
+/** Od kolika nahlášení se záznam skryje (nejvyšší hranice, velká posilovna). */
 export const GYM_REPORT_HIDE_THRESHOLD = 5;
+/** Nejnižší hranice skrytí (malá posilovna). */
+export const GYM_REPORT_MIN_THRESHOLD = 3;
+
+/**
+ * Kolik nahlášení skryje záznam: třetina členů, nejméně 3, nejvýš 5
+ * (v posilovně s 6 lidmi by se 5 nahlášení nesešlo nikdy). Zrcadlo
+ * gymReportThreshold v lib/modules/social/gym/gym_logic.dart.
+ */
+export function gymReportThreshold(memberCount: number): number {
+  const third = Math.ceil((Number.isFinite(memberCount) ? memberCount : 0) / 3);
+  return Math.max(GYM_REPORT_MIN_THRESHOLD, Math.min(GYM_REPORT_HIDE_THRESHOLD, third));
+}
 
 const EPSILON = 1e-9;
 

@@ -220,8 +220,35 @@ const gymNicknameMaxLength = 24;
 const gymNameMaxLength = 60;
 const gymAddressMaxLength = 120;
 
-/// Od kolika nahlášení se záznam skryje (i bez Cloud Functions).
+/// Od kolika nahlášení se záznam skryje vždy (velká posilovna; i bez
+/// Cloud Functions). V menší posilovně stačí méně – [gymReportThreshold].
 const gymReportHideThreshold = 5;
+
+/// Kolik nahlášení skryje záznam: třetina členů, nejméně 3, nejvýš 5.
+/// Zrcadlo gymReportThreshold ve functions/src/plausibility.ts.
+int gymReportThreshold(int memberCount) =>
+    ((memberCount < 0 ? 0 : memberCount) / 3).ceil().clamp(3, gymReportHideThreshold);
+
+/// Nahlásit cizí záznam smí člen, který je v posilovně aspoň tolik dní
+/// a má v ní vlastní záznam (firestore.rules, reports).
+const gymReporterMinDays = 7;
+
+/// Proč ještě nejde nahlásit (null = jde).
+enum GymReportBlock { tooNew, noEntry }
+
+/// Smí člen nahlásit? [joinedAt] = vstup do posilovny (null = neznámý).
+GymReportBlock? gymReportBlock({
+  required DateTime? joinedAt,
+  required bool hasOwnEntry,
+  required DateTime now,
+}) {
+  if (joinedAt == null ||
+      now.difference(joinedAt) < const Duration(days: gymReporterMinDays)) {
+    return GymReportBlock.tooNew;
+  }
+  if (!hasOwnEntry) return GymReportBlock.noEntry;
+  return null;
+}
 
 /// Kolik záznamů žebříčku se načte (filtr pohlaví a věku běží v aplikaci).
 const gymBoardLimit = 300;
