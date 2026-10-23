@@ -78,37 +78,69 @@ void main() {
           DateTime(2028, 2, 29, 23, 59, 59));
     });
 
-    test('platnost dárku', () {
-      final until = DateTime(2027, 4, 3, 23, 59, 59);
-      expect(isPremiumGiftActive(null, DateTime(2027)), isFalse);
-      expect(isPremiumGiftActive(until, DateTime(2027, 4, 3, 12)), isTrue);
-      expect(isPremiumGiftActive(until, DateTime(2027, 4, 4)), isFalse);
+    test('platnost dárku: do spuštění Premium a půl roku po něm', () {
+      final early = DateTime(2026, 10, 3);
+      final launch = DateTime(2027, 3, 1);
+      // Premium ještě neběží: první uživatel má dárek, konec neznámý.
+      expect(
+          isPremiumGiftActive(
+              earlyAt: early, launchDate: null, now: DateTime(2030)),
+          isTrue);
+      expect(premiumGiftUntil(earlyAt: early, launchDate: null), isNull);
+      // Po spuštění: 6 měsíců od spuštění, ne od prvního otevření.
+      expect(premiumGiftUntil(earlyAt: early, launchDate: launch),
+          DateTime(2027, 9, 1, 23, 59, 59));
+      expect(
+          isPremiumGiftActive(
+              earlyAt: early, launchDate: launch, now: DateTime(2027, 9, 1, 12)),
+          isTrue);
+      expect(
+          isPremiumGiftActive(
+              earlyAt: early, launchDate: launch, now: DateTime(2027, 9, 2)),
+          isFalse);
+      // Kdo není první uživatel, dárek nemá.
+      expect(
+          isPremiumGiftActive(
+              earlyAt: null, launchDate: launch, now: DateTime(2027, 3, 2)),
+          isFalse);
+      expect(premiumGiftUntil(earlyAt: null, launchDate: launch), isNull);
     });
 
-    test('dárek jen jednou, po úvodním nastavení a před spuštěním plateb',
+    test('první uživatel jen jednou, po úvodním nastavení a před spuštěním',
         () {
       expect(
-        shouldGrantPremiumGift(
-            launched: false, onboardingDone: true, giftUntil: null),
+        shouldMarkPremiumEarlyUser(
+            launched: false, onboardingDone: true, earlyAt: null),
         isTrue,
       );
       expect(
-        shouldGrantPremiumGift(
-            launched: false, onboardingDone: false, giftUntil: null),
+        shouldMarkPremiumEarlyUser(
+            launched: false, onboardingDone: false, earlyAt: null),
         isFalse,
       );
       expect(
-        shouldGrantPremiumGift(
+        shouldMarkPremiumEarlyUser(
             launched: false,
             onboardingDone: true,
-            giftUntil: DateTime(2027, 4, 3)),
+            earlyAt: DateTime(2026, 10, 3)),
         isFalse,
       );
       expect(
-        shouldGrantPremiumGift(
-            launched: true, onboardingDone: true, giftUntil: null),
+        shouldMarkPremiumEarlyUser(
+            launched: true, onboardingDone: true, earlyAt: null),
         isFalse,
       );
+    });
+
+    test('slib s účtem: nový telefon si ho vezme, nový slib se uloží', () {
+      final at = DateTime(2026, 10, 3);
+      expect(premiumEarlySync(local: null, server: at), PremiumEarlySync.pull);
+      expect(premiumEarlySync(local: at, server: null), PremiumEarlySync.push);
+      expect(premiumEarlySync(local: at, server: at), PremiumEarlySync.none);
+      expect(
+          premiumEarlySync(local: at, server: DateTime(2026, 11)),
+          PremiumEarlySync.none);
+      expect(premiumEarlySync(local: null, server: null), PremiumEarlySync.none);
     });
   });
 

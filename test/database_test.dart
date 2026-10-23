@@ -103,6 +103,22 @@ void main() {
       expect((await db.getPlanItems(id)).first.exercise.note, 'Lavice č. 3');
     });
 
+    test('v11 s dárkem s datem → první uživatel (v22)', () async {
+      await db.close();
+      // Dárek „do 3. 4. 2027“ z doby před verzí 22 (sekundy).
+      const giftUntil = 1806969599;
+      db = AppDatabase(NativeDatabase(
+        File('${dir.path}/db.sqlite'),
+        setup: (raw) => raw.execute(
+            'UPDATE user_profiles SET premium_gift_until = $giftUntil'),
+      ));
+      final profile = await db.watchProfile().first;
+      expect(
+        profile.premiumEarlyAt,
+        DateTime.fromMillisecondsSinceEpoch((giftUntil - 15811200) * 1000),
+      );
+    });
+
     test('schéma po migraci je stejné jako u nové instalace', () async {
       final fresh = AppDatabase(NativeDatabase.memory());
       addTearDown(fresh.close);

@@ -14,6 +14,7 @@ import 'ui/invite_challenge_screens.dart';
 import 'ui/strength_rank_screen.dart';
 
 export 'social_backend.dart' show socialAvailableProvider;
+export 'premium_early_sync.dart' show premiumEarlySyncProvider;
 export 'social_messaging.dart' show socialAppProvider;
 export 'social_publisher.dart' show SocialPublisher;
 export 'ui/gym_screen.dart' show GymProgressCard;

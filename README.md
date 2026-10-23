@@ -687,15 +687,19 @@ Aplikace je teď celá zdarma: v `lib/premium/premium.dart` je
 nákup ani paywall. Zapisování tréninků zůstane zdarma vždy.
 
 **Premium na půl roku zdarma pro první uživatele:** po dokončení
-úvodního nastavení (stávající uživatelé při prvním otevření po
-aktualizaci) se jednou ukáže hláška „Premium na půl roku zdarma“ a do
-profilu se uloží datum konce (`UserProfiles.premiumGiftUntil`, 6 měsíců).
-V Profilu je pak řádek „Premium zdarma – platí do …“. Dárek se dává jen
-dokud je `kPremiumLaunched = false`; po spuštění plateb se dodrží
-(funkce zůstanou odemčené do uloženého data) a noví uživatelé už
-dostanou jen zkušební měsíc z obchodu. Dárek je uložený v telefonu
-(a v záloze), ne v RevenueCat – kdo aplikaci přeinstaluje bez obnovení
-zálohy, o něj po spuštění plateb přijde.
+úvodního nastavení se jednou ukáže hláška „Až spustíme Premium, dostaneš
+ho na půl roku zdarma“ a do profilu se uloží, kdy se uživatel stal prvním
+uživatelem (`UserProfiles.premiumEarlyAt`, schéma 22; kdo už dřív dostal
+dárek s datem, je první uživatel taky). **Půlrok běží až od spuštění
+Premium** (`kPremiumLaunchDate` + 6 měsíců), takže dárek nepropadne, dokud
+je všechno zdarma. V Profilu je řádek „půl roku zdarma od spuštění
+Premium“, po spuštění „platí do …“. S účtem se slib uloží i na server
+(`users/{uid}/private/premium`, `lib/modules/social/premium_early_sync.dart`)
+a na novém telefonu se po přihlášení vrátí. Bez účtu je jen v telefonu
+(záloha ho nepřenáší – dala by se upravit). Zapsat ho k účtu jde jen
+před spuštěním (pravidla: dokud neexistuje dokument `config/premium`),
+takže po spuštění plateb ho nový účet ani přeinstalování nezíská; noví
+uživatelé dostanou jen zkušební měsíc z obchodu.
 
 Co bude v Premium (roční předplatné 8 USD / 8 EUR, první měsíc zdarma):
 neomezeně vlastních plánů (zdarma 3), všechny hotové programy (zdarma 2),
@@ -716,7 +720,11 @@ Spuštění:
    „default“ s balíčkem typu Annual.
 3. Veřejné API klíče z RevenueCat (Project settings → API keys) vlož do
    `kRevenueCatAndroidKey` a `kRevenueCatIosKey` v
-   `lib/premium/premium.dart` a přepni `kPremiumLaunched = true`.
+   `lib/premium/premium.dart`, přepni `kPremiumLaunched = true`
+   a nastav `kPremiumLaunchDate` na den spuštění (od něj běží půlrok
+   zdarma prvních uživatelů). Ve Firestore (konzole) založ dokument
+   `config/premium` (např. pole `launchedAt`) – od té chvíle si slib
+   „první uživatel“ k účtu nikdo nový neuloží.
 4. Doplň skutečné adresy podmínek a zásad ochrany soukromí
    (`kPremiumTermsUrl`, `kPremiumPrivacyUrl` v
    `lib/premium/premium_screen.dart`).

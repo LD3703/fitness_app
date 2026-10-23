@@ -129,6 +129,8 @@ List<ProviderListenable<Object?>> moduleAppProviders() => [
       //
       // [social:app]
       socialAppProvider,
+      // Slib „Premium půl roku zdarma“ i na účtu (nový telefon).
+      premiumEarlySyncProvider,
       //
       // [coach:app]
       // Tréninky s trenérem v kalendáři telefonu (přijaté pozvánky).

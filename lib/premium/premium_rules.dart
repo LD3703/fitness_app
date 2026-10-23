@@ -7,7 +7,7 @@
 //  - rutiny plánu B: zdarma první 3, Premium všechny,
 //  - grafy: zdarma posledních 30 dní a bez pruhů období, Premium vše,
 //  - kdo začne aplikaci používat před spuštěním Premium, má Premium
-//    na půl roku zdarma (dárek se dodrží i po spuštění plateb).
+//    zdarma ještě půl roku po spuštění plateb (první uživatel).
 
 import '../data/seed/plan_templates.dart';
 import '../data/seed/seed_translations.dart';
@@ -56,19 +56,58 @@ DateTime premiumGiftEnd(DateTime start) {
   return DateTime(start.year, month, day, 23, 59, 59);
 }
 
-/// Platí dárek v čase [now]?
-bool isPremiumGiftActive(DateTime? giftUntil, DateTime now) =>
-    giftUntil != null && !now.isAfter(giftUntil);
+/// Do kdy platí dárek prvního uživatele: [kPremiumGiftMonths] měsíců od
+/// spuštění Premium ([launchDate]). null = uživatel není první, nebo
+/// Premium ještě neběží (konec zatím není známý).
+DateTime? premiumGiftUntil({
+  required DateTime? earlyAt,
+  required DateTime? launchDate,
+}) =>
+    earlyAt == null || launchDate == null ? null : premiumGiftEnd(launchDate);
 
-/// Dát uživateli dárek (a ukázat uvítací hlášku)? Jen dokud Premium
+/// Platí dárek v čase [now]? Prvnímu uživateli platí do spuštění Premium
+/// a ještě půl roku po něm.
+bool isPremiumGiftActive({
+  required DateTime? earlyAt,
+  required DateTime? launchDate,
+  required DateTime now,
+}) {
+  if (earlyAt == null) return false;
+  if (launchDate == null) return true;
+  return !now.isAfter(premiumGiftEnd(launchDate));
+}
+
+/// Stát se prvním uživatelem (a ukázat uvítací hlášku)? Jen dokud Premium
 /// není spuštěné – kdo přijde až po spuštění, dostane zkušební měsíc
-/// z obchodu. Každý jen jednou (po smazání všech dat znovu).
-bool shouldGrantPremiumGift({
+/// z obchodu. Každý jen jednou (smazání všech dat slib zachová).
+bool shouldMarkPremiumEarlyUser({
   required bool launched,
   required bool onboardingDone,
-  required DateTime? giftUntil,
+  required DateTime? earlyAt,
 }) =>
-    !launched && onboardingDone && giftUntil == null;
+    !launched && onboardingDone && earlyAt == null;
+
+/// Co udělat se slibem dárku po přihlášení (users/{uid}/private/premium).
+enum PremiumEarlySync {
+  /// Nic – obojí stejné (nebo ani jedno).
+  none,
+
+  /// Na serveru je, v telefonu ne (nový telefon) → uložit do telefonu.
+  pull,
+
+  /// V telefonu je, na serveru ne → uložit k účtu (pravidla to pustí jen
+  /// před spuštěním Premium).
+  push,
+}
+
+PremiumEarlySync premiumEarlySync({
+  required DateTime? local,
+  required DateTime? server,
+}) {
+  if (local == null && server != null) return PremiumEarlySync.pull;
+  if (local != null && server == null) return PremiumEarlySync.push;
+  return PremiumEarlySync.none;
+}
 
 /// Smí uživatel založit další vlastní plán?
 bool canCreateCustomPlan({
