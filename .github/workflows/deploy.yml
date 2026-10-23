@@ -23,6 +23,12 @@ on:
           - functions
           - hosting
           - all
+      force:
+        description: >-
+          Potvrdit změny, na které se Firebase ptá (--force), např. nově
+          zapnuté opakování funkce. Pozor: smaže i funkce, které už nejsou v kódu.
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -44,6 +50,7 @@ jobs:
     env:
       PROJECT: fitness-app-dc5e4
       TARGET: ${{ inputs.target }}
+      FORCE: ${{ inputs.force }}
     steps:
       - uses: actions/checkout@v4
 
@@ -107,4 +114,6 @@ jobs:
             hosting)   ONLY="hosting" ;;
             all)       ONLY="firestore:rules,firestore:indexes,storage,functions,hosting" ;;
           esac
-          npx --yes firebase-tools@14 deploy --project "$PROJECT" --only "$ONLY" --non-interactive
+          set -- --project "$PROJECT" --only "$ONLY" --non-interactive
+          if [ "$FORCE" = "true" ]; then set -- "$@" --force; fi
+          npx --yes firebase-tools@14 deploy "$@"

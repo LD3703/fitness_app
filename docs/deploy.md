@@ -69,3 +69,8 @@ ještě potvrdit.
 
 GitHub → **Actions → Nasazení Firebase → Run workflow** → větev `main`,
 v poli „Co nasadit“ vyber volbu → **Run workflow**.
+
+Volba **force** (výchozí vypnutá) přidá `firebase deploy --force`. Zapni ji
+jen jednorázově, když nasazení skončí hláškou „Pass the --force option…“
+(např. funkce nově s opakováním při chybě). Pozor: s ní se bez ptaní smažou
+i funkce, které už v kódu nejsou.
