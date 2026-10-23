@@ -154,6 +154,24 @@
     .sticker .qr svg { width: 100%; height: 100%; display: block; }
     .sticker .ex { font-size: 4mm; font-weight: 800; line-height: 1.15; margin: 0; }
     .sticker .sscan { font-family: system-ui, sans-serif; font-size: 2.6mm; color: #444; margin: 1mm 0 0; }
+    /* Hecovací samolepky 10 × 10 cm (žluté, na černých strojích je vidět). */
+    .csheet {
+      width: 210mm; height: 297mm; padding: 10mm 5mm; display: grid; gap: 5mm 0;
+      grid-template-columns: repeat(2, 100mm); grid-auto-rows: 100mm; justify-content: center;
+      background: #fff; page-break-after: always; break-after: page;
+    }
+    .chall {
+      background: #ffc857; color: #13201d; border: 0.3mm dashed #9a9a9a; padding: 6mm;
+      display: flex; flex-direction: column; font-family: "Archivo", system-ui, sans-serif; overflow: hidden;
+    }
+    .chall .ck { margin: 0; font-size: 4mm; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; }
+    .chall .ch { margin: 2mm 0 0; font-size: 10mm; line-height: 1.02; font-weight: 800; letter-spacing: -0.02em; }
+    .chall .cb { margin-top: auto; display: flex; align-items: flex-end; gap: 4mm; }
+    .chall .qr { width: 30mm; height: 30mm; flex: none; }
+    .chall .qr svg { width: 100%; height: 100%; display: block; }
+    .chall .cs { margin: 0; font-size: 3.8mm; font-weight: 800; line-height: 1.2; }
+    .chall .cscan { display: flex; align-items: center; gap: 1.5mm; margin: 2mm 0 0; font-family: system-ui, sans-serif; font-size: 2.8mm; }
+    .chall .cscan img { width: 4mm; height: 4mm; }
   </style>
   <style id="page-size">@page { size: A4 portrait; margin: 0; }</style>
 </head>
@@ -220,6 +238,14 @@
       <p class="count" id="pickCount"></p>
       <div class="btns">
         <button type="button" class="btn" id="stickersPrint" data-t="stickersPrint"></button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 data-t="challTitle"></h2>
+      <p data-t="challText" style="margin:0"></p>
+      <div class="btns">
+        <button type="button" class="btn" id="challPrint" data-t="challPrint"></button>
       </div>
     </section>
 

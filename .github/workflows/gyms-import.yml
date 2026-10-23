@@ -24,6 +24,9 @@ on:
         default: false
 
 # Dva importy najednou by si mohly vylosovat stejný kód posilovny.
+permissions:
+  contents: read
+
 concurrency:
   group: gyms-import
   cancel-in-progress: false
@@ -33,6 +36,8 @@ jobs:
     name: Import (${{ inputs.countries }})
     runs-on: ubuntu-latest
     timeout-minutes: 350
+    # Klíč k Firestore jen pro kód z main.
+    if: github.ref == 'refs/heads/main'
     environment: production
     env:
       PROJECT: fitness-app-dc5e4
@@ -53,7 +58,7 @@ jobs:
           restore-keys: gyms-overpass-
 
       - working-directory: tool/gyms_import
-        run: npm install --no-audit --no-fund && npm test
+        run: npm ci --no-audit --no-fund && npm test
 
       - if: ${{ !inputs.dry_run }}
         uses: google-github-actions/auth@v2

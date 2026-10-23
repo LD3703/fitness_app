@@ -54,8 +54,16 @@ class TrainerApp extends StatelessWidget {
 }
 
 /// Přihlášení → (stát se trenérem) → aplikace.
-class AuthGate extends StatelessWidget {
+class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
+
+  @override
+  State<AuthGate> createState() => _AuthGateState();
+}
+
+class _AuthGateState extends State<AuthGate> {
+  /// Zvýší se po „Zkusit znovu“ → nový odběr profilu trenéra.
+  int _attempt = 0;
 
   @override
   Widget build(BuildContext context) => StreamBuilder<User?>(
@@ -67,10 +75,17 @@ class AuthGate extends StatelessWidget {
           final user = auth.data;
           if (user == null) return const SignInPage();
           return StreamBuilder<Trainer?>(
-            key: ValueKey(user.uid),
+            key: ValueKey('${user.uid}#$_attempt'),
             stream: Backend.instance.watchTrainer(),
             builder: (context, t) {
-              if (t.hasError) return SignInPage(error: '${t.error}');
+              // Přihlášený, ale profil se nenačetl (síť, pravidla):
+              // přihlašovací stránka by nepomohla – znovu, nebo odhlásit.
+              if (t.hasError) {
+                return _LoadError(
+                  error: '${t.error}',
+                  onRetry: () => setState(() => _attempt++),
+                );
+              }
               if (!t.hasData && t.connectionState != ConnectionState.active) {
                 return const _Loading();
               }
@@ -81,6 +96,53 @@ class AuthGate extends StatelessWidget {
           );
         },
       );
+}
+
+class _LoadError extends StatelessWidget {
+  const _LoadError({required this.error, required this.onRetry});
+
+  final String error;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final s = S.of(context);
+    return Scaffold(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(s('errorGeneric'), textAlign: TextAlign.center),
+                const SizedBox(height: 8),
+                Text(
+                  error,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(height: 16),
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 8,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    FilledButton(onPressed: onRetry, child: Text(s('retry'))),
+                    OutlinedButton(
+                      onPressed: Backend.instance.signOut,
+                      child: Text(s('signOut')),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _Loading extends StatelessWidget {

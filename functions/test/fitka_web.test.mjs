@@ -21,6 +21,14 @@ test('cs a en mají stejné klíče a zástupné symboly', () => {
   assert.deepEqual(Object.keys(S).sort(), ['cs', 'en']);
   assert.deepEqual(Object.keys(S.cs).sort(), Object.keys(S.en).sort());
   for (const k of Object.keys(S.cs)) {
+    if (Array.isArray(S.cs[k])) {
+      // Hecovací samolepky: stejný počet, každá s nadpisem i textem.
+      assert.equal(S.cs[k].length, S.en[k].length, k);
+      for (const c of [...S.cs[k], ...S.en[k]]) {
+        assert.ok(c.k.trim() && c.h.trim() && c.s.trim(), `prázdná samolepka ${k}`);
+      }
+      continue;
+    }
     assert.ok(S.cs[k].trim() && S.en[k].trim(), `prázdný text ${k}`);
     assert.deepEqual(placeholders(S.cs[k]), placeholders(S.en[k]), k);
   }

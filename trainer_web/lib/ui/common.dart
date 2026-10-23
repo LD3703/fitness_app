@@ -7,6 +7,17 @@ import '../strings.dart';
 /// Max. šířka obsahu na širokém monitoru.
 const kContentWidth = 1100.0;
 
+/// Data se nenačetla (síť, pravidla) – místo věčného načítání.
+class LoadErrorText extends StatelessWidget {
+  const LoadErrorText({super.key});
+
+  @override
+  Widget build(BuildContext context) => Text(
+        S.of(context)('errorGeneric'),
+        style: TextStyle(color: Theme.of(context).colorScheme.error),
+      );
+}
+
 /// Obsah stránky vycentrovaný a omezený na [kContentWidth].
 class PageBody extends StatelessWidget {
   const PageBody({super.key, required this.children, this.padding = 20});

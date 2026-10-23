@@ -239,6 +239,7 @@ const csStrings = <String, String>{
   'errorPermission': 'Na tohle nemáš oprávnění (nejsi už trenérem tohoto klienta?).',
   'errorOffline': 'Nepodařilo se spojit se serverem. Zkus to znovu.',
   'errorGeneric': 'Něco se pokazilo. Zkus to znovu.',
+  'retry': 'Zkusit znovu',
 
   // Dny (bit 0 = pondělí)
   'day0': 'Po', 'day1': 'Út', 'day2': 'St', 'day3': 'Čt', 'day4': 'Pá',
@@ -465,6 +466,7 @@ const enStrings = <String, String>{
   'errorPermission': 'You don\'t have permission for this (are you still this client\'s coach?).',
   'errorOffline': 'Could not reach the server. Try again.',
   'errorGeneric': 'Something went wrong. Try again.',
+  'retry': 'Try again',
 
   'day0': 'Mon', 'day1': 'Tue', 'day2': 'Wed', 'day3': 'Thu', 'day4': 'Fri',
   'day5': 'Sat', 'day6': 'Sun',

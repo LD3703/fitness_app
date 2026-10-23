@@ -52,7 +52,17 @@ window.FITKA_STRINGS = {
     posterCode: 'Kód posilovny',
     posterFooter: 'Zdarma pro Android a iPhone · gymbar.app',
     stickerLabel: 'Návod ke cviku',
-    stickerScan: 'Naskenuj a uvidíš správné provedení'
+    stickerScan: 'Naskenuj a uvidíš správné provedení',
+    challTitle: 'Hecovací samolepky',
+    challText: 'Čtyři samolepky 10 × 10 cm na legpress, bench, klec a mrtvý tah. QR kód vede rovnou do žebříčku vašeho fitka. Nejvíc vyniknou na žlutém samolepicím papíře.',
+    challPrint: 'Vytisknout hecovací samolepky',
+    challScan: 'Naskenuj a přidej se do žebříčku',
+    chall: [
+      { k: 'Legpress', h: 'Tady zvedám nejvíc já.', s: 'Myslíš, že dáš víc? Dokaž to v žebříčku.' },
+      { k: 'Bench', h: 'Zvedneš víc? Pochybuju.', s: 'Zapiš sérii a sesaď mě z prvního místa.' },
+      { k: 'Dřep', h: 'Tahle klec je moje.', s: 'Nesouhlasíš? Dokaž to v žebříčku posilovny.' },
+      { k: 'Mrtvý tah', h: 'Tady zvedám nejvíc já.', s: 'Nevěříš? Přidej kotouče a poraž mě v žebříčku.' }
+    ]
   },
   en: {
     pageTitle: 'GymBar for gyms – free poster and stickers',
@@ -104,6 +114,16 @@ window.FITKA_STRINGS = {
     posterCode: 'Gym code',
     posterFooter: 'Free for Android and iPhone · gymbar.app',
     stickerLabel: 'Exercise guide',
-    stickerScan: 'Scan to see the correct form'
+    stickerScan: 'Scan to see the correct form',
+    challTitle: 'Challenge stickers',
+    challText: 'Four 10 × 10 cm stickers for the leg press, bench, squat rack and deadlift. The QR code goes straight to your gym leaderboard. They stand out best on yellow sticker paper.',
+    challPrint: 'Print challenge stickers',
+    challScan: 'Scan and join the leaderboard',
+    chall: [
+      { k: 'Leg press', h: 'I lift the most here.', s: 'Think you can do more? Prove it on the leaderboard.' },
+      { k: 'Bench press', h: 'Lift more? I doubt it.', s: 'Log your set and knock me off the top spot.' },
+      { k: 'Squat', h: 'This rack is mine.', s: 'Disagree? Prove it on the gym leaderboard.' },
+      { k: 'Deadlift', h: 'I lift the most here.', s: 'Don’t believe me? Add plates and beat me on the leaderboard.' }
+    ]
   }
 };

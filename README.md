@@ -3,9 +3,12 @@
 Gym tracker s obdobími (nemoc, cut, bulk), pitným režimem a plánem B.
 Specifikace: dokument „Fitness aplikace – specifikace“ v Claude.
 
-Stav: **verze 2 a 3 v kódu (fáze 5)** – MVP + vše z verzí 2 a 3 specifikace
-(kromě reklam a Premium). Kód je zatím neověřený překladačem – první build
-může hlásit chyby, pošli je Claudovi.
+Stav: **verze 0.3.x** – MVP + vše z verzí 2 a 3 specifikace, sociální část
+(přátelé, výzvy, žebříčky posiloven, srovnání se zemí a světem), trenéři
+(aplikace i web gymbar.app/trener), materiály pro fitka (gymbar.app/fitka)
+a motivy vzhledu. Premium je připravené, ale zatím nespuštěné
+(`kPremiumLaunched = false`), reklamy nejsou. Každý push ověřuje CI
+(analýza, testy, sestavení APK telefonu i hodinek).
 
 Funguje:
 - **Plány:** vytvoření, přejmenování, smazání, tréninkové dny, plánovaný čas,
@@ -92,7 +95,10 @@ Funguje:
 - **Kalendář:** naplánované tréninky na 14 dní se zapisují do kalendáře
   telefonu a při změně plánu se samy upraví.
 - **Pitný režim:** ve dny tréninku se cíl zvýší o 500 ml.
-- **Soukromí:** vše je jen v telefonu; v Profilu jde smazat všechna data.
+- **Soukromí:** bez účtu je vše jen v telefonu; cloudové funkce (záloha,
+  přátelé, žebříčky, trenér) posílají na server jen to, co popisují zásady
+  ochrany soukromí (`docs/web/privacy.html`). V Profilu jde smazat všechna
+  data i účet.
 - **Jazyky:** 10 jazyků (EN, CS, DE, ES, FR, PL, PT-BR, IT, SK, NL) –
   podle jazyka telefonu. Přeložené jsou i názvy cviků, návody, programy
   a rutiny plánu B; cvik jde vyhledat v kterémkoli jazyce i bez diakritiky.

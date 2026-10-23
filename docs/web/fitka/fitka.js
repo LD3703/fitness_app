@@ -255,6 +255,29 @@
     printNode(wrap, '@page { size: A4 portrait; margin: 0; }');
   }
 
+  /** Hecovací samolepky (texty schválil Lukas): QR do žebříčku fitka. */
+  function printChallenges() {
+    if (!gym) return;
+    var sheet = el('div', 'csheet');
+    t.chall.forEach(function (c) {
+      var s = el('div', 'chall');
+      s.appendChild(el('p', 'ck', c.k));
+      s.appendChild(el('p', 'ch', c.h));
+      var bottom = el('div', 'cb');
+      bottom.appendChild(qrBox('qr', gymUrl(gym)));
+      var side = el('div');
+      side.appendChild(el('p', 'cs', c.s));
+      var scan = el('p', 'cscan');
+      scan.appendChild(logo());
+      scan.appendChild(el('span', null, t.challScan));
+      side.appendChild(scan);
+      bottom.appendChild(side);
+      s.appendChild(bottom);
+      sheet.appendChild(s);
+    });
+    printNode(sheet, '@page { size: A4 portrait; margin: 0; }');
+  }
+
   // ------------------------------------------------------------ start
 
   function init() {
@@ -278,6 +301,7 @@
     $('posterA4').addEventListener('click', function () { printPoster(false); });
     $('posterA3').addEventListener('click', function () { printPoster(true); });
     $('stickersPrint').addEventListener('click', printStickers);
+    $('challPrint').addEventListener('click', printChallenges);
     $('pickDefaults').addEventListener('click', function () { setDefaults(); renderPicks(); });
     $('pickNone').addEventListener('click', function () { picked = {}; renderPicks(); });
     window.addEventListener('afterprint', function () { $('print').innerHTML = ''; });

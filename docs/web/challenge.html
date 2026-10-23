@@ -248,17 +248,8 @@
   var MAX_EXERCISE = 64;   // e (slug / id) i x (název vlastního cviku)
   var MAX_NAME = 40;       // n (jméno vyzývajícího)
 
-  function pickLang() {
-    var langs = navigator.languages && navigator.languages.length
-      ? navigator.languages : [navigator.language || 'en'];
-    for (var i = 0; i < langs.length; i++) {
-      var code = String(langs[i] || '').toLowerCase().split('-')[0];
-      if (T[code]) return code;
-    }
-    return 'en';
-  }
-
-  var lang = pickLang();
+  // ?lang=, jazyk zvolený na webu, nebo jazyk prohlížeče (site.js).
+  var lang = window.GYMBAR.pickLang(Object.keys(T), false);
   var t = T[lang];
   document.documentElement.lang = lang;
 
