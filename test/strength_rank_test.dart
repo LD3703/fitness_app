@@ -12,20 +12,24 @@ void main() {
     expect(liftStatsGroupKey(gender: GymGender.unspecified, age: GymAgeGroup.from50), 'all_50');
   });
 
-  group('percentil', () {
-    // 20 lidí: 10× 80 kg, 5× 100 kg, 5× 120 kg.
-    final d = LiftDistribution.fromMap({
-      'n': 20,
-      'h': [80, 10, 100, 5, 120, 5],
-    })!;
+  group('percentil z kvantilů', () {
+    // q = 5., 10., … 95. percentil: 60, 62,5, … 105 kg (po 2,5 kg).
+    final q = [for (var i = 0; i < 19; i++) 60 + 2.5 * i];
+    final d = LiftDistribution.fromMap({'n': 40, 'q': q})!;
 
-    test('slabší + polovina stejných', () {
+    test('mezi kvantily lineárně, na kvantilu jeho percentil', () {
       expect(d.hasData, isTrue);
-      expect(d.percentBelow(100), 62.5); // (10 + 2,5) / 20
-      expect(d.percentBelow(110), 75);
-      expect(d.percentBelow(60), 0);
-      expect(d.percentBelow(200), 100);
-      expect(d.percentBelow(99.8), 62.5); // zaokrouhlení na 0,5 kg
+      expect(d.percentBelow(60), 5);
+      expect(d.percentBelow(61.25), 7.5);
+      expect(d.percentBelow(105), 95);
+      expect(d.percentBelow(40), 2.5);
+      expect(d.percentBelow(200), 97.5);
+    });
+
+    test('stejné kvantily = jejich střed', () {
+      final flat = LiftDistribution.fromMap({'n': 25, 'q': List.filled(19, 100)})!;
+      expect(flat.percentBelow(100), 50);
+      expect(flat.percentBelow(90), 2.5);
     });
 
     test('popisek: dolů na celé, nejvýš 99', () {
@@ -34,11 +38,12 @@ void main() {
       expect(liftPercentLabel(0), 0);
     });
 
-    test('malá skupina nebo bez rozložení = bez percentilu', () {
+    test('malá skupina, chybné nebo neúplné kvantily = bez percentilu', () {
       final small = LiftDistribution.fromMap({'n': 7})!;
       expect(small.hasData, isFalse);
       expect(small.percentBelow(100), isNull);
-      expect(LiftDistribution.fromMap({'n': 25, 'h': []})!.hasData, isFalse);
+      expect(LiftDistribution.fromMap({'n': 25, 'q': [1, 2]})!.hasData, isFalse);
+      expect(LiftDistribution.fromMap({'n': 25, 'q': [...List.filled(18, 1), double.nan]})!.hasData, isFalse);
       expect(LiftDistribution.fromMap('x'), isNull);
     });
   });
@@ -46,7 +51,7 @@ void main() {
   test('skupiny z dokumentu', () {
     final g = parseLiftStatsGroups({
       'groups': {
-        'all_all': {'n': 30, 'h': [100, 30]},
+        'all_all': {'n': 30, 'q': List.filled(19, 100)},
         'male_40': {'n': 3},
         'bad': 'x',
       },

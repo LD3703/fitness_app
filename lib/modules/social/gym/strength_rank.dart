@@ -10,6 +10,9 @@ import 'gym_logic.dart';
 /// LIFT_STATS_MIN_N v functions/src/liftStats.ts).
 const kLiftStatsMinN = 20;
 
+/// Počet kvantilů v dokumentu (5. až 95. percentil po 5).
+const kLiftStatsQuantiles = 19;
+
 /// Rozsah „svět“ v ID dokumentu (země jsou ISO 3166-1, např. CZ).
 const kLiftStatsWorld = 'world';
 
@@ -28,55 +31,58 @@ String liftStatsGroupKey({GymGender? gender, GymAgeGroup? age}) {
   return '${g}_${age?.key ?? 'all'}';
 }
 
-/// Rozložení vah jedné skupiny.
+/// Rozložení vah jedné skupiny: jen kvantily (5., 10., … 95. percentil,
+/// na 2,5 kg) – server přesné rozložení nezveřejňuje (soukromí).
 class LiftDistribution {
-  const LiftDistribution({required this.n, this.buckets = const []});
+  const LiftDistribution({required this.n, this.quantiles = const []});
 
-  /// `{n: 230, h: [80, 3, 82.5, 1, …]}` z Firestore; nesmysl → null.
+  /// `{n: 230, q: [60, 65, …]}` z Firestore; nesmysl → null.
   static LiftDistribution? fromMap(Object? raw) {
     if (raw is! Map) return null;
     final n = raw['n'];
     if (n is! num || n < 0) return null;
-    final h = raw['h'];
-    final buckets = <(double, int)>[];
-    if (h is List) {
-      for (var i = 0; i + 1 < h.length; i += 2) {
-        final v = h[i];
-        final c = h[i + 1];
-        if (v is num && c is num && c > 0) buckets.add((v.toDouble(), c.toInt()));
+    final q = raw['q'];
+    final quantiles = <double>[];
+    if (q is List && q.length == kLiftStatsQuantiles) {
+      for (final v in q) {
+        if (v is! num || !v.isFinite) return LiftDistribution(n: n.toInt());
+        quantiles.add(v.toDouble());
       }
     }
-    return LiftDistribution(n: n.toInt(), buckets: buckets);
+    return LiftDistribution(n: n.toInt(), quantiles: quantiles);
   }
 
   /// Počet lidí ve skupině.
   final int n;
 
-  /// (váha, počet) vzestupně; prázdné u malé skupiny.
-  final List<(double, int)> buckets;
+  /// q[i] = (5·(i+1)). percentil; prázdné u malé skupiny.
+  final List<double> quantiles;
 
   /// Dost dat na percentil.
-  bool get hasData => n >= kLiftStatsMinN && buckets.isNotEmpty;
+  bool get hasData =>
+      n >= kLiftStatsMinN && quantiles.length == kLiftStatsQuantiles;
 
-  /// Kolik procent lidí má slabší výkon než [kg] (stejný výkon se počítá
-  /// napůl), 0–100; null bez dost dat. Váha se zaokrouhlí na 0,5 kg jako
-  /// na serveru.
+  /// Kolik procent lidí má zhruba slabší výkon než [kg] (0–100), null bez
+  /// dost dat. Mezi kvantily lineárně; pod 5. percentilem 2,5 %, nad 95.
+  /// 97,5 %; když [kg] padne na několik stejných kvantilů, jejich střed.
   double? percentBelow(double kg) {
     if (!hasData) return null;
-    final x = (kg * 2).round() / 2;
-    var total = 0;
+    final q = quantiles;
     var below = 0;
     var equal = 0;
-    for (final (v, c) in buckets) {
-      total += c;
-      if (v < x) {
-        below += c;
-      } else if (v == x) {
-        equal += c;
+    for (final v in q) {
+      if (v < kg) {
+        below++;
+      } else if (v == kg) {
+        equal++;
       }
     }
-    if (total == 0) return null;
-    return ((below + equal / 2) / total * 100).clamp(0, 100).toDouble();
+    if (equal > 0) return 5.0 * below + 2.5 * (equal + 1);
+    if (below == 0) return 2.5;
+    if (below == q.length) return 97.5;
+    final lo = q[below - 1];
+    final hi = q[below];
+    return 5.0 * below + 5.0 * (kg - lo) / (hi - lo);
   }
 }
 

@@ -15,6 +15,18 @@ void main() {
       );
     });
 
+    test('trenér se statusem má Premium zdarma', () {
+      expect(
+        hasPremiumAccess(
+          launched: true,
+          profilePremium: false,
+          entitlementActive: false,
+          trainer: true,
+        ),
+        isTrue,
+      );
+    });
+
     test('po spuštění rozhoduje profil nebo nárok RevenueCat', () {
       expect(
         hasPremiumAccess(

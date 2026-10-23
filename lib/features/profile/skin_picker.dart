@@ -111,7 +111,25 @@ class SkinPreviewTile extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: data.appBarTheme.backgroundColor,
                           ),
-                          child: SkinHeaderMotif(skin: skin),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              SkinHeaderMotif(skin: skin),
+                              if (selected)
+                                Positioned(
+                                  top: 6,
+                                  right: 6,
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      color: scheme.onPrimary,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(Icons.check_circle,
+                                        color: scheme.primary),
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
@@ -121,79 +139,91 @@ class SkinPreviewTile extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: data.textTheme.titleLarge?.copyWith(
-                            fontSize: (data.textTheme.titleLarge?.fontSize ?? 22) * 0.75,
+                            fontSize:
+                                (data.textTheme.titleLarge?.fontSize ?? 22) *
+                                    0.75,
                             height: 1.1,
                           ),
                         ),
                       ),
+                      // Náhled se při velkém písmu nebo úzkém displeji
+                      // jen ořízne, nepřeteče.
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Card(
-                                margin: EdgeInsets.zero,
-                                color: scheme.primary,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        l10n.todayWorkoutTitle,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: data.textTheme.labelMedium
-                                            ?.copyWith(color: scheme.onPrimary),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Container(
-                                        height: 26,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          color: scheme.onPrimary,
-                                          borderRadius: BorderRadius.circular(
-                                            skinSpec(skin)?.buttonRadius ?? 12,
+                        child: ClipRect(
+                          child: SingleChildScrollView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Card(
+                                  margin: EdgeInsets.zero,
+                                  color: scheme.primary,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          l10n.todayWorkoutTitle,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: data.textTheme.labelMedium
+                                              ?.copyWith(
+                                                  color: scheme.onPrimary),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Container(
+                                          height: 26,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: scheme.onPrimary,
+                                            borderRadius: BorderRadius.circular(
+                                              skinSpec(skin)?.buttonRadius ??
+                                                  12,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            l10n.workoutStart,
+                                            style: data.textTheme.labelMedium
+                                                ?.copyWith(
+                                              color: scheme.primary,
+                                              fontWeight: FontWeight.w700,
+                                            ),
                                           ),
                                         ),
-                                        child: Text(
-                                          l10n.workoutStart,
-                                          style: data.textTheme.labelMedium?.copyWith(
-                                            color: scheme.primary,
-                                            fontWeight: FontWeight.w700,
-                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Card(
+                                  margin: EdgeInsets.zero,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                            height: 8,
+                                            width: 60,
+                                            color: scheme.onSurfaceVariant
+                                                .withValues(alpha: 0.5)),
+                                        const SizedBox(height: 8),
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(3),
+                                          child: const LinearProgressIndicator(
+                                              value: 0.7, minHeight: 6),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(height: 8),
-                              Card(
-                                margin: EdgeInsets.zero,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(height: 8, width: 60, color: scheme.onSurfaceVariant.withValues(alpha: 0.5)),
-                                      const SizedBox(height: 8),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(3),
-                                        child: const LinearProgressIndicator(value: 0.7, minHeight: 6),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const Spacer(),
-                              if (selected)
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Icon(Icons.check_circle, color: scheme.primary),
-                                ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -207,7 +237,9 @@ class SkinPreviewTile extends StatelessWidget {
                               Icon(
                                 Icons.circle,
                                 size: 7,
-                                color: i == 0 ? scheme.primary : scheme.onSurfaceVariant,
+                                color: i == 0
+                                    ? scheme.primary
+                                    : scheme.onSurfaceVariant,
                               ),
                           ],
                         ),

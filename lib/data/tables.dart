@@ -363,6 +363,10 @@ class CoachCalendarEvents extends Table {
   TextColumn get sessionKey => text()();
   TextColumn get eventId => text()();
   IntColumn get version => integer().withDefault(const Constant(0))();
+
+  /// Začátek termínu (verze schématu 21). Proběhlé termíny se z kalendáře
+  /// nemažou; null = starší záznam (bere se jako budoucí).
+  DateTimeColumn get startAt => dateTime().nullable()();
 }
 
 /// Výzva: překonat rekord, počet tréninků za měsíc, týdenní pitný režim.

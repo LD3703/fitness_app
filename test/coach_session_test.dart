@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymbar_coach/gymbar_coach.dart';
 
@@ -86,5 +88,21 @@ void main() {
     expect(ics, contains('UID:abc@gymbar.app'));
     expect(coachSessionIcs(session(), title: 'X', now: DateTime.utc(2026)),
         isNot(contains('RRULE')));
+  });
+
+  test('dlouhé řádky .ics se zalomí po 75 oktetech, znaky se nerozdělí', () {
+    final ics = coachSessionIcs(
+      session(),
+      title: 'Ř' * 60 + '💪' * 10,
+      description: 'ž' * 120,
+      now: DateTime.utc(2026),
+    );
+    for (final line in ics.split('\r\n')) {
+      expect(utf8.encode(line).length, lessThanOrEqualTo(75), reason: line);
+    }
+    // Po rozbalení pokračovacích řádků se text vrátí celý.
+    final unfolded = ics.replaceAll('\r\n ', '');
+    expect(unfolded, contains('SUMMARY:${'Ř' * 60}${'💪' * 10}'));
+    expect(unfolded, contains('DESCRIPTION:${'ž' * 120}'));
   });
 }

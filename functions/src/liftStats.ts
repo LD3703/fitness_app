@@ -5,8 +5,11 @@
 // skupiny. Aplikace z nich spočítá percentil („lepší než 78 %“).
 //
 // Do statistik jdou jen záznamy, které už jsou v žebříčku vidět ostatním
-// členům (ne skryté). Skupina s méně než LIFT_STATS_MIN_N lidmi má jen
-// počet, bez rozložení – z malé skupiny by šlo vyčíst výkon jednotlivce.
+// členům (ne skryté). Zveřejňují se jen kvantily (5., 10., … 95. percentil,
+// zaokrouhlené na 2,5 kg), ne přesné rozložení: z rozdílu skupin (všichni
+// − muži) ani dvou denních snímků tak nejde vyčíst výkon jednotlivce
+// a nejsilnější člověk (maximum) se neukáže. Skupina s méně než
+// LIFT_STATS_MIN_N lidmi má jen počet.
 //
 // Čistá logika bez Firestore – testy: functions/test/liftStats.test.mjs.
 import { GYM_CATEGORIES, GymCategory, isLift } from "./plausibility.js";
@@ -35,9 +38,12 @@ export interface StatEntry {
 export interface StatGroup {
   /// Počet lidí ve skupině.
   n: number;
-  /// Rozložení [váha, počet, váha, počet, …] vzestupně (jen od MIN_N).
-  h?: number[];
+  /// Kvantily: q[i] = (5·(i+1)). percentil, i = 0…18, na 2,5 kg (jen od MIN_N).
+  q?: number[];
 }
+
+/// Krok zaokrouhlení kvantilů (kg).
+export const LIFT_STATS_STEP = 2.5;
 
 export interface LiftStatsDoc {
   scope: string;
@@ -70,10 +76,15 @@ export function gymCountry(d: Record<string, unknown> | undefined): string | nul
   return /^[A-Z]{2}$/.test(up) ? up : null;
 }
 
-function histogram(values: number[]): number[] {
-  const counts = new Map<number, number>();
-  for (const v of values) counts.set(v, (counts.get(v) ?? 0) + 1);
-  return [...counts.entries()].sort((a, b) => a[0] - b[0]).flat();
+/// 5., 10., … 95. percentil (nejbližší pořadí) zaokrouhlený na 2,5 kg.
+export function quantiles(values: number[]): number[] {
+  const sorted = [...values].sort((a, b) => a - b);
+  const out: number[] = [];
+  for (let p = 5; p <= 95; p += 5) {
+    const rank = Math.min(sorted.length, Math.max(1, Math.ceil((p / 100) * sorted.length)));
+    out.push(Math.round(sorted[rank - 1] / LIFT_STATS_STEP) * LIFT_STATS_STEP);
+  }
+  return out;
 }
 
 /// Statistiky pro všechny rozsahy a kategorie. Jeden člověk = jedna
@@ -113,7 +124,7 @@ export function buildLiftStats(entries: StatEntry[], minN = LIFT_STATS_MIN_N): L
       const groups: Record<string, StatGroup> = {};
       for (const [key, values] of byGroup) {
         groups[key] = values.length >= minN
-          ? { n: values.length, h: histogram(values) }
+          ? { n: values.length, q: quantiles(values) }
           : { n: values.length };
       }
       docs.push({ scope, category: category as GymCategory, groups });

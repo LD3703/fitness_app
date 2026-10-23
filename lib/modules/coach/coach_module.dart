@@ -9,6 +9,7 @@ import 'ui/coach_screen.dart';
 import 'ui/shared_plan_screen.dart';
 
 export 'coach_calendar.dart' show coachAppProvider;
+export 'coach_service.dart' show coachPremiumGrantProvider;
 export 'coach_links.dart';
 export 'coach_sync.dart' show CoachSync;
 export 'ui/coach_widgets.dart' show CoachPlanSection, CoachProfileSection;

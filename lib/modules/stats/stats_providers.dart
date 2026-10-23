@@ -63,33 +63,38 @@ final statsExerciseMapProvider = StreamProvider<Map<int, Exercise>>(
 /// Objem po trénincích za posledních [statsVolumeWeeks] týdnů.
 final statsSessionVolumesProvider =
     StreamProvider<List<({DateTime x, double y})>>((ref) {
+  ref.watch(currentDayProvider);
   final from = addDays(weekStartOf(DateTime.now()), -7 * (statsVolumeWeeks - 1));
   return ref.watch(databaseProvider).watchSessionVolumesSince(from);
 });
 
 /// Objem a počet tréninků po partiích za posledních 30 dní.
-final statsGroupStatsProvider = StreamProvider<List<GroupStat>>(
-  (ref) => ref
+final statsGroupStatsProvider = StreamProvider<List<GroupStat>>((ref) {
+  ref.watch(currentDayProvider);
+  return ref
       .watch(databaseProvider)
-      .watchGroupStatsSince(_daysAgo(statsGroupDays - 1)),
-);
+      .watchGroupStatsSince(_daysAgo(statsGroupDays - 1));
+});
 
 /// Tréninky po partiích za posledních 70 dní (zanedbané partie).
 final statsGroupSessionsProvider =
-    StreamProvider<List<({DateTime day, MuscleGroup group})>>(
-  (ref) => ref.watch(databaseProvider).watchGroupSessionsSince(_daysAgo(70)),
-);
+    StreamProvider<List<({DateTime day, MuscleGroup group})>>((ref) {
+  ref.watch(currentDayProvider);
+  return ref.watch(databaseProvider).watchGroupSessionsSince(_daysAgo(70));
+});
 
 /// Tělesná váha za poslední rok (shrnutí diet, rychlost hubnutí).
-final statsWeightsProvider = StreamProvider<List<BodyWeightEntry>>(
-  (ref) => ref.watch(databaseProvider).watchWeightsSince(_daysAgo(400)),
-);
+final statsWeightsProvider = StreamProvider<List<BodyWeightEntry>>((ref) {
+  ref.watch(currentDayProvider);
+  return ref.watch(databaseProvider).watchWeightsSince(_daysAgo(400));
+});
 
 List<StatPoint> _weightPoints(List<BodyWeightEntry> entries) =>
     [for (final e in entries) (x: e.day, y: e.weightKg)];
 
 /// Automatické postřehy (null, dokud se data načítají).
 final statsInsightsProvider = Provider<List<Insight>?>((ref) {
+  ref.watch(currentDayProvider);
   final profile = ref.watch(profileProvider).valueOrNull;
   final topWeights = ref.watch(statsTopWeightByExerciseProvider);
   final dates = ref.watch(statsWorkoutDatesProvider).valueOrNull;
@@ -124,6 +129,7 @@ final statsInsightsProvider = Provider<List<Insight>?>((ref) {
 /// Úbytek váhy v % za týden, když je rychlejší než ~1 % (jinak null).
 /// Jen když uživatel sleduje váhu.
 final statsFastWeightLossProvider = Provider<double?>((ref) {
+  ref.watch(currentDayProvider);
   final profile = ref.watch(profileProvider).valueOrNull;
   if (profile == null || !profile.trackWeight) return null;
   final weights = ref.watch(statsWeightsProvider).valueOrNull;
@@ -135,6 +141,7 @@ final statsFastWeightLossProvider = Provider<double?>((ref) {
 
 /// Série splněných týdnů (null, dokud se data načítají).
 final statsStreakProvider = Provider<StreakState?>((ref) {
+  ref.watch(currentDayProvider);
   final dates = ref.watch(statsWorkoutDatesProvider).valueOrNull;
   final plans = ref.watch(plansProvider).valueOrNull;
   if (dates == null || plans == null) return null;

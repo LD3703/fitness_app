@@ -15,8 +15,10 @@ testy `test/skins_test.dart`.
 | Y2K samolepky | `y2k` | ledově levandulová #E3E8FF | modrá #3A5BFF, růžová #FF3EA5, limetková | Unbounded + DM Sans | nálepky (jiskry, smajlík, motýl), 2px obrysy | 22, tlačítka pilulka |
 | Původní | `original` | podle režimu | teal z loga | Archivo + systémové | – | 16 |
 
-- **Výchozí je Klasik** (i pro dřívější uživatele, verze schématu 20 přidala
-  `UserProfiles.skin`, null = Klasik).
+- **Výchozí je Klasik pro nové instalace.** Dosavadní uživatelé (migrace
+  na verzi schématu 20 a obnovení starší zálohy) zůstanou u Původního
+  vzhledu i se svým světlým / tmavým režimem; Klasik si vyberou sami.
+  `UserProfiles.skin` null = Klasik.
 - Světlý / tmavý režim (Profil → Vzhled) platí jen pro **Původní**; ostatní
   motivy mají pevné barvy a položka Vzhled se u nich nezobrazuje.
 - **Neon používá Oxanium místo Orbitronu** ze šablony: Orbitron nemá česká

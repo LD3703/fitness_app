@@ -215,6 +215,13 @@ List<Widget> moduleTodayCards() => [
       //
     ];
 
+/// Premium zdarma od modulů (po spuštění Premium): trenér se statusem.
+bool modulePremiumGrant(Ref ref) => [
+      // [coach:premium]
+      ref.watch(coachPremiumGrantProvider),
+      //
+    ].any((grant) => grant);
+
 /// Karty na obrazovce Pokrok (pod grafy, nad historií).
 List<Widget> moduleProgressCards() => [
       // [stats:progress]

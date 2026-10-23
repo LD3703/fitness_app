@@ -9,6 +9,7 @@ import '../../premium/premium.dart';
 import '../../providers.dart';
 import '../../ui/body_map.dart';
 import '../../ui/dialogs.dart';
+import '../../ui/skins.dart';
 import '../../ui/weekdays.dart';
 import '../workout/start_workout.dart';
 
@@ -116,6 +117,7 @@ class PlansScreen extends ConsumerWidget {
         title: Text(l10n.tabPlans),
         actions: [
           TextButton.icon(
+            style: headerTextButtonStyle(context),
             onPressed: () => _addTemplate(context, ref),
             icon: const Icon(Icons.auto_awesome_outlined),
             label: Text(l10n.templatesButton),

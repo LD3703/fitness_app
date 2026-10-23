@@ -20,11 +20,12 @@ import '../../services/notification_service.dart';
 import '../../ui/body_map.dart';
 import '../../ui/coach_messages.dart';
 import '../../ui/dialogs.dart';
-import '../../ui/format.dart';
 import '../../ui/exercise_media_view.dart';
+import '../../ui/format.dart';
 import '../../ui/labels.dart';
 import '../../ui/set_format.dart';
 import '../../ui/set_kind_chip.dart';
+import '../../ui/skins.dart';
 import '../../ui/wellbeing_messages.dart';
 import '../exercises/exercise_picker.dart';
 import 'rest_timer.dart';
@@ -190,9 +191,15 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
 
     if (savedId != null) {
       row.saving = true;
-      await _db.deleteSet(savedId).whenComplete(() {
+      try {
+        await _db.deleteSet(savedId);
+      } catch (e) {
+        debugPrint('Workout: delete set failed: $e');
+        if (mounted) _showMessage(AppLocalizations.of(context).errorGeneric);
+        return;
+      } finally {
         row.saving = false;
-      });
+      }
       if (mounted) setState(() => row.savedId = null);
       return;
     }
@@ -651,6 +658,7 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
         ),
         actions: [
           TextButton(
+            style: headerTextButtonStyle(context),
             onPressed: _busy ? null : _finish,
             child: Text(l10n.workoutFinish),
           ),
