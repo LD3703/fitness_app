@@ -23,7 +23,7 @@ v kódu i dokumentace jsou **česky**.
 - `wear/` – samostatný projekt hodinek.
 - Dokumentace: `README.md`, `docs/coach.md`, `docs/social.md`, `docs/deploy.md`,
   `docs/app_store.md`, `docs/wear_os.md`, `docs/fitka.md` (materiály pro
-  fitka, gymbar.app/fitka).
+  fitka, gymbar.app/fitka), `docs/skins.md` (motivy vzhledu).
 
 ## Ověření před commitem
 
