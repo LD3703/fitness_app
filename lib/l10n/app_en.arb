@@ -1914,6 +1914,15 @@
   "@setKindDrop": {
     "description": "Full-word label of a drop set (chip next to the set number)"
   },
+  "skinTitle": "Theme",
+  "skinHint": "Choose how the app looks. Only the Original theme follows the light/dark setting.",
+  "skinClassic": "Classic",
+  "skinFlowers": "Flowers",
+  "skinSkulls": "Skulls",
+  "skinNeon": "Neon",
+  "skinRetro": "Retro gym",
+  "skinY2k": "Y2K stickers",
+  "skinOriginal": "Original (light/dark)",
   "appearanceTitle": "Appearance",
   "@appearanceTitle": {
     "description": "Profile setting: light / dark / system theme"

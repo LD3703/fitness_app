@@ -14,6 +14,7 @@ import '../../modules/module_hub.dart';
 import '../../providers.dart';
 import '../../services/calendar_service.dart';
 import '../../services/notification_service.dart';
+import '../../ui/skins.dart';
 import '../../ui/brand_mark.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/format.dart';
@@ -21,6 +22,7 @@ import '../../ui/labels.dart';
 import '../../ui/module_switches.dart';
 import '../../ui/number_input_dialog.dart';
 import '../../ui/weekdays.dart';
+import 'skin_picker.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -144,18 +146,34 @@ class ProfileScreen extends ConsumerWidget {
           const Divider(),
           sectionTitle(l10n.profileSettingsSection),
           ListTile(
-            leading: Icon(_appearanceIcon(profile.themeMode)),
-            title: Text(l10n.appearanceTitle),
-            subtitle: Text(_appearanceLabel(l10n, profile.themeMode)),
+            leading: const Icon(Icons.palette_outlined),
+            title: Text(l10n.skinTitle),
+            subtitle: Text(skinLabel(l10n, AppSkin.fromKey(profile.skin))),
             onTap: () async {
-              final mode = await _pickAppearance(context, profile.themeMode);
-              if (mode != null && mode != profile.themeMode) {
+              final current = AppSkin.fromKey(profile.skin);
+              final picked = await showSkinPicker(context, current);
+              if (picked != null && picked != current) {
                 await db.updateProfile(
-                  UserProfilesCompanion(themeMode: Value(mode)),
+                  UserProfilesCompanion(skin: Value(picked.key)),
                 );
               }
             },
           ),
+          // Světlý / tmavý režim má jen Původní motiv.
+          if (AppSkin.fromKey(profile.skin) == AppSkin.original)
+            ListTile(
+              leading: Icon(_appearanceIcon(profile.themeMode)),
+              title: Text(l10n.appearanceTitle),
+              subtitle: Text(_appearanceLabel(l10n, profile.themeMode)),
+              onTap: () async {
+                final mode = await _pickAppearance(context, profile.themeMode);
+                if (mode != null && mode != profile.themeMode) {
+                  await db.updateProfile(
+                    UserProfilesCompanion(themeMode: Value(mode)),
+                  );
+                }
+              },
+            ),
           ListTile(
             leading: Icon(profile.coachTone == 1
                 ? Icons.sports

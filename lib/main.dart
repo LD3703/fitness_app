@@ -9,6 +9,7 @@ import 'modules/module_hub.dart';
 import 'providers.dart';
 import 'router.dart';
 import 'services/sync_controller.dart';
+import 'ui/skins.dart';
 import 'ui/theme.dart';
 
 Future<void> main() async {
@@ -18,6 +19,14 @@ Future<void> main() async {
     final text = await rootBundle.loadString('assets/fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(const ['Archivo'], text);
   });
+  // Písma motivů vzhledu (OFL, lib/ui/skins.dart).
+  for (final family in kSkinFontFamilies) {
+    LicenseRegistry.addLicense(() async* {
+      final text = await rootBundle
+          .loadString('assets/fonts/skins/licenses/$family.txt');
+      yield LicenseEntryWithLineBreaks([family], text);
+    });
+  }
   // Adresář posiloven z OpenStreetMap (docs/gyms_import.md).
   LicenseRegistry.addLicense(() async* {
     yield const LicenseEntryWithLineBreaks(
@@ -42,13 +51,21 @@ class GymBarApp extends ConsumerWidget {
     for (final p in moduleAppProviders()) {
       ref.watch(p);
     }
+    // Motiv vzhledu (lib/ui/skins.dart). Pevné motivy mají jeden vzhled,
+    // světlý / tmavý režim podle nastavení jen u Původního.
+    final skin = AppSkin.fromKey(
+      ref.watch(profileProvider.select((p) => p.valueOrNull?.skin)),
+    );
+    final original = skin == AppSkin.original;
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
-      themeMode: AppTheme.themeModeOf(
-        ref.watch(profileProvider.select((p) => p.valueOrNull?.themeMode)),
-      ),
+      theme: original ? AppTheme.light() : skinTheme(skin),
+      darkTheme: original ? AppTheme.dark() : skinTheme(skin),
+      themeMode: original
+          ? AppTheme.themeModeOf(
+              ref.watch(profileProvider.select((p) => p.valueOrNull?.themeMode)),
+            )
+          : (skinSpec(skin)!.dark ? ThemeMode.dark : ThemeMode.light),
       routerConfig: ref.watch(routerProvider),
       localizationsDelegates: const [
         AppLocalizations.delegate,

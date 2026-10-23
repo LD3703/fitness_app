@@ -104,7 +104,7 @@ class AppDatabase extends _$AppDatabase {
   static const _profileId = 1;
 
   @override
-  int get schemaVersion => 19;
+  int get schemaVersion => 20;
 
   /// Výchozí série pro nově přidaný cvik: 3 × 10.
   static const defaultPlanSets = <PlanSetDraft>[
@@ -261,6 +261,10 @@ class AppDatabase extends _$AppDatabase {
           if (from < 19) {
             // Verze 19: události v kalendáři pro tréninky s trenérem.
             await m.createTable(coachCalendarEvents);
+          }
+          if (from < 20) {
+            // Verze 20: motiv vzhledu.
+            await m.addColumn(userProfiles, userProfiles.skin);
           }
         },
         beforeOpen: (details) async {

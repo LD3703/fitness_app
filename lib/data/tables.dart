@@ -46,6 +46,10 @@ class UserProfiles extends Table {
   /// názvem plánu. null = výchozí podle jazyka („Fitko – {plan}“).
   TextColumn get calendarTitle => text().nullable()();
 
+  /// Motiv vzhledu (verze schématu 20): klíč AppSkin (lib/ui/skins.dart),
+  /// null = Klasik (výchozí).
+  TextColumn get skin => text().nullable()();
+
   // Verze schématu 6 (funkce v2 a v3).
   /// Číst kalendář: volná okna, kolize, návrhy časů.
   BoolColumn get calendarReadEnabled =>

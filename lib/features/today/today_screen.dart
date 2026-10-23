@@ -11,6 +11,7 @@ import '../../providers.dart';
 import '../../ui/body_map.dart';
 import '../../ui/format.dart';
 import '../../ui/labels.dart';
+import '../../ui/skins.dart';
 import '../../core/coach_tone.dart';
 import '../../ui/coach_messages.dart';
 import '../../ui/weekdays.dart';
@@ -29,6 +30,8 @@ class TodayScreen extends ConsumerWidget {
     final name = profile?.name;
     return Scaffold(
       appBar: AppBar(
+        // Ozdoba záhlaví podle motivu (lib/ui/skins.dart).
+        flexibleSpace: SkinHeaderMotif(skin: AppSkin.fromKey(profile?.skin)),
         title: Text(name == null || name.isEmpty
             ? l10n.tabToday
             : l10n.todayGreeting(name)),

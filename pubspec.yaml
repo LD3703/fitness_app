@@ -1,7 +1,7 @@
 name: fitness_app
 description: Gym tracker s obdobími (nemoc, cut, bulk), pitným režimem a plánem B.
 publish_to: 'none'
-version: 0.3.14+21
+version: 0.3.15+22
 
 environment:
   sdk: ^3.6.0
@@ -105,6 +105,8 @@ flutter:
     - assets/exercises/
     # Licence písma Archivo (zobrazí se v O aplikaci → Licence)
     - assets/fonts/OFL.txt
+    # Licence písem motivů (lib/ui/skins.dart, OFL)
+    - assets/fonts/skins/licenses/
   fonts:
     # Písmo z loga GymBar – jen nadpisy (lib/ui/theme.dart)
     - family: Archivo
@@ -113,3 +115,71 @@ flutter:
           weight: 700
         - asset: assets/fonts/Archivo-ExtraBold.ttf
           weight: 800
+        # Text motivu Klasik
+        - asset: assets/fonts/skins/Archivo-400.ttf
+          weight: 400
+        - asset: assets/fonts/skins/Archivo-600.ttf
+          weight: 600
+    # Písma motivů vzhledu (lib/ui/skins.dart), statické řezy z Google
+    # Fonts, licence OFL v assets/fonts/skins/licenses/.
+    - family: ArchivoBlack
+      fonts:
+        - asset: assets/fonts/skins/ArchivoBlack-400.ttf
+    - family: Fraunces
+      fonts:
+        - asset: assets/fonts/skins/Fraunces-600.ttf
+          weight: 600
+        - asset: assets/fonts/skins/Fraunces-600i.ttf
+          weight: 600
+          style: italic
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/skins/Nunito-400.ttf
+        - asset: assets/fonts/skins/Nunito-700.ttf
+          weight: 700
+        - asset: assets/fonts/skins/Nunito-800.ttf
+          weight: 800
+    - family: BebasNeue
+      fonts:
+        - asset: assets/fonts/skins/BebasNeue-400.ttf
+    - family: Barlow
+      fonts:
+        - asset: assets/fonts/skins/Barlow-400.ttf
+        - asset: assets/fonts/skins/Barlow-600.ttf
+          weight: 600
+        - asset: assets/fonts/skins/Barlow-700.ttf
+          weight: 700
+    - family: Oxanium
+      fonts:
+        - asset: assets/fonts/skins/Oxanium-700.ttf
+          weight: 700
+        - asset: assets/fonts/skins/Oxanium-800.ttf
+          weight: 800
+    - family: SpaceGrotesk
+      fonts:
+        - asset: assets/fonts/skins/SpaceGrotesk-400.ttf
+        - asset: assets/fonts/skins/SpaceGrotesk-500.ttf
+          weight: 500
+        - asset: assets/fonts/skins/SpaceGrotesk-700.ttf
+          weight: 700
+    - family: AlfaSlabOne
+      fonts:
+        - asset: assets/fonts/skins/AlfaSlabOne-400.ttf
+    - family: WorkSans
+      fonts:
+        - asset: assets/fonts/skins/WorkSans-400.ttf
+        - asset: assets/fonts/skins/WorkSans-600.ttf
+          weight: 600
+        - asset: assets/fonts/skins/WorkSans-700.ttf
+          weight: 700
+    - family: Unbounded
+      fonts:
+        - asset: assets/fonts/skins/Unbounded-800.ttf
+          weight: 800
+        - asset: assets/fonts/skins/Unbounded-900.ttf
+          weight: 900
+    - family: DMSans
+      fonts:
+        - asset: assets/fonts/skins/DMSans-400.ttf
+        - asset: assets/fonts/skins/DMSans-700.ttf
+          weight: 700
