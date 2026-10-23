@@ -241,6 +241,7 @@ List<Widget> moduleProgressCards() => [
       //
       // [social:progress]
       const GymProgressCard(),
+      const StrengthRankProgressCard(),
       //
     ];
 

@@ -83,3 +83,14 @@ describe('gymReferrals', () => {
     await assertFails(deleteDoc(ref(db(MEMBER))));
   });
 });
+
+describe('liftStats', () => {
+  test('číst smí kdokoli, zapisovat nikdo', async () => {
+    await env.withSecurityRulesDisabled((ctx) =>
+      setDoc(doc(ctx.firestore(), 'liftStats/world_bench_press'), { groups: { all_all: { n: 1 } } }));
+    await assertSucceeds(getDoc(doc(env.unauthenticatedContext().firestore(), 'liftStats/world_bench_press')));
+    await assertSucceeds(getDoc(doc(db(MEMBER), 'liftStats/world_bench_press')));
+    await assertFails(setDoc(doc(db(MEMBER), 'liftStats/world_bench_press'), { groups: {} }));
+    await assertFails(deleteDoc(doc(db(MEMBER), 'liftStats/world_bench_press')));
+  });
+});

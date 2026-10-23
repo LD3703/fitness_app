@@ -506,6 +506,7 @@ nezacyklí. Dokument moderace a nahlášení u mých záznamů maže až smazán
 | Cesta | Kdo čte | Kdo zapisuje | Obsah |
 |---|---|---|---|
 | `gyms/{gymId}` | přihlášení (veřejný adresář posiloven) | zakladatel vytvoří; `memberCount` ±1 jen spolu se vznikem / zánikem vlastního členství | `name`, `nameLower`, `city`, `cityLower` (malá písmena bez diakritiky – hledání podle prefixu), `address?`, `code`, `createdBy`, `createdAt`, `memberCount` |
+| `liftStats/{země\|world}_{cvik}` | kdokoli | jen Cloud Function `updateLiftStats` (denně) | `scope`, `category`, `updatedAt`, `groups` – anonymní rozložení vah pro „Jak si vedu“ (viz níže) |
 | `gymReferrals/{gymId}_{uid}` | jen vlastník | člen posilovny, jen svůj záznam; `count` jen +1 | `gymId`, `uid`, `count`, `createdAt`, `updatedAt` – „Doporuč GymBar svému fitku“ ([fitka.md](fitka.md)) |
 | `gymCodes/{code}` | přihlášení (jen get) | zakladatel, jen spolu s posilovnou, nepřepisuje se | `gymId`, `name`, `city` (kód: 6 znaků, abeceda jako u kódu přítele) |
 | `gyms/{gymId}/members/{uid}` | členové posilovny | vlastník (`nickname`, `gender`, `ageGroup`, `uid`) | `uid` (= ID dokumentu; pro úklid po smazání účtu – dotaz collection group; členům z dřívějších verzí ho doplní `GymPublisher` / změna profilu), `nickname`, `gender` (male/female/unspecified), `ageGroup?` (u40/40/50/60), `joinedAt` |
@@ -574,6 +575,38 @@ záznamy neskryjí) a upozornění „předběhl tě“. Funkce:
   moderace smazaného účtu.
 
 ---
+
+## Srovnání se zemí a světem („Jak si vedu“)
+
+Pokrok → **Jak si vedu** (nebo žebříček posilovny → menu): u každého ze
+16 cviků žebříčku, ve kterém má uživatel výkon, ukáže jeho maximálku
+a percentil **v jeho zemi** a **ve světě** („lepší než 78 %“), pro všechny
+nebo jen pro jeho pohlaví a věkovou skupinu (do 39, 40–49, 50–59, 60+).
+Bez přepočtu na tělesnou váhu.
+
+- **Data:** Cloud Function `updateLiftStats` jednou denně projde všechny
+  viditelné záznamy žebříčků (`gyms/{gymId}/entries`, bez skrytých),
+  vezme `best` (celkově, na 0,5 kg) a zemi posilovny (`gyms/{id}.country`)
+  a zapíše anonymní rozložení do `liftStats/{země|world}_{cvik}`
+  (logika `functions/src/liftStats.ts`, testy `functions/test/liftStats.test.mjs`).
+  Jeden člověk = jedna hodnota na cvik. Do srovnání tedy přispívají jen
+  lidé, kteří jsou vidět v žebříčku nějaké posilovny.
+- **Dokument:** `scope`, `category`, `updatedAt`, `groups` {„{pohlaví}_{věk}“:
+  {`n`, `h`}} – pohlaví `all`/`male`/`female`, věk `all`/`u40`/`40`/`50`/`60`,
+  `h` = [váha, počet, …] vzestupně. Skupina s méně než **20** lidmi má jen
+  `n` (z malé skupiny by šlo vyčíst výkon jednotlivce); aplikace u ní ukáže
+  „zatím málo dat“.
+- **Aplikace** (`lib/modules/social/gym/strength_rank.dart`, obrazovka
+  `ui/strength_rank_screen.dart`, trasa `/gym/rank`): vlastní maximálky
+  počítá z lokální databáze (`gymBestWeight`, stejně jako žebříček)
+  a nikam je kvůli srovnání neposílá; stáhne jen dva dokumenty na cvik
+  (země + svět). Percentil = podíl slabších + polovina stejných.
+- **Země:** země posilovny, ve které je uživatel; jinak region z jazyka
+  telefonu (`cs_CZ` → CZ). Neznámá země = jen svět.
+- **Moje skupina:** pohlaví z profilu žebříčku, jinak z Profilu; věk
+  z roku narození. Bez nich jde jen „Všichni“.
+- **Pravidla:** `liftStats` čte kdokoli (i bez přihlášení), zapisuje jen
+  funkce.
 
 ## Nahlášení a blokování
 

@@ -149,7 +149,7 @@ class _NoGymView extends StatelessWidget {
 // Žebříček
 // ---------------------------------------------------------------------------
 
-enum _MenuAction { profile, print, recommend, leave, report }
+enum _MenuAction { profile, rank, print, recommend, leave, report }
 
 const _medalColors = [
   Color(0xFFFFC107), // zlato
@@ -370,6 +370,7 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
           PopupMenuButton<_MenuAction>(
             onSelected: (a) => switch (a) {
               _MenuAction.profile => _editProfile(),
+              _MenuAction.rank => context.push('/gym/rank'),
               _MenuAction.print =>
                 gym == null ? Future<void>.value() : printGymBoard(context, gym),
               _MenuAction.recommend =>
@@ -382,6 +383,10 @@ class _GymBoardViewState extends ConsumerState<_GymBoardView> {
               PopupMenuItem(
                 value: _MenuAction.profile,
                 child: Text(l10n.socialGymMyProfile),
+              ),
+              PopupMenuItem(
+                value: _MenuAction.rank,
+                child: Text(l10n.socialRankTitle),
               ),
               if (gym != null)
                 PopupMenuItem(

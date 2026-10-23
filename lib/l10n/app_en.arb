@@ -2956,6 +2956,31 @@
   "socialGymWebsite": "Website",
   "moderationReasonClosed": "Doesn’t exist or is closed",
   "moderationReasonDuplicate": "Duplicate of another gym",
+  "socialRankTitle": "How I rank",
+  "socialRankProgress": "Your best lifts compared with your country and the world",
+  "socialRankIntro": "Your heaviest lifts compared with GymBar users on gym leaderboards. Nothing extra is sent for this comparison; the stats update once a day.",
+  "socialRankAll": "Everyone",
+  "socialRankMine": "My age and gender",
+  "socialRankMineHint": "To compare with your group, add your gender and year of birth in Profile.",
+  "socialRankWorld": "World",
+  "socialRankBetterThan": "better than {percent}%",
+  "@socialRankBetterThan": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "socialRankFewData": "not enough data yet",
+  "socialRankMyBest": "My best: {value}",
+  "@socialRankMyBest": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "socialRankEmpty": "No lifts yet in the leaderboard exercises (bench press, squat, deadlift and more). The comparison will appear after your first workout.",
   "socialGymRecommend": "Recommend GymBar to your gym",
   "socialGymRecommendSubject": "GymBar for our gym",
   "socialGymRecommendText": "Hi, I train at your gym and use the GymBar app. It has a leaderboard for our gym and QR guides for the machines. It's free for the gym, and you can download the poster and stickers here: {url} It would be great to see it on our wall!",
