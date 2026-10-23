@@ -69,6 +69,14 @@ class Gym {
 
   bool get isFromOsm => source == 'osm';
 
+  /// Smí [uid] posilovnu upravit (název, město, adresa)? Jen zakladatel
+  /// posilovny založené v aplikaci – importované se opravují v OSM.
+  bool canEdit(String? uid) =>
+      uid != null && uid.isNotEmpty && createdBy == uid && !isFromOsm;
+
+  /// Smí ji [uid] smazat? Zakladatel, jen když v ní kromě něj nikdo není.
+  bool canDelete(String? uid) => canEdit(uid) && memberCount <= 1;
+
   bool get hasLocation => lat != null && lng != null;
 
   /// Ukázat v seznamech: ne skrytou po nahlášeních a ne prázdnou

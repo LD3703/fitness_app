@@ -1727,6 +1727,20 @@
   },
   "socialGymMyProfile": "Nickname, age and visibility",
   "socialGymLeave": "Leave gym",
+  "socialGymEdit": "Edit gym",
+  "socialGymEdited": "Gym updated",
+  "socialGymDelete": "Delete gym",
+  "socialGymDeleteTitle": "Delete {gym}?",
+  "@socialGymDeleteTitle": {
+    "placeholders": {
+      "gym": {
+        "type": "String"
+      }
+    }
+  },
+  "socialGymDeleteMessage": "The gym disappears from the list together with its code and QR, and your results are removed from the leaderboard. This can’t be undone.",
+  "socialGymDeleteOthers": "You can only delete a gym that has no other members.",
+  "socialGymDeleted": "Gym deleted",
   "socialGymLeaveTitle": "Leave {gym}?",
   "@socialGymLeaveTitle": {
     "placeholders": {

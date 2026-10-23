@@ -11,14 +11,18 @@ import {
 } from '@firebase/rules-unit-testing';
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
+  increment,
   query,
   serverTimestamp,
   setDoc,
   Timestamp,
+  updateDoc,
   where,
+  writeBatch,
 } from 'firebase/firestore';
 
 const GYM = 'gym1';
@@ -122,5 +126,79 @@ describe('nahlášení', () => {
     await assertFails(setDoc(report(db(OLD), target, OLD), { createdAt: serverTimestamp() }));
     await assertFails(setDoc(report(db(OLD), `${OLD}_bench_press`, OLD), data(OLD)));
     await assertFails(setDoc(report(db(OLD), target, NOENTRY), data(OLD)));
+  });
+});
+
+describe('úprava a smazání posilovny zakladatelem', () => {
+  const FOUNDER = 'founder1';
+  const OWN = 'owngym';
+  const OSM = 'osmgym';
+
+  const texts = (name, city) => ({
+    name, nameLower: name.toLowerCase(), city, cityLower: city.toLowerCase(),
+  });
+
+  beforeEach(async () => {
+    await env.withSecurityRulesDisabled(async (ctx) => {
+      const fs = ctx.firestore();
+      await setDoc(doc(fs, `gyms/${OWN}`), {
+        ...texts('Fitnes Jicin', 'Jicin'), code: 'XYZ234', createdBy: FOUNDER,
+        createdAt: Timestamp.now(), memberCount: 1,
+      });
+      await setDoc(doc(fs, `gymCodes/XYZ234`), { gymId: OWN, name: 'Fitnes Jicin', city: 'Jicin' });
+      await setDoc(doc(fs, `gyms/${OWN}/members/${FOUNDER}`), { uid: FOUNDER, nickname: 'f', gender: 'male', joinedAt: Timestamp.now() });
+      await setDoc(doc(fs, `gyms/${OSM}`), {
+        ...texts('OSM Gym', 'Praha'), code: 'OSM234', createdBy: FOUNDER, source: 'osm', memberCount: 0,
+      });
+    });
+  });
+
+  test('zakladatel opraví název, město a adresu i kopii v kódu', async () => {
+    const fs = db(FOUNDER);
+    const batch = writeBatch(fs);
+    batch.update(doc(fs, `gyms/${OWN}`), { ...texts('Fitness Jičín', 'Jičín'), address: 'Husova 1' });
+    batch.update(doc(fs, 'gymCodes/XYZ234'), { name: 'Fitness Jičín', city: 'Jičín' });
+    await assertSucceeds(batch.commit());
+  });
+
+  test('jiný člen, jiná pole ani nesedící kód nejdou', async () => {
+    await assertFails(updateDoc(doc(db(OLD), `gyms/${OWN}`), texts('Hack', 'Hack')));
+    await assertFails(updateDoc(doc(db(FOUNDER), `gyms/${OWN}`), { code: 'AAA234' }));
+    await assertFails(updateDoc(doc(db(FOUNDER), `gyms/${OWN}`), { memberCount: 99 }));
+    await assertFails(updateDoc(doc(db(FOUNDER), `gyms/${OWN}`), { ...texts('', 'Jičín') }));
+    await assertFails(updateDoc(doc(db(FOUNDER), 'gymCodes/XYZ234'), { name: 'Něco jiného' }));
+  });
+
+  test('importovanou posilovnu (OSM) zakladatel neupraví ani nesmaže', async () => {
+    await assertFails(updateDoc(doc(db(FOUNDER), `gyms/${OSM}`), texts('X', 'Y')));
+    await assertFails(deleteDoc(doc(db(FOUNDER), `gyms/${OSM}`)));
+  });
+
+  test('smazat jde, až v posilovně nikdo není – i s kódem', async () => {
+    const fs = db(FOUNDER);
+    // Ještě je členem.
+    await assertFails(deleteDoc(doc(fs, `gyms/${OWN}`)));
+    // Odejde (členství −1), pak smaže posilovnu i kód.
+    const leave = writeBatch(fs);
+    leave.delete(doc(fs, `gyms/${OWN}/members/${FOUNDER}`));
+    leave.update(doc(fs, `gyms/${OWN}`), { memberCount: increment(-1) });
+    await assertSucceeds(leave.commit());
+    await assertFails(deleteDoc(doc(db(OLD), `gyms/${OWN}`)));
+    await assertFails(deleteDoc(doc(fs, 'gymCodes/XYZ234')));
+    const del = writeBatch(fs);
+    del.delete(doc(fs, `gyms/${OWN}`));
+    del.delete(doc(fs, 'gymCodes/XYZ234'));
+    await assertSucceeds(del.commit());
+  });
+
+  test('s dalšími členy smazat nejde', async () => {
+    await env.withSecurityRulesDisabled((ctx) =>
+      updateDoc(doc(ctx.firestore(), `gyms/${OWN}`), { memberCount: 2 }));
+    const fs = db(FOUNDER);
+    const leave = writeBatch(fs);
+    leave.delete(doc(fs, `gyms/${OWN}/members/${FOUNDER}`));
+    leave.update(doc(fs, `gyms/${OWN}`), { memberCount: increment(-1) });
+    await assertSucceeds(leave.commit());
+    await assertFails(deleteDoc(doc(fs, `gyms/${OWN}`)));
   });
 });

@@ -10,11 +10,14 @@
 //    (skryje záznam), znovu použije stav moderace u znovu vytvořeného
 //    záznamu a novinka „předběhl tě“ pro dosavadního lídra (nejvýš 1× za
 //    24 h pro stejnou posilovnu, kategorii a lídra).
-// 4) onGymReportCreated – spočítá nahlášení záznamu, od 5 ho skryje.
+// 4) onGymReportCreated – spočítá nahlášení záznamu (jen od člena aspoň
+//    7 dní s vlastním záznamem), od třetiny členů (3–5) ho skryje.
 // 5) onGymMemberDeleted – po odchodu z posilovny smaže nahlášení, která
 //    člen podal (i u záznamů, které vlastník mezitím smazal).
 //    onGymMemberCreated – posilovnu skrytou jako neexistující / duplicitní
 //    po vstupu člena znovu ukáže.
+//    onGymDeleted – posilovnu smazal zakladatel: uklidí podkolekce, kód
+//    a doporučení.
 // 6) onContentReportCreated – nahlášení posilovny nebo přítele
 //    (contentReports): zapíše do logu pro vývojáře; posilovnu od 5
 //    nahlášení za obsah skryje trvale, prázdnou posilovnu od 5 nahlášení
@@ -563,6 +566,23 @@ export const onGymMemberCreated = onDocumentCreated("gyms/{gymId}/members/{uid}"
     closedReportsResetAt: FieldValue.serverTimestamp(),
   });
   logger.info(`Gym ${gymId} shown again – a member joined after closed/duplicate reports`);
+});
+
+// Posilovnu smazal zakladatel (jen prázdnou – firestore.rules): uklidí
+// podkolekce (záznamy, nahlášení, stav moderace, členy), kód a doporučení.
+export const onGymDeleted = onDocumentDeleted("gyms/{gymId}", async (event) => {
+  const { gymId } = event.params;
+  const code = str(event.data?.get("code"));
+  await db.recursiveDelete(db.doc(`gyms/${gymId}`));
+  if (code) {
+    const codeRef = db.doc(`gymCodes/${code}`);
+    if ((await codeRef.get()).get("gymId") === gymId) await codeRef.delete();
+  }
+  const referrals = await db.collection("gymReferrals").where("gymId", "==", gymId).get();
+  const writer = db.bulkWriter();
+  referrals.docs.forEach((d) => writer.delete(d.ref));
+  await writer.close();
+  logger.info(`Gym ${gymId} deleted by its founder – cleaned up (${referrals.size} referral(s))`);
 });
 
 export const onGymMemberDeleted = onDocumentDeleted("gyms/{gymId}/members/{uid}", async (event) => {

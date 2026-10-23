@@ -323,6 +323,15 @@ pro Evropu a Ameriku (import, okolí podle polohy, kontrola duplicit:
 přihlášený založit (název, město, volitelně adresa a poloha) a dostane
 **QR kód** pro recepci (Posilovna → ikona QR →
 *Sdílet QR*: plakát jako PNG + text s odkazem přes systémové sdílení).
+**Zakladatel** (`createdBy`, jen u posilovny založené v aplikaci, ne
+z OSM) může v menu posilovny název, město a adresu kdykoli **upravit**
+(kód, QR i poloha zůstávají; kopie názvu v `gymCodes/{code}` se mění ve
+stejné dávce) a posilovnu **smazat**, když v ní kromě něj nikdo není:
+aplikace ho z ní nejdřív odhlásí (`leaveGym`), pak smaže posilovnu i kód;
+podkolekce, nahlášení, stav moderace a doporučení uklidí Cloud Function
+`onGymDeleted`. Hlídají to pravidla (`isGymFounder`, `memberCount == 0`),
+testy `tool/rules_test/test/gym.test.mjs`. Importované posilovny se
+opravují v OpenStreetMap (další import změnu převezme).
 Ostatní se připojí:
 
 - naskenováním QR v aplikaci (**Přátelé → ikona činky → Naskenovat QR

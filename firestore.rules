@@ -389,16 +389,28 @@ service cloud.firestore {
           'name', 'nameLower', 'city', 'cityLower', 'nameCity', 'cityName',
           'address', 'code', 'createdBy', 'createdAt', 'memberCount',
           'lat', 'lng', 'geohash', 'g5', 'g6'])
-        && (optional(d, 'nameCity') || (d.nameCity is string && d.nameCity.size() <= 60))
-        && (optional(d, 'cityName') || (d.cityName is string && d.cityName.size() <= 60))
         && validGymGeo(d)
+        && validGymTexts(d)
+        && validGymCode(d.code)
+        && d.memberCount is int;
+    }
+
+    // Název, město, adresa a klíče hledání (založení i úprava zakladatelem).
+    function validGymTexts(d) {
+      return (optional(d, 'nameCity') || (d.nameCity is string && d.nameCity.size() <= 60))
+        && (optional(d, 'cityName') || (d.cityName is string && d.cityName.size() <= 60))
         && d.name is string && d.name.size() >= 1 && d.name.size() <= 60
         && d.nameLower is string && d.nameLower.size() <= 60
         && d.city is string && d.city.size() >= 1 && d.city.size() <= 60
         && d.cityLower is string && d.cityLower.size() <= 60
-        && (optional(d, 'address') || (d.address is string && d.address.size() <= 120))
-        && validGymCode(d.code)
-        && d.memberCount is int;
+        && (optional(d, 'address') || (d.address is string && d.address.size() <= 120));
+    }
+
+    // Zakladatel posilovny, kterou založil v aplikaci (ne import z OSM).
+    function isGymFounder(gym) {
+      return signedIn()
+        && gym.get('createdBy', '') == request.auth.uid
+        && gym.get('source', '') != 'osm';
     }
 
     // Kategorie žebříčku → max. hodnota (stejně jako GymCategory v
@@ -475,15 +487,26 @@ service cloud.firestore {
         && existsAfter(memberPath(gymId, request.auth.uid))
         && getAfter(/databases/$(database)/documents/gymCodes/$(request.resource.data.code)).data.gymId == gymId;
       // Počet členů: +1 jen spolu se vznikem mého členství, −1 se zánikem.
+      // Zakladatel smí opravit název, město a adresu (kód a QR zůstávají;
+      // kopii názvu v gymCodes mění ve stejné dávce).
       allow update: if signedIn()
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberCount'])
-        && ((request.resource.data.memberCount == resource.data.memberCount + 1
-             && !exists(memberPath(gymId, request.auth.uid))
-             && existsAfter(memberPath(gymId, request.auth.uid)))
-          || (request.resource.data.memberCount == resource.data.memberCount - 1
-             && exists(memberPath(gymId, request.auth.uid))
-             && !existsAfter(memberPath(gymId, request.auth.uid))));
-      allow delete: if false;
+        && ((request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberCount'])
+          && ((request.resource.data.memberCount == resource.data.memberCount + 1
+               && !exists(memberPath(gymId, request.auth.uid))
+               && existsAfter(memberPath(gymId, request.auth.uid)))
+            || (request.resource.data.memberCount == resource.data.memberCount - 1
+               && exists(memberPath(gymId, request.auth.uid))
+               && !existsAfter(memberPath(gymId, request.auth.uid)))))
+        || (isGymFounder(resource.data)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(
+               ['name', 'nameLower', 'city', 'cityLower', 'nameCity', 'cityName', 'address'])
+          && validGymTexts(request.resource.data)));
+      // Smazat smí zakladatel, jen když v posilovně nikdo není (sám
+      // nejdřív odejde). Podkolekce a kód uklidí Cloud Function
+      // onGymDeleted, kód smí smazat i zakladatel ve stejné dávce.
+      allow delete: if isGymFounder(resource.data)
+        && resource.data.memberCount == 0
+        && !exists(memberPath(gymId, request.auth.uid));
 
       // Členové: vidí je jen členové; každý zapisuje jen sebe. Pole uid
       // (= ID dokumentu) slouží úklidu po smazání účtu (collectionGroup
@@ -619,7 +642,14 @@ service cloud.firestore {
         && !exists(gymPath(request.resource.data.gymId))
         && getAfter(gymPath(request.resource.data.gymId)).data.code == code
         && getAfter(gymPath(request.resource.data.gymId)).data.createdBy == request.auth.uid;
-      allow update, delete: if false;
+      // Úprava názvu zakladatelem: kopie musí sedět s posilovnou po zápisu.
+      allow update: if isGymFounder(get(gymPath(resource.data.gymId)).data)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'city'])
+        && getAfter(gymPath(resource.data.gymId)).data.name == request.resource.data.name
+        && getAfter(gymPath(resource.data.gymId)).data.city == request.resource.data.city;
+      // Smazání posilovny zakladatelem: kód jen spolu s ní.
+      allow delete: if isGymFounder(get(gymPath(resource.data.gymId)).data)
+        && !existsAfter(gymPath(resource.data.gymId));
     }
 
     // ------------------------------------------------------------ trenéři
