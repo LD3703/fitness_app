@@ -90,7 +90,8 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                   ),
             onTap: () async {
-              // Stejný rozsah jako v žebříčku posilovny (gym_logic.dart).
+              // Deník bez účtu je pro kohokoli (od 10 let). Žebříček posilovny
+              // bere věkovou skupinu až od 13 let (gymMinAgeYears).
               final maxYear = DateTime.now().year - 10;
               final year = await showNumberInputDialog(
                 context,

@@ -361,7 +361,10 @@ dívá, nic se nezveřejní a jeho záznamy se smažou). Přezdívka, pohlaví
 a viditelnost (i `printable` – „Ukázat mě na vytištěném žebříčku“, bez
 pole = ano) jsou ve Firestore v `users/{uid}/private/gym`; rok narození
 se ukládá jen do lokálního profilu (`UserProfiles.birthYear`, jde zadat
-i v Profilu → *Rok narození (nepovinné)*, rozsah 1920 … letošní rok − 10).
+i v Profilu → *Rok narození (nepovinné)*, rozsah 1920 … letošní rok − 10;
+formulář žebříčku bere jen 1920 … letošní rok − 13 a mladším věkovou
+skupinu nezveřejní – funkce s účtem jsou od 16, mladší se souhlasem rodiče,
+děti pod 13 ne).
 
 **Věková skupina:** ven jde jen skupina `ageGroup` – `u40` (do 39),
 `40` (40–49), `50` (50–59), `60` (60+) – nikdy věk ani rok narození.

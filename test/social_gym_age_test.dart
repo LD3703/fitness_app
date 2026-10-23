@@ -24,16 +24,16 @@ void main() {
     test('bez roku nebo s nesmyslným rokem null', () {
       expect(gymAgeGroupFor(null, year), isNull);
       expect(gymAgeGroupFor(1919, year), isNull);
-      expect(gymAgeGroupFor(2017, year), isNull); // mladší než 10 let
+      expect(gymAgeGroupFor(2014, year), isNull); // mladší než 13 let
       expect(gymAgeGroupFor(2030, year), isNull); // v budoucnosti
     });
 
-    test('rozsah roku narození 1920 … aktuální rok − 10', () {
-      expect(gymBirthYearMax(year), 2016);
+    test('rozsah roku narození 1920 … aktuální rok − 13', () {
+      expect(gymBirthYearMax(year), 2013);
       expect(isValidBirthYear(1920, year), isTrue);
-      expect(isValidBirthYear(2016, year), isTrue);
+      expect(isValidBirthYear(2013, year), isTrue);
       expect(isValidBirthYear(1919, year), isFalse);
-      expect(isValidBirthYear(2017, year), isFalse);
+      expect(isValidBirthYear(2014, year), isFalse);
       expect(isValidBirthYear(null, year), isFalse);
     });
 
