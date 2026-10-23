@@ -163,8 +163,10 @@ GymAgeGroup? gymAgeGroupFromKey(String? key) {
 }
 
 /// Nejstarší a nejmladší přípustný rok narození (formulář profilu).
+/// Od 13 let – funkce s účtem jsou od 16, mladší se souhlasem rodiče,
+/// děti pod 13 ne (zásady ochrany soukromí, obchody s aplikacemi).
 const gymBirthYearMin = 1920;
-const gymMinAgeYears = 10;
+const gymMinAgeYears = 13;
 int gymBirthYearMax(int currentYear) => currentYear - gymMinAgeYears;
 
 /// Je rok narození v rozsahu [gymBirthYearMin] … [gymBirthYearMax]?

@@ -97,6 +97,10 @@ vrátí JSON s `<Team ID>.cz.dedina.fitnessApp`.
 - **Age Rating** (nový dotazník 4+/9+/13+/16+/18+): obsah od uživatelů
   a komunikace mezi uživateli **ano**, wellness/fitness **ano**, ostatní
   ne. Výsledek nejspíš 13+.
+- **Věk podle podmínek:** deník bez účtu pro kohokoli, funkce s účtem od
+  16 let (mladší se souhlasem rodiče), děti pod 13 ne. V Google Play
+  (Obsah aplikace → Cílová skupina) proto vyber 13–15, 16–17 a 18+, nikdy
+  věk pod 13 – jinak platí pravidla pro rodinné aplikace.
 - **Regulated Medical Device:** ne.
 - **Cena:** zdarma, všechny země.
 
