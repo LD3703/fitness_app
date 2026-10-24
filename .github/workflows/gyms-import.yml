@@ -2,9 +2,10 @@
 # docs/gyms_import.md) – JEN RUČNĚ:
 # Actions → „Import posiloven (OSM)“ → Run workflow → země.
 #
-# Stejný skript jako na PC, jen běží na GitHubu se stejným klíčem jako
-# nasazení (secret FIREBASE_SERVICE_ACCOUNT; účet potřebuje zápis do
-# Firestore, např. roli Cloud Datastore User). Stav importu si skript
+# Stejný skript jako na PC, jen běží na GitHubu. Klíč: secret
+# GYMS_IMPORT_SERVICE_ACCOUNT – samostatný servisní účet jen s rolí Cloud
+# Datastore User (docs/gyms_import.md). Dokud ho Lukas nezaloží, použije
+# se klíč nasazení FIREBASE_SERVICE_ACCOUNT. Stav importu si skript
 # načte z Firestore, takže už importované posilovny nezaloží znovu
 # a nový běh pokračuje, kde předchozí skončil. Stažená data z Overpass
 # se drží v cache GitHubu (25 dní), výsledek (out/*.json, licence ODbL)
@@ -63,7 +64,7 @@ jobs:
       - if: ${{ !inputs.dry_run }}
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          credentials_json: ${{ secrets.GYMS_IMPORT_SERVICE_ACCOUNT || secrets.FIREBASE_SERVICE_ACCOUNT }}
 
       - name: Import
         working-directory: tool/gyms_import

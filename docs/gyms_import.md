@@ -82,11 +82,33 @@ ani `hidden`.
 
 Actions → **Import posiloven (OSM)** → Run workflow → země (výchozí
 USA, Kanada, Mexiko, Brazílie, Argentina, Kolumbie, Chile, Peru,
-Portoriko), volitelně *jen stáhnout a spočítat*. Používá klíč z nasazení
-(`FIREBASE_SERVICE_ACCOUNT`, účet `github-deploy` potřebuje i roli
-**Cloud Datastore User**). Stav si načte z Firestore – opakovaný běh
-nic nezdvojí a dokončí, co předchozí nestihl. Výsledek (`out/*.json`)
-je u běhu ke stažení jako artefakt `gyms-out`.
+Portoriko), volitelně *jen stáhnout a spočítat*. Stav si načte
+z Firestore – opakovaný běh nic nezdvojí a dokončí, co předchozí
+nestihl. Výsledek (`out/*.json`) je u běhu ke stažení jako artefakt
+`gyms-out`.
+
+### Samostatný servisní účet (doporučeno, jednorázově)
+
+Import používá secret `GYMS_IMPORT_SERVICE_ACCOUNT`. Dokud neexistuje,
+vezme klíč nasazení `FIREBASE_SERVICE_ACCOUNT` (účet `github-deploy`
+s rolí **Cloud Datastore User**) – ten ale smí nasadit pravidla, funkce
+i web. Účet jen pro import smí jen číst a zapisovat ve Firestore, takže
+případný únik klíče (skript stahuje balíčky z npm) nic jiného neohrozí.
+
+1. [Google Cloud Console → Service Accounts](https://console.cloud.google.com/iam-admin/serviceaccounts?project=fitness-app-dc5e4)
+   → **Create service account**, název `gyms-import` → **Create and
+   continue**.
+2. Role: jen **Cloud Datastore User** → **Continue → Done**.
+3. Klikni na nový účet → **Keys → Add key → Create new key → JSON** –
+   stáhne se soubor.
+4. GitHub → repozitář → **Settings → Secrets and variables → Actions →
+   New repository secret**: název `GYMS_IMPORT_SERVICE_ACCOUNT`, hodnota
+   = celý obsah souboru. Soubor pak z počítače smaž.
+5. Volitelně odeber roli **Cloud Datastore User** účtu `github-deploy`
+   (IAM → u účtu tužka → koš u role), nasazení ji nepotřebuje.
+
+Další import už poběží pod novým účtem (v logu kroku `auth` je jeho
+e-mail `gyms-import@…`).
 
 ## Spuštění (Windows, PowerShell)
 

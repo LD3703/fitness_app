@@ -87,6 +87,22 @@ bool shouldMarkPremiumEarlyUser({
 }) =>
     !launched && onboardingDone && earlyAt == null;
 
+/// Slib „první uživatel“ po obnovení zálohy (i bez účtu). Platí ten
+/// z telefonu; když v telefonu není, převezme se ze zálohy – ale jen
+/// datum před spuštěním Premium ([launchDate], dokud neběží [now]).
+/// Pozdější datum by slib nikdy nedostalo, takže je podvržené nebo
+/// chybné a nepřebírá se.
+DateTime? premiumEarlyAfterRestore({
+  required DateTime? device,
+  required DateTime? backup,
+  required DateTime? launchDate,
+  required DateTime now,
+}) {
+  if (device != null) return device;
+  if (backup == null) return null;
+  return backup.isAfter(launchDate ?? now) ? null : backup;
+}
+
 /// Co udělat se slibem dárku po přihlášení (users/{uid}/private/premium).
 enum PremiumEarlySync {
   /// Nic – obojí stejné (nebo ani jedno).

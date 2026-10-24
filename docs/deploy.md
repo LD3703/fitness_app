@@ -25,9 +25,10 @@ index, který v projektu už není, skončí chybou – smaž je ručně z PC.
 2. Role: **Firebase Admin**, **Service Account User**, **Cloud Functions
    Admin** a **Cloud Scheduler Admin** (plánované funkce `expireTrainers`
    a `purgeOldContentReports`). Import posiloven (workflow „Import
-   posiloven (OSM)“) potřebuje i **Cloud Datastore User**. Veřejná funkce
-   `gymDirectory` (hledání na gymbar.app/fitka, docs/fitka.md) může chtít
-   **Cloud Run Admin** (chyba `run.services.setIamPolicy`). Když nasazení
+   posiloven (OSM)“) má vlastní účet (`docs/gyms_import.md`); bez něj
+   použije tenhle a ten pak potřebuje i **Cloud Datastore User**.
+   Veřejná funkce `gymDirectory` (hledání na gymbar.app/fitka,
+   docs/fitka.md) může chtít **Cloud Run Admin** (chyba `run.services.setIamPolicy`). Když nasazení
    později ohlásí chybějící oprávnění, přidej roli, kterou chyba jmenuje.
 3. U účtu **Keys → Add key → Create new key → JSON** – stáhne se soubor.
    Klíč nikam neposílej a nedávej do projektu (`.gitignore` hlídá

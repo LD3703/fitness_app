@@ -210,10 +210,13 @@ developer.android.com → *Wear OS → Package and distribute* a
 
 ## 4. Texty v hodinkách
 
-Jen čeština a angličtina podle jazyka hodinek (`wear/lib/strings.dart`,
-jednoduché gettery; ostatní jazyky anglicky). Plná lokalizace přes ARB je
-tu zbytečně složitá – textů je pár a názvy cviků posílá telefon už
-přeložené v jazyce aplikace. Další jazyk = další větev v `WearStrings`.
+Stejných 10 jazyků jako v telefonu (cs, en, de, es, fr, it, nl, pl, pt, sk)
+podle jazyka hodinek, neznámý jazyk anglicky (`wear/lib/strings.dart`).
+Plná lokalizace přes ARB je tu zbytečně složitá – textů je pár desítek
+a názvy cviků posílá telefon už přeložené v jazyce aplikace. Každý jazyk
+je podtřída `WearStrings`; nový text = abstraktní getter + překlad ve
+všech podtřídách (chybějící překlad nahlásí `flutter analyze`). Desetinnou
+čárku určuje `decimalComma` (všude kromě angličtiny).
 
 ## 5. Premium
 

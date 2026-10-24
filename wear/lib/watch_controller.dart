@@ -147,13 +147,13 @@ class WatchController extends ChangeNotifier {
 
   static double _round2(double v) => (v * 100).round() / 100;
 
-  /// 82.5 → „82,5“ (čeština) / „82.5“; 80.0 → „80“.
+  /// 82.5 → „82,5“ (desetinná čárka) / „82.5“ (angličtina); 80.0 → „80“.
   String formatNumber(double v) {
     final rounded = _round2(v);
     final text = rounded == rounded.roundToDouble()
         ? rounded.toInt().toString()
         : rounded.toString();
-    return strings.cs ? text.replaceAll('.', ',') : text;
+    return strings.decimalComma ? text.replaceAll('.', ',') : text;
   }
 
   /// „60 × 10“, „10 ×“ (bez váhy), „30 s“.

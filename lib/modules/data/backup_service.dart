@@ -5,6 +5,8 @@ import 'package:drift/drift.dart' show Value;
 import 'package:path_provider/path_provider.dart';
 
 import '../../data/database.dart';
+import '../../premium/premium.dart' show kPremiumLaunchDate;
+import '../../premium/premium_rules.dart' show premiumEarlyAfterRestore;
 import 'csv.dart' show csvDate;
 
 /// Proč nešlo zálohu obnovit (texty viz data_profile_section.dart).
@@ -127,9 +129,11 @@ class BackupService {
 
   /// Nahradí všechna data v aplikaci obsahem zálohy. Výjimky: odkazy na
   /// události v kalendáři telefonu se vymažou (nepřebírají se) a stav
-  /// Premium (isPremium, premiumGiftUntil, premiumEarlyAt) zůstane podle
-  /// tohoto zařízení – dárek prvního uživatele vrací na nový telefon účet
-  /// (users/{uid}/private/premium), ne záloha.
+  /// Premium (isPremium, premiumGiftUntil) zůstane podle tohoto zařízení.
+  /// Slib prvního uživatele (premiumEarlyAt) zůstane z telefonu, a když
+  /// v telefonu není, převezme se ze zálohy – jen s datem před spuštěním
+  /// Premium (premiumEarlyAfterRestore). Kdo má účet, tomu ho vrátí i účet
+  /// (users/{uid}/private/premium).
   /// Stejnou cestou jde i obnovení z cloudu (CloudBackupService.restore).
   static Future<void> restore(AppDatabase db, File file) async {
     var backupVersion = db.schemaVersion;
@@ -305,11 +309,20 @@ class BackupService {
       await db.customStatement('DROP TABLE temp._restore_seed');
 
       // Bez profilu v telefonu (nemělo by nastat) platí výchozí hodnoty –
-      // ani tehdy se Premium ze zálohy nepřebírá.
+      // ani tehdy se předplatné ze zálohy nepřebírá. Slib prvního
+      // uživatele ano, když ho telefon nemá (přechod na nový telefon
+      // bez účtu).
+      final restored = await (db.select(db.userProfiles)..limit(1))
+          .getSingleOrNull();
       await db.updateProfile(UserProfilesCompanion(
         isPremium: Value(device?.isPremium ?? false),
         premiumGiftUntil: Value(device?.premiumGiftUntil),
-        premiumEarlyAt: Value(device?.premiumEarlyAt),
+        premiumEarlyAt: Value(premiumEarlyAfterRestore(
+          device: device?.premiumEarlyAt,
+          backup: restored?.premiumEarlyAt,
+          launchDate: kPremiumLaunchDate,
+          now: DateTime.now(),
+        )),
       ));
     });
   }

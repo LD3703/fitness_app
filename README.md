@@ -695,11 +695,13 @@ Premium** (`kPremiumLaunchDate` + 6 měsíců), takže dárek nepropadne, dokud
 je všechno zdarma. V Profilu je řádek „půl roku zdarma od spuštění
 Premium“, po spuštění „platí do …“. S účtem se slib uloží i na server
 (`users/{uid}/private/premium`, `lib/modules/social/premium_early_sync.dart`)
-a na novém telefonu se po přihlášení vrátí. Bez účtu je jen v telefonu
-(záloha ho nepřenáší – dala by se upravit). Zapsat ho k účtu jde jen
-před spuštěním (pravidla: dokud neexistuje dokument `config/premium`),
-takže po spuštění plateb ho nový účet ani přeinstalování nezíská; noví
-uživatelé dostanou jen zkušební měsíc z obchodu.
+a na novém telefonu se po přihlášení vrátí. Bez účtu ho na nový telefon
+přenese záloha (Profil → Jednotky a data → Obnovit ze zálohy; jen datum
+před spuštěním Premium, `premiumEarlyAfterRestore`). Zapsat ho k účtu
+jde jen před spuštěním (pravidla: dokud neexistuje dokument
+`config/premium`), takže po spuštění plateb ho nový účet ani
+přeinstalování bez zálohy nezíská; noví uživatelé dostanou jen
+zkušební měsíc z obchodu.
 
 Co bude v Premium (roční předplatné 8 USD / 8 EUR, první měsíc zdarma):
 neomezeně vlastních plánů (zdarma 3), všechny hotové programy (zdarma 2),
