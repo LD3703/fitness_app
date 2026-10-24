@@ -1,6 +1,6 @@
 <!doctype html>
 <!-- Úvodní stránka https://gymbar.app (Firebase Hosting, složka docs/web).
-     Texty jsou v EN, CS, DE, ES a FR (data-lang); jazyk vybírá site.js,
+     Texty jsou v 10 jazycích aplikace (data-lang); jazyk vybírá site.js,
      tlačítka obchodů se řídí config.js. -->
 <html lang="en">
 <head>
@@ -12,6 +12,11 @@
   <meta name="title-de" content="GymBar – Trainingstagebuch fürs Gym">
   <meta name="title-es" content="GymBar – Diario de entrenamiento para el gimnasio">
   <meta name="title-fr" content="GymBar – Carnet d’entraînement musculation">
+  <meta name="title-sk" content="GymBar – Denník do posilňovne">
+  <meta name="title-it" content="GymBar – Diario di allenamento in palestra">
+  <meta name="title-nl" content="GymBar – Trainingslogboek voor de gym">
+  <meta name="title-pl" content="GymBar – Dziennik treningów na siłownię">
+  <meta name="title-pt" content="GymBar – Diário de treino para academia">
   <meta name="description" content="Log a set with two taps, let GymBar suggest next time's weight and challenge your friends. Works offline.">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
@@ -77,12 +82,20 @@
     footer { color: var(--muted); font-size: 14px; display: flex; gap: 8px 18px; flex-wrap: wrap; border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 18px; }
     footer a { color: var(--muted); }
     [data-lang] { display: none; }
-    body.en [data-lang="en"], body.cs [data-lang="cs"], body.de [data-lang="de"],
-    body.es [data-lang="es"], body.fr [data-lang="fr"] { display: block; }
-    body.en span[data-lang="en"], body.cs span[data-lang="cs"], body.de span[data-lang="de"],
-    body.es span[data-lang="es"], body.fr span[data-lang="fr"] { display: inline; }
-    body.en ul[data-lang="en"], body.cs ul[data-lang="cs"], body.de ul[data-lang="de"],
-    body.es ul[data-lang="es"], body.fr ul[data-lang="fr"] { display: grid; }
+    body.en [data-lang="en"], body.cs [data-lang="cs"], body.sk [data-lang="sk"],
+    body.de [data-lang="de"], body.es [data-lang="es"], body.fr [data-lang="fr"],
+    body.it [data-lang="it"], body.nl [data-lang="nl"], body.pl [data-lang="pl"],
+    body.pt [data-lang="pt"] { display: block; }
+    body.en span[data-lang="en"], body.cs span[data-lang="cs"],
+    body.sk span[data-lang="sk"], body.de span[data-lang="de"],
+    body.es span[data-lang="es"], body.fr span[data-lang="fr"],
+    body.it span[data-lang="it"], body.nl span[data-lang="nl"],
+    body.pl span[data-lang="pl"], body.pt span[data-lang="pt"] { display: inline; }
+    body.en ul[data-lang="en"], body.cs ul[data-lang="cs"],
+    body.sk ul[data-lang="sk"], body.de ul[data-lang="de"],
+    body.es ul[data-lang="es"], body.fr ul[data-lang="fr"],
+    body.it ul[data-lang="it"], body.nl ul[data-lang="nl"],
+    body.pl ul[data-lang="pl"], body.pt ul[data-lang="pt"] { display: grid; }
   </style>
 </head>
 <body class="en">
@@ -97,6 +110,11 @@
       <p class="slogan" data-lang="de">Leg die Latte höher.</p>
       <p class="slogan" data-lang="es">Sube el listón.</p>
       <p class="slogan" data-lang="fr">Place la barre plus haut.</p>
+      <p class="slogan" data-lang="sk">Posuň latku.</p>
+      <p class="slogan" data-lang="it">Alza l’asticella.</p>
+      <p class="slogan" data-lang="nl">Leg de lat hoger.</p>
+      <p class="slogan" data-lang="pl">Podnieś poprzeczkę.</p>
+      <p class="slogan" data-lang="pt">Eleve o nível.</p>
     </div>
   </div>
 
@@ -105,6 +123,11 @@
   <p class="lead" data-lang="de">Ein Trainingstagebuch fürs Gym, das deinen Fortschritt für dich im Blick behält. Einen Satz trägst du mit zwei Fingertipps ein, die App schlägt das Gewicht fürs nächste Mal vor und du kannst Freunde herausfordern, dich zu übertreffen.</p>
   <p class="lead" data-lang="es">Un diario de gimnasio que sigue tu progreso por ti. Registra una serie con dos toques, deja que la app te sugiera el peso para la próxima vez y reta a tus amigos a superar tus marcas.</p>
   <p class="lead" data-lang="fr">Un carnet de musculation qui suit tes progrès pour toi. Enregistre une série en deux touches, laisse l’app te proposer la charge pour la prochaine fois et défie tes amis de battre tes performances.</p>
+  <p class="lead" data-lang="sk">Denník do posilňovne, ktorý za teba stráži progres. Sériu zapíšeš dvoma ťuknutiami, aplikácia navrhne váhu nabudúce a kamarátov môžeš vyzvať, nech ťa prekonajú.</p>
+  <p class="lead" data-lang="it">Un diario di palestra che tiene traccia dei tuoi progressi al posto tuo. Registra una serie con due tocchi, lascia che l’app ti suggerisca il carico per la prossima volta e sfida gli amici a battere i tuoi record.</p>
+  <p class="lead" data-lang="nl">Een gym-logboek dat je vooruitgang voor je bijhoudt. Log een set met twee tikken, laat de app het gewicht voor de volgende keer voorstellen en daag je vrienden uit om je records te verbreken.</p>
+  <p class="lead" data-lang="pl">Dziennik treningowy, który pilnuje Twoich postępów za Ciebie. Zapisz serię dwoma dotknięciami, pozwól aplikacji podpowiedzieć ciężar na następny raz i rzuć znajomym wyzwanie, żeby pobili Twoje wyniki.</p>
+  <p class="lead" data-lang="pt">Um diário de academia que acompanha seu progresso por você. Registre uma série com dois toques, deixe o app sugerir a carga para a próxima vez e desafie seus amigos a bater suas marcas.</p>
 
   <div class="stores">
     <a data-store="play" href="#">Google Play</a>
@@ -141,15 +164,45 @@
     <li><strong>Classement de la salle</strong>Mesure-toi aux gens de ta propre salle.</li>
     <li><strong>Hors ligne et privé</strong>Fonctionne sans compte, tes données restent sur ton téléphone.</li>
   </ul>
+  <ul class="features" data-lang="sk">
+    <li><strong>Progresia</strong>Návrh váhy a opakovaní podľa minulých tréningov.</li>
+    <li><strong>Výzvy</strong>Pošli kamarátovi svoj najlepší výkon a uvidíte, kto posunie latku.</li>
+    <li><strong>Rebríček posilňovne</strong>Zmeraj si sily s ľuďmi zo svojej posilňovne.</li>
+    <li><strong>Offline a súkromne</strong>Funguje bez účtu, údaje zostávajú v telefóne.</li>
+  </ul>
+  <ul class="features" data-lang="it">
+    <li><strong>Progressione</strong>Carichi e ripetizioni suggeriti in base agli ultimi allenamenti.</li>
+    <li><strong>Sfide</strong>Manda a un amico il tuo miglior record e vedete chi alza l’asticella.</li>
+    <li><strong>Classifica della palestra</strong>Confrontati con chi si allena nella tua palestra.</li>
+    <li><strong>Offline e privato</strong>Funziona senza account, i tuoi dati restano sul telefono.</li>
+  </ul>
+  <ul class="features" data-lang="nl">
+    <li><strong>Progressie</strong>Voorgesteld gewicht en herhalingen op basis van je laatste trainingen.</li>
+    <li><strong>Uitdagingen</strong>Stuur een vriend je beste lift en kijk wie de lat hoger legt.</li>
+    <li><strong>Gym-ranglijst</strong>Meet je met de mensen uit je eigen gym.</li>
+    <li><strong>Offline en privé</strong>Werkt zonder account, je gegevens blijven op je telefoon.</li>
+  </ul>
+  <ul class="features" data-lang="pl">
+    <li><strong>Progresja</strong>Podpowiedzi ciężaru i powtórzeń na podstawie ostatnich treningów.</li>
+    <li><strong>Wyzwania</strong>Wyślij znajomemu swój najlepszy wynik i sprawdźcie, kto podniesie poprzeczkę.</li>
+    <li><strong>Ranking siłowni</strong>Zmierz się z ludźmi ze swojej siłowni.</li>
+    <li><strong>Offline i prywatnie</strong>Działa bez konta, Twoje dane zostają w telefonie.</li>
+  </ul>
+  <ul class="features" data-lang="pt">
+    <li><strong>Progressão</strong>Carga e repetições sugeridas com base nos seus últimos treinos.</li>
+    <li><strong>Desafios</strong>Mande sua melhor marca para um amigo e vejam quem eleva o nível.</li>
+    <li><strong>Ranking da academia</strong>Dispute com o pessoal da sua academia.</li>
+    <li><strong>Offline e privado</strong>Funciona sem conta, seus dados ficam no seu celular.</li>
+  </ul>
 
   <footer>
-    <a href="/privacy"><span data-lang="en">Privacy policy</span><span data-lang="cs">Zásady ochrany soukromí</span><span data-lang="de">Datenschutzerklärung</span><span data-lang="es">Política de privacidad</span><span data-lang="fr">Politique de confidentialité</span></a>
-    <a href="/terms"><span data-lang="en">Terms of use</span><span data-lang="cs">Podmínky použití</span><span data-lang="de">Nutzungsbedingungen</span><span data-lang="es">Condiciones de uso</span><span data-lang="fr">Conditions d’utilisation</span></a>
-    <a href="/support"><span data-lang="en">Support</span><span data-lang="cs">Podpora</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span></a>
-    <a href="/delete-account"><span data-lang="en">Delete account</span><span data-lang="cs">Smazání účtu</span><span data-lang="de">Konto löschen</span><span data-lang="es">Eliminar cuenta</span><span data-lang="fr">Supprimer le compte</span></a>
-    <a href="/fitka"><span data-lang="en">For gyms</span><span data-lang="cs">Pro fitka</span><span data-lang="de">Für Studios</span><span data-lang="es">Para gimnasios</span><span data-lang="fr">Pour les salles</span></a>
+    <a href="/privacy"><span data-lang="en">Privacy policy</span><span data-lang="cs">Zásady ochrany soukromí</span><span data-lang="de">Datenschutzerklärung</span><span data-lang="es">Política de privacidad</span><span data-lang="fr">Politique de confidentialité</span><span data-lang="sk">Zásady ochrany súkromia</span><span data-lang="it">Informativa sulla privacy</span><span data-lang="nl">Privacybeleid</span><span data-lang="pl">Polityka prywatności</span><span data-lang="pt">Política de privacidade</span></a>
+    <a href="/terms"><span data-lang="en">Terms of use</span><span data-lang="cs">Podmínky použití</span><span data-lang="de">Nutzungsbedingungen</span><span data-lang="es">Condiciones de uso</span><span data-lang="fr">Conditions d’utilisation</span><span data-lang="sk">Podmienky používania</span><span data-lang="it">Termini di utilizzo</span><span data-lang="nl">Gebruiksvoorwaarden</span><span data-lang="pl">Regulamin</span><span data-lang="pt">Termos de uso</span></a>
+    <a href="/support"><span data-lang="en">Support</span><span data-lang="cs">Podpora</span><span data-lang="de">Support</span><span data-lang="es">Soporte</span><span data-lang="fr">Assistance</span><span data-lang="sk">Podpora</span><span data-lang="it">Assistenza</span><span data-lang="nl">Support</span><span data-lang="pl">Pomoc</span><span data-lang="pt">Suporte</span></a>
+    <a href="/delete-account"><span data-lang="en">Delete account</span><span data-lang="cs">Smazání účtu</span><span data-lang="de">Konto löschen</span><span data-lang="es">Eliminar cuenta</span><span data-lang="fr">Supprimer le compte</span><span data-lang="sk">Zmazanie účtu</span><span data-lang="it">Elimina account</span><span data-lang="nl">Account verwijderen</span><span data-lang="pl">Usuń konto</span><span data-lang="pt">Excluir conta</span></a>
+    <a href="/fitka"><span data-lang="en">For gyms</span><span data-lang="cs">Pro fitka</span><span data-lang="de">Für Studios</span><span data-lang="es">Para gimnasios</span><span data-lang="fr">Pour les salles</span><span data-lang="sk">Pre fitká</span><span data-lang="it">Per le palestre</span><span data-lang="nl">Voor sportscholen</span><span data-lang="pl">Dla siłowni</span><span data-lang="pt">Para academias</span></a>
     <a href="mailto:info@gymbar.app">info@gymbar.app</a>
-    <a href="https://www.openstreetmap.org/copyright"><span data-lang="en">Gym data © OpenStreetMap contributors</span><span data-lang="cs">Data posiloven © přispěvatelé OpenStreetMap</span><span data-lang="de">Studiodaten © OpenStreetMap-Mitwirkende</span><span data-lang="es">Datos de gimnasios © colaboradores de OpenStreetMap</span><span data-lang="fr">Données des salles © contributeurs OpenStreetMap</span></a>
+    <a href="https://www.openstreetmap.org/copyright"><span data-lang="en">Gym data © OpenStreetMap contributors</span><span data-lang="cs">Data posiloven © přispěvatelé OpenStreetMap</span><span data-lang="de">Studiodaten © OpenStreetMap-Mitwirkende</span><span data-lang="es">Datos de gimnasios © colaboradores de OpenStreetMap</span><span data-lang="fr">Données des salles © contributeurs OpenStreetMap</span><span data-lang="sk">Údaje posilňovní © prispievatelia OpenStreetMap</span><span data-lang="it">Dati delle palestre © contributori di OpenStreetMap</span><span data-lang="nl">Sportschoolgegevens © OpenStreetMap-bijdragers</span><span data-lang="pl">Dane siłowni © współtwórcy OpenStreetMap</span><span data-lang="pt">Dados das academias © colaboradores do OpenStreetMap</span></a>
     <span>© GymBar</span>
   </footer>
 </main>

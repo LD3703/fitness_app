@@ -575,7 +575,7 @@ lib/
     calendar_service.dart        zápis tréninků do kalendáře
     sync_controller.dart         přeplánování po změně dat
   l10n/
-    app_*.arb               texty aplikace (en, cs, de, es, fr)
+    app_*.arb               texty aplikace (10 jazyků, šablona app_en.arb)
   ui/                       téma, navigace, sdílené widgety
   features/
     today/                  Dnes: dnešní trénink, pitný režim, váha, období
