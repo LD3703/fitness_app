@@ -689,6 +689,50 @@ a jeho položky v novinkách přátel (index `feed.fromUid`).
 
 Nasazení: `firebase deploy --only firestore:rules,firestore:indexes,functions`.
 
+### Upozornění e-mailem na nahlášení (jednorázově, v Google Cloud)
+
+Funkce zapisují do logu (úroveň WARNING) tři zprávy, na které stojí za to
+reagovat:
+
+- `Content report: …` – nové nahlášení posilovny nebo přítele
+  (`onContentReportCreated`; typ, název, důvod, celkový počet),
+- `Gym … hidden from the directory` – posilovna se sama skryla z adresáře,
+- `Leaderboard entry hidden: …` – záznam v žebříčku se skryl za
+  nahlášení (`onGymReportCreated`; zkontroluj, jestli právem).
+
+Upozornění na log pošle e-mail při každé z nich:
+
+1. [Logs Explorer](https://console.cloud.google.com/logs/query?project=fitness-app-dc5e4)
+   (projekt `fitness-app-dc5e4`), vpravo nahoře zapni **Show query**
+   a vlož dotaz:
+
+   ```
+   resource.type="cloud_run_revision"
+   severity>=WARNING
+   ("Content report" OR "hidden from the directory" OR "Leaderboard entry hidden")
+   ```
+
+   **Run query** (bez nahlášení nic nenajde – nevadí).
+2. **Actions → Create log alert**.
+3. *Alert details:* název `GymBar – nové nahlášení`, do *Documentation*
+   např. „Zkontroluj Firestore → contentReports, docs/social.md“ →
+   **Next**.
+4. *Choose logs to include:* dotaz je předvyplněný → **Next**.
+5. *Set notification frequency:* **Time between notifications 5 min**
+   (nejkratší možné; víc nahlášení během 5 minut přijde jedním e-mailem),
+   **Incident autoclose duration 30 min** → **Next**.
+6. *Who should be notified:* **Notification channels → Manage
+   notification channels** (nová karta) → **Email → Add new** → e-mail
+   (např. info@gymbar.app) a název → **Save**. Vrať se na původní kartu,
+   obnov seznam (ikona šipek), zaškrtni nový kanál → **OK**.
+7. **Save**.
+
+E-mail přijde od Google Cloud s předmětem obsahujícím název upozornění;
+odkaz v něm otevře konkrétní záznam v logu. Upozornění na log patří do
+Cloud Monitoring – aktuální ceník ověř na
+cloud.google.com/stackdriver/pricing. Vypnout nebo změnit e-mail jde
+v **Monitoring → Alerting**.
+
 ## Automatická záloha (modul `cloud`)
 
 Přihlášený uživatel (stejné přihlášení Google / Apple jako u Přátel) si

@@ -663,7 +663,8 @@ codemagic.yaml              buildy pro iOS v cloudu
   před přihlášením k přátelům a žebříčku). Doplň jméno, adresu a datum
   (hledej `[`) stejně jako u zásad ochrany soukromí. Slibují vyřízení
   nahlášení zpravidla do 24 hodin – nahlášení chodí do Firestore
-  (`contentReports`), kontroluj je.
+  (`contentReports`), kontroluj je. Upozornění e-mailem: `docs/social.md`,
+  „Upozornění e-mailem na nahlášení“.
 - **Filtr hrubých slov:** `packages/gymbar_coach/lib/src/text_filter.dart`
   (sdílí ho aplikace i web pro trenéry; v aplikaci přes
   `lib/core/text_filter.dart`) – jen urážky skupin, sexuální vulgarity

@@ -895,10 +895,17 @@ export const onGymReportCreated = onDocumentCreated(
     // nesnižují.
     state.reportCount = Math.max(state.reportCount, reports);
     const threshold = gymReportThreshold(Number(gymSnap.get("memberCount") ?? 0));
+    const newlyHidden = state.reportCount >= threshold && state.hiddenReason == null;
     if (state.reportCount >= threshold) state.hiddenReason = "reports";
     const uid = str(entry?.uid) || str(modSnap.get("uid"));
     const category = str(entry?.category) || str(modSnap.get("category"));
     await modRef.set(moderationData(uid, category, state), { merge: true });
+    // Pro vývojáře (upozornění e-mailem, docs/social.md): záznam skrytý
+    // za nahlášení – zkontrolovat, jestli právem.
+    if (newlyHidden) {
+      logger.warn(`Leaderboard entry hidden: gym ${gymId} entry ${entryId} ` +
+        `reports=${state.reportCount}`);
+    }
     if (!entry) return;
     const update: Record<string, unknown> = { reportCount: state.reportCount };
     if (state.hiddenReason) {
