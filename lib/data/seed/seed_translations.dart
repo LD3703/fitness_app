@@ -1050,7 +1050,7 @@ const seedTranslations = <String, SeedTranslation>{
       'decline_sit_up': 'Sit-up en banco declinado',
       'bicycle_crunch': 'Crunch bicicleta',
       'reverse_crunch': 'Crunch inverso',
-      'lying_leg_raise': 'Elevación de piernas tumbado',
+      'lying_leg_raise': 'Elevación de piernas acostado',
       'captains_chair_knee_raise': 'Elevación de rodillas en silla romana',
       'ab_wheel_rollout': 'Rueda abdominal',
       'russian_twist': 'Giro ruso',
@@ -1065,7 +1065,7 @@ const seedTranslations = <String, SeedTranslation>{
       'turkish_get_up': 'Levantamiento turco',
       'bear_crawl': 'Paso de oso',
       'high_knees': 'Rodillas arriba (skipping)',
-      'jump_rope': 'Comba',
+      'jump_rope': 'Saltar la cuerda',
       'rowing_machine': 'Remo ergómetro',
       'stationary_bike': 'Bicicleta estática',
       'treadmill_run': 'Correr en cinta',
@@ -1075,7 +1075,7 @@ const seedTranslations = <String, SeedTranslation>{
     },
     exerciseInstructions: {
       'bench_press':
-        '1. Túmbate en el banco con los ojos bajo la barra y los pies apoyados en el suelo.\n'
+        '1. Acuéstate en el banco con los ojos bajo la barra y los pies apoyados en el suelo.\n'
         '2. Agarra un poco más abierto que los hombros y junta las escápulas.\n'
         '3. Baja la barra con control hasta la mitad del pecho, codos a unos 45° del cuerpo.\n'
         '4. Empuja hasta estirar los brazos sin levantar la cadera.',
@@ -1107,13 +1107,13 @@ const seedTranslations = <String, SeedTranslation>{
       'pull_up':
         '1. Cuélgate de la barra con agarre prono y hombros activos.\n'
         '2. Sube hasta que la barbilla pase la barra.\n'
-        '3. Baja con control hasta quedar colgado del todo.',
+        '3. Baja con control hasta colgar del todo.',
       'overhead_press':
         '1. Barra apoyada delante de los hombros, agarre justo por fuera de ellos.\n'
         '2. Aprieta glúteos y core y empuja la barra recta hacia arriba.\n'
         '3. Echa la cabeza un poco atrás al pasar la barra y bloquea arriba.',
       'lateral_raise':
-        '1. De pie y erguido, mancuernas a los lados, codos ligeramente flexionados.\n'
+        '1. De pie con la espalda recta, mancuernas a los lados, codos ligeramente flexionados.\n'
         '2. Eleva los brazos hacia los lados hasta la altura de los hombros.\n'
         '3. Baja despacio, sin balancearte.',
       'pike_push_up':
@@ -1121,7 +1121,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Baja la cabeza hacia el suelo entre las manos.\n'
         '3. Empuja de vuelta arriba con los hombros.',
       'dumbbell_curl':
-        '1. De pie y erguido, codos pegados al cuerpo.\n'
+        '1. De pie con la espalda recta, codos pegados al cuerpo.\n'
         '2. Sube las mancuernas sin mover los codos.\n'
         '3. Baja despacio hasta estirar los brazos.',
       'triceps_pushdown':
@@ -1159,7 +1159,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Empuja con los talones y sube la cadera hasta que el cuerpo quede recto.\n'
         '3. Aprieta los glúteos arriba y baja con control.',
       'glute_bridge':
-        '1. Túmbate boca arriba, rodillas flexionadas y pies en el suelo.\n'
+        '1. Acuéstate boca arriba, rodillas flexionadas y pies en el suelo.\n'
         '2. Sube la cadera apretando los glúteos.\n'
         '3. Aguanta un momento arriba y baja despacio.',
       'plank':
@@ -1167,7 +1167,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Aprieta el core y los glúteos, no dejes caer la cadera.\n'
         '3. Respira de forma constante y aguanta.',
       'crunch':
-        '1. Túmbate boca arriba, rodillas flexionadas, manos junto a la cabeza.\n'
+        '1. Acuéstate boca arriba, rodillas flexionadas, manos junto a la cabeza.\n'
         '2. Despega los hombros del suelo usando los abdominales.\n'
         '3. Baja despacio, no tires del cuello.',
       'mountain_climber':
@@ -1179,7 +1179,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Salta abriendo los pies y sube los brazos por encima de la cabeza.\n'
         '3. Salta de vuelta y repite a ritmo constante.',
       'dumbbell_bench_press':
-        '1. Túmbate en un banco plano con las mancuernas a la altura del pecho.\n'
+        '1. Acuéstate en un banco plano con las mancuernas a la altura del pecho.\n'
         '2. Empuja hacia arriba juntándolas un poco.\n'
         '3. Baja despacio hasta notar el estiramiento en el pecho.',
       'incline_bench_press':
@@ -1195,7 +1195,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Junta los agarres delante del pecho.\n'
         '3. Vuelve despacio hasta un estiramiento cómodo.',
       'seated_cable_row':
-        '1. Siéntate erguido, pies en la plataforma, rodillas un poco flexionadas.\n'
+        '1. Siéntate con la espalda recta, pies en la plataforma, rodillas un poco flexionadas.\n'
         '2. Tira del agarre hacia el abdomen, codos pegados al cuerpo.\n'
         '3. Junta las escápulas y vuelve despacio sin redondear la espalda.',
       'one_arm_dumbbell_row':
@@ -1205,9 +1205,9 @@ const seedTranslations = <String, SeedTranslation>{
       'chin_up':
         '1. Cuélgate de la barra con agarre supino a la anchura de los hombros.\n'
         '2. Sube hasta que la barbilla pase la barra.\n'
-        '3. Baja con control hasta quedar colgado del todo.',
+        '3. Baja con control hasta colgar del todo.',
       'dumbbell_shoulder_press':
-        '1. Sentado o de pie, mancuernas a la altura de los hombros.\n'
+        '1. En un banco o de pie, mancuernas a la altura de los hombros.\n'
         '2. Empuja por encima de la cabeza sin arquear la zona lumbar.\n'
         '3. Baja despacio de nuevo a los hombros.',
       'rear_delt_fly':
@@ -1219,7 +1219,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Tira hacia la cara con los codos altos y abiertos.\n'
         '3. Aprieta la parte alta de la espalda y vuelve despacio.',
       'barbell_curl':
-        '1. De pie y erguido, agarre supino a la anchura de los hombros.\n'
+        '1. De pie con la espalda recta, agarre supino a la anchura de los hombros.\n'
         '2. Sube la barra sin balancear el cuerpo.\n'
         '3. Baja despacio hasta estirar los brazos.',
       'hammer_curl':
@@ -1231,7 +1231,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Sube el agarre hasta los hombros.\n'
         '3. Baja despacio manteniendo la tensión constante.',
       'skull_crusher':
-        '1. Túmbate en un banco con la barra sobre el pecho y los brazos estirados.\n'
+        '1. Acuéstate en un banco con la barra sobre el pecho y los brazos estirados.\n'
         '2. Flexiona solo los codos y baja la barra hacia la frente.\n'
         '3. Vuelve a estirar manteniendo los codos apuntando hacia arriba.',
       'overhead_triceps_extension':
@@ -1239,7 +1239,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Bájala por detrás de la cabeza flexionando los codos.\n'
         '3. Vuelve a estirar con los codos cerca de la cabeza.',
       'close_grip_bench_press':
-        '1. Túmbate en el banco con un agarre a la anchura de los hombros aprox.\n'
+        '1. Acuéstate en el banco con un agarre a la anchura de los hombros aprox.\n'
         '2. Baja la barra a la parte baja del pecho, codos pegados al cuerpo.\n'
         '3. Empuja hacia arriba estirando los codos.',
       'front_squat':
@@ -1275,11 +1275,11 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Encógete hacia abajo redondeando la columna, la cadera no se mueve.\n'
         '3. Vuelve despacio.',
       'dead_bug':
-        '1. Túmbate boca arriba, brazos hacia arriba y rodillas a 90°.\n'
+        '1. Acuéstate boca arriba, brazos hacia arriba y rodillas a 90°.\n'
         '2. Baja el brazo y la pierna contrarios, con la zona lumbar pegada al suelo.\n'
         '3. Vuelve y cambia de lado.',
       'side_plank':
-        '1. Túmbate de lado con el codo bajo el hombro.\n'
+        '1. Acuéstate de lado con el codo bajo el hombro.\n'
         '2. Sube la cadera para que el cuerpo forme una línea recta.\n'
         '3. Aguanta y luego cambia de lado.',
       'burpee':
@@ -1294,7 +1294,7 @@ const seedTranslations = <String, SeedTranslation>{
         '1. Cuelga un disco de un cinturón de lastre o sujeta una mancuerna entre los pies.\n'
         '2. Cuélgate de la barra con agarre prono y hombros activos.\n'
         '3. Sube sin balancearte hasta que la barbilla pase la barra.\n'
-        '4. Baja con control hasta quedar colgado del todo. Anota solo el peso añadido.',
+        '4. Baja con control hasta colgar del todo. Anota solo el peso añadido.',
       'weighted_dips':
         '1. Cuelga un disco de un cinturón de lastre o sujeta una mancuerna entre los pies.\n'
         '2. Apóyate en las paralelas con los brazos estirados.\n'
@@ -1323,13 +1323,13 @@ const seedTranslations = <String, SeedTranslation>{
       'back_extension':
         '1. Coloca el apoyo justo debajo de la cadera y fija los talones.\n'
         '2. Baja el tronco con la espalda recta hasta notar el estiramiento de los isquios.\n'
-        '3. Sube hasta quedar alineado con las piernas, sin hiperextender. Sujeta un disco para más carga.',
+        '3. Sube hasta que el tronco quede alineado con las piernas, sin hiperextender. Sujeta un disco para más carga.',
       'good_morning':
         '1. Barra sobre la parte alta de la espalda como en la sentadilla, pies al ancho de cadera, rodillas algo flexionadas.\n'
         '2. Lleva la cadera atrás e inclínate con la espalda recta hasta que el tronco esté casi horizontal.\n'
         '3. Empuja la cadera adelante para subir. Empieza con poco peso.',
       'superman':
-        '1. Túmbate boca abajo con los brazos extendidos por encima de la cabeza.\n'
+        '1. Acuéstate boca abajo con los brazos extendidos por encima de la cabeza.\n'
         '2. Levanta brazos, pecho y piernas del suelo a la vez.\n'
         '3. Mantén un segundo arriba y baja despacio.',
       'decline_bench_press':
@@ -1341,7 +1341,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Desbloquea la barra y bájala al pecho con control.\n'
         '3. Empuja sin bloquear los codos de golpe y engancha la barra al final.',
       'dumbbell_fly':
-        '1. Túmbate en un banco plano, mancuernas sobre el pecho, codos algo flexionados.\n'
+        '1. Acuéstate en un banco plano, mancuernas sobre el pecho, codos algo flexionados.\n'
         '2. Abre los brazos en un arco amplio hasta notar estiramiento en el pecho.\n'
         '3. Vuelve a juntarlas sin cambiar el ángulo del codo.',
       'incline_dumbbell_fly':
@@ -1349,7 +1349,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Bájalas en un arco amplio hasta notar estiramiento en la parte alta del pecho.\n'
         '3. Vuelve a juntarlas sobre el pecho.',
       'low_to_high_cable_fly':
-        '1. Pon las poleas abajo y colócate entre ellas algo inclinado.\n'
+        '1. Pon las poleas abajo y colócate entre ellas con el torso algo inclinado.\n'
         '2. Lleva los agarres hacia arriba y juntos delante de la parte alta del pecho.\n'
         '3. Vuelve despacio al estiramiento, codos algo flexionados.',
       'incline_chest_press_machine':
@@ -1369,7 +1369,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Baja el pecho al suelo con el abdomen firme.\n'
         '3. Sube sin que la cadera se hunda.',
       'dumbbell_floor_press':
-        '1. Túmbate en el suelo, rodillas flexionadas, mancuernas sobre el pecho.\n'
+        '1. Acuéstate en el suelo, rodillas flexionadas, mancuernas sobre el pecho.\n'
         '2. Baja hasta que los brazos toquen el suelo y pausa.\n'
         '3. Empuja hasta extender los brazos.',
       't_bar_row':
@@ -1381,11 +1381,11 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Tira de la barra de forma explosiva a la parte baja del pecho.\n'
         '3. Apóyala en el suelo en cada repetición y recoloca la postura.',
       'machine_row':
-        '1. Siéntate con el pecho contra el respaldo y agarra los asas.\n'
+        '1. Siéntate con el pecho contra el respaldo y agarra las asas.\n'
         '2. Tira hacia el cuerpo, codos pegados, escápulas juntas.\n'
         '3. Vuelve despacio hasta extender los brazos.',
       'chest_supported_row':
-        '1. Túmbate boca abajo en un banco a 30–45°, mancuernas colgando.\n'
+        '1. Acuéstate boca abajo en un banco a 30–45°, mancuernas colgando.\n'
         '2. Llévalas hacia los costados juntando las escápulas.\n'
         '3. Baja despacio hasta el estiramiento completo.',
       'close_grip_lat_pulldown':
@@ -1393,7 +1393,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Lleva el agarre a la parte alta del pecho, codos abajo y atrás.\n'
         '3. Deja que suba despacio hasta extender los brazos.',
       'straight_arm_pulldown':
-        '1. De pie frente a la polea alta, brazos casi rectos, algo inclinado.\n'
+        '1. De pie frente a la polea alta, brazos casi rectos, torso algo inclinado.\n'
         '2. Baja la barra en arco hasta los muslos usando el dorsal.\n'
         '3. Vuelve despacio, codos casi rectos.',
       'band_assisted_pull_up':
@@ -1413,15 +1413,15 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Agárrala, aprieta el abdomen y sube empujando la cadera hacia delante.\n'
         '3. Bájala a los soportes con la espalda recta.',
       'trap_bar_deadlift':
-        '1. Colócate dentro de la barra hexagonal, pies al ancho de cadera, agarra los asas.\n'
-        '2. Aprieta, empuja el suelo y sube hasta quedar erguido.\n'
+        '1. Colócate dentro de la barra hexagonal, pies al ancho de cadera, agarra las asas.\n'
+        '2. Aprieta, empuja el suelo y sube hasta estar de pie del todo.\n'
         '3. Baja la barra con la espalda recta.',
       'single_arm_cable_row':
         '1. Agarra un asa en la polea a media altura, brazo extendido.\n'
         '2. Llévala al costado, codo pegado al cuerpo.\n'
         '3. Vuelve despacio dejando que el hombro avance un poco.',
       'dumbbell_pullover':
-        '1. Túmbate en un banco con una mancuerna sobre el pecho, sujeta con las dos manos.\n'
+        '1. Acuéstate en un banco con una mancuerna sobre el pecho, sujeta con las dos manos.\n'
         '2. Bájala en arco detrás de la cabeza, codos algo flexionados.\n'
         '3. Llévala de vuelta sobre el pecho.',
       'renegade_row':
@@ -1429,7 +1429,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Lleva una mancuerna a la cadera sin girar la pelvis.\n'
         '3. Apóyala y repite con el otro brazo.',
       'arnold_press':
-        '1. Sentado, mancuernas delante de los hombros, palmas hacia ti.\n'
+        '1. Siéntate con las mancuernas delante de los hombros, palmas hacia ti.\n'
         '2. Empuja hacia arriba girando las palmas hacia delante.\n'
         '3. Baja girando de vuelta a la posición inicial.',
       'shoulder_press_machine':
@@ -1457,7 +1457,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Súbela pegada al cuerpo hasta el pecho, los codos guían.\n'
         '3. Baja despacio. Si molestan los hombros, no subas tanto.',
       'reverse_pec_deck':
-        '1. Siéntate mirando a la máquina, pecho en el respaldo, agarra los asas.\n'
+        '1. Siéntate mirando a la máquina, pecho en el respaldo, agarra las asas.\n'
         '2. Abre los brazos hacia atrás en arco hasta alinearlos con el cuerpo.\n'
         '3. Vuelve despacio.',
       'band_pull_apart':
@@ -1465,7 +1465,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Sepárala hasta tocar el pecho juntando las escápulas.\n'
         '3. Vuelve despacio.',
       'handstand_push_up':
-        '1. Sube al pino contra la pared, manos al ancho de hombros.\n'
+        '1. Haz una parada de manos contra la pared, manos al ancho de hombros.\n'
         '2. Baja la cabeza hacia el suelo con control.\n'
         '3. Empuja hasta extender los brazos. Pon una colchoneta bajo la cabeza.',
       'landmine_press':
@@ -1477,7 +1477,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Sube la barra sin despegar los codos.\n'
         '3. Baja despacio casi hasta extender.',
       'concentration_curl':
-        '1. Sentado en un banco, codo apoyado en la cara interna del muslo.\n'
+        '1. Siéntate en un banco, codo apoyado en la cara interna del muslo.\n'
         '2. Sube la mancuerna hacia el hombro.\n'
         '3. Baja despacio hasta el estiramiento completo.',
       'incline_dumbbell_curl':
@@ -1493,7 +1493,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Sube la cuerda con los codos pegados.\n'
         '3. Baja despacio manteniendo la tensión.',
       'machine_biceps_curl':
-        '1. Siéntate con los brazos en el apoyo y agarra los asas.\n'
+        '1. Siéntate con los brazos en el apoyo y agarra las asas.\n'
         '2. Sube los agarres hacia los hombros.\n'
         '3. Baja despacio casi hasta extender.',
       'band_curl':
@@ -1517,7 +1517,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Baja flexionando los codos a unos 90°.\n'
         '3. Empuja hasta extender los brazos.',
       'machine_triceps_dip':
-        '1. Siéntate en la máquina y agarra los asas laterales.\n'
+        '1. Siéntate en la máquina y agarra las asas laterales.\n'
         '2. Empuja hacia abajo hasta extender los brazos.\n'
         '3. Deja que suban despacio hasta unos 90° de codo.',
       'single_arm_pushdown':
@@ -1529,7 +1529,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Baja el pecho a las manos, codos pegados.\n'
         '3. Sube con el cuerpo recto.',
       'reverse_wrist_curl':
-        '1. Sentado, antebrazos sobre los muslos, palmas abajo, muñecas fuera de las rodillas.\n'
+        '1. Siéntate con los antebrazos sobre los muslos, palmas abajo, muñecas fuera de las rodillas.\n'
         '2. Sube el dorso de las manos lo más alto posible.\n'
         '3. Baja despacio.',
       'hack_squat':
@@ -1543,7 +1543,7 @@ const seedTranslations = <String, SeedTranslation>{
       'walking_lunge':
         '1. Sujeta mancuernas a los lados y da un paso largo al frente.\n'
         '2. Baja la rodilla trasera casi al suelo.\n'
-        '3. Empuja con el pie delantero y sigue con la siguiente zancada.',
+        '3. Empuja con el pie delantero y enlaza con la siguiente zancada.',
       'reverse_lunge':
         '1. De pie, mancuernas a los lados.\n'
         '2. Da un paso atrás y baja la rodilla trasera casi al suelo.\n'
@@ -1645,7 +1645,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Inclínate con la espalda recta dejando que la cuerda vaya atrás.\n'
         '3. Empuja la cadera hacia delante para subir y aprieta los glúteos.',
       'seated_calf_raise':
-        '1. Sentado, rodillo sobre los muslos, puntas de los pies en el escalón.\n'
+        '1. Siéntate con el rodillo sobre los muslos, puntas de los pies en el escalón.\n'
         '2. Sube los talones todo lo posible.\n'
         '3. Baja despacio hasta el estiramiento completo.',
       'single_leg_calf_raise':
@@ -1658,10 +1658,10 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Deja que vuelva despacio para estirar. Rodillas rectas.',
       'sit_up':
         '1. Boca arriba, rodillas flexionadas, pies en el suelo.\n'
-        '2. Sube hasta quedar sentado.\n'
+        '2. Sube hasta sentarte.\n'
         '3. Baja despacio.',
       'decline_sit_up':
-        '1. Sujeta los pies en el banco declinado y túmbate.\n'
+        '1. Sujeta los pies en el banco declinado y acuéstate.\n'
         '2. Sube hasta que el torso quede vertical.\n'
         '3. Baja despacio. Sujeta un disco para más carga.',
       'bicycle_crunch':
@@ -1685,7 +1685,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Rueda hacia delante todo lo que puedas sin hundir la zona lumbar.\n'
         '3. Vuelve tirando con el abdomen.',
       'russian_twist':
-        '1. Sentado algo reclinado, pies elevados o en el suelo.\n'
+        '1. Siéntate con el torso algo reclinado, pies elevados o en el suelo.\n'
         '2. Gira el torso y toca el suelo junto a la cadera.\n'
         '3. Gira al otro lado. Sujeta un peso para más carga.',
       'v_up':
@@ -1723,7 +1723,7 @@ const seedTranslations = <String, SeedTranslation>{
       'turkish_get_up':
         '1. Boca arriba, sujeta una kettlebell con una mano hacia arriba.\n'
         '2. Levántate paso a paso mirando la kettlebell con el brazo recto.\n'
-        '3. Vuelve igual hasta tumbarte. Trabaja ambos lados.',
+        '3. Vuelve igual hasta acostarte. Trabaja ambos lados.',
       'bear_crawl':
         '1. Apóyate en manos y pies, rodillas justo sobre el suelo, espalda recta.\n'
         '2. Avanza moviendo a la vez la mano y el pie contrarios.\n'
@@ -1737,8 +1737,8 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Gira la cuerda con las muñecas y salta lo justo para que pase.\n'
         '3. Aterriza suave sobre la punta de los pies durante el tiempo marcado.',
       'rowing_machine':
-        '1. Sujeta los pies y agarra el manillar con los brazos rectos.\n'
-        '2. Empuja con las piernas, inclínate un poco atrás y lleva el manillar a las costillas bajas.\n'
+        '1. Sujeta los pies y agarra la empuñadura con los brazos rectos.\n'
+        '2. Empuja con las piernas, inclínate un poco atrás y lleva la empuñadura a las costillas bajas.\n'
         '3. Vuelve en orden inverso: brazos, torso, piernas. Ritmo constante.',
       'stationary_bike':
         '1. Ajusta el sillín para que la rodilla quede algo flexionada abajo.\n'
@@ -1746,19 +1746,19 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Ajusta la resistencia a tu objetivo durante el tiempo marcado.',
       'treadmill_run':
         '1. Empieza caminando y sube la velocidad poco a poco.\n'
-        '2. Corre erguido con los hombros relajados, apoyando bajo la cadera.\n'
+        '2. Corre con el cuerpo erguido y los hombros relajados, apoyando bajo la cadera.\n'
         '3. Reduce a paso de caminar antes de bajarte.',
       'elliptical':
-        '1. Súbete a los pedales y agarra los manillares móviles.\n'
+        '1. Súbete a los pedales y agarra las asas móviles.\n'
         '2. Muévete con fluidez empujando y tirando también con los brazos.\n'
         '3. Mantén un ritmo constante durante el tiempo marcado.',
       'stair_climber':
         '1. Súbete y elige una velocidad que puedas mantener.\n'
-        '2. Sube erguido, usa las barandillas solo para equilibrarte.\n'
+        '2. Sube con el cuerpo erguido, usa las barandillas solo para equilibrarte.\n'
         '3. Sigue durante el tiempo marcado.',
       'air_bike':
-        '1. Siéntate y agarra los manillares móviles.\n'
-        '2. Pedalea mientras empujas y tiras de los manillares.\n'
+        '1. Siéntate y agarra las asas móviles.\n'
+        '2. Pedalea mientras empujas y tiras de las asas.\n'
         '3. Cuanto más fuerte vas, más frena el ventilador. Durante el tiempo marcado.',
     },
     routineNames: {
@@ -1769,22 +1769,22 @@ const seedTranslations = <String, SeedTranslation>{
     programNames: {
       'full_body': 'Cuerpo completo (principiante)',
       'upper_lower': 'Tren superior / inferior',
-      'ppl': 'Empuje / Tirón / Pierna',
+      'ppl': 'Push / Pull / Pierna',
     },
     programDescriptions: {
       'full_body':
         '3× por semana, alternando los entrenos A y B. Ideal para los primeros meses.',
       'upper_lower':
         '4× por semana: tren superior lun + jue, tren inferior mar + vie.',
-      'ppl': '3× por semana: empuje lun, tirón mié, pierna vie.',
+      'ppl': '3× por semana: push lun, pull mié, pierna vie.',
     },
     planNames: {
       'Full body A': 'Cuerpo completo A',
       'Full body B': 'Cuerpo completo B',
       'Upper body': 'Tren superior',
       'Lower body': 'Tren inferior',
-      'Push': 'Empuje',
-      'Pull': 'Tirón',
+      'Push': 'Push',
+      'Pull': 'Pull',
       'Legs': 'Pierna',
     },
   ),
@@ -2095,7 +2095,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Tire-toi jusqu’à ce que le menton passe au-dessus de la barre.\n'
         '3. Redescends avec contrôle jusqu’à bras tendus.',
       'dumbbell_shoulder_press':
-        '1. Assis ou debout, haltères à hauteur d’épaules.\n'
+        '1. Sur un banc ou debout, haltères à hauteur d’épaules.\n'
         '2. Pousse au-dessus de la tête sans cambrer le bas du dos.\n'
         '3. Redescends lentement vers les épaules.',
       'rear_delt_fly':
@@ -2197,7 +2197,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Monte les épaules à la verticale le plus haut possible.\n'
         '3. Tiens un instant puis redescends avec contrôle.',
       'wrist_curl':
-        '1. Assis, avant-bras sur les cuisses ou un banc, paumes vers le haut, poignets dans le vide.\n'
+        '1. Assieds-toi, avant-bras sur les cuisses ou un banc, paumes vers le haut, poignets dans le vide.\n'
         '2. Laisse les haltères rouler jusqu’au bout des doigts.\n'
         '3. Remonte les poignets le plus haut possible, avant-bras immobiles.',
       'reverse_curl':
@@ -2206,7 +2206,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Redescends lentement jusqu’aux bras tendus.',
       'dead_hang':
         '1. Saisis la barre en pronation, largeur d’épaules.\n'
-        '2. Reste suspendu bras tendus, pieds décollés, corps immobile.\n'
+        '2. Suspends-toi bras tendus, pieds décollés, corps immobile.\n'
         '3. Tiens le temps prévu, épaules légèrement engagées.',
       'back_extension':
         '1. Place le coussin juste sous les hanches et bloque les talons.\n'
@@ -2237,7 +2237,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Descends en large arc jusqu’à sentir l’étirement du haut des pectoraux.\n'
         '3. Ramène-les ensemble au-dessus de la poitrine.',
       'low_to_high_cable_fly':
-        '1. Règle les deux poulies en bas et place-toi entre elles, légèrement penché.\n'
+        '1. Règle les deux poulies en bas et place-toi entre elles, buste légèrement incliné.\n'
         '2. Monte les poignées et rapproche-les devant le haut de la poitrine.\n'
         '3. Reviens lentement en étirement, coudes légèrement fléchis.',
       'incline_chest_press_machine':
@@ -2257,7 +2257,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Descends la poitrine vers le sol, gainage serré.\n'
         '3. Remonte sans laisser tomber le bassin.',
       'dumbbell_floor_press':
-        '1. Allongé au sol, genoux fléchis, haltères au-dessus de la poitrine.\n'
+        '1. Allonge-toi au sol, genoux fléchis, haltères au-dessus de la poitrine.\n'
         '2. Descends jusqu’à ce que les bras touchent le sol, marque une pause.\n'
         '3. Pousse jusqu’aux bras tendus.',
       't_bar_row':
@@ -2281,9 +2281,9 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Tire la poignée vers le haut de la poitrine, coudes vers le bas et l’arrière.\n'
         '3. Laisse remonter lentement jusqu’aux bras tendus.',
       'straight_arm_pulldown':
-        '1. Face à la poulie haute, bras presque tendus, légèrement penché.\n'
+        '1. Face à la poulie haute, bras presque tendus, buste légèrement incliné.\n'
         '2. Abaisse la barre en arc jusqu’aux cuisses avec les dorsaux.\n'
-        '3. Remonte lentement, coudes presque tendus.',
+        '3. Laisse remonter lentement, coudes presque tendus.',
       'band_assisted_pull_up':
         '1. Passe un élastique sur la barre et place un pied ou un genou dedans.\n'
         '2. Monte jusqu’à ce que le menton passe la barre.\n'
@@ -2291,7 +2291,7 @@ const seedTranslations = <String, SeedTranslation>{
       'inverted_row':
         '1. Suspends-toi sous une barre basse ou des anneaux, corps droit, talons au sol.\n'
         '2. Tire la poitrine vers la barre en serrant les omoplates.\n'
-        '3. Redescends en contrôle. Plus tu es vertical, plus c’est facile.',
+        '3. Redescends en contrôle. Plus ton corps est vertical, plus c’est facile.',
       'neutral_grip_pull_up':
         '1. Suspends-toi à des poignées parallèles, paumes face à face.\n'
         '2. Monte jusqu’à ce que le menton passe les poignées.\n'
@@ -2309,7 +2309,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Tire-la vers la hanche, coude près du corps.\n'
         '3. Reviens lentement en laissant l’épaule avancer un peu.',
       'dumbbell_pullover':
-        '1. Allongé sur un banc, tiens un haltère à deux mains au-dessus de la poitrine.\n'
+        '1. Allonge-toi sur un banc et tiens un haltère à deux mains au-dessus de la poitrine.\n'
         '2. Descends-le en arc derrière la tête, coudes légèrement fléchis.\n'
         '3. Ramène-le au-dessus de la poitrine.',
       'renegade_row':
@@ -2317,7 +2317,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Tire un haltère vers la hanche sans tourner le bassin.\n'
         '3. Repose-le et recommence de l’autre bras.',
       'arnold_press':
-        '1. Assis, haltères devant les épaules, paumes vers toi.\n'
+        '1. Assieds-toi, haltères devant les épaules, paumes vers toi.\n'
         '2. Pousse vers le haut en tournant les paumes vers l’avant.\n'
         '3. Redescends en revenant à la position de départ.',
       'shoulder_press_machine':
@@ -2345,7 +2345,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Monte-la le long du corps jusqu’à la poitrine, coudes en premier.\n'
         '3. Redescends lentement. Si les épaules coincent, monte moins haut.',
       'reverse_pec_deck':
-        '1. Assis face à la machine, poitrine contre le coussin, saisis les poignées.\n'
+        '1. Assieds-toi face à la machine, poitrine contre le coussin, saisis les poignées.\n'
         '2. Ouvre les bras vers l’arrière en arc jusqu’à l’alignement du corps.\n'
         '3. Reviens lentement.',
       'band_pull_apart':
@@ -2353,7 +2353,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Écarte-le jusqu’à la poitrine en serrant les omoplates.\n'
         '3. Reviens lentement.',
       'handstand_push_up':
-        '1. Monte en équilibre contre un mur, mains largeur d’épaules.\n'
+        '1. Monte en équilibre sur les mains contre un mur, mains largeur d’épaules.\n'
         '2. Descends la tête vers le sol en contrôle.\n'
         '3. Pousse jusqu’aux bras tendus. Mets un tapis sous la tête.',
       'landmine_press':
@@ -2361,15 +2361,15 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Pousse vers le haut et l’avant jusqu’au bras tendu.\n'
         '3. Ramène-la à l’épaule en contrôle.',
       'preacher_curl':
-        '1. Assis au pupitre, bras à plat sur le coussin, barre EZ en main.\n'
+        '1. Assieds-toi au pupitre, bras à plat sur le coussin, barre EZ en main.\n'
         '2. Monte la barre sans décoller les coudes.\n'
         '3. Redescends lentement presque bras tendus.',
       'concentration_curl':
-        '1. Assis sur un banc, coude calé contre l’intérieur de la cuisse.\n'
+        '1. Assieds-toi sur un banc, coude calé contre l’intérieur de la cuisse.\n'
         '2. Monte l’haltère vers l’épaule.\n'
         '3. Redescends lentement en étirement complet.',
       'incline_dumbbell_curl':
-        '1. Adossé à un banc à 45–60°, bras pendants.\n'
+        '1. Adosse-toi à un banc à 45–60°, bras pendants.\n'
         '2. Monte les haltères sans bouger les bras.\n'
         '3. Redescends lentement en étirement complet.',
       'ez_bar_curl':
@@ -2381,7 +2381,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Monte la corde, coudes le long du corps.\n'
         '3. Redescends lentement en gardant la tension.',
       'machine_biceps_curl':
-        '1. Assis, bras sur le coussin, saisis les poignées.\n'
+        '1. Assieds-toi, bras sur le coussin, saisis les poignées.\n'
         '2. Monte les poignées vers les épaules.\n'
         '3. Redescends lentement presque bras tendus.',
       'band_curl':
@@ -2397,7 +2397,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Tends les bras vers l’avant et le haut.\n'
         '3. Fléchis lentement les coudes derrière la tête.',
       'triceps_kickback':
-        '1. Penché en avant, bras le long du corps, coude fléchi.\n'
+        '1. Penche-toi en avant, bras le long du corps, coude fléchi.\n'
         '2. Tends complètement le bras vers l’arrière.\n'
         '3. Fléchis lentement sans bouger le bras.',
       'bench_dips':
@@ -2417,7 +2417,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Descends la poitrine vers les mains, coudes serrés.\n'
         '3. Remonte corps gainé.',
       'reverse_wrist_curl':
-        '1. Assis, avant-bras sur les cuisses, paumes vers le bas, poignets dans le vide.\n'
+        '1. Assieds-toi, avant-bras sur les cuisses, paumes vers le bas, poignets dans le vide.\n'
         '2. Monte le dos des mains le plus haut possible.\n'
         '3. Redescends lentement.',
       'hack_squat':
@@ -2473,7 +2473,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Lance les bras et saute sur la box, réception en douceur.\n'
         '3. Redresse-toi complètement puis redescends à pied.',
       'seated_leg_curl':
-        '1. Assis dans la machine, coussin au-dessus des talons, cuisses bloquées.\n'
+        '1. Assieds-toi dans la machine, coussin au-dessus des talons, cuisses bloquées.\n'
         '2. Ramène les talons vers le bas et l’arrière au maximum.\n'
         '3. Reviens lentement.',
       'nordic_curl':
@@ -2533,7 +2533,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Penche-toi dos droit en laissant la corde partir vers l’arrière.\n'
         '3. Pousse les hanches vers l’avant pour te redresser et serre les fessiers.',
       'seated_calf_raise':
-        '1. Assis, coussin sur les cuisses, avant des pieds sur la marche.\n'
+        '1. Assieds-toi, coussin sur les cuisses, avant des pieds sur la marche.\n'
         '2. Monte les talons le plus haut possible.\n'
         '3. Redescends lentement en étirement complet.',
       'single_leg_calf_raise':
@@ -2541,7 +2541,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Monte sur la pointe le plus haut possible.\n'
         '3. Descends le talon sous la marche pour l’étirement.',
       'leg_press_calf_raise':
-        '1. Assis à la presse, avant des pieds sur le bord bas de la plateforme.\n'
+        '1. Assieds-toi à la presse, avant des pieds sur le bord bas de la plateforme.\n'
         '2. Pousse la plateforme en tendant les pieds.\n'
         '3. Laisse revenir lentement en étirement. Genoux tendus.',
       'sit_up':
@@ -2573,7 +2573,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Roule vers l’avant aussi loin que possible sans creuser le bas du dos.\n'
         '3. Reviens en tirant avec les abdos.',
       'russian_twist':
-        '1. Assis légèrement penché en arrière, pieds levés ou au sol.\n'
+        '1. Assieds-toi, buste légèrement incliné en arrière, pieds levés ou au sol.\n'
         '2. Tourne le buste et touche le sol à côté de la hanche.\n'
         '3. Tourne de l’autre côté. Tiens un poids pour plus de charge.',
       'v_up':
@@ -2853,7 +2853,7 @@ const seedTranslations = <String, SeedTranslation>{
       'bench_press':
         '1. Połóż się na ławce, oczy pod sztangą, stopy płasko na podłodze.\n'
         '2. Chwyć sztangę nieco szerzej niż barki, ściągnij łopatki.\n'
-        '3. Opuszczaj sztangę kontrolowanie na środek klatki, łokcie ok. 45° od tułowia.\n'
+        '3. Opuszczaj sztangę pod kontrolą na środek klatki, łokcie ok. 45° od tułowia.\n'
         '4. Wypchnij do wyprostu ramion, nie odrywając bioder.',
       'incline_dumbbell_press':
         '1. Ustaw ławkę na 30–45°, hantle na wysokości klatki.\n'
@@ -2871,7 +2871,7 @@ const seedTranslations = <String, SeedTranslation>{
         '1. Sztanga nad środkiem stopy, stopy na szerokość bioder.\n'
         '2. Zegnij się w biodrach, chwyć sztangę, plecy w neutralnej pozycji.\n'
         '3. Odepchnij podłogę i wstań, prowadząc sztangę blisko nóg.\n'
-        '4. Opuść kontrolowanie, cofając biodra.',
+        '4. Opuść pod kontrolą, cofając biodra.',
       'barbell_row':
         '1. Pochyl się do ok. 45°, plecy proste, kolana lekko ugięte.\n'
         '2. Przyciągnij sztangę do dolnej części klatki lub brzucha.\n'
@@ -2883,7 +2883,7 @@ const seedTranslations = <String, SeedTranslation>{
       'pull_up':
         '1. Zawiśnij na drążku nachwytem, barki aktywne.\n'
         '2. Podciągnij się, aż broda znajdzie się nad drążkiem.\n'
-        '3. Opuść się kontrolowanie do pełnego zwisu.',
+        '3. Opuść się pod kontrolą do pełnego zwisu.',
       'overhead_press':
         '1. Sztanga na przedniej części barków, chwyt tuż szerzej niż barki.\n'
         '2. Napnij pośladki i brzuch, wyciśnij sztangę prosto w górę.\n'
@@ -2933,7 +2933,7 @@ const seedTranslations = <String, SeedTranslation>{
       'hip_thrust':
         '1. Górna część pleców na ławce, sztanga na biodrach.\n'
         '2. Wypychaj piętami i unieś biodra, aż ciało będzie w linii prostej.\n'
-        '3. Na górze mocno napnij pośladki, opuść kontrolowanie.',
+        '3. Na górze mocno napnij pośladki, opuść pod kontrolą.',
       'glute_bridge':
         '1. Połóż się na plecach, kolana ugięte, stopy na podłodze.\n'
         '2. Unieś biodra, napinając pośladki.\n'
@@ -2981,7 +2981,7 @@ const seedTranslations = <String, SeedTranslation>{
       'chin_up':
         '1. Zawiśnij na drążku podchwytem na szerokość barków.\n'
         '2. Podciągnij się, aż broda znajdzie się nad drążkiem.\n'
-        '3. Opuść się kontrolowanie do pełnego zwisu.',
+        '3. Opuść się pod kontrolą do pełnego zwisu.',
       'dumbbell_shoulder_press':
         '1. Usiądź lub stań, hantle na wysokości barków.\n'
         '2. Wyciśnij nad głowę bez wyginania dolnego odcinka pleców.\n'
@@ -3033,7 +3033,7 @@ const seedTranslations = <String, SeedTranslation>{
       'leg_extension':
         '1. Ustaw wałek tuż nad kostkami.\n'
         '2. Wyprostuj nogi.\n'
-        '3. Opuszczaj powoli i kontrolowanie.',
+        '3. Opuszczaj powoli i pod kontrolą.',
       'leg_curl':
         '1. Ustaw wałek tuż nad piętami.\n'
         '2. Przyciągnij pięty w stronę pośladków.\n'
@@ -3070,7 +3070,7 @@ const seedTranslations = <String, SeedTranslation>{
         '1. Przypnij talerz do pasa z łańcuchem albo ściśnij hantlę między stopami.\n'
         '2. Zawiśnij na drążku nachwytem, barki aktywne.\n'
         '3. Podciągnij się bez bujania, aż broda znajdzie się nad drążkiem.\n'
-        '4. Opuść się kontrolowanie do pełnego zwisu. Zapisuj tylko dodatkowy ciężar.',
+        '4. Opuść się pod kontrolą do pełnego zwisu. Zapisuj tylko dodatkowy ciężar.',
       'weighted_dips':
         '1. Przypnij talerz do pasa z łańcuchem albo ściśnij hantlę między stopami.\n'
         '2. Oprzyj się na poręczach na wyprostowanych ramionach.\n'
@@ -3105,16 +3105,16 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Cofnij biodra i pochyl się z prostymi plecami, aż tułów będzie prawie poziomo.\n'
         '3. Wypchnij biodra do przodu i wróć do pionu. Zacznij od małego ciężaru.',
       'superman':
-        '1. Połóż się na brzuchu, ręce wyciągnięte za głowę.\n'
+        '1. Połóż się na brzuchu, ręce wyciągnięte przed siebie.\n'
         '2. Jednocześnie unieś ręce, klatkę piersiową i nogi nad podłogę.\n'
         '3. Zatrzymaj sekundę na górze i powoli opuść.',
       'decline_bench_press':
         '1. Zablokuj nogi na ławce skośnej ujemnej, chwyt nieco szerszy niż barki.\n'
-        '2. Kontrolowanie opuść sztangę do dolnej części klatki.\n'
+        '2. Opuść sztangę pod kontrolą do dolnej części klatki.\n'
         '3. Wyciśnij do wyprostowanych rąk, łopatki ściągnięte.',
       'smith_bench_press':
         '1. Ustaw ławkę tak, by sztanga była nad środkiem klatki.\n'
-        '2. Odblokuj sztangę i kontrolowanie opuść ją do klatki.\n'
+        '2. Odblokuj sztangę i opuść ją pod kontrolą do klatki.\n'
         '3. Wyciśnij bez gwałtownego blokowania łokci i na końcu zaczep sztangę.',
       'dumbbell_fly':
         '1. Połóż się na ławce płaskiej, hantle nad klatką, łokcie lekko ugięte.\n'
@@ -3151,7 +3151,7 @@ const seedTranslations = <String, SeedTranslation>{
       't_bar_row':
         '1. Stań nad sztangą, pochyl się z prostymi plecami i chwyć uchwyt.\n'
         '2. Przyciągnij ciężar do klatki, ściągając łopatki.\n'
-        '3. Opuść kontrolowanie, nie zaokrąglaj pleców.',
+        '3. Opuść pod kontrolą, nie zaokrąglaj pleców.',
       'pendlay_row':
         '1. Sztanga na podłodze, tułów prawie poziomo, plecy proste.\n'
         '2. Dynamicznie przyciągnij sztangę do dolnej części klatki.\n'
@@ -3175,15 +3175,15 @@ const seedTranslations = <String, SeedTranslation>{
       'band_assisted_pull_up':
         '1. Przełóż gumę oporową przez drążek i oprzyj w niej stopę lub kolano.\n'
         '2. Podciągnij się, aż broda znajdzie się nad drążkiem.\n'
-        '3. Opuść się kontrolowanie do zwisu. Cieńsza guma = mniejsza pomoc.',
+        '3. Opuść się pod kontrolą do zwisu. Cieńsza guma = mniejsza pomoc.',
       'inverted_row':
         '1. Zawiśnij pod niskim drążkiem lub na kółkach, ciało proste, pięty na podłodze.\n'
         '2. Przyciągnij klatkę do drążka, ściągając łopatki.\n'
-        '3. Opuść się kontrolowanie. Im bardziej pionowo, tym łatwiej.',
+        '3. Opuść się pod kontrolą. Im bardziej pionowo, tym łatwiej.',
       'neutral_grip_pull_up':
         '1. Zawiśnij na równoległych uchwytach, dłonie do siebie.\n'
         '2. Podciągnij się, aż broda znajdzie się nad uchwytami.\n'
-        '3. Opuść się kontrolowanie do pełnego zwisu.',
+        '3. Opuść się pod kontrolą do pełnego zwisu.',
       'rack_pull':
         '1. Połóż sztangę na zabezpieczeniach tuż pod lub nad kolanami.\n'
         '2. Chwyć ją, napnij brzuch i wstań, pchając biodra do przodu.\n'
@@ -3215,7 +3215,7 @@ const seedTranslations = <String, SeedTranslation>{
       'push_press':
         '1. Sztanga z przodu na barkach, stopy na szerokość bioder.\n'
         '2. Lekko ugnij kolana i siłą nóg wypchnij sztangę nad głowę.\n'
-        '3. Kontrolowanie opuść ją na barki.',
+        '3. Opuść ją pod kontrolą na barki.',
       'cable_lateral_raise':
         '1. Stań bokiem do dolnego wyciągu, uchwyt w dalszej ręce.\n'
         '2. Unieś rękę w bok do wysokości barku.\n'
@@ -3241,13 +3241,13 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Rozciągnij ją do klatki, ściągając łopatki.\n'
         '3. Powoli wróć.',
       'handstand_push_up':
-        '1. Wejdź w stanie na rękach przy ścianie, dłonie na szerokość barków.\n'
-        '2. Kontrolowanie opuszczaj głowę do podłogi.\n'
+        '1. Wejdź wymachem do stania na rękach przy ścianie, dłonie na szerokość barków.\n'
+        '2. Opuszczaj głowę pod kontrolą do podłogi.\n'
         '3. Wypchnij się do prostych rąk. Połóż matę pod głowę.',
       'landmine_press':
         '1. Trzymaj koniec sztangi landmine przy barku, nogi w lekkim wykroku.\n'
         '2. Wypchnij ją w górę i do przodu do prostej ręki.\n'
-        '3. Kontrolowanie wróć do barku.',
+        '3. Wróć pod kontrolą do barku.',
       'preacher_curl':
         '1. Usiądź przy modlitewniku, ramiona płasko na oparciu, sztanga łamana w dłoniach.\n'
         '2. Ugnij ręce, nie odrywając łokci od oparcia.\n'
@@ -3338,7 +3338,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Wstań i napnij pośladki.',
       'pistol_squat':
         '1. Stań na jednej nodze, drugą wyprostuj przed sobą.\n'
-        '2. Kontrolowanie zejdź jak najniżej, ręce z przodu dla równowagi.\n'
+        '2. Zejdź pod kontrolą jak najniżej, ręce z przodu dla równowagi.\n'
         '3. Wstań. Na początku możesz się czegoś przytrzymać.',
       'single_leg_press':
         '1. Usiądź na suwnicy, jedną stopę postaw na środku platformy.\n'
@@ -3367,7 +3367,7 @@ const seedTranslations = <String, SeedTranslation>{
       'nordic_curl':
         '1. Uklęknij z piętami zablokowanymi pod czymś stabilnym.\n'
         '2. Jak najwolniej opadaj tułowiem do przodu, biodra wyprostowane.\n'
-        '3. Złap się rękami i podciągnij z powrotem mięśniami dwugłowymi.',
+        '3. Złap się rękami i podciągnij z powrotem mięśniami dwugłowymi ud.',
       'single_leg_rdl':
         '1. Stań na jednej nodze z hantlem, kolano lekko ugięte.\n'
         '2. Pochyl się, a wolną nogę wyprostuj do tyłu, plecy proste.\n'
@@ -3522,7 +3522,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Ustaw opór według celu i jedź przez zadany czas.',
       'treadmill_run':
         '1. Zacznij od marszu i stopniowo zwiększaj prędkość.\n'
-        '2. Biegnij wyprostowany z luźnymi barkami, lądując pod biodrami.\n'
+        '2. Biegnij z wyprostowaną sylwetką i luźnymi barkami, lądując pod biodrami.\n'
         '3. Przed zejściem zwolnij do marszu.',
       'elliptical':
         '1. Stań na pedałach i chwyć ruchome uchwyty.\n'
@@ -3530,7 +3530,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Utrzymuj równe tempo przez zadany czas.',
       'stair_climber':
         '1. Wejdź na schody i wybierz prędkość, którą utrzymasz.\n'
-        '2. Wchodź wyprostowany, poręczy używaj tylko lekko dla równowagi.\n'
+        '2. Wchodź z wyprostowaną sylwetką, poręczy używaj tylko lekko dla równowagi.\n'
         '3. Kontynuuj przez zadany czas.',
       'air_bike':
         '1. Usiądź na rowerze i chwyć ruchome uchwyty.\n'
@@ -3771,7 +3771,7 @@ const seedTranslations = <String, SeedTranslation>{
       'pull_up':
         '1. Pendure-se na barra com pegada pronada, ombros ativos.\n'
         '2. Suba até o queixo passar da barra.\n'
-        '3. Desça com controle até ficar totalmente pendurado.',
+        '3. Desça com controle até estender totalmente os braços.',
       'overhead_press':
         '1. Barra apoiada na frente dos ombros, pegada logo fora dos ombros.\n'
         '2. Contraia glúteos e abdômen e empurre a barra reto para cima.\n'
@@ -3869,9 +3869,9 @@ const seedTranslations = <String, SeedTranslation>{
       'chin_up':
         '1. Pendure-se na barra com pegada supinada, na largura dos ombros.\n'
         '2. Suba até o queixo passar da barra.\n'
-        '3. Desça com controle até ficar totalmente pendurado.',
+        '3. Desça com controle até estender totalmente os braços.',
       'dumbbell_shoulder_press':
-        '1. Sentado ou em pé, halteres na altura dos ombros.\n'
+        '1. Em um banco ou em pé, halteres na altura dos ombros.\n'
         '2. Empurre acima da cabeça sem arquear a lombar.\n'
         '3. Desça devagar de volta aos ombros.',
       'rear_delt_fly':
@@ -3958,7 +3958,7 @@ const seedTranslations = <String, SeedTranslation>{
         '1. Prenda uma anilha em um cinto de carga ou segure um halter entre os pés.\n'
         '2. Pendure-se na barra com pegada pronada, ombros ativos.\n'
         '3. Suba sem balançar até o queixo passar da barra.\n'
-        '4. Desça com controle até ficar totalmente pendurado. Registre só a carga adicional.',
+        '4. Desça com controle até estender totalmente os braços. Registre só a carga adicional.',
       'weighted_dips':
         '1. Prenda uma anilha em um cinto de carga ou segure um halter entre os pés.\n'
         '2. Apoie-se nas barras com os braços estendidos.\n'
@@ -3982,7 +3982,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Desça devagar até estender os braços.',
       'dead_hang':
         '1. Segure a barra com pegada pronada na largura dos ombros.\n'
-        '2. Fique pendurado com os braços estendidos, pés fora do chão, corpo parado.\n'
+        '2. Pendure-se com os braços estendidos, pés fora do chão, corpo parado.\n'
         '3. Segure pelo tempo definido com os ombros levemente ativos.',
       'back_extension':
         '1. Ajuste o apoio logo abaixo do quadril e prenda os calcanhares.\n'
@@ -4013,7 +4013,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Desça em arco amplo até sentir a parte alta do peito alongar.\n'
         '3. Junte-os de novo sobre o peito.',
       'low_to_high_cable_fly':
-        '1. Coloque as polias embaixo e fique entre elas, levemente inclinado.\n'
+        '1. Coloque as polias embaixo e fique entre elas com o tronco levemente inclinado.\n'
         '2. Leve as alças para cima e juntas na frente da parte alta do peito.\n'
         '3. Volte devagar ao alongamento, cotovelos levemente flexionados.',
       'incline_chest_press_machine':
@@ -4063,7 +4063,7 @@ const seedTranslations = <String, SeedTranslation>{
       'band_assisted_pull_up':
         '1. Passe um elástico na barra e apoie um pé ou joelho nele.\n'
         '2. Suba até o queixo passar a barra.\n'
-        '3. Desça com controle até ficar pendurado. Elástico mais fino = menos ajuda.',
+        '3. Desça com controle até estender os braços. Elástico mais fino = menos ajuda.',
       'inverted_row':
         '1. Pendure-se sob uma barra baixa ou argolas, corpo reto, calcanhares no chão.\n'
         '2. Puxe o peito até a barra juntando as escápulas.\n'
@@ -4071,7 +4071,7 @@ const seedTranslations = <String, SeedTranslation>{
       'neutral_grip_pull_up':
         '1. Pendure-se em pegadores paralelos, palmas voltadas uma para a outra.\n'
         '2. Suba até o queixo passar os pegadores.\n'
-        '3. Desça com controle até ficar totalmente pendurado.',
+        '3. Desça com controle até estender totalmente os braços.',
       'rack_pull':
         '1. Coloque a barra nos apoios logo abaixo ou acima dos joelhos.\n'
         '2. Segure, contraia o abdômen e suba empurrando o quadril para frente.\n'
@@ -4090,10 +4090,10 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Traga-o de volta sobre o peito.',
       'renegade_row':
         '1. Em posição de flexão sobre dois halteres, pés afastados.\n'
-        '2. Puxe um halter até o quadril sem girar o quadril.\n'
+        '2. Puxe um halter até a lateral do corpo sem girar o quadril.\n'
         '3. Apoie e repita com o outro braço.',
       'arnold_press':
-        '1. Sentado, halteres na frente dos ombros, palmas para você.\n'
+        '1. Sente-se com os halteres na frente dos ombros, palmas para você.\n'
         '2. Empurre para cima girando as palmas para frente.\n'
         '3. Desça girando de volta à posição inicial.',
       'shoulder_press_machine':
@@ -4141,7 +4141,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Suba a barra sem tirar os cotovelos do apoio.\n'
         '3. Desça devagar quase até estender.',
       'concentration_curl':
-        '1. Sentado em um banco, cotovelo apoiado na parte interna da coxa.\n'
+        '1. Sente-se em um banco, cotovelo apoiado na parte interna da coxa.\n'
         '2. Suba o halter em direção ao ombro.\n'
         '3. Desça devagar até o alongamento completo.',
       'incline_dumbbell_curl':
@@ -4193,7 +4193,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Desça o peito até as mãos, cotovelos junto ao corpo.\n'
         '3. Suba com o corpo reto.',
       'reverse_wrist_curl':
-        '1. Sentado, antebraços nas coxas, palmas para baixo, punhos para fora dos joelhos.\n'
+        '1. Sente-se com os antebraços nas coxas, palmas para baixo, punhos para fora dos joelhos.\n'
         '2. Levante o dorso das mãos o mais alto possível.\n'
         '3. Desça devagar.',
       'hack_squat':
@@ -4322,7 +4322,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Deixe voltar devagar para alongar. Joelhos estendidos.',
       'sit_up':
         '1. Deite de costas, joelhos dobrados, pés no chão.\n'
-        '2. Suba até ficar sentado.\n'
+        '2. Suba até se sentar.\n'
         '3. Desça devagar.',
       'decline_sit_up':
         '1. Prenda os pés no banco declinado e deite.\n'
@@ -4349,7 +4349,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Role para frente o máximo possível sem deixar a lombar cair.\n'
         '3. Volte puxando com o abdômen.',
       'russian_twist':
-        '1. Sente levemente inclinado para trás, pés elevados ou no chão.\n'
+        '1. Sente com o tronco levemente inclinado para trás, pés elevados ou no chão.\n'
         '2. Gire o tronco e toque o chão ao lado do quadril.\n'
         '3. Gire para o outro lado. Segure um peso para mais carga.',
       'v_up':
@@ -4410,7 +4410,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Ajuste a resistência ao seu objetivo pelo tempo definido.',
       'treadmill_run':
         '1. Comece caminhando e aumente a velocidade aos poucos.\n'
-        '2. Corra ereto com os ombros soltos, pisando sob o quadril.\n'
+        '2. Corra com o tronco ereto e os ombros soltos, pisando sob o quadril.\n'
         '3. Reduza para caminhada antes de descer.',
       'elliptical':
         '1. Suba nos pedais e segure as alças móveis.\n'
@@ -4418,7 +4418,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Mantenha ritmo constante pelo tempo definido.',
       'stair_climber':
         '1. Suba e escolha uma velocidade que consiga manter.\n'
-        '2. Suba ereto, use o corrimão só para equilíbrio.\n'
+        '2. Suba com o tronco ereto, use o corrimão só para equilíbrio.\n'
         '3. Continue pelo tempo definido.',
       'air_bike':
         '1. Sente e segure as alças móveis.\n'
@@ -4457,7 +4457,7 @@ const seedTranslations = <String, SeedTranslation>{
       'bench_press': 'Panca piana',
       'incline_dumbbell_press': 'Panca inclinata con manubri',
       'cable_fly': 'Croci ai cavi',
-      'push_up': 'Piegamenti',
+      'push_up': 'Flessioni',
       'deadlift': 'Stacco da terra',
       'barbell_row': 'Rematore con bilanciere',
       'lat_pulldown': 'Lat machine',
@@ -4524,8 +4524,8 @@ const seedTranslations = <String, SeedTranslation>{
       'low_to_high_cable_fly': 'Croci ai cavi dal basso verso l’alto',
       'incline_chest_press_machine': 'Chest press inclinata',
       'chest_dips': 'Dip per il petto',
-      'incline_push_up': 'Piegamenti inclinati',
-      'decline_push_up': 'Piegamenti declinati',
+      'incline_push_up': 'Flessioni inclinate',
+      'decline_push_up': 'Flessioni declinate',
       'dumbbell_floor_press': 'Floor press con manubri',
       't_bar_row': 'Rematore T-bar',
       'pendlay_row': 'Rematore Pendlay',
@@ -4550,7 +4550,7 @@ const seedTranslations = <String, SeedTranslation>{
       'upright_row': 'Tirate al mento',
       'reverse_pec_deck': 'Pec deck inversa',
       'band_pull_apart': 'Band pull-apart',
-      'handstand_push_up': 'Piegamenti in verticale',
+      'handstand_push_up': 'Flessioni in verticale',
       'landmine_press': 'Landmine press',
       'preacher_curl': 'Curl alla panca Scott',
       'concentration_curl': 'Curl di concentrazione',
@@ -4565,7 +4565,7 @@ const seedTranslations = <String, SeedTranslation>{
       'bench_dips': 'Dip su panca',
       'machine_triceps_dip': 'Dip alla macchina',
       'single_arm_pushdown': 'Pushdown al cavo a un braccio',
-      'diamond_push_up': 'Piegamenti a diamante',
+      'diamond_push_up': 'Flessioni a diamante',
       'reverse_wrist_curl': 'Curl inverso per i polsi',
       'hack_squat': 'Hack squat',
       'smith_squat': 'Squat al multipower',
@@ -4669,7 +4669,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Solleva lateralmente fino all’altezza delle spalle.\n'
         '3. Scendi lentamente, senza slanci.',
       'pike_push_up':
-        '1. Parti in posizione di piegamento e solleva le anche formando una V rovesciata.\n'
+        '1. Parti in posizione da flessioni e solleva le anche formando una V rovesciata.\n'
         '2. Abbassa la testa verso il pavimento tra le mani.\n'
         '3. Risali spingendo con le spalle.',
       'dumbbell_curl':
@@ -4723,7 +4723,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Solleva le spalle da terra usando gli addominali.\n'
         '3. Scendi lentamente, non tirare il collo.',
       'mountain_climber':
-        '1. Parti in posizione di piegamento.\n'
+        '1. Parti in posizione da flessioni.\n'
         '2. Porta le ginocchia verso il petto, una dopo l’altra.\n'
         '3. Tieni le anche basse e il ritmo costante.',
       'jumping_jack':
@@ -4759,7 +4759,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Tirati su finché il mento supera la sbarra.\n'
         '3. Scendi con controllo fino a braccia completamente distese.',
       'dumbbell_shoulder_press':
-        '1. Da seduti o in piedi, manubri all’altezza delle spalle.\n'
+        '1. Su una panca o in piedi, manubri all’altezza delle spalle.\n'
         '2. Spingi sopra la testa senza inarcare la zona lombare.\n'
         '3. Scendi lentamente fino alle spalle.',
       'rear_delt_fly':
@@ -4836,7 +4836,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Mantieni, poi cambia lato.',
       'burpee':
         '1. Da in piedi, accosciati e appoggia le mani a terra.\n'
-        '2. Porta i piedi indietro con un salto in posizione di plank, se vuoi fai un piegamento.\n'
+        '2. Porta i piedi indietro con un salto in posizione di plank, se vuoi fai una flessione.\n'
         '3. Riporta i piedi in avanti con un salto e salta verso l’alto.',
       'kettlebell_swing':
         '1. Kettlebell davanti a te, piedi poco più larghi delle anche.\n'
@@ -4870,7 +4870,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Scendi lentamente fino a braccia tese.',
       'dead_hang':
         '1. Afferra la sbarra in presa prona alla larghezza delle spalle.\n'
-        '2. Resta appeso a braccia tese, piedi sollevati, corpo fermo.\n'
+        '2. Appenditi a braccia tese, piedi sollevati, corpo fermo.\n'
         '3. Tieni per il tempo previsto con le spalle leggermente attive.',
       'back_extension':
         '1. Regola il cuscino appena sotto le anche e blocca i talloni.\n'
@@ -4901,7 +4901,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Scendi con un ampio arco fino a sentire l’allungamento del petto alto.\n'
         '3. Richiudili sopra il petto.',
       'low_to_high_cable_fly':
-        '1. Imposta i cavi in basso e mettiti in mezzo, leggermente inclinato.\n'
+        '1. Imposta i cavi in basso e mettiti in mezzo, busto leggermente inclinato.\n'
         '2. Porta le maniglie in alto e unite davanti al petto alto.\n'
         '3. Torna lentamente in allungamento, gomiti leggermente piegati.',
       'incline_chest_press_machine':
@@ -4947,7 +4947,7 @@ const seedTranslations = <String, SeedTranslation>{
       'straight_arm_pulldown':
         '1. In piedi davanti al cavo alto, braccia quasi tese, leggera inclinazione.\n'
         '2. Porta la barra in arco fino alle cosce usando i dorsali.\n'
-        '3. Risali lentamente, gomiti quasi tesi.',
+        '3. Lascia risalire lentamente, gomiti quasi tesi.',
       'band_assisted_pull_up':
         '1. Aggancia un elastico alla sbarra e appoggia un piede o un ginocchio.\n'
         '2. Sali finché il mento supera la sbarra.\n'
@@ -4955,7 +4955,7 @@ const seedTranslations = <String, SeedTranslation>{
       'inverted_row':
         '1. Appenditi sotto una sbarra bassa o agli anelli, corpo dritto, talloni a terra.\n'
         '2. Porta il petto alla sbarra stringendo le scapole.\n'
-        '3. Scendi in controllo. Più sei verticale, più è facile.',
+        '3. Scendi in controllo. Più il corpo è verticale, più è facile.',
       'neutral_grip_pull_up':
         '1. Appenditi a maniglie parallele, palmi uno verso l’altro.\n'
         '2. Sali finché il mento supera le maniglie.\n'
@@ -4966,7 +4966,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Riportalo sui fermi a schiena dritta.',
       'trap_bar_deadlift':
         '1. Mettiti dentro la trap bar, piedi alla larghezza delle anche, afferra le maniglie.\n'
-        '2. Contrai, spingi il pavimento e alzati dritto.\n'
+        '2. Contrai, spingi il pavimento e torna in piedi.\n'
         '3. Riporta giù la barra a schiena dritta.',
       'single_arm_cable_row':
         '1. Afferra una maniglia al cavo a metà altezza, braccio teso.\n'
@@ -4977,11 +4977,11 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Portalo ad arco dietro la testa, gomiti leggermente piegati.\n'
         '3. Riportalo sopra il petto.',
       'renegade_row':
-        '1. In posizione di piegamento su due manubri, piedi larghi.\n'
+        '1. In posizione da flessioni sui manubri, piedi larghi.\n'
         '2. Tira un manubrio al fianco senza ruotare il bacino.\n'
         '3. Appoggialo e ripeti con l’altro braccio.',
       'arnold_press':
-        '1. Seduto, manubri davanti alle spalle, palmi verso di te.\n'
+        '1. Siediti con i manubri davanti alle spalle, palmi verso di te.\n'
         '2. Spingi in alto ruotando i palmi in avanti.\n'
         '3. Scendi ruotando di nuovo alla posizione iniziale.',
       'shoulder_press_machine':
@@ -5009,7 +5009,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Tiralo lungo il corpo fino al petto, guidano i gomiti.\n'
         '3. Scendi lentamente. Se le spalle danno fastidio, sali meno.',
       'reverse_pec_deck':
-        '1. Siediti rivolto alla macchina, petto sul cuscino, afferra le maniglie.\n'
+        '1. Siediti di fronte alla macchina, petto sul cuscino, afferra le maniglie.\n'
         '2. Apri le braccia indietro ad arco fino a essere in linea con il corpo.\n'
         '3. Torna lentamente.',
       'band_pull_apart':
@@ -5029,7 +5029,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Solleva il bilanciere senza staccare i gomiti.\n'
         '3. Scendi lentamente quasi a braccia tese.',
       'concentration_curl':
-        '1. Seduto su una panca, gomito appoggiato all’interno della coscia.\n'
+        '1. Siediti su una panca, gomito appoggiato all’interno della coscia.\n'
         '2. Porta il manubrio verso la spalla.\n'
         '3. Scendi lentamente fino al pieno allungamento.',
       'incline_dumbbell_curl':
@@ -5077,11 +5077,11 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Spingi in basso fino a braccio teso.\n'
         '3. Lascia risalire lentamente, il gomito resta fermo.',
       'diamond_push_up':
-        '1. Posizione di piegamento con le mani unite sotto il petto a formare un rombo.\n'
+        '1. Posizione da flessioni con le mani unite sotto il petto a formare un rombo.\n'
         '2. Porta il petto alle mani, gomiti stretti.\n'
         '3. Risali con il corpo dritto.',
       'reverse_wrist_curl':
-        '1. Seduto, avambracci sulle cosce, palmi in giù, polsi oltre le ginocchia.\n'
+        '1. Siediti con gli avambracci sulle cosce, palmi in giù, polsi oltre le ginocchia.\n'
         '2. Solleva il dorso delle mani il più in alto possibile.\n'
         '3. Scendi lentamente.',
       'hack_squat':
@@ -5135,7 +5135,7 @@ const seedTranslations = <String, SeedTranslation>{
       'box_jump':
         '1. Mettiti davanti a un box stabile.\n'
         '2. Slancia le braccia e salta sul box atterrando morbido.\n'
-        '3. Distenditi completamente e scendi camminando.',
+        '3. Raddrizzati completamente e scendi camminando.',
       'seated_leg_curl':
         '1. Siediti nella macchina, cuscino sopra i talloni, cosce bloccate.\n'
         '2. Porta i talloni in basso e indietro il più possibile.\n'
@@ -5157,7 +5157,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Piegati a schiena dritta facendo scendere il bilanciere lungo le gambe.\n'
         '3. Risali contraendo femorali e glutei.',
       'stability_ball_leg_curl':
-        '1. Supino, talloni sulla fitball, bacino sollevato.\n'
+        '1. Sdraiati sulla schiena, talloni sulla fitball, bacino sollevato.\n'
         '2. Avvicina la palla piegando le ginocchia.\n'
         '3. Allontanala lentamente, il bacino resta su.',
       'sumo_deadlift':
@@ -5177,7 +5177,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Spingi in alto il bacino fino all’allineamento ginocchia-spalle.\n'
         '3. Contrai i glutei in alto e scendi lentamente.',
       'single_leg_glute_bridge':
-        '1. Supino, un piede a terra e l’altra gamba tesa verso l’alto.\n'
+        '1. Sdraiati sulla schiena, un piede a terra e l’altra gamba tesa verso l’alto.\n'
         '2. Solleva il bacino spingendo con il tallone a terra.\n'
         '3. Scendi lentamente. Finisci e cambia gamba.',
       'donkey_kick':
@@ -5197,7 +5197,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Piegati a schiena dritta lasciando andare indietro la corda.\n'
         '3. Spingi le anche in avanti per tornare su e contrai i glutei.',
       'seated_calf_raise':
-        '1. Seduto, cuscino sulle cosce, avampiedi sul gradino.\n'
+        '1. Siediti con il cuscino sulle cosce, avampiedi sul gradino.\n'
         '2. Solleva i talloni il più in alto possibile.\n'
         '3. Scendi lentamente fino al pieno allungamento.',
       'single_leg_calf_raise':
@@ -5209,7 +5209,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Spingi la pedana distendendo i piedi.\n'
         '3. Lasciala tornare lentamente in allungamento. Ginocchia tese.',
       'sit_up':
-        '1. Supino, ginocchia piegate, piedi a terra.\n'
+        '1. Sdraiati sulla schiena, ginocchia piegate, piedi a terra.\n'
         '2. Arrotolati fino alla posizione seduta.\n'
         '3. Scendi lentamente.',
       'decline_sit_up':
@@ -5217,15 +5217,15 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Sali finché il busto è verticale.\n'
         '3. Scendi lentamente. Tieni un disco per più carico.',
       'bicycle_crunch':
-        '1. Supino, mani vicino alla testa, gambe sollevate.\n'
+        '1. Sdraiati sulla schiena, mani vicino alla testa, gambe sollevate.\n'
         '2. Porta un gomito verso il ginocchio opposto mentre distendi l’altra gamba.\n'
         '3. Alterna i lati come se pedalassi.',
       'reverse_crunch':
-        '1. Supino, ginocchia a 90°, braccia a terra.\n'
+        '1. Sdraiati sulla schiena, ginocchia a 90°, braccia a terra.\n'
         '2. Solleva il bacino e porta le ginocchia al petto.\n'
         '3. Scendi lentamente senza slancio.',
       'lying_leg_raise':
-        '1. Supino, gambe tese, zona lombare a terra.\n'
+        '1. Sdraiati sulla schiena, gambe tese, zona lombare a terra.\n'
         '2. Solleva le gambe finché puntano al soffitto.\n'
         '3. Scendi lentamente senza inarcare la schiena.',
       'captains_chair_knee_raise':
@@ -5237,15 +5237,15 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Rotola in avanti il più possibile senza far cedere la zona lombare.\n'
         '3. Torna indietro tirando con gli addominali.',
       'russian_twist':
-        '1. Seduto leggermente inclinato indietro, piedi sollevati o a terra.\n'
+        '1. Siediti con il busto leggermente inclinato indietro, piedi sollevati o a terra.\n'
         '2. Ruota il busto e tocca terra accanto al fianco.\n'
         '3. Ruota dall’altra parte. Tieni un peso per più carico.',
       'v_up':
-        '1. Supino, braccia sopra la testa, gambe tese.\n'
+        '1. Sdraiati sulla schiena, braccia sopra la testa, gambe tese.\n'
         '2. Solleva insieme braccia e gambe e tocca i piedi.\n'
         '3. Scendi lentamente.',
       'hollow_hold':
-        '1. Supino, premi la zona lombare a terra.\n'
+        '1. Sdraiati sulla schiena e premi la zona lombare a terra.\n'
         '2. Solleva leggermente spalle e gambe tese.\n'
         '3. Tieni per il tempo previsto senza inarcare la schiena.',
       'pallof_press':
@@ -5267,13 +5267,13 @@ const seedTranslations = <String, SeedTranslation>{
       'power_clean':
         '1. Sopra il bilanciere, presa appena fuori dalle ginocchia, schiena dritta.\n'
         '2. Tira il bilanciere in modo esplosivo lungo il corpo e ricevilo sulla parte anteriore delle spalle.\n'
-        '3. Distenditi e riappoggia il bilanciere. Impara la tecnica con poco peso.',
+        '3. Raddrizzati e riappoggia il bilanciere. Impara la tecnica con poco peso.',
       'thruster':
         '1. Tieni il bilanciere sulla parte anteriore delle spalle.\n'
         '2. Scendi in squat e risalendo spingi il bilanciere sopra la testa in un solo movimento.\n'
         '3. Riportalo sulle spalle e passa subito allo squat successivo.',
       'turkish_get_up':
-        '1. Supino, tieni un kettlebell in alto con un braccio teso.\n'
+        '1. Sdraiati sulla schiena e tieni un kettlebell in alto con un braccio teso.\n'
         '2. Alzati passo dopo passo guardando il kettlebell, braccio teso.\n'
         '3. Torna a terra con gli stessi passaggi. Lavora entrambi i lati.',
       'bear_crawl':
@@ -5298,7 +5298,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Regola la resistenza in base all’obiettivo per il tempo previsto.',
       'treadmill_run':
         '1. Inizia camminando e aumenta la velocità gradualmente.\n'
-        '2. Corri eretto con le spalle rilassate, appoggio sotto le anche.\n'
+        '2. Corri con il busto eretto e le spalle rilassate, appoggio sotto le anche.\n'
         '3. Rallenta camminando prima di scendere.',
       'elliptical':
         '1. Sali sui pedali e afferra le maniglie mobili.\n'
@@ -5306,7 +5306,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Mantieni un ritmo costante per il tempo previsto.',
       'stair_climber':
         '1. Sali e scegli una velocità che riesci a mantenere.\n'
-        '2. Sali eretto, usa i corrimano solo per l’equilibrio.\n'
+        '2. Sali con il busto eretto, usa i corrimano solo per l’equilibrio.\n'
         '3. Continua per il tempo previsto.',
       'air_bike':
         '1. Siediti e afferra le maniglie mobili.\n'
@@ -5347,7 +5347,7 @@ const seedTranslations = <String, SeedTranslation>{
       'cable_fly': 'Rozpažovanie na kladke',
       'push_up': 'Kľuk',
       'deadlift': 'Mŕtvy ťah',
-      'barbell_row': 'Priťahovanie veľkej činky v predklone',
+      'barbell_row': 'Príťahy veľkej činky v predklone',
       'lat_pulldown': 'Sťahovanie hornej kladky',
       'pull_up': 'Zhyb',
       'overhead_press': 'Tlaky nad hlavu',
@@ -5366,17 +5366,17 @@ const seedTranslations = <String, SeedTranslation>{
       'plank': 'Plank',
       'crunch': 'Skracovačky',
       'mountain_climber': 'Horolezec',
-      'jumping_jack': 'Skákajúci panák',
+      'jumping_jack': 'Panáky (jumping jacks)',
       'dumbbell_bench_press': 'Tlaky s jednoručkami na rovnej lavičke',
       'incline_bench_press': 'Bench press na šikmej lavičke',
       'chest_press_machine': 'Tlaky na hrudníkovom stroji',
       'pec_deck': 'Butterfly na stroji',
-      'seated_cable_row': 'Priťahovanie spodnej kladky v sede',
-      'one_arm_dumbbell_row': 'Priťahovanie jednoručky v opore',
+      'seated_cable_row': 'Príťahy spodnej kladky v sede',
+      'one_arm_dumbbell_row': 'Príťahy jednoručky v opore',
       'chin_up': 'Zhyb podhmatom',
       'dumbbell_shoulder_press': 'Tlaky s jednoručkami nad hlavu',
       'rear_delt_fly': 'Zapažovanie v predklone',
-      'face_pull': 'Priťahovanie lana k tvári',
+      'face_pull': 'Príťahy lana k tvári',
       'barbell_curl': 'Bicepsový zdvih s veľkou činkou',
       'hammer_curl': 'Kladivové zdvihy',
       'cable_curl': 'Bicepsový zdvih na kladke',
@@ -5396,7 +5396,7 @@ const seedTranslations = <String, SeedTranslation>{
       'burpee': 'Angličák',
       'kettlebell_swing': 'Švihy s kettlebellom',
       'weighted_pull_up': 'Zhyby so záťažou',
-      'weighted_dips': 'Dipy so záťažou',
+      'weighted_dips': 'Kľuky na bradlách so záťažou',
       'barbell_shrug': 'Krčenie ramien s veľkou činkou',
       'dumbbell_shrug': 'Krčenie ramien s jednoručkami',
       'wrist_curl': 'Zápästné zdvihy',
@@ -5405,27 +5405,27 @@ const seedTranslations = <String, SeedTranslation>{
       'back_extension': 'Hyperextenzie',
       'good_morning': 'Predklony s osou (good morning)',
       'superman': 'Superman',
-      'decline_bench_press': 'Bench press na negatívnej lavici',
+      'decline_bench_press': 'Bench press na negatívnej lavičke',
       'smith_bench_press': 'Bench press na Smithovom stroji',
       'dumbbell_fly': 'Rozpažovanie s jednoručkami',
-      'incline_dumbbell_fly': 'Rozpažovanie s jednoručkami na šikmej lavici',
+      'incline_dumbbell_fly': 'Rozpažovanie s jednoručkami na šikmej lavičke',
       'low_to_high_cable_fly': 'Rozpažovanie na kladke zdola nahor',
       'incline_chest_press_machine': 'Tlaky na šikmom hrudnom stroji',
-      'chest_dips': 'Kliky na bradlách na hrudník',
-      'incline_push_up': 'Klik s rukami na vyvýšení',
-      'decline_push_up': 'Klik s nohami na vyvýšení',
+      'chest_dips': 'Kľuky na bradlách na hrudník',
+      'incline_push_up': 'Kľuk s rukami na vyvýšení',
+      'decline_push_up': 'Kľuk s nohami na vyvýšení',
       'dumbbell_floor_press': 'Tlaky s jednoručkami v ľahu na zemi',
       't_bar_row': 'Príťahy T-osi',
       'pendlay_row': 'Pendlay príťahy',
       'machine_row': 'Príťahy na stroji v sede',
-      'chest_supported_row': 'Príťahy jednoručiek v ľahu na šikmej lavici',
+      'chest_supported_row': 'Príťahy jednoručiek v ľahu na šikmej lavičke',
       'close_grip_lat_pulldown': 'Sťahovanie hornej kladky úzkym úchopom',
       'straight_arm_pulldown': 'Sťahovanie kladky s natiahnutými pažami',
       'band_assisted_pull_up': 'Zhyby s gumou',
       'inverted_row': 'Austrálske zhyby',
       'neutral_grip_pull_up': 'Zhyby neutrálnym úchopom',
       'rack_pull': 'Mŕtvy ťah zo stojana',
-      'trap_bar_deadlift': 'Mŕtvy ťah s trap bar',
+      'trap_bar_deadlift': 'Mŕtvy ťah s trap barom',
       'single_arm_cable_row': 'Príťahy kladky jednorúč',
       'dumbbell_pullover': 'Preťahovanie jednoručky v ľahu',
       'renegade_row': 'Príťahy v planku',
@@ -5438,11 +5438,11 @@ const seedTranslations = <String, SeedTranslation>{
       'upright_row': 'Príťahy k brade',
       'reverse_pec_deck': 'Zapažovanie na stroji (reverse butterfly)',
       'band_pull_apart': 'Rozťahovanie gumy',
-      'handstand_push_up': 'Klik v stojke',
+      'handstand_push_up': 'Kľuk v stojke',
       'landmine_press': 'Landmine tlak',
-      'preacher_curl': 'Bicepsový zdvih na Scottovej lavici',
+      'preacher_curl': 'Bicepsový zdvih na Scottovej lavičke',
       'concentration_curl': 'Koncentrovaný bicepsový zdvih',
-      'incline_dumbbell_curl': 'Bicepsový zdvih v ľahu na šikmej lavici',
+      'incline_dumbbell_curl': 'Bicepsový zdvih v ľahu na šikmej lavičke',
       'ez_bar_curl': 'Bicepsový zdvih s EZ osou',
       'rope_hammer_curl': 'Kladivový zdvih na kladke s lanom',
       'machine_biceps_curl': 'Bicepsový zdvih na stroji',
@@ -5450,16 +5450,16 @@ const seedTranslations = <String, SeedTranslation>{
       'rope_pushdown': 'Sťahovanie lana na triceps',
       'overhead_cable_extension': 'Tricepsové tlaky za hlavou na kladke',
       'triceps_kickback': 'Zanožovanie predlaktia s jednoručkou (kickback)',
-      'bench_dips': 'Kliky vzad o lavicu',
+      'bench_dips': 'Kľuky vzad o lavičku',
       'machine_triceps_dip': 'Tricepsové tlaky na stroji (dipy)',
       'single_arm_pushdown': 'Sťahovanie kladky jednorúč',
-      'diamond_push_up': 'Diamantový klik',
+      'diamond_push_up': 'Diamantový kľuk',
       'reverse_wrist_curl': 'Zápästné zdvihy nadhmatom',
       'hack_squat': 'Hack drep na stroji',
       'smith_squat': 'Drep na Smithovom stroji',
       'walking_lunge': 'Výpady v chôdzi',
       'reverse_lunge': 'Výpady vzad',
-      'step_up': 'Výstupy na lavicu',
+      'step_up': 'Výstupy na lavičku',
       'split_squat': 'Drep vo výpade',
       'sumo_squat': 'Sumo drep s jednoručkou',
       'pistol_squat': 'Drep na jednej nohe (pistol)',
@@ -5469,7 +5469,7 @@ const seedTranslations = <String, SeedTranslation>{
       'jump_squat': 'Drep s výskokom',
       'box_jump': 'Výskoky na debnu',
       'seated_leg_curl': 'Zakopávanie v sede na stroji',
-      'nordic_curl': 'Nórske zakopávanie',
+      'nordic_curl': 'Severské zakopávanie (nordic curl)',
       'single_leg_rdl': 'Rumunský mŕtvy ťah na jednej nohe',
       'dumbbell_romanian_deadlift': 'Rumunský mŕtvy ťah s jednoručkami',
       'stiff_leg_deadlift': 'Mŕtvy ťah s natiahnutými nohami',
@@ -5478,7 +5478,7 @@ const seedTranslations = <String, SeedTranslation>{
       'cable_glute_kickback': 'Zanožovanie na kladke',
       'hip_abduction_machine': 'Unožovanie na stroji',
       'machine_hip_thrust': 'Hip thrust na stroji',
-      'single_leg_glute_bridge': 'Gluteálny mostík na jednej nohe',
+      'single_leg_glute_bridge': 'Sedací mostík na jednej nohe',
       'donkey_kick': 'Zanožovanie v kľaku',
       'fire_hydrant': 'Unožovanie v kľaku',
       'banded_lateral_walk': 'Chôdza do strany s gumou',
@@ -5487,7 +5487,7 @@ const seedTranslations = <String, SeedTranslation>{
       'single_leg_calf_raise': 'Výpony na jednej nohe',
       'leg_press_calf_raise': 'Výpony na legpresse',
       'sit_up': 'Sed-ľahy',
-      'decline_sit_up': 'Sed-ľahy na šikmej lavici',
+      'decline_sit_up': 'Sed-ľahy na šikmej lavičke',
       'bicycle_crunch': 'Bicyklové skracovačky',
       'reverse_crunch': 'Spätné skracovačky',
       'lying_leg_raise': 'Dvíhanie nôh v ľahu',
@@ -5500,7 +5500,7 @@ const seedTranslations = <String, SeedTranslation>{
       'cable_woodchopper': 'Drevorubač na kladke',
       'plank_shoulder_tap': 'Plank s dotykom ramien',
       'bird_dog': 'Bird dog (dvíhanie ruky a nohy v kľaku)',
-      'power_clean': 'Prinášanie (power clean)',
+      'power_clean': 'Power clean (nadhod na hrudník)',
       'thruster': 'Thruster (drep s tlakom nad hlavu)',
       'turkish_get_up': 'Turecký vztyk',
       'bear_crawl': 'Medvedia chôdza',
@@ -5749,7 +5749,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Vytiahni ramená kolmo hore čo najvyššie.\n'
         '3. Krátko vydrž a kontrolovane spusti.',
       'wrist_curl':
-        '1. Sadni si, predlaktia opri o stehná alebo lavicu dlaňami hore, zápästia presahujú okraj.\n'
+        '1. Sadni si, predlaktia opri o stehná alebo lavičku dlaňami hore, zápästia presahujú okraj.\n'
         '2. Nechaj jednoručky skĺznuť ku končekom prstov.\n'
         '3. Zápästím ich vytoč čo najvyššie, predlaktia sa nehýbu.',
       'reverse_curl':
@@ -5761,7 +5761,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Vis v natiahnutých pažiach, nohy nad zemou, telo v pokoji.\n'
         '3. Vydrž stanovený čas, ramená mierne aktívne.',
       'back_extension':
-        '1. Podložku nastav tesne pod bedrá a zaprí päty.\n'
+        '1. Podložku nastav tesne pod bedrá a zapri päty.\n'
         '2. S rovným chrbtom spusti trup, kým necítiš natiahnutie zadných stehien.\n'
         '3. Zdvihni sa do roviny s nohami, nezakláňaj sa. Pre väčšiu záťaž drž kotúč.',
       'good_morning':
@@ -5773,19 +5773,19 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Súčasne zdvihni paže, hrudník a nohy nad zem.\n'
         '3. Hore sekundu vydrž a pomaly spusti.',
       'decline_bench_press':
-        '1. Zaprí nohy na negatívnej lavici, úchop o niečo širší ako ramená.\n'
+        '1. Zapri nohy na negatívnej lavičke, úchop o niečo širší ako ramená.\n'
         '2. Kontrolovane spusti os k spodnej časti hrudníka.\n'
         '3. Vytlač do natiahnutých paží, lopatky drž stiahnuté.',
       'smith_bench_press':
-        '1. Lavicu postav tak, aby os mierila na stred hrudníka.\n'
+        '1. Lavičku postav tak, aby os mierila na stred hrudníka.\n'
         '2. Odisti os a kontrolovane ju spusti k hrudníku.\n'
         '3. Vytlač hore bez prudkého zamknutia lakťov, na konci os zaisti.',
       'dumbbell_fly':
-        '1. Ľahni si na rovnú lavicu, jednoručky nad hrudníkom, lakte mierne pokrčené.\n'
+        '1. Ľahni si na rovnú lavičku, jednoručky nad hrudníkom, lakte mierne pokrčené.\n'
         '2. Rozpaž širokým oblúkom, kým necítiš natiahnutie hrudníka.\n'
         '3. Vráť jednoručky k sebe, uhol v lakťoch nemeň.',
       'incline_dumbbell_fly':
-        '1. Lavicu nastav na 30°, jednoručky nad hrudníkom, lakte povolené.\n'
+        '1. Lavičku nastav na 30°, jednoručky nad hrudníkom, lakte povolené.\n'
         '2. Spúšťaj ich širokým oblúkom, kým necítiš natiahnutie hornej časti hrudníka.\n'
         '3. Stiahni ich späť k sebe nad hrudník.',
       'low_to_high_cable_fly':
@@ -5801,11 +5801,11 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Spúšťaj sa s lakťami mierne od tela, kým necítiš natiahnutie hrudníka.\n'
         '3. Vytlač späť hore, predklon udrž.',
       'incline_push_up':
-        '1. Opri ruky o lavicu alebo debnu, telo v jednej línii.\n'
+        '1. Opri ruky o lavičku alebo debnu, telo v jednej línii.\n'
         '2. Spusti hrudník k hrane, lakte asi 45° od tela.\n'
-        '3. Vytlač sa späť. Čím vyššia opora, tým ľahší klik.',
+        '3. Vytlač sa späť. Čím vyššia opora, tým ľahší kľuk.',
       'decline_push_up':
-        '1. Nohy opri o lavicu, dlane na zemi pod ramenami.\n'
+        '1. Nohy opri o lavičku, dlane na zemi pod ramenami.\n'
         '2. So spevneným stredom spusti hrudník k zemi.\n'
         '3. Vytlač sa späť, panva nepadá.',
       'dumbbell_floor_press':
@@ -5825,7 +5825,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Pritiahni rukoväte k telu, lakte pri tele, lopatky k sebe.\n'
         '3. Pomaly sa vráť do natiahnutých paží.',
       'chest_supported_row':
-        '1. Ľahni si na brucho na lavicu nastavenú na 30–45°, jednoručky visia dole.\n'
+        '1. Ľahni si na brucho na lavičku nastavenú na 30–45°, jednoručky visia dole.\n'
         '2. Pritiahni ich k bokom a stiahni lopatky.\n'
         '3. Pomaly spusti do plného natiahnutia.',
       'close_grip_lat_pulldown':
@@ -5853,7 +5853,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Chyť ju, spevni stred a vstaň tlakom panvy dopredu.\n'
         '3. S rovným chrbtom ju vráť na zarážky.',
       'trap_bar_deadlift':
-        '1. Postav sa dovnútra trap bar, chodidlá na šírku panvy, chyť madlá.\n'
+        '1. Postav sa dovnútra trap baru, chodidlá na šírku panvy, chyť madlá.\n'
         '2. Spevni sa, odtlač podlahu a vstaň do vzpriamenej polohy.\n'
         '3. S rovným chrbtom os vráť na zem.',
       'single_arm_cable_row':
@@ -5861,11 +5861,11 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Pritiahni ju k boku, lakeť pri tele.\n'
         '3. Pomaly sa vráť a nechaj rameno mierne vysunúť dopredu.',
       'dumbbell_pullover':
-        '1. Ľahni si na lavicu a drž jednu jednoručku oboma rukami nad hrudníkom.\n'
+        '1. Ľahni si na lavičku a drž jednu jednoručku oboma rukami nad hrudníkom.\n'
         '2. Oblúkom ju spusti za hlavu, lakte mierne pokrčené.\n'
         '3. Pretiahni ju späť nad hrudník.',
       'renegade_row':
-        '1. Zaujmi pozíciu kliku s rukami na jednoručkách, nohy široko.\n'
+        '1. Zaujmi pozíciu kľuku s rukami na jednoručkách, nohy široko.\n'
         '2. Pritiahni jednu jednoručku k boku, panvu nevytáčaj.\n'
         '3. Polož ju a opakuj druhou rukou.',
       'arnold_press':
@@ -5913,15 +5913,15 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Tlač ju hore a dopredu do natiahnutej paže.\n'
         '3. Kontrolovane ju vráť k ramenu.',
       'preacher_curl':
-        '1. Sadni si k Scottovej lavici, paže celou plochou na opierke, EZ os v rukách.\n'
+        '1. Sadni si k Scottovej lavičke, paže celou plochou na opierke, EZ os v rukách.\n'
         '2. Zdvihni os, lakte z opierky nedvíhaj.\n'
         '3. Pomaly spusti takmer do natiahnutia.',
       'concentration_curl':
-        '1. Sadni si na lavicu, lakeť opri o vnútornú stranu stehna.\n'
+        '1. Sadni si na lavičku, lakeť opri o vnútornú stranu stehna.\n'
         '2. Zdvihni jednoručku k ramenu.\n'
         '3. Pomaly spusti do plného natiahnutia.',
       'incline_dumbbell_curl':
-        '1. Opri sa o lavicu nastavenú na 45–60°, paže visia dole.\n'
+        '1. Opri sa o lavičku nastavenú na 45–60°, paže visia dole.\n'
         '2. Zdvihni jednoručky, ramená sa nehýbu.\n'
         '3. Pomaly spusti do plného natiahnutia.',
       'ez_bar_curl':
@@ -5953,7 +5953,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Natiahni pažu dozadu.\n'
         '3. Pomaly ju pokrč späť, rameno sa nehýbe.',
       'bench_dips':
-        '1. Opri dlane o hranu lavice za sebou, nohy natiahnuté vpred.\n'
+        '1. Opri dlane o hranu lavičky za sebou, nohy natiahnuté vpred.\n'
         '2. Pokrčením lakťov do pravého uhla sa spusti.\n'
         '3. Vytlač sa späť do natiahnutých paží.',
       'machine_triceps_dip':
@@ -5965,7 +5965,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Stlač ju dole do natiahnutej paže.\n'
         '3. Pomaly ju pusti hore, lakeť zostáva na mieste.',
       'diamond_push_up':
-        '1. Pozícia kliku, dlane pri sebe pod hrudníkom, prsty tvoria kosoštvorec.\n'
+        '1. Pozícia kľuku, dlane pri sebe pod hrudníkom, prsty tvoria kosoštvorec.\n'
         '2. Spusti hrudník k dlaniam, lakte pri tele.\n'
         '3. Vytlač sa späť, telo rovné.',
       'reverse_wrist_curl':
@@ -5989,7 +5989,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Ukroč dozadu a spusti zadné koleno takmer k zemi.\n'
         '3. Tlakom prednej nohy sa vráť. Striedaj nohy.',
       'step_up':
-        '1. Postav sa pred lavicu alebo debnu s jednoručkami v rukách.\n'
+        '1. Postav sa pred lavičku alebo debnu s jednoručkami v rukách.\n'
         '2. Polož jednu nohu hore a vystúp tlakom tejto nohy.\n'
         '3. Pomaly zostúp. Striedaj nohy alebo cvič jednu stranu po druhej.',
       'split_squat':
@@ -6029,7 +6029,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Pritiahni päty čo najviac dole a dozadu.\n'
         '3. Pomaly sa vráť.',
       'nordic_curl':
-        '1. Kľakni si a zaprí päty pod niečo pevné.\n'
+        '1. Kľakni si a zapri päty pod niečo pevné.\n'
         '2. Čo najpomalšie padaj trupom dopredu, bedrá rovné.\n'
         '3. Zachyť sa rukami a zadnými stehnami sa pritiahni späť.',
       'single_leg_rdl':
@@ -6101,7 +6101,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Postupne sa zdvihni až do sedu.\n'
         '3. Pomaly sa vráť do ľahu.',
       'decline_sit_up':
-        '1. Zaprí nohy na negatívnej lavici a ľahni si.\n'
+        '1. Zapri nohy na negatívnej lavičke a ľahni si.\n'
         '2. Zdvihni sa, kým nie je trup zvislo.\n'
         '3. Pomaly sa vráť. Pre väčšiu záťaž drž kotúč.',
       'bicycle_crunch':
@@ -6122,7 +6122,7 @@ const seedTranslations = <String, SeedTranslation>{
         '3. Pomaly spusti, nešvihaj.',
       'ab_wheel_rollout':
         '1. Kľakni si a drž koliesko pod ramenami.\n'
-        '2. Vyjdi dopredu čo najďalej, kríže sa neprehýbajú.\n'
+        '2. Choď s kolieskom dopredu čo najďalej, kríže sa neprehýbajú.\n'
         '3. Bruchom sa pritiahni späť.',
       'russian_twist':
         '1. Sadni si s miernym záklonom, nohy zdvihnuté alebo na zemi.\n'
@@ -6215,7 +6215,7 @@ const seedTranslations = <String, SeedTranslation>{
       'full_body':
         '3× týždenne, striedanie tréningov A a B. Ideálne na prvé mesiace.',
       'upper_lower': '4× týždenne: horná polovica Po + Št, dolná Ut + Pi.',
-      'ppl': '3× týždenne: tlaky Po, priťahy St, nohy Pi.',
+      'ppl': '3× týždenne: tlaky Po, príťahy St, nohy Pi.',
     },
     planNames: {
       'Full body A': 'Celé telo A',
@@ -6223,7 +6223,7 @@ const seedTranslations = <String, SeedTranslation>{
       'Upper body': 'Horná polovica',
       'Lower body': 'Dolná polovica',
       'Push': 'Push (tlaky)',
-      'Pull': 'Pull (priťahy)',
+      'Pull': 'Pull (príťahy)',
       'Legs': 'Nohy',
     },
   ),
@@ -6676,7 +6676,7 @@ const seedTranslations = <String, SeedTranslation>{
         '2. Laat ze in een brede boog zakken tot je je bovenste borst voelt rekken.\n'
         '3. Breng ze weer samen boven je borst.',
       'low_to_high_cable_fly':
-        '1. Zet beide kabels laag en sta ertussen met een lichte voorover buiging.\n'
+        '1. Zet beide kabels laag en sta ertussen, licht voorovergebogen.\n'
         '2. Breng de handvatten omhoog en samen voor je bovenste borst.\n'
         '3. Ga langzaam terug naar de rek, ellebogen licht gebogen.',
       'incline_chest_press_machine':
@@ -6686,7 +6686,7 @@ const seedTranslations = <String, SeedTranslation>{
       'chest_dips':
         '1. Steun op de brug en buig je bovenlichaam naar voren.\n'
         '2. Zak met je ellebogen iets naar buiten tot je je borst voelt rekken.\n'
-        '3. Duw je weer omhoog en houd de voorover buiging vast.',
+        '3. Duw je weer omhoog en blijf licht voorovergebogen.',
       'incline_push_up':
         '1. Zet je handen op een bank of box, lichaam in één lijn.\n'
         '2. Laat je borst naar de rand zakken, ellebogen ongeveer 45° van je lichaam.\n'

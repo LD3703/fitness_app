@@ -176,7 +176,7 @@ const seedExercises = <SeedExercise>[
   // Střed těla
   SeedExercise('hanging_leg_raise', 'Hanging Leg Raise', 'Zvedání nohou ve visu',
       MuscleGroup.core, Equipment.bodyweight, ExerciseType.bodyweightReps, 4.0),
-  SeedExercise('cable_crunch', 'Cable Crunch', 'Zkracovačky na kladce',
+  SeedExercise('cable_crunch', 'Cable Crunch', 'Sklapovačky na kladce',
       MuscleGroup.core, Equipment.cable, ExerciseType.weightReps, 4.0),
   SeedExercise('dead_bug', 'Dead Bug', 'Dead bug', MuscleGroup.core,
       Equipment.bodyweight, ExerciseType.bodyweightReps, 3.0),
@@ -192,7 +192,7 @@ const seedExercises = <SeedExercise>[
   // Zapisuje se jen přidaná zátěž (opasek s kotoučem / jednoručka).
   SeedExercise('weighted_pull_up', 'Weighted Pull-up', 'Shyby se zátěží',
       MuscleGroup.back, Equipment.dumbbell, ExerciseType.weightReps, 8.0),
-  SeedExercise('weighted_dips', 'Weighted Dips', 'Dipy se zátěží',
+  SeedExercise('weighted_dips', 'Weighted Dips', 'Kliky na bradlech se zátěží',
       MuscleGroup.triceps, Equipment.dumbbell, ExerciseType.weightReps, 8.0),
   // --- Trapézy, předloktí a spodní záda (verze schématu 13) ---
   SeedExercise('barbell_shrug', 'Barbell Shrug', 'Krčení ramen s velkou činkou',
@@ -275,7 +275,7 @@ const seedExercises = <SeedExercise>[
       'Mrtvý tah ze stojanu', MuscleGroup.back,
       Equipment.barbell, ExerciseType.weightReps, 6.0),
   SeedExercise('trap_bar_deadlift', 'Trap Bar Deadlift',
-      'Mrtvý tah s trap bar', MuscleGroup.back,
+      'Mrtvý tah s trap barem', MuscleGroup.back,
       Equipment.barbell, ExerciseType.weightReps, 6.0),
   SeedExercise('single_arm_cable_row', 'Single-Arm Cable Row',
       'Přítahy kladky jednoruč', MuscleGroup.back,
