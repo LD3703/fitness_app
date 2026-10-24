@@ -480,7 +480,7 @@
   "socialKgValue": "{value} kg",
   "socialFeedEmpty": "Zatím nic nového.",
   "socialFeedFriend": "{name} tě přidává do přátel.",
-  "socialFeedRecord": "{name} má nový rekord v cviku {exercise}: {value}",
+  "socialFeedRecord": "{name} má nový rekord ve cviku {exercise}: {value}",
   "socialAcceptChallenge": "Přijmout výzvu",
   "socialFeedInvite": "{name} tě zve na trénink: {plan}, {when}",
   "socialFeedInviteAccepted": "{name}: pozvánka přijata – {plan}, {when}",

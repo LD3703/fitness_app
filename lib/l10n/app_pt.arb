@@ -479,7 +479,7 @@
   "socialBoardPrivacy": "Só seus amigos veem este ranking.",
   "socialKgValue": "{value} kg",
   "socialFeedEmpty": "Nada de novo ainda.",
-  "socialFeedFriend": "{name} adicionou você como amigo.",
+  "socialFeedFriend": "{name} agora está na sua lista de amigos.",
   "socialFeedRecord": "{name} bateu um novo recorde em {exercise}: {value}",
   "socialAcceptChallenge": "Aceitar desafio",
   "socialFeedInvite": "{name} te convidou para treinar: {plan}, {when}",

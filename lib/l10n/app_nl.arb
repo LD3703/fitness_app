@@ -479,7 +479,7 @@
   "socialBoardPrivacy": "Alleen je vrienden zien deze ranglijst.",
   "socialKgValue": "{value} kg",
   "socialFeedEmpty": "Nog niets nieuws.",
-  "socialFeedFriend": "{name} heeft je als vriend toegevoegd.",
+  "socialFeedFriend": "{name} en jij zijn nu vrienden.",
   "socialFeedRecord": "{name} zette een nieuw record bij {exercise}: {value}",
   "socialAcceptChallenge": "Uitdaging accepteren",
   "socialFeedInvite": "{name} nodigt je uit voor een training: {plan}, {when}",
