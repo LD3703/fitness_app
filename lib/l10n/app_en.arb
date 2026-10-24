@@ -391,7 +391,7 @@
   "planBQuitTitle": "Quit the routine?",
   "planBQuit": "Quit",
   "planBPostponeTitle": "Postpone the full workout?",
-  "planBPostponeMessage": "Do you want to move „{plan}“ to tomorrow, or skip it this time?",
+  "planBPostponeMessage": "Do you want to move “{plan}” to tomorrow, or skip it this time?",
   "@planBPostponeMessage": {
     "placeholders": {
       "plan": {
@@ -773,7 +773,7 @@
       }
     }
   },
-  "shareWorkoutText": "Workout done: {sets} sets, {volume} lifted in {duration}. 💪 {link}",
+  "shareWorkoutText": "Workout done: {sets, plural, =1{1 set} other{{sets} sets}}, {volume} lifted in {duration}. 💪 {link}",
   "@shareWorkoutText": {
     "placeholders": {
       "sets": {
@@ -1482,7 +1482,7 @@
     }
   },
   "statsInsightConsistencyTitle": "Consistency",
-  "statsInsightConsistencyPlanned": "{average} workouts a week over the last 4 weeks (plan: {planned})",
+  "statsInsightConsistencyPlanned": "Last 4 weeks: {average}× a week (plan: {planned}×)",
   "@statsInsightConsistencyPlanned": {
     "placeholders": {
       "average": {
@@ -1493,7 +1493,7 @@
       }
     }
   },
-  "statsInsightConsistencyNoPlan": "{average} workouts a week over the last 4 weeks",
+  "statsInsightConsistencyNoPlan": "Last 4 weeks: {average}× a week",
   "@statsInsightConsistencyNoPlan": {
     "placeholders": {
       "average": {

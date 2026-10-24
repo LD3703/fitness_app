@@ -1,1 +1,1 @@
-Registre uma série em segundos. O app sugere a carga para a próxima vez, acompanha a sobrecarga progressiva e mostra quem é o mais forte da sua academia.
+Registre uma série em segundos. O app sugere a carga para a próxima vez, acompanha a sobrecarga progressiva e mostra quem manda na sua academia.

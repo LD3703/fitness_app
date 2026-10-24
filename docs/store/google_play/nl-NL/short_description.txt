@@ -1,1 +1,1 @@
-Gym-logboek met schema's, progressie, records en het klassement van jouw gym.
+Gym-logboek met schema's, progressie, records en de ranglijst van jouw gym.

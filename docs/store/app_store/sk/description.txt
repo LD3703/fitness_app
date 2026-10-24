@@ -4,7 +4,7 @@ Zapíš sériu dvoma ťuknutiami, nechaj aplikáciu navrhnúť váhu nabudúce a
 
 TRÉNING
 • Vlastné plány aj hotové programy, dni tréningu si upravíš hneď pri výbere
-• Série, rozcvička, supersérie a dropsety
+• Série, rozcvička, supersérie a drop série
 • Odpočítavanie prestávky
 • Knižnica cvikov s návodmi a ukážkami
 • Plán B: krátka domáca rutina, keď sa do posilňovne nedostaneš
@@ -29,6 +29,6 @@ POSILŇOVŇA A PRIATELIA
 • Tmavý režim, kilogramy aj libry, 10 jazykov
 
 SÚKROMIE
-Tréningy, váha aj údaje o chorobe a zranení zostávajú v telefóne. Na server ide len to, čo sám zapneš: priatelia, rebríček posilňovne alebo záloha do cloudu. Aplikácia nemá reklamy.
+Tréningy, váha aj údaje o chorobe a zranení zostávajú v telefóne. Na server ide len to, čo si zapneš: priatelia, rebríček posilňovne alebo záloha do cloudu. Aplikácia nemá reklamy.
 
 GymBar nie je zdravotnícka pomôcka. Pred začatím tréningu, najmä pri zdravotných problémoch, sa poraď s lekárom.

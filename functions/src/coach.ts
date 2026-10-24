@@ -1,5 +1,6 @@
 // Trenér a klient – čistá logika bez Firestore (docs/coach.md).
 // Testy: functions/test/coach.test.mjs (npm test ve složce functions).
+import { PushLang, PushMessage, sessionText } from "./pushText.js";
 
 /// Zrcadlo coachInactiveDays v packages/gymbar_coach/lib/src/codes.dart:
 /// trenér bez klientů přijde o status po tolika dnech.
@@ -73,34 +74,12 @@ export function sessionChange(
   return changed ? "updated" : null;
 }
 
-/// Text notifikace k pozvánce [cs, en]. Jména a název jsou už zkrácené.
+/// Text notifikace k pozvánce v jazyce příjemce (pushText.ts). Jména
+/// a název jsou už zkrácené.
 export function sessionPushText(
   change: SessionChange,
-  lang: "cs" | "en",
+  lang: PushLang,
   p: { trainerName: string; clientName: string; title: string; weekly: boolean },
-): { title: string; body: string } {
-  const cs = lang === "cs";
-  const what = p.weekly ? (cs ? `${p.title} (každý týden)` : `${p.title} (weekly)`) : p.title;
-  switch (change) {
-    case "invite":
-      return cs
-        ? { title: "Pozvánka na trénink", body: `${p.trainerName} tě zve na trénink: ${what}` }
-        : { title: "Workout invitation", body: `${p.trainerName} invites you to a workout: ${what}` };
-    case "updated":
-      return cs
-        ? { title: "Změna tréninku", body: `${p.trainerName} změnil(a) trénink ${what}. Potvrď ho v aplikaci.` }
-        : { title: "Workout changed", body: `${p.trainerName} changed the workout ${what}. Confirm it in the app.` };
-    case "cancelled":
-      return cs
-        ? { title: "Trénink zrušen", body: `${p.trainerName} zrušil(a) trénink: ${what}` }
-        : { title: "Workout cancelled", body: `${p.trainerName} cancelled the workout: ${what}` };
-    case "accepted":
-      return cs
-        ? { title: "Trénink potvrzen", body: `${p.clientName} přijal(a) trénink: ${what}` }
-        : { title: "Workout confirmed", body: `${p.clientName} accepted the workout: ${what}` };
-    case "declined":
-      return cs
-        ? { title: "Trénink odmítnut", body: `${p.clientName} nemůže na trénink: ${what}` }
-        : { title: "Workout declined", body: `${p.clientName} can't make the workout: ${what}` };
-  }
+): PushMessage {
+  return sessionText(change, lang, p);
 }

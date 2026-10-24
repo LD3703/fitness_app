@@ -1,1 +1,1 @@
-Zapisz serię w kilka sekund. Aplikacja podpowie ciężar na następny raz, pilnuje progresywnego przeciążenia i pokazuje, kto jest najsilniejszy na twojej siłowni.
+Zapisz serię w kilka sekund. Aplikacja podpowiada ciężar na następny raz, pilnuje progresywnego przeciążenia i pokazuje, kto jest najsilniejszy na twojej siłowni.

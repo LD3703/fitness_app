@@ -681,7 +681,7 @@ const seedInstructions = <String, (String, String)>{
     '1. Stand inside the trap bar, feet hip-width, grip the handles.\n'
         '2. Brace, push the floor away and stand up tall.\n'
         '3. Lower the bar back down with a straight back.',
-    '1. Stoupni si dovnitř trap bar, chodidla na šířku pánve, chyť madla.\n'
+    '1. Stoupni si dovnitř trap baru, chodidla na šířku pánve, chyť madla.\n'
         '2. Zpevni se, odtlač podlahu a vstaň do vzpřímené polohy.\n'
         '3. S rovnými zády osu vrať na zem.',
   ),

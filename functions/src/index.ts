@@ -99,6 +99,7 @@ import {
   StatEntry,
   statValue,
 } from "./liftStats.js";
+import { feedPushText, PushLang, pushLang, PushMessage } from "./pushText.js";
 
 // Region funkcí. Musí odpovídat umístění databáze Firestore
 // (eur3 → europe-west1, viz docs/social.md).
@@ -108,8 +109,6 @@ setGlobalOptions({ region: REGION, maxInstances: 10 });
 initializeApp();
 const db = getFirestore();
 
-type Lang = "en" | "cs";
-
 interface FeedDoc {
   type?: string;
   fromName?: string;
@@ -118,11 +117,6 @@ interface FeedDoc {
 
 function str(v: unknown): string {
   return typeof v === "string" ? v : "";
-}
-
-function num(v: unknown): string {
-  if (typeof v !== "number") return "";
-  return Number.isInteger(v) ? String(v) : v.toFixed(1);
 }
 
 // Číslo (počet), jinak 0.
@@ -142,107 +136,22 @@ const PUSH_FIELD_MAX = 60;
 const PUSH_TITLE_MAX = 80;
 const PUSH_BODY_MAX = 200;
 
-// Názvy kategorií žebříčku posilovny pro text notifikace [cs, en]
-// (stejně jako názvy vestavěných cviků v seed_data.dart).
-const GYM_CATEGORY_NAMES: Record<GymCategory, [string, string]> = {
-  bench_press: ["bench press", "bench press"],
-  back_squat: ["dřep s činkou na zádech", "back squat"],
-  deadlift: ["mrtvý tah", "deadlift"],
-  overhead_press: ["tlaky nad hlavu", "overhead press"],
-  incline_bench_press: ["bench press na šikmé lavici", "incline bench press"],
-  dumbbell_bench_press: ["tlaky s jednoručkami na rovné lavici", "dumbbell bench press"],
-  dumbbell_shoulder_press: ["tlaky s jednoručkami nad hlavu", "dumbbell shoulder press"],
-  barbell_curl: ["bicepsový zdvih s velkou činkou", "barbell curl"],
-  dumbbell_curl: ["bicepsový zdvih s jednoručkami", "dumbbell curl"],
-  weighted_pull_up: ["shyby se zátěží", "weighted pull-up"],
-  weighted_dips: ["dipy se zátěží", "weighted dips"],
-  barbell_row: ["přítahy velké činky v předklonu", "barbell row"],
-  leg_press: ["legpress", "leg press"],
-  hip_thrust: ["hip thrust", "hip thrust"],
-  front_squat: ["čelní dřep", "front squat"],
-  romanian_deadlift: ["rumunský mrtvý tah", "Romanian deadlift"],
-  workouts: ["tréninky", "workouts"],
-};
-
-// Staré klíče kategorií (před přechodem na slugy cviků).
-const LEGACY_CATEGORY_KEYS: Record<string, GymCategory> = {
-  bench: "bench_press",
-  squat: "back_squat",
-};
-
-// Hodnota z žebříčku posilovny pro text notifikace.
-function gymValueText(categoryKey: string, value: unknown, lang: Lang): string {
-  const cs = lang === "cs";
-  const key = LEGACY_CATEGORY_KEYS[categoryKey] ?? categoryKey;
-  if (!isGymCategory(key)) return num(value);
-  const label = GYM_CATEGORY_NAMES[key][cs ? 0 : 1];
-  if (!isLift(key)) return `${label} ${num(value)}`;
-  const note = key.startsWith("dumbbell_")
-    ? (cs ? " na jednoručku" : " per dumbbell")
-    : key.startsWith("weighted_")
-      ? (cs ? " přidané zátěže" : " added weight")
-      : "";
-  return `${label} ${num(value)} kg${note}`;
-}
-
-// Text notifikace podle typu položky a jazyka příjemce.
+// Text notifikace k položce novinek v jazyce příjemce (pushText.ts).
 // Pole od uživatelů jsou zkrácená (PUSH_FIELD_MAX), celek zkrátí volající.
-function pushText(item: FeedDoc, lang: Lang): { title: string; body: string } | null {
-  const name = clip(str(item.fromName) || "?", PUSH_FIELD_MAX);
+function pushText(item: FeedDoc, lang: PushLang): PushMessage | null {
   const d = item.data ?? {};
-  const exercise = clip(
-    lang === "cs"
-      ? str(d.exerciseNameCs) || str(d.exerciseNameEn) || str(d.exerciseSlug)
-      : str(d.exerciseNameEn) || str(d.exerciseSlug),
-    PUSH_FIELD_MAX,
-  );
-  const planName = clip(str(d.planName), PUSH_FIELD_MAX);
-  const cs = lang === "cs";
-  switch (item.type) {
-    case "friend":
-      return cs
-        ? { title: "Nový přítel", body: `${name} si tě přidal(a) do přátel.` }
-        : { title: "New friend", body: `${name} added you as a friend.` };
-    case "pr":
-      return cs
-        ? { title: "Nový rekord", body: `${name} má nový rekord v cviku ${exercise}: ${num(d.value)} kg` }
-        : { title: "New record", body: `${name} set a new ${exercise} record: ${num(d.value)} kg` };
-    case "invite":
-      return cs
-        ? { title: "Pozvánka na trénink", body: `${name} tě zve na trénink: ${planName}` }
-        : { title: "Workout invitation", body: `${name} invites you to a workout: ${planName}` };
-    case "inviteReply":
-      if (d.accepted === true) {
-        return cs
-          ? { title: "Pozvánka přijata", body: `${name} jde s tebou na trénink: ${planName}` }
-          : { title: "Invitation accepted", body: `${name} is joining your workout: ${planName}` };
-      }
-      return cs
-        ? { title: "Pozvánka odmítnuta", body: `${name} tentokrát nemůže.` }
-        : { title: "Invitation declined", body: `${name} can't make it this time.` };
-    case "challenge":
-      if (d.role === "tookOn") {
-        return cs
-          ? { title: "Výzva přijata", body: `${name} se pokusí překonat tvůj rekord.` }
-          : { title: "Challenge accepted", body: `${name} is going for your record.` };
-      }
-      return cs
-        ? { title: "Nová výzva", body: `${name} tě vyzývá. Přijmeš?` }
-        : { title: "New challenge", body: `${name} challenges you. Are you in?` };
-    case "challengeDone":
-      return cs
-        ? { title: "Výzva splněna", body: `${name} splnil(a) vaši výzvu!` }
-        : { title: "Challenge completed", body: `${name} completed your challenge!` };
-    case "gymOvertaken": {
-      const gym = clip(str(d.gymName), PUSH_FIELD_MAX);
-      const what = gymValueText(str(d.category), d.value, lang);
-      return cs
-        ? { title: "Přišel(a) jsi o 1. místo", body: `${name} tě v posilovně ${gym} předběhl(a): ${what}` }
-        : { title: "You lost 1st place", body: `${name} overtook you at ${gym}: ${what}` };
-    }
-    default:
-      return null;
-  }
+  return feedPushText({
+    type: str(item.type),
+    name: clip(str(item.fromName) || "?", PUSH_FIELD_MAX),
+    data: d,
+    exercise: {
+      slug: str(d.exerciseSlug),
+      nameCs: clip(str(d.exerciseNameCs), PUSH_FIELD_MAX),
+      nameEn: clip(str(d.exerciseNameEn), PUSH_FIELD_MAX),
+    },
+    planName: clip(str(d.planName), PUSH_FIELD_MAX),
+    gymName: clip(str(d.gymName), PUSH_FIELD_MAX),
+  }, lang);
 }
 
 // Chyby FCM, po kterých token už nikdy fungovat nebude.
@@ -255,7 +164,7 @@ const DEAD_TOKEN_CODES = new Set([
 // messaging). [text] dostane jazyk příjemce; null = nic neposílat.
 async function pushToUser(
   uid: string,
-  text: (lang: Lang) => { title: string; body: string } | null,
+  text: (lang: PushLang) => PushMessage | null,
   data: Record<string, string>,
 ): Promise<void> {
   const privateRef = db.doc(`users/${uid}/private/messaging`);
@@ -265,7 +174,7 @@ async function pushToUser(
     : [];
   if (tokens.length === 0) return;
 
-  const lang: Lang = str(priv.lang).startsWith("cs") ? "cs" : "en";
+  const lang = pushLang(str(priv.lang));
   const t = text(lang);
   if (!t) return;
 

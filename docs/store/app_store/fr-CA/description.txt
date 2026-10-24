@@ -1,6 +1,6 @@
 Un journal d’entraînement en salle qui suit ta progression à ta place.
 
-Note une série en deux appuis, laisse l’app te proposer la charge pour la prochaine fois et regarde-toi devenir plus fort. Elle fonctionne sans compte et hors ligne, et tes données restent sur ton téléphone.
+Note une série en deux appuis, laisse l’app te proposer la charge pour la prochaine fois et regarde ta force progresser. Elle fonctionne sans compte et hors ligne, et tes données restent sur ton téléphone.
 
 ENTRAÎNEMENT
 • Tes propres programmes et des programmes prêts à l’emploi; tu choisis tes jours d’entraînement tout de suite
@@ -14,7 +14,7 @@ PROGRESSION
 • Contrôle de la surcharge progressive par groupe musculaire et badges de régularité
 • Records personnels (ta série la plus lourde), volume et fréquence par groupe musculaire
 • Fatigue musculaire : quels groupes musculaires ont encore besoin de repos
-• Malade, blessé ou en déficit? Note la période et les graphiques en tiennent compte
+• Maladie, blessure ou déficit? Note la période et les graphiques en tiennent compte
 
 TA SALLE ET TES AMIS
 • Classement de ta salle : rejoins-le avec le code QR de l’accueil ou depuis la liste

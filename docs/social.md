@@ -306,7 +306,11 @@ Trenéři a klienti (`trainers`, `trainerCodes`, `coachLinks`,
   v aplikaci z profilů přátel.
 - **Push**: Cloud Function `sendFeedPush` reaguje na novou položku
   v novinkách. V popředí aplikace ukáže lokální notifikaci, na pozadí ji
-  zobrazí systém. Texty od uživatelů (jméno, cvik, plán, posilovna) se
+  zobrazí systém. Texty jsou v jazyce příjemce (`lang` v
+  `private/messaging`, všech 10 jazyků aplikace, jinak angličtina) ve
+  `functions/src/pushText.ts`; názvy vestavěných cviků generuje
+  `dart run tool/push_exercises.dart` do `functions/src/exerciseNames.ts`
+  (hlídá `test/push_exercises_test.dart`). Texty od uživatelů (jméno, cvik, plán, posilovna) se
   zkracují na 60 znaků, titulek na 80 a text na 200. Token se z
   `private/messaging` odebere jen u chyb, po kterých už nikdy fungovat
   nebude (`messaging/registration-token-not-registered`,

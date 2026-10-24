@@ -1,1 +1,1 @@
-Regista uma série em segundos. A app sugere a carga para a próxima vez, controla a sobrecarga progressiva e mostra quem é o mais forte do teu ginásio.
+Regista uma série em segundos. A app sugere a carga para a próxima vez, controla a sobrecarga progressiva e mostra quem manda no teu ginásio.

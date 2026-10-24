@@ -80,7 +80,7 @@ const csStrings = <String, String>{
   'signInDomain': 'Přihlášení z této adresy není povolené (Firebase → Authentication → Authorized domains).',
   'signInFailed': 'Přihlášení se nepovedlo.',
   'signOut': 'Odhlásit se',
-  'signedInAs': 'Přihlášen(a) jako {email}',
+  'signedInAs': 'Přihlášený účet: {email}',
 
   // Stát se trenérem
   'becomeTitle': 'Staň se trenérem',
@@ -106,8 +106,8 @@ const csStrings = <String, String>{
       'Nemáš žádného klienta – status trenéra zanikne {date}. Pozvi klienty kódem nebo odkazem.',
   'noClientsTitle': 'Zatím nemáš žádné klienty',
   'inviteMore': 'Pozvat další klienty',
-  'gymKitTitle': 'Materiály pro vaše fitko',
-  'gymKitText': 'Plakát s žebříčkem posilovny a QR samolepky s návody na stroje si majitel fitka vytiskne sám a zdarma. Pošlete mu odkaz.',
+  'gymKitTitle': 'Materiály pro tvoje fitko',
+  'gymKitText': 'Plakát se žebříčkem posilovny a QR samolepky s návody na stroje si fitko vytiskne samo a zdarma. Pošli majiteli odkaz.',
   'gymKitOpen': 'Otevřít',
   'gymKitCopy': 'Kopírovat odkaz',
   'inviteHow':
@@ -298,7 +298,7 @@ const csStrings = <String, String>{
   'sessionPast': 'Proběhlo',
   'sessionCancel': 'Zrušit trénink',
   'sessionCancelTitle': 'Zrušit trénink?',
-  'sessionCancelMessage': '{name} dostane upozornění a termín zmizí z jeho kalendáře.',
+  'sessionCancelMessage': '{name} dostane upozornění a termín zmizí z kalendáře.',
   'sessionIcs': 'Do mého kalendáře (.ics)',
   'sessionIcsTitle': '{title} – {name}',
 };
