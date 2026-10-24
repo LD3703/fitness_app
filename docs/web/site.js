@@ -1,7 +1,8 @@
 // Společný skript stránek gymbar.app (načítá se až za config.js).
 //
 // - Jazyk: ?lang=xx v adrese → dříve vybraný jazyk → jazyk prohlížeče
-//   (slovenština → čeština) → angličtina pro všechny ostatní.
+//   (slovenština → čeština, když stránka slovenštinu nemá) → angličtina
+//   pro všechny ostatní.
 // - Přepínač jazyků se vykreslí do prvku s třídou "lang", pokud na
 //   stránce je. Obsah v jazycích má atribut data-lang="xx", vybraný jazyk
 //   se zapne třídou na <body> (pravidla v CSS stránky).
@@ -10,8 +11,11 @@
 //   jinak jsou neaktivní s textem „již brzy“.
 (function () {
   var G = window.GYMBAR = window.GYMBAR || {};
-  var LANGS = ['en', 'cs', 'de', 'es', 'fr'];
-  var NAMES = { en: 'English', cs: 'Čeština', de: 'Deutsch', es: 'Español', fr: 'Français' };
+  var LANGS = ['en', 'cs', 'sk', 'de', 'es', 'fr', 'it', 'nl', 'pl', 'pt'];
+  var NAMES = {
+    en: 'English', cs: 'Čeština', sk: 'Slovenčina', de: 'Deutsch', es: 'Español',
+    fr: 'Français', it: 'Italiano', nl: 'Nederlands', pl: 'Polski', pt: 'Português'
+  };
   var KEY = 'gymbar.lang';
 
   var SOON = {
@@ -20,11 +24,6 @@
     pl: 'wkrótce', pt: 'em breve'
   };
   var STORE_NAMES = { play: 'Google Play', apple: 'App Store' };
-
-  function norm(code) {
-    var c = String(code || '').toLowerCase().split('-')[0];
-    return c === 'sk' ? 'cs' : c;
-  }
 
   /** Vybere jazyk z podporovaných (výchozí 'en'). */
   G.pickLang = function (supported, mapSkToCs) {
@@ -38,9 +37,9 @@
     var langs = navigator.languages && navigator.languages.length
       ? navigator.languages : [navigator.language || 'en'];
     for (var i = 0; i < langs.length; i++) {
-      var raw = String(langs[i] || '').toLowerCase().split('-')[0];
-      var c = mapSkToCs === false ? raw : norm(raw);
+      var c = String(langs[i] || '').toLowerCase().split('-')[0];
       if (supported.indexOf(c) >= 0) return c;
+      if (c === 'sk' && mapSkToCs !== false && supported.indexOf('cs') >= 0) return 'cs';
     }
     return 'en';
   };

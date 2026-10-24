@@ -66,7 +66,12 @@ th { background: var(--head); }
 .site-footer a { color: var(--muted); }
 
 [data-lang] { display: none; }
-body.en [data-lang="en"], body.cs [data-lang="cs"], body.de [data-lang="de"],
-body.es [data-lang="es"], body.fr [data-lang="fr"] { display: block; }
-body.en span[data-lang="en"], body.cs span[data-lang="cs"], body.de span[data-lang="de"],
-body.es span[data-lang="es"], body.fr span[data-lang="fr"] { display: inline; }
+body.en [data-lang="en"], body.cs [data-lang="cs"], body.sk [data-lang="sk"],
+body.de [data-lang="de"], body.es [data-lang="es"], body.fr [data-lang="fr"],
+body.it [data-lang="it"], body.nl [data-lang="nl"], body.pl [data-lang="pl"],
+body.pt [data-lang="pt"] { display: block; }
+body.en span[data-lang="en"], body.cs span[data-lang="cs"],
+body.sk span[data-lang="sk"], body.de span[data-lang="de"],
+body.es span[data-lang="es"], body.fr span[data-lang="fr"],
+body.it span[data-lang="it"], body.nl span[data-lang="nl"],
+body.pl span[data-lang="pl"], body.pt span[data-lang="pt"] { display: inline; }
