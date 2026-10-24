@@ -142,6 +142,56 @@ void main() {
           PremiumEarlySync.none);
       expect(premiumEarlySync(local: null, server: null), PremiumEarlySync.none);
     });
+
+    test('slib ze zálohy: telefon má přednost, pozdější datum neplatí', () {
+      final early = DateTime(2026, 10, 3);
+      final now = DateTime(2026, 12, 1);
+      // Telefon slib má – záloha ho nezmění.
+      expect(
+        premiumEarlyAfterRestore(
+            device: early,
+            backup: DateTime(2026, 9),
+            launchDate: null,
+            now: now),
+        early,
+      );
+      // Nový telefon bez účtu: slib se vezme ze zálohy.
+      expect(
+        premiumEarlyAfterRestore(
+            device: null, backup: early, launchDate: null, now: now),
+        early,
+      );
+      expect(
+        premiumEarlyAfterRestore(
+            device: null,
+            backup: early,
+            launchDate: DateTime(2027, 1),
+            now: now),
+        early,
+      );
+      // Datum po spuštění nebo z budoucnosti je podvržené.
+      expect(
+        premiumEarlyAfterRestore(
+            device: null,
+            backup: DateTime(2027, 2),
+            launchDate: DateTime(2027, 1),
+            now: DateTime(2027, 3)),
+        isNull,
+      );
+      expect(
+        premiumEarlyAfterRestore(
+            device: null,
+            backup: DateTime(2027, 2),
+            launchDate: null,
+            now: now),
+        isNull,
+      );
+      expect(
+        premiumEarlyAfterRestore(
+            device: null, backup: null, launchDate: null, now: now),
+        isNull,
+      );
+    });
   });
 
   group('vlastní plány', () {
