@@ -1,6 +1,6 @@
 Dziennik treningowy, który pilnuje twoich postępów za ciebie.
 
-Zapisz serię dwoma dotknięciami, pozwól aplikacji podpowiedzieć ciężar na następny raz i patrz, jak stajesz się silniejszy. Działa bez konta i bez internetu, a twoje dane zostają w telefonie.
+Zapisz serię dwoma dotknięciami, pozwól aplikacji podpowiedzieć ciężar na następny raz i patrz, jak rośnie twoja siła. Działa bez konta i bez internetu, a twoje dane zostają w telefonie.
 
 TRENING
 • Własne plany i gotowe programy, dni treningowe ustawisz od razu przy wyborze
@@ -31,6 +31,6 @@ WIĘCEJ
 • Tryb ciemny, kilogramy i funty, 10 języków
 
 PRYWATNOŚĆ
-Treningi, waga oraz dane o chorobie i kontuzji zostają w telefonie. Na nasze serwery trafia tylko to, co sam włączysz: znajomi, ranking siłowni albo kopia zapasowa w chmurze. Bez reklam.
+Treningi, waga oraz dane o chorobie i kontuzji zostają w telefonie. Na nasze serwery trafia tylko to, co włączysz: znajomi, ranking siłowni albo kopia zapasowa w chmurze. Bez reklam.
 
 GymBar nie jest wyrobem medycznym. Przed rozpoczęciem treningu, zwłaszcza przy problemach zdrowotnych, skonsultuj się z lekarzem.

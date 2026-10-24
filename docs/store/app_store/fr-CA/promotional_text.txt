@@ -1,1 +1,1 @@
-Note une série en quelques secondes. L’app propose la charge pour la prochaine fois, vérifie la surcharge progressive et montre qui est le plus fort de ta salle.
+Note une série en quelques secondes. L’app propose la charge pour la prochaine fois, vérifie la surcharge progressive et montre qui domine ta salle.
