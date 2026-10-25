@@ -84,9 +84,14 @@ Funguje:
   na tuto partii a v tréninku je u nich upozornění.
 - **Povzbuzení:** při nemoci, zranění, do 7 dní po nemoci a v dietě
   povzbuzující hlášky na obrazovce Dnes, během tréninku a v souhrnu.
-- **Úvodní průvodce a volba funkcí:** při prvním spuštění si uživatel vybere,
-  co chce sledovat (pitný režim, váha, období a povzbuzení, kalorie);
-  totéž jde měnit v Profilu, vypnuté funkce se skryjí.
+- **Úvodní průvodce:** při prvním spuštění krok za krokem (Další / Zpět,
+  ukazatel kroků): jméno, rok narození, pohlaví, jednotky → cíl tréninku →
+  co sledovat (pitný režim, váha, období a povzbuzení, kalorie; vypnuté
+  funkce se skryjí) → pitný režim a váha (jen když se sledují) → motiv
+  vzhledu (aplikace se hned přebarví) → tón zpráv → připomínky a kalendář
+  (s povolením) → první plán z hotového programu podle cíle → shrnutí.
+  Vše je nepovinné a jde změnit v Profilu; tam je i „Průvodce nastavením“
+  pro nové projití (`lib/features/onboarding/onboarding_screen.dart`).
 - **Odložení / vynechání tréninku:** z obrazovky Dnes (menu ⋮ u plánu),
   s uklidňující hláškou a možností vrátit.
 - **Cviky:** knihovna 170 cviků s návodem (10 jazyků), hledáním a filtrem.

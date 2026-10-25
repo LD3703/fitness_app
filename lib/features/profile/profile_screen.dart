@@ -319,6 +319,16 @@ class ProfileScreen extends ConsumerWidget {
             ),
           const Divider(),
           ...moduleProfileSections(),
+          // Průvodce nastavením znovu: router po onboardingDone = false
+          // přejde na /welcome, průvodce předvyplní současné hodnoty.
+          ListTile(
+            leading: const Icon(Icons.assistant_navigation),
+            title: Text(l10n.profileSetupWizard),
+            subtitle: Text(l10n.profileSetupWizardHint),
+            onTap: () => db.updateProfile(
+              const UserProfilesCompanion(onboardingDone: Value(false)),
+            ),
+          ),
           ListTile(
             leading: const Icon(Icons.info_outline),
             title: Text(l10n.profileAbout),
