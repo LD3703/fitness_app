@@ -79,21 +79,14 @@ jobs:
   # jako PNG v artefaktu „ios-widget-previews“.
   ios:
     name: iOS (build bez podpisu + náhledy widgetu)
-    runs-on: macos-15
+    # Xcode 26 (iOS SDK 26) – starší neumí connectivity_plus 7.3+;
+    # Codemagic má xcode: latest.
+    runs-on: macos-26
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-      - run: flutter pub get
-      - run: dart run build_runner build --delete-conflicting-outputs
-      - run: flutter gen-l10n
-      - name: Widget a Live Activity do Xcode projektu
-        run: dart run tool/ios_widget.dart
-      - name: iOS build bez podpisu
-        run: flutter build ios --release --no-codesign
+      - run: xcodebuild -version
+      # Náhledy nejdřív – vzniknou, i když build aplikace selže.
       - name: Náhledy widgetu (PNG)
         run: |
           mkdir -p build
@@ -106,11 +99,20 @@ jobs:
             -o build/widget_preview
           build/widget_preview build/widget_previews
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: ios-widget-previews
           path: build/widget_previews
-          if-no-files-found: ignore
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - run: flutter gen-l10n
+      - name: Widget a Live Activity do Xcode projektu
+        run: dart run tool/ios_widget.dart
+      - name: iOS build bez podpisu
+        run: flutter build ios --release --no-codesign
 
   # Hodinky: wear/android/ se negituje, vytvoří se stejně jako u Lukase
   # (docs/wear_os.md, kapitola 2.2).
