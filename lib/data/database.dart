@@ -104,7 +104,7 @@ class AppDatabase extends _$AppDatabase {
   static const _profileId = 1;
 
   @override
-  int get schemaVersion => 22;
+  int get schemaVersion => 23;
 
   /// Výchozí série pro nově přidaný cvik: 3 × 10.
   static const defaultPlanSets = <PlanSetDraft>[
@@ -283,6 +283,11 @@ class AppDatabase extends _$AppDatabase {
               'UPDATE user_profiles SET premium_early_at = premium_gift_until - 15811200 '
               'WHERE premium_gift_until IS NOT NULL',
             );
+          }
+          if (from < 23) {
+            // Verze 23: zaměření plánu (síla / svaly / výdrž) – programy
+            // podle cíle. Starší plány ho nemají (= cíl z profilu).
+            await m.addColumn(workoutPlans, workoutPlans.focus);
           }
         },
         beforeOpen: (details) async {
@@ -913,15 +918,31 @@ class AppDatabase extends _$AppDatabase {
         ),
       );
 
-  /// Změna zaměření tréninku (síla / svaly / kondice). Uloží se i do
-  /// profilu jako výchozí pro další trénink.
+  /// Zaměření nového tréninku: zaměření plánu, jinak cíl z profilu.
+  Future<TrainingFocus> focusForNewSession(int? planId) async {
+    if (planId != null) {
+      final plan = await (select(workoutPlans)
+            ..where((p) => p.id.equals(planId)))
+          .getSingleOrNull();
+      final focus = plan?.focus;
+      if (focus != null) return focus;
+    }
+    final profile = await (select(userProfiles)..limit(1)).getSingleOrNull();
+    final value = profile?.trainingFocus;
+    return value != null && value >= 0 && value < TrainingFocus.values.length
+        ? TrainingFocus.values[value]
+        : TrainingFocus.muscle;
+  }
+
+  /// Změna zaměření jednoho tréninku (síla / svaly / výdrž). Cíl v profilu
+  /// ani zaměření plánu se nemění.
   Future<void> setSessionFocus(int sessionId, TrainingFocus focus) =>
-      transaction(() async {
-        await (update(workoutSessions)..where((s) => s.id.equals(sessionId)))
-            .write(WorkoutSessionsCompanion(focus: Value(focus)));
-        await updateProfile(
-            UserProfilesCompanion(trainingFocus: Value(focus.index)));
-      });
+      (update(workoutSessions)..where((s) => s.id.equals(sessionId)))
+          .write(WorkoutSessionsCompanion(focus: Value(focus)));
+
+  /// Cíl tréninku v profilu (výchozí zaměření tréninků).
+  Future<void> setTrainingGoal(TrainingFocus goal) =>
+      updateProfile(UserProfilesCompanion(trainingFocus: Value(goal.index)));
 
   Future<void> finishSession(
     int id, {
@@ -1123,18 +1144,24 @@ class AppDatabase extends _$AppDatabase {
   /// jazyk názvů plánů.
   /// [weekdayMasks] (volitelně) přepíše dny jednotlivých plánů programu
   /// ve stejném pořadí, jak je má program.
+  /// Přidá hotový program jako běžné plány. [goal] = cíl (síla / svaly /
+  /// výdrž), podle něj se nastaví série, opakování a rozsah opakování;
+  /// program s pevným cílem ho ignoruje. Plány dostanou zaměření podle
+  /// cíle (pauzy a progrese tréninků podle nich).
   Future<void> addProgram(
     TemplateProgram program, {
     required String languageCode,
     List<int>? weekdayMasks,
+    TrainingFocus goal = TrainingFocus.muscle,
   }) =>
       transaction(() async {
-        final ids = {
+        final bySlug = {
           for (final e in await (select(exercises)
                 ..where((e) => e.slug.isNotNull()))
               .get())
-            e.slug!: e.id,
+            e.slug!: e,
         };
+        final focus = programGoal(program, goal);
         for (final (index, plan) in program.plans.indexed) {
           final mask = (weekdayMasks != null && index < weekdayMasks.length)
               ? weekdayMasks[index]
@@ -1148,24 +1175,40 @@ class AppDatabase extends _$AppDatabase {
                 other: (t) => t.planNames[plan.nameEn],
               ),
               weekdaysMask: Value(mask),
+              focus: Value(focus),
             ),
           );
           var position = 0;
           for (final item in plan.items) {
-            final exerciseId = ids[item.slug];
-            if (exerciseId == null) continue;
+            final exercise = bySlug[item.slug];
+            if (exercise == null) continue;
+            final sets = templateSetsFor(
+              item,
+              focus,
+              program: program,
+              isDuration: exercise.type == ExerciseType.duration,
+            );
+            final range = templateRangeFor(item, focus, program: program);
             final peId = await into(planExercises).insert(
               PlanExercisesCompanion.insert(
                 planId: planId,
-                exerciseId: exerciseId,
+                exerciseId: exercise.id,
                 position: position++,
-                targetSets: Value(item.sets.length),
+                targetSets: Value(sets.length),
+                supersetGroup: Value(item.superset),
+                repRangeMin: Value(range?.min),
+                repRangeMax: Value(range?.max),
               ),
             );
-            await _insertPlanSets(peId, item.sets);
+            await _insertPlanSets(peId, sets);
           }
         }
       });
+
+  /// Zaměření plánu (null = cíl z profilu).
+  Future<void> setPlanFocus(int id, TrainingFocus? focus) =>
+      (update(workoutPlans)..where((p) => p.id.equals(id)))
+          .write(WorkoutPlansCompanion(focus: Value(focus)));
 
   // ---------------------------------------------------------------------
   // Plán B – domácí rutiny

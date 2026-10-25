@@ -20,6 +20,14 @@
 // Cviky s vlastní vahou: +1 opakování, cviky na čas: +5 s, když všechny
 // pracovní série splnily cíl (bez odlehčení).
 //
+// Zaměření tréninku (cíl, TrainingFocus) mění tempo:
+// - síla: užší výchozí rozsah (cíl až cíl + 1, nad 5 opakování cíl + 2),
+//   váha tedy roste častěji,
+// - svaly: jak je popsáno výše,
+// - výdrž: široký výchozí rozsah (cíl až cíl + 5) a opakování přibývají
+//   po 2 (u vlastní váhy také po 2, u cviků na čas po 10 s), váha se
+//   přidá až na horní hranici.
+//
 // Při nemoci, do 7 dní po nemoci, u zraněné partie a v dietě (cut) se nic
 // nezvyšuje (ani váha, ani opakování) – návrh je „drží“ s důvodem.
 // Odlehčení se povolí vždy. Únava svalů progresi neblokuje.
@@ -79,24 +87,51 @@ typedef RepRange = ({int min, int max});
 
 bool _isWorking(TargetSet s) => !s.isWarmup && !s.isDrop;
 
-/// Výchozí rozsah z cílových opakování: cíl až cíl + 2 (cíl ≤ 8),
-/// jinak cíl až cíl + 4.
-RepRange defaultRepRange(int targetReps) {
+/// Výchozí rozsah z cílových opakování podle zaměření:
+/// svaly cíl až cíl + 2 (cíl ≤ 8), jinak cíl až cíl + 4; síla cíl až
+/// cíl + 1 (cíl ≤ 5), jinak cíl + 2; výdrž cíl až cíl + 5.
+RepRange defaultRepRange(
+  int targetReps, {
+  TrainingFocus focus = TrainingFocus.muscle,
+}) {
   final min = targetReps < 1 ? 1 : targetReps;
-  return (min: min, max: min + (min <= 8 ? 2 : 4));
+  final span = switch (focus) {
+    TrainingFocus.strength => min <= 5 ? 1 : 2,
+    TrainingFocus.muscle => min <= 8 ? 2 : 4,
+    TrainingFocus.conditioning => 5,
+  };
+  return (min: min, max: min + span);
+}
+
+/// O kolik opakování se zvýší cíl u cviků s vahou (výdrž po 2).
+int repStepFor(TrainingFocus focus) =>
+    focus == TrainingFocus.conditioning ? 2 : 1;
+
+/// Přírůstek u cviků s vlastní vahou (opakování) a na čas (sekundy).
+int linearStepFor(TrainingFocus focus, {required bool isDuration}) {
+  final endurance = focus == TrainingFocus.conditioning;
+  if (isDuration) {
+    return endurance ? durationIncrementSeconds * 2 : durationIncrementSeconds;
+  }
+  return endurance ? bodyweightIncrementReps * 2 : bodyweightIncrementReps;
 }
 
 /// Rozsah, který se použije: z plánu ([min], [max]), chybějící hranice se
 /// odvodí z cílových opakování první pracovní série.
-RepRange effectiveRepRange(List<TargetSet> targets, {int? min, int? max}) {
+RepRange effectiveRepRange(
+  List<TargetSet> targets, {
+  int? min,
+  int? max,
+  TrainingFocus focus = TrainingFocus.muscle,
+}) {
   final TargetSet first = targets.where(_isWorking).firstOrNull ??
       targets.firstOrNull ??
       (reps: 10, weightKg: null, isWarmup: false, isDrop: false);
   if (min != null && max != null) {
     return min <= max ? (min: min, max: max) : (min: max, max: min);
   }
-  if (min != null) return defaultRepRange(min);
-  final d = defaultRepRange(first.reps);
+  if (min != null) return defaultRepRange(min, focus: focus);
+  final d = defaultRepRange(first.reps, focus: focus);
   if (max != null) {
     final lo = d.min <= max ? d.min : max;
     return (min: lo < 1 ? 1 : lo, max: max);
@@ -414,6 +449,7 @@ class ProgressionInput {
     this.incrementKg,
     required this.performed,
     this.previous = const [],
+    this.focus = TrainingFocus.muscle,
   });
 
   final ExerciseType type;
@@ -436,6 +472,10 @@ class ProgressionInput {
 
   /// Série cviku z předchozího dokončeného tréninku (pro odlehčení).
   final List<PerformedSet> previous;
+
+  /// Zaměření tréninku (síla / svaly / výdrž) – mění výchozí rozsah
+  /// a krok opakování.
+  final TrainingFocus focus;
 }
 
 /// Navržená změna cílů jednoho cviku plánu.
@@ -541,7 +581,7 @@ ProgressionProposal? _linear(
     final value = (isDuration ? p.durationSeconds : p.reps) ?? 0;
     if (value < targets[work[j]].reps) return null;
   }
-  final step = isDuration ? durationIncrementSeconds : bodyweightIncrementReps;
+  final step = linearStepFor(input.focus, isDuration: isDuration);
   final cap = isDuration ? null : input.repRangeMax;
   final next = [...targets];
   var changed = false;
@@ -590,6 +630,7 @@ ProgressionProposal? _weighted(
     targets,
     min: input.repRangeMin,
     max: input.repRangeMax,
+    focus: input.focus,
   );
   final increment = (input.incrementKg ?? 0) > 0
       ? input.incrementKg!
@@ -666,12 +707,14 @@ ProgressionProposal? _weighted(
   }
 
   if (allTarget) {
+    final repStep = repStepFor(input.focus);
     final next = [...targets];
     var changed = false;
     for (final k in work) {
       final t = targets[k];
       if (t.reps >= range.max) continue;
-      next[k] = _withTarget(t, reps: t.reps + 1);
+      final r = t.reps + repStep;
+      next[k] = _withTarget(t, reps: r > range.max ? range.max : r);
       changed = true;
     }
     if (!changed) return null;
@@ -687,7 +730,8 @@ ProgressionProposal? _weighted(
         fromKg: firstRef,
         toKg: firstRef,
         reps: next[work.first].reps,
-        delta: 1,
+        delta: [for (final k in work) next[k].reps - targets[k].reps]
+            .reduce((a, b) => a > b ? a : b),
       ),
     );
   }

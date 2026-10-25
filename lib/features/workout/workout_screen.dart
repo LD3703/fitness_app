@@ -27,6 +27,7 @@ import '../../ui/labels.dart';
 import '../../ui/set_format.dart';
 import '../../ui/set_kind_chip.dart';
 import '../../ui/skins.dart';
+import '../../ui/training_focus_selector.dart';
 import '../../ui/wellbeing_messages.dart';
 import '../exercises/exercise_picker.dart';
 import 'rest_timer.dart';
@@ -294,8 +295,9 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
   /// Pauza po sérii cviku (ruční z plánu, nebo automatická).
   int _restOf(_Block b) => b.data.restSecondsFor(_focus, _setup?.sex);
 
-  /// Změna zaměření: automatické pauzy se přepočítají (běžící pauza
-  /// doběhne beze změny) a volba se zapamatuje pro další trénink.
+  /// Změna zaměření jen pro tento trénink: automatické pauzy se
+  /// přepočítají (běžící pauza doběhne beze změny), progrese po tréninku
+  /// se řídí touto volbou. Cíl v profilu ani zaměření plánu se nemění.
   void _setFocus(TrainingFocus focus) {
     if (focus == _focus) return;
     HapticFeedback.selectionClick();
@@ -722,7 +724,7 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
                 title: Text(wellbeing),
               ),
             ),
-          _FocusSelector(focus: _focus, onChanged: _setFocus),
+          TrainingFocusSelector(focus: _focus, onChanged: _setFocus),
           ..._buildBlocks(context, injured),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
@@ -984,54 +986,6 @@ class _Block {
 // ---------------------------------------------------------------------
 
 /// Rámeček kolem cviků jedné supersérie („Supersérie A“).
-/// Volba zaměření tréninku nahoře na obrazovce: síla / svaly / kondice.
-/// Podle ní se počítají automatické pauzy mezi sériemi.
-class _FocusSelector extends StatelessWidget {
-  const _FocusSelector({required this.focus, required this.onChanged});
-
-  final TrainingFocus focus;
-  final ValueChanged<TrainingFocus> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SegmentedButton<TrainingFocus>(
-            showSelectedIcon: false,
-            segments: [
-              for (final f in TrainingFocus.values)
-                ButtonSegment(
-                  value: f,
-                  label: Text(
-                    l10n.trainingFocus(f),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-            ],
-            selected: {focus},
-            onSelectionChanged: (v) => onChanged(v.first),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 6),
-            child: Text(
-              l10n.trainingFocusHint(focus),
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _SupersetFrame extends StatelessWidget {
   const _SupersetFrame({required this.letter, required this.children});
 

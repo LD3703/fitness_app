@@ -2923,14 +2923,37 @@
   "muscleLowerBack": "Lower back",
   "focusStrength": "Strength",
   "focusMuscle": "Muscle",
-  "focusConditioning": "Conditioning",
+  "focusConditioning": "Endurance",
   "focusStrengthHint": "Heavy weights, few reps – long rests",
   "focusMuscleHint": "Building muscle – medium rests",
-  "focusConditioningHint": "Fast pace, higher heart rate – short rests",
+  "focusConditioningHint": "Lots of reps, higher heart rate – short rests",
+  "trainingGoalTitle": "Training goal",
+  "goalStrengthHint": "Heavier weights: 5–8 reps, weight goes up often, long rests",
+  "goalMuscleHint": "Building muscle: 6–12 reps, medium rests",
+  "goalEnduranceHint": "Endurance: 12–20 reps, short rests, reps go up first",
+  "trainingGoalDialogHint": "Applies to new workouts and programs. A plan can have its own focus.",
+  "templateGoalFixed": "Program goal: {goal}",
+  "@templateGoalFixed": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "planFocusTitle": "Plan focus",
+  "planFocusFromProfile": "From profile goal ({goal})",
+  "@planFocusFromProfile": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "planFocusHint": "Rests and progression suggestions follow the focus.",
   "restAutoHint": "Rest is set automatically by the exercise and workout focus",
   "restManualHint": "Rest set manually in the plan",
   "planRestAuto": "Automatic rest",
-  "planRestAutoValues": "Strength {strength} s · Muscle {muscle} s · Conditioning {conditioning} s",
+  "planRestAutoValues": "Strength {strength} s · Muscle {muscle} s · Endurance {conditioning} s",
   "@planRestAutoValues": {
     "placeholders": {
       "strength": {

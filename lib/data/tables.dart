@@ -107,8 +107,9 @@ class UserProfiles extends Table {
   /// null = neuvedeno. Jen pro výchozí délku pauz (core/rest_time.dart).
   IntColumn get sex => integer().nullable()();
 
-  /// Naposledy zvolené zaměření tréninku (verze schématu 14):
-  /// index TrainingFocus, výchozí 1 = svaly.
+  /// Cíl tréninku (verze schématu 14, od 23 volba v úvodu a profilu):
+  /// index TrainingFocus, výchozí 1 = svaly. Výchozí zaměření tréninků
+  /// bez vlastního zaměření plánu (core/rest_time.dart, auto_progression).
   IntColumn get trainingFocus => integer().withDefault(const Constant(1))();
 
   @override
@@ -161,6 +162,10 @@ class WorkoutPlans extends Table {
 
   /// Kdo plán poslal (jméno trenéra / autora odkazu).
   TextColumn get remoteFrom => text().nullable()();
+
+  /// Zaměření plánu (verze schématu 23): síla / svaly / výdrž. Trénink
+  /// podle plánu ho převezme (pauzy, progrese); null = cíl z profilu.
+  IntColumn get focus => intEnum<TrainingFocus>().nullable()();
 }
 
 @DataClassName('PlanExercise')

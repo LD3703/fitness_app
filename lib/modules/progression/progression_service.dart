@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/auto_progression.dart';
+import '../../core/rest_time.dart';
 import '../../data/database.dart';
 import '../../features/workout/workout_service.dart';
 import '../../premium/premium.dart';
@@ -78,6 +79,7 @@ Future<void> progressionWorkoutFinished(
     unit: profile.unitSystem,
     blockers: progressionBlockersOf(profile, periods, DateTime.now()),
     apply: mode == ProgressionMode.auto,
+    focus: session.focus ?? trainingFocusOf(profile.trainingFocus),
   );
   if (entries.isEmpty) return;
   notifier.state = (

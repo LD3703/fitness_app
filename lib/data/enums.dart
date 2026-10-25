@@ -123,8 +123,12 @@ enum WorkoutFeeling { easy, ok, hard }
 /// nemoci, zranění, zotavování nebo dietě).
 enum ProgressionKind { increase, reps, deload, hold }
 
-/// Zaměření tréninku (verze schématu 14). Volí se na začátku tréninku
-/// a podle něj se počítají automatické pauzy (core/rest_time.dart).
+/// Zaměření tréninku (verze schématu 14): síla / svaly / výdrž
+/// (conditioning – v aplikaci „Výdrž“). Cíl je v profilu, plán může mít
+/// vlastní a na obrazovce tréninku jde změnit. Podle něj se počítají
+/// automatické pauzy (core/rest_time.dart), série a opakování hotových
+/// programů (plan_templates.dart) a automatická progrese
+/// (core/auto_progression.dart).
 /// V databázi se ukládá jako index – pořadí neměnit.
 enum TrainingFocus { strength, muscle, conditioning }
 

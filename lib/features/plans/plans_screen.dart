@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/rest_time.dart';
+import '../../data/database.dart';
 import '../../data/seed/content_i18n.dart';
 import '../../data/seed/plan_templates.dart';
 import '../../l10n/app_localizations.dart';
@@ -9,7 +11,9 @@ import '../../premium/premium.dart';
 import '../../providers.dart';
 import '../../ui/body_map.dart';
 import '../../ui/dialogs.dart';
+import '../../ui/labels.dart';
 import '../../ui/skins.dart';
+import '../../ui/training_focus_selector.dart';
 import '../../ui/weekdays.dart';
 import '../workout/start_workout.dart';
 
@@ -86,20 +90,26 @@ class PlansScreen extends ConsumerWidget {
       return;
     }
     if (!context.mounted) return;
-    // Dny tréninků si uživatel upraví hned při výběru programu.
-    final masks = await showDialog<List<int>>(
+    // Cíl (síla / svaly / výdrž, předvyplněný z profilu) a dny tréninků si
+    // uživatel vybere hned při přidání programu.
+    final profile = ref.read(profileProvider).valueOrNull;
+    final choice = await showDialog<({List<int> masks, TrainingFocus goal})>(
       context: context,
       builder: (context) => _ProgramDaysDialog(
         program: program,
         title: name(program),
+        initialGoal: trainingFocusOf(profile?.trainingFocus),
         planName: (p) => seedText(lang,
             en: p.nameEn, cs: p.nameCs, other: (t) => t.planNames[p.nameEn]),
       ),
     );
-    if (masks == null || !context.mounted) return;
-    await ref
-        .read(databaseProvider)
-        .addProgram(program, languageCode: lang, weekdayMasks: masks);
+    if (choice == null || !context.mounted) return;
+    await ref.read(databaseProvider).addProgram(
+          program,
+          languageCode: lang,
+          weekdayMasks: choice.masks,
+          goal: choice.goal,
+        );
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(l10n.templateAdded(name(program))),
@@ -190,16 +200,19 @@ class PlansScreen extends ConsumerWidget {
   }
 }
 
-/// Výběr dnů pro každý plán hotového programu (předvyplněno z programu).
+/// Výběr cíle (u programu bez pevného cíle) a dnů pro každý plán hotového
+/// programu (předvyplněno z profilu a z programu).
 class _ProgramDaysDialog extends StatefulWidget {
   const _ProgramDaysDialog({
     required this.program,
     required this.title,
+    required this.initialGoal,
     required this.planName,
   });
 
   final TemplateProgram program;
   final String title;
+  final TrainingFocus initialGoal;
   final String Function(TemplatePlan plan) planName;
 
   @override
@@ -210,6 +223,7 @@ class _ProgramDaysDialogState extends State<_ProgramDaysDialog> {
   late final List<int> _masks = [
     for (final p in widget.program.plans) p.weekdaysMask,
   ];
+  late TrainingFocus _goal = widget.initialGoal;
 
   @override
   Widget build(BuildContext context) {
@@ -225,6 +239,22 @@ class _ProgramDaysDialogState extends State<_ProgramDaysDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (widget.program.goal case final fixed?)
+            Text(
+              l10n.templateGoalFixed(l10n.trainingFocus(fixed)),
+              style: theme.textTheme.titleSmall,
+            )
+          else ...[
+            Text(l10n.trainingGoalTitle, style: theme.textTheme.titleSmall),
+            const SizedBox(height: 8),
+            TrainingFocusSelector(
+              focus: _goal,
+              goalHints: true,
+              padding: EdgeInsets.zero,
+              onChanged: (g) => setState(() => _goal = g),
+            ),
+          ],
+          const SizedBox(height: 16),
           Text(
             l10n.templateDaysHint,
             style: theme.textTheme.bodySmall
@@ -257,7 +287,8 @@ class _ProgramDaysDialogState extends State<_ProgramDaysDialog> {
           child: Text(l10n.cancel),
         ),
         FilledButton(
-          onPressed: () => Navigator.of(context).pop(List<int>.of(_masks)),
+          onPressed: () => Navigator.of(context)
+              .pop((masks: List<int>.of(_masks), goal: _goal)),
           child: Text(l10n.templateDaysConfirm),
         ),
       ],

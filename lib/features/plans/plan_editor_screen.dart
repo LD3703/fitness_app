@@ -92,6 +92,46 @@ class _PlanEditor extends ConsumerWidget {
     }
   }
 
+  /// Zaměření plánu: podle cíle v profilu, nebo síla / svaly / výdrž.
+  Future<void> _pickFocus(
+    BuildContext context,
+    WidgetRef ref,
+    TrainingFocus profileGoal,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    Widget option(TrainingFocus? value, String label) => SimpleDialogOption(
+          onPressed: () => Navigator.of(context).pop((value: value)),
+          child: Row(
+            children: [
+              Icon(plan.focus == value
+                  ? Icons.radio_button_checked
+                  : Icons.radio_button_unchecked),
+              const SizedBox(width: 12),
+              Expanded(child: Text(label)),
+            ],
+          ),
+        );
+    final picked = await showDialog<({TrainingFocus? value})>(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: Text(l10n.planFocusTitle),
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+            child: Text(l10n.planFocusHint),
+          ),
+          option(null,
+              l10n.planFocusFromProfile(l10n.trainingFocus(profileGoal))),
+          for (final f in TrainingFocus.values)
+            option(f, '${l10n.trainingFocus(f)} – ${l10n.trainingGoalHint(f)}'),
+        ],
+      ),
+    );
+    if (picked != null) {
+      await ref.read(databaseProvider).setPlanFocus(plan.id, picked.value);
+    }
+  }
+
   Future<void> _addExercise(BuildContext context, WidgetRef ref) async {
     final exercise = await showExercisePicker(context);
     if (exercise != null) {
@@ -108,6 +148,8 @@ class _PlanEditor extends ConsumerWidget {
     final groups = [for (final it in items) it.item.supersetGroup];
     final supersets = supersetLabels(groups);
     final fatigue = ref.watch(fatigueProvider).valueOrNull;
+    final profileGoal =
+        trainingFocusOf(ref.watch(profileProvider).valueOrNull?.trainingFocus);
 
     final header = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,6 +193,15 @@ class _PlanEditor extends ConsumerWidget {
                   icon: const Icon(Icons.clear),
                   onPressed: () => db.setPlanTime(plan.id, null),
                 ),
+        ),
+        ListTile(
+          leading: const Icon(Icons.track_changes),
+          title: Text(l10n.planFocusTitle),
+          subtitle: Text(switch (plan.focus) {
+            final f? => l10n.trainingFocus(f),
+            null => l10n.planFocusFromProfile(l10n.trainingFocus(profileGoal)),
+          }),
+          onTap: () => _pickFocus(context, ref, profileGoal),
         ),
         const Divider(),
         if (items.isNotEmpty) ...[

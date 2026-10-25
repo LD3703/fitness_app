@@ -47,6 +47,13 @@ extension LabelsX on AppLocalizations {
         TrainingFocus.conditioning => focusConditioningHint,
       };
 
+  /// Co cíl v profilu / u programu znamená (série, opakování, progrese).
+  String trainingGoalHint(TrainingFocus f) => switch (f) {
+        TrainingFocus.strength => goalStrengthHint,
+        TrainingFocus.muscle => goalMuscleHint,
+        TrainingFocus.conditioning => goalEnduranceHint,
+      };
+
   /// Pohlaví z profilu; null = neuvedeno.
   String sex(Sex? s) => switch (s) {
         Sex.male => sexMale,

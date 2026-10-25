@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/rest_time.dart';
 import '../../core/text_filter.dart';
 
 import '../../data/database.dart';
@@ -11,6 +12,7 @@ import '../../providers.dart';
 import '../../ui/brand_mark.dart';
 import '../../ui/format.dart';
 import '../../ui/module_switches.dart';
+import '../../ui/training_focus_selector.dart';
 
 /// Úvodní průvodce při prvním spuštění: jméno, výběr toho, co chce
 /// uživatel sledovat, jednotky a tón zpráv (přátelský / přísný trenér).
@@ -32,6 +34,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   /// Tón zpráv: 0 = přátelský, 1 = přísný trenér (UserProfile.coachTone).
   int _coachTone = 0;
+
+  /// Cíl tréninku (síla / svaly / výdrž) – výchozí zaměření tréninků
+  /// a varianta hotových programů.
+  TrainingFocus _goal = TrainingFocus.muscle;
   String? _error;
   bool _saving = false;
 
@@ -51,6 +57,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         calories: p.showCalories,
       );
       _coachTone = p.coachTone == 1 ? 1 : 0;
+      _goal = trainingFocusOf(p.trainingFocus);
     }
   }
 
@@ -137,6 +144,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       trackPeriods: Value(_modules.periods),
       showCalories: Value(_modules.calories),
       coachTone: Value(_coachTone),
+      trainingFocus: Value(_goal.index),
       onboardingDone: const Value(true),
     ));
     // Přesměrování na Dnes zařídí router, jakmile se profil uloží.
@@ -168,6 +176,16 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     controller: _name,
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(labelText: l10n.profileName),
+                  ),
+                  const SizedBox(height: 24),
+                  Text(l10n.trainingGoalTitle,
+                      style: theme.textTheme.titleMedium),
+                  const SizedBox(height: 8),
+                  TrainingFocusSelector(
+                    focus: _goal,
+                    goalHints: true,
+                    padding: EdgeInsets.zero,
+                    onChanged: (g) => setState(() => _goal = g),
                   ),
                   const SizedBox(height: 24),
                   Text(l10n.onboardingModulesTitle,

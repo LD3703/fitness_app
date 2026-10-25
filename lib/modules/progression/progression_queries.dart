@@ -46,12 +46,14 @@ extension ProgressionQueries on AppDatabase {
   /// Spočítá návrhy pro dokončený trénink [sessionId] plánu [planId] a uloží
   /// je jako události. Starší nepoužité návrhy stejných cviků nahradí.
   /// [apply] = rovnou je zapíše do plánu (režim „použít automaticky“).
+  /// [focus] = zaměření tréninku (rozsah a krok opakování).
   Future<List<ProgressionEntry>> runAutoProgression(
     int sessionId,
     int planId, {
     required UnitSystem unit,
     required ProgressionBlockers blockers,
     required bool apply,
+    TrainingFocus focus = TrainingFocus.muscle,
   }) async {
     final items = await getPlanItems(planId);
     final sessionSets = await getSessionSets(sessionId);
@@ -93,6 +95,7 @@ extension ProgressionQueries on AppDatabase {
           incrementKg: it.item.progressionIncrementKg,
           performed: _performedOf(performed),
           previous: _performedOf(previous),
+          focus: focus,
         ),
         unit: unit,
         holdReason: blockers.reasonFor(it.exercise.muscleGroup),
