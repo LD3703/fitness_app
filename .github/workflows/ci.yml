@@ -113,6 +113,13 @@ jobs:
         run: dart run tool/ios_widget.dart
       - name: iOS build bez podpisu
         run: flutter build ios --release --no-codesign
+      - name: Widget je v aplikaci
+        run: |
+          APPEX=build/ios/iphoneos/Runner.app/PlugIns/GymBarWidget.appex
+          test -f "$APPEX/GymBarWidget"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APPEX/Info.plist"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APPEX/Info.plist"
+          /usr/libexec/PlistBuddy -c "Print :NSSupportsLiveActivities" build/ios/iphoneos/Runner.app/Info.plist
 
   # Hodinky: wear/android/ se negituje, vytvoří se stejně jako u Lukase
   # (docs/wear_os.md, kapitola 2.2).
