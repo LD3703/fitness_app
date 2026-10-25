@@ -15,6 +15,7 @@ import '../../modules/module_hub.dart';
 import '../../modules/wear/wear_bridge.dart';
 import '../../modules/wear/wear_protocol.dart';
 import '../../modules/wear/wear_snapshot.dart';
+import '../../modules/widgets/rest_live_activity.dart';
 import '../../providers.dart';
 import '../../services/notification_service.dart';
 import '../../ui/body_map.dart';
@@ -97,7 +98,39 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
     _lifecycle = AppLifecycleListener(onHide: _onHide, onShow: _onShow);
     _load();
     _wear.attach();
+    _timer.addListener(_onRestForLiveActivity);
     _restoreRest();
+  }
+
+  /// Konec pauzy, který už zná Live Activity na iPhonu.
+  DateTime? _liveRestEnd;
+
+  /// Live Activity odpočtu pauzy (iPhone, rest_live_activity.dart): časovač
+  /// hlásí změnu 4× za sekundu, posílá se jen začátek, konec a úprava.
+  void _onRestForLiveActivity() {
+    final end = _timer.endsAt;
+    if (end == _liveRestEnd) return;
+    _liveRestEnd = end;
+    if (end == null) {
+      unawaited(RestLiveActivity.instance.end());
+      return;
+    }
+    unawaited(RestLiveActivity.instance.show(
+      l10n: _l10n,
+      startAt: end.subtract(Duration(seconds: _timer.totalSeconds)),
+      endAt: end,
+      nextExercise: _suggestedExerciseName(),
+    ));
+  }
+
+  /// Název cviku, na který čeká doporučená další série.
+  String? _suggestedExerciseName() {
+    final row = _suggested;
+    if (row == null) return null;
+    for (final b in _blocks) {
+      if (b.rows.contains(row)) return b.data.exercise.localizedName(context);
+    }
+    return null;
   }
 
   @override
@@ -130,6 +163,7 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
   void dispose() {
     _wear.detach();
     _lifecycle.dispose();
+    _timer.removeListener(_onRestForLiveActivity);
     final restEnd = _timer.endsAt;
     if (restEnd != null && _timer.remaining > Duration.zero) {
       // Odchod z obrazovky (zpět) trénink neukončí – pauza běží dál.
@@ -138,8 +172,10 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
       _restOnLeave[widget.sessionId] =
           (endsAt: restEnd, totalSeconds: _timer.totalSeconds);
       NotificationService.instance.scheduleRestEnd(_timer.remaining, _l10n);
+      // Live Activity běží dál a po návratu se jen aktualizuje.
     } else {
       NotificationService.instance.cancelRestEnd();
+      unawaited(RestLiveActivity.instance.end());
     }
     _timer.dispose();
     for (final b in _blocks) {

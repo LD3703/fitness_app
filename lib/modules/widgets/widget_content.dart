@@ -15,8 +15,14 @@ const kWidgetHostWater = 'water';
 /// tool/platform/widgets.dart vedle MainActivity.kt).
 const kAndroidWidgetClass = 'cz.dedina.fitness_app.FitnessWidgetProvider';
 
-/// Klíče dat widgetu (SharedPreferences pluginu home_widget). Všechny
-/// hodnoty jsou řetězce; nativní strana je jen zobrazuje.
+/// iOS: App Group sdílená s rozšířením GymBarWidget a druh widgetu
+/// (ios/GymBarWidget/WidgetShared.swift, tool/platform/ios_widget.dart).
+const kIosAppGroup = 'group.cz.dedina.fitnessApp';
+const kIosWidgetKind = 'GymBarToday';
+
+/// Klíče dat widgetu (SharedPreferences pluginu home_widget, na iOS
+/// UserDefaults App Group). Všechny hodnoty jsou řetězce; nativní strana
+/// je jen zobrazuje.
 abstract final class WidgetKeys {
   static const title = 'fw_title';
   static const day = 'fw_day';
@@ -38,7 +44,7 @@ abstract final class WidgetKeys {
   static const lastWaterNonce = 'fw_last_water_nonce';
 }
 
-/// Den ve tvaru, který porovnává Kotlin (yyyy-MM-dd, místní čas).
+/// Den ve tvaru, který porovnává Kotlin i Swift (yyyy-MM-dd, místní čas).
 String widgetDayKey(DateTime d) =>
     '${d.year.toString().padLeft(4, '0')}-'
     '${d.month.toString().padLeft(2, '0')}-'

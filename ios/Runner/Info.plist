@@ -97,6 +97,14 @@
 					<string>gymbar</string>
 				</array>
 			</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.887495940482-m3cu4q6l15dl62dq9ldrqeo9k4eleh1d</string>
+			</array>
+		</dict>
 		</array>
 		<key>NSHealthShareUsageDescription</key>
 		<string>The app reads your body weight from Apple Health to show it in your progress overview.</string>
@@ -120,5 +128,7 @@
 	<string>Your location is used to show gyms near you and, if you choose, to save the location of a gym you add. It is not stored otherwise.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Your location is used to show gyms near you while you use the app. GymBar does not track your location in the background.</string>
+	<key>GIDClientID</key>
+	<string>887495940482-m3cu4q6l15dl62dq9ldrqeo9k4eleh1d.apps.googleusercontent.com</string>
 </dict>
 </plist>
