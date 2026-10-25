@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/coach_tone.dart';
 import '../../core/fatigue.dart';
-import '../../core/rest_time.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../modules/widgets/rest_live_activity.dart';
@@ -96,12 +95,11 @@ Future<void> _startWorkout(
     if (!context.mounted) return;
   }
 
-  // Zaměření (síla / svaly / kondice) podle posledního tréninku; dá se
-  // změnit nahoře na obrazovce tréninku.
-  final profile = await db.watchProfile().first;
+  // Zaměření (síla / svaly / výdrž) podle plánu, jinak cíl z profilu;
+  // dá se změnit nahoře na obrazovce tréninku (jen pro tento trénink).
   final id = await db.startSession(
     planId: planId,
-    focus: trainingFocusOf(profile.trainingFocus),
+    focus: await db.focusForNewSession(planId),
   );
   if (!context.mounted) return;
   context.push('/workout/$id');

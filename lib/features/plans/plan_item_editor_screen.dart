@@ -301,7 +301,12 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
     return result;
   }
 
-  /// Pauza: automaticky (s přehledem pro síla / svaly / kondice), nebo
+  /// Zaměření plánu, jinak cíl z profilu.
+  TrainingFocus _planFocus() =>
+      ref.watch(planProvider(widget.planId)).valueOrNull?.focus ??
+      trainingFocusOf(ref.watch(profileProvider).valueOrNull?.trainingFocus);
+
+  /// Pauza: automaticky (s přehledem pro síla / svaly / výdrž), nebo
   /// ručně zadaná hodnota.
   Widget _restSection(BuildContext context, Exercise exercise) {
     final l10n = AppLocalizations.of(context);
@@ -322,8 +327,8 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
           onChanged: (v) {
             setState(() {
               _restAuto = v;
-              // Ruční pauza začne od automatické hodnoty (svaly).
-              if (!v) _rest.text = '${auto(TrainingFocus.muscle)}';
+              // Ruční pauza začne od automatické hodnoty podle zaměření.
+              if (!v) _rest.text = '${auto(_planFocus())}';
             });
             _markDirty();
           },
@@ -532,6 +537,7 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
                       '',
                 ),
                 onChanged: _markDirty,
+                focus: _planFocus(),
               ),
             if (_error != null)
               Padding(

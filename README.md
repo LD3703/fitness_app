@@ -20,8 +20,12 @@ Funguje:
   s předvyplněním z minula, sloupec „Minule“, časovač pauzy (−15 / +15 /
   přeskočit), přidání cviku i série během tréninku, pokračování po zavření
   aplikace, zahození tréninku.
-- **Automatické pauzy:** nahoře v tréninku volba zaměření Síla / Svaly /
-  Kondice (pamatuje se pro další trénink). Pauza se počítá podle náročnosti
+- **Cíl tréninku:** Síla / Svaly / Výdrž – volí se v úvodu a v Profilu,
+  plán může mít vlastní zaměření (editor plánu, schéma v23) a nahoře
+  v tréninku jde změnit jen pro daný trénink. Podle zaměření se počítají
+  pauzy, varianta hotových programů a tempo automatické progrese.
+- **Automatické pauzy:** podle zaměření tréninku (síla = dlouhé, výdrž =
+  krátké). Pauza se počítá podle náročnosti
   cviku (těžký vícekloubový → izolovaný → střed těla → kondiční), zaměření
   a volitelného pohlaví v profilu (ženy −15 %). V editoru cviku v plánu jde
   přepnout na ruční pauzu (`core/rest_time.dart`, schéma v14).
@@ -80,14 +84,22 @@ Funguje:
   na tuto partii a v tréninku je u nich upozornění.
 - **Povzbuzení:** při nemoci, zranění, do 7 dní po nemoci a v dietě
   povzbuzující hlášky na obrazovce Dnes, během tréninku a v souhrnu.
-- **Úvodní průvodce a volba funkcí:** při prvním spuštění si uživatel vybere,
-  co chce sledovat (pitný režim, váha, období a povzbuzení, kalorie);
-  totéž jde měnit v Profilu, vypnuté funkce se skryjí.
+- **Úvodní průvodce:** při prvním spuštění krok za krokem (Další / Zpět,
+  ukazatel kroků): jméno, rok narození, pohlaví, jednotky → cíl tréninku →
+  co sledovat (pitný režim, váha, období a povzbuzení, kalorie; vypnuté
+  funkce se skryjí) → pitný režim a váha (jen když se sledují) → motiv
+  vzhledu (aplikace se hned přebarví) → tón zpráv → připomínky a kalendář
+  (s povolením) → první plán z hotového programu podle cíle → shrnutí.
+  Vše je nepovinné a jde změnit v Profilu; tam je i „Průvodce nastavením“
+  pro nové projití (`lib/features/onboarding/onboarding_screen.dart`).
 - **Odložení / vynechání tréninku:** z obrazovky Dnes (menu ⋮ u plánu),
   s uklidňující hláškou a možností vrátit.
 - **Cviky:** knihovna 170 cviků s návodem (10 jazyků), hledáním a filtrem.
-- **Hotové programy:** Full body 3×, Horní/dolní 4×, Push/Pull/Legs –
-  přidají se jedním klepnutím do Plánů.
+- **Hotové programy (7):** Celé tělo 3×, Horní/dolní 4×, Push/Pull/Nohy,
+  Celé tělo 2× týdně, Jednoručky doma – při přidání se vybere cíl (síla:
+  4 × 5–6 u hlavních cviků, svaly: hodnoty programu, výdrž: 3 × 12–20,
+  delší výdrže) a dny. Síla 5×5 a Kruhový trénink (supersérie, výdrž)
+  mají cíl pevný (`lib/data/seed/plan_templates.dart`).
 - **Plán B:** 5minutová domácí rutina s časovačem (práce/pauza); po dokončení
   nabídne přesun plného tréninku na zítřek.
 - **Upozornění:** ranní připomínka ve dny tréninku (s ohledem na nemoc),
@@ -136,6 +148,8 @@ Verze 2 a 3 (moduly v `lib/modules/`):
 - **Automatická progrese:** po tréninku podle plánu navrhne v souhrnu
   („Příště“) nové cíle cviků – dvojitá progrese v rozsahu opakování,
   přírůstek podle partie a vybavení, odlehčení o 10 % po 2 neúspěších;
+  podle zaměření: síla úzký rozsah (váha roste častěji), výdrž široký
+  rozsah a opakování po 2 (čas po 10 s);
   při nemoci, zranění partie, zotavování a dietě „drží“. Režim v Profilu
   (vypnuto / navrhovat / použít automaticky s „Vrátit“), nastavení u cviku
   v editoru plánu, štítek čekajícího návrhu v editoru plánu (schéma v10).
@@ -568,7 +582,7 @@ lib/
     database.dart           databáze, počáteční data, dotazy
     seed/seed_data.dart     170 cviků + 3 domácí 5min rutiny
     seed/seed_instructions.dart  návody ke cvikům (CZ/EN)
-    seed/plan_templates.dart     hotové programy pro začátečníky
+    seed/plan_templates.dart     hotové programy (role cviků, varianty podle cíle)
     seed/seed_translations.dart  cviky, návody a programy v de/es/fr
     seed/content_i18n.dart       výběr jazyka obsahu, hledání cviků
   services/

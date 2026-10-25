@@ -189,6 +189,7 @@ class ProgressionItemSettingsSection extends ConsumerStatefulWidget {
     required this.planExerciseId,
     required this.firstWorkingReps,
     required this.onChanged,
+    this.focus = TrainingFocus.muscle,
   });
 
   final ProgressionItemSettings settings;
@@ -197,6 +198,9 @@ class ProgressionItemSettingsSection extends ConsumerStatefulWidget {
 
   /// Cílová opakování první pracovní série (pro výchozí rozsah).
   final int? firstWorkingReps;
+
+  /// Zaměření plánu (výchozí rozsah podle síla / svaly / výdrž).
+  final TrainingFocus focus;
   final VoidCallback onChanged;
 
   @override
@@ -244,7 +248,8 @@ class _ProgressionItemSettingsSectionState
         ref.watch(lastProgressionEventProvider(widget.planExerciseId)).valueOrNull;
     final muted = theme.textTheme.bodySmall
         ?.copyWith(color: theme.colorScheme.onSurfaceVariant);
-    final derived = defaultRepRange(widget.firstWorkingReps ?? 10);
+    final derived = defaultRepRange(widget.firstWorkingReps ?? 10,
+        focus: widget.focus);
     final autoIncrement = defaultIncrementKg(
       group: exercise.muscleGroup,
       equipment: exercise.equipment,

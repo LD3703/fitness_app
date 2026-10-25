@@ -883,12 +883,24 @@ const seedTranslations = <String, SeedTranslation>{
       'full_body': 'Ganzkörper (Einsteiger)',
       'upper_lower': 'Oberkörper / Unterkörper',
       'ppl': 'Push / Pull / Legs',
+      'full_body_2x': 'Ganzkörper 2× pro Woche',
+      'dumbbell_home': 'Kurzhanteln zu Hause',
+      'strength_5x5': 'Kraft 5×5',
+      'circuit': 'Zirkeltraining (Ausdauer)',
     },
     programDescriptions: {
       'full_body':
         '3× pro Woche, abwechselnd Training A und B. Ideal für die ersten Monate.',
       'upper_lower': '4× pro Woche: Oberkörper Mo + Do, Unterkörper Di + Fr.',
       'ppl': '3× pro Woche: Push Mo, Pull Mi, Legs Fr.',
+      'full_body_2x':
+        'Für volle Wochen: 2 Trainings von etwa einer Stunde, Mo + Do. Jede Muskelgruppe 2× pro Woche.',
+      'dumbbell_home':
+        '3× pro Woche mit zwei Kurzhanteln und einer Matte, abwechselnd A und B. Ohne Fitnessstudio.',
+      'strength_5x5':
+        '3× pro Woche, abwechselnd A und B: 5 Sätze à 5 bei den großen Übungen. Schaffst du alle Sätze mit 5 Wiederholungen, steigt das Gewicht.',
+      'circuit':
+        '3× pro Woche, abwechselnd A und B: Übungen im Zirkel direkt hintereinander, kurze Pausen, viele Wiederholungen. Für Ausdauer und Kondition.',
     },
     planNames: {
       'Full body A': 'Ganzkörper A',
@@ -898,6 +910,14 @@ const seedTranslations = <String, SeedTranslation>{
       'Push': 'Push',
       'Pull': 'Pull',
       'Legs': 'Legs',
+      'Full body 2× A': 'Ganzkörper 2× A',
+      'Full body 2× B': 'Ganzkörper 2× B',
+      'Dumbbells A': 'Kurzhanteln A',
+      'Dumbbells B': 'Kurzhanteln B',
+      '5×5 A': '5×5 A',
+      '5×5 B': '5×5 B',
+      'Circuit A': 'Zirkel A',
+      'Circuit B': 'Zirkel B',
     },
   ),
   'es': (
@@ -1770,6 +1790,10 @@ const seedTranslations = <String, SeedTranslation>{
       'full_body': 'Cuerpo completo (principiante)',
       'upper_lower': 'Tren superior / inferior',
       'ppl': 'Push / Pull / Pierna',
+      'full_body_2x': 'Cuerpo completo 2× por semana',
+      'dumbbell_home': 'Mancuernas en casa',
+      'strength_5x5': 'Fuerza 5×5',
+      'circuit': 'Circuito (resistencia)',
     },
     programDescriptions: {
       'full_body':
@@ -1777,6 +1801,14 @@ const seedTranslations = <String, SeedTranslation>{
       'upper_lower':
         '4× por semana: tren superior lun + jue, tren inferior mar + vie.',
       'ppl': '3× por semana: push lun, pull mié, pierna vie.',
+      'full_body_2x':
+        'Para semanas apretadas: 2 entrenos de una hora más o menos, lun + jue. Cada músculo 2× por semana.',
+      'dumbbell_home':
+        '3× por semana con un par de mancuernas y una esterilla, alternando A y B. Sin gimnasio.',
+      'strength_5x5':
+        '3× por semana, alternando A y B: 5 series de 5 en los ejercicios grandes. Cuando completas todas las series de 5, sube el peso.',
+      'circuit':
+        '3× por semana, alternando A y B: ejercicios en circuito seguidos, descansos cortos, muchas repeticiones. Para resistencia y forma física.',
     },
     planNames: {
       'Full body A': 'Cuerpo completo A',
@@ -1786,6 +1818,14 @@ const seedTranslations = <String, SeedTranslation>{
       'Push': 'Push',
       'Pull': 'Pull',
       'Legs': 'Pierna',
+      'Full body 2× A': 'Cuerpo completo 2× A',
+      'Full body 2× B': 'Cuerpo completo 2× B',
+      'Dumbbells A': 'Mancuernas A',
+      'Dumbbells B': 'Mancuernas B',
+      '5×5 A': '5×5 A',
+      '5×5 B': '5×5 B',
+      'Circuit A': 'Circuito A',
+      'Circuit B': 'Circuito B',
     },
   ),
   'fr': (
@@ -2658,6 +2698,10 @@ const seedTranslations = <String, SeedTranslation>{
       'full_body': 'Full body (débutant)',
       'upper_lower': 'Haut / Bas',
       'ppl': 'Push / Pull / Legs',
+      'full_body_2x': 'Full body 2× par semaine',
+      'dumbbell_home': 'Haltères à la maison',
+      'strength_5x5': 'Force 5×5',
+      'circuit': 'Circuit training (endurance)',
     },
     programDescriptions: {
       'full_body':
@@ -2665,6 +2709,14 @@ const seedTranslations = <String, SeedTranslation>{
       'upper_lower':
         '4× par semaine : haut du corps lun. + jeu., bas du corps mar. + ven.',
       'ppl': '3× par semaine : push lun., pull mer., jambes ven.',
+      'full_body_2x':
+        'Pour les semaines chargées : 2 séances d’environ une heure, lun. + jeu. Chaque muscle 2× par semaine.',
+      'dumbbell_home':
+        '3× par semaine avec une paire d’haltères et un tapis, en alternant A et B. Sans salle.',
+      'strength_5x5':
+        '3× par semaine, en alternant A et B : 5 séries de 5 sur les gros exercices. Quand tu réussis toutes les séries de 5, la charge augmente.',
+      'circuit':
+        '3× par semaine, en alternant A et B : exercices en circuit enchaînés, pauses courtes, beaucoup de répétitions. Pour l’endurance et la forme.',
     },
     planNames: {
       'Full body A': 'Full body A',
@@ -2674,6 +2726,14 @@ const seedTranslations = <String, SeedTranslation>{
       'Push': 'Push',
       'Pull': 'Pull',
       'Legs': 'Jambes',
+      'Full body 2× A': 'Full body 2× A',
+      'Full body 2× B': 'Full body 2× B',
+      'Dumbbells A': 'Haltères A',
+      'Dumbbells B': 'Haltères B',
+      '5×5 A': '5×5 A',
+      '5×5 B': '5×5 B',
+      'Circuit A': 'Circuit A',
+      'Circuit B': 'Circuit B',
     },
   ),
   'pl': (
@@ -3546,6 +3606,10 @@ const seedTranslations = <String, SeedTranslation>{
       'full_body': 'Full body (dla początkujących)',
       'upper_lower': 'Góra / Dół',
       'ppl': 'Push / Pull / Legs',
+      'full_body_2x': 'Full body 2× w tygodniu',
+      'dumbbell_home': 'Hantle w domu',
+      'strength_5x5': 'Siła 5×5',
+      'circuit': 'Trening obwodowy (wytrzymałość)',
     },
     programDescriptions: {
       'full_body':
@@ -3553,6 +3617,14 @@ const seedTranslations = <String, SeedTranslation>{
       'upper_lower':
         '4× w tygodniu: góra ciała pon. + czw., dół ciała wt. + pt.',
       'ppl': '3× w tygodniu: push pon., pull śr., nogi pt.',
+      'full_body_2x':
+        'Na zabiegane tygodnie: 2 treningi po około godzinie, pon. + czw. Każda partia 2× w tygodniu.',
+      'dumbbell_home':
+        '3× w tygodniu z parą hantli i matą, na zmianę A i B. Bez siłowni.',
+      'strength_5x5':
+        '3× w tygodniu, na zmianę A i B: 5 serii po 5 w dużych ćwiczeniach. Gdy zrobisz wszystkie serie po 5, ciężar rośnie.',
+      'circuit':
+        '3× w tygodniu, na zmianę A i B: ćwiczenia w obwodzie jedno po drugim, krótkie przerwy, dużo powtórzeń. Na wytrzymałość i kondycję.',
     },
     planNames: {
       'Full body A': 'Full body A',
@@ -3562,6 +3634,14 @@ const seedTranslations = <String, SeedTranslation>{
       'Push': 'Push',
       'Pull': 'Pull',
       'Legs': 'Nogi',
+      'Full body 2× A': 'Full body 2× A',
+      'Full body 2× B': 'Full body 2× B',
+      'Dumbbells A': 'Hantle A',
+      'Dumbbells B': 'Hantle B',
+      '5×5 A': '5×5 A',
+      '5×5 B': '5×5 B',
+      'Circuit A': 'Obwód A',
+      'Circuit B': 'Obwód B',
     },
   ),
   'pt': (
@@ -4434,6 +4514,10 @@ const seedTranslations = <String, SeedTranslation>{
       'full_body': 'Full body (iniciante)',
       'upper_lower': 'Superior / Inferior',
       'ppl': 'Push / Pull / Legs',
+      'full_body_2x': 'Full body 2× por semana',
+      'dumbbell_home': 'Halteres em casa',
+      'strength_5x5': 'Força 5×5',
+      'circuit': 'Treino em circuito (resistência)',
     },
     programDescriptions: {
       'full_body':
@@ -4441,6 +4525,14 @@ const seedTranslations = <String, SeedTranslation>{
       'upper_lower':
         '4× por semana: superiores seg + qui, inferiores ter + sex.',
       'ppl': '3× por semana: push seg, pull qua, legs sex.',
+      'full_body_2x':
+        'Para semanas corridas: 2 treinos de cerca de uma hora, seg + qui. Cada músculo 2× por semana.',
+      'dumbbell_home':
+        '3× por semana com um par de halteres e um colchonete, alternando A e B. Sem academia.',
+      'strength_5x5':
+        '3× por semana, alternando A e B: 5 séries de 5 nos exercícios grandes. Quando você completa todas as séries de 5, a carga sobe.',
+      'circuit':
+        '3× por semana, alternando A e B: exercícios em circuito um após o outro, descansos curtos, muitas repetições. Para resistência e condicionamento.',
     },
     planNames: {
       'Full body A': 'Full body A',
@@ -4450,6 +4542,14 @@ const seedTranslations = <String, SeedTranslation>{
       'Push': 'Push',
       'Pull': 'Pull',
       'Legs': 'Legs',
+      'Full body 2× A': 'Full body 2× A',
+      'Full body 2× B': 'Full body 2× B',
+      'Dumbbells A': 'Halteres A',
+      'Dumbbells B': 'Halteres B',
+      '5×5 A': '5×5 A',
+      '5×5 B': '5×5 B',
+      'Circuit A': 'Circuito A',
+      'Circuit B': 'Circuito B',
     },
   ),
   'it': (
@@ -5322,6 +5422,10 @@ const seedTranslations = <String, SeedTranslation>{
       'full_body': 'Total body (principianti)',
       'upper_lower': 'Upper / Lower',
       'ppl': 'Push / Pull / Legs',
+      'full_body_2x': 'Total body 2 volte a settimana',
+      'dumbbell_home': 'Manubri a casa',
+      'strength_5x5': 'Forza 5×5',
+      'circuit': 'Circuito (resistenza)',
     },
     programDescriptions: {
       'full_body':
@@ -5329,6 +5433,14 @@ const seedTranslations = <String, SeedTranslation>{
       'upper_lower':
         '4 volte a settimana: parte superiore lun + gio, parte inferiore mar + ven.',
       'ppl': '3 volte a settimana: push lun, pull mer, gambe ven.',
+      'full_body_2x':
+        'Per le settimane piene: 2 allenamenti di circa un’ora, lun + gio. Ogni muscolo 2 volte a settimana.',
+      'dumbbell_home':
+        '3 volte a settimana con un paio di manubri e un tappetino, alternando A e B. Senza palestra.',
+      'strength_5x5':
+        '3 volte a settimana, alternando A e B: 5 serie da 5 negli esercizi principali. Quando completi tutte le serie da 5, il peso sale.',
+      'circuit':
+        '3 volte a settimana, alternando A e B: esercizi in circuito uno dopo l’altro, recuperi brevi, tante ripetizioni. Per resistenza e forma fisica.',
     },
     planNames: {
       'Full body A': 'Total body A',
@@ -5338,6 +5450,14 @@ const seedTranslations = <String, SeedTranslation>{
       'Push': 'Push',
       'Pull': 'Pull',
       'Legs': 'Gambe',
+      'Full body 2× A': 'Total body 2× A',
+      'Full body 2× B': 'Total body 2× B',
+      'Dumbbells A': 'Manubri A',
+      'Dumbbells B': 'Manubri B',
+      '5×5 A': '5×5 A',
+      '5×5 B': '5×5 B',
+      'Circuit A': 'Circuito A',
+      'Circuit B': 'Circuito B',
     },
   ),
   'sk': (
@@ -6210,12 +6330,24 @@ const seedTranslations = <String, SeedTranslation>{
       'full_body': 'Celé telo (začiatočník)',
       'upper_lower': 'Horná / dolná polovica',
       'ppl': 'Push / Pull / Nohy',
+      'full_body_2x': 'Celé telo 2× týždenne',
+      'dumbbell_home': 'Jednoručky doma',
+      'strength_5x5': 'Sila 5×5',
+      'circuit': 'Kruhový tréning (výdrž)',
     },
     programDescriptions: {
       'full_body':
         '3× týždenne, striedanie tréningov A a B. Ideálne na prvé mesiace.',
       'upper_lower': '4× týždenne: horná polovica Po + Št, dolná Ut + Pi.',
       'ppl': '3× týždenne: tlaky Po, príťahy St, nohy Pi.',
+      'full_body_2x':
+        'Na nabité týždne: 2 tréningy zhruba na hodinu, Po + Št. Každá partia 2× týždenne.',
+      'dumbbell_home':
+        '3× týždenne s párom jednoručiek a podložkou, striedanie A a B. Bez posilňovne.',
+      'strength_5x5':
+        '3× týždenne, striedanie A a B: 5 sérií po 5 pri veľkých cvikoch. Keď dáš všetky série po 5, váha ide hore.',
+      'circuit':
+        '3× týždenne, striedanie A a B: cviky v kruhu za sebou, krátke pauzy, veľa opakovaní. Na výdrž a kondíciu.',
     },
     planNames: {
       'Full body A': 'Celé telo A',
@@ -6225,6 +6357,14 @@ const seedTranslations = <String, SeedTranslation>{
       'Push': 'Push (tlaky)',
       'Pull': 'Pull (príťahy)',
       'Legs': 'Nohy',
+      'Full body 2× A': 'Celé telo 2× A',
+      'Full body 2× B': 'Celé telo 2× B',
+      'Dumbbells A': 'Jednoručky A',
+      'Dumbbells B': 'Jednoručky B',
+      '5×5 A': '5×5 A',
+      '5×5 B': '5×5 B',
+      'Circuit A': 'Kruh A',
+      'Circuit B': 'Kruh B',
     },
   ),
   'nl': (
@@ -7097,12 +7237,24 @@ const seedTranslations = <String, SeedTranslation>{
       'full_body': 'Full body (beginner)',
       'upper_lower': 'Upper / Lower',
       'ppl': 'Push / Pull / Legs',
+      'full_body_2x': 'Full body 2× per week',
+      'dumbbell_home': 'Dumbbells thuis',
+      'strength_5x5': 'Kracht 5×5',
+      'circuit': 'Circuittraining (uithouding)',
     },
     programDescriptions: {
       'full_body':
         '3× per week, afwisselend training A en B. Ideaal voor de eerste maanden.',
       'upper_lower': '4× per week: bovenlichaam ma + do, onderlichaam di + vr.',
       'ppl': '3× per week: push ma, pull wo, benen vr.',
+      'full_body_2x':
+        'Voor drukke weken: 2 trainingen van ongeveer een uur, ma + do. Elke spiergroep 2× per week.',
+      'dumbbell_home':
+        '3× per week met een paar dumbbells en een mat, afwisselend A en B. Zonder sportschool.',
+      'strength_5x5':
+        '3× per week, afwisselend A en B: 5 sets van 5 bij de grote oefeningen. Haal je alle sets van 5, dan gaat het gewicht omhoog.',
+      'circuit':
+        '3× per week, afwisselend A en B: oefeningen in een circuit achter elkaar, korte rust, veel herhalingen. Voor uithouding en conditie.',
     },
     planNames: {
       'Full body A': 'Full body A',
@@ -7112,6 +7264,14 @@ const seedTranslations = <String, SeedTranslation>{
       'Push': 'Push',
       'Pull': 'Pull',
       'Legs': 'Benen',
+      'Full body 2× A': 'Full body 2× A',
+      'Full body 2× B': 'Full body 2× B',
+      'Dumbbells A': 'Dumbbells A',
+      'Dumbbells B': 'Dumbbells B',
+      '5×5 A': '5×5 A',
+      '5×5 B': '5×5 B',
+      'Circuit A': 'Circuit A',
+      'Circuit B': 'Circuit B',
     },
   ),
 };

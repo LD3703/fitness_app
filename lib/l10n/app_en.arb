@@ -285,6 +285,43 @@
       }
     }
   },
+  "onboardingWizardIntro": "A few steps to set the app up for you: your goal, what to track, the look, reminders and a first plan.",
+  "onboardingNext": "Next",
+  "onboardingBack": "Back",
+  "onboardingFinish": "Let’s go",
+  "onboardingStepOf": "Step {step} of {total}",
+  "@onboardingStepOf": {
+    "placeholders": {
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "onboardingAboutTitle": "About you",
+  "onboardingAboutHint": "Everything is optional. Sex adjusts rest times; year of birth is only used for the age group in the gym leaderboard.",
+  "onboardingGoalTitle": "What are you training for?",
+  "onboardingGoalHint": "Your goal sets rests, ready-made programs and progression suggestions.",
+  "onboardingBodyTitle": "Water and weight",
+  "onboardingLookTitle": "Pick a look",
+  "onboardingRemindersHint": "The app will ask for permission to send notifications or use the calendar.",
+  "onboardingPlanTitle": "Your first plan",
+  "onboardingPlanHint": "Pick a ready-made program – it’s added to Plans to match your goal and you can change the days. You can create your own plan any time.",
+  "onboardingPlanNone": "None for now, I’ll make my own",
+  "onboardingPlanVariant": "Variant: {goal}",
+  "@onboardingPlanVariant": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "onboardingDoneTitle": "All set!",
+  "onboardingDoneBody": "The app is ready. You can change anything later in Profile.",
+  "profileSetupWizard": "Setup guide",
+  "profileSetupWizardHint": "Go through the setup again step by step",
   "calendarEventDescription": "Planned workout – added by the app. Change the plan in the app, the event will update itself.",
   "chartWeightTitle": "Body weight",
   "chartLastDays": "Last {days} days",
@@ -2923,14 +2960,37 @@
   "muscleLowerBack": "Lower back",
   "focusStrength": "Strength",
   "focusMuscle": "Muscle",
-  "focusConditioning": "Conditioning",
+  "focusConditioning": "Endurance",
   "focusStrengthHint": "Heavy weights, few reps – long rests",
   "focusMuscleHint": "Building muscle – medium rests",
-  "focusConditioningHint": "Fast pace, higher heart rate – short rests",
+  "focusConditioningHint": "Lots of reps, higher heart rate – short rests",
+  "trainingGoalTitle": "Training goal",
+  "goalStrengthHint": "Heavier weights: 5–8 reps, weight goes up often, long rests",
+  "goalMuscleHint": "Building muscle: 6–12 reps, medium rests",
+  "goalEnduranceHint": "Endurance: 12–20 reps, short rests, reps go up first",
+  "trainingGoalDialogHint": "Applies to new workouts and programs. A plan can have its own focus.",
+  "templateGoalFixed": "Program goal: {goal}",
+  "@templateGoalFixed": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "planFocusTitle": "Plan focus",
+  "planFocusFromProfile": "From profile goal ({goal})",
+  "@planFocusFromProfile": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "planFocusHint": "Rests and progression suggestions follow the focus.",
   "restAutoHint": "Rest is set automatically by the exercise and workout focus",
   "restManualHint": "Rest set manually in the plan",
   "planRestAuto": "Automatic rest",
-  "planRestAutoValues": "Strength {strength} s · Muscle {muscle} s · Conditioning {conditioning} s",
+  "planRestAutoValues": "Strength {strength} s · Muscle {muscle} s · Endurance {conditioning} s",
   "@planRestAutoValues": {
     "placeholders": {
       "strength": {

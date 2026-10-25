@@ -121,6 +121,17 @@ class ProfileScreen extends ConsumerWidget {
               ));
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.track_changes),
+            title: Text(l10n.trainingGoalTitle),
+            subtitle: Text(l10n.trainingFocus(
+                trainingFocusOf(profile.trainingFocus))),
+            onTap: () async {
+              final picked = await _pickGoal(
+                  context, trainingFocusOf(profile.trainingFocus));
+              if (picked != null) await db.setTrainingGoal(picked);
+            },
+          ),
           sectionTitle(l10n.profileTrackingSection),
           ModuleSwitches(
             value: (
@@ -308,6 +319,16 @@ class ProfileScreen extends ConsumerWidget {
             ),
           const Divider(),
           ...moduleProfileSections(),
+          // Průvodce nastavením znovu: router po onboardingDone = false
+          // přejde na /welcome, průvodce předvyplní současné hodnoty.
+          ListTile(
+            leading: const Icon(Icons.assistant_navigation),
+            title: Text(l10n.profileSetupWizard),
+            subtitle: Text(l10n.profileSetupWizardHint),
+            onTap: () => db.updateProfile(
+              const UserProfilesCompanion(onboardingDone: Value(false)),
+            ),
+          ),
           ListTile(
             leading: const Icon(Icons.info_outline),
             title: Text(l10n.profileAbout),
@@ -426,6 +447,41 @@ class ProfileScreen extends ConsumerWidget {
             option(Sex.male),
             option(Sex.female),
             option(null),
+          ],
+        );
+      },
+    );
+  }
+
+  /// Cíl tréninku (síla / svaly / výdrž): výchozí zaměření tréninků
+  /// a varianta hotových programů.
+  Future<TrainingFocus?> _pickGoal(BuildContext context, TrainingFocus current) {
+    final l10n = AppLocalizations.of(context);
+    return showDialog<TrainingFocus>(
+      context: context,
+      builder: (context) {
+        final theme = Theme.of(context);
+        return SimpleDialog(
+          title: Text(l10n.trainingGoalTitle),
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+              child: Text(
+                l10n.trainingGoalDialogHint,
+                style: theme.textTheme.bodySmall
+                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              ),
+            ),
+            for (final f in TrainingFocus.values)
+              ListTile(
+                title: Text(l10n.trainingFocus(f)),
+                subtitle: Text(l10n.trainingGoalHint(f)),
+                trailing: f == current
+                    ? Icon(Icons.check, color: theme.colorScheme.primary)
+                    : null,
+                selected: f == current,
+                onTap: () => Navigator.of(context).pop(f),
+              ),
           ],
         );
       },
