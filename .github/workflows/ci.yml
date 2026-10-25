@@ -1,4 +1,5 @@
-# Kontrola po každém pushi: aplikace, web pro trenéry, Cloud Functions.
+# Kontrola po každém pushi: aplikace (i iOS build na Macu), web pro
+# trenéry, Cloud Functions.
 # Nic nenasazuje a nepotřebuje žádné tajné klíče.
 name: CI
 
@@ -71,6 +72,45 @@ jobs:
       - run: dart run build_runner build --delete-conflicting-outputs
       - run: flutter gen-l10n
       - run: flutter build apk --release
+
+  # iOS na Macu (pro veřejný repozitář zdarma): build bez podpisu včetně
+  # widgetu a Live Activity (tool/ios_widget.dart je v projektu zapne jen
+  # tady – v gitu zůstávají vypnuté, docs/ios_widget.md) a náhledy widgetu
+  # jako PNG v artefaktu „ios-widget-previews“.
+  ios:
+    name: iOS (build bez podpisu + náhledy widgetu)
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - run: flutter gen-l10n
+      - name: Widget a Live Activity do Xcode projektu
+        run: dart run tool/ios_widget.dart
+      - name: iOS build bez podpisu
+        run: flutter build ios --release --no-codesign
+      - name: Náhledy widgetu (PNG)
+        run: |
+          mkdir -p build
+          swiftc -target "$(uname -m)-apple-macos13.0" \
+            ios/GymBarWidget/WidgetShared.swift \
+            ios/GymBarWidget/TodayContent.swift \
+            ios/GymBarWidget/TodayViews.swift \
+            ios/GymBarWidget/RestActivityViews.swift \
+            tool/ios_widget_preview/main.swift \
+            -o build/widget_preview
+          build/widget_preview build/widget_previews
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-widget-previews
+          path: build/widget_previews
+          if-no-files-found: ignore
 
   # Hodinky: wear/android/ se negituje, vytvoří se stejně jako u Lukase
   # (docs/wear_os.md, kapitola 2.2).

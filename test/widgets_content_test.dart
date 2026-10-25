@@ -1,4 +1,7 @@
+import 'package:fitness_app/l10n/app_localizations.dart';
+import 'package:fitness_app/modules/widgets/rest_live_activity.dart';
 import 'package:fitness_app/modules/widgets/widget_content.dart';
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -43,5 +46,32 @@ void main() {
     expect(shouldAddWater(10, 5), isTrue);
     expect(shouldAddWater(10, 10), isFalse);
     expect(shouldAddWater(4, 10), isFalse);
+  });
+
+  group('Live Activity odpočtu pauzy', () {
+    final cs = lookupAppLocalizations(const Locale('cs'));
+    final start = DateTime(2026, 10, 25, 18, 0, 0);
+    final end = start.add(const Duration(seconds: 90));
+
+    test('texty v jazyce aplikace a další cvik', () {
+      final a = restLiveActivityArgs(
+          l10n: cs, startAt: start, endAt: end, nextExercise: 'Bench press');
+      expect(a['title'], cs.calRestOngoingTitle);
+      expect(a['doneTitle'], cs.notifRestTitle);
+      expect(a['doneBody'], cs.notifRestBody);
+      expect(a['detail'], cs.planBNext('Bench press'));
+      expect(a['startMs'], start.millisecondsSinceEpoch);
+      expect(a['endMs'], end.millisecondsSinceEpoch);
+    });
+
+    test('bez dalšího cviku obecný text, konec nikdy před začátkem', () {
+      final a = restLiveActivityArgs(
+          l10n: cs,
+          startAt: start,
+          endAt: start.subtract(const Duration(seconds: 5)),
+          nextExercise: '  ');
+      expect(a['detail'], cs.calRestOngoingBody);
+      expect(a['endMs'], start.millisecondsSinceEpoch);
+    });
   });
 }

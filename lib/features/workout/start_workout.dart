@@ -9,6 +9,7 @@ import '../../core/fatigue.dart';
 import '../../core/rest_time.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
+import '../../modules/widgets/rest_live_activity.dart';
 import '../../providers.dart';
 import '../../services/notification_service.dart';
 import '../../ui/coach_messages.dart';
@@ -91,6 +92,7 @@ Future<void> _startWorkout(
     // Upozornění na konec pauzy zahozeného tréninku (pauza běží dál i po
     // odchodu z jeho obrazovky) by v novém tréninku jen mátlo.
     unawaited(NotificationService.instance.cancelRestEnd());
+    unawaited(RestLiveActivity.instance.end());
     if (!context.mounted) return;
   }
 

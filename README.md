@@ -117,6 +117,8 @@ Verze 2 a 3 (moduly v `lib/modules/`):
   v upozornění (Počítám s tím / Přesunout / Dnes nestíhám), odpočet pauzy
   na zamčené obrazovce (Android), připomínky pití od–do po zvoleném intervalu.
 - **Widget na plochu (Android):** voda a dnešní trénink, tlačítko + sklenice.
+  Pro iOS je widget i Live Activity odpočtu pauzy hotový, zapne se po
+  registraci App Group v Apple Developer účtu (`docs/ios_widget.md`).
 - **Health Connect / Apple Zdraví:** zápis tréninků, výměna tělesné váhy.
 - **Data:** export CSV, záloha a obnova (soubor do Disku/iCloudu), vlastní
   cviky, jednotky kg/lb a ml/oz, vlastní objem sklenice a láhve.
@@ -155,7 +157,6 @@ Verze 2 a 3 (moduly v `lib/modules/`):
 - **Jazyky:** angličtina, čeština, němčina, španělština, francouzština,
   polština, portugalština (Brazílie), italština, slovenština, nizozemština.
 
-Na iOS zatím není widget a Live Activity (potřebují Xcode na Macu).
 Reklamy nejsou součástí verzí 2 a 3; Premium je v kódu, ale vypnuté.
 
 ---
@@ -618,7 +619,7 @@ codemagic.yaml              buildy pro iOS v cloudu
 | app_links, url_launcher | odkazy do aplikace, otevření webu |
 | pdf, printing | vytištěný žebříček posilovny (A4 → tisk / PDF) |
 | share_plus, path_provider, file_picker | sdílení, export, záloha |
-| home_widget | widget na plochu (Android) |
+| home_widget | widget na plochu (Android, iOS) |
 | health | Health Connect / Apple Zdraví |
 | firebase_*, google_sign_in, sign_in_with_apple | přátelé a výzvy |
 | firebase_storage, connectivity_plus, device_info_plus | záloha do cloudu (Wi-Fi, název zařízení) |

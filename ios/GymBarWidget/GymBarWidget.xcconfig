@@ -1,0 +1,3 @@
+// Verze rozšíření musí být stejná jako verze aplikace (App Store to
+// kontroluje) – bere se z Flutteru (FLUTTER_BUILD_NAME / _NUMBER).
+#include "../Flutter/Generated.xcconfig"

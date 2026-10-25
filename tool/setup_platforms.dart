@@ -3,10 +3,13 @@
 // co už v souboru je, znovu nepřidá.
 //
 // Spuštění z kořene projektu:  dart run tool/setup_platforms.dart
+// (s volbou --ios-widget zapne i iOS widget a Live Activity,
+// docs/ios_widget.md).
 import 'dart:io';
 
 import 'platform/branding.dart';
 import 'platform/ios_store.dart';
+import 'platform/ios_widget.dart';
 import 'platform/links.dart';
 
 // Úpravy pro jednotlivé moduly verzí 2 a 3 jsou v tool/platform/.
@@ -38,7 +41,7 @@ import 'platform/crash.dart';
 import 'platform/signing.dart';
 //
 
-void main() {
+void main(List<String> args) {
   var ok = true;
   ok &= _patchGradle();
   ok &= _patchManifest();
@@ -67,6 +70,9 @@ void main() {
   // App Store: PrivacyInfo.xcprivacy, jen iPhone, Universal Links
   // (po patchSocial – ten založí Runner.entitlements).
   ok &= patchIosStore();
+  // iOS widget a Live Activity: jen s --ios-widget (potřebuje App Group
+  // v Apple Developer účtu); když už je v projektu, jen ho udrží.
+  ok &= patchIosWidget(enable: args.contains('--ios-widget'));
   //
   // [platform:wear]
   ok &= patchWear();

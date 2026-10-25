@@ -1,9 +1,9 @@
-// Widget na ploše (Android): pitný režim a dnešní trénink.
+// Widget na ploše (Android i iOS): pitný režim a dnešní trénink.
 //
 // Texty se skládají tady v Dartu (jazyk telefonu), nativní widget
-// (tool/platform/widgets.dart) je jen zobrazí. Klepnutí na widget otevře
-// aplikaci na obrazovce Dnes, tlačítko „+ sklenice“ otevře aplikaci
-// a přičte vodu.
+// (Android: tool/platform/widgets.dart, iOS: ios/GymBarWidget) je jen
+// zobrazí. Klepnutí na widget otevře aplikaci na obrazovce Dnes, tlačítko
+// „+ sklenice“ otevře aplikaci a přičte vodu.
 
 import 'dart:async';
 import 'dart:ui' show AppLifecycleState, PlatformDispatcher;
@@ -24,9 +24,23 @@ import '../../ui/format.dart' show formatVolumeFor, formatVolumeNumberFor;
 import '../../services/sync_controller.dart';
 import 'widget_content.dart';
 
-/// Widget je zatím jen pro Android (iOS WidgetKit potřebuje cíl v Xcode).
+/// Android, a iOS s cílem GymBarWidget v Xcode (tool/ios_widget.dart).
+/// Bez něj iOS data jen uloží a nic se nezobrazí – nevadí.
 bool get _supported =>
-    !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+    !kIsWeb &&
+    (defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS);
+
+bool get _isIos => defaultTargetPlatform == TargetPlatform.iOS;
+
+bool _appGroupSet = false;
+
+/// iOS: data se ukládají do App Group sdílené s rozšířením widgetu.
+Future<void> _ensureAppGroup() async {
+  if (!_isIos || _appGroupSet) return;
+  await HomeWidget.setAppGroupId(kIosAppGroup);
+  _appGroupSet = true;
+}
 
 /// O kolik se ve dny tréninku zvedá cíl pitného režimu (jako na obrazovce Dnes).
 const _trainingBonusMl = 500;
@@ -105,10 +119,14 @@ Future<void> refreshHomeWidget(AppDatabase db) async {
       formatVolumeFor(locale, glass, unit: profile.unitSystem),
     ),
   };
+  await _ensureAppGroup();
   for (final e in data.entries) {
     await HomeWidget.saveWidgetData<String>(e.key, e.value);
   }
-  await HomeWidget.updateWidget(qualifiedAndroidName: kAndroidWidgetClass);
+  await HomeWidget.updateWidget(
+    qualifiedAndroidName: kAndroidWidgetClass,
+    iOSName: kIosWidgetKind,
+  );
 }
 
 String _waterLine(
@@ -217,6 +235,7 @@ Future<void> _handleWidgetUri(Ref ref, Uri? uri) async {
     if (!profile.onboardingDone) return;
 
     if (uri.host == kWidgetHostWater && profile.trackWater) {
+      await _ensureAppGroup();
       final nonce = int.tryParse(uri.queryParameters['n'] ?? '');
       final last = int.tryParse(
         await HomeWidget.getWidgetData<String>(WidgetKeys.lastWaterNonce) ??

@@ -17,6 +17,7 @@ zkontroluj developer.apple.com/news (Upcoming requirements).
 | Zdravotní upozornění (1.4.1) | úvod aplikace, O aplikaci, popis v obchodě |
 | Texty obchodu v 16 lokalizacích | `docs/store/app_store/` |
 | Build a nahrání do TestFlightu | `codemagic.yaml`, workflow `ios-testflight` |
+| Widget „Dnes“ a Live Activity pauzy – připravené, zapnou se po registraci App Group | `docs/ios_widget.md` |
 
 Po každé nové verzi projektu spusť `dart run tool/setup_platforms.dart`
 a změněné soubory v `ios/` commitni (Codemagic je bere z gitu).
