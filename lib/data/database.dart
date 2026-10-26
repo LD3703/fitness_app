@@ -105,7 +105,7 @@ class AppDatabase extends _$AppDatabase {
   static const _profileId = 1;
 
   @override
-  int get schemaVersion => 24;
+  int get schemaVersion => 25;
 
   /// Výchozí série pro nově přidaný cvik: 3 × 10.
   static const defaultPlanSets = <PlanSetDraft>[
@@ -300,6 +300,18 @@ class AppDatabase extends _$AppDatabase {
             await m.addColumn(workoutSessions, workoutSessions.heartRateKcal);
             await m.addColumn(workoutSessions, workoutSessions.light);
             await m.createTable(recoveryDays);
+          }
+          if (from < 25) {
+            // Verze 25: úroveň pokročilosti. Stávající uživatel s aspoň
+            // 50 dokončenými tréninky začne jako mírně pokročilý.
+            await m.addColumn(userProfiles, userProfiles.experienceLevel);
+            await m.addColumn(userProfiles, userProfiles.experienceSince);
+            await m.addColumn(userProfiles, userProfiles.experiencePromptAt);
+            await customStatement(
+              'UPDATE user_profiles SET experience_level = 1 WHERE '
+              '(SELECT COUNT(*) FROM workout_sessions '
+              'WHERE ended_at IS NOT NULL) >= 50',
+            );
           }
         },
         beforeOpen: (details) async {
@@ -958,6 +970,19 @@ class AppDatabase extends _$AppDatabase {
   Future<void> setTrainingGoal(TrainingFocus goal) =>
       updateProfile(UserProfilesCompanion(trainingFocus: Value(goal.index)));
 
+  /// Úroveň pokročilosti v profilu. Tréninky pro návrh další úrovně se
+  /// počítají od teď; odmítnutý návrh se zapomene.
+  Future<void> setExperienceLevel(ExperienceLevel level, {DateTime? now}) =>
+      updateProfile(UserProfilesCompanion(
+        experienceLevel: Value(level.index),
+        experienceSince: Value(now ?? DateTime.now()),
+        experiencePromptAt: const Value(null),
+      ));
+
+  /// Návrh změny úrovně odmítnut („Teď ne“) – další nejdřív za 30 dní.
+  Future<void> dismissExperiencePrompt({DateTime? now}) => updateProfile(
+      UserProfilesCompanion(experiencePromptAt: Value(now ?? DateTime.now())));
+
   Future<void> finishSession(
     int id, {
     double? estimatedKcal,
@@ -1161,12 +1186,14 @@ class AppDatabase extends _$AppDatabase {
   /// Přidá hotový program jako běžné plány. [goal] = cíl (síla / svaly /
   /// výdrž), podle něj se nastaví série, opakování a rozsah opakování;
   /// program s pevným cílem ho ignoruje. Plány dostanou zaměření podle
-  /// cíle (pauzy a progrese tréninků podle nich).
+  /// cíle (pauzy a progrese tréninků podle nich). [level] = úroveň
+  /// uživatele – podle ní se upraví počet sérií (null = jak je v programu).
   Future<void> addProgram(
     TemplateProgram program, {
     required String languageCode,
     List<int>? weekdayMasks,
     TrainingFocus goal = TrainingFocus.muscle,
+    ExperienceLevel? level,
   }) =>
       transaction(() async {
         final bySlug = {
@@ -1201,6 +1228,7 @@ class AppDatabase extends _$AppDatabase {
               focus,
               program: program,
               isDuration: exercise.type == ExerciseType.duration,
+              level: level,
             );
             final range = templateRangeFor(item, focus, program: program);
             final peId = await into(planExercises).insert(
@@ -1438,6 +1466,17 @@ class AppDatabase extends _$AppDatabase {
       (select(workoutSessions)
             ..where((s) =>
                 s.endedAt.isNotNull() &
+                s.startedAt.isBiggerOrEqualValue(startOfDay(from))))
+          .watch()
+          .map((rows) => [for (final r in rows) r.startedAt]);
+
+  /// Začátky dokončených plnohodnotných tréninků (bez 5minutových rutin
+  /// Plán B) od [from] – pro vývoj úrovně (core/experience_level.dart).
+  Stream<List<DateTime>> watchFullWorkoutDatesSince(DateTime from) =>
+      (select(workoutSessions)
+            ..where((s) =>
+                s.endedAt.isNotNull() &
+                s.kind.equalsValue(SessionKind.full) &
                 s.startedAt.isBiggerOrEqualValue(startOfDay(from))))
           .watch()
           .map((rows) => [for (final r in rows) r.startedAt]);

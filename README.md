@@ -86,20 +86,30 @@ Funguje:
   povzbuzující hlášky na obrazovce Dnes, během tréninku a v souhrnu.
 - **Úvodní průvodce:** při prvním spuštění krok za krokem (Další / Zpět,
   ukazatel kroků): jméno, rok narození, pohlaví, jednotky → cíl tréninku →
+  úroveň pokročilosti →
   co sledovat (pitný režim, váha, období a povzbuzení, kalorie; vypnuté
   funkce se skryjí) → pitný režim a váha (jen když se sledují) → motiv
   vzhledu (aplikace se hned přebarví) → tón zpráv → připomínky a kalendář
-  (s povolením) → první plán z hotového programu podle cíle → shrnutí.
+  (s povolením) → první plán z hotového programu pro zvolenou úroveň
+  a cíl → shrnutí.
   Vše je nepovinné a jde změnit v Profilu; tam je i „Průvodce nastavením“
   pro nové projití (`lib/features/onboarding/onboarding_screen.dart`).
 - **Odložení / vynechání tréninku:** z obrazovky Dnes (menu ⋮ u plánu),
   s uklidňující hláškou a možností vrátit.
 - **Cviky:** knihovna 170 cviků s návodem (10 jazyků), hledáním a filtrem.
-- **Hotové programy (7):** Celé tělo 3×, Horní/dolní 4×, Push/Pull/Nohy,
-  Celé tělo 2× týdně, Jednoručky doma – při přidání se vybere cíl (síla:
-  4 × 5–6 u hlavních cviků, svaly: hodnoty programu, výdrž: 3 × 12–20,
-  delší výdrže) a dny. Síla 5×5 a Kruhový trénink (supersérie, výdrž)
-  mají cíl pevný (`lib/data/seed/plan_templates.dart`).
+- **Hotové programy (17 programů, 39 tréninků):** pro začátečníky (Celé
+  tělo 3× a jeho obměna, Celé tělo 2×, Jednoručky doma, Vlastní váha doma,
+  Stroje, Síla 5×5, Kruhový trénink), mírně pokročilé (Horní/dolní 4×,
+  Push/Pull/Nohy a jejich obměny, Síla – týdenní vlny, Kondice – intervaly)
+  a pokročilé (PHUL, Síla – 4 dny, PPL 6× týdně). Při přidání se vybere
+  cíl (síla: 4 × 5–6 u hlavních cviků, svaly: hodnoty programu, výdrž:
+  3 × 12–20, delší výdrže) a dny; počet sérií se upraví podle úrovně.
+  Programy se silovým / kondičním zaměřením mají cíl pevný. Výběr
+  i zdroje: `docs/programs.md`, `lib/data/seed/plan_templates.dart`.
+- **Úroveň pokročilosti:** začátečník / mírně pokročilý / pokročilý –
+  v úvodu a v Profilu (i s tím, kolik zbývá do další). Po půl roce
+  pravidelného tréninku aplikace na Dnes navrhne postup, po 12 týdnech
+  pauzy návrat o úroveň níž (`lib/core/experience_level.dart`, schéma v25).
 - **Plán B:** 5minutová domácí rutina s časovačem (práce/pauza); po dokončení
   nabídne přesun plného tréninku na zítřek.
 - **Upozornění:** ranní připomínka ve dny tréninku (s ohledem na nemoc),

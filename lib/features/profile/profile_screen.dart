@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app_version.dart';
+import '../../core/experience_level.dart';
 import '../../core/rest_time.dart';
 import '../../core/text_filter.dart';
 import '../../data/database.dart';
@@ -132,6 +133,7 @@ class ProfileScreen extends ConsumerWidget {
               if (picked != null) await db.setTrainingGoal(picked);
             },
           ),
+          _ExperienceLevelTile(profile: profile),
           sectionTitle(l10n.profileTrackingSection),
           ModuleSwitches(
             value: (
@@ -557,5 +559,69 @@ class ProfileScreen extends ConsumerWidget {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(AppLocalizations.of(context).permissionDenied),
     ));
+  }
+}
+
+/// Úroveň pokročilosti a kolik zbývá do další (core/experience_level.dart).
+class _ExperienceLevelTile extends ConsumerWidget {
+  const _ExperienceLevelTile({required this.profile});
+
+  final UserProfile profile;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final level = experienceLevelOf(profile.experienceLevel);
+    final progress = ref.watch(experienceStatusProvider).valueOrNull?.progress;
+    final lines = [
+      l10n.experienceLevel(level),
+      if (progress != null)
+        l10n.levelProgress(
+          l10n.experienceLevel(progress.next),
+          progress.workouts.clamp(0, progress.requirement.workouts),
+          progress.requirement.workouts,
+          progress.weeks.clamp(0, progress.requirement.weeks),
+          progress.requirement.weeks,
+        ),
+    ];
+    return ListTile(
+      leading: const Icon(Icons.stairs_outlined),
+      title: Text(l10n.levelTitle),
+      subtitle: Text(lines.join('\n')),
+      isThreeLine: lines.length > 1,
+      onTap: () async {
+        final picked = await showDialog<ExperienceLevel>(
+          context: context,
+          builder: (context) {
+            final theme = Theme.of(context);
+            return SimpleDialog(
+              title: Text(l10n.levelTitle),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+                  child: Text(
+                    l10n.levelDialogHint,
+                    style: theme.textTheme.bodySmall
+                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  ),
+                ),
+                for (final l in ExperienceLevel.values)
+                  ListTile(
+                    title: Text(l10n.experienceLevel(l)),
+                    subtitle: Text(l10n.experienceLevelHint(l)),
+                    trailing: l == level
+                        ? Icon(Icons.check, color: theme.colorScheme.primary)
+                        : null,
+                    onTap: () => Navigator.of(context).pop(l),
+                  ),
+              ],
+            );
+          },
+        );
+        if (picked != null && picked != level) {
+          await ref.read(databaseProvider).setExperienceLevel(picked);
+        }
+      },
+    );
   }
 }

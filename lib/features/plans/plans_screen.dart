@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/experience_level.dart';
 import '../../core/rest_time.dart';
 import '../../data/database.dart';
 import '../../data/seed/content_i18n.dart';
@@ -56,6 +57,19 @@ class PlansScreen extends ConsumerWidget {
         other: (t) => t.programDescriptions[p.slug]);
     final premium =
         ref.read(premiumProvider).isPremium(PremiumFeature.allPrograms);
+    final profile = ref.read(profileProvider).valueOrNull;
+    final level = experienceLevelOf(profile?.experienceLevel);
+    String? variation(TemplateProgram p) {
+      final base = templatePrograms.where((b) => b.slug == p.variationOf);
+      return base.isEmpty ? null : l10n.templateVariationOf(name(base.first));
+    }
+
+    // Nejdřív programy pro úroveň uživatele, pak ostatní úrovně.
+    final levels = [
+      level,
+      for (final l in ExperienceLevel.values)
+        if (l != level) l,
+    ];
     final program = await showModalBottomSheet<TemplateProgram>(
       context: context,
       showDragHandle: true,
@@ -69,17 +83,35 @@ class PlansScreen extends ConsumerWidget {
               child: Text(l10n.templatesTitle,
                   style: Theme.of(context).textTheme.titleMedium),
             ),
-            for (final (index, p) in templatePrograms.indexed)
-              ListTile(
-                leading: const Icon(Icons.auto_awesome_outlined),
-                title: Text(name(p)),
-                subtitle: Text(description(p)),
-                // Premium: zdarma jsou první 2 programy.
-                trailing: isProgramLocked(index, premium: premium)
-                    ? const PremiumBadge()
-                    : null,
-                onTap: () => Navigator.of(context).pop(p),
+            for (final l in levels) ...[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                child: Text(
+                  l == level
+                      ? l10n.templatesForYou(l10n.experienceLevel(l))
+                      : l10n.templatesLevelSection(l10n.experienceLevel(l)),
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.primary),
+                ),
               ),
+              for (final (index, p) in templatePrograms.indexed)
+                if (p.level == l)
+                  ListTile(
+                    leading: Icon(p.variationOf == null
+                        ? Icons.auto_awesome_outlined
+                        : Icons.swap_horiz),
+                    title: Text(name(p)),
+                    subtitle: Text([
+                      description(p),
+                      if (variation(p) case final v?) v,
+                    ].join('\n')),
+                    // Premium: zdarma jsou první 2 programy.
+                    trailing: isProgramLocked(index, premium: premium)
+                        ? const PremiumBadge()
+                        : null,
+                    onTap: () => Navigator.of(context).pop(p),
+                  ),
+            ],
           ],
         ),
       ),
@@ -92,13 +124,13 @@ class PlansScreen extends ConsumerWidget {
     if (!context.mounted) return;
     // Cíl (síla / svaly / výdrž, předvyplněný z profilu) a dny tréninků si
     // uživatel vybere hned při přidání programu.
-    final profile = ref.read(profileProvider).valueOrNull;
     final choice = await showDialog<({List<int> masks, TrainingFocus goal})>(
       context: context,
       builder: (context) => _ProgramDaysDialog(
         program: program,
         title: name(program),
         initialGoal: trainingFocusOf(profile?.trainingFocus),
+        level: level,
         planName: (p) => seedText(lang,
             en: p.nameEn, cs: p.nameCs, other: (t) => t.planNames[p.nameEn]),
       ),
@@ -109,6 +141,7 @@ class PlansScreen extends ConsumerWidget {
           languageCode: lang,
           weekdayMasks: choice.masks,
           goal: choice.goal,
+          level: level,
         );
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -207,12 +240,16 @@ class _ProgramDaysDialog extends StatefulWidget {
     required this.program,
     required this.title,
     required this.initialGoal,
+    required this.level,
     required this.planName,
   });
 
   final TemplateProgram program;
   final String title;
   final TrainingFocus initialGoal;
+
+  /// Úroveň uživatele – u programu pro jinou úroveň se upraví série.
+  final ExperienceLevel level;
   final String Function(TemplatePlan plan) planName;
 
   @override
@@ -252,6 +289,15 @@ class _ProgramDaysDialogState extends State<_ProgramDaysDialog> {
               goalHints: true,
               padding: EdgeInsets.zero,
               onChanged: (g) => setState(() => _goal = g),
+            ),
+          ],
+          if (widget.program.goal == null &&
+              widget.program.level != widget.level) ...[
+            const SizedBox(height: 12),
+            Text(
+              l10n.templateLevelAdjusted(l10n.experienceLevel(widget.level)),
+              style: theme.textTheme.bodySmall
+                  ?.copyWith(color: theme.colorScheme.primary),
             ),
           ],
           const SizedBox(height: 16),

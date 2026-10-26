@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/experience_level.dart';
 import '../../core/rest_time.dart';
 import '../../core/text_filter.dart';
 import '../../data/database.dart';
@@ -27,6 +28,7 @@ enum _Step {
   welcome,
   about,
   goal,
+  level,
   tracking,
   body,
   look,
@@ -37,7 +39,7 @@ enum _Step {
 }
 
 /// Úvodní průvodce při prvním spuštění (a znovu z Profilu): krok po kroku
-/// jméno a údaje o sobě, cíl tréninku, co sledovat, pitný režim a váha,
+/// jméno a údaje o sobě, cíl tréninku, úroveň pokročilosti, co sledovat, pitný režim a váha,
 /// vzhled, tón zpráv, připomínky a první plán z hotového programu.
 /// Na konci uloží profil (onboardingDone) a router přesměruje na Dnes.
 class OnboardingScreen extends ConsumerStatefulWidget {
@@ -60,6 +62,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   /// Cíl tréninku (síla / svaly / výdrž) – výchozí zaměření tréninků
   /// a varianta hotových programů.
   TrainingFocus _goal = TrainingFocus.muscle;
+
+  /// Úroveň pokročilosti – doporučené programy a počet sérií.
+  ExperienceLevel _level = ExperienceLevel.beginner;
 
   /// Tón zpráv: 0 = přátelský, 1 = přísný trenér (UserProfile.coachTone).
   int _coachTone = 0;
@@ -105,6 +110,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       );
       _coachTone = p.coachTone == 1 ? 1 : 0;
       _goal = trainingFocusOf(p.trainingFocus);
+      _level = experienceLevelOf(p.experienceLevel);
       _skin = AppSkin.fromKey(p.skin);
       _morningReminder = p.morningReminderEnabled;
       _morningMinutes = p.morningReminderMinutes;
@@ -278,7 +284,16 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         program,
         languageCode: Localizations.localeOf(context).languageCode,
         goal: _goal,
+        level: _level,
       );
+    }
+    // Tréninky pro další úroveň se počítají od zvolení úrovně; stejná
+    // úroveň při opakovaném průvodci počítání nevynuluje.
+    final previous = ref.read(profileProvider).valueOrNull;
+    if (previous == null ||
+        previous.experienceSince == null ||
+        experienceLevelOf(previous.experienceLevel) != _level) {
+      await db.setExperienceLevel(_level);
     }
     final name = _name.text.trim();
     final water = _waterGoalMl;
@@ -516,6 +531,30 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           ],
         ];
 
+      case _Step.level:
+        return [
+          ..._header(
+              context, l10n.onboardingLevelTitle, l10n.onboardingLevelHint),
+          for (final level in ExperienceLevel.values) ...[
+            _padded(_ChoiceCard(
+              selected: _level == level,
+              icon: switch (level) {
+                ExperienceLevel.beginner => Icons.emoji_people,
+                ExperienceLevel.intermediate => Icons.trending_up,
+                ExperienceLevel.advanced => Icons.military_tech_outlined,
+              },
+              title: l10n.experienceLevel(level),
+              body: l10n.experienceLevelHint(level),
+              onTap: () => setState(() {
+                _level = level;
+                // Program z jiné úrovně se v nabídce už neukáže.
+                if (_program?.level != level) _program = null;
+              }),
+            )),
+            const SizedBox(height: 8),
+          ],
+        ];
+
       case _Step.tracking:
         return [
           ..._header(
@@ -656,8 +695,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             onTap: () => setState(() => _program = null),
           )),
           const SizedBox(height: 8),
+          // Jen programy pro zvolenou úroveň, ostatní jsou v Plánech.
           for (final (i, p) in templatePrograms.indexed)
-            if (!isProgramLocked(i, premium: premium)) ...[
+            if (p.level == _level && !isProgramLocked(i, premium: premium)) ...[
               _padded(_ChoiceCard(
                 selected: _program == p,
                 icon: Icons.auto_awesome_outlined,
@@ -669,6 +709,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               )),
               const SizedBox(height: 8),
             ],
+          _padded(Text(l10n.onboardingPlanMore, style: muted)),
         ];
 
       case _Step.done:
@@ -689,6 +730,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             leading: const Icon(Icons.track_changes),
             title: Text(l10n.trainingGoalTitle),
             subtitle: Text(l10n.trainingFocus(_goal)),
+          ),
+          ListTile(
+            leading: const Icon(Icons.stairs_outlined),
+            title: Text(l10n.levelTitle),
+            subtitle: Text(l10n.experienceLevel(_level)),
           ),
           if (program != null)
             ListTile(

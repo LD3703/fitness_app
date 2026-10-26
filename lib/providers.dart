@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'core/experience_level.dart';
 import 'core/injury.dart';
 import 'core/muscle_sets.dart';
 import 'core/wellbeing.dart';
@@ -215,6 +216,39 @@ final workoutDatesProvider = StreamProvider<List<DateTime>>((ref) {
   return ref.watch(databaseProvider).watchWorkoutDatesSince(
         DateTime.now().subtract(const Duration(days: 7 * 12 + 7)),
       );
+});
+
+/// Úroveň pokročilosti: plnění podmínek pro další úroveň a návrh změny
+/// (core/experience_level.dart).
+final experienceStatusProvider = StreamProvider<
+    ({
+      ExperienceLevel level,
+      LevelProgress? progress,
+      LevelSuggestion? suggestion,
+    })>((ref) {
+  ref.watch(currentDayProvider);
+  final profile = ref.watch(profileProvider).valueOrNull;
+  if (profile == null) return const Stream.empty();
+  final level = experienceLevelOf(profile.experienceLevel);
+  final since = profile.experienceSince;
+  return ref
+      .watch(databaseProvider)
+      .watchFullWorkoutDatesSince(since ?? DateTime(2000))
+      .map((dates) {
+    final now = DateTime.now();
+    return (
+      level: level,
+      progress: levelProgress(
+          current: level, since: since, workouts: dates, now: now),
+      suggestion: suggestLevelChange(
+        current: level,
+        since: since,
+        workouts: dates,
+        now: now,
+        promptAt: profile.experiencePromptAt,
+      ),
+    );
+  });
 });
 
 /// Byl dnes dokončen nějaký trénink? (navýšení cíle pitného režimu)

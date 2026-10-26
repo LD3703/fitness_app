@@ -132,6 +132,13 @@ enum ProgressionKind { increase, reps, deload, hold }
 /// V databázi se ukládá jako index – pořadí neměnit.
 enum TrainingFocus { strength, muscle, conditioning }
 
+/// Úroveň pokročilosti (verze schématu 25): začátečník / mírně pokročilý /
+/// pokročilý. Zadává se v úvodu a v profilu a postupně se vyvíjí podle
+/// historie tréninků (core/experience_level.dart). Podle ní se doporučují
+/// hotové programy a upravuje počet sérií (plan_templates.dart).
+/// V databázi se ukládá jako index – pořadí neměnit.
+enum ExperienceLevel { beginner, intermediate, advanced }
+
 /// Pohlaví z profilu (volitelné). Používá se jen pro výchozí délku pauz.
 /// V databázi se ukládá jako index – pořadí neměnit.
 enum Sex { male, female }
