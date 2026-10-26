@@ -45,6 +45,7 @@ String progressionHoldText(AppLocalizations l10n, HoldReason? reason) =>
       HoldReason.illness => l10n.progressionHoldIllness,
       HoldReason.recovery => l10n.progressionHoldRecovery,
       HoldReason.injury => l10n.progressionHoldInjury,
+      HoldReason.readiness => l10n.progressionHoldReadiness,
       HoldReason.cut || null => l10n.progressionHoldCut,
     };
 

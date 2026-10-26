@@ -95,6 +95,7 @@ typedef SessionSummary = ({
     Challenges,
     Achievements,
     ProgressionEvents,
+    RecoveryDays,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -104,7 +105,7 @@ class AppDatabase extends _$AppDatabase {
   static const _profileId = 1;
 
   @override
-  int get schemaVersion => 23;
+  int get schemaVersion => 24;
 
   /// Výchozí série pro nově přidaný cvik: 3 × 10.
   static const defaultPlanSets = <PlanSetDraft>[
@@ -288,6 +289,17 @@ class AppDatabase extends _$AppDatabase {
             // Verze 23: zaměření plánu (síla / svaly / výdrž) – programy
             // podle cíle. Starší plány ho nemají (= cíl z profilu).
             await m.addColumn(workoutPlans, workoutPlans.focus);
+          }
+          if (from < 24) {
+            // Verze 24: regenerace a tep z hodinek a prstenů (spánek, HRV,
+            // klidový tep, tep během tréninku) a lehčí trénink.
+            await m.addColumn(userProfiles, userProfiles.healthReadEnabled);
+            await m.addColumn(workoutSessions, workoutSessions.avgHeartRate);
+            await m.addColumn(workoutSessions, workoutSessions.maxHeartRate);
+            await m.addColumn(workoutSessions, workoutSessions.heartRateZones);
+            await m.addColumn(workoutSessions, workoutSessions.heartRateKcal);
+            await m.addColumn(workoutSessions, workoutSessions.light);
+            await m.createTable(recoveryDays);
           }
         },
         beforeOpen: (details) async {
@@ -908,6 +920,7 @@ class AppDatabase extends _$AppDatabase {
     SessionKind kind = SessionKind.full,
     DateTime? startedAt,
     TrainingFocus? focus,
+    bool light = false,
   }) =>
       into(workoutSessions).insert(
         WorkoutSessionsCompanion.insert(
@@ -915,6 +928,7 @@ class AppDatabase extends _$AppDatabase {
           planId: Value(planId),
           kind: Value(kind),
           focus: Value(focus),
+          light: Value(light),
         ),
       );
 
@@ -1449,6 +1463,7 @@ class AppDatabase extends _$AppDatabase {
         await delete(workoutPlans).go();
         await delete(waterEntries).go();
         await delete(bodyWeightEntries).go();
+        await delete(recoveryDays).go();
         await delete(periods).go();
         await delete(calendarLinks).go();
         await delete(challenges).go();

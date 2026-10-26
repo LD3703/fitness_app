@@ -8,12 +8,14 @@ import '../../core/coach_tone.dart';
 import '../../core/fatigue.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
+import '../../modules/module_hub.dart';
 import '../../modules/widgets/rest_live_activity.dart';
 import '../../providers.dart';
 import '../../services/notification_service.dart';
 import '../../ui/coach_messages.dart';
 import '../../ui/labels.dart';
 import '../fatigue/fatigue_providers.dart';
+import 'workout_service.dart' show WorkoutStartDecision;
 
 enum _ActiveChoice { resume, discardAndStart }
 
@@ -25,15 +27,18 @@ bool _starting = false;
 
 /// Spustí nový trénink (volitelně podle plánu) a otevře jeho obrazovku.
 /// Pokud už nějaký trénink probíhá, nabídne pokračování nebo jeho zahození.
+/// [light] = lehčí trénink kvůli slabší regeneraci (z karty
+/// Připravenost); kontrola připravenosti se pak už neptá.
 Future<void> startWorkout(
   BuildContext context,
   WidgetRef ref, {
   int? planId,
+  bool light = false,
 }) async {
   if (_starting) return;
   _starting = true;
   try {
-    await _startWorkout(context, ref, planId: planId);
+    await _startWorkout(context, ref, planId: planId, light: light);
   } finally {
     _starting = false;
   }
@@ -43,6 +48,7 @@ Future<void> _startWorkout(
   BuildContext context,
   WidgetRef ref, {
   int? planId,
+  bool light = false,
 }) async {
   final db = ref.read(databaseProvider);
   final l10n = AppLocalizations.of(context);
@@ -84,6 +90,17 @@ Future<void> _startWorkout(
   if (planId != null) {
     final proceed = await _checkFatigue(context, ref, planId);
     if (!proceed || !context.mounted) return;
+    // Kontroly modulů (připravenost z hodinek a prstenů): lehčí trénink,
+    // nebo netrénovat.
+    if (!light) {
+      for (final check in moduleWorkoutStartChecks()) {
+        final decision = await check(context, ref, planId);
+        if (!context.mounted || decision == WorkoutStartDecision.cancel) {
+          return;
+        }
+        if (decision == WorkoutStartDecision.light) light = true;
+      }
+    }
   }
 
   if (active != null) {
@@ -100,6 +117,7 @@ Future<void> _startWorkout(
   final id = await db.startSession(
     planId: planId,
     focus: await db.focusForNewSession(planId),
+    light: light,
   );
   if (!context.mounted) return;
   context.push('/workout/$id');

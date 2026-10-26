@@ -29,6 +29,8 @@ import 'widgets/home_widget_service.dart';
 // [imports:health]
 import 'health/health_section.dart';
 import 'health/health_sync.dart';
+import 'health/recovery.dart';
+import 'health/recovery_ui.dart';
 //
 // [imports:data]
 import 'data/data_profile_section.dart';
@@ -159,6 +161,7 @@ List<RouteBase> moduleRoutes() => [
       // [widgets:routes]
       //
       // [health:routes]
+      readinessRoute(),
       //
       // [data:routes]
       GoRoute(
@@ -199,6 +202,7 @@ List<Widget> moduleTodayCards() => [
       // [widgets:today]
       //
       // [health:today]
+      const ReadinessTodayCard(),
       //
       // [data:today]
       //
@@ -362,6 +366,7 @@ List<Widget> moduleSummaryActions(WorkoutSummary summary) => [
       // [widgets:summary]
       //
       // [health:summary]
+      HeartRateSummarySection(summary: summary),
       //
       // [data:summary]
       //
@@ -388,6 +393,7 @@ List<WorkoutFinishedHook> moduleWorkoutFinishedHooks() => [
       //
       // [health:finished]
       healthWorkoutFinishedHook,
+      recoveryWorkoutFinishedHook,
       //
       // [data:finished]
       //
@@ -407,6 +413,21 @@ List<WorkoutFinishedHook> moduleWorkoutFinishedHooks() => [
       progressionWorkoutFinished,
       // [cloud:finished]
       cloudWorkoutFinished,
+      //
+    ];
+
+/// Kontroly před tréninkem podle plánu (po kontrole únavy). Lehčí
+/// trénink, pokud ho zvolí kterákoli kontrola; cancel = netrénovat.
+typedef WorkoutStartCheck = Future<WorkoutStartDecision> Function(
+  BuildContext context,
+  WidgetRef ref,
+  int planId,
+);
+
+List<WorkoutStartCheck> moduleWorkoutStartChecks() => [
+      // [health:start]
+      // Slabší regenerace z hodinek a prstenů → lehčí trénink / Plán B.
+      readinessStartCheck,
       //
     ];
 

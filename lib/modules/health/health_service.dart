@@ -8,6 +8,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:health/health.dart';
 
+import '../../core/readiness.dart';
 import 'health_logic.dart';
 
 /// Je Health Connect / Apple Zdraví na tomto telefonu k dispozici?
@@ -136,8 +137,7 @@ class HealthService {
   Future<bool> _has(HealthDataType type, HealthDataAccess access) async {
     // Na iOS nelze zjistit (vrací null u čtení) – zkusíme a chybu zachytíme.
     if (!_isAndroid) return true;
-    return await _health.hasPermissions([type], permissions: [access]) ??
-        false;
+    return await _health.hasPermissions([type], permissions: [access]) ?? false;
   }
 
   Future<bool> canWriteWorkouts() =>
@@ -215,4 +215,131 @@ class HealthService {
       recordingMethod: RecordingMethod.manual,
     );
   }
+
+  // -------------------------------------------------------------------
+  // Regenerace z hodinek a prstenů (jen čtení, docs/readiness.md)
+  // -------------------------------------------------------------------
+
+  /// Fáze spánku, které se počítají jako spánek (bez bdění v posteli).
+  List<HealthDataType> get _sleepStageTypes => const [
+        HealthDataType.SLEEP_ASLEEP,
+        HealthDataType.SLEEP_LIGHT,
+        HealthDataType.SLEEP_DEEP,
+        HealthDataType.SLEEP_REM,
+      ];
+
+  /// HRV: Health Connect ukládá RMSSD, HealthKit SDNN.
+  HealthDataType get _hrvType => isIOS
+      ? HealthDataType.HEART_RATE_VARIABILITY_SDNN
+      : HealthDataType.HEART_RATE_VARIABILITY_RMSSD;
+
+  List<HealthDataType> get _readTypes => [
+        ..._sleepStageTypes,
+        if (_isAndroid) HealthDataType.SLEEP_SESSION,
+        _hrvType,
+        HealthDataType.RESTING_HEART_RATE,
+        HealthDataType.HEART_RATE,
+      ];
+
+  /// Požádá o čtení spánku, HRV a tepu. True = něco je povoleno (na iOS
+  /// = dialog se ukázal, HealthKit neprozradí, co uživatel povolil).
+  Future<HealthAccessResult> requestReadAccess() async {
+    switch (await availability()) {
+      case HealthAvailability.unsupported:
+        return HealthAccessResult.unsupported;
+      case HealthAvailability.needsInstall:
+        return HealthAccessResult.needsInstall;
+      case HealthAvailability.available:
+        break;
+    }
+    await _ensureConfigured();
+    final types = _readTypes;
+    final permissions = [for (final _ in types) HealthDataAccess.READ];
+    if (!_isAndroid) {
+      final shown =
+          await _health.requestAuthorization(types, permissions: permissions);
+      return shown ? HealthAccessResult.granted : HealthAccessResult.denied;
+    }
+    final hasAll =
+        await _health.hasPermissions(types, permissions: permissions) ?? false;
+    if (!hasAll) {
+      await _health.requestAuthorization(types, permissions: permissions);
+    }
+    // Normální hodnoty se počítají z 60 dní – Health Connect bez
+    // oprávnění k historii dovolí číst jen 30 dní před udělením.
+    try {
+      if (await _health.isHealthDataHistoryAvailable() &&
+          !await _health.isHealthDataHistoryAuthorized()) {
+        await _health.requestHealthDataHistoryAuthorization();
+      }
+    } catch (e) {
+      debugPrint('Health history permission failed: $e');
+    }
+    for (final t in [
+      HealthDataType.SLEEP_SESSION,
+      _hrvType,
+      HealthDataType.RESTING_HEART_RATE,
+      HealthDataType.HEART_RATE,
+    ]) {
+      if (await _has(t, HealthDataAccess.READ)) {
+        return HealthAccessResult.granted;
+      }
+    }
+    return HealthAccessResult.denied;
+  }
+
+  Future<List<HealthDataPoint>> _read(
+    List<HealthDataType> types,
+    DateTime from,
+    DateTime to,
+  ) async {
+    await _ensureConfigured();
+    final allowed = [
+      for (final t in types)
+        if (await _has(t, HealthDataAccess.READ)) t,
+    ];
+    if (allowed.isEmpty) return const [];
+    try {
+      return await _health.getHealthDataFromTypes(
+        types: allowed,
+        startTime: from,
+        endTime: to,
+      );
+    } catch (e) {
+      debugPrint('Health read $allowed failed: $e');
+      return const [];
+    }
+  }
+
+  List<TimedValue> _values(List<HealthDataPoint> points) => [
+        for (final p in points)
+          if (p.value case NumericHealthValue(:final numericValue))
+            (at: p.dateFrom.toLocal(), value: numericValue.toDouble()),
+      ];
+
+  /// Úseky spánku (fáze spánku; bez fází celé spánkové relace).
+  Future<List<SleepInterval>> readSleep(DateTime from, DateTime to) async {
+    var points = await _read(_sleepStageTypes, from, to);
+    if (points.isEmpty && _isAndroid) {
+      points = await _read(const [HealthDataType.SLEEP_SESSION], from, to);
+    }
+    return [
+      for (final p in points)
+        if (p.dateTo.isAfter(p.dateFrom))
+          (start: p.dateFrom.toLocal(), end: p.dateTo.toLocal()),
+    ];
+  }
+
+  Future<List<TimedValue>> readHrv(DateTime from, DateTime to) async =>
+      _values(await _read([_hrvType], from, to));
+
+  Future<List<TimedValue>> readRestingHeartRate(
+    DateTime from,
+    DateTime to,
+  ) async =>
+      _values(await _read(const [HealthDataType.RESTING_HEART_RATE], from, to));
+
+  /// Tep (vzorky) – během tréninku.
+  Future<List<TimedValue>> readHeartRate(DateTime from, DateTime to) async =>
+      _values(await _read(const [HealthDataType.HEART_RATE], from, to));
 }

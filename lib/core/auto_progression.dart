@@ -211,7 +211,9 @@ double deloadedWeight(double ref, double stepKg) {
 // ---------------------------------------------------------------------
 
 /// Proč se nezvyšuje (podle priority).
-enum HoldReason { illness, recovery, injury, cut }
+/// [readiness] = trénink byl lehčí kvůli slabší regeneraci z hodinek
+/// a prstenů (core/readiness.dart) – výkon nevypovídá o síle.
+enum HoldReason { illness, recovery, injury, cut, readiness }
 
 /// Období pro určení blokací (stejný tvar jako vstup activeInjuredGroups).
 typedef ProgressionPeriod = ({
@@ -228,6 +230,7 @@ class ProgressionBlockers {
     this.cut = false,
     this.injured = const {},
     this.injuredAll = false,
+    this.lowReadiness = false,
   });
 
   static const none = ProgressionBlockers();
@@ -244,6 +247,18 @@ class ProgressionBlockers {
   /// Zranění bez zadané partie (starší záznamy) – platí pro všechny cviky.
   final bool injuredAll;
 
+  /// Lehčí trénink kvůli slabší regeneraci.
+  final bool lowReadiness;
+
+  ProgressionBlockers withLowReadiness() => ProgressionBlockers(
+        illness: illness,
+        recovery: recovery,
+        cut: cut,
+        injured: injured,
+        injuredAll: injuredAll,
+        lowReadiness: true,
+      );
+
   /// Důvod, proč se u cviku na partii [group] nezvyšuje, nebo null.
   HoldReason? reasonFor(MuscleGroup group) {
     if (illness) return HoldReason.illness;
@@ -254,6 +269,7 @@ class ProgressionBlockers {
       return HoldReason.injury;
     }
     if (cut) return HoldReason.cut;
+    if (lowReadiness) return HoldReason.readiness;
     return null;
   }
 }
