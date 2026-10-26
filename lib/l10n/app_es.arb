@@ -1262,5 +1262,8 @@
   "hrAvgMax": "media {avg} · máx. {max} ppm",
   "hrKcal": "≈ {kcal} kcal según el pulso",
   "hrWaiting": "El pulso de tu reloj aparecerá cuando se sincronice.",
-  "progressionHoldReadiness": "Se mantiene: el entreno fue más ligero por la baja recuperación."
+  "progressionHoldReadiness": "Se mantiene: el entreno fue más ligero por la baja recuperación.",
+  "wearTileRest": "Hoy descanso",
+  "wearTileOpen": "Abrir",
+  "wearTileStale": "Abre GymBar en el teléfono"
 }

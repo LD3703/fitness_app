@@ -1262,5 +1262,8 @@
   "hrAvgMax": "średnio {avg} · maks. {max} ud./min",
   "hrKcal": "≈ {kcal} kcal według tętna",
   "hrWaiting": "Tętno z zegarka pojawi się po synchronizacji.",
-  "progressionHoldReadiness": "Bez zmian – trening był lżejszy z powodu słabej regeneracji."
+  "progressionHoldReadiness": "Bez zmian – trening był lżejszy z powodu słabej regeneracji.",
+  "wearTileRest": "Dziś wolne",
+  "wearTileOpen": "Otwórz",
+  "wearTileStale": "Otwórz GymBar w telefonie"
 }

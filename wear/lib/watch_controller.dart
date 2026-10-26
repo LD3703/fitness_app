@@ -57,6 +57,12 @@ class WatchController extends ChangeNotifier {
   static const _editHold = Duration(milliseconds: 2500);
 
   StreamSubscription<Map<String, dynamic>>? _sub;
+  StreamSubscription<int>? _heartRateSub;
+  int? _heartRate;
+  DateTime? _heartRateSentAt;
+
+  /// Tep do telefonu nejvýš jednou za 5 s (průměr a zóny po tréninku).
+  static const _heartRateEvery = Duration(seconds: 5);
   AppLifecycleListener? _lifecycle;
   Timer? _heartbeatTimer;
   Timer? _connectTimer;
@@ -85,6 +91,9 @@ class WatchController extends ChangeNotifier {
   // -------------------------------------------------------------------
 
   WearState? get state => _state;
+
+  /// Tep ze senzoru během tréninku (null = senzor neposílá).
+  int? get heartRate => _heartRate;
   String? get notice => _notice;
   bool get showList => _showList;
 
@@ -178,12 +187,15 @@ class WatchController extends ChangeNotifier {
       onPause: _stopHeartbeat,
     );
     _startHeartbeat();
+    // Dlaždice „Dnes“ si po otevření aplikace načte čerstvá data.
+    unawaited(WearNative.updateTile());
   }
 
   @override
   void dispose() {
     _disposed = true;
     _sub?.cancel();
+    _heartRateSub?.cancel();
     _lifecycle?.dispose();
     _stopHeartbeat();
     _restTicker?.cancel();
@@ -296,6 +308,30 @@ class WatchController extends ChangeNotifier {
     }
 
     _updateRest(state, sentAt is int ? sentAt : null, now);
+    _syncHeartRate();
+    _notify();
+  }
+
+  /// Senzor tepu jen během tréninku (šetří baterii).
+  void _syncHeartRate() {
+    final active = phase == WatchPhase.active;
+    if (active && _heartRateSub == null) {
+      _heartRateSub = WearNative.heartRate.listen(_onHeartRate);
+    } else if (!active && _heartRateSub != null) {
+      unawaited(_heartRateSub!.cancel());
+      _heartRateSub = null;
+      _heartRate = null;
+    }
+  }
+
+  void _onHeartRate(int bpm) {
+    _heartRate = bpm;
+    final now = DateTime.now();
+    final sent = _heartRateSentAt;
+    if (sent == null || now.difference(sent) >= _heartRateEvery) {
+      _heartRateSentAt = now;
+      _send({'t': WearMsg.heartRate, 'bpm': bpm});
+    }
     _notify();
   }
 

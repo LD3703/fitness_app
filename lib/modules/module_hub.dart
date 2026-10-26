@@ -465,6 +465,10 @@ List<SyncHook> moduleSyncHooks() => [
       // [cloud:sync]
       cloudSync,
       //
+      // [wear:sync]
+      // Dnešní plán pro dlaždici v hodinkách (Wear OS).
+      wearTodaySync,
+      //
     ];
 
 /// Spustí háčky po tréninku; chyba jednoho neovlivní ostatní.

@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 abstract final class WearNative {
   static const _channel = MethodChannel('fitness_wear/native');
   static const _rotary = EventChannel('fitness_wear/rotary');
+  static const _heartRate = EventChannel('fitness_wear/heart_rate');
 
   /// Výrazná vibrace (konec pauzy).
   static Future<void> vibrate() async {
@@ -31,6 +32,26 @@ abstract final class WearNative {
       // Bez nativní části.
     } on PlatformException catch (e) {
       debugPrint('keepScreenOn: $e');
+    }
+  }
+
+  /// Tep ze senzoru hodinek (tepy/min). Senzor běží, jen dokud se stream
+  /// poslouchá; poprvé si aplikace řekne o oprávnění (BODY_SENSORS /
+  /// od Wear OS 6 READ_HEART_RATE). Bez nativní části nic nepřijde.
+  static final Stream<int> heartRate = _heartRate
+      .receiveBroadcastStream()
+      .map((event) => event is num ? event.toInt() : 0)
+      .where((bpm) => bpm > 0)
+      .handleError((Object e) => debugPrint('heart rate: $e'));
+
+  /// Obnoví dlaždici „Dnes“ (TodayTileService.kt).
+  static Future<void> updateTile() async {
+    try {
+      await _channel.invokeMethod<void>('updateTile');
+    } on MissingPluginException {
+      // Bez nativní části.
+    } on PlatformException catch (e) {
+      debugPrint('updateTile: $e');
     }
   }
 

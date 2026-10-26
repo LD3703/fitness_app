@@ -1262,5 +1262,8 @@
   "hrAvgMax": "priemer {avg} · max {max} úderov/min",
   "hrKcal": "≈ {kcal} kcal podľa tepu",
   "hrWaiting": "Tep z hodiniek sa doplní, keď sa zosynchronizuje.",
-  "progressionHoldReadiness": "Zostáva rovnaké – tréning bol ľahší kvôli regenerácii."
+  "progressionHoldReadiness": "Zostáva rovnaké – tréning bol ľahší kvôli regenerácii.",
+  "wearTileRest": "Dnes voľno",
+  "wearTileOpen": "Otvoriť",
+  "wearTileStale": "Otvor GymBar v telefóne"
 }

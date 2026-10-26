@@ -13,8 +13,7 @@ class WearProfileSection extends ConsumerStatefulWidget {
   const WearProfileSection({super.key});
 
   @override
-  ConsumerState<WearProfileSection> createState() =>
-      _WearProfileSectionState();
+  ConsumerState<WearProfileSection> createState() => _WearProfileSectionState();
 }
 
 class _WearProfileSectionState extends ConsumerState<WearProfileSection> {

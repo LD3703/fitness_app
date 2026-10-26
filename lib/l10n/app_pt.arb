@@ -1262,5 +1262,8 @@
   "hrAvgMax": "média {avg} · máx. {max} bpm",
   "hrKcal": "≈ {kcal} kcal pela frequência cardíaca",
   "hrWaiting": "A frequência do relógio aparece assim que sincronizar.",
-  "progressionHoldReadiness": "Fica igual – o treino foi mais leve por causa da recuperação baixa."
+  "progressionHoldReadiness": "Fica igual – o treino foi mais leve por causa da recuperação baixa.",
+  "wearTileRest": "Hoje é descanso",
+  "wearTileOpen": "Abrir",
+  "wearTileStale": "Abra o GymBar no celular"
 }

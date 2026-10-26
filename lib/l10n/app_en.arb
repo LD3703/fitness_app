@@ -3652,5 +3652,8 @@
     }
   },
   "hrWaiting": "Heart rate from your watch will appear once it syncs.",
-  "progressionHoldReadiness": "Stays the same – the workout was lighter because of low recovery."
+  "progressionHoldReadiness": "Stays the same – the workout was lighter because of low recovery.",
+  "wearTileRest": "Rest day today",
+  "wearTileOpen": "Open",
+  "wearTileStale": "Open GymBar on your phone"
 }

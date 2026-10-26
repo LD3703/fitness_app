@@ -1262,5 +1262,8 @@
   "hrAvgMax": "moyenne {avg} · max {max} bpm",
   "hrKcal": "≈ {kcal} kcal selon le pouls",
   "hrWaiting": "Le pouls de ta montre s’affichera après la synchronisation.",
-  "progressionHoldReadiness": "Reste pareil – la séance était plus légère à cause d’une récupération faible."
+  "progressionHoldReadiness": "Reste pareil – la séance était plus légère à cause d’une récupération faible.",
+  "wearTileRest": "Repos aujourd’hui",
+  "wearTileOpen": "Ouvrir",
+  "wearTileStale": "Ouvre GymBar sur ton téléphone"
 }

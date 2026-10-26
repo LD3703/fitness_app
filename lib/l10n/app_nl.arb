@@ -1262,5 +1262,8 @@
   "hrAvgMax": "gem. {avg} · max {max} spm",
   "hrKcal": "≈ {kcal} kcal op basis van hartslag",
   "hrWaiting": "De hartslag van je horloge verschijnt zodra die synchroniseert.",
-  "progressionHoldReadiness": "Blijft gelijk – de training was lichter door zwak herstel."
+  "progressionHoldReadiness": "Blijft gelijk – de training was lichter door zwak herstel.",
+  "wearTileRest": "Vandaag rustdag",
+  "wearTileOpen": "Openen",
+  "wearTileStale": "Open GymBar op je telefoon"
 }

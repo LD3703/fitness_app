@@ -1262,5 +1262,8 @@
   "hrAvgMax": "Ø {avg} · max {max} Schläge/min",
   "hrKcal": "≈ {kcal} kcal nach Puls",
   "hrWaiting": "Der Puls von deiner Uhr erscheint, sobald sie synchronisiert.",
-  "progressionHoldReadiness": "Bleibt gleich – das Training war wegen schwacher Erholung leichter."
+  "progressionHoldReadiness": "Bleibt gleich – das Training war wegen schwacher Erholung leichter.",
+  "wearTileRest": "Heute frei",
+  "wearTileOpen": "Öffnen",
+  "wearTileStale": "Öffne GymBar auf dem Handy"
 }

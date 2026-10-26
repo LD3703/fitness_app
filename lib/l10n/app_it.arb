@@ -1262,5 +1262,8 @@
   "hrAvgMax": "media {avg} · max {max} bpm",
   "hrKcal": "≈ {kcal} kcal dal battito",
   "hrWaiting": "Il battito dell’orologio comparirà dopo la sincronizzazione.",
-  "progressionHoldReadiness": "Resta uguale: l’allenamento è stato più leggero per il recupero scarso."
+  "progressionHoldReadiness": "Resta uguale: l’allenamento è stato più leggero per il recupero scarso.",
+  "wearTileRest": "Oggi riposo",
+  "wearTileOpen": "Apri",
+  "wearTileStale": "Apri GymBar sul telefono"
 }
