@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/experience_level.dart';
 import '../../core/rest_time.dart';
 import '../../core/text_filter.dart';
 import '../../data/database.dart';
 import '../../data/seed/content_i18n.dart';
 import '../../data/seed/plan_templates.dart';
+import '../../data/seed/program_fit.dart';
 import '../../l10n/app_localizations.dart';
 import '../../premium/premium.dart';
 import '../../providers.dart';
@@ -18,6 +20,7 @@ import '../../ui/format.dart';
 import '../../ui/labels.dart';
 import '../../ui/module_switches.dart';
 import '../../ui/skins.dart';
+import '../../ui/training_schedule_selector.dart';
 import '../../ui/weekdays.dart';
 import '../profile/skin_picker.dart';
 
@@ -27,6 +30,8 @@ enum _Step {
   welcome,
   about,
   goal,
+  level,
+  schedule,
   tracking,
   body,
   look,
@@ -37,7 +42,8 @@ enum _Step {
 }
 
 /// Úvodní průvodce při prvním spuštění (a znovu z Profilu): krok po kroku
-/// jméno a údaje o sobě, cíl tréninku, co sledovat, pitný režim a váha,
+/// jméno a údaje o sobě, cíl tréninku, úroveň pokročilosti, kolikrát
+/// týdně a jak dlouho trénovat, co sledovat, pitný režim a váha,
 /// vzhled, tón zpráv, připomínky a první plán z hotového programu.
 /// Na konci uloží profil (onboardingDone) a router přesměruje na Dnes.
 class OnboardingScreen extends ConsumerStatefulWidget {
@@ -60,6 +66,13 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   /// Cíl tréninku (síla / svaly / výdrž) – výchozí zaměření tréninků
   /// a varianta hotových programů.
   TrainingFocus _goal = TrainingFocus.muscle;
+
+  /// Úroveň pokročilosti – doporučené programy a počet sérií.
+  ExperienceLevel _level = ExperienceLevel.beginner;
+
+  /// Kolikrát týdně a kolik minut – doporučení a zkrácení programů.
+  int _daysPerWeek = 3;
+  int _minutes = 60;
 
   /// Tón zpráv: 0 = přátelský, 1 = přísný trenér (UserProfile.coachTone).
   int _coachTone = 0;
@@ -105,6 +118,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       );
       _coachTone = p.coachTone == 1 ? 1 : 0;
       _goal = trainingFocusOf(p.trainingFocus);
+      _level = experienceLevelOf(p.experienceLevel);
+      _daysPerWeek = p.trainingDaysPerWeek;
+      _minutes = p.sessionMinutes;
       _skin = AppSkin.fromKey(p.skin);
       _morningReminder = p.morningReminderEnabled;
       _morningMinutes = p.morningReminderMinutes;
@@ -278,7 +294,17 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         program,
         languageCode: Localizations.localeOf(context).languageCode,
         goal: _goal,
+        level: _level,
+        maxMinutes: _minutes,
       );
+    }
+    // Tréninky pro další úroveň se počítají od zvolení úrovně; stejná
+    // úroveň při opakovaném průvodci počítání nevynuluje.
+    final previous = ref.read(profileProvider).valueOrNull;
+    if (previous == null ||
+        previous.experienceSince == null ||
+        experienceLevelOf(previous.experienceLevel) != _level) {
+      await db.setExperienceLevel(_level);
     }
     final name = _name.text.trim();
     final water = _waterGoalMl;
@@ -294,6 +320,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       showCalories: Value(_modules.calories),
       coachTone: Value(_coachTone),
       trainingFocus: Value(_goal.index),
+      trainingDaysPerWeek: Value(_daysPerWeek),
+      sessionMinutes: Value(_minutes),
       skin: Value(_skin.key),
       morningReminderEnabled: Value(_morningReminder),
       morningReminderMinutes: Value(_morningMinutes),
@@ -516,6 +544,45 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           ],
         ];
 
+      case _Step.level:
+        return [
+          ..._header(
+              context, l10n.onboardingLevelTitle, l10n.onboardingLevelHint),
+          for (final level in ExperienceLevel.values) ...[
+            _padded(_ChoiceCard(
+              selected: _level == level,
+              icon: switch (level) {
+                ExperienceLevel.beginner => Icons.emoji_people,
+                ExperienceLevel.intermediate => Icons.trending_up,
+                ExperienceLevel.advanced => Icons.military_tech_outlined,
+              },
+              title: l10n.experienceLevel(level),
+              body: l10n.experienceLevelHint(level),
+              onTap: () => setState(() {
+                _level = level;
+                // Nabídka programů se změní – vybírá se znovu.
+                _program = null;
+              }),
+            )),
+            const SizedBox(height: 8),
+          ],
+        ];
+
+      case _Step.schedule:
+        return [
+          ..._header(context, l10n.onboardingScheduleTitle,
+              l10n.onboardingScheduleHint),
+          TrainingScheduleSelector(
+            daysPerWeek: _daysPerWeek,
+            minutes: _minutes,
+            onChanged: (days, minutes) => setState(() {
+              _daysPerWeek = days;
+              _minutes = minutes;
+              _program = null;
+            }),
+          ),
+        ];
+
       case _Step.tracking:
         return [
           ..._header(
@@ -656,19 +723,34 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             onTap: () => setState(() => _program = null),
           )),
           const SizedBox(height: 8),
-          for (final (i, p) in templatePrograms.indexed)
-            if (!isProgramLocked(i, premium: premium)) ...[
+          // Programy pro zvolenou úroveň (a sousední se stejným počtem
+          // tréninků týdně) seřazené podle toho, jak sedí; ostatní jsou
+          // v Plánech.
+          for (final (i, fit) in recommendPrograms(
+            level: _level,
+            goal: _goal,
+            daysPerWeek: _daysPerWeek,
+            sessionMinutes: _minutes,
+          ).indexed)
+            if (!isProgramLocked(templatePrograms.indexOf(fit.program),
+                premium: premium)) ...[
               _padded(_ChoiceCard(
-                selected: _program == p,
+                selected: _program == fit.program,
                 icon: Icons.auto_awesome_outlined,
-                title: programName(p),
-                body: programDescription(p),
-                note: l10n.onboardingPlanVariant(
-                    l10n.trainingFocus(programGoal(p, _goal))),
-                onTap: () => setState(() => _program = p),
+                badge: i == 0 && fit.fitsDays ? l10n.programBestFit : null,
+                title: programName(fit.program),
+                body: programDescription(fit.program),
+                note: [
+                  l10n.programFitInfo(fit.days, fit.minutes),
+                  if (fit.shortened) l10n.programFitShortened(_minutes),
+                  l10n.onboardingPlanVariant(
+                      l10n.trainingFocus(programGoal(fit.program, _goal))),
+                ].join('\n'),
+                onTap: () => setState(() => _program = fit.program),
               )),
               const SizedBox(height: 8),
             ],
+          _padded(Text(l10n.onboardingPlanMore, style: muted)),
         ];
 
       case _Step.done:
@@ -690,6 +772,16 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             title: Text(l10n.trainingGoalTitle),
             subtitle: Text(l10n.trainingFocus(_goal)),
           ),
+          ListTile(
+            leading: const Icon(Icons.stairs_outlined),
+            title: Text(l10n.levelTitle),
+            subtitle: Text(l10n.experienceLevel(_level)),
+          ),
+          ListTile(
+            leading: const Icon(Icons.event_repeat),
+            title: Text(l10n.scheduleTitle),
+            subtitle: Text(l10n.scheduleSummary(_daysPerWeek, _minutes)),
+          ),
           if (program != null)
             ListTile(
               leading: const Icon(Icons.auto_awesome_outlined),
@@ -710,11 +802,15 @@ class _ChoiceCard extends StatelessWidget {
     required this.onTap,
     this.body,
     this.note,
+    this.badge,
   });
 
   final bool selected;
   final IconData icon;
   final String title;
+
+  /// Štítek nad názvem (např. „Sedí ti nejlépe“).
+  final String? badge;
   final String? body;
   final String? note;
   final VoidCallback onTap;
@@ -757,6 +853,22 @@ class _ChoiceCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if (badge != null) ...[
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: scheme.primary,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            badge!,
+                            style: theme.textTheme.labelSmall
+                                ?.copyWith(color: scheme.onPrimary),
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                      ],
                       Text(title, style: theme.textTheme.titleSmall),
                       if (body != null) ...[
                         const SizedBox(height: 4),

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app_version.dart';
+import '../../core/experience_level.dart';
 import '../../core/rest_time.dart';
 import '../../core/text_filter.dart';
 import '../../data/database.dart';
@@ -14,6 +15,7 @@ import '../../modules/module_hub.dart';
 import '../../providers.dart';
 import '../../services/calendar_service.dart';
 import '../../services/notification_service.dart';
+import '../../ui/training_schedule_selector.dart';
 import '../../ui/skins.dart';
 import '../../ui/brand_mark.dart';
 import '../../ui/dialogs.dart';
@@ -131,6 +133,14 @@ class ProfileScreen extends ConsumerWidget {
                   context, trainingFocusOf(profile.trainingFocus));
               if (picked != null) await db.setTrainingGoal(picked);
             },
+          ),
+          _ExperienceLevelTile(profile: profile),
+          ListTile(
+            leading: const Icon(Icons.event_repeat),
+            title: Text(l10n.scheduleTitle),
+            subtitle: Text(l10n.scheduleSummary(
+                profile.trainingDaysPerWeek, profile.sessionMinutes)),
+            onTap: () => _pickSchedule(context, db, profile),
           ),
           sectionTitle(l10n.profileTrackingSection),
           ModuleSwitches(
@@ -453,6 +463,57 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
+  /// Kolikrát týdně a jak dlouho: doporučení a zkrácení programů.
+  Future<void> _pickSchedule(
+      BuildContext context, AppDatabase db, UserProfile profile) async {
+    final l10n = AppLocalizations.of(context);
+    var days = profile.trainingDaysPerWeek;
+    var minutes = profile.sessionMinutes;
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: Text(l10n.scheduleTitle),
+          scrollable: true,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.scheduleDialogHint,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant),
+              ),
+              const SizedBox(height: 16),
+              TrainingScheduleSelector(
+                daysPerWeek: days,
+                minutes: minutes,
+                padding: EdgeInsets.zero,
+                onChanged: (d, m) => setState(() {
+                  days = d;
+                  minutes = m;
+                }),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(l10n.save),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (ok == true) {
+      await db.setTrainingSchedule(daysPerWeek: days, minutes: minutes);
+    }
+  }
+
   /// Cíl tréninku (síla / svaly / výdrž): výchozí zaměření tréninků
   /// a varianta hotových programů.
   Future<TrainingFocus?> _pickGoal(BuildContext context, TrainingFocus current) {
@@ -557,5 +618,69 @@ class ProfileScreen extends ConsumerWidget {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(AppLocalizations.of(context).permissionDenied),
     ));
+  }
+}
+
+/// Úroveň pokročilosti a kolik zbývá do další (core/experience_level.dart).
+class _ExperienceLevelTile extends ConsumerWidget {
+  const _ExperienceLevelTile({required this.profile});
+
+  final UserProfile profile;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final level = experienceLevelOf(profile.experienceLevel);
+    final progress = ref.watch(experienceStatusProvider).valueOrNull?.progress;
+    final lines = [
+      l10n.experienceLevel(level),
+      if (progress != null)
+        l10n.levelProgress(
+          l10n.experienceLevel(progress.next),
+          progress.workouts.clamp(0, progress.requirement.workouts),
+          progress.requirement.workouts,
+          progress.weeks.clamp(0, progress.requirement.weeks),
+          progress.requirement.weeks,
+        ),
+    ];
+    return ListTile(
+      leading: const Icon(Icons.stairs_outlined),
+      title: Text(l10n.levelTitle),
+      subtitle: Text(lines.join('\n')),
+      isThreeLine: lines.length > 1,
+      onTap: () async {
+        final picked = await showDialog<ExperienceLevel>(
+          context: context,
+          builder: (context) {
+            final theme = Theme.of(context);
+            return SimpleDialog(
+              title: Text(l10n.levelTitle),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+                  child: Text(
+                    l10n.levelDialogHint,
+                    style: theme.textTheme.bodySmall
+                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  ),
+                ),
+                for (final l in ExperienceLevel.values)
+                  ListTile(
+                    title: Text(l10n.experienceLevel(l)),
+                    subtitle: Text(l10n.experienceLevelHint(l)),
+                    trailing: l == level
+                        ? Icon(Icons.check, color: theme.colorScheme.primary)
+                        : null,
+                    onTap: () => Navigator.of(context).pop(l),
+                  ),
+              ],
+            );
+          },
+        );
+        if (picked != null && picked != level) {
+          await ref.read(databaseProvider).setExperienceLevel(picked);
+        }
+      },
+    );
   }
 }

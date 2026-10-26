@@ -60,7 +60,7 @@ void main() {
     await next(tester, 'Začít');
 
     // O tobě
-    expect(find.text('Krok 1 z 9'), findsOneWidget);
+    expect(find.text('Krok 1 z 11'), findsOneWidget);
     await tester.enterText(find.widgetWithText(TextField, 'Jméno'), 'Alex');
     await tester.enterText(
         find.widgetWithText(TextField, 'Rok narození (nepovinné)'), '1800');
@@ -74,6 +74,17 @@ void main() {
     // Cíl
     expect(find.text('Na co trénuješ?'), findsOneWidget);
     await tapText(tester, 'Výdrž');
+    await next(tester);
+
+    // Úroveň
+    expect(find.text('Jak dlouho cvičíš?'), findsOneWidget);
+    await tapText(tester, 'Mírně pokročilý');
+    await next(tester);
+
+    // Jak často a jak dlouho
+    expect(find.text('Jak často a jak dlouho?'), findsOneWidget);
+    await tapText(tester, '4×');
+    await tapText(tester, '45 min');
     await next(tester);
 
     // Co sledovat → voda a váha
@@ -91,8 +102,13 @@ void main() {
 
     // První plán
     expect(find.text('Tvůj první plán'), findsOneWidget);
-    await tapText(tester, 'Celé tělo (začátečník)');
-    expect(find.text('Varianta: Výdrž'), findsWidgets);
+    // Jen programy pro zvolenou úroveň.
+    expect(find.text('Celé tělo (začátečník)'), findsNothing);
+    // Nejlépe sedí program na 4 dny týdně.
+    expect(find.text('Sedí ti nejlépe'), findsOneWidget);
+    await tapText(tester, 'Horní / dolní polovina');
+    expect(find.textContaining('Varianta: Výdrž'), findsWidgets);
+    expect(find.textContaining('4× týdně · ~'), findsWidgets);
     await next(tester);
 
     // Hotovo
@@ -109,7 +125,11 @@ void main() {
     expect(profile.birthYear, 1999);
     expect(profile.sex, Sex.female.index);
     expect(profile.trainingFocus, TrainingFocus.conditioning.index);
-    expect(plans.map((p) => p.name), ['Celé tělo A', 'Celé tělo B']);
+    expect(profile.experienceLevel, ExperienceLevel.intermediate.index);
+    expect(profile.experienceSince, isNotNull);
+    expect(profile.trainingDaysPerWeek, 4);
+    expect(profile.sessionMinutes, 45);
+    expect(plans.map((p) => p.name), ['Horní polovina', 'Dolní polovina']);
     expect(plans.map((p) => p.focus), everyElement(TrainingFocus.conditioning));
     expect(weights.single.weightKg, 70);
   });
@@ -120,14 +140,16 @@ void main() {
     await next(tester, 'Začít');
     await next(tester); // o tobě
     await next(tester); // cíl
-    expect(find.text('Krok 3 z 9'), findsOneWidget);
+    await next(tester); // úroveň
+    await next(tester); // jak často
+    expect(find.text('Krok 5 z 11'), findsOneWidget);
     await tapText(tester, 'Pitný režim');
     await tapText(tester, 'Tělesná váha');
-    expect(find.text('Krok 3 z 8'), findsOneWidget);
+    expect(find.text('Krok 5 z 10'), findsOneWidget);
     await next(tester);
     expect(find.text('Vyber si vzhled'), findsOneWidget);
     await tester.tap(find.text('Zpět'));
     await tester.pumpAndSettle();
-    expect(find.text('Krok 3 z 8'), findsOneWidget);
+    expect(find.text('Krok 5 z 10'), findsOneWidget);
   });
 }

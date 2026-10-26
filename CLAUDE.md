@@ -26,7 +26,8 @@ v kódu i dokumentace jsou **česky**.
   fitka, gymbar.app/fitka), `docs/skins.md` (motivy vzhledu),
   `docs/ios_widget.md` (iOS widget a Live Activity, zatím vypnuté),
   `docs/apple_watch.md` (Apple Watch, zatím vypnuté), `docs/readiness.md`
-  (regenerace z hodinek a prstenů).
+  (regenerace z hodinek a prstenů), `docs/programs.md` (hotové programy
+  a úroveň pokročilosti).
 
 ## Ověření před commitem
 

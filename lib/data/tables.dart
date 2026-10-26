@@ -117,6 +117,27 @@ class UserProfiles extends Table {
   /// bez vlastního zaměření plánu (core/rest_time.dart, auto_progression).
   IntColumn get trainingFocus => integer().withDefault(const Constant(1))();
 
+  /// Úroveň pokročilosti (verze schématu 25): index ExperienceLevel,
+  /// výchozí 0 = začátečník. Viz core/experience_level.dart.
+  IntColumn get experienceLevel => integer().withDefault(const Constant(0))();
+
+  /// Od kdy platí současná úroveň (v25) – od tohoto dne se počítají
+  /// tréninky pro návrh další úrovně. null = od prvního tréninku.
+  DateTimeColumn get experienceSince => dateTime().nullable()();
+
+  /// Kdy uživatel naposledy odmítl návrh změny úrovně (v25) – další
+  /// návrh nejdřív za 30 dní.
+  DateTimeColumn get experiencePromptAt => dateTime().nullable()();
+
+  /// Kolikrát týdně chce trénovat (v25, úvod a profil) – doporučení
+  /// hotových programů (data/seed/program_fit.dart).
+  IntColumn get trainingDaysPerWeek =>
+      integer().withDefault(const Constant(3))();
+
+  /// Kolik minut má na trénink (v25) – delší tréninky z hotových programů
+  /// se při přidání zkrátí.
+  IntColumn get sessionMinutes => integer().withDefault(const Constant(60))();
+
   @override
   Set<Column> get primaryKey => {id};
 }

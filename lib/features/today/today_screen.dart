@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/experience_level.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../modules/data/unit_dialogs.dart';
@@ -49,6 +50,7 @@ class TodayScreen extends ConsumerWidget {
         children: [
           if (trackPeriods) const _WellbeingCard(),
           const _WorkoutCard(),
+          const _LevelCard(),
           if (profile?.trackWater ?? true) const _WaterCard(),
           if (profile?.trackWeight ?? true) const _WeightCard(),
           ...moduleTodayCards(),
@@ -58,6 +60,81 @@ class TodayScreen extends ConsumerWidget {
   }
 }
 
+
+/// Návrh změny úrovně pokročilosti (core/experience_level.dart): po
+/// půl roce pravidelného tréninku o úroveň výš, po dlouhé pauze o úroveň
+/// níž. Nic se nemění samo – uživatel potvrdí, nebo odmítne na 30 dní.
+class _LevelCard extends ConsumerWidget {
+  const _LevelCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final status = ref.watch(experienceStatusProvider).valueOrNull;
+    final suggestion = status?.suggestion;
+    if (status == null || suggestion == null) return const SizedBox.shrink();
+    final levelName = l10n.experienceLevel(suggestion.level);
+    final up = suggestion.reason == LevelChangeReason.progress;
+    final progress = status.progress;
+    final body = up
+        ? l10n.levelSuggestUpBody(
+            progress?.weeks ?? 0, progress?.workouts ?? 0, levelName)
+        : l10n.levelSuggestDownBody(kLongBreakWeeks, levelName);
+    final db = ref.read(databaseProvider);
+
+    return Card(
+      color: theme.colorScheme.tertiaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 12, 8, 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(up ? Icons.trending_up : Icons.waving_hand_outlined),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    up ? l10n.levelSuggestUpTitle : l10n.levelSuggestDownTitle,
+                    style: theme.textTheme.titleSmall,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Text(body),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Wrap(
+                spacing: 4,
+                children: [
+                  TextButton(
+                    onPressed: () => db.dismissExperiencePrompt(),
+                    child: Text(l10n.levelSuggestLater),
+                  ),
+                  FilledButton.tonal(
+                    onPressed: () async {
+                      await db.setExperienceLevel(suggestion.level);
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(l10n.levelChanged(levelName)),
+                      ));
+                    },
+                    child: Text(l10n.levelSuggestAccept(levelName)),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 enum _PlanAction { postpone, skip }
 

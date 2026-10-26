@@ -887,6 +887,16 @@ const seedTranslations = <String, SeedTranslation>{
       'dumbbell_home': 'Kurzhanteln zu Hause',
       'strength_5x5': 'Kraft 5×5',
       'circuit': 'Zirkeltraining (Ausdauer)',
+      'full_body_variation': 'Ganzkörper – Variante',
+      'bodyweight_home': 'Eigengewicht zu Hause',
+      'machines': 'Geräte (Einsteiger)',
+      'upper_lower_variation': 'Oberkörper / Unterkörper – Variante',
+      'ppl_variation': 'Push / Pull / Legs – Variante',
+      'strength_dup': 'Kraft – Wochenwellen',
+      'conditioning_intervals': 'Kondition – Intervalle',
+      'phul': 'Kraft + Masse (PHUL)',
+      'strength_advanced': 'Kraft – 4 Tage (Fortgeschrittene)',
+      'ppl_6x': 'Push / Pull / Legs 6× pro Woche',
     },
     programDescriptions: {
       'full_body':
@@ -901,6 +911,26 @@ const seedTranslations = <String, SeedTranslation>{
         '3× pro Woche, abwechselnd A und B: 5 Sätze à 5 bei den großen Übungen. Schaffst du alle Sätze mit 5 Wiederholungen, steigt das Gewicht.',
       'circuit':
         '3× pro Woche, abwechselnd A und B: Übungen im Zirkel direkt hintereinander, kurze Pausen, viele Wiederholungen. Für Ausdauer und Kondition.',
+      'full_body_variation':
+        '3× pro Woche, abwechselnd C und D. Gleicher Aufbau wie Ganzkörper (Einsteiger) mit anderen Übungen – alle 6–8 Wochen wechseln.',
+      'bodyweight_home':
+        '3× pro Woche, abwechselnd A und B, ohne Geräte – nur eine Matte (und ein stabiler Tisch zum Rudern). Für den Einstieg und auf Reisen.',
+      'machines':
+        '3× pro Woche, abwechselnd A und B, an Geräten im Studio: leicht zu lernen, sicher auch ohne Partner. Ein guter erster Schritt vor freien Gewichten.',
+      'upper_lower_variation':
+        '4× pro Woche wie Oberkörper / Unterkörper, mit anderen Übungen (Schrägbankdrücken, Frontkniebeuge, Hip Thrust). Alle 6–8 Wochen wechseln.',
+      'ppl_variation':
+        '3× pro Woche wie Push / Pull / Legs, mit anderen Übungen (zuerst Schulterdrücken, Langhantelrudern, Hackenschmidt-Kniebeuge). Alle 6–8 Wochen wechseln.',
+      'strength_dup':
+        '3× pro Woche: schwerer Tag (Sätze à 3), Volumentag (6–8 Wiederholungen) und mittlerer Tag (Sätze à 5). Wechselnde Belastung innerhalb der Woche lässt die Kraft auch nach dem ersten Jahr wachsen.',
+      'conditioning_intervals':
+        '3× pro Woche, abwechselnd A und B: je eine Kraft- und eine Cardio-Übung direkt hintereinander, zum Schluss ein durchgehender Cardio-Block. Für Kondition, Ausdauer und Abnehmen.',
+      'phul':
+        '4× pro Woche: schwere Ober- und Unterkörpertage für Kraft (Mo, Di), Tage mit mehr Wiederholungen für Muskeln (Do, Fr). Etwa 12–16 Sätze pro Muskel und Woche.',
+      'strength_advanced':
+        '4× pro Woche, jeden Tag eine große Übung (Kniebeuge, Bankdrücken, Kreuzheben, Schulterdrücken): schwere Sätze à 3, eine verwandte Variante und Zusatzübungen für Schwachstellen.',
+      'ppl_6x':
+        'Mo–Sa: Push, Pull, Legs, dann Push B, Pull B, Legs B. Jeder Muskel 2× pro Woche mit hohem Volumen – für Erfahrene mit guter Regeneration.',
     },
     planNames: {
       'Full body A': 'Ganzkörper A',
@@ -918,6 +948,30 @@ const seedTranslations = <String, SeedTranslation>{
       '5×5 B': '5×5 B',
       'Circuit A': 'Zirkel A',
       'Circuit B': 'Zirkel B',
+      'Full body C': 'Ganzkörper C',
+      'Full body D': 'Ganzkörper D',
+      'Bodyweight A': 'Eigengewicht A',
+      'Bodyweight B': 'Eigengewicht B',
+      'Machines A': 'Geräte A',
+      'Machines B': 'Geräte B',
+      'Upper body B': 'Oberkörper B',
+      'Lower body B': 'Unterkörper B',
+      'Push B': 'Push B',
+      'Pull B': 'Pull B',
+      'Legs B': 'Legs B',
+      'Strength: heavy day': 'Kraft: schwerer Tag',
+      'Strength: volume day': 'Kraft: Volumentag',
+      'Strength: medium day': 'Kraft: mittlerer Tag',
+      'Intervals A': 'Intervalle A',
+      'Intervals B': 'Intervalle B',
+      'Upper power': 'Oberkörper – Kraft',
+      'Lower power': 'Unterkörper – Kraft',
+      'Upper hypertrophy': 'Oberkörper – Masse',
+      'Lower hypertrophy': 'Unterkörper – Masse',
+      'Strength: squat': 'Kraft: Kniebeuge',
+      'Strength: bench': 'Kraft: Bankdrücken',
+      'Strength: deadlift': 'Kraft: Kreuzheben',
+      'Strength: overhead press': 'Kraft: Schulterdrücken',
     },
   ),
   'es': (
@@ -1794,6 +1848,16 @@ const seedTranslations = <String, SeedTranslation>{
       'dumbbell_home': 'Mancuernas en casa',
       'strength_5x5': 'Fuerza 5×5',
       'circuit': 'Circuito (resistencia)',
+      'full_body_variation': 'Cuerpo completo – variante',
+      'bodyweight_home': 'Peso corporal en casa',
+      'machines': 'Máquinas (principiante)',
+      'upper_lower_variation': 'Tren superior / inferior – variante',
+      'ppl_variation': 'Push / Pull / Pierna – variante',
+      'strength_dup': 'Fuerza – ondas semanales',
+      'conditioning_intervals': 'Condición física – intervalos',
+      'phul': 'Fuerza + volumen (PHUL)',
+      'strength_advanced': 'Fuerza – 4 días (avanzado)',
+      'ppl_6x': 'Push / Pull / Pierna 6× por semana',
     },
     programDescriptions: {
       'full_body':
@@ -1809,6 +1873,26 @@ const seedTranslations = <String, SeedTranslation>{
         '3× por semana, alternando A y B: 5 series de 5 en los ejercicios grandes. Cuando completas todas las series de 5, sube el peso.',
       'circuit':
         '3× por semana, alternando A y B: ejercicios en circuito seguidos, descansos cortos, muchas repeticiones. Para resistencia y forma física.',
+      'full_body_variation':
+        '3× por semana, alternando C y D. La misma estructura que Cuerpo completo (principiante) con otros ejercicios: cámbialo cada 6–8 semanas.',
+      'bodyweight_home':
+        '3× por semana, alternando A y B, sin material: solo una esterilla (y una mesa firme para los remos). Para empezar y para viajar.',
+      'machines':
+        '3× por semana, alternando A y B, en máquinas del gimnasio: fáciles de aprender y seguras sin compañero. Un buen primer paso antes del peso libre.',
+      'upper_lower_variation':
+        '4× por semana como Tren superior / inferior, con otros ejercicios (press inclinado, sentadilla frontal, hip thrust). Cámbialo cada 6–8 semanas.',
+      'ppl_variation':
+        '3× por semana como Push / Pull / Pierna, con otros ejercicios (primero press militar, remo con barra, sentadilla hack). Cámbialo cada 6–8 semanas.',
+      'strength_dup':
+        '3× por semana: día pesado (series de 3), día de volumen (6–8 repeticiones) y día medio (series de 5). Variar la carga dentro de la semana mantiene el progreso de fuerza después del primer año.',
+      'conditioning_intervals':
+        '3× por semana, alternando A y B: parejas de un ejercicio de fuerza y otro de cardio seguidos, y al final un bloque de cardio continuo. Para la forma física, la resistencia y perder grasa.',
+      'phul':
+        '4× por semana: días pesados de tren superior e inferior para la fuerza (lun, mar) y días con más repeticiones para el músculo (jue, vie). Unas 12–16 series por músculo a la semana.',
+      'strength_advanced':
+        '4× por semana, un gran ejercicio cada día (sentadilla, press de banca, peso muerto, press militar): series pesadas de 3, una variante relacionada y accesorios para los puntos débiles.',
+      'ppl_6x':
+        'Lun–sáb: Push, Pull, Pierna y luego Push B, Pull B, Pierna B. Cada músculo 2× por semana con mucho volumen: para personas con experiencia y buena recuperación.',
     },
     planNames: {
       'Full body A': 'Cuerpo completo A',
@@ -1826,6 +1910,30 @@ const seedTranslations = <String, SeedTranslation>{
       '5×5 B': '5×5 B',
       'Circuit A': 'Circuito A',
       'Circuit B': 'Circuito B',
+      'Full body C': 'Cuerpo completo C',
+      'Full body D': 'Cuerpo completo D',
+      'Bodyweight A': 'Peso corporal A',
+      'Bodyweight B': 'Peso corporal B',
+      'Machines A': 'Máquinas A',
+      'Machines B': 'Máquinas B',
+      'Upper body B': 'Tren superior B',
+      'Lower body B': 'Tren inferior B',
+      'Push B': 'Push B',
+      'Pull B': 'Pull B',
+      'Legs B': 'Pierna B',
+      'Strength: heavy day': 'Fuerza: día pesado',
+      'Strength: volume day': 'Fuerza: día de volumen',
+      'Strength: medium day': 'Fuerza: día medio',
+      'Intervals A': 'Intervalos A',
+      'Intervals B': 'Intervalos B',
+      'Upper power': 'Superior – fuerza',
+      'Lower power': 'Inferior – fuerza',
+      'Upper hypertrophy': 'Superior – volumen',
+      'Lower hypertrophy': 'Inferior – volumen',
+      'Strength: squat': 'Fuerza: sentadilla',
+      'Strength: bench': 'Fuerza: press de banca',
+      'Strength: deadlift': 'Fuerza: peso muerto',
+      'Strength: overhead press': 'Fuerza: press militar',
     },
   ),
   'fr': (
@@ -2702,6 +2810,16 @@ const seedTranslations = <String, SeedTranslation>{
       'dumbbell_home': 'Haltères à la maison',
       'strength_5x5': 'Force 5×5',
       'circuit': 'Circuit training (endurance)',
+      'full_body_variation': 'Full body – variante',
+      'bodyweight_home': 'Poids du corps à la maison',
+      'machines': 'Machines (débutant)',
+      'upper_lower_variation': 'Haut / Bas – variante',
+      'ppl_variation': 'Push / Pull / Legs – variante',
+      'strength_dup': 'Force – vagues hebdomadaires',
+      'conditioning_intervals': 'Condition physique – intervalles',
+      'phul': 'Force + volume (PHUL)',
+      'strength_advanced': 'Force – 4 jours (avancé)',
+      'ppl_6x': 'Push / Pull / Legs 6× par semaine',
     },
     programDescriptions: {
       'full_body':
@@ -2717,6 +2835,26 @@ const seedTranslations = <String, SeedTranslation>{
         '3× par semaine, en alternant A et B : 5 séries de 5 sur les gros exercices. Quand tu réussis toutes les séries de 5, la charge augmente.',
       'circuit':
         '3× par semaine, en alternant A et B : exercices en circuit enchaînés, pauses courtes, beaucoup de répétitions. Pour l’endurance et la forme.',
+      'full_body_variation':
+        '3× par semaine, en alternant C et D. Même structure que Full body (débutant) avec d’autres exercices – à alterner toutes les 6 à 8 semaines.',
+      'bodyweight_home':
+        '3× par semaine, en alternant A et B, sans matériel – juste un tapis (et une table solide pour les tirages). Pour débuter ou en voyage.',
+      'machines':
+        '3× par semaine, en alternant A et B, sur les machines de la salle : faciles à apprendre, sûres même sans partenaire. Une bonne première étape avant les poids libres.',
+      'upper_lower_variation':
+        '4× par semaine comme Haut / Bas, avec d’autres exercices (développé incliné, squat avant, hip thrust). À alterner toutes les 6 à 8 semaines.',
+      'ppl_variation':
+        '3× par semaine comme Push / Pull / Legs, avec d’autres exercices (développé militaire en premier, rowing barre, hack squat). À alterner toutes les 6 à 8 semaines.',
+      'strength_dup':
+        '3× par semaine : jour lourd (séries de 3), jour de volume (6 à 8 répétitions) et jour moyen (séries de 5). Varier la charge dans la semaine fait progresser la force même après la première année.',
+      'conditioning_intervals':
+        '3× par semaine, en alternant A et B : un exercice de force et un exercice cardio enchaînés, puis un bloc de cardio continu pour finir. Pour la forme, l’endurance et la perte de gras.',
+      'phul':
+        '4× par semaine : jours lourds haut et bas du corps pour la force (lun., mar.), jours avec plus de répétitions pour le muscle (jeu., ven.). Environ 12 à 16 séries par muscle et par semaine.',
+      'strength_advanced':
+        '4× par semaine, un grand mouvement par jour (squat, développé couché, soulevé de terre, développé militaire) : séries lourdes de 3, une variante proche et des exercices d’assistance pour les points faibles.',
+      'ppl_6x':
+        'Lun.–sam. : Push, Pull, Legs, puis Push B, Pull B, Jambes B. Chaque muscle 2× par semaine avec un gros volume – pour les pratiquants expérimentés qui récupèrent bien.',
     },
     planNames: {
       'Full body A': 'Full body A',
@@ -2734,6 +2872,30 @@ const seedTranslations = <String, SeedTranslation>{
       '5×5 B': '5×5 B',
       'Circuit A': 'Circuit A',
       'Circuit B': 'Circuit B',
+      'Full body C': 'Full body C',
+      'Full body D': 'Full body D',
+      'Bodyweight A': 'Poids du corps A',
+      'Bodyweight B': 'Poids du corps B',
+      'Machines A': 'Machines A',
+      'Machines B': 'Machines B',
+      'Upper body B': 'Haut du corps B',
+      'Lower body B': 'Bas du corps B',
+      'Push B': 'Push B',
+      'Pull B': 'Pull B',
+      'Legs B': 'Jambes B',
+      'Strength: heavy day': 'Force : jour lourd',
+      'Strength: volume day': 'Force : jour de volume',
+      'Strength: medium day': 'Force : jour moyen',
+      'Intervals A': 'Intervalles A',
+      'Intervals B': 'Intervalles B',
+      'Upper power': 'Haut – force',
+      'Lower power': 'Bas – force',
+      'Upper hypertrophy': 'Haut – volume',
+      'Lower hypertrophy': 'Bas – volume',
+      'Strength: squat': 'Force : squat',
+      'Strength: bench': 'Force : développé couché',
+      'Strength: deadlift': 'Force : soulevé de terre',
+      'Strength: overhead press': 'Force : développé militaire',
     },
   ),
   'pl': (
@@ -3610,6 +3772,16 @@ const seedTranslations = <String, SeedTranslation>{
       'dumbbell_home': 'Hantle w domu',
       'strength_5x5': 'Siła 5×5',
       'circuit': 'Trening obwodowy (wytrzymałość)',
+      'full_body_variation': 'Full body – wariant',
+      'bodyweight_home': 'Masa ciała w domu',
+      'machines': 'Maszyny (dla początkujących)',
+      'upper_lower_variation': 'Góra / Dół – wariant',
+      'ppl_variation': 'Push / Pull / Legs – wariant',
+      'strength_dup': 'Siła – fale tygodniowe',
+      'conditioning_intervals': 'Kondycja – interwały',
+      'phul': 'Siła + masa (PHUL)',
+      'strength_advanced': 'Siła – 4 dni (zaawansowani)',
+      'ppl_6x': 'Push / Pull / Legs 6× w tygodniu',
     },
     programDescriptions: {
       'full_body':
@@ -3625,6 +3797,26 @@ const seedTranslations = <String, SeedTranslation>{
         '3× w tygodniu, na zmianę A i B: 5 serii po 5 w dużych ćwiczeniach. Gdy zrobisz wszystkie serie po 5, ciężar rośnie.',
       'circuit':
         '3× w tygodniu, na zmianę A i B: ćwiczenia w obwodzie jedno po drugim, krótkie przerwy, dużo powtórzeń. Na wytrzymałość i kondycję.',
+      'full_body_variation':
+        '3× w tygodniu, na zmianę C i D. Ta sama budowa co Full body (dla początkujących), inne ćwiczenia – zmieniaj co 6–8 tygodni.',
+      'bodyweight_home':
+        '3× w tygodniu, na zmianę A i B, bez sprzętu – wystarczy mata (i solidny stół do podciągania australijskiego). Na start i w podróży.',
+      'machines':
+        '3× w tygodniu, na zmianę A i B, na maszynach na siłowni: łatwe do nauczenia, bezpieczne nawet bez asekuracji. Dobry pierwszy krok przed wolnymi ciężarami.',
+      'upper_lower_variation':
+        '4× w tygodniu jak Góra / Dół, z innymi ćwiczeniami (wyciskanie na skosie, przysiad przedni, hip thrust). Zmieniaj co 6–8 tygodni.',
+      'ppl_variation':
+        '3× w tygodniu jak Push / Pull / Legs, z innymi ćwiczeniami (najpierw wyciskanie nad głowę, wiosłowanie sztangą, hack przysiad). Zmieniaj co 6–8 tygodni.',
+      'strength_dup':
+        '3× w tygodniu: dzień ciężki (serie po 3), dzień objętościowy (6–8 powtórzeń) i dzień średni (serie po 5). Zmienne obciążenie w tygodniu pozwala rosnąć sile także po pierwszym roku.',
+      'conditioning_intervals':
+        '3× w tygodniu, na zmianę A i B: pary ćwiczenia siłowego i cardio jedno po drugim, na koniec ciągłe cardio. Na kondycję, wytrzymałość i redukcję tkanki tłuszczowej.',
+      'phul':
+        '4× w tygodniu: ciężkie dni góry i dołu ciała na siłę (pon., wt.), dni z większą liczbą powtórzeń na mięśnie (czw., pt.). Około 12–16 serii na partię tygodniowo.',
+      'strength_advanced':
+        '4× w tygodniu, każdego dnia jeden duży bój (przysiad, wyciskanie leżąc, martwy ciąg, wyciskanie nad głowę): ciężkie serie po 3, pokrewny wariant i ćwiczenia na słabe punkty.',
+      'ppl_6x':
+        'Pon.–sob.: Push, Pull, Nogi, potem Push B, Pull B, Nogi B. Każda partia 2× w tygodniu z dużą objętością – dla doświadczonych z dobrą regeneracją.',
     },
     planNames: {
       'Full body A': 'Full body A',
@@ -3642,6 +3834,30 @@ const seedTranslations = <String, SeedTranslation>{
       '5×5 B': '5×5 B',
       'Circuit A': 'Obwód A',
       'Circuit B': 'Obwód B',
+      'Full body C': 'Full body C',
+      'Full body D': 'Full body D',
+      'Bodyweight A': 'Masa ciała A',
+      'Bodyweight B': 'Masa ciała B',
+      'Machines A': 'Maszyny A',
+      'Machines B': 'Maszyny B',
+      'Upper body B': 'Góra ciała B',
+      'Lower body B': 'Dół ciała B',
+      'Push B': 'Push B',
+      'Pull B': 'Pull B',
+      'Legs B': 'Nogi B',
+      'Strength: heavy day': 'Siła: dzień ciężki',
+      'Strength: volume day': 'Siła: dzień objętościowy',
+      'Strength: medium day': 'Siła: dzień średni',
+      'Intervals A': 'Interwały A',
+      'Intervals B': 'Interwały B',
+      'Upper power': 'Góra – siła',
+      'Lower power': 'Dół – siła',
+      'Upper hypertrophy': 'Góra – masa',
+      'Lower hypertrophy': 'Dół – masa',
+      'Strength: squat': 'Siła: przysiad',
+      'Strength: bench': 'Siła: wyciskanie leżąc',
+      'Strength: deadlift': 'Siła: martwy ciąg',
+      'Strength: overhead press': 'Siła: wyciskanie nad głowę',
     },
   ),
   'pt': (
@@ -4518,6 +4734,16 @@ const seedTranslations = <String, SeedTranslation>{
       'dumbbell_home': 'Halteres em casa',
       'strength_5x5': 'Força 5×5',
       'circuit': 'Treino em circuito (resistência)',
+      'full_body_variation': 'Full body – variação',
+      'bodyweight_home': 'Peso corporal em casa',
+      'machines': 'Máquinas (iniciante)',
+      'upper_lower_variation': 'Superior / Inferior – variação',
+      'ppl_variation': 'Push / Pull / Legs – variação',
+      'strength_dup': 'Força – ondas semanais',
+      'conditioning_intervals': 'Condicionamento – intervalos',
+      'phul': 'Força + volume (PHUL)',
+      'strength_advanced': 'Força – 4 dias (avançado)',
+      'ppl_6x': 'Push / Pull / Legs 6× por semana',
     },
     programDescriptions: {
       'full_body':
@@ -4533,6 +4759,26 @@ const seedTranslations = <String, SeedTranslation>{
         '3× por semana, alternando A e B: 5 séries de 5 nos exercícios grandes. Quando você completa todas as séries de 5, a carga sobe.',
       'circuit':
         '3× por semana, alternando A e B: exercícios em circuito um após o outro, descansos curtos, muitas repetições. Para resistência e condicionamento.',
+      'full_body_variation':
+        '3× por semana, alternando C e D. A mesma estrutura do Full body (iniciante) com outros exercícios – troque a cada 6–8 semanas.',
+      'bodyweight_home':
+        '3× por semana, alternando A e B, sem equipamento – só um tapete (e uma mesa firme para as remadas). Para começar e para viagens.',
+      'machines':
+        '3× por semana, alternando A e B, nas máquinas da academia: fáceis de aprender e seguras mesmo sem parceiro. Um bom primeiro passo antes dos pesos livres.',
+      'upper_lower_variation':
+        '4× por semana como Superior / Inferior, com outros exercícios (supino inclinado, agachamento frontal, hip thrust). Troque a cada 6–8 semanas.',
+      'ppl_variation':
+        '3× por semana como Push / Pull / Legs, com outros exercícios (primeiro desenvolvimento, remada curvada, agachamento hack). Troque a cada 6–8 semanas.',
+      'strength_dup':
+        '3× por semana: dia pesado (séries de 3), dia de volume (6–8 repetições) e dia médio (séries de 5). Variar a carga dentro da semana mantém a força a crescer mesmo depois do primeiro ano.',
+      'conditioning_intervals':
+        '3× por semana, alternando A e B: pares de um exercício de força e um de cardio seguidos, e no fim um bloco de cardio contínuo. Para condicionamento, resistência e perda de gordura.',
+      'phul':
+        '4× por semana: dias pesados de superiores e inferiores para força (seg, ter) e dias com mais repetições para músculo (qui, sex). Cerca de 12–16 séries por músculo por semana.',
+      'strength_advanced':
+        '4× por semana, um exercício principal por dia (agachamento, supino, levantamento terra, desenvolvimento): séries pesadas de 3, uma variação relacionada e acessórios para os pontos fracos.',
+      'ppl_6x':
+        'Seg–sáb: Push, Pull, Legs, depois Push B, Pull B, Legs B. Cada músculo 2× por semana com volume alto – para quem tem experiência e boa recuperação.',
     },
     planNames: {
       'Full body A': 'Full body A',
@@ -4550,6 +4796,30 @@ const seedTranslations = <String, SeedTranslation>{
       '5×5 B': '5×5 B',
       'Circuit A': 'Circuito A',
       'Circuit B': 'Circuito B',
+      'Full body C': 'Full body C',
+      'Full body D': 'Full body D',
+      'Bodyweight A': 'Peso corporal A',
+      'Bodyweight B': 'Peso corporal B',
+      'Machines A': 'Máquinas A',
+      'Machines B': 'Máquinas B',
+      'Upper body B': 'Superiores B',
+      'Lower body B': 'Inferiores B',
+      'Push B': 'Push B',
+      'Pull B': 'Pull B',
+      'Legs B': 'Legs B',
+      'Strength: heavy day': 'Força: dia pesado',
+      'Strength: volume day': 'Força: dia de volume',
+      'Strength: medium day': 'Força: dia médio',
+      'Intervals A': 'Intervalos A',
+      'Intervals B': 'Intervalos B',
+      'Upper power': 'Superiores – força',
+      'Lower power': 'Inferiores – força',
+      'Upper hypertrophy': 'Superiores – volume',
+      'Lower hypertrophy': 'Inferiores – volume',
+      'Strength: squat': 'Força: agachamento',
+      'Strength: bench': 'Força: supino',
+      'Strength: deadlift': 'Força: levantamento terra',
+      'Strength: overhead press': 'Força: desenvolvimento',
     },
   ),
   'it': (
@@ -5426,6 +5696,16 @@ const seedTranslations = <String, SeedTranslation>{
       'dumbbell_home': 'Manubri a casa',
       'strength_5x5': 'Forza 5×5',
       'circuit': 'Circuito (resistenza)',
+      'full_body_variation': 'Total body – variante',
+      'bodyweight_home': 'Corpo libero a casa',
+      'machines': 'Macchine (principianti)',
+      'upper_lower_variation': 'Upper / Lower – variante',
+      'ppl_variation': 'Push / Pull / Legs – variante',
+      'strength_dup': 'Forza – onde settimanali',
+      'conditioning_intervals': 'Condizionamento – intervalli',
+      'phul': 'Forza + volume (PHUL)',
+      'strength_advanced': 'Forza – 4 giorni (avanzati)',
+      'ppl_6x': 'Push / Pull / Legs 6 volte a settimana',
     },
     programDescriptions: {
       'full_body':
@@ -5441,6 +5721,26 @@ const seedTranslations = <String, SeedTranslation>{
         '3 volte a settimana, alternando A e B: 5 serie da 5 negli esercizi principali. Quando completi tutte le serie da 5, il peso sale.',
       'circuit':
         '3 volte a settimana, alternando A e B: esercizi in circuito uno dopo l’altro, recuperi brevi, tante ripetizioni. Per resistenza e forma fisica.',
+      'full_body_variation':
+        '3 volte a settimana, alternando C e D. Stessa struttura di Total body (principianti) con esercizi diversi – cambia ogni 6–8 settimane.',
+      'bodyweight_home':
+        '3 volte a settimana, alternando A e B, senza attrezzi – basta un tappetino (e un tavolo robusto per le trazioni). Per iniziare e in viaggio.',
+      'machines':
+        '3 volte a settimana, alternando A e B, sulle macchine della palestra: facili da imparare, sicure anche senza assistenza. Un buon primo passo prima dei pesi liberi.',
+      'upper_lower_variation':
+        '4 volte a settimana come Upper / Lower, con esercizi diversi (panca inclinata, front squat, hip thrust). Cambia ogni 6–8 settimane.',
+      'ppl_variation':
+        '3 volte a settimana come Push / Pull / Legs, con esercizi diversi (prima la military press, rematore con bilanciere, hack squat). Cambia ogni 6–8 settimane.',
+      'strength_dup':
+        '3 volte a settimana: giorno pesante (serie da 3), giorno di volume (6–8 ripetizioni) e giorno medio (serie da 5). Variare il carico nella settimana fa crescere la forza anche dopo il primo anno.',
+      'conditioning_intervals':
+        '3 volte a settimana, alternando A e B: coppie di un esercizio di forza e uno cardio uno dopo l’altro, alla fine un blocco di cardio continuo. Per forma fisica, resistenza e dimagrimento.',
+      'phul':
+        '4 volte a settimana: giorni pesanti per parte superiore e inferiore per la forza (lun, mar), giorni con più ripetizioni per i muscoli (gio, ven). Circa 12–16 serie per muscolo a settimana.',
+      'strength_advanced':
+        '4 volte a settimana, un grande esercizio al giorno (squat, panca piana, stacco da terra, military press): serie pesanti da 3, una variante affine e complementari per i punti deboli.',
+      'ppl_6x':
+        'Lun–sab: Push, Pull, Gambe, poi Push B, Pull B, Gambe B. Ogni muscolo 2 volte a settimana con volume alto – per chi ha esperienza e recupera bene.',
     },
     planNames: {
       'Full body A': 'Total body A',
@@ -5458,6 +5758,30 @@ const seedTranslations = <String, SeedTranslation>{
       '5×5 B': '5×5 B',
       'Circuit A': 'Circuito A',
       'Circuit B': 'Circuito B',
+      'Full body C': 'Total body C',
+      'Full body D': 'Total body D',
+      'Bodyweight A': 'Corpo libero A',
+      'Bodyweight B': 'Corpo libero B',
+      'Machines A': 'Macchine A',
+      'Machines B': 'Macchine B',
+      'Upper body B': 'Parte superiore B',
+      'Lower body B': 'Parte inferiore B',
+      'Push B': 'Push B',
+      'Pull B': 'Pull B',
+      'Legs B': 'Gambe B',
+      'Strength: heavy day': 'Forza: giorno pesante',
+      'Strength: volume day': 'Forza: giorno di volume',
+      'Strength: medium day': 'Forza: giorno medio',
+      'Intervals A': 'Intervalli A',
+      'Intervals B': 'Intervalli B',
+      'Upper power': 'Superiore – forza',
+      'Lower power': 'Inferiore – forza',
+      'Upper hypertrophy': 'Superiore – volume',
+      'Lower hypertrophy': 'Inferiore – volume',
+      'Strength: squat': 'Forza: squat',
+      'Strength: bench': 'Forza: panca piana',
+      'Strength: deadlift': 'Forza: stacco da terra',
+      'Strength: overhead press': 'Forza: military press',
     },
   ),
   'sk': (
@@ -6334,6 +6658,16 @@ const seedTranslations = <String, SeedTranslation>{
       'dumbbell_home': 'Jednoručky doma',
       'strength_5x5': 'Sila 5×5',
       'circuit': 'Kruhový tréning (výdrž)',
+      'full_body_variation': 'Celé telo – obmena',
+      'bodyweight_home': 'Vlastná váha doma',
+      'machines': 'Stroje (začiatočník)',
+      'upper_lower_variation': 'Horná / dolná – obmena',
+      'ppl_variation': 'Push / Pull / Nohy – obmena',
+      'strength_dup': 'Sila – týždenné vlny',
+      'conditioning_intervals': 'Kondícia – intervaly',
+      'phul': 'Sila + objem (PHUL)',
+      'strength_advanced': 'Sila – 4 dni (pokročilý)',
+      'ppl_6x': 'Push / Pull / Nohy 6× týždenne',
     },
     programDescriptions: {
       'full_body':
@@ -6348,6 +6682,26 @@ const seedTranslations = <String, SeedTranslation>{
         '3× týždenne, striedanie A a B: 5 sérií po 5 pri veľkých cvikoch. Keď dáš všetky série po 5, váha ide hore.',
       'circuit':
         '3× týždenne, striedanie A a B: cviky v kruhu za sebou, krátke pauzy, veľa opakovaní. Na výdrž a kondíciu.',
+      'full_body_variation':
+        '3× týždenne, striedanie C a D. Rovnaká stavba ako Celé telo (začiatočník), iné cviky – striedaj po 6–8 týždňoch.',
+      'bodyweight_home':
+        '3× týždenne, striedanie A a B, bez vybavenia – stačí podložka (a pevný stôl na príťahy). Na začiatok aj na cesty.',
+      'machines':
+        '3× týždenne, striedanie A a B, na strojoch v posilňovni: ľahko sa naučíš, bezpečné aj bez istenia. Dobrý prvý krok pred voľnými váhami.',
+      'upper_lower_variation':
+        '4× týždenne ako Horná / dolná polovica, s inými cvikmi (šikmý bench, predný drep, hip thrust). Striedaj po 6–8 týždňoch.',
+      'ppl_variation':
+        '3× týždenne ako Push / Pull / Nohy, s inými cvikmi (najprv tlaky nad hlavu, príťahy v predklone, hack drep). Striedaj po 6–8 týždňoch.',
+      'strength_dup':
+        '3× týždenne: ťažký deň (série po 3), objemový deň (6–8 opakovaní) a stredný deň (série po 5). Striedanie záťaže v týždni udrží rast sily aj po prvom roku.',
+      'conditioning_intervals':
+        '3× týždenne, striedanie A a B: dvojice silového a kardio cviku hneď po sebe, na konci súvislé kardio. Na kondíciu, výdrž a chudnutie.',
+      'phul':
+        '4× týždenne: ťažké dni hornej a dolnej polovice na silu (Po, Ut), dni s viac opakovaniami na svaly (Št, Pi). Zhruba 12–16 sérií na partiu týždenne.',
+      'strength_advanced':
+        '4× týždenne, každý deň jeden veľký cvik (drep, bench, mŕtvy ťah, tlak nad hlavu): ťažké série po 3, príbuzná varianta a doplnky na slabé miesta.',
+      'ppl_6x':
+        'Po–So: Push, Pull, Nohy, potom Push B, Pull B, Nohy B. Každá partia 2× týždenne s vysokým objemom – pre skúsených s dobrou regeneráciou.',
     },
     planNames: {
       'Full body A': 'Celé telo A',
@@ -6365,6 +6719,30 @@ const seedTranslations = <String, SeedTranslation>{
       '5×5 B': '5×5 B',
       'Circuit A': 'Kruh A',
       'Circuit B': 'Kruh B',
+      'Full body C': 'Celé telo C',
+      'Full body D': 'Celé telo D',
+      'Bodyweight A': 'Vlastná váha A',
+      'Bodyweight B': 'Vlastná váha B',
+      'Machines A': 'Stroje A',
+      'Machines B': 'Stroje B',
+      'Upper body B': 'Horná polovica B',
+      'Lower body B': 'Dolná polovica B',
+      'Push B': 'Push B (tlaky)',
+      'Pull B': 'Pull B (príťahy)',
+      'Legs B': 'Nohy B',
+      'Strength: heavy day': 'Sila: ťažký deň',
+      'Strength: volume day': 'Sila: objemový deň',
+      'Strength: medium day': 'Sila: stredný deň',
+      'Intervals A': 'Intervaly A',
+      'Intervals B': 'Intervaly B',
+      'Upper power': 'Horná – sila',
+      'Lower power': 'Dolná – sila',
+      'Upper hypertrophy': 'Horná – objem',
+      'Lower hypertrophy': 'Dolná – objem',
+      'Strength: squat': 'Sila: drep',
+      'Strength: bench': 'Sila: bench',
+      'Strength: deadlift': 'Sila: mŕtvy ťah',
+      'Strength: overhead press': 'Sila: tlak nad hlavu',
     },
   ),
   'nl': (
@@ -7241,6 +7619,16 @@ const seedTranslations = <String, SeedTranslation>{
       'dumbbell_home': 'Dumbbells thuis',
       'strength_5x5': 'Kracht 5×5',
       'circuit': 'Circuittraining (uithouding)',
+      'full_body_variation': 'Full body – variant',
+      'bodyweight_home': 'Lichaamsgewicht thuis',
+      'machines': 'Machines (beginner)',
+      'upper_lower_variation': 'Upper / Lower – variant',
+      'ppl_variation': 'Push / Pull / Legs – variant',
+      'strength_dup': 'Kracht – weekgolven',
+      'conditioning_intervals': 'Conditie – intervallen',
+      'phul': 'Kracht + volume (PHUL)',
+      'strength_advanced': 'Kracht – 4 dagen (gevorderd)',
+      'ppl_6x': 'Push / Pull / Legs 6× per week',
     },
     programDescriptions: {
       'full_body':
@@ -7255,6 +7643,26 @@ const seedTranslations = <String, SeedTranslation>{
         '3× per week, afwisselend A en B: 5 sets van 5 bij de grote oefeningen. Haal je alle sets van 5, dan gaat het gewicht omhoog.',
       'circuit':
         '3× per week, afwisselend A en B: oefeningen in een circuit achter elkaar, korte rust, veel herhalingen. Voor uithouding en conditie.',
+      'full_body_variation':
+        '3× per week, afwisselend C en D. Dezelfde opbouw als Full body (beginner) met andere oefeningen – wissel elke 6–8 weken.',
+      'bodyweight_home':
+        '3× per week, afwisselend A en B, zonder materiaal – alleen een mat (en een stevige tafel om te roeien). Om te beginnen en op reis.',
+      'machines':
+        '3× per week, afwisselend A en B, op machines in de sportschool: makkelijk te leren, veilig ook zonder spotter. Een goede eerste stap vóór vrije gewichten.',
+      'upper_lower_variation':
+        '4× per week zoals Upper / Lower, met andere oefeningen (schuine bankdruk, front squat, hip thrust). Wissel elke 6–8 weken.',
+      'ppl_variation':
+        '3× per week zoals Push / Pull / Legs, met andere oefeningen (eerst overhead press, barbell row, hack squat). Wissel elke 6–8 weken.',
+      'strength_dup':
+        '3× per week: zware dag (sets van 3), volumedag (6–8 herhalingen) en middeldag (sets van 5). Door de belasting binnen de week te variëren blijft je kracht ook na het eerste jaar groeien.',
+      'conditioning_intervals':
+        '3× per week, afwisselend A en B: telkens een kracht- en een cardio-oefening direct na elkaar, tot slot een blok doorlopende cardio. Voor conditie, uithouding en vetverlies.',
+      'phul':
+        '4× per week: zware boven- en onderlichaamdagen voor kracht (ma, di), dagen met meer herhalingen voor spiermassa (do, vr). Ongeveer 12–16 sets per spiergroep per week.',
+      'strength_advanced':
+        '4× per week, elke dag één grote oefening (squat, bankdrukken, deadlift, overhead press): zware sets van 3, een verwante variant en hulpoefeningen voor zwakke punten.',
+      'ppl_6x':
+        'Ma–za: Push, Pull, Legs, daarna Push B, Pull B, Legs B. Elke spiergroep 2× per week met veel volume – voor ervaren sporters die goed herstellen.',
     },
     planNames: {
       'Full body A': 'Full body A',
@@ -7272,6 +7680,30 @@ const seedTranslations = <String, SeedTranslation>{
       '5×5 B': '5×5 B',
       'Circuit A': 'Circuit A',
       'Circuit B': 'Circuit B',
+      'Full body C': 'Full body C',
+      'Full body D': 'Full body D',
+      'Bodyweight A': 'Lichaamsgewicht A',
+      'Bodyweight B': 'Lichaamsgewicht B',
+      'Machines A': 'Machines A',
+      'Machines B': 'Machines B',
+      'Upper body B': 'Bovenlichaam B',
+      'Lower body B': 'Onderlichaam B',
+      'Push B': 'Push B',
+      'Pull B': 'Pull B',
+      'Legs B': 'Benen B',
+      'Strength: heavy day': 'Kracht: zware dag',
+      'Strength: volume day': 'Kracht: volumedag',
+      'Strength: medium day': 'Kracht: middeldag',
+      'Intervals A': 'Intervallen A',
+      'Intervals B': 'Intervallen B',
+      'Upper power': 'Boven – kracht',
+      'Lower power': 'Onder – kracht',
+      'Upper hypertrophy': 'Boven – volume',
+      'Lower hypertrophy': 'Onder – volume',
+      'Strength: squat': 'Kracht: squat',
+      'Strength: bench': 'Kracht: bankdrukken',
+      'Strength: deadlift': 'Kracht: deadlift',
+      'Strength: overhead press': 'Kracht: overhead press',
     },
   ),
 };

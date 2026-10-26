@@ -54,6 +54,19 @@ extension LabelsX on AppLocalizations {
         TrainingFocus.conditioning => goalEnduranceHint,
       };
 
+  String experienceLevel(ExperienceLevel l) => switch (l) {
+        ExperienceLevel.beginner => levelBeginner,
+        ExperienceLevel.intermediate => levelIntermediate,
+        ExperienceLevel.advanced => levelAdvanced,
+      };
+
+  /// Kdo do úrovně patří (úvod, profil).
+  String experienceLevelHint(ExperienceLevel l) => switch (l) {
+        ExperienceLevel.beginner => levelBeginnerHint,
+        ExperienceLevel.intermediate => levelIntermediateHint,
+        ExperienceLevel.advanced => levelAdvancedHint,
+      };
+
   /// Pohlaví z profilu; null = neuvedeno.
   String sex(Sex? s) => switch (s) {
         Sex.male => sexMale,

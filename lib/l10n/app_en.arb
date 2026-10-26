@@ -3656,5 +3656,150 @@
   "wearTileRest": "Rest day today",
   "wearTileOpen": "Open",
   "wearTileStale": "Open GymBar on your phone",
-  "wearHelpIos": "Log sets from your Apple Watch: the GymBar watch app installs with the phone app (Watch app → GymBar). Open it during a workout – it also shows your heart rate. Keep the workout open on your phone."
+  "wearHelpIos": "Log sets from your Apple Watch: the GymBar watch app installs with the phone app (Watch app → GymBar). Open it during a workout – it also shows your heart rate. Keep the workout open on your phone.",
+  "levelTitle": "Experience level",
+  "levelBeginner": "Beginner",
+  "levelIntermediate": "Intermediate",
+  "levelAdvanced": "Advanced",
+  "levelBeginnerHint": "Starting out, training regularly for less than 6 months, or back after a long break",
+  "levelIntermediateHint": "Training regularly for 6 months to 2 years, I know the basic lifts",
+  "levelAdvancedHint": "Training consistently for 2+ years, solid technique on the big lifts",
+  "onboardingLevelTitle": "How experienced are you?",
+  "onboardingLevelHint": "Your level decides which programs we recommend and how many sets they have. As you train, the app will suggest moving up.",
+  "levelDialogHint": "Programs added from now on adjust the number of sets. The app suggests a change based on your workouts.",
+  "levelProgress": "Next level ({level}): {workouts} of {workoutsNeeded} workouts, {weeks} of {weeksNeeded} weeks",
+  "@levelProgress": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      },
+      "workouts": {
+        "type": "int"
+      },
+      "workoutsNeeded": {
+        "type": "int"
+      },
+      "weeks": {
+        "type": "int"
+      },
+      "weeksNeeded": {
+        "type": "int"
+      }
+    }
+  },
+  "levelSuggestUpTitle": "Ready for the next level?",
+  "levelSuggestUpBody": "You’ve been training regularly for {weeks} weeks ({workouts} workouts). Move up to {level}? Programs will get more sets and you’ll unlock programs for your new level.",
+  "@levelSuggestUpBody": {
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      },
+      "workouts": {
+        "type": "int"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "levelSuggestDownTitle": "Welcome back",
+  "levelSuggestDownBody": "You haven’t trained for over {weeks} weeks. Strength and fitness drop after a long break – restart at {level} with fewer sets and work your way back up.",
+  "@levelSuggestDownBody": {
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "levelSuggestAccept": "Switch to {level}",
+  "@levelSuggestAccept": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "levelSuggestLater": "Not now",
+  "levelChanged": "Level: {level}. Matching programs are in Plans → Programs.",
+  "@levelChanged": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "templatesForYou": "Recommended for you ({level})",
+  "@templatesForYou": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "templatesLevelSection": "Level: {level}",
+  "@templatesLevelSection": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "templateVariationOf": "Variation of {program}",
+  "@templateVariationOf": {
+    "placeholders": {
+      "program": {
+        "type": "String"
+      }
+    }
+  },
+  "templateLevelAdjusted": "Sets adjusted to your level ({level})",
+  "@templateLevelAdjusted": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "onboardingPlanMore": "Programs for other levels are in Plans → Programs.",
+  "onboardingScheduleTitle": "How often and for how long?",
+  "onboardingScheduleHint": "We’ll recommend programs that fit your week and shorten the workouts to your time.",
+  "scheduleDaysTitle": "Workouts per week",
+  "scheduleDaysHint": "2–3× is plenty to start; 4–6× suits split programs.",
+  "scheduleMinutesTitle": "Workout length",
+  "scheduleTitle": "Training schedule",
+  "scheduleSummary": "{days}× per week · {minutes} min",
+  "@scheduleSummary": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleDialogHint": "Programs added from now on are recommended and shortened to fit.",
+  "programFitInfo": "{days}× per week · ~{minutes} min",
+  "@programFitInfo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "programFitShortened": "Workouts shortened to {minutes} min",
+  "@programFitShortened": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "programBestFit": "Best fit for you"
 }
