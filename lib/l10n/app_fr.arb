@@ -1265,5 +1265,6 @@
   "progressionHoldReadiness": "Reste pareil – la séance était plus légère à cause d’une récupération faible.",
   "wearTileRest": "Repos aujourd’hui",
   "wearTileOpen": "Ouvrir",
-  "wearTileStale": "Ouvre GymBar sur ton téléphone"
+  "wearTileStale": "Ouvre GymBar sur ton téléphone",
+  "wearHelpIos": "Note tes séries depuis l’Apple Watch : l’app GymBar pour la montre s’installe avec celle du téléphone (app Watch → GymBar). Ouvre-la pendant la séance – elle affiche aussi ton pouls. Garde la séance ouverte sur le téléphone."
 }

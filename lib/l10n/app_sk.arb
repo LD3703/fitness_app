@@ -1265,5 +1265,6 @@
   "progressionHoldReadiness": "Zostáva rovnaké – tréning bol ľahší kvôli regenerácii.",
   "wearTileRest": "Dnes voľno",
   "wearTileOpen": "Otvoriť",
-  "wearTileStale": "Otvor GymBar v telefóne"
+  "wearTileStale": "Otvor GymBar v telefóne",
+  "wearHelpIos": "Série zapisuj z Apple Watch: aplikácia GymBar sa do hodiniek nainštaluje spolu s aplikáciou v telefóne (aplikácia Watch → GymBar). Počas tréningu ju otvor – hodinky ukazujú aj tep. Tréning nechaj otvorený v telefóne."
 }

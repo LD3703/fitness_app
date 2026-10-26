@@ -36,9 +36,14 @@ import '../../services/live_heart_rate.dart';
 import '../../services/sync_controller.dart' show deviceLocalizations;
 import 'wear_protocol.dart';
 
-/// Hodinky s Wear OS jen na Androidu (Apple Watch zatím ne).
+/// Hodinky: Wear OS na Androidu, Apple Watch na iOS (ios/GymBarWatch,
+/// docs/apple_watch.md – stejný protokol přes WCSession).
 bool get wearSupported =>
-    !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+    !kIsWeb &&
+    (defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS);
+
+bool get _isAndroid => defaultTargetPlatform == TargetPlatform.android;
 
 /// Jak dlouho po poslední zprávě z hodinek je aplikace v hodinkách
 /// považovaná za otevřenou (hodinky se ozývají každých 15 s).
@@ -342,7 +347,8 @@ class WearBridge {
 /// Háček synchronizace (module_hub: wear:sync): dnešní plány pro dlaždici
 /// v hodinkách. Texty v jazyce telefonu.
 Future<void> wearTodaySync(Ref ref, UserProfile profile) async {
-  if (!wearSupported) return;
+  // Dlaždice je jen na Wear OS.
+  if (!wearSupported || !_isAndroid) return;
   final bridge = ref.read(wearBridgeProvider);
   if (!bridge.isRunning) return;
   final db = ref.read(databaseProvider);

@@ -1265,5 +1265,6 @@
   "progressionHoldReadiness": "Bleibt gleich – das Training war wegen schwacher Erholung leichter.",
   "wearTileRest": "Heute frei",
   "wearTileOpen": "Öffnen",
-  "wearTileStale": "Öffne GymBar auf dem Handy"
+  "wearTileStale": "Öffne GymBar auf dem Handy",
+  "wearHelpIos": "Trag Sätze auf der Apple Watch ein: Die GymBar-App für die Uhr wird mit der Handy-App installiert (Watch-App → GymBar). Öffne sie während des Trainings – sie zeigt auch deinen Puls. Lass das Training auf dem Handy geöffnet."
 }

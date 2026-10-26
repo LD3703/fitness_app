@@ -3655,5 +3655,6 @@
   "progressionHoldReadiness": "Stays the same – the workout was lighter because of low recovery.",
   "wearTileRest": "Rest day today",
   "wearTileOpen": "Open",
-  "wearTileStale": "Open GymBar on your phone"
+  "wearTileStale": "Open GymBar on your phone",
+  "wearHelpIos": "Log sets from your Apple Watch: the GymBar watch app installs with the phone app (Watch app → GymBar). Open it during a workout – it also shows your heart rate. Keep the workout open on your phone."
 }

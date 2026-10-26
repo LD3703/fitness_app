@@ -163,7 +163,18 @@ Verze 2 a 3 (moduly v `lib/modules/`):
   a posílá plány, které se klientovi samy uloží; plán jde sdílet i odkazem
   (`docs/coach.md`).
 - **Hodinky Wear OS:** aplikace pro hodinky ve složce `wear/` – zápis
-  sérií, úprava váhy a opakování, pauza (`docs/wear_os.md`).
+  sérií, úprava váhy a opakování, pauza, tep během tréninku a dlaždice
+  „Dnes“ s dnešním plánem (`docs/wear_os.md`).
+- **Apple Watch:** aplikace pro hodinky (`ios/GymBarWatch`, SwiftUI) se
+  stejnými funkcemi a tepem; zapne se po registraci App ID v Apple
+  Developer účtu (`docs/apple_watch.md`).
+- **Regenerace z hodinek a prstenů:** z Health Connect / Apple Zdraví čte
+  spánek, HRV a klidový tep (Galaxy Watch, Apple Watch, Garmin, Oura,
+  Galaxy Ring…), porovná je s vlastním normálem za 60 dní a na Dnes ukáže
+  připravenost s doporučením; při slabší regeneraci nabídne lehčí trénink
+  (o třetinu méně sérií, váhy −10 %, progrese drží) nebo Plán B. Tep
+  během tréninku v souhrnu (průměr, maximum, zóny, energie) –
+  `docs/readiness.md`.
 - **Premium:** připravené, ale vypnuté (`kPremiumLaunched = false`) –
   kapitola 5a. Automatická progrese, automatická záloha do cloudu
   a hodinky budou po spuštění součástí Premium; obnovení existující

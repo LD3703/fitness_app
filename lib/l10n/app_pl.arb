@@ -1265,5 +1265,6 @@
   "progressionHoldReadiness": "Bez zmian – trening był lżejszy z powodu słabej regeneracji.",
   "wearTileRest": "Dziś wolne",
   "wearTileOpen": "Otwórz",
-  "wearTileStale": "Otwórz GymBar w telefonie"
+  "wearTileStale": "Otwórz GymBar w telefonie",
+  "wearHelpIos": "Zapisuj serie z Apple Watch: aplikacja GymBar na zegarek instaluje się razem z aplikacją w telefonie (aplikacja Watch → GymBar). Otwórz ją podczas treningu – pokazuje też tętno. Trening zostaw otwarty w telefonie."
 }

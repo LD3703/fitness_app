@@ -2,8 +2,7 @@
 
 Zápis sérií z hodinek během tréninku: na hodinkách je vidět cvik, „Série 2 z 4“,
 váha a opakování s tlačítky +/−, velké tlačítko **Hotovo**, odpočet pauzy
-(na konci zavibruje) a seznam cviků. Apple Watch zatím ne (bez Macu nejde
-sestavit).
+(na konci zavibruje), seznam cviků a tep. Apple Watch: `docs/apple_watch.md`.
 
 ## 1. Jak to funguje
 

@@ -1265,5 +1265,6 @@
   "progressionHoldReadiness": "Fica igual – o treino foi mais leve por causa da recuperação baixa.",
   "wearTileRest": "Hoje é descanso",
   "wearTileOpen": "Abrir",
-  "wearTileStale": "Abra o GymBar no celular"
+  "wearTileStale": "Abra o GymBar no celular",
+  "wearHelpIos": "Registre as séries no Apple Watch: o app GymBar do relógio é instalado junto com o do celular (app Watch → GymBar). Abra durante o treino – ele também mostra sua frequência cardíaca. Deixe o treino aberto no celular."
 }

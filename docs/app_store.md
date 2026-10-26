@@ -18,6 +18,7 @@ zkontroluj developer.apple.com/news (Upcoming requirements).
 | Texty obchodu v 16 lokalizacích | `docs/store/app_store/` |
 | Build a nahrání do TestFlightu | `codemagic.yaml`, workflow `ios-testflight` |
 | Widget „Dnes“ a Live Activity pauzy – připravené, zapnou se po registraci App Group | `docs/ios_widget.md` |
+| Aplikace pro Apple Watch – připravená, zapne se po registraci App ID `…watchkitapp` | `docs/apple_watch.md` |
 
 Po každé nové verzi projektu spusť `dart run tool/setup_platforms.dart`
 a změněné soubory v `ios/` commitni (Codemagic je bere z gitu).

@@ -1265,5 +1265,6 @@
   "progressionHoldReadiness": "Blijft gelijk – de training was lichter door zwak herstel.",
   "wearTileRest": "Vandaag rustdag",
   "wearTileOpen": "Openen",
-  "wearTileStale": "Open GymBar op je telefoon"
+  "wearTileStale": "Open GymBar op je telefoon",
+  "wearHelpIos": "Noteer sets op je Apple Watch: de GymBar-app voor het horloge wordt met de telefoon-app geïnstalleerd (Watch-app → GymBar). Open hem tijdens de training – hij toont ook je hartslag. Laat de training open op je telefoon."
 }

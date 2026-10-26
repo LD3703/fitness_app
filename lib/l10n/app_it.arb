@@ -1265,5 +1265,6 @@
   "progressionHoldReadiness": "Resta uguale: l’allenamento è stato più leggero per il recupero scarso.",
   "wearTileRest": "Oggi riposo",
   "wearTileOpen": "Apri",
-  "wearTileStale": "Apri GymBar sul telefono"
+  "wearTileStale": "Apri GymBar sul telefono",
+  "wearHelpIos": "Registra le serie dall’Apple Watch: l’app GymBar per l’orologio si installa con quella del telefono (app Watch → GymBar). Aprila durante l’allenamento: mostra anche il battito. Tieni l’allenamento aperto sul telefono."
 }
