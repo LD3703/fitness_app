@@ -3763,5 +3763,43 @@
       }
     }
   },
-  "onboardingPlanMore": "Programs for other levels are in Plans → Programs."
+  "onboardingPlanMore": "Programs for other levels are in Plans → Programs.",
+  "onboardingScheduleTitle": "How often and for how long?",
+  "onboardingScheduleHint": "We’ll recommend programs that fit your week and shorten the workouts to your time.",
+  "scheduleDaysTitle": "Workouts per week",
+  "scheduleDaysHint": "2–3× is plenty to start; 4–6× suits split programs.",
+  "scheduleMinutesTitle": "Workout length",
+  "scheduleTitle": "Training schedule",
+  "scheduleSummary": "{days}× per week · {minutes} min",
+  "@scheduleSummary": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleDialogHint": "Programs added from now on are recommended and shortened to fit.",
+  "programFitInfo": "{days}× per week · ~{minutes} min",
+  "@programFitInfo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "programFitShortened": "Workouts shortened to {minutes} min",
+  "@programFitShortened": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "programBestFit": "Best fit for you"
 }

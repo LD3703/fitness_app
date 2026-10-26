@@ -15,6 +15,7 @@ import '../../modules/module_hub.dart';
 import '../../providers.dart';
 import '../../services/calendar_service.dart';
 import '../../services/notification_service.dart';
+import '../../ui/training_schedule_selector.dart';
 import '../../ui/skins.dart';
 import '../../ui/brand_mark.dart';
 import '../../ui/dialogs.dart';
@@ -134,6 +135,13 @@ class ProfileScreen extends ConsumerWidget {
             },
           ),
           _ExperienceLevelTile(profile: profile),
+          ListTile(
+            leading: const Icon(Icons.event_repeat),
+            title: Text(l10n.scheduleTitle),
+            subtitle: Text(l10n.scheduleSummary(
+                profile.trainingDaysPerWeek, profile.sessionMinutes)),
+            onTap: () => _pickSchedule(context, db, profile),
+          ),
           sectionTitle(l10n.profileTrackingSection),
           ModuleSwitches(
             value: (
@@ -453,6 +461,57 @@ class ProfileScreen extends ConsumerWidget {
         );
       },
     );
+  }
+
+  /// Kolikrát týdně a jak dlouho: doporučení a zkrácení programů.
+  Future<void> _pickSchedule(
+      BuildContext context, AppDatabase db, UserProfile profile) async {
+    final l10n = AppLocalizations.of(context);
+    var days = profile.trainingDaysPerWeek;
+    var minutes = profile.sessionMinutes;
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: Text(l10n.scheduleTitle),
+          scrollable: true,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.scheduleDialogHint,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant),
+              ),
+              const SizedBox(height: 16),
+              TrainingScheduleSelector(
+                daysPerWeek: days,
+                minutes: minutes,
+                padding: EdgeInsets.zero,
+                onChanged: (d, m) => setState(() {
+                  days = d;
+                  minutes = m;
+                }),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(l10n.save),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (ok == true) {
+      await db.setTrainingSchedule(daysPerWeek: days, minutes: minutes);
+    }
   }
 
   /// Cíl tréninku (síla / svaly / výdrž): výchozí zaměření tréninků

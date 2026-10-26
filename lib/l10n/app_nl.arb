@@ -1289,5 +1289,16 @@
   "templatesLevelSection": "Niveau: {level}",
   "templateVariationOf": "Variant van {program}",
   "templateLevelAdjusted": "Aantal sets aangepast aan je niveau ({level})",
-  "onboardingPlanMore": "Programma’s voor andere niveaus vind je onder Plannen → Programma’s."
+  "onboardingPlanMore": "Programma’s voor andere niveaus vind je onder Plannen → Programma’s.",
+  "onboardingScheduleTitle": "Hoe vaak en hoe lang?",
+  "onboardingScheduleHint": "We raden programma’s aan die in je week passen en korten de trainingen in tot jouw tijd.",
+  "scheduleDaysTitle": "Trainingen per week",
+  "scheduleDaysHint": "Om te beginnen is 2–3× genoeg; 4–6× past bij split-programma’s.",
+  "scheduleMinutesTitle": "Trainingsduur",
+  "scheduleTitle": "Trainingen per week en duur",
+  "scheduleSummary": "{days}× per week · {minutes} min",
+  "scheduleDialogHint": "Programma’s die je vanaf nu toevoegt, worden hierop aanbevolen en ingekort.",
+  "programFitInfo": "{days}× per week · ~{minutes} min",
+  "programFitShortened": "Trainingen ingekort tot {minutes} min",
+  "programBestFit": "Past het best bij jou"
 }

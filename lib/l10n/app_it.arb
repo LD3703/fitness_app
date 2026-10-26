@@ -1289,5 +1289,16 @@
   "templatesLevelSection": "Livello: {level}",
   "templateVariationOf": "Variante di {program}",
   "templateLevelAdjusted": "Numero di serie adattato al tuo livello ({level})",
-  "onboardingPlanMore": "I programmi per gli altri livelli sono in Piani → Programmi."
+  "onboardingPlanMore": "I programmi per gli altri livelli sono in Piani → Programmi.",
+  "onboardingScheduleTitle": "Quanto spesso e per quanto tempo?",
+  "onboardingScheduleHint": "Ti consiglieremo programmi adatti alla tua settimana e accorceremo gli allenamenti al tuo tempo.",
+  "scheduleDaysTitle": "Allenamenti a settimana",
+  "scheduleDaysHint": "Per iniziare bastano 2–3; 4–6 sono adatti ai programmi split.",
+  "scheduleMinutesTitle": "Durata dell’allenamento",
+  "scheduleTitle": "Allenamenti a settimana e durata",
+  "scheduleSummary": "{days} volte a settimana · {minutes} min",
+  "scheduleDialogHint": "I programmi aggiunti da ora vengono consigliati e accorciati in base a questo.",
+  "programFitInfo": "{days} volte a settimana · ~{minutes} min",
+  "programFitShortened": "Allenamenti accorciati a {minutes} min",
+  "programBestFit": "Il più adatto a te"
 }

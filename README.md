@@ -86,12 +86,13 @@ Funguje:
   povzbuzující hlášky na obrazovce Dnes, během tréninku a v souhrnu.
 - **Úvodní průvodce:** při prvním spuštění krok za krokem (Další / Zpět,
   ukazatel kroků): jméno, rok narození, pohlaví, jednotky → cíl tréninku →
-  úroveň pokročilosti →
+  úroveň pokročilosti → kolikrát týdně a jak dlouho →
   co sledovat (pitný režim, váha, období a povzbuzení, kalorie; vypnuté
   funkce se skryjí) → pitný režim a váha (jen když se sledují) → motiv
   vzhledu (aplikace se hned přebarví) → tón zpráv → připomínky a kalendář
-  (s povolením) → první plán z hotového programu pro zvolenou úroveň
-  a cíl → shrnutí.
+  (s povolením) → první plán z hotového programu doporučeného podle
+  úrovně, cíle, počtu tréninků týdně a délky (delší tréninky se zkrátí)
+  → shrnutí.
   Vše je nepovinné a jde změnit v Profilu; tam je i „Průvodce nastavením“
   pro nové projití (`lib/features/onboarding/onboarding_screen.dart`).
 - **Odložení / vynechání tréninku:** z obrazovky Dnes (menu ⋮ u plánu),

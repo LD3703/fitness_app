@@ -32,6 +32,30 @@ jiné cviky. Doporučení: po 6–8 týdnech přejít na obměnu a pak zpět –
 mírná obměna cviků podporuje rovnoměrný rozvoj svalů a drží motivaci,
 příliš častá změna naopak brzdí učení techniky a sledování progrese.
 
+## Kolikrát týdně a jak dlouho
+
+V úvodu (krok „Jak často a jak dlouho?“) a v Profilu se volí počet
+tréninků týdně (2–6×) a délka tréninku (30–90 min). Kód:
+`lib/data/seed/program_fit.dart`.
+
+- **Odhad délky** tréninku: 5 min rozcvičení + u každého cviku minuta na
+  přípravu (v supersérii půl) + každá série (opakování × 3 s, cviky na čas
+  jejich sekundy) + pauza podle náročnosti cviku a zaměření
+  (`core/rest_time.dart`; v supersérii jen po posledním cviku, po
+  rozcvičkové sérii 1 min). Programy vychází zhruba na 30–70 min.
+- **Doporučení:** programy pro úroveň uživatele a k nim programy sousední
+  úrovně se stejným počtem tréninků týdně (začátečník, který chce 4×
+  týdně, dostane i Horní / dolní). Řadí se podle shody počtu dní, pak
+  podle toho, kolik by se muselo zkracovat, pevný cíl shodný s cílem
+  uživatele má přednost a obměna je až za základním programem. První
+  program se stejným počtem dní je označený „Sedí ti nejlépe“; u každého
+  je „3× týdně · ~50 min“.
+- **Zkrácení:** delší trénink se při přidání programu zkrátí na zvolenou
+  délku – nejdřív ubývají série izolovaných cviků a cviků s vlastní vahou,
+  pak vícekloubových doplňků, nakonec hlavních cviků (vždy aspoň 2 série);
+  když to nestačí, vypadnou poslední doplňkové cviky (hlavní cviky
+  a aspoň 3 cviky zůstanou).
+
 ## Úroveň pokročilosti
 
 Zadává se v úvodním průvodci („Jak dlouho cvičíš?“) a v Profilu.

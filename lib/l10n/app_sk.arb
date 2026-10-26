@@ -1289,5 +1289,16 @@
   "templatesLevelSection": "Úroveň: {level}",
   "templateVariationOf": "Obmena programu {program}",
   "templateLevelAdjusted": "Počet sérií upravený pre tvoju úroveň ({level})",
-  "onboardingPlanMore": "Programy pre iné úrovne nájdeš v Plánoch → Programy."
+  "onboardingPlanMore": "Programy pre iné úrovne nájdeš v Plánoch → Programy.",
+  "onboardingScheduleTitle": "Ako často a ako dlho?",
+  "onboardingScheduleHint": "Odporučíme programy, ktoré sa ti zmestia do týždňa, a tréningy skrátime na tvoj čas.",
+  "scheduleDaysTitle": "Tréningov týždenne",
+  "scheduleDaysHint": "Na začiatok stačia 2–3×, 4–6× sa hodí pre delené programy.",
+  "scheduleMinutesTitle": "Dĺžka tréningu",
+  "scheduleTitle": "Tréningy týždenne a dĺžka",
+  "scheduleSummary": "{days}× týždenne · {minutes} min",
+  "scheduleDialogHint": "Podľa toho sa odporučia a skrátia programy pridané odteraz.",
+  "programFitInfo": "{days}× týždenne · ~{minutes} min",
+  "programFitShortened": "Tréningy skrátené na {minutes} min",
+  "programBestFit": "Sedí ti najlepšie"
 }

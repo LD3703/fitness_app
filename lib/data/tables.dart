@@ -129,6 +129,15 @@ class UserProfiles extends Table {
   /// návrh nejdřív za 30 dní.
   DateTimeColumn get experiencePromptAt => dateTime().nullable()();
 
+  /// Kolikrát týdně chce trénovat (v25, úvod a profil) – doporučení
+  /// hotových programů (data/seed/program_fit.dart).
+  IntColumn get trainingDaysPerWeek =>
+      integer().withDefault(const Constant(3))();
+
+  /// Kolik minut má na trénink (v25) – delší tréninky z hotových programů
+  /// se při přidání zkrátí.
+  IntColumn get sessionMinutes => integer().withDefault(const Constant(60))();
+
   @override
   Set<Column> get primaryKey => {id};
 }
