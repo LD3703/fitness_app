@@ -233,7 +233,7 @@ final class WatchController: NSObject, ObservableObject, WCSessionDelegate {
     guard let id = (msg["id"] as? NSNumber)?.intValue, let p = pending.removeValue(forKey: id)
     else { return }
     p.timer.invalidate()
-    pendingCommands = Set(pending.values.map(\.name))
+    pendingCommands = Set(pending.values.map { $0.name })
     if msg["ok"] as? Bool != true {
       showNotice(reasonText(msg["reason"] as? String))
       if p.name == "completeSet" { WKInterfaceDevice.current().play(.failure) }
@@ -274,11 +274,11 @@ final class WatchController: NSObject, ObservableObject, WCSessionDelegate {
     nextId += 1
     let timer = Timer.scheduledTimer(withTimeInterval: 6, repeats: false) { [weak self] _ in
       guard let self, self.pending.removeValue(forKey: id) != nil else { return }
-      self.pendingCommands = Set(self.pending.values.map(\.name))
+      self.pendingCommands = Set(self.pending.values.map { $0.name })
       self.showNotice(self.strings.notResponding)
     }
-    pending[id] = (c.name, timer)
-    pendingCommands = Set(pending.values.map(\.name))
+    pending[id] = (name: c.name, timer: timer)
+    pendingCommands = Set(pending.values.map { $0.name })
     send(c.json(id: id))
   }
 
@@ -287,7 +287,7 @@ final class WatchController: NSObject, ObservableObject, WCSessionDelegate {
     let stepKg = s.weightStep * s.kgPerUnit
     let base = weightKg(of: c) ?? 0
     let next = max(0, base + (up ? stepKg : -stepKg))
-    edit = (key(c), next, value(of: c), Date())
+    edit = (key: key(c), weightKg: next, value: value(of: c), at: Date())
     objectWillChange.send()
     command(.adjustWeight(blockIndex: c.blockIndex, exerciseId: c.exerciseId,
                           setIndex: c.setIndex, delta: up ? 1 : -1))
@@ -296,7 +296,7 @@ final class WatchController: NSObject, ObservableObject, WCSessionDelegate {
   func adjustValue(_ c: WearCurrentSet, up: Bool) {
     let step = c.isDuration ? 5 : 1
     let next = min(3600, max(1, (value(of: c) ?? 0) + (up ? step : -step)))
-    edit = (key(c), weightKg(of: c), next, Date())
+    edit = (key: key(c), weightKg: weightKg(of: c), value: next, at: Date())
     objectWillChange.send()
     command(.adjustReps(blockIndex: c.blockIndex, exerciseId: c.exerciseId,
                         setIndex: c.setIndex, delta: up ? 1 : -1))

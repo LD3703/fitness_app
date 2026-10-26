@@ -43,7 +43,7 @@ struct ContentView: View {
           Text(notice)
             .font(.footnote)
             .padding(6)
-            .background(.ultraThinMaterial, in: Capsule())
+            .background(Color.black.opacity(0.75), in: Capsule())
             .padding(.bottom, 4)
         }
       }
@@ -141,7 +141,7 @@ struct SetPanel: View {
       }
       ValueStepper(
         label: set.isDuration ? c.strings.seconds : c.strings.reps,
-        value: c.value(of: set).map(String.init) ?? "–",
+        value: c.value(of: set).map { String($0) } ?? "–",
         onMinus: { c.adjustValue(set, up: false) },
         onPlus: { c.adjustValue(set, up: true) }
       )

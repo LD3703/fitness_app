@@ -166,7 +166,7 @@ enum WearCommand {
       m["b"] = b
       m["ex"] = ex
       m["set"] = set
-      m["w"] = w ?? NSNull()
+      if let w { m["w"] = w } else { m["w"] = NSNull() }
       m["val"] = val
     case let .adjustWeight(b, ex, set, delta), let .adjustReps(b, ex, set, delta):
       m["b"] = b
