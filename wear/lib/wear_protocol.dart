@@ -18,6 +18,11 @@
 // Hodinky → telefon:
 //   {t: hello}                      telefon pošle aktuální stav
 //   {t: cmd, id, cmd: <název>, …}   příkaz (viz [WearCommand])
+//   {t: hr, bpm}                    tep ze senzoru během tréninku
+// Telefon → hodinky jako application context (DataItem, přečte ho i
+// dlaždice bez otevřené aplikace):
+//   {t: today, today: WearToday}    dnešní plán pro dlaždici „Dnes“
+// Zprávy hr a today přibyly bez změny verze – starší strana je ignoruje.
 //
 // Váhy jsou vždy v kg. Hodinky zobrazují váhu v jednotkách telefonu:
 // zobrazená hodnota = kg / kgPerUnit, krok tlačítek +/- = weightStep
@@ -37,6 +42,8 @@ abstract final class WearMsg {
   static const ping = 'ping';
   static const hello = 'hello';
   static const command = 'cmd';
+  static const heartRate = 'hr';
+  static const today = 'today';
 }
 
 /// Důvody v potvrzení příkazu (pole `reason`).
@@ -349,8 +356,64 @@ class WearState {
       restEndsAtMs: _int(m['restEnd']),
       restTotalSeconds: _int(m['restTotal']) ?? 0,
       exercises: list is List
-          ? list.map(WearExerciseItem.fromJson).whereType<WearExerciseItem>().toList()
+          ? list
+              .map(WearExerciseItem.fromJson)
+              .whereType<WearExerciseItem>()
+              .toList()
           : const [],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------
+// Dnešní plán pro dlaždici (telefon → hodinky, application context)
+// ---------------------------------------------------------------------
+
+/// Dnešní plán, texty už v jazyce telefonu (dlaždice je nativní a nemá
+/// vlastní překlady). Dlaždici čte TodayTileService.kt
+/// (wear/tool/setup_wear.dart) – při změně polí upravit i ji.
+class WearToday {
+  const WearToday({
+    required this.day,
+    required this.title,
+    required this.lines,
+    required this.action,
+    required this.stale,
+  });
+
+  /// Den, pro který platí (yyyy-MM-dd); jiný den = dlaždice ukáže [stale].
+  final String day;
+
+  /// Nadpis dlaždice („Dnes“).
+  final String title;
+
+  /// Řádky: plány na dnešek („Push · 18:00“), nebo „Dnes volno“.
+  final List<String> lines;
+
+  /// Text tlačítka (otevře aplikaci v hodinkách).
+  final String action;
+
+  /// Text, když data nejsou z dneška („Otevři GymBar v telefonu“).
+  final String stale;
+
+  Map<String, Object?> toJson() => {
+        'day': day,
+        'title': title,
+        'lines': lines,
+        'action': action,
+        'stale': stale,
+      };
+
+  static WearToday? fromJson(Object? json) {
+    final m = _map(json);
+    if (m == null) return null;
+    final lines = m['lines'];
+    return WearToday(
+      day: _string(m['day']) ?? '',
+      title: _string(m['title']) ?? '',
+      lines: lines is List ? lines.whereType<String>().toList() : const [],
+      action: _string(m['action']) ?? '',
+      stale: _string(m['stale']) ?? '',
     );
   }
 }
@@ -520,7 +583,8 @@ final class WearNextExercise extends WearCommand {
 
 /// Přejde na vybraný cvik (ze seznamu cviků na hodinkách).
 final class WearSelectExercise extends WearCommand {
-  const WearSelectExercise({required this.blockIndex, required this.exerciseId});
+  const WearSelectExercise(
+      {required this.blockIndex, required this.exerciseId});
 
   final int blockIndex;
   final int exerciseId;

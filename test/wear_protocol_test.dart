@@ -145,4 +145,22 @@ void main() {
     final unknown = WearState.fromJson({...state.toJson(), 'phase': 'future'})!;
     expect(unknown.phase, WearPhase.idle);
   });
+
+  test('dnešní plán pro dlaždici (WearToday)', () {
+    const today = WearToday(
+      day: '2026-10-26',
+      title: 'Dnes',
+      lines: ['✓ Push · 7:30', 'Nohy · 18:00'],
+      action: 'Otevřít',
+      stale: 'Otevři GymBar v telefonu',
+    );
+    final envelope =
+        wearEnvelope({'t': WearMsg.today, 'today': today.toJson()});
+    final msg = openWearEnvelope(envelope)!;
+    expect(msg['t'], 'today');
+    final back = WearToday.fromJson(msg['today'])!;
+    expect(back.lines, today.lines);
+    expect((back.day, back.title, back.action, back.stale),
+        (today.day, today.title, today.action, today.stale));
+  });
 }

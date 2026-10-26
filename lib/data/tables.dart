@@ -59,6 +59,11 @@ class UserProfiles extends Table {
   BoolColumn get healthSyncEnabled =>
       boolean().withDefault(const Constant(false))();
 
+  /// Čtení regenerace a tepu z hodinek a prstenů přes Health Connect /
+  /// Apple Zdraví (v24): spánek, HRV, klidový tep, tep během tréninku.
+  BoolColumn get healthReadEnabled =>
+      boolean().withDefault(const Constant(false))();
+
   /// Připomínky pití: od–do (minuty od půlnoci) a interval v minutách.
   IntColumn get waterReminderStartMinutes =>
       integer().withDefault(const Constant(9 * 60))();
@@ -261,6 +266,36 @@ class WorkoutSessions extends Table {
   /// Zaměření tréninku (v14): síla / svaly / kondice. Podle něj se
   /// počítají automatické pauzy. null = podle profilu.
   IntColumn get focus => intEnum<TrainingFocus>().nullable()();
+
+  // Tep během tréninku (v24, core/readiness.dart): z hodinek (živě) nebo
+  // z Health Connect / Apple Zdraví. null = bez dat.
+  IntColumn get avgHeartRate => integer().nullable()();
+  IntColumn get maxHeartRate => integer().nullable()();
+
+  /// Sekundy v zónách tepu 0–5 („0,120,600,…“), viz HeartRateSummary.
+  TextColumn get heartRateZones => text().nullable()();
+
+  /// Energie podle tepu (Keytel 2005), když je známý věk, váha a pohlaví.
+  IntColumn get heartRateKcal => integer().nullable()();
+
+  /// Lehčí trénink kvůli slabší regeneraci (v24): o třetinu méně
+  /// pracovních sérií, váhy −10 %, progrese po tréninku „drží“.
+  BoolColumn get light => boolean().withDefault(const Constant(false))();
+}
+
+/// Regenerace za den z hodinek a prstenů (v24): spánek předchozí noci,
+/// HRV a klidový tep z Health Connect / Apple Zdraví. Jen v telefonu,
+/// do Health se nic nezapisuje (core/readiness.dart, docs/readiness.md).
+@DataClassName('RecoveryDayEntry')
+class RecoveryDays extends Table {
+  /// Den (00:00 místního času) – den probuzení.
+  DateTimeColumn get day => dateTime()();
+  IntColumn get sleepMinutes => integer().nullable()();
+  RealColumn get hrvMs => real().nullable()();
+  RealColumn get restingHr => real().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {day};
 }
 
 @DataClassName('SetEntry')

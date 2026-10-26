@@ -24,7 +24,9 @@ v kódu i dokumentace jsou **česky**.
 - Dokumentace: `README.md`, `docs/coach.md`, `docs/social.md`, `docs/deploy.md`,
   `docs/app_store.md`, `docs/wear_os.md`, `docs/fitka.md` (materiály pro
   fitka, gymbar.app/fitka), `docs/skins.md` (motivy vzhledu),
-  `docs/ios_widget.md` (iOS widget a Live Activity, zatím vypnuté).
+  `docs/ios_widget.md` (iOS widget a Live Activity, zatím vypnuté),
+  `docs/apple_watch.md` (Apple Watch, zatím vypnuté), `docs/readiness.md`
+  (regenerace z hodinek a prstenů).
 
 ## Ověření před commitem
 

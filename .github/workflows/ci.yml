@@ -74,8 +74,9 @@ jobs:
       - run: flutter build apk --release
 
   # iOS na Macu (pro veřejný repozitář zdarma): build bez podpisu včetně
-  # widgetu a Live Activity (tool/ios_widget.dart je v projektu zapne jen
-  # tady – v gitu zůstávají vypnuté, docs/ios_widget.md) a náhledy widgetu
+  # widgetu, Live Activity a aplikace pro Apple Watch (tool/ios_widget.dart
+  # a tool/ios_watch.dart je v projektu zapnou jen tady – v gitu zůstávají
+  # vypnuté, docs/ios_widget.md, docs/apple_watch.md) a náhledy widgetu
   # jako PNG v artefaktu „ios-widget-previews“.
   ios:
     name: iOS (build bez podpisu + náhledy widgetu)
@@ -109,8 +110,10 @@ jobs:
       - run: flutter pub get
       - run: dart run build_runner build --delete-conflicting-outputs
       - run: flutter gen-l10n
-      - name: Widget a Live Activity do Xcode projektu
-        run: dart run tool/ios_widget.dart
+      - name: Widget, Live Activity a Apple Watch do Xcode projektu
+        run: |
+          dart run tool/ios_widget.dart
+          dart run tool/ios_watch.dart
       - name: iOS build bez podpisu
         run: flutter build ios --release --no-codesign
       - name: Widget je v aplikaci
@@ -120,6 +123,13 @@ jobs:
           /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APPEX/Info.plist"
           /usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APPEX/Info.plist"
           /usr/libexec/PlistBuddy -c "Print :NSSupportsLiveActivities" build/ios/iphoneos/Runner.app/Info.plist
+      - name: Aplikace pro Apple Watch je v aplikaci
+        run: |
+          WATCH=build/ios/iphoneos/Runner.app/Watch/GymBarWatch.app
+          test -f "$WATCH/GymBarWatch"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$WATCH/Info.plist"
+          /usr/libexec/PlistBuddy -c "Print :WKCompanionAppBundleIdentifier" "$WATCH/Info.plist"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$WATCH/Info.plist"
 
   # Hodinky: wear/android/ se negituje, vytvoří se stejně jako u Lukase
   # (docs/wear_os.md, kapitola 2.2).

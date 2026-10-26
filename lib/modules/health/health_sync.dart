@@ -153,8 +153,9 @@ class HealthSync {
         DateTime(today.year, today.month, today.day - (_weightExportDays - 1));
 
     final canRead = await _service.canReadWeight();
-    final health =
-        canRead ? await _service.readWeights(importFrom, now) : <WeightSample>[];
+    final health = canRead
+        ? await _service.readWeights(importFrom, now)
+        : <WeightSample>[];
 
     // Co už aplikace do Health zapsala – drží se celé období importu
     // (90 dní), aby se váha smazaná v aplikaci z Health nevrátila.

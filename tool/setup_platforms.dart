@@ -4,11 +4,13 @@
 //
 // Spuštění z kořene projektu:  dart run tool/setup_platforms.dart
 // (s volbou --ios-widget zapne i iOS widget a Live Activity,
-// docs/ios_widget.md).
+// docs/ios_widget.md; s --ios-watch aplikaci pro Apple Watch,
+// docs/apple_watch.md).
 import 'dart:io';
 
 import 'platform/branding.dart';
 import 'platform/ios_store.dart';
+import 'platform/ios_watch.dart';
 import 'platform/ios_widget.dart';
 import 'platform/links.dart';
 
@@ -73,6 +75,9 @@ void main(List<String> args) {
   // iOS widget a Live Activity: jen s --ios-widget (potřebuje App Group
   // v Apple Developer účtu); když už je v projektu, jen ho udrží.
   ok &= patchIosWidget(enable: args.contains('--ios-widget'));
+  // Apple Watch: jen s --ios-watch (potřebuje App ID …watchkitapp v Apple
+  // Developer účtu, docs/apple_watch.md); jakmile je v projektu, udržuje se.
+  ok &= patchIosWatch(enable: args.contains('--ios-watch'));
   //
   // [platform:wear]
   ok &= patchWear();

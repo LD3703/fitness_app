@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 
 import '../../core/formulas.dart';
 import '../../core/muscle_sets.dart';
+import '../../core/readiness.dart';
 import '../../core/rest_time.dart';
 import '../../data/database.dart';
 
@@ -123,6 +124,10 @@ class WorkoutSetup {
     this.planTrainer,
   });
 
+  /// Lehčí trénink kvůli slabší regeneraci (core/readiness.dart): méně
+  /// pracovních sérií (už v [blocks]) a váhy −10 %.
+  bool get light => session.light;
+
   final WorkoutSession session;
   final String? planName;
 
@@ -135,6 +140,24 @@ class WorkoutSetup {
 
   /// Pohlaví z profilu (null = neuvedeno).
   final Sex? sex;
+}
+
+/// Lehčí trénink: o třetinu méně pracovních sérií (core/readiness.dart).
+List<PlanSetDraft> _lighterIf(bool light, List<PlanSetDraft> targets) => light
+    ? lighterTargets(targets, isWorking: (t) => !t.isWarmup && !t.isDrop)
+    : targets;
+
+/// Rozhodnutí před tréninkem podle plánu (kontroly modulů, např.
+/// připravenost z hodinek a prstenů).
+enum WorkoutStartDecision {
+  /// Trénovat podle plánu.
+  proceed,
+
+  /// Lehčí trénink (WorkoutSession.light).
+  light,
+
+  /// Netrénovat teď (uživatel zvolil Plán B nebo dialog zavřel).
+  cancel,
 }
 
 /// Automatická pauza po sérii cviku [exercise] (core/rest_time.dart).
@@ -202,7 +225,7 @@ Future<WorkoutSetup> loadWorkoutSetup(AppDatabase db, int sessionId) async {
     blocks.add(WorkoutBlockData(
       exercise: it.exercise,
       slot: slot,
-      targets: [
+      targets: _lighterIf(session.light, [
         for (final s in it.sets)
           (
             reps: s.reps,
@@ -210,7 +233,7 @@ Future<WorkoutSetup> loadWorkoutSetup(AppDatabase db, int sessionId) async {
             isWarmup: s.isWarmup,
             isDrop: s.isDrop,
           ),
-      ],
+      ]),
       manualRestSeconds: it.item.restAuto ? null : it.item.restSeconds,
       previous: previousSetsForSlot(await previousOf(exerciseId), slot),
       saved: saved,

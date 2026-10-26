@@ -2,8 +2,7 @@
 
 Zápis sérií z hodinek během tréninku: na hodinkách je vidět cvik, „Série 2 z 4“,
 váha a opakování s tlačítky +/−, velké tlačítko **Hotovo**, odpočet pauzy
-(na konci zavibruje) a seznam cviků. Apple Watch zatím ne (bez Macu nejde
-sestavit).
+(na konci zavibruje), seznam cviků a tep. Apple Watch: `docs/apple_watch.md`.
 
 ## 1. Jak to funguje
 
@@ -81,6 +80,28 @@ pole `_wear`, `attach` v initState, `detach` v dispose, `schedulePublish`
 v build a `_onRowEdited`), `rest_timer.dart` (gettery `endsAt`,
 `totalSeconds`), `module_hub.dart` (značky `[wear:…]`),
 `tool/setup_platforms.dart`, `pubspec.yaml` (`# [deps:wear]`).
+
+## 1a. Tep a dlaždice „Dnes“
+
+- **Tep během tréninku:** dokud běží trénink, hodinky čtou senzor tepu
+  (`fitness_wear/heart_rate` v `MainActivity.kt`, poprvé se zeptají na
+  oprávnění – do Wear OS 5 `BODY_SENSORS`, od Wear OS 6
+  `health.READ_HEART_RATE`). Tep je vidět nahoře (♥ 132) a nejvýš jednou za
+  5 s jde do telefonu (`{t: hr, bpm}`). Telefon ho ukazuje v záhlaví
+  tréninku a po tréninku z něj spočítá průměr, maximum, zóny a energii
+  (`lib/services/live_heart_rate.dart`, `docs/readiness.md`). Mimo
+  trénink je senzor vypnutý.
+- **Dlaždice „Dnes“** (`TodayTileService.kt`): dnešní plány z telefonu
+  („✓ Push · 7:30“, „Nohy · 18:00“, nebo „Dnes volno“) a tlačítko
+  Otevřít. Telefon je posílá jako *application context* balíčku
+  watch_connectivity (DataItem `/watch_connectivity`, zpráva
+  `{t: today, today: WearToday}`) při každé synchronizaci
+  (háček `wearTodaySync`). Data Layer je doručí i bez otevřené aplikace
+  v hodinkách, `TodayDataListener.kt` pak dlaždici obnoví. Texty jsou už
+  přeložené v jazyce telefonu; data z jiného dne → „Otevři GymBar
+  v telefonu“.
+- Oba soubory a závislosti (Tiles 1.4, ProtoLayout 1.2,
+  play-services-wearable) zapisuje `wear/tool/setup_wear.dart`.
 
 ## 2. První spuštění
 

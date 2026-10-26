@@ -1,0 +1,3 @@
+// Verze aplikace v hodinkách musí být stejná jako v telefonu – bere se
+// z Flutteru (FLUTTER_BUILD_NAME / _NUMBER).
+#include "../Flutter/Generated.xcconfig"

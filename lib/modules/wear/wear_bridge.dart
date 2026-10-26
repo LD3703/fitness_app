@@ -32,11 +32,18 @@ import '../../data/database.dart';
 import '../../premium/premium.dart';
 import '../../providers.dart';
 import '../../router.dart';
+import '../../services/live_heart_rate.dart';
+import '../../services/sync_controller.dart' show deviceLocalizations;
 import 'wear_protocol.dart';
 
-/// Hodinky s Wear OS jen na Androidu (Apple Watch zatím ne).
+/// Hodinky: Wear OS na Androidu, Apple Watch na iOS (ios/GymBarWatch,
+/// docs/apple_watch.md – stejný protokol přes WCSession).
 bool get wearSupported =>
-    !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+    !kIsWeb &&
+    (defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS);
+
+bool get _isAndroid => defaultTargetPlatform == TargetPlatform.android;
 
 /// Jak dlouho po poslední zprávě z hodinek je aplikace v hodinkách
 /// považovaná za otevřenou (hodinky se ozývají každých 15 s).
@@ -197,6 +204,24 @@ class WearBridge {
     });
   }
 
+  String? _lastTodayKey;
+
+  /// Dnešní plán pro dlaždici „Dnes“ (application context – hodinky ho
+  /// dostanou, i když aplikace v nich neběží).
+  Future<void> publishToday(WearToday today) async {
+    final watch = _watch;
+    if (watch == null || _disposed) return;
+    final key = jsonEncode(today.toJson());
+    if (key == _lastTodayKey) return;
+    try {
+      await watch.updateApplicationContext(
+          wearEnvelope({'t': WearMsg.today, 'today': today.toJson()}));
+      _lastTodayKey = key;
+    } catch (e) {
+      debugPrint('Wear today failed: $e');
+    }
+  }
+
   /// Požádá aplikaci v hodinkách, aby se ozvala (tlačítko v Profilu).
   void ping() => _send({'t': WearMsg.ping});
 
@@ -252,6 +277,13 @@ class WearBridge {
     if (msg == null || _disposed) return;
     _markSeen();
     switch (msg['t']) {
+      case WearMsg.heartRate:
+        // Tep ze senzoru hodinek (docs/readiness.md) – jen během tréninku
+        // a s Premium (hodinky).
+        final bpm = msg['bpm'];
+        if (bpm is int && _activeSessionId != null && _allowed) {
+          LiveHeartRate.instance.add(bpm);
+        }
       case WearMsg.hello:
         publish(force: true);
       case WearMsg.command:
@@ -310,4 +342,40 @@ class WearBridge {
     }
     return (ok: false, reason: WearAckReason.notOpen);
   }
+}
+
+/// Háček synchronizace (module_hub: wear:sync): dnešní plány pro dlaždici
+/// v hodinkách. Texty v jazyce telefonu.
+Future<void> wearTodaySync(Ref ref, UserProfile profile) async {
+  // Dlaždice je jen na Wear OS.
+  if (!wearSupported || !_isAndroid) return;
+  final bridge = ref.read(wearBridgeProvider);
+  if (!bridge.isRunning) return;
+  final db = ref.read(databaseProvider);
+  final l10n = deviceLocalizations();
+  final now = DateTime.now();
+  final planned = await db.plannedWorkouts(now, 1);
+  final done = await db.watchFinishedPlanIds(now).first;
+  String line(WorkoutPlan p) {
+    final time = p.plannedTimeMinutes;
+    final parts = [
+      p.name,
+      if (time != null)
+        '${time ~/ 60}:${(time % 60).toString().padLeft(2, '0')}',
+    ];
+    return '${done.contains(p.id) ? '✓ ' : ''}${parts.join(' · ')}';
+  }
+
+  final day = '${now.year.toString().padLeft(4, '0')}-'
+      '${now.month.toString().padLeft(2, '0')}-'
+      '${now.day.toString().padLeft(2, '0')}';
+  await bridge.publishToday(WearToday(
+    day: day,
+    title: l10n.tabToday,
+    lines: planned.isEmpty
+        ? [l10n.wearTileRest]
+        : [for (final w in planned) line(w.plan)],
+    action: l10n.wearTileOpen,
+    stale: l10n.wearTileStale,
+  ));
 }

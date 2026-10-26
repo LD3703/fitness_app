@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/coach_tone.dart';
 import '../../core/formulas.dart';
+import '../../core/readiness.dart' show kLightWeightFactor;
 import '../../core/superset.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
@@ -24,6 +25,7 @@ import '../../ui/dialogs.dart';
 import '../../ui/exercise_media_view.dart';
 import '../../ui/format.dart';
 import '../../ui/labels.dart';
+import '../../ui/live_heart_rate_badge.dart';
 import '../../ui/set_format.dart';
 import '../../ui/set_kind_chip.dart';
 import '../../ui/skins.dart';
@@ -192,7 +194,8 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
       setState(() {
         _setup = setup;
         _focus = setup.focus;
-        _blocks.addAll(setup.blocks.map(_Block.fromData));
+        _blocks.addAll(
+            setup.blocks.map((b) => _Block.fromData(b, light: setup.light)));
         // Supersérie musí jít po sobě (např. když cvik mezi nimi zmizel).
         _applyGroups(normalizeSupersetGroups(_groups));
       });
@@ -695,6 +698,8 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
           ],
         ),
         actions: [
+          // Živý tep z hodinek (Wear OS / Apple Watch).
+          const LiveHeartRateBadge(),
           TextButton(
             style: headerTextButtonStyle(context),
             onPressed: _busy ? null : _finish,
@@ -725,6 +730,19 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
               ),
             ),
           TrainingFocusSelector(focus: _focus, onChanged: _setFocus),
+          // Lehčí trénink kvůli slabší regeneraci (core/readiness.dart).
+          if (_setup?.light ?? false)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+              child: Card(
+                margin: EdgeInsets.zero,
+                child: ListTile(
+                  leading: const Icon(Icons.spa_outlined),
+                  title: Text(_l10n.readinessLightTitle),
+                  subtitle: Text(_l10n.readinessLightBanner),
+                ),
+              ),
+            ),
           ..._buildBlocks(context, injured),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
@@ -799,7 +817,9 @@ class _SetRow {
 class _Block {
   _Block(this.data, this.rows, this.group) : myNote = data.exercise.note;
 
-  factory _Block.fromData(WorkoutBlockData data) {
+  /// [light] = lehčí trénink (core/readiness.dart): váhy pracovních
+  /// sérií −10 % (méně sérií už je v cílech).
+  factory _Block.fromData(WorkoutBlockData data, {bool light = false}) {
     final isDuration = data.exercise.type == ExerciseType.duration;
     // Uložené série se řadí podle pozice (v rámci slotu bloku, viz
     // blockPositionStride), takže po návratu do tréninku zůstanou na svých
@@ -854,6 +874,11 @@ class _Block {
       final prev = _previousOfKind(data.previous, kind, ordinal) ??
           _lastOfKind(data.previous, kind);
       var weightKg = target?.weightKg ?? prev?.weightKg;
+      if (light && weightKg != null && kind == _Kind.working) {
+        final lighter =
+            roundToStep(weightKg * kLightWeightFactor, step: weightStepKg);
+        if (lighter > 0) weightKg = lighter;
+      }
       if (weightKg == null && kind == _Kind.drop && rows.isNotEmpty) {
         // Drop série bez cíle a bez historie: o 20 % méně než předchozí.
         final before = parseWeightInput(rows.last.weight.text);

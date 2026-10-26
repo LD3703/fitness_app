@@ -23,6 +23,12 @@ const _healthPermissions = [
   'android.permission.health.WRITE_WEIGHT',
   // Import váhy starší než 30 dní před udělením oprávnění.
   'android.permission.health.READ_HEALTH_DATA_HISTORY',
+  // Regenerace z hodinek a prstenů (docs/readiness.md): spánek, HRV,
+  // klidový tep a tep během tréninku – jen čtení.
+  'android.permission.health.READ_SLEEP',
+  'android.permission.health.READ_HEART_RATE_VARIABILITY',
+  'android.permission.health.READ_RESTING_HEART_RATE',
+  'android.permission.health.READ_HEART_RATE',
 ];
 
 const _rationaleAction = 'androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE';
@@ -32,19 +38,24 @@ const _healthConnectPackage = 'com.google.android.apps.healthdata';
 /// i kontrola Applu) – viz _plistKeys v tool/setup_platforms.dart.
 const _plistKeys = {
   'NSHealthShareUsageDescription':
-      'The app reads your body weight from Apple Health to show it in your '
-          'progress overview.',
+      'The app reads your body weight to show it in your progress overview '
+          'and, if you turn it on, your sleep, heart rate variability, resting '
+          'heart rate and workout heart rate to suggest how hard to train.',
   'NSHealthUpdateUsageDescription':
       'The app saves your workouts and body weight to Apple Health.',
 };
 
-/// Dřívější české výchozí texty – nahradí se anglickými, vlastní text
-/// (cokoli jiného) zůstane.
+/// Dřívější výchozí texty – nahradí se aktuálními, vlastní text (cokoli
+/// jiného) zůstane.
 const _legacyPlistValues = {
-  'NSHealthShareUsageDescription':
-      'Aplikace čte tvou tělesnou váhu z Apple Zdraví, aby ji měla i v přehledu pokroku.',
-  'NSHealthUpdateUsageDescription':
-      'Aplikace ukládá tvoje tréninky a tělesnou váhu do Apple Zdraví.',
+  'NSHealthShareUsageDescription': [
+    'Aplikace čte tvou tělesnou váhu z Apple Zdraví, aby ji měla i v přehledu pokroku.',
+    'The app reads your body weight from Apple Health to show it in your '
+        'progress overview.',
+  ],
+  'NSHealthUpdateUsageDescription': [
+    'Aplikace ukládá tvoje tréninky a tělesnou váhu do Apple Zdraví.',
+  ],
 };
 
 bool patchHealth() {
@@ -246,11 +257,11 @@ bool _infoPlist() {
   }
   var s = file.readAsStringSync();
   final original = s;
-  // Dřívější české výchozí texty → anglické.
+  // Dřívější výchozí texty → aktuální.
   _legacyPlistValues.forEach((k, old) {
     final m = RegExp('(<key>$k</key>\\s*<string>)([^<]*)(</string>)')
         .firstMatch(s);
-    if (m != null && m.group(2)!.trim() == old) {
+    if (m != null && old.contains(m.group(2)!.trim())) {
       s = s.replaceRange(
           m.start, m.end, '${m.group(1)}${_plistKeys[k]}${m.group(3)}');
     }

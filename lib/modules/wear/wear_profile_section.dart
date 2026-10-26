@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,13 +9,12 @@ import '../../premium/premium.dart';
 import 'wear_bridge.dart';
 
 /// Sekce „Hodinky“ v Profilu: stav spojení s aplikací v hodinkách
-/// (Wear OS) a krátký návod. Jen na Androidu.
+/// (Wear OS / Apple Watch) a krátký návod.
 class WearProfileSection extends ConsumerStatefulWidget {
   const WearProfileSection({super.key});
 
   @override
-  ConsumerState<WearProfileSection> createState() =>
-      _WearProfileSectionState();
+  ConsumerState<WearProfileSection> createState() => _WearProfileSectionState();
 }
 
 class _WearProfileSectionState extends ConsumerState<WearProfileSection> {
@@ -48,6 +48,12 @@ class _WearProfileSectionState extends ConsumerState<WearProfileSection> {
   @override
   Widget build(BuildContext context) {
     if (!wearSupported) return const SizedBox.shrink();
+    // Apple Watch: sekce až po první zprávě z hodinek (aplikace pro hodinky
+    // je zatím vypnutá do registrace v Apple Developer účtu).
+    final ios = defaultTargetPlatform == TargetPlatform.iOS;
+    if (ios && ref.watch(wearLastSeenProvider) == null) {
+      return const SizedBox.shrink();
+    }
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     // Premium (wearOs): bez předplatného místo stavu spojení upoutávka.
@@ -73,7 +79,7 @@ class _WearProfileSectionState extends ConsumerState<WearProfileSection> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
             child: Text(
-              l10n.wearHelp,
+              ios ? l10n.wearHelpIos : l10n.wearHelp,
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
@@ -137,7 +143,7 @@ class _WearProfileSectionState extends ConsumerState<WearProfileSection> {
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
           child: Text(
-            l10n.wearHelp,
+            ios ? l10n.wearHelpIos : l10n.wearHelp,
             style: theme.textTheme.bodySmall
                 ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),

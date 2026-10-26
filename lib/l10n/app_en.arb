@@ -3508,5 +3508,153 @@
   "coachSessionAcceptedNoCalendar": "Workout confirmed. Without calendar access it won't be added to your calendar.",
   "@coachSessionAcceptedNoCalendar": {
     "description": "Snackbar after accepting without calendar permission."
-  }
+  },
+  "readinessTitle": "Readiness",
+  "readinessScreenTitle": "Recovery from watches and rings",
+  "readinessGood": "Good",
+  "readinessCaution": "Take it easy",
+  "readinessLow": "Low recovery",
+  "readinessAllGood": "HRV, resting heart rate and sleep are all within your normal range.",
+  "readinessLearning": "Learning your normal values: {days} of {total} days. For now it mostly rates sleep.",
+  "@readinessLearning": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "readinessNoData": "No data yet. Check that your watch or ring saves sleep and heart rate to Health Connect / Apple Health.",
+  "readinessHrvLow": "HRV has been below your normal range this week ({value} ms, normal {low}–{high} ms)",
+  "@readinessHrvLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "low": {
+        "type": "String"
+      },
+      "high": {
+        "type": "String"
+      }
+    }
+  },
+  "readinessHrvDrop": "Today’s HRV is much lower than usual ({value} ms)",
+  "@readinessHrvDrop": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "readinessRhrUp": "Resting heart rate {value} is {diff} above your normal ({base})",
+  "@readinessRhrUp": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      },
+      "diff": {
+        "type": "int"
+      },
+      "base": {
+        "type": "int"
+      }
+    }
+  },
+  "readinessRhrSustained": "Resting heart rate has been elevated 3 days in a row",
+  "readinessSleepVeryShort": "Sleep {duration} – less than 5 h",
+  "@readinessSleepVeryShort": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "readinessSleepShort": "Sleep {duration} – less than 6 h",
+  "@readinessSleepShort": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "readinessSleepBelow": "Sleep {duration} – at least 7 h is recommended",
+  "@readinessSleepBelow": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "readinessSleepDebt": "{duration} of sleep missing over the last 3 nights",
+  "@readinessSleepDebt": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "readinessAdviceTrain": "Train as planned – your body is rested.",
+  "readinessAdviceEasy": "Train as planned, but don’t chase records: keep 2 reps in reserve and take longer rests.",
+  "readinessAdviceLighter": "Go for a lighter workout: a third fewer sets and 10 % lighter weights – or Plan B, a walk and stretching. Progression can wait today.",
+  "readinessAdviceRest": "Resting heart rate is clearly or persistently elevated – you may be coming down with something. Rest today; if symptoms show up, log an illness.",
+  "readinessTipShortSleep": "After short sleep, train earlier in the day and skip max attempts on compound lifts.",
+  "readinessTipSleep": "Try to go to bed earlier tonight – aim for at least 7 hours.",
+  "readinessTipRecovery": "Regular sleep, enough fluids and light movement such as a walk help you recover.",
+  "readinessLightButton": "Lighter workout",
+  "readinessTrainAsPlanned": "As planned",
+  "readinessLightTitle": "Lighter workout",
+  "readinessLightBanner": "A third fewer sets and 10 % lighter weights. Progression suggestions wait until next time.",
+  "readinessHrv": "HRV (7 days)",
+  "readinessRestingHr": "Resting heart rate",
+  "readinessSleep": "Sleep",
+  "readinessNormal": "normal {range}",
+  "@readinessNormal": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      }
+    }
+  },
+  "readinessDaysTitle": "Last 14 days",
+  "readinessHowTitle": "How we rate it",
+  "readinessHowBody": "Everyone has different normal values, so GymBar compares your data with your own average over the last 60 days (14 days of data are enough to start). HRV is rated as a 7-day average because the daily value fluctuates a lot; normal is the average ± 0.75 standard deviations (based on HRV4Training and studies by Plews et al.). A resting heart rate 5+ beats above average is a warning; 3 days in a row can mean you are getting ill. Sleep: adults need at least 7 hours (AASM 2015); under 6 h counts as sleep loss, and after several short nights strength in compound lifts drops (Knowles et al. 2018). Heart rate zones use a max heart rate of 208 − 0.7 × age (Tanaka 2001), energy follows Keytel et al. (2005). This is not a medical assessment – if you don’t feel well, listen to your body.",
+  "readinessSourceNote": "GymBar reads the data from {app} – your watch or ring stores it there (Galaxy Watch, Pixel Watch, Apple Watch, Garmin, Oura, Galaxy Ring and more). It stays on your phone.",
+  "@readinessSourceNote": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "healthReadTitle": "Recovery from watches and rings",
+  "healthReadHint": "Reads sleep, HRV, resting heart rate and workout heart rate to suggest how hard to train today. Read-only, the data stays on your phone.",
+  "hrSummaryTitle": "Heart rate",
+  "hrAvgMax": "average {avg} · max {max} bpm",
+  "@hrAvgMax": {
+    "placeholders": {
+      "avg": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "hrKcal": "≈ {kcal} kcal from heart rate",
+  "@hrKcal": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "hrWaiting": "Heart rate from your watch will appear once it syncs.",
+  "progressionHoldReadiness": "Stays the same – the workout was lighter because of low recovery.",
+  "wearTileRest": "Rest day today",
+  "wearTileOpen": "Open",
+  "wearTileStale": "Open GymBar on your phone",
+  "wearHelpIos": "Log sets from your Apple Watch: the GymBar watch app installs with the phone app (Watch app → GymBar). Open it during a workout – it also shows your heart rate. Keep the workout open on your phone."
 }

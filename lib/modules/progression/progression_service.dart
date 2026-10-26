@@ -77,7 +77,12 @@ Future<void> progressionWorkoutFinished(
     summary.sessionId,
     planId,
     unit: profile.unitSystem,
-    blockers: progressionBlockersOf(profile, periods, DateTime.now()),
+    // Lehčí trénink kvůli slabší regeneraci: výkon nevypovídá o síle,
+    // nic se nezvyšuje (odlehčení zůstává).
+    blockers: session.light
+        ? progressionBlockersOf(profile, periods, DateTime.now())
+            .withLowReadiness()
+        : progressionBlockersOf(profile, periods, DateTime.now()),
     apply: mode == ProgressionMode.auto,
     focus: session.focus ?? trainingFocusOf(profile.trainingFocus),
   );

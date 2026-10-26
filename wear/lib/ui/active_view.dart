@@ -51,6 +51,15 @@ class _ActiveViewState extends State<ActiveView> {
         controller: _scroll,
         padding: watchPadding(context, round: widget.round),
         children: [
+          if (c.heartRate case final bpm?)
+            Text(
+              '♥ $bpm',
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelMedium
+                  ?.copyWith(color: Colors.redAccent),
+            ),
           if (resting) ...[
             _RestPanel(controller: c),
             const SizedBox(height: 8),

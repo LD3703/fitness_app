@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
@@ -8,6 +9,7 @@ import '../../providers.dart';
 import '../../ui/dialogs.dart';
 import 'health_service.dart';
 import 'health_sync.dart';
+import 'recovery.dart';
 
 /// Sekce v Profilu: přepínač synchronizace s Health Connect / Apple Zdraví.
 class HealthProfileSection extends ConsumerStatefulWidget {
@@ -61,6 +63,21 @@ class _HealthProfileSectionState extends ConsumerState<HealthProfileSection> {
           value: profile.healthSyncEnabled,
           onChanged: _busy ? null : _toggle,
         ),
+        // Regenerace z hodinek a prstenů (jen čtení, docs/readiness.md).
+        SwitchListTile(
+          secondary: const Icon(Icons.watch_outlined),
+          title: Text(l10n.healthReadTitle),
+          subtitle: Text(l10n.healthReadHint),
+          value: profile.healthReadEnabled,
+          onChanged: _busy ? null : _toggleRead,
+        ),
+        if (profile.healthReadEnabled)
+          ListTile(
+            leading: const SizedBox(width: 24),
+            title: Text(l10n.readinessScreenTitle),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push('/readiness'),
+          ),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
           child: Text(
@@ -109,6 +126,44 @@ class _HealthProfileSectionState extends ConsumerState<HealthProfileSection> {
       }
     } catch (e) {
       debugPrint('Health enable failed: $e');
+      if (mounted) _snack(l10n.healthUnavailable);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _toggleRead(bool enable) async {
+    final db = ref.read(databaseProvider);
+    final l10n = AppLocalizations.of(context);
+    if (!enable) {
+      // Uložená denní data zůstanou (smaže je „Smazat všechna data“).
+      await db.updateProfile(
+        const UserProfilesCompanion(healthReadEnabled: Value(false)),
+      );
+      return;
+    }
+    setState(() => _busy = true);
+    try {
+      final result = await RecoverySync.instance.enable(db);
+      if (!mounted) return;
+      switch (result) {
+        case HealthAccessResult.granted:
+          break;
+        case HealthAccessResult.needsInstall:
+          final install = await showConfirmDialog(
+            context,
+            title: l10n.healthInstallTitle,
+            message: l10n.healthInstallMessage,
+            confirmLabel: l10n.healthInstallAction,
+          );
+          if (install) await HealthService.instance.installHealthConnect();
+        case HealthAccessResult.denied:
+          _snack(l10n.healthPermissionDenied);
+        case HealthAccessResult.unsupported:
+          _snack(l10n.healthUnavailable);
+      }
+    } catch (e) {
+      debugPrint('Health read enable failed: $e');
       if (mounted) _snack(l10n.healthUnavailable);
     } finally {
       if (mounted) setState(() => _busy = false);

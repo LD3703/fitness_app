@@ -107,7 +107,7 @@
 		</dict>
 		</array>
 		<key>NSHealthShareUsageDescription</key>
-		<string>The app reads your body weight from Apple Health to show it in your progress overview.</string>
+		<string>The app reads your body weight to show it in your progress overview and, if you turn it on, your sleep, heart rate variability, resting heart rate and workout heart rate to suggest how hard to train.</string>
 		<key>NSHealthUpdateUsageDescription</key>
 		<string>The app saves your workouts and body weight to Apple Health.</string>
 		<key>NSCameraUsageDescription</key>
