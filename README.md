@@ -394,6 +394,12 @@ Jeden build trvá zhruba 10–20 minut. Nastavení je v `codemagic.yaml`.
 
 Tenhle build nejde nainstalovat do iPhonu – jen ověří, že kód funguje i na iOS.
 
+### Krok 2a: vyzkoušení v iPhonu bez placeného účtu
+GitHub Actions po každém pushi sestaví i `GymBar.ipa` (artefakt
+**gymbar-ios-ipa**), který jde z Windows nainstalovat přes Sideloadly
+s bezplatným Apple ID – na 7 dní, bez push notifikací, widgetu a hodinek.
+Postup: `docs/ios_sideload.md`.
+
 ### Krok 3: instalace do iPhonu přes TestFlight (placený Apple účet)
 1. **Apple Developer Program** (99 USD ročně) na developer.apple.com.
    Jako fyzická osoba se v App Store zobrazí tvoje jméno.

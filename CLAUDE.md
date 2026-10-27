@@ -27,7 +27,8 @@ v kódu i dokumentace jsou **česky**.
   `docs/ios_widget.md` (iOS widget a Live Activity, zatím vypnuté),
   `docs/apple_watch.md` (Apple Watch, zatím vypnuté), `docs/readiness.md`
   (regenerace z hodinek a prstenů), `docs/programs.md` (hotové programy
-  a úroveň pokročilosti).
+  a úroveň pokročilosti), `docs/ios_sideload.md` (iPhone bez Macu
+  a placeného účtu přes Sideloadly).
 
 ## Ověření před commitem
 
