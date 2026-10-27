@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Oprávnění pro GymBar-zdravi.ipa (docs/ios_sideload.md): jen HealthKit.
+     Přihlášení přes Apple, push a odkazy gymbar.app bezplatné Apple ID
+     nepodporuje, proto tu nejsou. -->
+<plist version="1.0">
+<dict>
+	<key>com.apple.developer.healthkit</key>
+	<true/>
+	<key>com.apple.developer.healthkit.access</key>
+	<array/>
+</dict>
+</plist>

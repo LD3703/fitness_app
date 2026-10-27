@@ -131,6 +131,55 @@ jobs:
           /usr/libexec/PlistBuddy -c "Print :WKCompanionAppBundleIdentifier" "$WATCH/Info.plist"
           /usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$WATCH/Info.plist"
 
+  # Soubor .ipa pro instalaci do iPhonu bez Macu a bez placeného účtu
+  # (Sideloadly + bezplatné Apple ID, docs/ios_sideload.md). Bez widgetu
+  # a hodinek (bezplatné Apple ID je neumí). Jen po pushi a ručně – u PR
+  # stačí build výše. Artefakt „gymbar-ios-ipa“: GymBar.ipa (bez
+  # oprávnění) a GymBar-zdravi.ipa (zkusmo s HealthKit).
+  ios_ipa:
+    name: iOS .ipa pro instalaci bez Macu
+    if: github.event_name != 'pull_request'
+    runs-on: macos-26
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - run: flutter gen-l10n
+      - name: iOS build bez podpisu (bez widgetu a hodinek)
+        run: flutter build ios --release --no-codesign
+      - name: Zabalit .ipa
+        run: |
+          APP=build/ios/iphoneos/Runner.app
+          test ! -d "$APP/PlugIns/GymBarWidget.appex"
+          test ! -d "$APP/Watch"
+          mkdir -p build/ipa/plain/Payload build/ipa/health/Payload build/ipa/out
+          cp -R "$APP" build/ipa/plain/Payload/
+          cp -R "$APP" build/ipa/health/Payload/
+          # Varianta se Zdravím: podpis ad hoc jen s oprávněním HealthKit –
+          # Sideloadly ho převezme do svého podpisu.
+          H=build/ipa/health/Payload/Runner.app
+          find "$H/Frameworks" -maxdepth 1 \( -name '*.framework' -o -name '*.dylib' \) \
+            -exec codesign --force --sign - {} \;
+          codesign --force --sign - \
+            --entitlements tool/ios_sideload/healthkit.entitlements "$H"
+          codesign -d --entitlements - "$H"
+          VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APP/Info.plist")
+          (cd build/ipa/plain && zip -qry ../out/GymBar.ipa Payload)
+          (cd build/ipa/health && zip -qry ../out/GymBar-zdravi.ipa Payload)
+          printf 'GymBar %s (%s)\nNávod: docs/ios_sideload.md\n' \
+            "$VERSION" "${GITHUB_SHA::7}" > build/ipa/out/VERZE.txt
+          ls -la build/ipa/out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gymbar-ios-ipa
+          path: build/ipa/out
+          retention-days: 30
+
   # Hodinky: wear/android/ se negituje, vytvoří se stejně jako u Lukase
   # (docs/wear_os.md, kapitola 2.2).
   wear:
