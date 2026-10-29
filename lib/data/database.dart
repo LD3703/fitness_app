@@ -106,7 +106,7 @@ class AppDatabase extends _$AppDatabase {
   static const _profileId = 1;
 
   @override
-  int get schemaVersion => 25;
+  int get schemaVersion => 26;
 
   /// Výchozí série pro nově přidaný cvik: 3 × 10.
   static const defaultPlanSets = <PlanSetDraft>[
@@ -315,6 +315,19 @@ class AppDatabase extends _$AppDatabase {
               'UPDATE user_profiles SET experience_level = 1 WHERE '
               '(SELECT COUNT(*) FROM workout_sessions '
               'WHERE ended_at IS NOT NULL) >= 50',
+            );
+          }
+          if (from < 26) {
+            // Verze 26: připomínky pití podle toho, kolik chybí, do večerky
+            // mínus pauza před spaním. Kdo měl vlastní konec připomínek
+            // (výchozí byl 20:00), má večerku o 1,5 h později.
+            await m.addColumn(userProfiles, userProfiles.bedtimeMinutes);
+            await m.addColumn(
+                userProfiles, userProfiles.waterStopBeforeBedMinutes);
+            await customStatement(
+              'UPDATE user_profiles SET bedtime_minutes = '
+              'MIN(water_reminder_end_minutes + 90, 1435) '
+              'WHERE water_reminder_end_minutes != 1200',
             );
           }
         },

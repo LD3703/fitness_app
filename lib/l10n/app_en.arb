@@ -506,23 +506,7 @@
   "calProfileSection": "Calendar & reminders",
   "calReadSwitch": "Find free time in my calendar",
   "calReadHint": "Warns about clashes and suggests workout times. Your events stay on the phone.",
-  "calWaterRemindersHint": "Every {interval} min from {from} to {to}",
-  "@calWaterRemindersHint": {
-    "placeholders": {
-      "from": {
-        "type": "String"
-      },
-      "to": {
-        "type": "String"
-      },
-      "interval": {
-        "type": "int"
-      }
-    }
-  },
   "calWaterFrom": "Water reminders from",
-  "calWaterTo": "Until",
-  "calWaterInterval": "Remind every",
   "calMinutes": "{minutes} min",
   "@calMinutes": {
     "placeholders": {
@@ -3801,5 +3785,70 @@
       }
     }
   },
-  "programBestFit": "Best fit for you"
+  "programBestFit": "Best fit for you",
+  "notifWaterPaced": "Have about {amount} now so you reach {goal} by {time}.",
+  "@notifWaterPaced": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "waterPaceHint": "{remaining} to go by {time} – about {amount} every {minutes} min.",
+  "@waterPaceHint": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "waterPaceHintLast": "{remaining} to go by {time}.",
+  "@waterPaceHintLast": {
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "waterBedtime": "I go to bed at",
+  "waterStopBeforeBed": "No drinking before bed",
+  "waterStopNone": "Until bedtime",
+  "waterLastDrink": "Last drink at {time}",
+  "@waterLastDrink": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "waterPacedHint": "Reminders follow how much you still need: drink ahead and you get fewer, fall behind and you get more.",
+  "waterRemindersPacedHint": "Based on what you still need, {from}–{until}",
+  "@waterRemindersPacedHint": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "until": {
+        "type": "String"
+      }
+    }
+  }
 }

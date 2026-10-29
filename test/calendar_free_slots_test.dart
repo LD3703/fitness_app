@@ -180,37 +180,6 @@ void main() {
     });
   });
 
-  group('waterReminderMinutes', () {
-    test('9:00–20:00 po 2 h', () {
-      expect(
-        waterReminderMinutes(
-            startMinutes: 540, endMinutes: 1200, intervalMinutes: 120),
-        [540, 660, 780, 900, 1020, 1140],
-      );
-    });
-
-    test('konec je včetně', () {
-      expect(
-        waterReminderMinutes(
-            startMinutes: 480, endMinutes: 600, intervalMinutes: 60),
-        [480, 540, 600],
-      );
-    });
-
-    test('neplatné rozmezí', () {
-      expect(
-        waterReminderMinutes(
-            startMinutes: 600, endMinutes: 500, intervalMinutes: 60),
-        isEmpty,
-      );
-      expect(
-        waterReminderMinutes(
-            startMinutes: 0, endMinutes: 1439, intervalMinutes: 30),
-        hasLength(24),
-      );
-    });
-  });
-
   group('commonStarts', () {
     test('čas volný ve všech dnech plánu', () {
       final mon = DateTime(2026, 10, 5);

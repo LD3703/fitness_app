@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/experience_level.dart';
+import '../../core/water_pace.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../modules/data/unit_dialogs.dart';
@@ -337,7 +338,36 @@ class _WorkoutCard extends ConsumerWidget {
 class _WaterCard extends ConsumerWidget {
   const _WaterCard();
 
-  static const _trainingBonusMl = 500;
+  /// Kolik ještě vypít do posledního pití a jak často (core/water_pace.dart);
+  /// null = splněno nebo už se nepije.
+  String? _paceHint(
+      BuildContext context, UserProfile? profile, int goal, int water) {
+    if (profile == null || water >= goal) return null;
+    final now = DateTime.now();
+    final last = lastDrinkMinutes(
+      startMinutes: profile.waterReminderStartMinutes,
+      bedtimeMinutes: profile.bedtimeMinutes,
+      stopBeforeBedMinutes: profile.waterStopBeforeBedMinutes,
+    );
+    final plan = planWaterReminders(
+      now: now,
+      day: now,
+      startMinutes: profile.waterReminderStartMinutes,
+      lastDrinkMinutes: last,
+      goalMl: goal,
+      drunkMl: water,
+      glassMl: profile.glassMl,
+    );
+    if (plan.isEmpty) return null;
+    final l10n = AppLocalizations.of(context);
+    final until = formatMinutesOfDay(context, last);
+    final remaining = formatVolume(context, goal - water);
+    if (plan.length == 1) return l10n.waterPaceHintLast(remaining, until);
+    final gap = plan.last.at.difference(plan.first.at).inMinutes ~/
+        (plan.length - 1);
+    return l10n.waterPaceHint(remaining, until,
+        formatVolume(context, plan.first.amountMl), (gap / 5).round() * 5);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -351,8 +381,9 @@ class _WaterCard extends ConsumerWidget {
     final quickAmounts = {profile?.glassMl ?? 250, profile?.bottleMl ?? 500};
     // Ve dny tréninku je potřeba pít víc – cíl navýšíme o 500 ml.
     final trained = ref.watch(workoutDoneTodayProvider).valueOrNull ?? false;
-    final goal = baseGoal + (trained ? _trainingBonusMl : 0);
+    final goal = baseGoal + (trained ? kTrainingWaterBonusMl : 0);
     final progress = goal <= 0 ? 0.0 : (water / goal).clamp(0.0, 1.0);
+    final pace = _paceHint(context, profile, goal, water);
 
     return Card(
       child: Padding(
@@ -373,13 +404,21 @@ class _WaterCard extends ConsumerWidget {
             if (trained)
               Text(
                 l10n.dataWaterTrainingBonus(
-                  formatVolume(context, _trainingBonusMl),
+                  formatVolume(context, kTrainingWaterBonusMl),
                 ),
                 style: theme.textTheme.bodySmall
                     ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
               ),
             const SizedBox(height: 12),
             LinearProgressIndicator(value: progress, minHeight: 8),
+            if (pace != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                pace,
+                style: theme.textTheme.bodySmall
+                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              ),
+            ],
             const SizedBox(height: 12),
             Wrap(
               spacing: 8,

@@ -289,10 +289,7 @@
   "calProfileSection": "Calendário e lembretes",
   "calReadSwitch": "Encontrar horários livres no meu calendário",
   "calReadHint": "Avisa sobre conflitos e sugere horários de treino. Seus eventos ficam no celular.",
-  "calWaterRemindersHint": "A cada {interval} min, das {from} às {to}",
   "calWaterFrom": "Lembretes de água a partir de",
-  "calWaterTo": "Até",
-  "calWaterInterval": "Lembrar a cada",
   "calMinutes": "{minutes} min",
   "calWaterRangeInvalid": "O fim precisa ser depois do início.",
   "calSuggestTime": "Sugerir horário",
@@ -1300,5 +1297,14 @@
   "scheduleDialogHint": "Os programas adicionados a partir de agora são recomendados e encurtados com base nisso.",
   "programFitInfo": "{days}× por semana · ~{minutes} min",
   "programFitShortened": "Treinos encurtados para {minutes} min",
-  "programBestFit": "O que mais combina com você"
+  "programBestFit": "O que mais combina com você",
+  "notifWaterPaced": "Beba agora cerca de {amount} para chegar a {goal} até as {time}.",
+  "waterPaceHint": "Faltam {remaining} até as {time} – cerca de {amount} a cada {minutes} min.",
+  "waterPaceHintLast": "Faltam {remaining} até as {time}.",
+  "waterBedtime": "Vou dormir às",
+  "waterStopBeforeBed": "Sem beber antes de dormir",
+  "waterStopNone": "Até a hora de dormir",
+  "waterLastDrink": "Última bebida às {time}",
+  "waterPacedHint": "Os lembretes seguem o que ainda falta: se você bebe adiantado, recebe menos; se está atrasado, mais.",
+  "waterRemindersPacedHint": "Conforme o que falta, {from}–{until}"
 }

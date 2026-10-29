@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../app_version.dart';
 import '../../core/experience_level.dart';
 import '../../core/rest_time.dart';
+import '../../core/water_pace.dart';
 import '../../core/text_filter.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
@@ -275,10 +276,16 @@ class ProfileScreen extends ConsumerWidget {
             SwitchListTile(
               secondary: const Icon(Icons.water_drop_outlined),
               title: Text(l10n.profileWaterReminders),
-              subtitle: Text(l10n.calWaterRemindersHint(
+              subtitle: Text(l10n.waterRemindersPacedHint(
                 formatMinutesOfDay(context, profile.waterReminderStartMinutes),
-                formatMinutesOfDay(context, profile.waterReminderEndMinutes),
-                profile.waterReminderIntervalMinutes,
+                formatMinutesOfDay(
+                  context,
+                  lastDrinkMinutes(
+                    startMinutes: profile.waterReminderStartMinutes,
+                    bedtimeMinutes: profile.bedtimeMinutes,
+                    stopBeforeBedMinutes: profile.waterStopBeforeBedMinutes,
+                  ),
+                ),
               )),
               value: profile.waterRemindersEnabled,
               onChanged: (v) => _toggleNotifications(
