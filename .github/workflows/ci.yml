@@ -135,7 +135,9 @@ jobs:
   # (Sideloadly + bezplatné Apple ID, docs/ios_sideload.md). Bez widgetu
   # a hodinek (bezplatné Apple ID je neumí). Jen po pushi a ručně – u PR
   # stačí build výše. Artefakt „gymbar-ios-ipa“: GymBar.ipa (bez
-  # oprávnění) a GymBar-zdravi.ipa (zkusmo s HealthKit).
+  # oprávnění), GymBar-zdravi.ipa (zkusmo s HealthKit)
+  # a GymBar-zdravi-pauza.ipa (zkusmo navíc s widgetem a Live Activity
+  # odpočtu pauzy, bez App Group – widget Dnes bude prázdný).
   ios_ipa:
     name: iOS .ipa pro instalaci bez Macu
     if: github.event_name != 'pull_request'
@@ -173,6 +175,24 @@ jobs:
           (cd build/ipa/health && zip -qry ../out/GymBar-zdravi.ipa Payload)
           printf 'GymBar %s (%s)\nNávod: docs/ios_sideload.md\n' \
             "$VERSION" "${GITHUB_SHA::7}" > build/ipa/out/VERZE.txt
+      - name: Widget a Live Activity do Xcode projektu
+        run: dart run tool/ios_widget.dart
+      - name: iOS build s Live Activity
+        run: flutter build ios --release --no-codesign
+      - name: Zabalit .ipa s Live Activity
+        run: |
+          APP=build/ios/iphoneos/Runner.app
+          test -f "$APP/PlugIns/GymBarWidget.appex/GymBarWidget"
+          mkdir -p build/ipa/pauza/Payload
+          cp -R "$APP" build/ipa/pauza/Payload/
+          P=build/ipa/pauza/Payload/Runner.app
+          find "$P/Frameworks" -maxdepth 1 \( -name '*.framework' -o -name '*.dylib' \) \
+            -exec codesign --force --sign - {} \;
+          # Rozšíření bez App Group (bezplatné Apple ID ji neumí).
+          codesign --force --sign - "$P/PlugIns/GymBarWidget.appex"
+          codesign --force --sign - \
+            --entitlements tool/ios_sideload/healthkit.entitlements "$P"
+          (cd build/ipa/pauza && zip -qry ../out/GymBar-zdravi-pauza.ipa Payload)
           ls -la build/ipa/out
       - uses: actions/upload-artifact@v4
         with:

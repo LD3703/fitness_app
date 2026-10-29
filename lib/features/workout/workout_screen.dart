@@ -65,10 +65,6 @@ class WorkoutScreen extends ConsumerStatefulWidget {
 }
 
 class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
-  /// Pauza, která běžela, když uživatel z obrazovky tréninku odešel
-  /// (podle ID tréninku). Trénink zůstává rozpracovaný; po návratu do něj
-  /// pauza pokračuje a mezitím na její konec upozorní notifikace.
-  static final _restOnLeave = <int, ({DateTime endsAt, int totalSeconds})>{};
 
   final _timer = RestTimer();
   final _blocks = <_Block>[];
@@ -145,8 +141,10 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
   /// Návrat do tréninku během pauzy, která běžela při odchodu z obrazovky:
   /// pauza pokračuje tady, notifikace už není potřeba.
   void _restoreRest() {
-    final pending = _restOnLeave.remove(widget.sessionId);
-    if (pending == null || !pending.endsAt.isAfter(DateTime.now())) return;
+    final pending = pendingRest.value;
+    if (pending == null || pending.sessionId != widget.sessionId) return;
+    pendingRest.value = null;
+    if (!pending.endsAt.isAfter(DateTime.now())) return;
     _timer.resume(pending.endsAt, pending.totalSeconds);
     NotificationService.instance.cancelRestEnd();
   }
@@ -172,8 +170,13 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
       // Odchod z obrazovky (zpět) trénink neukončí – pauza běží dál.
       // Notifikaci na její konec proto nerušíme, ale naplánujeme (v
       // aplikaci ji onHide nenaplánoval) a po návratu pauza pokračuje.
-      _restOnLeave[widget.sessionId] =
-          (endsAt: restEnd, totalSeconds: _timer.totalSeconds);
+      // Trénink zůstává rozpracovaný; odpočet ukazuje lišta nad spodní
+      // navigací (ui/app_shell.dart) a mezitím na konec upozorní notifikace.
+      pendingRest.value = (
+        sessionId: widget.sessionId,
+        endsAt: restEnd,
+        totalSeconds: _timer.totalSeconds,
+      );
       NotificationService.instance.scheduleRestEnd(_timer.remaining, _l10n);
       // Live Activity běží dál a po návratu se jen aktualizuje.
     } else {

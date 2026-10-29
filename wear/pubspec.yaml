@@ -4,7 +4,7 @@ publish_to: 'none'
 # Číslo sestavení (za +) musí být v Google Play jiné než u aplikace
 # v telefonu (stejná aplikace = společná řada versionCode). Hodinky proto
 # používají 1 000 000 + číslo sestavení telefonu – viz docs/wear_os.md.
-version: 0.3.25+1000032
+version: 0.3.26+1000033
 
 environment:
   sdk: ^3.6.0
