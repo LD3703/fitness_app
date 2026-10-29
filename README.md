@@ -119,7 +119,12 @@ Funguje:
   konec pauzy i při zamčeném telefonu, připomínky pití.
 - **Kalendář:** naplánované tréninky na 14 dní se zapisují do kalendáře
   telefonu a při změně plánu se samy upraví.
-- **Pitný režim:** ve dny tréninku se cíl zvýší o 500 ml.
+- **Pitný režim:** ve dny tréninku se cíl zvýší o 500 ml. Připomínky pití
+  se řídí tím, kolik ještě chybí: zbytek do cíle se rozloží (po sklenicích
+  z profilu, nejvýš jednou za 30 min) do posledního pití = večerka mínus
+  pauza před spaním (výchozí 22:30 − 1,5 h). Po každém zápisu vody se
+  přepočítají; karta Dnes ukazuje „Do 21:00 ještě 1,25 l – asi 250 ml
+  každých 45 min“ (`lib/core/water_pace.dart`, schéma v26).
 - **Soukromí:** bez účtu je vše jen v telefonu; cloudové funkce (záloha,
   přátelé, žebříčky, trenér) posílají na server jen to, co popisují zásady
   ochrany soukromí (`docs/web/privacy.html`). V Profilu jde smazat všechna
@@ -140,7 +145,7 @@ Verze 2 a 3 (moduly v `lib/modules/`):
 - **Kalendář a upozornění:** volný čas a kolize z kalendáře, návrh času
   v editoru plánu, varování na Dnes, kolize v ranní připomínce, tlačítka
   v upozornění (Počítám s tím / Přesunout / Dnes nestíhám), odpočet pauzy
-  na zamčené obrazovce (Android), připomínky pití od–do po zvoleném intervalu.
+  na zamčené obrazovce (Android), připomínky pití od zvoleného času do večerky mínus pauza před spaním.
 - **Widget na plochu (Android):** voda a dnešní trénink, tlačítko + sklenice.
   Pro iOS je widget i Live Activity odpočtu pauzy hotový, zapne se po
   registraci App Group v Apple Developer účtu (`docs/ios_widget.md`).

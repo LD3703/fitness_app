@@ -69,8 +69,17 @@ class UserProfiles extends Table {
       integer().withDefault(const Constant(9 * 60))();
   IntColumn get waterReminderEndMinutes =>
       integer().withDefault(const Constant(20 * 60))();
+  /// Od verze 26 se nepoužívá – počet připomínek se řídí tím, kolik
+  /// ještě chybí (core/water_pace.dart).
   IntColumn get waterReminderIntervalMinutes =>
       integer().withDefault(const Constant(120))();
+
+  /// Večerka (v26, minuty od půlnoci, výchozí 22:30) a kolik minut před
+  /// spaním už nepít (výchozí 90) – do té doby se rozloží připomínky pití.
+  IntColumn get bedtimeMinutes =>
+      integer().withDefault(const Constant(22 * 60 + 30))();
+  IntColumn get waterStopBeforeBedMinutes =>
+      integer().withDefault(const Constant(90))();
 
   /// Vlastní objem sklenice / láhve pro rychlý zápis vody.
   IntColumn get glassMl => integer().withDefault(const Constant(250))();

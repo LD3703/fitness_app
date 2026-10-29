@@ -289,10 +289,7 @@
   "calProfileSection": "Kalendář a připomínky",
   "calReadSwitch": "Hledat volný čas v kalendáři",
   "calReadHint": "Upozorní na kolize a navrhne časy tréninků. Tvoje události zůstanou v telefonu.",
-  "calWaterRemindersHint": "Každých {interval} min od {from} do {to}",
   "calWaterFrom": "Připomínky pití od",
-  "calWaterTo": "Do",
-  "calWaterInterval": "Připomínat každých",
   "calMinutes": "{minutes} min",
   "calWaterRangeInvalid": "Konec musí být později než začátek.",
   "calSuggestTime": "Navrhnout čas",
@@ -1300,5 +1297,14 @@
   "scheduleDialogHint": "Podle toho se doporučí a zkrátí programy přidané od teď.",
   "programFitInfo": "{days}× týdně · ~{minutes} min",
   "programFitShortened": "Tréninky zkrácené na {minutes} min",
-  "programBestFit": "Sedí ti nejlépe"
+  "programBestFit": "Sedí ti nejlépe",
+  "notifWaterPaced": "Dej si teď asi {amount}, ať do {time} máš {goal}.",
+  "waterPaceHint": "Do {time} ještě {remaining} – asi {amount} každých {minutes} min.",
+  "waterPaceHintLast": "Do {time} ještě {remaining}.",
+  "waterBedtime": "Spát chodím v",
+  "waterStopBeforeBed": "Před spaním nepiju",
+  "waterStopNone": "Až do spaní",
+  "waterLastDrink": "Poslední pití v {time}",
+  "waterPacedHint": "Připomínky se řídí tím, kolik ti ještě chybí: když piješ napřed, je jich míň, když zaostáváš, víc.",
+  "waterRemindersPacedHint": "Podle toho, kolik ti chybí, {from}–{until}"
 }

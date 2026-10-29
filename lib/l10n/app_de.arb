@@ -289,10 +289,7 @@
   "calProfileSection": "Kalender & Erinnerungen",
   "calReadSwitch": "Freie Zeit im Kalender finden",
   "calReadHint": "Warnt bei Überschneidungen und schlägt Trainingszeiten vor. Deine Termine bleiben auf dem Handy.",
-  "calWaterRemindersHint": "Alle {interval} Min. von {from} bis {to}",
   "calWaterFrom": "Wasser-Erinnerungen ab",
-  "calWaterTo": "Bis",
-  "calWaterInterval": "Erinnern alle",
   "calMinutes": "{minutes} Min.",
   "calWaterRangeInvalid": "Das Ende muss nach dem Beginn liegen.",
   "calSuggestTime": "Zeit vorschlagen",
@@ -1300,5 +1297,14 @@
   "scheduleDialogHint": "Ab jetzt hinzugefügte Programme werden danach empfohlen und gekürzt.",
   "programFitInfo": "{days}× pro Woche · ~{minutes} min",
   "programFitShortened": "Trainings auf {minutes} min gekürzt",
-  "programBestFit": "Passt am besten"
+  "programBestFit": "Passt am besten",
+  "notifWaterPaced": "Trink jetzt etwa {amount}, damit du bis {time} {goal} schaffst.",
+  "waterPaceHint": "Bis {time} noch {remaining} – etwa {amount} alle {minutes} min.",
+  "waterPaceHintLast": "Bis {time} noch {remaining}.",
+  "waterBedtime": "Ich gehe schlafen um",
+  "waterStopBeforeBed": "Vor dem Schlafen nichts trinken",
+  "waterStopNone": "Bis zum Schlafengehen",
+  "waterLastDrink": "Letztes Trinken um {time}",
+  "waterPacedHint": "Die Erinnerungen richten sich danach, wie viel noch fehlt: Trinkst du vorab, kommen weniger, hängst du hinterher, mehr.",
+  "waterRemindersPacedHint": "Je nachdem, wie viel fehlt, {from}–{until}"
 }

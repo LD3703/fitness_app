@@ -9,6 +9,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../core/coach_tone.dart';
 import '../core/fatigue.dart';
+import '../core/water_pace.dart';
 import '../core/wellbeing.dart';
 import '../data/database.dart';
 import '../l10n/app_localizations.dart';
@@ -389,12 +390,13 @@ class NotificationService {
     required AppLocalizations l10n,
     required String locale,
     AppDatabase? db,
+    int waterTodayMl = 0,
+    bool trainedToday = false,
   }) async {
     if (!supported) return;
     try {
       await _init();
       await _cancelRange(_morningBase, _daysAhead);
-      await _cancelRange(_waterBase, _waterSlots);
 
       final now = DateTime.now();
       final today = DateTime(now.year, now.month, now.day);
@@ -485,52 +487,119 @@ class NotificationService {
         }
       }
 
-      if (profile.trackWater && profile.waterRemindersEnabled) {
-        final times = waterReminderMinutes(
-          startMinutes: profile.waterReminderStartMinutes,
-          endMinutes: profile.waterReminderEndMinutes,
-          intervalMinutes: profile.waterReminderIntervalMinutes,
-          maxCount: _waterPerDay,
-        );
-        // iOS drží nejvýš 64 naplánovaných upozornění (nejbližší); voda by
-        // na 7 dní snadno vytlačila ranní připomínky. Na iOS proto jen
-        // 2 dny – okno se posouvá s každým novým dnem (currentDayProvider).
-        final waterDays =
-            defaultTargetPlatform == TargetPlatform.iOS ? 2 : _daysAhead;
-        for (var d = 0; d < waterDays; d++) {
-          for (var h = 0; h < times.length; h++) {
-            final at = DateTime(today.year, today.month, today.day + d,
-                times[h] ~/ 60, times[h] % 60);
-            if (!at.isAfter(now)) continue;
-            final goal = formatVolumeFor(
-              l10n.localeName,
-              profile.waterGoalMl,
-              unit: profile.unitSystem,
-            );
-            // Pití do tréninku netlačí – únava se neověřuje, nemoc,
-            // zranění a zotavování ale přísný tón vypnou.
-            final strict = effectiveCoachTone(
-                  chosenTone,
-                  profile.trackPeriods
-                      ? determineSituation(periods, at)
-                      : WellbeingSituation.normal,
-                ) ==
-                CoachTone.strict;
-            await _plugin.zonedSchedule(
-              id: _waterBase + d * _waterPerDay + h,
-              title: l10n.notifWaterTitle,
-              body: strict
-                  ? strictWaterBody(l10n, goal, at, h)
-                  : l10n.dataNotifWaterBody(goal),
-              scheduledDate: tz.TZDateTime.from(at, tz.UTC),
-              notificationDetails: _waterDetails,
-              androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-            );
-          }
-        }
-      }
     } catch (e) {
       debugPrint('Notification scheduling failed: $e');
+    }
+    // Pití zvlášť – chyba ranních připomínek (kalendář, únava) ho nezastaví.
+    try {
+      await _scheduleWater(
+        profile: profile,
+        periods: periods,
+        l10n: l10n,
+        locale: locale,
+        waterTodayMl: waterTodayMl,
+        trainedToday: trainedToday,
+        now: DateTime.now(),
+      );
+    } catch (e) {
+      debugPrint('Water reminders failed: $e');
+    }
+  }
+
+  /// Přeplánuje jen připomínky pití – po každém zápisu vody (zbytek dne
+  /// se přepočítá podle toho, kolik ještě chybí, core/water_pace.dart).
+  Future<void> rescheduleWater({
+    required UserProfile profile,
+    required List<PeriodSpan> periods,
+    required AppLocalizations l10n,
+    required int waterTodayMl,
+    required bool trainedToday,
+  }) async {
+    if (!supported) return;
+    try {
+      await _init();
+      await _scheduleWater(
+        profile: profile,
+        periods: periods,
+        l10n: l10n,
+        locale: l10n.localeName,
+        waterTodayMl: waterTodayMl,
+        trainedToday: trainedToday,
+        now: DateTime.now(),
+      );
+    } catch (e) {
+      debugPrint('Water reminders failed: $e');
+    }
+  }
+
+  /// Připomínky pití: dnes podle toho, kolik ještě chybí do cíle (ve dny
+  /// tréninku +500 ml), další dny na celý cíl. Rozložené do posledního
+  /// pití = večerka mínus pauza před spaním (core/water_pace.dart).
+  Future<void> _scheduleWater({
+    required UserProfile profile,
+    required List<PeriodSpan> periods,
+    required AppLocalizations l10n,
+    required String locale,
+    required int waterTodayMl,
+    required bool trainedToday,
+    required DateTime now,
+  }) async {
+    await _cancelRange(_waterBase, _waterSlots);
+    if (!profile.trackWater || !profile.waterRemindersEnabled) return;
+    final today = DateTime(now.year, now.month, now.day);
+    final last = lastDrinkMinutes(
+      startMinutes: profile.waterReminderStartMinutes,
+      bedtimeMinutes: profile.bedtimeMinutes,
+      stopBeforeBedMinutes: profile.waterStopBeforeBedMinutes,
+    );
+    final timeFormat = DateFormat.Hm(locale);
+    final chosenTone = coachToneOf(profile.coachTone);
+    String volume(int ml) =>
+        formatVolumeFor(l10n.localeName, ml, unit: profile.unitSystem);
+    // iOS drží nejvýš 64 naplánovaných upozornění (nejbližší); voda by
+    // na 7 dní snadno vytlačila ranní připomínky. Na iOS proto jen
+    // 2 dny – okno se posouvá s každým novým dnem (currentDayProvider).
+    final waterDays =
+        defaultTargetPlatform == TargetPlatform.iOS ? 2 : _daysAhead;
+    for (var d = 0; d < waterDays; d++) {
+      final day = DateTime(today.year, today.month, today.day + d);
+      final goalMl = profile.waterGoalMl +
+          (d == 0 && trainedToday ? kTrainingWaterBonusMl : 0);
+      final reminders = planWaterReminders(
+        now: now,
+        day: day,
+        startMinutes: profile.waterReminderStartMinutes,
+        lastDrinkMinutes: last,
+        goalMl: goalMl,
+        drunkMl: d == 0 ? waterTodayMl : 0,
+        glassMl: profile.glassMl,
+      );
+      final until = timeFormat.format(
+          DateTime(day.year, day.month, day.day, last ~/ 60, last % 60));
+      for (final (h, r) in reminders.take(_waterPerDay).indexed) {
+        if (!r.at.isAfter(now)) continue;
+        final paced =
+            l10n.notifWaterPaced(volume(r.amountMl), until, volume(goalMl));
+        // Pití do tréninku netlačí – únava se neověřuje, nemoc,
+        // zranění a zotavování ale přísný tón vypnou.
+        final strict = effectiveCoachTone(
+              chosenTone,
+              profile.trackPeriods
+                  ? determineSituation(periods, r.at)
+                  : WellbeingSituation.normal,
+            ) ==
+            CoachTone.strict;
+        await _plugin.zonedSchedule(
+          id: _waterBase + d * _waterPerDay + h,
+          title: l10n.notifWaterTitle,
+          body: strict
+              ? '${strictWaterBody(l10n, volume(goalMl), r.at, h)}\n$paced'
+              : paced,
+          scheduledDate: tz.TZDateTime.from(r.at, tz.UTC),
+          notificationDetails: _waterDetails,
+          androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        );
+      }
     }
   }
 

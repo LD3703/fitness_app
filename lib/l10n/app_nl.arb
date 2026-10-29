@@ -289,10 +289,7 @@
   "calProfileSection": "Agenda & herinneringen",
   "calReadSwitch": "Vrije tijd in mijn agenda zoeken",
   "calReadHint": "Waarschuwt bij overlap en stelt trainingstijden voor. Je afspraken blijven op je telefoon.",
-  "calWaterRemindersHint": "Elke {interval} min van {from} tot {to}",
   "calWaterFrom": "Waterherinneringen vanaf",
-  "calWaterTo": "Tot",
-  "calWaterInterval": "Herinner elke",
   "calMinutes": "{minutes} min",
   "calWaterRangeInvalid": "Het einde moet later zijn dan het begin.",
   "calSuggestTime": "Tijd voorstellen",
@@ -1300,5 +1297,14 @@
   "scheduleDialogHint": "Programma’s die je vanaf nu toevoegt, worden hierop aanbevolen en ingekort.",
   "programFitInfo": "{days}× per week · ~{minutes} min",
   "programFitShortened": "Trainingen ingekort tot {minutes} min",
-  "programBestFit": "Past het best bij jou"
+  "programBestFit": "Past het best bij jou",
+  "notifWaterPaced": "Drink nu ongeveer {amount}, zodat je om {time} op {goal} zit.",
+  "waterPaceHint": "Nog {remaining} tot {time} – ongeveer {amount} elke {minutes} min.",
+  "waterPaceHintLast": "Nog {remaining} tot {time}.",
+  "waterBedtime": "Ik ga slapen om",
+  "waterStopBeforeBed": "Niet drinken voor het slapen",
+  "waterStopNone": "Tot het slapengaan",
+  "waterLastDrink": "Laatste drankje om {time}",
+  "waterPacedHint": "Herinneringen volgen hoeveel je nog nodig hebt: drink je vooruit, dan krijg je er minder, loop je achter, dan meer.",
+  "waterRemindersPacedHint": "Op basis van wat je nog nodig hebt, {from}–{until}"
 }

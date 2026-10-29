@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/water_pace.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers.dart';
@@ -9,11 +10,10 @@ import '../../services/calendar_service.dart';
 import '../../ui/weekdays.dart';
 
 /// Sekce v Profilu: čtení kalendáře (volná okna, kolize) a nastavení
-/// intervalu připomínek pití.
+/// připomínek pití – od kdy, večerka a pauza před spaním
+/// (core/water_pace.dart).
 class CalendarProfileSection extends ConsumerWidget {
   const CalendarProfileSection({super.key});
-
-  static const _intervals = [60, 90, 120, 180];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,11 +24,13 @@ class CalendarProfileSection extends ConsumerWidget {
     final db = ref.watch(databaseProvider);
     final showWater = profile.trackWater && profile.waterRemindersEnabled;
     final from = profile.waterReminderStartMinutes;
-    final to = profile.waterReminderEndMinutes;
-    final interval = profile.waterReminderIntervalMinutes;
+    final bedtime = profile.bedtimeMinutes;
+    final stop = profile.waterStopBeforeBedMinutes;
+    final last = lastDrinkMinutes(
+        startMinutes: from, bedtimeMinutes: bedtime, stopBeforeBedMinutes: stop);
 
     Future<void> pickTime({required bool start}) async {
-      final current = start ? from : to;
+      final current = start ? from : bedtime;
       final t = await showTimePicker(
         context: context,
         initialTime: TimeOfDay(hour: current ~/ 60, minute: current % 60),
@@ -36,8 +38,13 @@ class CalendarProfileSection extends ConsumerWidget {
       if (t == null) return;
       final minutes = t.hour * 60 + t.minute;
       final newFrom = start ? minutes : from;
-      final newTo = start ? to : minutes;
-      if (newTo <= newFrom) {
+      final newBed = start ? bedtime : minutes;
+      // Na pití musí zbýt aspoň hodina (večerka po půlnoci je v pořádku).
+      final newLast = lastDrinkMinutes(
+          startMinutes: newFrom,
+          bedtimeMinutes: newBed,
+          stopBeforeBedMinutes: stop);
+      if (newLast - newFrom < 60) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(l10n.calWaterRangeInvalid)),
@@ -47,7 +54,7 @@ class CalendarProfileSection extends ConsumerWidget {
       }
       await db.updateProfile(start
           ? UserProfilesCompanion(waterReminderStartMinutes: Value(minutes))
-          : UserProfilesCompanion(waterReminderEndMinutes: Value(minutes)));
+          : UserProfilesCompanion(bedtimeMinutes: Value(minutes)));
     }
 
     return Column(
@@ -92,31 +99,43 @@ class CalendarProfileSection extends ConsumerWidget {
             onTap: () => pickTime(start: true),
           ),
           ListTile(
-            leading: const SizedBox(width: 24),
-            title: Text(l10n.calWaterTo),
+            leading: const Icon(Icons.bedtime_outlined),
+            title: Text(l10n.waterBedtime),
             trailing: Text(
-              formatMinutesOfDay(context, to),
+              formatMinutesOfDay(context, bedtime),
               style: theme.textTheme.titleMedium,
             ),
             onTap: () => pickTime(start: false),
           ),
           ListTile(
             leading: const SizedBox(width: 24),
-            title: Text(l10n.calWaterInterval),
+            title: Text(l10n.waterStopBeforeBed),
+            subtitle: Text(l10n.waterLastDrink(formatMinutesOfDay(context, last))),
             trailing: DropdownButton<int>(
-              value: _intervals.contains(interval) ? interval : null,
-              hint: Text(l10n.calMinutes(interval)),
+              value: kWaterStopBeforeBedOptions.contains(stop) ? stop : null,
+              hint: Text(l10n.calMinutes(stop)),
               underline: const SizedBox.shrink(),
               items: [
-                for (final m in _intervals)
-                  DropdownMenuItem(value: m, child: Text(l10n.calMinutes(m))),
+                for (final m in kWaterStopBeforeBedOptions)
+                  DropdownMenuItem(
+                    value: m,
+                    child: Text(m == 0 ? l10n.waterStopNone : l10n.calMinutes(m)),
+                  ),
               ],
               onChanged: (m) {
                 if (m == null) return;
                 db.updateProfile(UserProfilesCompanion(
-                  waterReminderIntervalMinutes: Value(m),
+                  waterStopBeforeBedMinutes: Value(m),
                 ));
               },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(72, 0, 16, 8),
+            child: Text(
+              l10n.waterPacedHint,
+              style: theme.textTheme.bodySmall
+                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
           ),
         ],

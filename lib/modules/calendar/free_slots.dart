@@ -164,23 +164,6 @@ int _roundUp(int minutes, int step) =>
 
 int _roundDown(int minutes, int step) => minutes - minutes % step;
 
-/// Časy připomínek pití v jednom dni: od [startMinutes] po [intervalMinutes]
-/// až do [endMinutes] (včetně). Nejvýš [maxCount] připomínek.
-List<int> waterReminderMinutes({
-  required int startMinutes,
-  required int endMinutes,
-  required int intervalMinutes,
-  int maxCount = 24,
-}) {
-  if (intervalMinutes <= 0 || endMinutes < startMinutes) return const [];
-  return [
-    for (var m = startMinutes;
-        m <= endMinutes && m < 24 * 60;
-        m += intervalMinutes)
-      m,
-  ].take(maxCount).toList();
-}
-
 /// Volná okna jednoho dne.
 typedef DayWindows = ({DateTime day, List<TimeWindow> windows});
 
