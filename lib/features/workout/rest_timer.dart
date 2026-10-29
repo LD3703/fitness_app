@@ -3,11 +3,19 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+/// Pauza, která běží po odchodu z obrazovky tréninku (zpět na Dnes, do
+/// Plánů…): odpočet ji ukazuje nad spodní navigací (ui/app_shell.dart)
+/// a po návratu do tréninku pokračuje. null = žádná.
+typedef PendingRest = ({int sessionId, DateTime endsAt, int totalSeconds});
+
+final pendingRest = ValueNotifier<PendingRest?>(null);
+
 /// Odpočet pauzy mezi sériemi.
 ///
 /// Počítá s časem konce (ne s odečítáním ticků), takže zůstane přesný
-/// i po přepnutí do jiné aplikace. Upozornění na konec pauzy při zamčeném
-/// telefonu doplní notifikace v další fázi.
+/// i po přepnutí do jiné aplikace. Na konec pauzy při zamčeném telefonu
+/// upozorní notifikace (NotificationService.scheduleRestEnd), odpočet
+/// ukazuje trvalá notifikace (Android) nebo Live Activity (iPhone).
 class RestTimer extends ChangeNotifier {
   Timer? _ticker;
   DateTime? _endAt;

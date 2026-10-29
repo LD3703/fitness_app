@@ -18,8 +18,10 @@ Funguje:
   podle osobního rekordu; u cviku je vidět rekord (nejtěžší série) a poslední výkon.
 - **Trénink:** spuštění z plánu, z obrazovky Dnes i bez plánu; zápis sérií
   s předvyplněním z minula, sloupec „Minule“, časovač pauzy (−15 / +15 /
-  přeskočit), přidání cviku i série během tréninku, pokračování po zavření
-  aplikace, zahození tréninku.
+  přeskočit; po odchodu z tréninku běží odpočet nad spodní navigací,
+  na zamčené obrazovce trvalá notifikace / Live Activity), přidání cviku
+  i série během tréninku, pokračování po zavření aplikace, zahození
+  tréninku.
 - **Cíl tréninku:** Síla / Svaly / Výdrž – volí se v úvodu a v Profilu,
   plán může mít vlastní zaměření (editor plánu, schéma v23) a nahoře
   v tréninku jde změnit jen pro daný trénink. Podle zaměření se počítají

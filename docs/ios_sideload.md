@@ -11,11 +11,13 @@ pushi, i do `main`.
 1. github.com → repozitář `fitness_app` → **Actions** → poslední zelený
    běh **CI** na větvi `main`.
 2. Dole v sekci **Artifacts** stáhni **gymbar-ios-ipa** (zip, platí 30 dní)
-   a rozbal ho. Uvnitř je:
+   a rozbal ho. Uvnitř je (zkoušej v tomto pořadí):
+   - `GymBar-zdravi-pauza.ipa` – s Apple Zdraví (spánek, HRV, tep –
+     `docs/readiness.md`) a **odpočtem pauzy na zamčené obrazovce**
+     (Live Activity, `docs/ios_widget.md`). Zkusmá: rozšíření potřebuje
+     další App ID a bezplatné Apple ID ho nemusí dovolit,
+   - `GymBar-zdravi.ipa` – jen s Apple Zdravím,
    - `GymBar.ipa` – základní verze, nainstaluje se vždy,
-   - `GymBar-zdravi.ipa` – navíc s oprávněním pro Apple Zdraví (spánek,
-     HRV, tep – `docs/readiness.md`). Je zkusmá: kdyby ji Sideloadly
-     odmítl, použij `GymBar.ipa`,
    - `VERZE.txt` – verze a commit.
 
 ## 2. Příprava Windows (jednorázově)
@@ -48,8 +50,12 @@ zůstanou (stejné Apple ID a stejný Bundle ID).
   přes Apple** a otevírání odkazů gymbar.app v aplikaci – to bezplatné
   Apple ID neumí. Místní připomínky (ranní připomínka, konec pauzy)
   a přihlášení přes Google / e-mail fungují.
-- **Bez widgetu, Live Activity a aplikace pro Apple Watch** – v `.ipa`
-  nejsou (každé rozšíření potřebuje další App ID a App Group).
-- Apple Zdraví jen ve `GymBar-zdravi.ipa`.
+- **Odpočet pauzy na zamčené obrazovce** (Live Activity) jen ve
+  `GymBar-zdravi-pauza.ipa`. V ostatních verzích je odpočet jen
+  v aplikaci (na obrazovce tréninku a po odchodu z ní nad spodní
+  navigací) a na konci pauzy přijde notifikace.
+- Widget Dnes na ploše zůstane prázdný (potřebuje App Group) a aplikace
+  pro Apple Watch v `.ipa` není.
+- Apple Zdraví jen ve verzích `-zdravi`.
 
 Všechno z toho bude fungovat ve verzi z TestFlightu (README 2b, krok 3).
