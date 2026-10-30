@@ -1311,5 +1311,7 @@
   "planExerciseRemoved": "{name} retiré du plan",
   "workoutExerciseRemoved": "{name} retiré de la séance",
   "workoutRemoveExercise": "Retirer de la séance",
-  "workoutRemoveExerciseShort": "Retirer"
+  "workoutRemoveExerciseShort": "Retirer",
+  "workoutSetRemoved": "Série retirée",
+  "planEditAction": "Modifier le plan"
 }

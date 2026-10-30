@@ -23,10 +23,11 @@ Funguje:
   na zamčené obrazovce trvalá notifikace / Live Activity), přidání cviku
   i série během tréninku, pokračování po zavření aplikace, zahození
   tréninku.
-- **Ovládání jako v iOS:** přejetím doleva se maže plán, cvik z plánu
-  i cvik z tréninku – bez potvrzovacího dialogu, s „Vrátit“ ve snackbaru
-  (`lib/ui/swipe_to_delete.dart`); pořadí cviků v plánu se mění podržením
-  kdekoli na řádku.
+- **Ovládání jako v iOS:** přejetím doleva se maže plán, cvik z plánu,
+  cvik z tréninku i jednotlivá série – bez potvrzovacího dialogu,
+  s „Vrátit“ ve snackbaru (`lib/ui/swipe_to_delete.dart`); pořadí cviků
+  v plánu se mění podržením kdekoli na řádku; podržení plánu v seznamu
+  ukáže rychlé akce (Začít, Upravit, Přejmenovat, Smazat).
 - **Cíl tréninku:** Síla / Svaly / Výdrž – volí se v úvodu a v Profilu,
   plán může mít vlastní zaměření (editor plánu, schéma v23) a nahoře
   v tréninku jde změnit jen pro daný trénink. Podle zaměření se počítají

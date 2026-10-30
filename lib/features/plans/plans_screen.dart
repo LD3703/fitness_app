@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,6 +20,8 @@ import '../../ui/swipe_to_delete.dart';
 import '../../ui/training_focus_selector.dart';
 import '../../ui/weekdays.dart';
 import '../workout/start_workout.dart';
+
+enum _PlanAction { start, edit, rename, delete }
 
 /// Plány smazané přejetím, u kterých ještě jde „Vrátit“ – v seznamu
 /// se nezobrazují, z databáze zmizí až po zavření snackbaru.
@@ -69,6 +72,72 @@ class PlansScreen extends ConsumerWidget {
         if (pending.mounted) pending.update((s) => {...s}..remove(plan.id));
       },
     );
+  }
+
+  /// Rychlé akce po podržení plánu: začít trénink, upravit, přejmenovat,
+  /// smazat (se „Vrátit“).
+  Future<void> _showPlanActions(
+      BuildContext context, WidgetRef ref, WorkoutPlan plan) async {
+    HapticFeedback.mediumImpact();
+    final l10n = AppLocalizations.of(context);
+    final action = await showModalBottomSheet<_PlanAction>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+              child: Text(plan.name,
+                  style: Theme.of(context).textTheme.titleMedium),
+            ),
+            ListTile(
+              leading: const Icon(Icons.play_arrow),
+              title: Text(l10n.workoutStart),
+              onTap: () => Navigator.of(context).pop(_PlanAction.start),
+            ),
+            ListTile(
+              leading: const Icon(Icons.edit_outlined),
+              title: Text(l10n.planEditAction),
+              onTap: () => Navigator.of(context).pop(_PlanAction.edit),
+            ),
+            ListTile(
+              leading: const Icon(Icons.drive_file_rename_outline),
+              title: Text(l10n.planRename),
+              onTap: () => Navigator.of(context).pop(_PlanAction.rename),
+            ),
+            ListTile(
+              leading: Icon(Icons.delete_outline,
+                  color: Theme.of(context).colorScheme.error),
+              title: Text(
+                l10n.delete,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
+              onTap: () => Navigator.of(context).pop(_PlanAction.delete),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (action == null || !context.mounted) return;
+    switch (action) {
+      case _PlanAction.start:
+        await startWorkout(context, ref, planId: plan.id);
+      case _PlanAction.edit:
+        context.go('/plans/${plan.id}');
+      case _PlanAction.rename:
+        final name = await showTextInputDialog(
+          context,
+          title: l10n.planRename,
+          initialValue: plan.name,
+        );
+        if (name != null) {
+          await ref.read(databaseProvider).renamePlan(plan.id, name);
+        }
+      case _PlanAction.delete:
+        _deleteWithUndo(context, ref, plan);
+    }
   }
 
   Future<void> _addTemplate(BuildContext context, WidgetRef ref) async {
@@ -270,6 +339,8 @@ class PlansScreen extends ConsumerWidget {
                     parts.isEmpty ? l10n.planNoSchedule : parts.join(' · '),
                   ),
                   onTap: () => context.go('/plans/${plan.id}'),
+                  // Podržení: rychlé akce (jako kontextové menu v iOS).
+                  onLongPress: () => _showPlanActions(context, ref, plan),
                   trailing: IconButton.filledTonal(
                     tooltip: l10n.workoutStart,
                     icon: const Icon(Icons.play_arrow),

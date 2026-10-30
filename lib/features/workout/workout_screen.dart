@@ -186,6 +186,7 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
     _timer.dispose();
     // Odebraný cvik čekající na „Vrátit“: odchodem z tréninku se potvrdí.
     unawaited(_commitRemoval());
+    unawaited(_commitSetRemoval());
     for (final b in _blocks) {
       b.dispose();
     }
@@ -552,6 +553,60 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
     });
   }
 
+  /// Série odebraná přejetím, u které ještě jde „Vrátit“: v bloku není,
+  /// zapsaná série je ale v databázi, dokud nevyprší snackbar.
+  ({_Block block, _SetRow row, int index, AppDatabase db})? _pendingSetRemoval;
+
+  /// Odebere jednu sérii přejetím (i zapsanou) – „Vrátit“ ji vrátí.
+  void _removeSet(_Block block, _SetRow row) {
+    final index = block.rows.indexOf(row);
+    // Série, která se právě zapisuje, by v databázi zůstala bez řádku.
+    if (index < 0 || row.saving) return;
+    unawaited(_commitSetRemoval());
+    final db = _db;
+    setState(() {
+      block.rows.removeAt(index);
+      if (identical(_suggested, row)) _suggested = null;
+      _pendingSetRemoval = (block: block, row: row, index: index, db: db);
+    });
+    _wear.schedulePublish();
+    showUndoSnackBar(
+      context,
+      message: AppLocalizations.of(context).workoutSetRemoved,
+      onUndo: () {
+        if (!mounted || _pendingSetRemoval?.row != row) return;
+        _pendingSetRemoval = null;
+        setState(
+            () => block.rows.insert(math.min(index, block.rows.length), row));
+        // Mezitím zapsané série mohly dostat pozice posunuté o řádek.
+        _syncPositions(block);
+        _wear.schedulePublish();
+      },
+      onCommit: () {
+        if (_pendingSetRemoval?.row == row) unawaited(_commitSetRemoval());
+      },
+    );
+  }
+
+  /// Dokončí odebrání série: smaže ji v databázi a srovná pozice ostatních.
+  Future<void> _commitSetRemoval() async {
+    final pending = _pendingSetRemoval;
+    if (pending == null) return;
+    _pendingSetRemoval = null;
+    final id = pending.row.savedId;
+    if (id != null) {
+      try {
+        await pending.db.deleteSet(id);
+      } catch (e) {
+        debugPrint('Workout: delete set failed: $e');
+      }
+    }
+    pending.row.dispose();
+    if (mounted && _blocks.contains(pending.block)) {
+      _syncPositions(pending.block);
+    }
+  }
+
   /// Přidá cvik na konec tréninku. Cvik, který už v tréninku je, dostane
   /// další volný slot – jeho série se ukládají na vlastní pozice a po
   /// návratu do tréninku se nesmíchají s prvním výskytem
@@ -601,8 +656,10 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
 
   Future<void> _finish() async {
     final l10n = AppLocalizations.of(context);
-    // Odebraný cvik čekající na „Vrátit“ se do souhrnu nesmí započítat.
+    // Odebraný cvik / série čekající na „Vrátit“ se do souhrnu nesmí
+    // započítat.
     await _commitRemoval();
+    await _commitSetRemoval();
     if (!mounted) return;
     final anyDone = _blocks.any((b) => b.rows.any((r) => r.isDone));
     if (!anyDone) {
@@ -696,6 +753,7 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
           onAddSet: () => _addSet(block),
           onAddDrop: () => _addDrop(block),
           onRemoveSet: () => _removeLastSet(block),
+          onRemoveRow: (row) => _removeSet(block, row),
           onCycleKind: (r) => _cycleKind(block, r),
           onAction: (a) => _onBlockAction(i, a),
           trainerName: _setup?.planTrainer,
@@ -1157,6 +1215,7 @@ class _BlockCard extends StatelessWidget {
     required this.onAddSet,
     required this.onAddDrop,
     required this.onRemoveSet,
+    required this.onRemoveRow,
     required this.onCycleKind,
     required this.onAction,
     this.trainerName,
@@ -1185,6 +1244,9 @@ class _BlockCard extends StatelessWidget {
   final VoidCallback onAddSet;
   final VoidCallback onAddDrop;
   final VoidCallback onRemoveSet;
+
+  /// Přejetí série doleva – odebere tuto sérii.
+  final ValueChanged<_SetRow> onRemoveRow;
   final ValueChanged<_BlockAction> onAction;
 
   @override
@@ -1375,19 +1437,25 @@ class _BlockCard extends StatelessWidget {
                 ],
               ),
             ),
-            for (var i = 0; i < block.rows.length; i++)
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: _SetRowView(
-                  number: numbers[i],
-                  row: block.rows[i],
-                  isDuration: block.isDuration,
-                  previous: block.previousAt(i),
-                  highlighted: identical(block.rows[i], suggested) &&
-                      !block.rows[i].isDone,
-                  onToggle: () => onToggle(i),
-                  onEdited: () => onEdited(block.rows[i]),
-                  onCycleKind: () => onCycleKind(i),
+            for (final (i, row) in block.rows.indexed)
+              // Přejetí série doleva ji odebere (přejetí jinde na kartě
+              // odebere celý cvik).
+              SwipeToDelete(
+                key: ObjectKey(row),
+                onDeleted: () => onRemoveRow(row),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: _SetRowView(
+                    number: numbers[i],
+                    row: block.rows[i],
+                    isDuration: block.isDuration,
+                    previous: block.previousAt(i),
+                    highlighted: identical(block.rows[i], suggested) &&
+                        !block.rows[i].isDone,
+                    onToggle: () => onToggle(i),
+                    onEdited: () => onEdited(block.rows[i]),
+                    onCycleKind: () => onCycleKind(i),
+                  ),
                 ),
               ),
             Wrap(

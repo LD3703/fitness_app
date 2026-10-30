@@ -1311,5 +1311,7 @@
   "planExerciseRemoved": "{name} – odebráno z plánu",
   "workoutExerciseRemoved": "{name} – odebráno z tréninku",
   "workoutRemoveExercise": "Odebrat z tréninku",
-  "workoutRemoveExerciseShort": "Odebrat"
+  "workoutRemoveExerciseShort": "Odebrat",
+  "workoutSetRemoved": "Série odebrána",
+  "planEditAction": "Upravit plán"
 }

@@ -1311,5 +1311,7 @@
   "planExerciseRemoved": "{name} rimosso dal piano",
   "workoutExerciseRemoved": "{name} rimosso dall’allenamento",
   "workoutRemoveExercise": "Rimuovi dall’allenamento",
-  "workoutRemoveExerciseShort": "Rimuovi"
+  "workoutRemoveExerciseShort": "Rimuovi",
+  "workoutSetRemoved": "Serie rimossa",
+  "planEditAction": "Modifica piano"
 }
