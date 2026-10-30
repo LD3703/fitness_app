@@ -73,8 +73,11 @@ final _routes = <RouteBase>[
         planId: int.tryParse(state.uri.queryParameters['planId'] ?? ''),
       ),
     ),
-    StatefulShellRoute.indexedStack(
+    // Záložky vedle sebe – přepínání i přejetím (ui/app_shell.dart).
+    StatefulShellRoute(
       builder: (context, state, shell) => AppShell(navigationShell: shell),
+      navigatorContainerBuilder: (context, shell, children) =>
+          SwipeBranchContainer(navigationShell: shell, children: children),
       branches: [
         StatefulShellBranch(routes: [
           GoRoute(
