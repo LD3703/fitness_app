@@ -1313,5 +1313,8 @@
   "workoutRemoveExercise": "Uit training verwijderen",
   "workoutRemoveExerciseShort": "Verwijderen",
   "workoutSetRemoved": "Set verwijderd",
-  "planEditAction": "Plan bewerken"
+  "planEditAction": "Plan bewerken",
+  "repsSliderTitle": "Herhalingen",
+  "repsSliderSeconds": "Seconden",
+  "repsSliderKeyboard": "Getal invoeren"
 }

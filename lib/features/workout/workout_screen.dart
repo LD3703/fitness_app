@@ -26,6 +26,7 @@ import '../../ui/exercise_media_view.dart';
 import '../../ui/format.dart';
 import '../../ui/labels.dart';
 import '../../ui/live_heart_rate_badge.dart';
+import '../../ui/reps_field.dart';
 import '../../ui/set_format.dart';
 import '../../ui/set_kind_chip.dart';
 import '../../ui/skins.dart';
@@ -1702,6 +1703,7 @@ class _SetRowView extends StatelessWidget {
             child: _NumberField(
               controller: row.value,
               decimal: false,
+              isDuration: isDuration,
               semanticLabel:
                   isDuration ? l10n.workoutDurationField : l10n.workoutColReps,
               onChanged: onEdited,
@@ -1739,15 +1741,24 @@ class _NumberField extends StatelessWidget {
     required this.decimal,
     required this.semanticLabel,
     required this.onChanged,
+    this.isDuration = false,
   });
 
   final TextEditingController controller;
   final bool decimal;
 
+  /// U opakování / sekund (ne váhy): posuvník místo klávesnice (RepsField).
+  final bool isDuration;
+
   /// Popisek pole pro čtečku obrazovky (viditelný je jen v záhlaví
   /// sloupce, pole samo popisek nemá).
   final String semanticLabel;
   final VoidCallback onChanged;
+
+  static const _decoration = InputDecoration(
+    isDense: true,
+    contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -1756,21 +1767,27 @@ class _NumberField extends StatelessWidget {
       child: MergeSemantics(
         child: Semantics(
           label: semanticLabel,
-          child: TextField(
-            controller: controller,
-            textAlign: TextAlign.center,
-            keyboardType: TextInputType.numberWithOptions(decimal: decimal),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                RegExp(decimal ? r'[0-9.,]' : r'[0-9]'),
-              ),
-            ],
-            decoration: const InputDecoration(
-              isDense: true,
-              contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 10),
-            ),
-            onChanged: (_) => onChanged(),
-          ),
+          child: decimal
+              ? TextField(
+                  controller: controller,
+                  textAlign: TextAlign.center,
+                  keyboardType:
+                      TextInputType.numberWithOptions(decimal: decimal),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp(decimal ? r'[0-9.,]' : r'[0-9]'),
+                    ),
+                  ],
+                  decoration: _decoration,
+                  onChanged: (_) => onChanged(),
+                )
+              // Opakování / sekundy: klepnutí otevře posuvník.
+              : RepsField(
+                  controller: controller,
+                  isDuration: isDuration,
+                  decoration: _decoration,
+                  onChanged: onChanged,
+                ),
         ),
       ),
     );

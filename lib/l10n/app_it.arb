@@ -1313,5 +1313,8 @@
   "workoutRemoveExercise": "Rimuovi dall’allenamento",
   "workoutRemoveExerciseShort": "Rimuovi",
   "workoutSetRemoved": "Serie rimossa",
-  "planEditAction": "Modifica piano"
+  "planEditAction": "Modifica piano",
+  "repsSliderTitle": "Ripetizioni",
+  "repsSliderSeconds": "Secondi",
+  "repsSliderKeyboard": "Inserisci un numero"
 }

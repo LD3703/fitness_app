@@ -3878,5 +3878,8 @@
   "workoutRemoveExercise": "Remove from workout",
   "workoutRemoveExerciseShort": "Remove",
   "workoutSetRemoved": "Set removed",
-  "planEditAction": "Edit plan"
+  "planEditAction": "Edit plan",
+  "repsSliderTitle": "Reps",
+  "repsSliderSeconds": "Seconds",
+  "repsSliderKeyboard": "Type a number"
 }

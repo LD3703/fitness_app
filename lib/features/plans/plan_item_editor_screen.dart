@@ -11,6 +11,7 @@ import '../../l10n/app_localizations.dart';
 import '../../modules/progression/progression_plan_widgets.dart';
 import '../../modules/progression/progression_queries.dart';
 import '../../providers.dart';
+import '../../ui/reps_field.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/format.dart';
 import '../../ui/labels.dart';
@@ -270,8 +271,8 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
     }
     for (final r in _rows.where((r) => r.isWarmup)) {
       if (firstWorking != null) {
-        r.weight.text =
-            weightInputText(roundToStep(firstWorking * 0.5, step: weightStepKg));
+        r.weight.text = weightInputText(
+            roundToStep(firstWorking * 0.5, step: weightStepKg));
       }
     }
     _markDirty();
@@ -433,7 +434,8 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    final stats = ref.watch(exerciseStatsProvider(item.exercise.id)).valueOrNull;
+    final stats =
+        ref.watch(exerciseStatsProvider(item.exercise.id)).valueOrNull;
     var workingNumber = 0;
 
     return PopScope(
@@ -533,7 +535,12 @@ class _PlanItemEditorScreenState extends ConsumerState<PlanItemEditorScreen> {
                 exercise: item.exercise,
                 planExerciseId: widget.planExerciseId,
                 firstWorkingReps: int.tryParse(
-                  _rows.where((r) => r.isWorking).firstOrNull?.reps.text.trim() ??
+                  _rows
+                          .where((r) => r.isWorking)
+                          .firstOrNull
+                          ?.reps
+                          .text
+                          .trim() ??
                       '',
                 ),
                 onChanged: _markDirty,
@@ -708,9 +715,11 @@ class _SetEditorRow extends StatelessWidget {
                     : Icon(
                         row.isWarmup ? Icons.whatshot : Icons.trending_down,
                         size: 18,
-                        color: row.isWarmup ? scheme.tertiary : scheme.secondary,
-                        semanticLabel:
-                            row.isWarmup ? l10n.setKindWarmup : l10n.setKindDrop,
+                        color:
+                            row.isWarmup ? scheme.tertiary : scheme.secondary,
+                        semanticLabel: row.isWarmup
+                            ? l10n.setKindWarmup
+                            : l10n.setKindDrop,
                       ),
               ),
               IconButton(
@@ -727,19 +736,19 @@ class _SetEditorRow extends StatelessWidget {
                 visualDensity: VisualDensity.compact,
                 onPressed: onToggleDrop,
                 icon: const Icon(Icons.trending_down),
-                selectedIcon: Icon(Icons.trending_down, color: scheme.secondary),
+                selectedIcon:
+                    Icon(Icons.trending_down, color: scheme.secondary),
               ),
               Expanded(
-                child: TextField(
+                // Klepnutí otevře posuvník s rychlými volbami.
+                child: RepsField(
                   controller: row.reps,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  textAlign: TextAlign.center,
+                  isDuration: isDuration,
                   decoration: InputDecoration(
                     isDense: true,
                     labelText: isDuration ? 's' : l10n.workoutColReps,
                   ),
-                  onChanged: (_) => onChanged(),
+                  onChanged: onChanged,
                 ),
               ),
               if (showWeight) ...[

@@ -1313,5 +1313,8 @@
   "workoutRemoveExercise": "Odobrať z tréningu",
   "workoutRemoveExerciseShort": "Odobrať",
   "workoutSetRemoved": "Séria odobratá",
-  "planEditAction": "Upraviť plán"
+  "planEditAction": "Upraviť plán",
+  "repsSliderTitle": "Opakovania",
+  "repsSliderSeconds": "Sekundy",
+  "repsSliderKeyboard": "Zadať číslom"
 }
