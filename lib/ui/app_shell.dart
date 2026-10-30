@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/workout/rest_timer.dart';
@@ -163,5 +164,101 @@ class PendingRestBarState extends State<PendingRestBar> {
         ),
       ),
     );
+  }
+}
+
+/// Kořenové stránky záložek (pořadí jako ve spodní navigaci).
+const kTabRootPaths = [
+  '/today',
+  '/plans',
+  '/exercises',
+  '/progress',
+  '/profile'
+];
+
+/// Záložky vedle sebe: přejetím doleva / doprava se přepíná mezi nimi
+/// (Dnes ↔ Plány ↔ Cviky…). Přepínat přejetím jde jen na kořenové stránce
+/// záložky – v editoru plánu nebo detailu cviku přejetí od kraje vrací
+/// zpět. Záložky si drží stav jako dřív (každá vlastní historii).
+class SwipeBranchContainer extends StatefulWidget {
+  const SwipeBranchContainer({
+    super.key,
+    required this.navigationShell,
+    required this.children,
+  });
+
+  final StatefulNavigationShell navigationShell;
+  final List<Widget> children;
+
+  @override
+  State<SwipeBranchContainer> createState() => _SwipeBranchContainerState();
+}
+
+class _SwipeBranchContainerState extends State<SwipeBranchContainer> {
+  late final PageController _controller =
+      PageController(initialPage: widget.navigationShell.currentIndex);
+
+  @override
+  void didUpdateWidget(SwipeBranchContainer old) {
+    super.didUpdateWidget(old);
+    // Klepnutí na záložku: přepnout hned (jako v iOS), bez listování.
+    final index = widget.navigationShell.currentIndex;
+    if (_controller.hasClients && _controller.page?.round() != index) {
+      _controller.jumpToPage(index);
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  bool get _atRoot => kTabRootPaths
+      .contains(widget.navigationShell.shellRouteContext.routerState.uri.path);
+
+  @override
+  Widget build(BuildContext context) {
+    final current = widget.navigationShell.currentIndex;
+    return PageView(
+      controller: _controller,
+      physics: _atRoot
+          ? const PageScrollPhysics()
+          : const NeverScrollableScrollPhysics(),
+      onPageChanged: (index) {
+        if (index == widget.navigationShell.currentIndex) return;
+        HapticFeedback.selectionClick();
+        widget.navigationShell.goBranch(index);
+      },
+      children: [
+        for (final (i, child) in widget.children.indexed)
+          _KeepAlive(
+            // Animace na skrytých záložkách neběží (jako dřív v IndexedStack).
+            child: TickerMode(enabled: i == current, child: child),
+          ),
+      ],
+    );
+  }
+}
+
+/// Záložka zůstane v paměti i mimo obrazovku (stav, pozice seznamu).
+class _KeepAlive extends StatefulWidget {
+  const _KeepAlive({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_KeepAlive> createState() => _KeepAliveState();
+}
+
+class _KeepAliveState extends State<_KeepAlive>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.child;
   }
 }
