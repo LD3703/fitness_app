@@ -1306,5 +1306,12 @@
   "waterStopNone": "Tot het slapengaan",
   "waterLastDrink": "Laatste drankje om {time}",
   "waterPacedHint": "Herinneringen volgen hoeveel je nog nodig hebt: drink je vooruit, dan krijg je er minder, loop je achter, dan meer.",
-  "waterRemindersPacedHint": "Op basis van wat je nog nodig hebt, {from}–{until}"
+  "waterRemindersPacedHint": "Op basis van wat je nog nodig hebt, {from}–{until}",
+  "planDeleted": "Plan ‘{name}’ verwijderd",
+  "planExerciseRemoved": "{name} uit het plan verwijderd",
+  "workoutExerciseRemoved": "{name} uit de training verwijderd",
+  "workoutRemoveExercise": "Uit training verwijderen",
+  "workoutRemoveExerciseShort": "Verwijderen",
+  "workoutSetRemoved": "Set verwijderd",
+  "planEditAction": "Plan bewerken"
 }

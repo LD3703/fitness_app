@@ -1306,5 +1306,12 @@
   "waterStopNone": "Až do spania",
   "waterLastDrink": "Posledné pitie o {time}",
   "waterPacedHint": "Pripomienky sa riadia tým, koľko ti ešte chýba: keď piješ vopred, je ich menej, keď zaostávaš, viac.",
-  "waterRemindersPacedHint": "Podľa toho, koľko ti chýba, {from}–{until}"
+  "waterRemindersPacedHint": "Podľa toho, koľko ti chýba, {from}–{until}",
+  "planDeleted": "Plán „{name}“ zmazaný",
+  "planExerciseRemoved": "{name} – odobraté z plánu",
+  "workoutExerciseRemoved": "{name} – odobraté z tréningu",
+  "workoutRemoveExercise": "Odobrať z tréningu",
+  "workoutRemoveExerciseShort": "Odobrať",
+  "workoutSetRemoved": "Séria odobratá",
+  "planEditAction": "Upraviť plán"
 }

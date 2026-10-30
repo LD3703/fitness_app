@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,9 +16,16 @@ import '../../ui/body_map.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/labels.dart';
 import '../../ui/skins.dart';
+import '../../ui/swipe_to_delete.dart';
 import '../../ui/training_focus_selector.dart';
 import '../../ui/weekdays.dart';
 import '../workout/start_workout.dart';
+
+enum _PlanAction { start, edit, rename, delete }
+
+/// Plány smazané přejetím, u kterých ještě jde „Vrátit“ – v seznamu
+/// se nezobrazují, z databáze zmizí až po zavření snackbaru.
+final _pendingPlanDeletes = StateProvider.autoDispose<Set<int>>((ref) => {});
 
 class PlansScreen extends ConsumerWidget {
   const PlansScreen({super.key});
@@ -45,6 +53,91 @@ class PlansScreen extends ConsumerWidget {
     if (name == null) return;
     final id = await ref.read(databaseProvider).createPlan(name);
     if (context.mounted) context.go('/plans/$id');
+  }
+
+  /// Smazání plánu přejetím: plán hned zmizí, „Vrátit“ ho vrátí, jinak
+  /// se po zavření snackbaru smaže z databáze.
+  void _deleteWithUndo(BuildContext context, WidgetRef ref, WorkoutPlan plan) {
+    final db = ref.read(databaseProvider);
+    final pending = ref.read(_pendingPlanDeletes.notifier);
+    pending.update((s) => {...s, plan.id});
+    showUndoSnackBar(
+      context,
+      message: AppLocalizations.of(context).planDeleted(plan.name),
+      onUndo: () {
+        if (pending.mounted) pending.update((s) => {...s}..remove(plan.id));
+      },
+      onCommit: () async {
+        await db.deletePlan(plan.id);
+        if (pending.mounted) pending.update((s) => {...s}..remove(plan.id));
+      },
+    );
+  }
+
+  /// Rychlé akce po podržení plánu: začít trénink, upravit, přejmenovat,
+  /// smazat (se „Vrátit“).
+  Future<void> _showPlanActions(
+      BuildContext context, WidgetRef ref, WorkoutPlan plan) async {
+    HapticFeedback.mediumImpact();
+    final l10n = AppLocalizations.of(context);
+    final action = await showModalBottomSheet<_PlanAction>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+              child: Text(plan.name,
+                  style: Theme.of(context).textTheme.titleMedium),
+            ),
+            ListTile(
+              leading: const Icon(Icons.play_arrow),
+              title: Text(l10n.workoutStart),
+              onTap: () => Navigator.of(context).pop(_PlanAction.start),
+            ),
+            ListTile(
+              leading: const Icon(Icons.edit_outlined),
+              title: Text(l10n.planEditAction),
+              onTap: () => Navigator.of(context).pop(_PlanAction.edit),
+            ),
+            ListTile(
+              leading: const Icon(Icons.drive_file_rename_outline),
+              title: Text(l10n.planRename),
+              onTap: () => Navigator.of(context).pop(_PlanAction.rename),
+            ),
+            ListTile(
+              leading: Icon(Icons.delete_outline,
+                  color: Theme.of(context).colorScheme.error),
+              title: Text(
+                l10n.delete,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
+              onTap: () => Navigator.of(context).pop(_PlanAction.delete),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (action == null || !context.mounted) return;
+    switch (action) {
+      case _PlanAction.start:
+        await startWorkout(context, ref, planId: plan.id);
+      case _PlanAction.edit:
+        context.go('/plans/${plan.id}');
+      case _PlanAction.rename:
+        final name = await showTextInputDialog(
+          context,
+          title: l10n.planRename,
+          initialValue: plan.name,
+        );
+        if (name != null) {
+          await ref.read(databaseProvider).renamePlan(plan.id, name);
+        }
+      case _PlanAction.delete:
+        _deleteWithUndo(context, ref, plan);
+    }
   }
 
   Future<void> _addTemplate(BuildContext context, WidgetRef ref) async {
@@ -122,8 +215,7 @@ class PlansScreen extends ConsumerWidget {
               child: Text(l10n.templatesTitle,
                   style: Theme.of(context).textTheme.titleMedium),
             ),
-            section(context,
-                l10n.templatesForYou(l10n.experienceLevel(level))),
+            section(context, l10n.templatesForYou(l10n.experienceLevel(level))),
             for (final (i, fit) in recommended.indexed)
               tile(context, fit, best: i == 0 && fit.fitsDays),
             for (final l in ExperienceLevel.values)
@@ -132,7 +224,8 @@ class PlansScreen extends ConsumerWidget {
                 section(context,
                     l10n.templatesLevelSection(l10n.experienceLevel(l))),
                 for (final p in templatePrograms)
-                  if (p.level == l && !shown.contains(p)) tile(context, fitOf(p)),
+                  if (p.level == l && !shown.contains(p))
+                    tile(context, fitOf(p)),
               ],
           ],
         ),
@@ -178,6 +271,7 @@ class PlansScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final plans = ref.watch(plansProvider);
+    final pendingDeletes = ref.watch(_pendingPlanDeletes);
 
     return Scaffold(
       appBar: AppBar(
@@ -194,7 +288,11 @@ class PlansScreen extends ConsumerWidget {
       body: plans.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text(l10n.errorGeneric)),
-        data: (list) {
+        data: (all) {
+          final list = [
+            for (final p in all)
+              if (!pendingDeletes.contains(p.id)) p,
+          ];
           if (list.isEmpty) {
             return Center(
               child: Padding(
@@ -231,17 +329,24 @@ class PlansScreen extends ConsumerWidget {
                 if (plan.plannedTimeMinutes != null)
                   formatMinutesOfDay(context, plan.plannedTimeMinutes!),
               ];
-              return ListTile(
-                leading: PlanBodyMapThumb(planId: plan.id),
-                title: Text(plan.name),
-                subtitle: Text(
-                  parts.isEmpty ? l10n.planNoSchedule : parts.join(' · '),
-                ),
-                onTap: () => context.go('/plans/${plan.id}'),
-                trailing: IconButton.filledTonal(
-                  tooltip: l10n.workoutStart,
-                  icon: const Icon(Icons.play_arrow),
-                  onPressed: () => startWorkout(context, ref, planId: plan.id),
+              return SwipeToDelete(
+                key: ValueKey('plan-${plan.id}'),
+                onDeleted: () => _deleteWithUndo(context, ref, plan),
+                child: ListTile(
+                  leading: PlanBodyMapThumb(planId: plan.id),
+                  title: Text(plan.name),
+                  subtitle: Text(
+                    parts.isEmpty ? l10n.planNoSchedule : parts.join(' · '),
+                  ),
+                  onTap: () => context.go('/plans/${plan.id}'),
+                  // Podržení: rychlé akce (jako kontextové menu v iOS).
+                  onLongPress: () => _showPlanActions(context, ref, plan),
+                  trailing: IconButton.filledTonal(
+                    tooltip: l10n.workoutStart,
+                    icon: const Icon(Icons.play_arrow),
+                    onPressed: () =>
+                        startWorkout(context, ref, planId: plan.id),
+                  ),
                 ),
               );
             },

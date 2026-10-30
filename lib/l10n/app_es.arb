@@ -1306,5 +1306,12 @@
   "waterStopNone": "Hasta acostarme",
   "waterLastDrink": "Última bebida a las {time}",
   "waterPacedHint": "Los recordatorios dependen de lo que te falta: si vas adelantado, recibes menos; si vas atrasado, más.",
-  "waterRemindersPacedHint": "Según lo que te falta, {from}–{until}"
+  "waterRemindersPacedHint": "Según lo que te falta, {from}–{until}",
+  "planDeleted": "Plan «{name}» eliminado",
+  "planExerciseRemoved": "{name} quitado del plan",
+  "workoutExerciseRemoved": "{name} quitado del entrenamiento",
+  "workoutRemoveExercise": "Quitar del entrenamiento",
+  "workoutRemoveExerciseShort": "Quitar",
+  "workoutSetRemoved": "Serie quitada",
+  "planEditAction": "Editar plan"
 }
