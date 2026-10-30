@@ -1306,5 +1306,10 @@
   "waterStopNone": "Fino a quando vado a dormire",
   "waterLastDrink": "Ultima bevuta alle {time}",
   "waterPacedHint": "I promemoria seguono quanto ti manca: se sei in anticipo ne ricevi meno, se sei indietro di più.",
-  "waterRemindersPacedHint": "In base a quanto ti manca, {from}–{until}"
+  "waterRemindersPacedHint": "In base a quanto ti manca, {from}–{until}",
+  "planDeleted": "Piano “{name}” eliminato",
+  "planExerciseRemoved": "{name} rimosso dal piano",
+  "workoutExerciseRemoved": "{name} rimosso dall’allenamento",
+  "workoutRemoveExercise": "Rimuovi dall’allenamento",
+  "workoutRemoveExerciseShort": "Rimuovi"
 }

@@ -15,6 +15,7 @@ import '../../ui/body_map.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/labels.dart';
 import '../../ui/set_format.dart';
+import '../../ui/swipe_to_delete.dart';
 import '../../ui/weekdays.dart';
 import '../exercises/exercise_picker.dart';
 import '../fatigue/fatigue_card.dart';
@@ -23,6 +24,10 @@ import '../workout/start_workout.dart';
 import '../workout/workout_service.dart' show autoRestSeconds;
 
 enum _LinkAction { linkNext, unlink }
+
+/// Cviky odebrané přejetím, u kterých ještě jde „Vrátit“ (ID položek
+/// plánu) – z databáze zmizí až po zavření snackbaru.
+final _pendingItemRemovals = StateProvider.autoDispose<Set<int>>((ref) => {});
 
 class PlanEditorScreen extends ConsumerWidget {
   const PlanEditorScreen({super.key, required this.planId});
@@ -41,9 +46,8 @@ class PlanEditorScreen extends ConsumerWidget {
         appBar: AppBar(),
         body: Center(child: Text(l10n.errorGeneric)),
       ),
-      data: (p) => p == null
-          ? Scaffold(appBar: AppBar())
-          : _PlanEditor(plan: p),
+      data: (p) =>
+          p == null ? Scaffold(appBar: AppBar()) : _PlanEditor(plan: p),
     );
   }
 }
@@ -120,8 +124,8 @@ class _PlanEditor extends ConsumerWidget {
             padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
             child: Text(l10n.planFocusHint),
           ),
-          option(null,
-              l10n.planFocusFromProfile(l10n.trainingFocus(profileGoal))),
+          option(
+              null, l10n.planFocusFromProfile(l10n.trainingFocus(profileGoal))),
           for (final f in TrainingFocus.values)
             option(f, '${l10n.trainingFocus(f)} – ${l10n.trainingGoalHint(f)}'),
         ],
@@ -130,6 +134,27 @@ class _PlanEditor extends ConsumerWidget {
     if (picked != null) {
       await ref.read(databaseProvider).setPlanFocus(plan.id, picked.value);
     }
+  }
+
+  /// Odebrání cviku přejetím: hned zmizí, „Vrátit“ ho vrátí, jinak se po
+  /// zavření snackbaru odebere z plánu v databázi.
+  void _removeWithUndo(BuildContext context, WidgetRef ref, PlanItem it) {
+    final db = ref.read(databaseProvider);
+    final pending = ref.read(_pendingItemRemovals.notifier);
+    final id = it.item.id;
+    pending.update((s) => {...s, id});
+    showUndoSnackBar(
+      context,
+      message: AppLocalizations.of(context)
+          .planExerciseRemoved(it.exercise.localizedName(context)),
+      onUndo: () {
+        if (pending.mounted) pending.update((s) => {...s}..remove(id));
+      },
+      onCommit: () async {
+        await db.removePlanItem(id);
+        if (pending.mounted) pending.update((s) => {...s}..remove(id));
+      },
+    );
   }
 
   Future<void> _addExercise(BuildContext context, WidgetRef ref) async {
@@ -143,7 +168,12 @@ class _PlanEditor extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final db = ref.watch(databaseProvider);
-    final items = ref.watch(planItemsProvider(plan.id)).valueOrNull ?? [];
+    final pendingRemovals = ref.watch(_pendingItemRemovals);
+    final items = [
+      for (final it in ref.watch(planItemsProvider(plan.id)).valueOrNull ??
+          const <PlanItem>[])
+        if (!pendingRemovals.contains(it.item.id)) it,
+    ];
     final dayNames = shortWeekdayNames(context);
     final groups = [for (final it in items) it.item.supersetGroup];
     final supersets = supersetLabels(groups);
@@ -279,30 +309,40 @@ class _PlanEditor extends ConsumerWidget {
         itemBuilder: (context, i) {
           final it = items[i];
           final g = it.exercise.muscleGroup;
-          return _PlanItemTile(
+          // Přejetí doleva odebere cvik („Vrátit“ ve snackbaru), podržení
+          // kdekoli na řádku ho přesune (jako v iOS).
+          return SwipeToDelete(
             key: ValueKey(it.item.id),
-            item: it,
-            index: i,
-            supersetLabel: supersets[i],
-            canLinkNext: canLinkSupersetWithNext(groups, i),
-            fatiguePercent: fatigue == null || fatigue.sessions == 0
-                ? null
-                : fatiguePercentOf(fatigue, g),
-            onTap: () => context.go('/plans/${plan.id}/item/${it.item.id}'),
-            onLinkAction: (action) async {
-              if (action == _LinkAction.linkNext) {
-                final ok = await db.linkPlanItemWithNext(plan.id, it.item.id);
-                if (!ok && context.mounted) {
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(SnackBar(
-                      content: Text(l10n.supersetTooLarge),
-                    ));
-                }
-              } else {
-                await db.unlinkPlanItem(plan.id, it.item.id);
-              }
-            },
+            label: l10n.planRemoveExercise,
+            onDeleted: () => _removeWithUndo(context, ref, it),
+            child: ReorderableDelayedDragStartListener(
+              index: i,
+              child: _PlanItemTile(
+                item: it,
+                index: i,
+                supersetLabel: supersets[i],
+                canLinkNext: canLinkSupersetWithNext(groups, i),
+                fatiguePercent: fatigue == null || fatigue.sessions == 0
+                    ? null
+                    : fatiguePercentOf(fatigue, g),
+                onTap: () => context.go('/plans/${plan.id}/item/${it.item.id}'),
+                onLinkAction: (action) async {
+                  if (action == _LinkAction.linkNext) {
+                    final ok =
+                        await db.linkPlanItemWithNext(plan.id, it.item.id);
+                    if (!ok && context.mounted) {
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(SnackBar(
+                          content: Text(l10n.supersetTooLarge),
+                        ));
+                    }
+                  } else {
+                    await db.unlinkPlanItem(plan.id, it.item.id);
+                  }
+                },
+              ),
+            ),
           );
         },
       ),
@@ -319,7 +359,6 @@ class _PlanEditor extends ConsumerWidget {
 
 class _PlanItemTile extends ConsumerWidget {
   const _PlanItemTile({
-    super.key,
     required this.item,
     required this.index,
     required this.onTap,

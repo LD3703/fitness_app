@@ -66,6 +66,8 @@ class ProgressionPlanBadge extends ConsumerWidget {
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
         content: Text(ok ? l10n.progressionApplied : l10n.progressionStale),
+        // S akcí by snackbar jinak zůstal, dokud ho uživatel nezavře.
+        persist: false,
         action: ok
             ? SnackBarAction(
                 label: l10n.undo,

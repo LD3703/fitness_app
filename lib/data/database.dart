@@ -106,7 +106,7 @@ class AppDatabase extends _$AppDatabase {
   static const _profileId = 1;
 
   @override
-  int get schemaVersion => 26;
+  int get schemaVersion => 27;
 
   /// Výchozí série pro nově přidaný cvik: 3 × 10.
   static const defaultPlanSets = <PlanSetDraft>[
@@ -329,6 +329,10 @@ class AppDatabase extends _$AppDatabase {
               'MIN(water_reminder_end_minutes + 90, 1435) '
               'WHERE water_reminder_end_minutes != 1200',
             );
+          }
+          if (from < 27) {
+            // Verze 27: cviky odebrané z rozpracovaného tréninku přejetím.
+            await m.addColumn(workoutSessions, workoutSessions.skippedBlocks);
           }
         },
         beforeOpen: (details) async {
@@ -1018,6 +1022,29 @@ class AppDatabase extends _$AppDatabase {
           estimatedKcal: Value(estimatedKcal),
         ),
       );
+
+  /// Odebere cvik z rozpracovaného tréninku: smaže jeho zapsané série
+  /// ([setIds]) a zapamatuje si ho, aby se cvik z plánu po návratu do
+  /// tréninku znovu nenačetl (WorkoutSessions.skippedBlocks).
+  Future<void> removeSessionBlock(
+    int sessionId, {
+    required int exerciseId,
+    required int slot,
+    required List<int> setIds,
+  }) =>
+      transaction(() async {
+        if (setIds.isNotEmpty) {
+          await (delete(setEntries)..where((s) => s.id.isIn(setIds))).go();
+        }
+        final session = await getSession(sessionId);
+        final skipped = {
+          ...?session.skippedBlocks?.split(',').where((e) => e.isNotEmpty),
+          '$exerciseId:$slot',
+        };
+        await (update(workoutSessions)..where((s) => s.id.equals(sessionId)))
+            .write(WorkoutSessionsCompanion(
+                skippedBlocks: Value(skipped.join(','))));
+      });
 
   /// Zahodí trénink včetně zapsaných sérií.
   Future<void> discardSession(int id) =>

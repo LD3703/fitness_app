@@ -1306,5 +1306,10 @@
   "waterStopNone": "Bis zum Schlafengehen",
   "waterLastDrink": "Letztes Trinken um {time}",
   "waterPacedHint": "Die Erinnerungen richten sich danach, wie viel noch fehlt: Trinkst du vorab, kommen weniger, hängst du hinterher, mehr.",
-  "waterRemindersPacedHint": "Je nachdem, wie viel fehlt, {from}–{until}"
+  "waterRemindersPacedHint": "Je nachdem, wie viel fehlt, {from}–{until}",
+  "planDeleted": "Plan „{name}“ gelöscht",
+  "planExerciseRemoved": "{name} aus dem Plan entfernt",
+  "workoutExerciseRemoved": "{name} aus dem Training entfernt",
+  "workoutRemoveExercise": "Aus dem Training entfernen",
+  "workoutRemoveExerciseShort": "Entfernen"
 }

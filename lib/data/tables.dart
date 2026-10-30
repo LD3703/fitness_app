@@ -311,6 +311,10 @@ class WorkoutSessions extends Table {
   /// Lehčí trénink kvůli slabší regeneraci (v24): o třetinu méně
   /// pracovních sérií, váhy −10 %, progrese po tréninku „drží“.
   BoolColumn get light => boolean().withDefault(const Constant(false))();
+
+  /// Cviky plánu odebrané z tohoto tréninku (v27): „cvikId:slot“ oddělené
+  /// čárkou. Po návratu do tréninku se znovu nenačtou (workout_service).
+  TextColumn get skippedBlocks => text().nullable()();
 }
 
 /// Regenerace za den z hodinek a prstenů (v24): spánek předchozí noci,

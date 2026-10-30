@@ -15,9 +15,14 @@ import '../../ui/body_map.dart';
 import '../../ui/dialogs.dart';
 import '../../ui/labels.dart';
 import '../../ui/skins.dart';
+import '../../ui/swipe_to_delete.dart';
 import '../../ui/training_focus_selector.dart';
 import '../../ui/weekdays.dart';
 import '../workout/start_workout.dart';
+
+/// Plány smazané přejetím, u kterých ještě jde „Vrátit“ – v seznamu
+/// se nezobrazují, z databáze zmizí až po zavření snackbaru.
+final _pendingPlanDeletes = StateProvider.autoDispose<Set<int>>((ref) => {});
 
 class PlansScreen extends ConsumerWidget {
   const PlansScreen({super.key});
@@ -45,6 +50,25 @@ class PlansScreen extends ConsumerWidget {
     if (name == null) return;
     final id = await ref.read(databaseProvider).createPlan(name);
     if (context.mounted) context.go('/plans/$id');
+  }
+
+  /// Smazání plánu přejetím: plán hned zmizí, „Vrátit“ ho vrátí, jinak
+  /// se po zavření snackbaru smaže z databáze.
+  void _deleteWithUndo(BuildContext context, WidgetRef ref, WorkoutPlan plan) {
+    final db = ref.read(databaseProvider);
+    final pending = ref.read(_pendingPlanDeletes.notifier);
+    pending.update((s) => {...s, plan.id});
+    showUndoSnackBar(
+      context,
+      message: AppLocalizations.of(context).planDeleted(plan.name),
+      onUndo: () {
+        if (pending.mounted) pending.update((s) => {...s}..remove(plan.id));
+      },
+      onCommit: () async {
+        await db.deletePlan(plan.id);
+        if (pending.mounted) pending.update((s) => {...s}..remove(plan.id));
+      },
+    );
   }
 
   Future<void> _addTemplate(BuildContext context, WidgetRef ref) async {
@@ -122,8 +146,7 @@ class PlansScreen extends ConsumerWidget {
               child: Text(l10n.templatesTitle,
                   style: Theme.of(context).textTheme.titleMedium),
             ),
-            section(context,
-                l10n.templatesForYou(l10n.experienceLevel(level))),
+            section(context, l10n.templatesForYou(l10n.experienceLevel(level))),
             for (final (i, fit) in recommended.indexed)
               tile(context, fit, best: i == 0 && fit.fitsDays),
             for (final l in ExperienceLevel.values)
@@ -132,7 +155,8 @@ class PlansScreen extends ConsumerWidget {
                 section(context,
                     l10n.templatesLevelSection(l10n.experienceLevel(l))),
                 for (final p in templatePrograms)
-                  if (p.level == l && !shown.contains(p)) tile(context, fitOf(p)),
+                  if (p.level == l && !shown.contains(p))
+                    tile(context, fitOf(p)),
               ],
           ],
         ),
@@ -178,6 +202,7 @@ class PlansScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final plans = ref.watch(plansProvider);
+    final pendingDeletes = ref.watch(_pendingPlanDeletes);
 
     return Scaffold(
       appBar: AppBar(
@@ -194,7 +219,11 @@ class PlansScreen extends ConsumerWidget {
       body: plans.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text(l10n.errorGeneric)),
-        data: (list) {
+        data: (all) {
+          final list = [
+            for (final p in all)
+              if (!pendingDeletes.contains(p.id)) p,
+          ];
           if (list.isEmpty) {
             return Center(
               child: Padding(
@@ -231,17 +260,22 @@ class PlansScreen extends ConsumerWidget {
                 if (plan.plannedTimeMinutes != null)
                   formatMinutesOfDay(context, plan.plannedTimeMinutes!),
               ];
-              return ListTile(
-                leading: PlanBodyMapThumb(planId: plan.id),
-                title: Text(plan.name),
-                subtitle: Text(
-                  parts.isEmpty ? l10n.planNoSchedule : parts.join(' · '),
-                ),
-                onTap: () => context.go('/plans/${plan.id}'),
-                trailing: IconButton.filledTonal(
-                  tooltip: l10n.workoutStart,
-                  icon: const Icon(Icons.play_arrow),
-                  onPressed: () => startWorkout(context, ref, planId: plan.id),
+              return SwipeToDelete(
+                key: ValueKey('plan-${plan.id}'),
+                onDeleted: () => _deleteWithUndo(context, ref, plan),
+                child: ListTile(
+                  leading: PlanBodyMapThumb(planId: plan.id),
+                  title: Text(plan.name),
+                  subtitle: Text(
+                    parts.isEmpty ? l10n.planNoSchedule : parts.join(' · '),
+                  ),
+                  onTap: () => context.go('/plans/${plan.id}'),
+                  trailing: IconButton.filledTonal(
+                    tooltip: l10n.workoutStart,
+                    icon: const Icon(Icons.play_arrow),
+                    onPressed: () =>
+                        startWorkout(context, ref, planId: plan.id),
+                  ),
                 ),
               );
             },

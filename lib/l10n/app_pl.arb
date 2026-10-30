@@ -1306,5 +1306,10 @@
   "waterStopNone": "Aż do snu",
   "waterLastDrink": "Ostatnie picie o {time}",
   "waterPacedHint": "Przypomnienia zależą od tego, ile ci jeszcze brakuje: gdy pijesz z wyprzedzeniem, jest ich mniej, gdy zalegasz – więcej.",
-  "waterRemindersPacedHint": "Zależnie od tego, ile brakuje, {from}–{until}"
+  "waterRemindersPacedHint": "Zależnie od tego, ile brakuje, {from}–{until}",
+  "planDeleted": "Plan „{name}” usunięty",
+  "planExerciseRemoved": "{name} – usunięto z planu",
+  "workoutExerciseRemoved": "{name} – usunięto z treningu",
+  "workoutRemoveExercise": "Usuń z treningu",
+  "workoutRemoveExerciseShort": "Usuń"
 }

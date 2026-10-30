@@ -216,10 +216,16 @@ Future<WorkoutSetup> loadWorkoutSetup(AppDatabase db, int sessionId) async {
   final blocks = <WorkoutBlockData>[];
   final nextSlot = <int, int>{};
 
+  // Cviky plánu odebrané z tréninku (AppDatabase.removeSessionBlock).
+  final skipped = {
+    ...?session.skippedBlocks?.split(',').where((e) => e.isNotEmpty),
+  };
+
   for (final it in planItems) {
     final exerciseId = it.exercise.id;
     final slot = nextSlot[exerciseId] ?? 0;
     nextSlot[exerciseId] = slot + 1;
+    if (skipped.contains('$exerciseId:$slot')) continue;
     final saved =
         savedByBlock.remove((exerciseId, slot)) ?? const <SetEntry>[];
     blocks.add(WorkoutBlockData(

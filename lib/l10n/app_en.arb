@@ -3850,5 +3850,31 @@
         "type": "String"
       }
     }
-  }
+  },
+  "planDeleted": "Plan “{name}” deleted",
+  "@planDeleted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "planExerciseRemoved": "{name} removed from the plan",
+  "@planExerciseRemoved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workoutExerciseRemoved": "{name} removed from the workout",
+  "@workoutExerciseRemoved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workoutRemoveExercise": "Remove from workout",
+  "workoutRemoveExerciseShort": "Remove"
 }

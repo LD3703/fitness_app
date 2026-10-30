@@ -29,6 +29,7 @@ import '../../ui/live_heart_rate_badge.dart';
 import '../../ui/set_format.dart';
 import '../../ui/set_kind_chip.dart';
 import '../../ui/skins.dart';
+import '../../ui/swipe_to_delete.dart';
 import '../../ui/training_focus_selector.dart';
 import '../../ui/wellbeing_messages.dart';
 import '../exercises/exercise_picker.dart';
@@ -53,7 +54,7 @@ part 'workout_screen_wear.dart';
 /// Druh série se ukazuje celým slovem (štítek [SetKindChip]), ne zkratkou.
 enum _MenuAction { discard }
 
-enum _BlockAction { linkNext, unlink, note }
+enum _BlockAction { linkNext, unlink, note, remove }
 
 class WorkoutScreen extends ConsumerStatefulWidget {
   const WorkoutScreen({super.key, required this.sessionId});
@@ -65,7 +66,6 @@ class WorkoutScreen extends ConsumerStatefulWidget {
 }
 
 class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
-
   final _timer = RestTimer();
   final _blocks = <_Block>[];
 
@@ -184,6 +184,8 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
       unawaited(RestLiveActivity.instance.end());
     }
     _timer.dispose();
+    // Odebraný cvik čekající na „Vrátit“: odchodem z tréninku se potvrdí.
+    unawaited(_commitRemoval());
     for (final b in _blocks) {
       b.dispose();
     }
@@ -255,18 +257,18 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
     row.saving = true;
     final id = await _db
         .insertSet(
-          sessionId: widget.sessionId,
-          exerciseId: block.data.exercise.id,
-          // Pozice v rámci slotu bloku (stejný cvik může být v tréninku
-          // víckrát, viz blockPositionStride).
-          position: setPositionFor(block.slot, index),
-          weightKg: values.weightKg,
-          reps: block.isDuration ? null : values.value,
-          durationSeconds: block.isDuration ? values.value : null,
-          isWarmup: row.isWarmup,
-          isDrop: row.isDrop && !row.isWarmup,
-          supersetGroup: block.group,
-        )
+      sessionId: widget.sessionId,
+      exerciseId: block.data.exercise.id,
+      // Pozice v rámci slotu bloku (stejný cvik může být v tréninku
+      // víckrát, viz blockPositionStride).
+      position: setPositionFor(block.slot, index),
+      weightKg: values.weightKg,
+      reps: block.isDuration ? null : values.value,
+      durationSeconds: block.isDuration ? values.value : null,
+      isWarmup: row.isWarmup,
+      isDrop: row.isDrop && !row.isWarmup,
+      supersetGroup: block.group,
+    )
         .whenComplete(() {
       row.saving = false;
     });
@@ -431,7 +433,75 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
         setState(() => _applyGroups(unlinkSuperset(_groups, index)));
       case _BlockAction.note:
         _editNote(_blocks[index]);
+      case _BlockAction.remove:
+        _removeBlock(_blocks[index]);
     }
+  }
+
+  // -------------------------------------------------------------------
+  // Odebrání cviku (přejetí doleva nebo menu ⋮)
+  // -------------------------------------------------------------------
+
+  /// Cvik odebraný z tréninku, u kterého ještě jde „Vrátit“: v tréninku
+  /// není, jeho série jsou ale v databázi, dokud nevyprší snackbar.
+  ({_Block block, int index, AppDatabase db})? _pendingRemoval;
+
+  /// Odebere cvik z tréninku – hned zmizí, „Vrátit“ ho vrátí na místo.
+  void _removeBlock(_Block block) {
+    final index = _blocks.indexOf(block);
+    if (index < 0) return;
+    // Předchozí odebrání se tím potvrdí (snackbar se nahradí).
+    unawaited(_commitRemoval());
+    final db = _db;
+    setState(() {
+      _blocks.removeAt(index);
+      if (block.rows.contains(_suggested)) _suggested = null;
+      _pendingRemoval = (block: block, index: index, db: db);
+    });
+    _wear.schedulePublish();
+    showUndoSnackBar(
+      context,
+      message: AppLocalizations.of(context)
+          .workoutExerciseRemoved(block.data.exercise.localizedName(context)),
+      onUndo: () {
+        final pending = _pendingRemoval;
+        if (!mounted || pending == null || pending.block != block) return;
+        setState(() {
+          _pendingRemoval = null;
+          _blocks.insert(math.min(pending.index, _blocks.length), block);
+        });
+        _wear.schedulePublish();
+      },
+      onCommit: () {
+        if (_pendingRemoval?.block == block) unawaited(_commitRemoval());
+      },
+    );
+  }
+
+  /// Dokončí odebrání cviku: smaže jeho zapsané série a zapamatuje si
+  /// ho, aby se cvik z plánu po návratu do tréninku znovu nenačetl.
+  Future<void> _commitRemoval() async {
+    final pending = _pendingRemoval;
+    if (pending == null) return;
+    _pendingRemoval = null;
+    final block = pending.block;
+    final setIds = [
+      for (final r in block.rows)
+        if (r.savedId != null) r.savedId!,
+    ];
+    try {
+      await pending.db.removeSessionBlock(
+        widget.sessionId,
+        exerciseId: block.data.exercise.id,
+        slot: block.slot,
+        setIds: setIds,
+      );
+    } catch (e) {
+      debugPrint('Workout: remove exercise failed: $e');
+    }
+    block.dispose();
+    // Supersérie, ze které cvik zmizel, se srovná (např. zbyl jeden cvik).
+    if (mounted) setState(() => _applyGroups(normalizeSupersetGroups(_groups)));
   }
 
   /// Moje poznámka ke cviku (platí pro cvik ve všech trénincích).
@@ -531,6 +601,9 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
 
   Future<void> _finish() async {
     final l10n = AppLocalizations.of(context);
+    // Odebraný cvik čekající na „Vrátit“ se do souhrnu nesmí započítat.
+    await _commitRemoval();
+    if (!mounted) return;
     final anyDone = _blocks.any((b) => b.rows.any((r) => r.isDone));
     if (!anyDone) {
       final discard = await showConfirmDialog(
@@ -572,9 +645,8 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
       // přísná pochvala jen tam, kde žádná není (normální situace).
       // Souhrn k tréninku netlačí, proto se únava neověřuje – po
       // tréninku bývá trénovaná partie skoro vždy nad 80 %.
-      final strict =
-          effectiveCoachTone(chosenCoachTone(ref), situation) ==
-              CoachTone.strict;
+      final strict = effectiveCoachTone(chosenCoachTone(ref), situation) ==
+          CoachTone.strict;
       await showWorkoutSummaryDialog(
         context,
         summary,
@@ -604,23 +676,30 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
     final labels = supersetLabels(groups);
     Widget card(int i) {
       final block = _blocks[i];
-      return _BlockCard(
-        block: block,
-        restSeconds: _restOf(block),
-        supersetLabel: labels[i],
-        suggested: _suggested,
-        canLinkNext: canLinkSupersetWithNext(groups, i),
-        injured: injured.isNotEmpty &&
-            (injured.any((g) => g.overlaps(block.data.exercise.muscleGroup)) ||
-                block.data.exercise.muscleGroup == MuscleGroup.fullBody),
-        onToggle: (r) => _toggleSet(block, r),
-        onEdited: (row) => _onRowEdited(block, row),
-        onAddSet: () => _addSet(block),
-        onAddDrop: () => _addDrop(block),
-        onRemoveSet: () => _removeLastSet(block),
-        onCycleKind: (r) => _cycleKind(block, r),
-        onAction: (a) => _onBlockAction(i, a),
-        trainerName: _setup?.planTrainer,
+      // Přejetí doleva odebere cvik z tréninku („Vrátit“ ve snackbaru).
+      return SwipeToDelete(
+        key: ObjectKey(block),
+        label: AppLocalizations.of(context).workoutRemoveExerciseShort,
+        onDeleted: () => _removeBlock(block),
+        child: _BlockCard(
+          block: block,
+          restSeconds: _restOf(block),
+          supersetLabel: labels[i],
+          suggested: _suggested,
+          canLinkNext: canLinkSupersetWithNext(groups, i),
+          injured: injured.isNotEmpty &&
+              (injured.any(
+                      (g) => g.overlaps(block.data.exercise.muscleGroup)) ||
+                  block.data.exercise.muscleGroup == MuscleGroup.fullBody),
+          onToggle: (r) => _toggleSet(block, r),
+          onEdited: (row) => _onRowEdited(block, row),
+          onAddSet: () => _addSet(block),
+          onAddDrop: () => _addDrop(block),
+          onRemoveSet: () => _removeLastSet(block),
+          onCycleKind: (r) => _cycleKind(block, r),
+          onAction: (a) => _onBlockAction(i, a),
+          trainerName: _setup?.planTrainer,
+        ),
       );
     }
 
@@ -891,7 +970,8 @@ class _Block {
       }
       rows.add(_SetRow(
         weight: weightInputText(weightKg),
-        value: '${target?.reps ?? (isDuration ? prev?.durationSeconds : prev?.reps) ?? 10}',
+        value:
+            '${target?.reps ?? (isDuration ? prev?.durationSeconds : prev?.reps) ?? 10}',
         isWarmup: kind == _Kind.warmup,
         isDrop: kind == _Kind.drop,
       ));
@@ -974,7 +1054,8 @@ class _Block {
   }
 
   /// Jde přidat drop sérii (je odškrtnutá pracovní série)?
-  bool get canAddDrop => !isDuration && rows.any((r) => r.isDone && !r.isWarmup);
+  bool get canAddDrop =>
+      !isDuration && rows.any((r) => r.isDone && !r.isWarmup);
 
   /// Čísla řádků: pracovní série číslované od 1, rozcvička a drop série
   /// null (mají místo čísla ikonu a štítek s celým slovem).
@@ -1201,6 +1282,15 @@ class _BlockCard extends StatelessWidget {
                           title: Text(l10n.supersetUnlink),
                         ),
                       ),
+                    PopupMenuItem(
+                      value: _BlockAction.remove,
+                      child: ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Icon(Icons.delete_outline,
+                            color: theme.colorScheme.error),
+                        title: Text(l10n.workoutRemoveExercise),
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -1268,8 +1358,8 @@ class _BlockCard extends StatelessWidget {
                   if (!block.isDuration) ...[
                     SizedBox(
                       width: 72,
-                      child: _ColumnHeader(weightUnit,
-                          style: muted, center: true),
+                      child:
+                          _ColumnHeader(weightUnit, style: muted, center: true),
                     ),
                     const SizedBox(width: 20),
                   ],
@@ -1451,7 +1541,9 @@ class _SetRowView extends StatelessWidget {
     if (p == null) return '–';
     if (isDuration) return '${p.durationSeconds ?? '–'} s';
     final w = p.weightKg;
-    return w == null ? '${p.reps ?? '–'}×' : '${formatWeight(context, w)} × ${p.reps ?? '–'}';
+    return w == null
+        ? '${p.reps ?? '–'}×'
+        : '${formatWeight(context, w)} × ${p.reps ?? '–'}';
   }
 
   @override
@@ -1465,9 +1557,8 @@ class _SetRowView extends StatelessWidget {
       decoration: BoxDecoration(
         color: done ? scheme.primaryContainer.withValues(alpha: 0.5) : null,
         borderRadius: BorderRadius.circular(8),
-        border: highlighted
-            ? Border.all(color: scheme.primary, width: 2)
-            : null,
+        border:
+            highlighted ? Border.all(color: scheme.primary, width: 2) : null,
       ),
       child: Row(
         children: [
@@ -1491,9 +1582,8 @@ class _SetRowView extends StatelessWidget {
                       : Icon(
                           row.isWarmup ? Icons.whatshot : Icons.trending_down,
                           size: 18,
-                          color: row.isWarmup
-                              ? scheme.tertiary
-                              : scheme.secondary,
+                          color:
+                              row.isWarmup ? scheme.tertiary : scheme.secondary,
                           semanticLabel: row.isWarmup
                               ? l10n.setKindWarmup
                               : l10n.setKindDrop,
@@ -1544,9 +1634,8 @@ class _SetRowView extends StatelessWidget {
             child: _NumberField(
               controller: row.value,
               decimal: false,
-              semanticLabel: isDuration
-                  ? l10n.workoutDurationField
-                  : l10n.workoutColReps,
+              semanticLabel:
+                  isDuration ? l10n.workoutDurationField : l10n.workoutColReps,
               onChanged: onEdited,
             ),
           ),
@@ -1610,8 +1699,7 @@ class _NumberField extends StatelessWidget {
             ],
             decoration: const InputDecoration(
               isDense: true,
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+              contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 10),
             ),
             onChanged: (_) => onChanged(),
           ),
@@ -1666,8 +1754,8 @@ class _RestBar extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        formatDuration(
-                            timer.remaining + const Duration(milliseconds: 999)),
+                        formatDuration(timer.remaining +
+                            const Duration(milliseconds: 999)),
                         maxLines: 1,
                         style: theme.textTheme.titleLarge?.copyWith(
                           fontFeatures: const [FontFeature.tabularFigures()],
