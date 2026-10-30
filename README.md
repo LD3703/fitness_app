@@ -105,7 +105,10 @@ Funguje:
   pro nové projití (`lib/features/onboarding/onboarding_screen.dart`).
 - **Odložení / vynechání tréninku:** z obrazovky Dnes (menu ⋮ u plánu),
   s uklidňující hláškou a možností vrátit.
-- **Cviky:** knihovna 170 cviků s návodem (10 jazyků), hledáním a filtrem.
+- **Cviky:** knihovna 170 cviků s návodem (10 jazyků), hledáním a pruhem
+  partií s postavičkou (zvýrazněná partie, jako v iOS aplikacích); bez
+  filtru je seznam rozdělený do sekcí podle partie – v knihovně i při
+  výběru cviku do plánu a tréninku (`lib/ui/muscle_group_strip.dart`).
 - **Hotové programy (17 programů, 39 tréninků):** pro začátečníky (Celé
   tělo 3× a jeho obměna, Celé tělo 2×, Jednoručky doma, Vlastní váha doma,
   Stroje, Síla 5×5, Kruhový trénink), mírně pokročilé (Horní/dolní 4×,

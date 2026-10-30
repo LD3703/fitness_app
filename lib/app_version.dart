@@ -4,5 +4,5 @@
 /// (číslo za „+“ = versionCode pro Google Play / build pro App Store)
 /// a změň [kAppBuildDate] – podle data poznáš, že v telefonu je
 /// nejnovější sestavení.
-const kAppVersion = '0.3.28';
+const kAppVersion = '0.3.29';
 const kAppBuildDate = '2026-10-23';

@@ -6,6 +6,7 @@ import '../../l10n/app_localizations.dart';
 import '../../providers.dart';
 import '../../ui/exercise_media_view.dart';
 import '../../ui/labels.dart';
+import '../../ui/muscle_group_strip.dart';
 
 /// Spodní panel pro výběr cviku z knihovny. Vrací vybraný cvik nebo null.
 Future<Exercise?> showExercisePicker(BuildContext context) {
@@ -27,10 +28,11 @@ class _ExercisePicker extends ConsumerStatefulWidget {
 
 class _ExercisePickerState extends ConsumerState<_ExercisePicker> {
   String _query = '';
+  MuscleGroup? _group;
   late Stream<List<Exercise>> _stream = _buildStream();
 
   Stream<List<Exercise>> _buildStream() =>
-      ref.read(databaseProvider).watchExercises(query: _query);
+      ref.read(databaseProvider).watchExercises(query: _query, group: _group);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,6 @@ class _ExercisePickerState extends ConsumerState<_ExercisePicker> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
             child: TextField(
-              autofocus: true,
               decoration: InputDecoration(
                 hintText: l10n.exercisesSearchHint,
                 prefixIcon: const Icon(Icons.search),
@@ -54,6 +55,14 @@ class _ExercisePickerState extends ConsumerState<_ExercisePicker> {
                 _stream = _buildStream();
               }),
             ),
+          ),
+          // Partie s postavičkou – klepnutím jen cviky dané partie.
+          MuscleGroupStrip(
+            selected: _group,
+            onSelected: (g) => setState(() {
+              _group = g;
+              _stream = _buildStream();
+            }),
           ),
           Expanded(
             child: StreamBuilder<List<Exercise>>(
@@ -66,15 +75,21 @@ class _ExercisePickerState extends ConsumerState<_ExercisePicker> {
                 if (list.isEmpty) {
                   return Center(child: Text(l10n.exercisesEmpty));
                 }
-                final sorted = [...list]..sort((a, b) => a
-                    .localizedName(context)
-                    .toLowerCase()
-                    .compareTo(b.localizedName(context).toLowerCase()));
+                // Bez filtru a hledání rozdělené do sekcí podle partie.
+                final entries = exerciseListEntries(
+                  context,
+                  list,
+                  withHeaders: _group == null && _query.trim().isEmpty,
+                );
                 return ListView.builder(
                   controller: scrollController,
-                  itemCount: sorted.length,
+                  itemCount: entries.length,
                   itemBuilder: (context, i) {
-                    final e = sorted[i];
+                    final entry = entries[i];
+                    if (entry.header case final g?) {
+                      return ExerciseGroupHeader(group: g);
+                    }
+                    final e = entry.exercise!;
                     return ListTile(
                       leading: ExerciseThumbnail(exercise: e),
                       title: Text(e.localizedName(context)),
