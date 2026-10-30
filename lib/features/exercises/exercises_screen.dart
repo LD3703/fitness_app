@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers.dart';
 import '../../ui/exercise_media_view.dart';
 import '../../ui/labels.dart';
+import '../../ui/muscle_group_strip.dart';
 
 class ExercisesScreen extends ConsumerWidget {
   const ExercisesScreen({super.key});
@@ -37,29 +37,10 @@ class ExercisesScreen extends ConsumerWidget {
                   ref.read(exerciseQueryProvider.notifier).state = text,
             ),
           ),
-          SizedBox(
-            height: 48,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              children: [
-                _GroupChip(
-                  label: l10n.filterAll,
-                  selected: selectedGroup == null,
-                  onSelected: () => ref
-                      .read(exerciseGroupFilterProvider.notifier)
-                      .state = null,
-                ),
-                for (final g in muscleGroupsUiOrder)
-                  _GroupChip(
-                    label: l10n.muscleGroup(g),
-                    selected: selectedGroup == g,
-                    onSelected: () => ref
-                        .read(exerciseGroupFilterProvider.notifier)
-                        .state = g,
-                  ),
-              ],
-            ),
+          MuscleGroupStrip(
+            selected: selectedGroup,
+            onSelected: (g) =>
+                ref.read(exerciseGroupFilterProvider.notifier).state = g,
           ),
           Expanded(
             child: exercises.when(
@@ -69,16 +50,22 @@ class ExercisesScreen extends ConsumerWidget {
                 if (list.isEmpty) {
                   return Center(child: Text(l10n.exercisesEmpty));
                 }
-                final sorted = [...list]..sort((a, b) => a
-                    .localizedName(context)
-                    .toLowerCase()
-                    .compareTo(b.localizedName(context).toLowerCase()));
-                return ListView.separated(
+                // Bez filtru a hledání rozdělené do sekcí podle partie.
+                final entries = exerciseListEntries(
+                  context,
+                  list,
+                  withHeaders: selectedGroup == null &&
+                      ref.watch(exerciseQueryProvider).trim().isEmpty,
+                );
+                return ListView.builder(
                   padding: const EdgeInsets.only(bottom: 88),
-                  itemCount: sorted.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1),
+                  itemCount: entries.length,
                   itemBuilder: (context, i) {
-                    final e = sorted[i];
+                    final entry = entries[i];
+                    if (entry.header case final g?) {
+                      return ExerciseGroupHeader(group: g);
+                    }
+                    final e = entry.exercise!;
                     return ListTile(
                       leading: ExerciseThumbnail(exercise: e),
                       title: Text(e.localizedName(context)),
@@ -95,30 +82,6 @@ class ExercisesScreen extends ConsumerWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _GroupChip extends StatelessWidget {
-  const _GroupChip({
-    required this.label,
-    required this.selected,
-    required this.onSelected,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: ChoiceChip(
-        label: Text(label),
-        selected: selected,
-        onSelected: (_) => onSelected(),
       ),
     );
   }
