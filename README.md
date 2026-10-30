@@ -29,7 +29,9 @@ Funguje:
   v plánu se mění podržením kdekoli na řádku; podržení plánu v seznamu
   ukáže rychlé akce (Začít, Upravit, Přejmenovat, Smazat); mezi záložkami
   (Dnes, Plány, Cviky…) se dá listovat přejetím doleva / doprava
-  (`SwipeBranchContainer` v `lib/ui/app_shell.dart`).
+  (`SwipeBranchContainer` v `lib/ui/app_shell.dart`); opakování (a sekundy)
+  se v tréninku i v editoru plánu zadávají posuvníkem s −/+ a rychlými
+  volbami místo klávesnice (`lib/ui/reps_field.dart`).
 - **Cíl tréninku:** Síla / Svaly / Výdrž – volí se v úvodu a v Profilu,
   plán může mít vlastní zaměření (editor plánu, schéma v23) a nahoře
   v tréninku jde změnit jen pro daný trénink. Podle zaměření se počítají
