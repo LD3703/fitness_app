@@ -107,6 +107,14 @@ Funguje:
   → shrnutí.
   Vše je nepovinné a jde změnit v Profilu; tam je i „Průvodce nastavením“
   pro nové projití (`lib/features/onboarding/onboarding_screen.dart`).
+- **Kalendář tréninků:** Plány → ikona kalendáře (nebo z Dnes). Měsíc
+  s naplánovanými (tečka) a odcvičenými (fajfka) dny; do libovolného dne
+  jde přidat trénink z plánu i mimo jeho pravidelné dny, volitelně s časem
+  (podržení dne nebo „Naplánovat trénink“). Přejetím doleva se trénink ze
+  dne odebere, pravidelný se ten den vynechá – vše s „Vrátit“. Jednorázové
+  tréninky se ukazují na Dnes, v ranní připomínce, v kalendáři telefonu,
+  na hodinkách i ve widgetu (`lib/features/plans/plan_calendar_screen.dart`,
+  ScheduleStatus.added).
 - **Odložení / vynechání tréninku:** z obrazovky Dnes (menu ⋮ u plánu),
   s uklidňující hláškou a možností vrátit.
 - **Cviky:** knihovna 170 cviků s návodem (10 jazyků), hledáním a pruhem

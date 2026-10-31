@@ -75,7 +75,15 @@ extension MuscleGroupX on MuscleGroup {
       legMuscleGroups.contains(this);
 }
 
-enum Equipment { barbell, dumbbell, machine, cable, bodyweight, kettlebell, band }
+enum Equipment {
+  barbell,
+  dumbbell,
+  machine,
+  cable,
+  bodyweight,
+  kettlebell,
+  band
+}
 
 enum ExerciseType {
   /// Váha × opakování (bench press).
@@ -100,7 +108,28 @@ enum SessionKind {
 
 enum PeriodType { illness, injury, cut, bulk, maintenance, pause }
 
-enum ScheduleStatus { planned, done, moved, planB, skipped }
+enum ScheduleStatus {
+  planned,
+  done,
+  moved,
+  planB,
+  skipped,
+
+  /// Trénink přidaný do kalendáře na konkrétní den (mimo pravidelné dny
+  /// plánu), čas je v ScheduledWorkouts.scheduledAt (0:00 = bez času).
+  added,
+}
+
+extension ScheduleStatusX on ScheduleStatus {
+  /// Záznam přidává trénink do dne (odložený na tento den nebo přidaný
+  /// v kalendáři).
+  bool get addsPlan =>
+      this == ScheduleStatus.planned || this == ScheduleStatus.added;
+
+  /// Záznam trénink z pravidelného dne ubírá (odložený nebo vynechaný).
+  bool get removesPlan =>
+      this == ScheduleStatus.moved || this == ScheduleStatus.skipped;
+}
 
 enum ChallengeKind {
   /// Překonat nejtěžší sérii v cviku (víc kg, nebo stejně kg na víc opakování).

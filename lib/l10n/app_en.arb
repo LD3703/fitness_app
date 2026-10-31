@@ -3881,5 +3881,42 @@
   "planEditAction": "Edit plan",
   "repsSliderTitle": "Reps",
   "repsSliderSeconds": "Seconds",
-  "repsSliderKeyboard": "Type a number"
+  "repsSliderKeyboard": "Type a number",
+  "calendarTitle": "Training calendar",
+  "calendarAddWorkout": "Schedule workout",
+  "calendarAddedLabel": "From calendar",
+  "calendarRegular": "Every week",
+  "calendarSkipDay": "Skip",
+  "calendarDayEmpty": "No workout",
+  "calendarAdded": "Scheduled: {plan}, {day}",
+  "@calendarAdded": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      },
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarTime": "Time",
+  "calendarNoTime": "No time",
+  "calendarPickTime": "Pick time",
+  "calendarNoPlans": "Create a plan in Plans first.",
+  "calendarRemoved": "{plan} removed from the calendar",
+  "@calendarRemoved": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarSkipped": "{plan} skipped this day",
+  "@calendarSkipped": {
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
+  }
 }

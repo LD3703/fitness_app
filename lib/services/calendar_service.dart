@@ -63,7 +63,7 @@ class CalendarService {
     try {
       await removeFuture(db);
       for (final w in planned) {
-        final minutes = w.plan.plannedTimeMinutes ?? _defaultStartMinutes;
+        final minutes = w.minutes ?? _defaultStartMinutes;
         final start = DateTime(
           w.day.year,
           w.day.month,

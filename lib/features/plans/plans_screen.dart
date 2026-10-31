@@ -277,6 +277,11 @@ class PlansScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(l10n.tabPlans),
         actions: [
+          IconButton(
+            tooltip: l10n.calendarTitle,
+            icon: const Icon(Icons.calendar_month_outlined),
+            onPressed: () => context.go('/plans/calendar'),
+          ),
           TextButton.icon(
             style: headerTextButtonStyle(context),
             onPressed: () => _addTemplate(context, ref),

@@ -38,6 +38,11 @@ class TodayScreen extends ConsumerWidget {
             ? l10n.tabToday
             : l10n.todayGreeting(name)),
         actions: [
+          IconButton(
+            tooltip: l10n.calendarTitle,
+            icon: const Icon(Icons.calendar_month_outlined),
+            onPressed: () => context.go('/plans/calendar'),
+          ),
           if (trackPeriods)
             IconButton(
               tooltip: l10n.periodsTitle,
@@ -60,7 +65,6 @@ class TodayScreen extends ConsumerWidget {
     );
   }
 }
-
 
 /// Návrh změny úrovně pokročilosti (core/experience_level.dart): po
 /// půl roce pravidelného tréninku o úroveň výš, po dlouhé pauze o úroveň
@@ -178,24 +182,26 @@ class _WorkoutCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final active = ref.watch(activeSessionProvider).valueOrNull;
     final plans = ref.watch(plansProvider).valueOrNull ?? const <WorkoutPlan>[];
-    final scheduled =
-        ref.watch(scheduledTodayProvider).valueOrNull ?? const <ScheduledWorkout>[];
+    final scheduled = ref.watch(scheduledTodayProvider).valueOrNull ??
+        const <ScheduledWorkout>[];
     final finished =
         ref.watch(finishedPlanIdsTodayProvider).valueOrNull ?? const <int>{};
     final now = DateTime.now();
     final todayIndex = dayIndexOf(now);
 
-    // Dnešní plány = podle dnů v týdnu + odložené na dnešek,
-    // minus odložené na zítra a vynechané.
-    final postponedHere = {
+    // Dnešní plány = podle dnů v týdnu + odložené na dnešek a přidané
+    // v kalendáři, minus odložené na zítra a vynechané.
+    final addedHere = <int, ScheduledWorkout>{
       for (final s in scheduled)
-        if (s.status == ScheduleStatus.planned) s.planId,
+        if (s.status.addsPlan) s.planId: s,
     };
+    final postponedHere = addedHere.keys.toSet();
+    // Čas z kalendáře má přednost před časem plánu.
+    int? timeOf(WorkoutPlan p) =>
+        scheduledMinutesOf(addedHere[p.id]) ?? p.plannedTimeMinutes;
     final removed = {
       for (final s in scheduled)
-        if (s.status == ScheduleStatus.moved ||
-            s.status == ScheduleStatus.skipped)
-          s.planId: s.status,
+        if (s.status.removesPlan) s.planId: s.status,
     };
     final todayPlans = [
       for (final p in plans)
@@ -203,8 +209,7 @@ class _WorkoutCard extends ConsumerWidget {
                 postponedHere.contains(p.id)) &&
             !removed.containsKey(p.id))
           p,
-    ]..sort((a, b) => (a.plannedTimeMinutes ?? 24 * 60)
-        .compareTo(b.plannedTimeMinutes ?? 24 * 60));
+    ]..sort((a, b) => (timeOf(a) ?? 24 * 60).compareTo(timeOf(b) ?? 24 * 60));
     final removedPlans = [
       for (final p in plans)
         if (removed.containsKey(p.id)) p,
@@ -236,12 +241,15 @@ class _WorkoutCard extends ConsumerWidget {
       } else {
         for (final plan in todayPlans) {
           final done = finished.contains(plan.id);
+          final time = timeOf(plan);
+          final extra = addedHere[plan.id];
           final details = [
-            if (plan.plannedTimeMinutes != null)
-              formatMinutesOfDay(context, plan.plannedTimeMinutes!),
-            if (postponedHere.contains(plan.id) &&
+            if (time != null) formatMinutesOfDay(context, time),
+            if (extra != null &&
                 !isWeekdayInMask(plan.weekdaysMask, todayIndex))
-              l10n.planPostponedLabel,
+              extra.status == ScheduleStatus.added
+                  ? l10n.calendarAddedLabel
+                  : l10n.planPostponedLabel,
           ];
           children.add(ListTile(
             contentPadding: EdgeInsets.zero,
@@ -309,14 +317,15 @@ class _WorkoutCard extends ConsumerWidget {
             ),
             OutlinedButton.icon(
               onPressed: () {
-                final pending =
-                    todayPlans.where((p) => !finished.contains(p.id)).firstOrNull;
-                context.push(pending == null
-                    ? '/planb'
-                    : '/planb?planId=${pending.id}');
+                final pending = todayPlans
+                    .where((p) => !finished.contains(p.id))
+                    .firstOrNull;
+                context.push(
+                    pending == null ? '/planb' : '/planb?planId=${pending.id}');
               },
               icon: const Icon(Icons.home_outlined),
-              label: Text(todayPlans.isEmpty ? l10n.planBQuick : l10n.todayPlanB),
+              label:
+                  Text(todayPlans.isEmpty ? l10n.planBQuick : l10n.todayPlanB),
             ),
           ],
         ),
@@ -363,8 +372,8 @@ class _WaterCard extends ConsumerWidget {
     final until = formatMinutesOfDay(context, last);
     final remaining = formatVolume(context, goal - water);
     if (plan.length == 1) return l10n.waterPaceHintLast(remaining, until);
-    final gap = plan.last.at.difference(plan.first.at).inMinutes ~/
-        (plan.length - 1);
+    final gap =
+        plan.last.at.difference(plan.first.at).inMinutes ~/ (plan.length - 1);
     return l10n.waterPaceHint(remaining, until,
         formatVolume(context, plan.first.amountMl), (gap / 5).round() * 5);
   }
@@ -393,7 +402,8 @@ class _WaterCard extends ConsumerWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.water_drop_outlined, color: theme.colorScheme.primary),
+                Icon(Icons.water_drop_outlined,
+                    color: theme.colorScheme.primary),
                 const SizedBox(width: 8),
                 Text(l10n.waterTitle, style: theme.textTheme.titleMedium),
                 const Spacer(),
@@ -526,8 +536,7 @@ class _WellbeingCard extends ConsumerWidget {
     ]..sort((a, b) =>
         _priority.indexOf(a.type).compareTo(_priority.indexOf(b.type)));
     final main = activePeriods.firstOrNull;
-    final message =
-        wellbeingMessage(l10n, situation, MessagePlace.today, now);
+    final message = wellbeingMessage(l10n, situation, MessagePlace.today, now);
 
     if (main == null && message == null) return const SizedBox.shrink();
 
@@ -545,7 +554,9 @@ class _WellbeingCard extends ConsumerWidget {
           children: [
             Row(
               children: [
-                Icon(main != null ? periodIcon(main.type) : Icons.favorite_outline),
+                Icon(main != null
+                    ? periodIcon(main.type)
+                    : Icons.favorite_outline),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(title, style: theme.textTheme.titleSmall),
