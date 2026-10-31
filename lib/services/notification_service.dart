@@ -430,22 +430,24 @@ class NotificationService {
       if (profile.morningReminderEnabled) {
         for (var d = 0; d < _daysAhead; d++) {
           final day = DateTime(today.year, today.month, today.day + d);
-          final plans = [
+          final dayPlanned = [
             for (final w in planned)
-              if (w.day == day) w.plan,
+              if (w.day == day) w,
           ];
+          final plans = [for (final w in dayPlanned) w.plan];
           if (plans.isEmpty) continue;
           final minutes = profile.morningReminderMinutes;
           final at = DateTime(
               day.year, day.month, day.day, minutes ~/ 60, minutes % 60);
           if (!at.isAfter(now)) continue;
 
-          final names = plans.map((p) {
-            final t = p.plannedTimeMinutes;
-            if (t == null) return p.name;
+          // Čas z kalendáře (jednorázový trénink), jinak čas plánu.
+          final names = dayPlanned.map((w) {
+            final t = w.minutes;
+            if (t == null) return w.plan.name;
             final time = timeFormat
                 .format(DateTime(day.year, day.month, day.day, t ~/ 60, t % 60));
-            return l10n.notifPlanAtTime(p.name, time);
+            return l10n.notifPlanAtTime(w.plan.name, time);
           }).join(', ');
 
           final situation = profile.trackPeriods

@@ -114,13 +114,11 @@ int? _todayPlanId(WidgetRef ref) {
   final todayIndex = dayIndexOf(DateTime.now());
   final here = {
     for (final s in scheduled)
-      if (s.status == ScheduleStatus.planned) s.planId,
+      if (s.status.addsPlan) s.planId,
   };
   final removed = {
     for (final s in scheduled)
-      if (s.status == ScheduleStatus.moved ||
-          s.status == ScheduleStatus.skipped)
-        s.planId,
+      if (s.status.removesPlan) s.planId,
   };
   for (final p in plans) {
     if ((isWeekdayInMask(p.weekdaysMask, todayIndex) || here.contains(p.id)) &&

@@ -1316,5 +1316,18 @@
   "planEditAction": "Upravit plán",
   "repsSliderTitle": "Opakování",
   "repsSliderSeconds": "Sekundy",
-  "repsSliderKeyboard": "Zadat číslem"
+  "repsSliderKeyboard": "Zadat číslem",
+  "calendarTitle": "Kalendář tréninků",
+  "calendarAddWorkout": "Naplánovat trénink",
+  "calendarAddedLabel": "Z kalendáře",
+  "calendarRegular": "Každý týden",
+  "calendarSkipDay": "Vynechat",
+  "calendarDayEmpty": "Žádný trénink",
+  "calendarAdded": "Naplánováno: {plan}, {day}",
+  "calendarTime": "Čas",
+  "calendarNoTime": "Bez času",
+  "calendarPickTime": "Vybrat čas",
+  "calendarNoPlans": "Nejdřív si vytvoř plán v Plánech.",
+  "calendarRemoved": "{plan} – odebráno z kalendáře",
+  "calendarSkipped": "{plan} – tento den vynecháno"
 }

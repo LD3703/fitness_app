@@ -1316,5 +1316,18 @@
   "planEditAction": "Editar plano",
   "repsSliderTitle": "Repetições",
   "repsSliderSeconds": "Segundos",
-  "repsSliderKeyboard": "Digitar número"
+  "repsSliderKeyboard": "Digitar número",
+  "calendarTitle": "Calendário de treinos",
+  "calendarAddWorkout": "Agendar treino",
+  "calendarAddedLabel": "Do calendário",
+  "calendarRegular": "Toda semana",
+  "calendarSkipDay": "Pular",
+  "calendarDayEmpty": "Nenhum treino",
+  "calendarAdded": "Agendado: {plan}, {day}",
+  "calendarTime": "Horário",
+  "calendarNoTime": "Sem horário",
+  "calendarPickTime": "Escolher horário",
+  "calendarNoPlans": "Crie primeiro um plano em Planos.",
+  "calendarRemoved": "{plan} removido do calendário",
+  "calendarSkipped": "{plan} pulado neste dia"
 }

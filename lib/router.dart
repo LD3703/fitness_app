@@ -14,6 +14,7 @@ import 'features/periods/periods_screen.dart';
 import 'features/planb/plan_b_screen.dart';
 import 'features/plans/plan_editor_screen.dart';
 import 'features/plans/plan_item_editor_screen.dart';
+import 'features/plans/plan_calendar_screen.dart';
 import 'features/plans/plans_screen.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/progress/progress_screen.dart';
@@ -90,6 +91,11 @@ final _routes = <RouteBase>[
             path: '/plans',
             builder: (context, state) => const PlansScreen(),
             routes: [
+              // Kalendář tréninků – musí být před ':id'.
+              GoRoute(
+                path: 'calendar',
+                builder: (context, state) => const PlanCalendarScreen(),
+              ),
               GoRoute(
                 path: ':id',
                 builder: (context, state) => PlanEditorScreen(

@@ -1316,5 +1316,18 @@
   "planEditAction": "Plan bearbeiten",
   "repsSliderTitle": "Wiederholungen",
   "repsSliderSeconds": "Sekunden",
-  "repsSliderKeyboard": "Zahl eingeben"
+  "repsSliderKeyboard": "Zahl eingeben",
+  "calendarTitle": "Trainingskalender",
+  "calendarAddWorkout": "Training planen",
+  "calendarAddedLabel": "Aus dem Kalender",
+  "calendarRegular": "Jede Woche",
+  "calendarSkipDay": "Auslassen",
+  "calendarDayEmpty": "Kein Training",
+  "calendarAdded": "Geplant: {plan}, {day}",
+  "calendarTime": "Uhrzeit",
+  "calendarNoTime": "Ohne Uhrzeit",
+  "calendarPickTime": "Uhrzeit wählen",
+  "calendarNoPlans": "Erstelle zuerst einen Plan unter Pläne.",
+  "calendarRemoved": "{plan} aus dem Kalender entfernt",
+  "calendarSkipped": "{plan} an diesem Tag ausgelassen"
 }

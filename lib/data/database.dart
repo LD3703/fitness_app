@@ -60,7 +60,23 @@ typedef HomeRoutineWithExercises = ({
 });
 
 /// Naplánovaný trénink v konkrétní den.
-typedef PlannedWorkout = ({DateTime day, WorkoutPlan plan});
+/// Trénink naplánovaný na den: [minutes] = čas (z kalendáře, jinak čas
+/// plánu, null = bez času), [scheduleId] = záznam v ScheduledWorkouts
+/// u tréninku přidaného do kalendáře nebo odloženého (null = pravidelný).
+typedef PlannedWorkout = ({
+  DateTime day,
+  WorkoutPlan plan,
+  int? minutes,
+  int? scheduleId,
+});
+
+/// Čas tréninku přidaného do kalendáře (minuty od půlnoci), null = bez
+/// času nebo jiný záznam (odložení).
+int? scheduledMinutesOf(ScheduledWorkout? s) {
+  if (s == null || s.status != ScheduleStatus.added) return null;
+  final m = s.scheduledAt.hour * 60 + s.scheduledAt.minute;
+  return m == 0 ? null : m;
+}
 
 /// Bod časové řady pro grafy.
 typedef SeriesPoint = ({DateTime x, double y});
@@ -152,7 +168,8 @@ class AppDatabase extends _$AppDatabase {
           }
           if (from < 4) {
             // Verze 4: připomínky, kalendář, rozšířená knihovna cviků.
-            await m.addColumn(userProfiles, userProfiles.morningReminderEnabled);
+            await m.addColumn(
+                userProfiles, userProfiles.morningReminderEnabled);
             await m.addColumn(userProfiles, userProfiles.waterRemindersEnabled);
             await m.addColumn(userProfiles, userProfiles.calendarSyncEnabled);
             await m.createTable(calendarLinks);
@@ -177,7 +194,8 @@ class AppDatabase extends _$AppDatabase {
             ]) {
               await m.addColumn(userProfiles, c);
             }
-            await m.addColumn(workoutSessions, workoutSessions.healthExportedAt);
+            await m.addColumn(
+                workoutSessions, workoutSessions.healthExportedAt);
             await m.createTable(challenges);
           }
           if (from < 7) {
@@ -426,7 +444,8 @@ class AppDatabase extends _$AppDatabase {
       final slug = r.readNullable<String>('slug');
       final untouched =
           rest == 90 || (_legacyTemplateRests[slug]?.contains(rest) ?? false);
-      await (update(planExercises)..where((x) => x.id.equals(r.read<int>('id'))))
+      await (update(planExercises)
+            ..where((x) => x.id.equals(r.read<int>('id'))))
           .write(PlanExercisesCompanion(restAuto: Value(untouched)));
     }
   }
@@ -439,8 +458,8 @@ class AppDatabase extends _$AppDatabase {
   /// Je idempotentní – lze volat opakovaně. Vrací ID cviků podle slugu.
   Future<Map<String, int>> _syncSeedExercises() async {
     final existing = {
-      for (final e in await (select(exercises)..where((e) => e.slug.isNotNull()))
-          .get())
+      for (final e
+          in await (select(exercises)..where((e) => e.slug.isNotNull())).get())
         e.slug!: e.id,
     };
     for (final e in seedExercises) {
@@ -588,9 +607,9 @@ class AppDatabase extends _$AppDatabase {
         ..limit(1))
       .watchSingleOrNull();
 
-  Stream<List<Period>> watchPeriods() => (select(periods)
-        ..orderBy([(p) => OrderingTerm.desc(p.startDate)]))
-      .watch();
+  Stream<List<Period>> watchPeriods() =>
+      (select(periods)..orderBy([(p) => OrderingTerm.desc(p.startDate)]))
+          .watch();
 
   Future<int> addPeriod({
     required PeriodType type,
@@ -715,9 +734,9 @@ class AppDatabase extends _$AppDatabase {
   // Plány
   // ---------------------------------------------------------------------
 
-  Stream<List<WorkoutPlan>> watchPlans() => (select(workoutPlans)
-        ..orderBy([(p) => OrderingTerm.asc(p.name)]))
-      .watch();
+  Stream<List<WorkoutPlan>> watchPlans() =>
+      (select(workoutPlans)..orderBy([(p) => OrderingTerm.asc(p.name)]))
+          .watch();
 
   Stream<WorkoutPlan?> watchPlan(int id) =>
       (select(workoutPlans)..where((p) => p.id.equals(id))).watchSingleOrNull();
@@ -824,11 +843,12 @@ class AppDatabase extends _$AppDatabase {
   /// Moje poznámka ke cviku (prázdná = smazat).
   Future<void> setExerciseNote(int exerciseId, String? note) {
     final t = note?.trim() ?? '';
-    return (update(exercises)..where((e) => e.id.equals(exerciseId))).write(
-        ExercisesCompanion(note: Value(t.isEmpty ? null : clipNote(t))));
+    return (update(exercises)..where((e) => e.id.equals(exerciseId)))
+        .write(ExercisesCompanion(note: Value(t.isEmpty ? null : clipNote(t))));
   }
 
-  Future<void> _insertPlanSets(int planExerciseId, List<PlanSetDraft> sets) async {
+  Future<void> _insertPlanSets(
+      int planExerciseId, List<PlanSetDraft> sets) async {
     for (var i = 0; i < sets.length; i++) {
       await into(planSets).insert(PlanSetsCompanion.insert(
         planExerciseId: planExerciseId,
@@ -1001,7 +1021,8 @@ class AppDatabase extends _$AppDatabase {
       ));
 
   /// Kolikrát týdně a jak dlouho chce trénovat (doporučení programů).
-  Future<void> setTrainingSchedule({required int daysPerWeek, required int minutes}) =>
+  Future<void> setTrainingSchedule(
+          {required int daysPerWeek, required int minutes}) =>
       updateProfile(UserProfilesCompanion(
         trainingDaysPerWeek: Value(daysPerWeek),
         sessionMinutes: Value(minutes),
@@ -1273,7 +1294,8 @@ class AppDatabase extends _$AppDatabase {
               focus: Value(focus),
             ),
           );
-          var planned = plannedItems(plan, goal, program: program, level: level);
+          var planned =
+              plannedItems(plan, goal, program: program, level: level);
           if (maxMinutes != null) {
             planned = fitToMinutes(planned, focus, maxMinutes);
           }
@@ -1384,25 +1406,56 @@ class AppDatabase extends _$AppDatabase {
       final day = DateTime(start.year, start.month, start.day + d);
       final dayIndex = day.weekday - 1;
       final forDay = scheduled.where((s) => startOfDay(s.scheduledAt) == day);
-      final added = {
+      final added = <int, ScheduledWorkout>{
         for (final s in forDay)
-          if (s.status == ScheduleStatus.planned) s.planId,
+          if (s.status.addsPlan) s.planId: s,
       };
       final removed = {
         for (final s in forDay)
-          if (s.status == ScheduleStatus.moved ||
-              s.status == ScheduleStatus.skipped)
-            s.planId,
+          if (s.status.removesPlan) s.planId,
       };
       for (final p in plans) {
         final byWeekday = p.weekdaysMask & (1 << dayIndex) != 0;
-        if ((byWeekday || added.contains(p.id)) && !removed.contains(p.id)) {
-          result.add((day: day, plan: p));
+        final extra = added[p.id];
+        if ((byWeekday || extra != null) && !removed.contains(p.id)) {
+          result.add((
+            day: day,
+            plan: p,
+            minutes: scheduledMinutesOf(extra) ?? p.plannedTimeMinutes,
+            scheduleId: extra?.id,
+          ));
         }
       }
     }
     return result;
   }
+
+  /// Tréninky naplánované v kalendáři od [from] na [days] dní – mění se
+  /// s plány i se záznamy kalendáře (obrazovka Kalendář).
+  Stream<List<PlannedWorkout>> watchPlannedWorkouts(DateTime from, int days) {
+    // Prázdný dotaz, který se ozve při každé změně plánů nebo kalendáře.
+    return customSelect('SELECT 1',
+            readsFrom: {scheduledWorkouts, workoutPlans})
+        .watch()
+        .asyncMap((_) => plannedWorkouts(from, days));
+  }
+
+  /// Přidá trénink plánu do kalendáře na den [day], volitelně v čas
+  /// [minutes] (minuty od půlnoci). Vrací ID záznamu.
+  Future<int> addPlanToDay(int planId, DateTime day, {int? minutes}) {
+    final d = startOfDay(day);
+    return into(scheduledWorkouts).insert(ScheduledWorkoutsCompanion.insert(
+      planId: planId,
+      scheduledAt: minutes == null
+          ? d
+          : DateTime(d.year, d.month, d.day, minutes ~/ 60, minutes % 60),
+      status: const Value(ScheduleStatus.added),
+    ));
+  }
+
+  /// Odebere trénink přidaný do kalendáře (nebo odložený) – záznam [id].
+  Future<void> removeScheduled(int id) =>
+      (delete(scheduledWorkouts)..where((s) => s.id.equals(id))).go();
 
   Stream<bool> watchWorkoutDoneOn(DateTime day) => (select(workoutSessions)
         ..where((s) =>

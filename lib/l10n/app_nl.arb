@@ -1316,5 +1316,18 @@
   "planEditAction": "Plan bewerken",
   "repsSliderTitle": "Herhalingen",
   "repsSliderSeconds": "Seconden",
-  "repsSliderKeyboard": "Getal invoeren"
+  "repsSliderKeyboard": "Getal invoeren",
+  "calendarTitle": "Trainingskalender",
+  "calendarAddWorkout": "Training plannen",
+  "calendarAddedLabel": "Uit de kalender",
+  "calendarRegular": "Elke week",
+  "calendarSkipDay": "Overslaan",
+  "calendarDayEmpty": "Geen training",
+  "calendarAdded": "Gepland: {plan}, {day}",
+  "calendarTime": "Tijd",
+  "calendarNoTime": "Zonder tijd",
+  "calendarPickTime": "Tijd kiezen",
+  "calendarNoPlans": "Maak eerst een plan onder Plannen.",
+  "calendarRemoved": "{plan} uit de kalender verwijderd",
+  "calendarSkipped": "{plan} deze dag overgeslagen"
 }
