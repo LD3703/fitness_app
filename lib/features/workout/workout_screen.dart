@@ -1014,7 +1014,10 @@ class _Block {
       final ordinal = rows.where((r) => r.kind == kind).length;
       final prev = _previousOfKind(data.previous, kind, ordinal) ??
           _lastOfKind(data.previous, kind);
-      var weightKg = target?.weightKg ?? prev?.weightKg;
+      // Z plánu, nebo z minula – váha i opakování (prefillSet).
+      final prefill =
+          prefillSet(target: target, previous: prev, isDuration: isDuration);
+      var weightKg = prefill.weightKg;
       if (light && weightKg != null && kind == _Kind.working) {
         final lighter =
             roundToStep(weightKg * kLightWeightFactor, step: weightStepKg);
@@ -1029,8 +1032,7 @@ class _Block {
       }
       rows.add(_SetRow(
         weight: weightInputText(weightKg),
-        value:
-            '${target?.reps ?? (isDuration ? prev?.durationSeconds : prev?.reps) ?? 10}',
+        value: '${prefill.value}',
         isWarmup: kind == _Kind.warmup,
         isDrop: kind == _Kind.drop,
       ));
