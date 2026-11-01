@@ -992,9 +992,12 @@ class _Block {
     // takže po návratu do tréninku nezmizí žádná plánovaná série
     // (dřív se počet řádků bral jako max(cíle, poslední pozice + 1)).
     final targets = data.targets;
+    // Série přidané minule se pamatují (prefillRowCount).
+    final rowCount = prefillRowCount(
+        targets: targets, previous: data.previous, light: light);
     var t = 0;
     final rows = <_SetRow>[];
-    for (var i = 0; i <= maxRow || t < targets.length; i++) {
+    for (var i = 0; i <= maxRow || t < rowCount; i++) {
       final s = savedByRow[i];
       if (s != null) {
         rows.add(savedRow(s));
@@ -1006,15 +1009,27 @@ class _Block {
       }
       // Cíl z plánu má přednost; chybějící váhu doplníme z minula
       // (ze série stejného druhu – drop série z drop série apod.).
-      final target = t < targets.length ? targets[t] : _targetFor(data, t);
+      // Série navíc oproti plánu (minule přidaná) má druh i hodnoty
+      // z minula.
+      final extra =
+          t >= targets.length && t < rowCount ? data.previous[t] : null;
+      final target = t < targets.length
+          ? targets[t]
+          : (extra != null ? null : _targetFor(data, t));
       t++;
-      final kind = target == null
-          ? _Kind.working
-          : _kindOf(isWarmup: target.isWarmup, isDrop: target.isDrop);
+      final kind = extra != null
+          ? _entryKind(extra)
+          : target == null
+              ? _Kind.working
+              : _kindOf(isWarmup: target.isWarmup, isDrop: target.isDrop);
       final ordinal = rows.where((r) => r.kind == kind).length;
-      final prev = _previousOfKind(data.previous, kind, ordinal) ??
+      final prev = extra ??
+          _previousOfKind(data.previous, kind, ordinal) ??
           _lastOfKind(data.previous, kind);
-      var weightKg = target?.weightKg ?? prev?.weightKg;
+      // Z plánu, nebo z minula – váha i opakování (prefillSet).
+      final prefill =
+          prefillSet(target: target, previous: prev, isDuration: isDuration);
+      var weightKg = prefill.weightKg;
       if (light && weightKg != null && kind == _Kind.working) {
         final lighter =
             roundToStep(weightKg * kLightWeightFactor, step: weightStepKg);
@@ -1029,8 +1044,7 @@ class _Block {
       }
       rows.add(_SetRow(
         weight: weightInputText(weightKg),
-        value:
-            '${target?.reps ?? (isDuration ? prev?.durationSeconds : prev?.reps) ?? 10}',
+        value: '${prefill.value}',
         isWarmup: kind == _Kind.warmup,
         isDrop: kind == _Kind.drop,
       ));

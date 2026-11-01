@@ -24,6 +24,44 @@ import '../../data/database.dart';
 // data se nemění. Řazení podle pozice (statistiky, minulé série) dá
 // nejdřív série prvního výskytu, pak druhého atd.
 
+/// Předvyplnění řádku série: váha a opakování (u cviku na čas sekundy).
+///
+/// Když plán určuje i váhu (trenér, automatická progrese, ručně zadaná
+/// váha), platí celý cíl z plánu. Jinak se vezme minulá série stejného
+/// druhu – váha i opakování, jak se naposledy odcvičilo; bez historie
+/// opakování z plánu (nebo 10).
+({double? weightKg, int value}) prefillSet({
+  required PlanSetDraft? target,
+  required SetEntry? previous,
+  required bool isDuration,
+}) {
+  final previousValue =
+      isDuration ? previous?.durationSeconds : previous?.reps;
+  final planLeads = target?.weightKg != null;
+  return (
+    weightKg: target?.weightKg ?? previous?.weightKg,
+    value: (planLeads ? target?.reps : null) ??
+        previousValue ??
+        target?.reps ??
+        10,
+  );
+}
+
+/// Kolik řádků sérií nabídnout: podle plánu, a když plán neurčuje váhu,
+/// aspoň tolik, kolik se minule odcvičilo (série přidané minule se
+/// pamatují). Lehčí trénink (regenerace) série navíc nepřidává.
+int prefillRowCount({
+  required List<PlanSetDraft> targets,
+  required List<SetEntry> previous,
+  bool light = false,
+}) {
+  final planLeads = targets.any((t) => t.weightKg != null);
+  if (light || planLeads || previous.length <= targets.length) {
+    return targets.length;
+  }
+  return previous.length;
+}
+
 /// Rozestup pozic mezi výskyty (sloty) stejného cviku v jednom tréninku.
 /// Víc řádků než [blockPositionStride] jeden cvik mít nemůže.
 const blockPositionStride = 1000;
