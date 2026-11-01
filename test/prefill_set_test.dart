@@ -65,4 +65,24 @@ void main() {
     expect(p.weightKg, 50);
     expect(p.value, 10);
   });
+
+  group('počet sérií', () {
+    final three = [_target(10), _target(10), _target(10)];
+    List<SetEntry> prev(int n) => [for (var i = 0; i < n; i++) _prev(reps: 10)];
+
+    test('minule přidaná série se pamatuje', () {
+      expect(prefillRowCount(targets: three, previous: prev(4)), 4);
+    });
+
+    test('méně sérií minule – plán zůstává', () {
+      expect(prefillRowCount(targets: three, previous: prev(2)), 3);
+    });
+
+    test('plán s vahou nebo lehčí trénink – jen plán', () {
+      final withWeight = [_target(5, 100), _target(5, 100)];
+      expect(prefillRowCount(targets: withWeight, previous: prev(4)), 2);
+      expect(
+          prefillRowCount(targets: three, previous: prev(5), light: true), 3);
+    });
+  });
 }

@@ -47,6 +47,21 @@ import '../../data/database.dart';
   );
 }
 
+/// Kolik řádků sérií nabídnout: podle plánu, a když plán neurčuje váhu,
+/// aspoň tolik, kolik se minule odcvičilo (série přidané minule se
+/// pamatují). Lehčí trénink (regenerace) série navíc nepřidává.
+int prefillRowCount({
+  required List<PlanSetDraft> targets,
+  required List<SetEntry> previous,
+  bool light = false,
+}) {
+  final planLeads = targets.any((t) => t.weightKg != null);
+  if (light || planLeads || previous.length <= targets.length) {
+    return targets.length;
+  }
+  return previous.length;
+}
+
 /// Rozestup pozic mezi výskyty (sloty) stejného cviku v jednom tréninku.
 /// Víc řádků než [blockPositionStride] jeden cvik mít nemůže.
 const blockPositionStride = 1000;

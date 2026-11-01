@@ -17,7 +17,8 @@ Funguje:
   a může být rozcvičková; převzetí z minulého tréninku; orientační návrh vah
   podle osobního rekordu; u cviku je vidět rekord (nejtěžší série) a poslední výkon.
 - **Trénink:** spuštění z plánu, z obrazovky Dnes i bez plánu; zápis sérií
-  s předvyplněním z minula (váha i opakování; plán s vahou má přednost),
+  s předvyplněním z minula (váha, opakování i série přidané minule; plán
+  s vahou má přednost),
   sloupec „Minule“, časovač pauzy (−15 / +15 /
   přeskočit; po odchodu z tréninku běží odpočet nad spodní navigací,
   cvik jde z tréninku odebrat přejetím doleva s „Vrátit“, schéma v27;
