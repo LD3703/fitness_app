@@ -1329,5 +1329,12 @@
   "calendarPickTime": "Wybierz godzinę",
   "calendarNoPlans": "Najpierw utwórz plan w Planach.",
   "calendarRemoved": "{plan} – usunięto z kalendarza",
-  "calendarSkipped": "{plan} – pominięto ten dzień"
+  "calendarSkipped": "{plan} – pominięto ten dzień",
+  "analyticsConsentTitle": "Pomożesz nam ulepszać GymBar?",
+  "analyticsConsentBody": "Chcielibyśmy wiedzieć, których funkcji używasz najczęściej i gdzie aplikacja kuleje, żeby móc ją ulepszać. Aplikacja wysyłałaby tylko anonimowe statystyki użycia – które ekrany i funkcje otwierasz. Bez imienia, konta, wagi i danych o zdrowiu, i nic do reklam.",
+  "analyticsConsentLater": "Możesz to zmienić w każdej chwili w Profil → Prywatność.",
+  "analyticsConsentAllow": "Tak, pomogę",
+  "analyticsConsentDeny": "Nie, dziękuję",
+  "analyticsSwitchTitle": "Udostępniaj anonimowe statystyki użycia",
+  "analyticsSwitchHint": "Których ekranów i funkcji używasz – bez imienia, wagi i danych o zdrowiu. Pomaga nam zdecydować, co ulepszyć."
 }

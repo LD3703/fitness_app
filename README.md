@@ -753,6 +753,9 @@ codemagic.yaml              buildy pro iOS v cloudu
   `lib/modules/links/deep_links.dart`). Při přidání funkce, která posílá
   data jinam (Premium, reklamy, analytika), zásady uprav.
 - **Hlášení o pádech (Crashlytics):** viz `docs/social.md`, krok 5a.
+- **Statistiky používání (Google Analytics, jen se souhlasem):** zapnout
+  Google Analytics ve Firebase a nastavit uchovávání dat – viz
+  `docs/analytics.md`.
 - **Premium (až bude živnostenský list):** viz kapitola 5a.
 
 ## 5a. Premium (zatím vypnuté)

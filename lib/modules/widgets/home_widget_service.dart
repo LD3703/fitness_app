@@ -22,6 +22,7 @@ import '../../providers.dart';
 import '../../router.dart';
 import '../../ui/format.dart' show formatVolumeFor, formatVolumeNumberFor;
 import '../../services/sync_controller.dart';
+import '../analytics/analytics.dart';
 import 'widget_content.dart';
 
 /// Android, a iOS s cílem GymBarWidget v Xcode (tool/ios_widget.dart).
@@ -249,7 +250,9 @@ Future<void> _handleWidgetUri(Ref ref, Uri? uri) async {
           );
         }
         final db = ref.read(databaseProvider);
-        await db.addWater(parseWidgetMl(uri, profile.glassMl));
+        final ml = parseWidgetMl(uri, profile.glassMl);
+        Analytics.log(AnalyticsEvent.waterAdd, {'ml': ml, 'source': 'widget'});
+        await db.addWater(ml);
         // Hned překreslit (a tím i vydat nový nonce).
         await refreshHomeWidget(db);
       }

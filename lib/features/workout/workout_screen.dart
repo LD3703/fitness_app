@@ -12,6 +12,7 @@ import '../../core/readiness.dart' show kLightWeightFactor;
 import '../../core/superset.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
+import '../../modules/analytics/analytics.dart';
 import '../../modules/module_hub.dart';
 import '../../modules/wear/wear_bridge.dart';
 import '../../modules/wear/wear_protocol.dart';
@@ -650,6 +651,11 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
       destructive: true,
     );
     if (!ok) return;
+    Analytics.log(AnalyticsEvent.workoutDiscard, {
+      'reason': 'manual',
+      'done_sets':
+          _blocks.fold<int>(0, (a, b) => a + b.rows.where((r) => r.isDone).length),
+    });
     _timer.skip();
     await _db.discardSession(widget.sessionId);
     if (mounted) _close();
@@ -672,6 +678,7 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
         destructive: true,
       );
       if (!discard || !mounted) return;
+      Analytics.log(AnalyticsEvent.workoutDiscard, {'reason': 'no_sets'});
       // Pauza může běžet i bez odškrtnuté série (série odškrtnutá a zase
       // zrušená) – bez zastavení by dispose naplánoval upozornění na konec
       // pauzy už zahozeného tréninku.
@@ -737,6 +744,7 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
       // Přejetí doleva odebere cvik z tréninku („Vrátit“ ve snackbaru).
       return SwipeToDelete(
         key: ObjectKey(block),
+        analyticsItem: 'workout_exercise',
         label: AppLocalizations.of(context).workoutRemoveExerciseShort,
         onDeleted: () => _removeBlock(block),
         child: _BlockCard(
@@ -1457,6 +1465,7 @@ class _BlockCard extends StatelessWidget {
               // odebere celý cvik).
               SwipeToDelete(
                 key: ObjectKey(row),
+                analyticsItem: 'workout_set',
                 onDeleted: () => onRemoveRow(row),
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8),

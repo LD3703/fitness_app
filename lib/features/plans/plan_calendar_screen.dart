@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
+import '../../modules/analytics/analytics.dart';
 import '../../providers.dart';
 import '../../ui/body_map.dart';
 import '../../ui/format.dart';
@@ -87,6 +88,8 @@ class _PlanCalendarScreenState extends ConsumerState<PlanCalendarScreen> {
     await ref
         .read(databaseProvider)
         .addPlanToDay(picked.plan.id, day, minutes: picked.time);
+    Analytics.log(
+        AnalyticsEvent.planSchedule, {'with_time': picked.time != null});
     if (!mounted) return;
     HapticFeedback.mediumImpact();
     setState(() => _selected = day);
@@ -253,6 +256,7 @@ class _PlanCalendarScreenState extends ConsumerState<PlanCalendarScreen> {
               for (final w in dayPlanned)
                 SwipeToDelete(
                   key: ValueKey(_key(w)),
+                  analyticsItem: 'calendar_day',
                   label:
                       w.scheduleId != null ? l10n.delete : l10n.calendarSkipDay,
                   onDeleted: () => _remove(w),

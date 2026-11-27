@@ -313,6 +313,7 @@ class _PlanEditor extends ConsumerWidget {
           // kdekoli na řádku ho přesune (jako v iOS).
           return SwipeToDelete(
             key: ValueKey(it.item.id),
+            analyticsItem: 'plan_exercise',
             label: l10n.planRemoveExercise,
             onDeleted: () => _removeWithUndo(context, ref, it),
             child: ReorderableDelayedDragStartListener(

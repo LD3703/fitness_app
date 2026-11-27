@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../l10n/app_localizations.dart';
+import '../modules/analytics/analytics.dart';
 
 /// Přejetí doleva smaže položku – jako v seznamech v iOS. Pod položkou je
 /// červené pozadí s košem; místo potvrzovacího dialogu se pak ukáže
@@ -13,6 +14,7 @@ class SwipeToDelete extends StatelessWidget {
     required this.child,
     required this.onDeleted,
     this.label,
+    this.analyticsItem,
   });
 
   final Widget child;
@@ -20,6 +22,9 @@ class SwipeToDelete extends StatelessWidget {
 
   /// Text vedle koše (výchozí „Smazat“).
   final String? label;
+
+  /// Co se maže (statistiky používání: `swipe_delete` / `item`).
+  final String? analyticsItem;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +39,10 @@ class SwipeToDelete extends StatelessWidget {
           HapticFeedback.mediumImpact();
         }
       },
-      onDismissed: (_) => onDeleted(),
+      onDismissed: (_) {
+        Analytics.log(AnalyticsEvent.swipeDelete, {'item': analyticsItem});
+        onDeleted();
+      },
       background: ColoredBox(
         color: scheme.error,
         child: Align(

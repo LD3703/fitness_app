@@ -66,6 +66,9 @@ import 'wear/wear_profile_section.dart';
 // [imports:crash]
 import 'crash/crash_reporting.dart';
 import 'crash/privacy_profile_section.dart';
+// [imports:analytics]
+import 'analytics/analytics.dart';
+import 'analytics/analytics_app.dart';
 // [imports:premium]
 import '../premium/premium.dart';
 import '../premium/premium_gift.dart';
@@ -96,6 +99,10 @@ Future<void> initModules() async {
     // [crash:init]
     // Až po socialInit (potřebuje spuštěné Firebase).
     CrashReporting.init,
+    //
+    // [analytics:init]
+    // Až po socialInit (potřebuje spuštěné Firebase).
+    Analytics.init,
     //
     // [premium:init]
     PremiumService.instance.init,
@@ -145,6 +152,10 @@ List<ProviderListenable<Object?>> moduleAppProviders() => [
       wearAppProvider,
       // [premium:app]
       premiumProfileSyncProvider,
+      //
+      // [analytics:app]
+      // Dotaz na souhlas, zobrazené obrazovky, vlastnosti uživatele.
+      analyticsAppProvider,
       //
     ];
 
@@ -413,6 +424,9 @@ List<WorkoutFinishedHook> moduleWorkoutFinishedHooks() => [
       progressionWorkoutFinished,
       // [cloud:finished]
       cloudWorkoutFinished,
+      //
+      // [analytics:finished]
+      analyticsWorkoutFinished,
       //
     ];
 
