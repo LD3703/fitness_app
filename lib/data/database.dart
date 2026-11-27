@@ -557,6 +557,16 @@ class AppDatabase extends _$AppDatabase {
     return q.map((row) => row.read(total) ?? 0).watchSingle();
   }
 
+  /// Kdy bylo v den [day] naposledy zapsané pití (null = zatím nic).
+  Future<DateTime?> lastWaterAt(DateTime day) async {
+    final latest = waterEntries.loggedAt.max();
+    final q = selectOnly(waterEntries)
+      ..addColumns([latest])
+      ..where(waterEntries.loggedAt.isBiggerOrEqualValue(startOfDay(day)) &
+          waterEntries.loggedAt.isSmallerThanValue(endOfDayExclusive(day)));
+    return (await q.getSingle()).read(latest);
+  }
+
   Future<void> addWater(int ml) => into(waterEntries).insert(
         WaterEntriesCompanion.insert(loggedAt: DateTime.now(), amountMl: ml),
       );

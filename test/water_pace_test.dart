@@ -107,4 +107,78 @@ void main() {
     expect(plan.first.at, DateTime(2026, 10, 30, 8));
     expect(plan.map((r) => r.amountMl), everyElement(500));
   });
+
+  test('po zápisu pití 30 minut klid', () {
+    // Zapsáno 14:03, aplikace přeplánuje hned: první připomínka 14:35.
+    final now = DateTime(2026, 10, 29, 14, 3, 20);
+    final plan = planWaterReminders(
+      now: now,
+      day: now,
+      startMinutes: 540,
+      lastDrinkMinutes: 1260,
+      goalMl: 3000,
+      drunkMl: 1500,
+      glassMl: 250,
+      lastLoggedAt: now,
+    );
+    expect(_hm(plan.first.at), '14:35');
+    for (var i = 1; i < plan.length; i++) {
+      expect(plan[i].at.difference(plan[i - 1].at).inMinutes,
+          greaterThanOrEqualTo(kWaterMinGapMinutes));
+    }
+    // Přeplánování později (otevření aplikace) – klid se počítá od zápisu.
+    final later = planWaterReminders(
+      now: DateTime(2026, 10, 29, 14, 10),
+      day: now,
+      startMinutes: 540,
+      lastDrinkMinutes: 1260,
+      goalMl: 3000,
+      drunkMl: 1500,
+      glassMl: 250,
+      lastLoggedAt: now,
+    );
+    expect(_hm(later.first.at), '14:35');
+    // Dávno zapsané pití nic neposouvá.
+    final old = planWaterReminders(
+      now: DateTime(2026, 10, 29, 16),
+      day: now,
+      startMinutes: 540,
+      lastDrinkMinutes: 1260,
+      goalMl: 3000,
+      drunkMl: 1500,
+      glassMl: 250,
+      lastLoggedAt: now,
+    );
+    expect(_hm(old.first.at), '16:20');
+  });
+
+  test('pití těsně před posledním pitím – dnes už nic', () {
+    final now = DateTime(2026, 10, 29, 20, 45);
+    final plan = planWaterReminders(
+      now: now,
+      day: now,
+      startMinutes: 540,
+      lastDrinkMinutes: 1260,
+      goalMl: 3000,
+      drunkMl: 2000,
+      glassMl: 250,
+      lastLoggedAt: now,
+    );
+    expect(plan, isEmpty);
+  });
+
+  test('včerejší zápis dnešní ráno neposouvá', () {
+    final now = DateTime(2026, 10, 30, 7);
+    final plan = planWaterReminders(
+      now: now,
+      day: now,
+      startMinutes: 540,
+      lastDrinkMinutes: 1260,
+      goalMl: 3000,
+      drunkMl: 0,
+      glassMl: 250,
+      lastLoggedAt: DateTime(2026, 10, 29, 20, 50),
+    );
+    expect(_hm(plan.first.at), '9:00');
+  });
 }

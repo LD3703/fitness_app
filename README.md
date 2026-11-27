@@ -168,7 +168,8 @@ Verze 2 a 3 (moduly v `lib/modules/`):
 - **Kalendář a upozornění:** volný čas a kolize z kalendáře, návrh času
   v editoru plánu, varování na Dnes, kolize v ranní připomínce, tlačítka
   v upozornění (Počítám s tím / Přesunout / Dnes nestíhám), odpočet pauzy
-  na zamčené obrazovce (Android), připomínky pití od zvoleného času do večerky mínus pauza před spaním.
+  na zamčené obrazovce (Android), připomínky pití od zvoleného času do večerky mínus pauza před spaním
+  (po zapsaném pití 30 minut klid).
 - **Widget na plochu (Android):** voda a dnešní trénink, tlačítko + sklenice.
   Pro iOS je widget i Live Activity odpočtu pauzy hotový, zapne se po
   registraci App Group v Apple Developer účtu (`docs/ios_widget.md`).

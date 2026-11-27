@@ -7,8 +7,9 @@
 /// na záchod). Připomínek je tolik, kolik je potřeba sklenic (velikost
 /// sklenice z profilu), nejvýš jedna za 30 minut – když je času málo,
 /// každá doporučí víc. Po každém zápisu vody se zbytek dne přepočítá
-/// (NotificationService.reschedule), takže kdo pije napřed, dostane
-/// připomínek méně, kdo zaostává, víc.
+/// (NotificationService.rescheduleWater), takže kdo pije napřed, dostane
+/// připomínek méně, kdo zaostává, víc. Po zápisu je klid: další
+/// připomínka nejdřív [kWaterAfterDrinkMinutes] po posledním pití.
 library;
 
 /// Jedna připomínka: kdy a kolik vypít (ml).
@@ -20,8 +21,11 @@ const kTrainingWaterBonusMl = 500;
 /// Nejkratší rozestup připomínek.
 const kWaterMinGapMinutes = 30;
 
-/// První připomínka nejdřív tolik minut od teď (po zápisu nebo otevření).
+/// První připomínka nejdřív tolik minut od teď (po otevření aplikace).
 const kWaterFirstDelayMinutes = 20;
+
+/// Po zapsaném pití je tolik minut klid (žádná připomínka).
+const kWaterAfterDrinkMinutes = 30;
 
 /// Nejvýš připomínek za den.
 const kWaterMaxPerDay = 16;
@@ -43,9 +47,12 @@ int lastDrinkMinutes({
 }
 
 int _roundTo5(int minutes) => (minutes / 5).round() * 5;
+int _ceilTo5(int minutes) => (minutes / 5).ceil() * 5;
 
 /// Připomínky na den [day] (od [now], když je to dnes). [drunkMl] = kolik
-/// už dnes vypil. Prázdný seznam = cíl splněný nebo už se nepije.
+/// už dnes vypil, [lastLoggedAt] = kdy naposledy zapsal pití (dnešní
+/// připomínky začnou nejdřív [kWaterAfterDrinkMinutes] po něm).
+/// Prázdný seznam = cíl splněný nebo už se nepije.
 List<WaterReminder> planWaterReminders({
   required DateTime now,
   required DateTime day,
@@ -54,6 +61,7 @@ List<WaterReminder> planWaterReminders({
   required int goalMl,
   required int drunkMl,
   required int glassMl,
+  DateTime? lastLoggedAt,
 }) {
   final remaining = goalMl - drunkMl;
   if (remaining <= 0 || glassMl <= 0) return const [];
@@ -66,6 +74,13 @@ List<WaterReminder> planWaterReminders({
   if (isToday) {
     final soon = now.hour * 60 + now.minute + kWaterFirstDelayMinutes;
     if (soon > from) from = _roundTo5(soon + 2);
+    final logged = lastLoggedAt;
+    if (logged != null &&
+        DateTime(logged.year, logged.month, logged.day) == dayStart) {
+      final calm = _ceilTo5(
+          logged.hour * 60 + logged.minute + kWaterAfterDrinkMinutes);
+      if (calm > from) from = calm;
+    }
   }
   final until = lastDrinkMinutes;
   if (from > until) return const [];

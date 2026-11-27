@@ -391,6 +391,7 @@ class NotificationService {
     required String locale,
     AppDatabase? db,
     int waterTodayMl = 0,
+    DateTime? lastWaterAt,
     bool trainedToday = false,
   }) async {
     if (!supported) return;
@@ -500,6 +501,7 @@ class NotificationService {
         l10n: l10n,
         locale: locale,
         waterTodayMl: waterTodayMl,
+        lastWaterAt: lastWaterAt,
         trainedToday: trainedToday,
         now: DateTime.now(),
       );
@@ -516,6 +518,7 @@ class NotificationService {
     required AppLocalizations l10n,
     required int waterTodayMl,
     required bool trainedToday,
+    DateTime? lastWaterAt,
   }) async {
     if (!supported) return;
     try {
@@ -526,6 +529,7 @@ class NotificationService {
         l10n: l10n,
         locale: l10n.localeName,
         waterTodayMl: waterTodayMl,
+        lastWaterAt: lastWaterAt,
         trainedToday: trainedToday,
         now: DateTime.now(),
       );
@@ -545,6 +549,35 @@ class NotificationService {
     required int waterTodayMl,
     required bool trainedToday,
     required DateTime now,
+    DateTime? lastWaterAt,
+  }) {
+    // Jedno přeplánování po druhém – souběžné rušení a plánování by
+    // nechalo staré připomínky.
+    final next = _waterLock.then((_) => _scheduleWaterNow(
+          profile: profile,
+          periods: periods,
+          l10n: l10n,
+          locale: locale,
+          waterTodayMl: waterTodayMl,
+          trainedToday: trainedToday,
+          now: now,
+          lastWaterAt: lastWaterAt,
+        ));
+    _waterLock = next.catchError((_) {});
+    return next;
+  }
+
+  Future<void> _waterLock = Future.value();
+
+  Future<void> _scheduleWaterNow({
+    required UserProfile profile,
+    required List<PeriodSpan> periods,
+    required AppLocalizations l10n,
+    required String locale,
+    required int waterTodayMl,
+    required bool trainedToday,
+    required DateTime now,
+    DateTime? lastWaterAt,
   }) async {
     await _cancelRange(_waterBase, _waterSlots);
     if (!profile.trackWater || !profile.waterRemindersEnabled) return;
@@ -575,6 +608,7 @@ class NotificationService {
         goalMl: goalMl,
         drunkMl: d == 0 ? waterTodayMl : 0,
         glassMl: profile.glassMl,
+        lastLoggedAt: d == 0 ? lastWaterAt : null,
       );
       final until = timeFormat.format(
           DateTime(day.year, day.month, day.day, last ~/ 60, last % 60));
