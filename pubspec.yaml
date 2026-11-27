@@ -85,7 +85,9 @@ dependencies:
   purchases_flutter: ^10.14.0
   # [deps:analytics]
   # Anonymní statistiky používání (jen se souhlasem, Profil → Soukromí)
-  firebase_analytics: ^12.6.1
+  # Stejné firebase-ios-sdk (12.19.0) jako ostatní Firebase balíčky –
+  # Swift Package Manager jinak verze nesloučí. Zvedat se všemi najednou.
+  firebase_analytics: 12.6.0
   #
 
 dev_dependencies:
