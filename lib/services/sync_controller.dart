@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui' show PlatformDispatcher, Locale;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart' show AppLifecycleListener;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/database.dart';
@@ -65,6 +66,7 @@ class SyncController {
         locale: l10n.localeName,
         db: db,
         waterTodayMl: water.drunk,
+        lastWaterAt: water.lastAt,
         trainedToday: water.trained,
       );
 
@@ -84,6 +86,12 @@ class SyncController {
       debugPrint('Sync failed: $e');
     } finally {
       _running = false;
+      // Voda zapsaná během synchronizace: ta mohla pít plánovat ze
+      // starších dat, přepočítat ještě jednou.
+      if (_waterDirty) {
+        _waterDirty = false;
+        scheduleWater();
+      }
       if (_again) {
         _again = false;
         schedule();
@@ -91,24 +99,50 @@ class SyncController {
     }
   }
 
-  /// Kolik se dnes vypilo a jestli byl trénink (cíl pití +500 ml).
-  Future<({int drunk, bool trained})> _water(AppDatabase db, DateTime now) async =>
+  /// Kolik se dnes vypilo, kdy naposledy a jestli byl trénink (cíl pití
+  /// +500 ml).
+  Future<({int drunk, DateTime? lastAt, bool trained})> _water(
+          AppDatabase db, DateTime now) async =>
       (
         drunk: await db.watchWaterTotal(now).first,
+        lastAt: await db.lastWaterAt(now),
         trained: await db.watchWorkoutDoneOn(now).first,
       );
 
   /// Po zápisu vody (nebo dokončeném tréninku) přepočítá jen připomínky
-  /// pití – bez kalendáře a ranních připomínek.
+  /// pití – bez kalendáře a ranních připomínek. Skoro hned (ne po 2 s
+  /// jako celá synchronizace): kdo zapíše sklenici a zamkne telefon,
+  /// nesmí dostat připomínku naplánovanou ještě před zápisem.
   void scheduleWater() {
-    if (_debounce?.isActive ?? false) return; // celá synchronizace už čeká
+    if (_running) _waterDirty = true;
     _waterDebounce?.cancel();
-    _waterDebounce = Timer(const Duration(seconds: 2), _runWater);
+    _waterDebounce = Timer(const Duration(milliseconds: 300), _runWater);
   }
 
   Timer? _waterDebounce;
+  bool _waterRunning = false;
+  bool _waterDirty = false;
+  bool _waterAgain = false;
+
+  /// Aplikace jde do pozadí: čekající přeplánování udělat hned, dokud
+  /// systém aplikaci nepozastaví.
+  void flush() {
+    if (_waterDebounce?.isActive ?? false) {
+      _waterDebounce!.cancel();
+      _runWater();
+    }
+    if (_debounce?.isActive ?? false) {
+      _debounce!.cancel();
+      run();
+    }
+  }
 
   Future<void> _runWater() async {
+    if (_waterRunning) {
+      _waterAgain = true;
+      return;
+    }
+    _waterRunning = true;
     try {
       final db = _ref.read(databaseProvider);
       final profile = await db.watchProfile().first;
@@ -123,10 +157,17 @@ class SyncController {
         ],
         l10n: deviceLocalizations(),
         waterTodayMl: water.drunk,
+        lastWaterAt: water.lastAt,
         trainedToday: water.trained,
       );
     } catch (e) {
       debugPrint('Water sync failed: $e');
+    } finally {
+      _waterRunning = false;
+      if (_waterAgain) {
+        _waterAgain = false;
+        scheduleWater();
+      }
     }
   }
 
@@ -150,7 +191,14 @@ final syncControllerProvider = Provider<SyncController>((ref) {
   // ještě chybí (core/water_pace.dart).
   ref.listen(waterTodayProvider, (_, __) => controller.scheduleWater());
   ref.listen(workoutDoneTodayProvider, (_, __) => controller.scheduleWater());
-  ref.onDispose(controller.dispose);
+  final lifecycle = AppLifecycleListener(
+    onHide: controller.flush,
+    onPause: controller.flush,
+  );
+  ref.onDispose(() {
+    lifecycle.dispose();
+    controller.dispose();
+  });
   controller.schedule();
   return controller;
 });
