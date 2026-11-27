@@ -1,7 +1,7 @@
 name: fitness_app
 description: Gym tracker s obdobími (nemoc, cut, bulk), pitným režimem a plánem B.
 publish_to: 'none'
-version: 0.3.34+41
+version: 0.3.35+42
 
 environment:
   sdk: ^3.6.0
@@ -83,6 +83,11 @@ dependencies:
   # [deps:premium]
   # Předplatné Premium přes RevenueCat (aktivní až s kPremiumLaunched = true)
   purchases_flutter: ^10.14.0
+  # [deps:analytics]
+  # Anonymní statistiky používání (jen se souhlasem, Profil → Soukromí)
+  # Stejné firebase-ios-sdk (12.19.0) jako ostatní Firebase balíčky –
+  # Swift Package Manager jinak verze nesloučí. Zvedat se všemi najednou.
+  firebase_analytics: 12.6.0
   #
 
 dev_dependencies:

@@ -10,6 +10,7 @@ import '../../data/seed/content_i18n.dart';
 import '../../data/seed/plan_templates.dart';
 import '../../data/seed/program_fit.dart';
 import '../../l10n/app_localizations.dart';
+import '../../modules/analytics/analytics.dart';
 import '../../premium/premium.dart';
 import '../../providers.dart';
 import '../../ui/body_map.dart';
@@ -52,6 +53,7 @@ class PlansScreen extends ConsumerWidget {
     );
     if (name == null) return;
     final id = await ref.read(databaseProvider).createPlan(name);
+    Analytics.log(AnalyticsEvent.planCreate);
     if (context.mounted) context.go('/plans/$id');
   }
 
@@ -260,6 +262,12 @@ class PlansScreen extends ConsumerWidget {
           level: level,
           maxMinutes: minutes,
         );
+    Analytics.log(AnalyticsEvent.programAdd, {
+      'program': program.slug,
+      'source': 'plans',
+      'goal': choice.goal,
+      'days': choice.masks.length,
+    });
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(l10n.templateAdded(name(program))),
@@ -336,6 +344,7 @@ class PlansScreen extends ConsumerWidget {
               ];
               return SwipeToDelete(
                 key: ValueKey('plan-${plan.id}'),
+                analyticsItem: 'plan',
                 onDeleted: () => _deleteWithUndo(context, ref, plan),
                 child: ListTile(
                   leading: PlanBodyMapThumb(planId: plan.id),

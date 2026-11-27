@@ -39,6 +39,9 @@ import 'platform/wear.dart';
 // [platform-imports:crash]
 import 'platform/crash.dart';
 //
+// [platform-imports:analytics]
+import 'platform/analytics.dart';
+//
 // [platform-imports:signing]
 import 'platform/signing.dart';
 //
@@ -84,6 +87,9 @@ void main(List<String> args) {
   //
   // [platform:crash]
   ok &= patchCrash();
+  //
+  // [platform:analytics]
+  ok &= patchAnalytics();
   //
   // [platform:signing]
   ok &= patchSigning();

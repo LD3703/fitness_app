@@ -156,6 +156,11 @@ i bez nich.
 Google Play → Bezpečnost dat: „Diagnostika – protokoly pádů“, sbíraná,
 nesdílená, nepovinná (lze vypnout), účel „Analýza / funkčnost aplikace“.
 
+### 5b. Statistiky používání (Google Analytics)
+
+Jen se souhlasem uživatele – nastavení ve Firebase, seznam událostí
+a jak data číst: [docs/analytics.md](analytics.md).
+
 ### 6. Push notifikace na iPhonu (APNs)
 
 1. developer.apple.com → **Keys → +** → *Apple Push Notifications service

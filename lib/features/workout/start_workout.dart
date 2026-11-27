@@ -8,6 +8,7 @@ import '../../core/coach_tone.dart';
 import '../../core/fatigue.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
+import '../../modules/analytics/analytics.dart';
 import '../../modules/module_hub.dart';
 import '../../modules/widgets/rest_live_activity.dart';
 import '../../providers.dart';
@@ -119,6 +120,11 @@ Future<void> _startWorkout(
     focus: await db.focusForNewSession(planId),
     light: light,
   );
+  Analytics.log(AnalyticsEvent.workoutStart, {
+    'from_plan': planId != null,
+    'light': light,
+    'replaced_active': active != null,
+  });
   if (!context.mounted) return;
   context.push('/workout/$id');
 }

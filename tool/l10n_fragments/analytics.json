@@ -1,0 +1,86 @@
+{
+  "analyticsConsentTitle": {
+    "en": "Help us improve GymBar?",
+    "cs": "Pomůžeš nám vylepšovat GymBar?",
+    "de": "Hilfst du uns, GymBar zu verbessern?",
+    "es": "¿Nos ayudas a mejorar GymBar?",
+    "fr": "Tu nous aides à améliorer GymBar ?",
+    "it": "Ci aiuti a migliorare GymBar?",
+    "nl": "Help je ons GymBar te verbeteren?",
+    "pl": "Pomożesz nam ulepszać GymBar?",
+    "pt": "Quer nos ajudar a melhorar o GymBar?",
+    "sk": "Pomôžeš nám vylepšovať GymBar?"
+  },
+  "analyticsConsentBody": {
+    "en": "We'd like to know which features you use most and where the app falls short, so we can make it better. The app would send only anonymous usage statistics – which screens and features you open. No name, account, weight or health data, and nothing for advertising.",
+    "cs": "Rádi bychom věděli, které funkce používáš nejvíc a kde aplikace pokulhává, abychom ji mohli zlepšovat. Aplikace by posílala jen anonymní statistiky používání – které obrazovky a funkce otevřeš. Žádné jméno, účet, váhu ani údaje o zdraví a nic pro reklamu.",
+    "de": "Wir möchten wissen, welche Funktionen du am meisten nutzt und wo die App hakt, damit wir sie verbessern können. Die App würde nur anonyme Nutzungsstatistiken senden – welche Bildschirme und Funktionen du öffnest. Kein Name, kein Konto, kein Gewicht, keine Gesundheitsdaten und nichts für Werbung.",
+    "es": "Nos gustaría saber qué funciones usas más y dónde falla la app para poder mejorarla. La app enviaría solo estadísticas de uso anónimas: qué pantallas y funciones abres. Sin nombre, cuenta, peso ni datos de salud, y nada para publicidad.",
+    "fr": "Nous aimerions savoir quelles fonctions tu utilises le plus et où l’app pèche, pour pouvoir l’améliorer. L’app n’enverrait que des statistiques d’utilisation anonymes : quels écrans et quelles fonctions tu ouvres. Ni nom, ni compte, ni poids, ni données de santé, et rien pour la publicité.",
+    "it": "Vorremmo sapere quali funzioni usi di più e dove l'app zoppica, per poterla migliorare. L'app invierebbe solo statistiche d'uso anonime: quali schermate e funzioni apri. Niente nome, account, peso o dati sulla salute, e niente per la pubblicità.",
+    "nl": "We willen graag weten welke functies je het meest gebruikt en waar de app tekortschiet, zodat we hem kunnen verbeteren. De app zou alleen anonieme gebruiksstatistieken sturen – welke schermen en functies je opent. Geen naam, account, gewicht of gezondheidsgegevens, en niets voor advertenties.",
+    "pl": "Chcielibyśmy wiedzieć, których funkcji używasz najczęściej i gdzie aplikacja kuleje, żeby móc ją ulepszać. Aplikacja wysyłałaby tylko anonimowe statystyki użycia – które ekrany i funkcje otwierasz. Bez imienia, konta, wagi i danych o zdrowiu, i nic do reklam.",
+    "pt": "Gostaríamos de saber quais recursos você mais usa e onde o app deixa a desejar, para podermos melhorá-lo. O app enviaria apenas estatísticas de uso anônimas – quais telas e recursos você abre. Nada de nome, conta, peso ou dados de saúde, e nada para publicidade.",
+    "sk": "Radi by sme vedeli, ktoré funkcie používaš najviac a kde aplikácia pokrivkáva, aby sme ju mohli zlepšovať. Aplikácia by posielala len anonymné štatistiky používania – ktoré obrazovky a funkcie otvoríš. Žiadne meno, účet, váhu ani údaje o zdraví a nič pre reklamu."
+  },
+  "analyticsConsentLater": {
+    "en": "You can change this any time in Profile → Privacy.",
+    "cs": "Volbu můžeš kdykoli změnit v Profilu → Soukromí.",
+    "de": "Du kannst das jederzeit unter Profil → Datenschutz ändern.",
+    "es": "Puedes cambiarlo cuando quieras en Perfil → Privacidad.",
+    "fr": "Tu peux changer ce choix à tout moment dans Profil → Confidentialité.",
+    "it": "Puoi cambiarlo in qualsiasi momento in Profilo → Privacy.",
+    "nl": "Je kunt dit altijd wijzigen in Profiel → Privacy.",
+    "pl": "Możesz to zmienić w każdej chwili w Profil → Prywatność.",
+    "pt": "Você pode mudar isso a qualquer momento em Perfil → Privacidade.",
+    "sk": "Voľbu môžeš kedykoľvek zmeniť v Profile → Súkromie."
+  },
+  "analyticsConsentAllow": {
+    "en": "Yes, I'll help",
+    "cs": "Ano, pomůžu",
+    "de": "Ja, gern",
+    "es": "Sí, ayudo",
+    "fr": "Oui, j’aide",
+    "it": "Sì, aiuto",
+    "nl": "Ja, ik help",
+    "pl": "Tak, pomogę",
+    "pt": "Sim, vou ajudar",
+    "sk": "Áno, pomôžem"
+  },
+  "analyticsConsentDeny": {
+    "en": "No, thanks",
+    "cs": "Ne, díky",
+    "de": "Nein, danke",
+    "es": "No, gracias",
+    "fr": "Non, merci",
+    "it": "No, grazie",
+    "nl": "Nee, bedankt",
+    "pl": "Nie, dziękuję",
+    "pt": "Não, obrigado",
+    "sk": "Nie, ďakujem"
+  },
+  "analyticsSwitchTitle": {
+    "en": "Share anonymous usage statistics",
+    "cs": "Sdílet anonymní statistiky používání",
+    "de": "Anonyme Nutzungsstatistiken teilen",
+    "es": "Compartir estadísticas de uso anónimas",
+    "fr": "Partager des statistiques d’utilisation anonymes",
+    "it": "Condividi statistiche d'uso anonime",
+    "nl": "Anonieme gebruiksstatistieken delen",
+    "pl": "Udostępniaj anonimowe statystyki użycia",
+    "pt": "Compartilhar estatísticas de uso anônimas",
+    "sk": "Zdieľať anonymné štatistiky používania"
+  },
+  "analyticsSwitchHint": {
+    "en": "Which screens and features you use – no name, weight or health data. It helps us decide what to improve.",
+    "cs": "Které obrazovky a funkce používáš – bez jména, váhy a údajů o zdraví. Pomáhá nám rozhodnout, co zlepšit.",
+    "de": "Welche Bildschirme und Funktionen du nutzt – ohne Name, Gewicht und Gesundheitsdaten. Hilft uns zu entscheiden, was wir verbessern.",
+    "es": "Qué pantallas y funciones usas, sin nombre, peso ni datos de salud. Nos ayuda a decidir qué mejorar.",
+    "fr": "Quels écrans et fonctions tu utilises – sans nom, poids ni données de santé. Ça nous aide à décider quoi améliorer.",
+    "it": "Quali schermate e funzioni usi, senza nome, peso o dati sulla salute. Ci aiuta a decidere cosa migliorare.",
+    "nl": "Welke schermen en functies je gebruikt – zonder naam, gewicht of gezondheidsgegevens. Zo weten we wat we moeten verbeteren.",
+    "pl": "Których ekranów i funkcji używasz – bez imienia, wagi i danych o zdrowiu. Pomaga nam zdecydować, co ulepszyć.",
+    "pt": "Quais telas e recursos você usa – sem nome, peso ou dados de saúde. Isso nos ajuda a decidir o que melhorar.",
+    "sk": "Ktoré obrazovky a funkcie používaš – bez mena, váhy a údajov o zdraví. Pomáha nám rozhodnúť, čo zlepšiť."
+  }
+}

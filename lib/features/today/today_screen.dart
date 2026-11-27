@@ -6,6 +6,7 @@ import '../../core/experience_level.dart';
 import '../../core/water_pace.dart';
 import '../../data/database.dart';
 import '../../l10n/app_localizations.dart';
+import '../../modules/analytics/analytics.dart';
 import '../../modules/data/unit_dialogs.dart';
 import '../../modules/data/units.dart';
 import '../../modules/module_hub.dart';
@@ -437,7 +438,11 @@ class _WaterCard extends ConsumerWidget {
               children: [
                 for (final ml in quickAmounts)
                   FilledButton.tonal(
-                    onPressed: () => db.addWater(ml),
+                    onPressed: () {
+                      Analytics.log(AnalyticsEvent.waterAdd,
+                          {'ml': ml, 'source': 'quick'});
+                      db.addWater(ml);
+                    },
                     child: Text('+${formatVolume(context, ml)}'),
                   ),
                 OutlinedButton(
@@ -448,7 +453,11 @@ class _WaterCard extends ConsumerWidget {
                       minMl: 10,
                       maxMl: 2000,
                     );
-                    if (ml != null) await db.addWater(ml);
+                    if (ml != null) {
+                      Analytics.log(AnalyticsEvent.waterAdd,
+                          {'ml': ml, 'source': 'custom'});
+                      await db.addWater(ml);
+                    }
                   },
                   child: Text(l10n.dataWaterCustom),
                 ),
@@ -495,6 +504,8 @@ class _WeightCard extends ConsumerWidget {
               initialKg: latest?.weightKg,
             );
             if (kg != null) {
+              // Jen že se váha zapsala – hodnota se neposílá.
+              Analytics.log(AnalyticsEvent.weightLog);
               await ref.read(databaseProvider).logWeight(DateTime.now(), kg);
             }
           },

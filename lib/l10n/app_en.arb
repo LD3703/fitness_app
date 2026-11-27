@@ -3918,5 +3918,12 @@
         "type": "String"
       }
     }
-  }
+  },
+  "analyticsConsentTitle": "Help us improve GymBar?",
+  "analyticsConsentBody": "We'd like to know which features you use most and where the app falls short, so we can make it better. The app would send only anonymous usage statistics – which screens and features you open. No name, account, weight or health data, and nothing for advertising.",
+  "analyticsConsentLater": "You can change this any time in Profile → Privacy.",
+  "analyticsConsentAllow": "Yes, I'll help",
+  "analyticsConsentDeny": "No, thanks",
+  "analyticsSwitchTitle": "Share anonymous usage statistics",
+  "analyticsSwitchHint": "Which screens and features you use – no name, weight or health data. It helps us decide what to improve."
 }

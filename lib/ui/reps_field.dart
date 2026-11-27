@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../l10n/app_localizations.dart';
+import '../modules/analytics/analytics.dart';
 
 /// Pole pro počet opakování (nebo sekund u cviku na čas). Klepnutí místo
 /// klávesnice otevře panel s posuvníkem a rychlými volbami
@@ -139,7 +140,11 @@ class _RepsSheetState extends State<_RepsSheet> {
   late int _value =
       (widget.initial ?? (widget.isDuration ? 30 : 10)).clamp(_min, _max);
 
-  void _set(int v, {bool close = false}) {
+  void _set(int v, {bool close = false, String? via}) {
+    if (via != null) {
+      Analytics.log(AnalyticsEvent.repsSlider,
+          {'via': via, 'duration': widget.isDuration});
+    }
     final next = v.clamp(_min, _max);
     if (next != _value) {
       HapticFeedback.selectionClick();
@@ -189,7 +194,8 @@ class _RepsSheetState extends State<_RepsSheet> {
                     label: '$_value',
                     onChanged: (v) => _set(v.round()),
                     // Puštění posuvníku = hotovo (méně klepnutí).
-                    onChangeEnd: (v) => _set(v.round(), close: true),
+                    onChangeEnd: (v) =>
+                        _set(v.round(), close: true, via: 'slider'),
                   ),
                 ),
                 IconButton.filledTonal(
@@ -209,13 +215,17 @@ class _RepsSheetState extends State<_RepsSheet> {
                   ChoiceChip(
                     label: Text(widget.isDuration ? '$p s' : '$p'),
                     selected: p == _value,
-                    onSelected: (_) => _set(p, close: true),
+                    onSelected: (_) => _set(p, close: true, via: 'preset'),
                   ),
               ],
             ),
             const SizedBox(height: 8),
             TextButton.icon(
-              onPressed: () => Navigator.of(context).pop(true),
+              onPressed: () {
+                Analytics.log(AnalyticsEvent.repsSlider,
+                    {'via': 'keyboard', 'duration': widget.isDuration});
+                Navigator.of(context).pop(true);
+              },
               icon: const Icon(Icons.keyboard_outlined),
               label: Text(l10n.repsSliderKeyboard),
             ),

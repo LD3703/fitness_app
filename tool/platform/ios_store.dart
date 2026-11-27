@@ -38,18 +38,22 @@ const _entitlementsPath = 'ios/Runner/Runner.entitlements';
 
 // ---------------------------------------------------------------- 1. manifest
 
-/// Sbíraná data (stejně jako docs/app_store.md, „App Privacy“): vše jen
-/// pro funkce aplikace, propojené s účtem, bez trackingu. Pády
-/// (Crashlytics) bez vazby na účet.
+/// Sbíraná data (stejně jako docs/app_store.md, „App Privacy“): bez
+/// trackingu. Účet a sociální funkce propojené s účtem (funkce
+/// aplikace), pády (Crashlytics) a statistiky používání (Analytics, jen
+/// se souhlasem) bez vazby na účet.
+const _appFunctionality = 'NSPrivacyCollectedDataTypePurposeAppFunctionality';
+const _analytics = 'NSPrivacyCollectedDataTypePurposeAnalytics';
 const _collected = [
-  ('NSPrivacyCollectedDataTypeName', true),
-  ('NSPrivacyCollectedDataTypeEmailAddress', true),
-  ('NSPrivacyCollectedDataTypeHealth', true),
-  ('NSPrivacyCollectedDataTypeFitness', true),
-  ('NSPrivacyCollectedDataTypeOtherUserContent', true),
-  ('NSPrivacyCollectedDataTypeUserID', true),
-  ('NSPrivacyCollectedDataTypeDeviceID', true),
-  ('NSPrivacyCollectedDataTypeCrashData', false),
+  ('NSPrivacyCollectedDataTypeName', true, [_appFunctionality]),
+  ('NSPrivacyCollectedDataTypeEmailAddress', true, [_appFunctionality]),
+  ('NSPrivacyCollectedDataTypeHealth', true, [_appFunctionality]),
+  ('NSPrivacyCollectedDataTypeFitness', true, [_appFunctionality]),
+  ('NSPrivacyCollectedDataTypeOtherUserContent', true, [_appFunctionality]),
+  ('NSPrivacyCollectedDataTypeUserID', true, [_appFunctionality]),
+  ('NSPrivacyCollectedDataTypeDeviceID', true, [_appFunctionality, _analytics]),
+  ('NSPrivacyCollectedDataTypeCrashData', false, [_appFunctionality]),
+  ('NSPrivacyCollectedDataTypeProductInteraction', false, [_analytics]),
 ];
 
 String _manifest() {
@@ -65,7 +69,7 @@ String _manifest() {
     ..writeln('\t<array/>')
     ..writeln('\t<key>NSPrivacyCollectedDataTypes</key>')
     ..writeln('\t<array>');
-  for (final (type, linked) in _collected) {
+  for (final (type, linked, purposes) in _collected) {
     b
       ..writeln('\t\t<dict>')
       ..writeln('\t\t\t<key>NSPrivacyCollectedDataType</key>')
@@ -75,8 +79,11 @@ String _manifest() {
       ..writeln('\t\t\t<key>NSPrivacyCollectedDataTypeTracking</key>')
       ..writeln('\t\t\t<false/>')
       ..writeln('\t\t\t<key>NSPrivacyCollectedDataTypePurposes</key>')
-      ..writeln('\t\t\t<array>')
-      ..writeln('\t\t\t\t<string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>')
+      ..writeln('\t\t\t<array>');
+    for (final purpose in purposes) {
+      b.writeln('\t\t\t\t<string>$purpose</string>');
+    }
+    b
       ..writeln('\t\t\t</array>')
       ..writeln('\t\t</dict>');
   }
@@ -106,6 +113,12 @@ bool _privacyManifest() {
   if (!file.existsSync()) {
     file.writeAsStringSync(_manifest());
     stdout.writeln('✓ ${file.path}: vytvořen.');
+  } else if (!file
+      .readAsStringSync()
+      .contains('NSPrivacyCollectedDataTypeProductInteraction')) {
+    // Starší manifest bez statistik používání (Analytics).
+    file.writeAsStringSync(_manifest());
+    stdout.writeln('✓ ${file.path}: doplněny statistiky používání.');
   } else {
     stdout.writeln('• ${file.path}: už existuje (nepřepisuji).');
   }

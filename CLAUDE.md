@@ -28,7 +28,8 @@ v kódu i dokumentace jsou **česky**.
   `docs/apple_watch.md` (Apple Watch, zatím vypnuté), `docs/readiness.md`
   (regenerace z hodinek a prstenů), `docs/programs.md` (hotové programy
   a úroveň pokročilosti), `docs/ios_sideload.md` (iPhone bez Macu
-  a placeného účtu přes Sideloadly).
+  a placeného účtu přes Sideloadly), `docs/analytics.md` (statistiky
+  používání přes Google Analytics, jen se souhlasem).
 
 ## Ověření před commitem
 

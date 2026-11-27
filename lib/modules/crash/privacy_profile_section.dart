@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../analytics/analytics.dart';
 import '../links/deep_links.dart' show kPrivacyPolicyUrl, kTermsUrl;
 import 'crash_reporting.dart';
 
 /// [crash:profile] – sekce „Soukromí“ v Profilu: odkaz na zásady
-/// ochrany soukromí a vypínač hlášení o pádech (jen s Firebase).
+/// ochrany soukromí, vypínač hlášení o pádech a statistik používání
+/// (jen s Firebase).
 class PrivacyProfileSection extends ConsumerWidget {
   const PrivacyProfileSection({super.key});
 
@@ -16,6 +18,7 @@ class PrivacyProfileSection extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final crashEnabled = ref.watch(crashReportingEnabledProvider);
+    final analyticsConsent = ref.watch(analyticsConsentProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -55,6 +58,14 @@ class PrivacyProfileSection extends ConsumerWidget {
             subtitle: Text(l10n.crashReportsHint),
             value: crashEnabled,
             onChanged: CrashReporting.setEnabled,
+          ),
+        if (Analytics.available)
+          SwitchListTile(
+            secondary: const Icon(Icons.insights_outlined),
+            title: Text(l10n.analyticsSwitchTitle),
+            subtitle: Text(l10n.analyticsSwitchHint),
+            value: analyticsConsent ?? false,
+            onChanged: Analytics.setConsent,
           ),
         const Divider(),
       ],

@@ -116,8 +116,9 @@ Tracking: **ne** (žádná reklama, žádný dotaz na sledování).
 | Health & Fitness → Health | tělesná váha (záloha do cloudu) | ano | App Functionality |
 | Health & Fitness → Fitness | tréninky (záloha, žebříček) | ano | App Functionality |
 | User Content → Other | přezdívka, posilovny, výzvy | ano | App Functionality |
-| Identifiers → User ID, Device ID | Firebase UID, token upozornění | ano | App Functionality |
+| Identifiers → User ID, Device ID | Firebase UID, token upozornění; ID instalace pro statistiky | ano | App Functionality, Analytics |
 | Diagnostics → Crash Data | Crashlytics | ne | App Functionality |
+| Usage Data → Product Interaction | statistiky používání (jen se souhlasem, docs/analytics.md) | ne | Analytics |
 
 Poloha se zpracuje jen v telefonu (posilovny v okolí) → nedeklaruje se.
 Musí odpovídat `PrivacyInfo.xcprivacy` a zásadám ochrany soukromí.

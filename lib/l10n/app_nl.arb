@@ -1329,5 +1329,12 @@
   "calendarPickTime": "Tijd kiezen",
   "calendarNoPlans": "Maak eerst een plan onder Plannen.",
   "calendarRemoved": "{plan} uit de kalender verwijderd",
-  "calendarSkipped": "{plan} deze dag overgeslagen"
+  "calendarSkipped": "{plan} deze dag overgeslagen",
+  "analyticsConsentTitle": "Help je ons GymBar te verbeteren?",
+  "analyticsConsentBody": "We willen graag weten welke functies je het meest gebruikt en waar de app tekortschiet, zodat we hem kunnen verbeteren. De app zou alleen anonieme gebruiksstatistieken sturen – welke schermen en functies je opent. Geen naam, account, gewicht of gezondheidsgegevens, en niets voor advertenties.",
+  "analyticsConsentLater": "Je kunt dit altijd wijzigen in Profiel → Privacy.",
+  "analyticsConsentAllow": "Ja, ik help",
+  "analyticsConsentDeny": "Nee, bedankt",
+  "analyticsSwitchTitle": "Anonieme gebruiksstatistieken delen",
+  "analyticsSwitchHint": "Welke schermen en functies je gebruikt – zonder naam, gewicht of gezondheidsgegevens. Zo weten we wat we moeten verbeteren."
 }

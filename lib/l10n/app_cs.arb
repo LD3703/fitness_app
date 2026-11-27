@@ -1329,5 +1329,12 @@
   "calendarPickTime": "Vybrat čas",
   "calendarNoPlans": "Nejdřív si vytvoř plán v Plánech.",
   "calendarRemoved": "{plan} – odebráno z kalendáře",
-  "calendarSkipped": "{plan} – tento den vynecháno"
+  "calendarSkipped": "{plan} – tento den vynecháno",
+  "analyticsConsentTitle": "Pomůžeš nám vylepšovat GymBar?",
+  "analyticsConsentBody": "Rádi bychom věděli, které funkce používáš nejvíc a kde aplikace pokulhává, abychom ji mohli zlepšovat. Aplikace by posílala jen anonymní statistiky používání – které obrazovky a funkce otevřeš. Žádné jméno, účet, váhu ani údaje o zdraví a nic pro reklamu.",
+  "analyticsConsentLater": "Volbu můžeš kdykoli změnit v Profilu → Soukromí.",
+  "analyticsConsentAllow": "Ano, pomůžu",
+  "analyticsConsentDeny": "Ne, díky",
+  "analyticsSwitchTitle": "Sdílet anonymní statistiky používání",
+  "analyticsSwitchHint": "Které obrazovky a funkce používáš – bez jména, váhy a údajů o zdraví. Pomáhá nám rozhodnout, co zlepšit."
 }

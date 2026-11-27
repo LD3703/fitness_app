@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../analytics/analytics.dart';
 import 'share_cards.dart';
 
 // Jak vzniká obrázek: karta se ukáže v náhledu (dialog) uvnitř
@@ -29,6 +30,7 @@ Future<void> shareText(BuildContext context, String text) async {
   final l10n = AppLocalizations.of(context);
   final messenger = ScaffoldMessenger.maybeOf(context);
   try {
+    Analytics.log(AnalyticsEvent.share, {'kind': 'text'});
     await SharePlus.instance.share(
       ShareParams(text: text, sharePositionOrigin: origin),
     );
@@ -98,6 +100,9 @@ class _SharePreviewDialogState extends State<_SharePreviewDialog> {
     setState(() => _busy = true);
     try {
       final file = await _renderPng();
+      // Druh karty bez ID (record_12 → record).
+      Analytics.log(AnalyticsEvent.share,
+          {'kind': widget.fileName.replaceAll(RegExp(r'_\d+$'), '')});
       await SharePlus.instance.share(ShareParams(
         text: widget.text,
         files: [XFile(file.path, mimeType: 'image/png')],

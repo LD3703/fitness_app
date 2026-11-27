@@ -11,6 +11,7 @@ import '../../data/seed/content_i18n.dart';
 import '../../data/seed/plan_templates.dart';
 import '../../data/seed/program_fit.dart';
 import '../../l10n/app_localizations.dart';
+import '../../modules/analytics/analytics.dart';
 import '../../premium/premium.dart';
 import '../../providers.dart';
 import '../../services/calendar_service.dart';
@@ -267,6 +268,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       _error = null;
       _step = steps[i + 1];
     });
+    // Trychtýř úvodu: který krok uživatel dokončil (kde odpadají).
+    Analytics.log(AnalyticsEvent.onboardingStep, {
+      'step': steps[i].name,
+      'index': i,
+    });
   }
 
   void _back() {
@@ -329,6 +335,21 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       calendarSyncEnabled: Value(_calendarSync),
       onboardingDone: const Value(true),
     ));
+    Analytics.log(AnalyticsEvent.onboardingComplete, {
+      'goal': _goal,
+      'level': _level,
+      'days_per_week': _daysPerWeek,
+      'session_min': _minutes,
+      'program': program?.slug ?? 'none',
+      'repeat': previous?.onboardingDone ?? false,
+    });
+    if (program != null) {
+      Analytics.log(AnalyticsEvent.programAdd, {
+        'program': program.slug,
+        'source': 'onboarding',
+        'goal': _goal,
+      });
+    }
     // Přesměrování na Dnes zařídí router, jakmile se profil uloží.
   }
 
